@@ -18,6 +18,7 @@ use Ecommerce\Models\Settings;
 use Ecommerce\Models\User;
 use Ecommerce\Repository\Contracts\ProductContract;
 use Ecommerce\Repository\ProductRepository;
+use Ecommerce\View\Components\CategoryBreadcrumb;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Collection;
 use Illuminate\Support\ServiceProvider;
@@ -40,6 +41,10 @@ class EcommerceServiceProvider extends ServiceProvider
 
         $this->loadRoutesFrom(__DIR__ . '/routes/web.php');
         $this->loadRoutesFrom(__DIR__ . '/routes/dashboard.php');
+
+        $this->loadViewComponentsAs('com', [
+            CategoryBreadcrumb::class,
+        ]);
 
         $this->loadMigrationsFrom(__DIR__ . '/Database/migrations');
 
