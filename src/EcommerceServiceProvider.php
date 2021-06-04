@@ -1,6 +1,6 @@
 <?php
 
-namespace Firebed\Ecommerce;
+namespace Ecommerce;
 
 use App\Models\Cart\Cart;
 use App\Models\Invoice\Company;
