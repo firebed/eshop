@@ -2,7 +2,7 @@
 
 @section('main')
 
-    <x-category-breadcrumb :category="$category"/>
+    <x-com-category-breadcrumb :category="$category"/>
 
     <div class="container-fluid">
         <div class="container">

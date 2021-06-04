@@ -1,15 +1,7 @@
 @extends('customer.layouts.master', ['title' =>  implode(' | ', [$product->title, $product->manufacturer->name ?? NULL])])
 
-@push('header_scripts')
-    @livewireStyles
-@endpush
-
-@push('footer_scripts')
-    @livewireScripts
-@endpush
-
 @section('main')
-    <x-category-breadcrumb :category="$category"/>
+    <x-com-category-breadcrumb :category="$category"/>
 
     <div class="container-fluid bg-white py-5">
         <div class="container">
