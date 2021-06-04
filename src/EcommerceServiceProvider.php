@@ -36,7 +36,7 @@ class EcommerceServiceProvider extends ServiceProvider
         $this->app->singleton('countries', fn() => Country::orderBy('name')->get());
         $this->app->singleton('settings', fn() => Settings::first());
 
-        $this->loadViewsFrom(__DIR__ . '/views', 'com');
+        $this->loadViewsFrom(__DIR__ . '/resources/views', 'com');
 
         $this->loadRoutesFrom(__DIR__ . '/routes/web.php');
         $this->loadRoutesFrom(__DIR__ . '/routes/dashboard.php');
@@ -45,9 +45,10 @@ class EcommerceServiceProvider extends ServiceProvider
 
         $this->loadTranslationsFrom(__DIR__ . '/resources/lang', 'com');
 
-        $this->publishes([__DIR__ . '/resources/lang' => resource_path('lang/vendor/com')], 'lang');
-        $this->publishes([__DIR__ . '/resources/views' => resource_path('views/vendor/com')], 'views');
-        $this->publishes([__DIR__ . '/public' => public_path('vendor/com')], 'public');
+        $this->publishes([__DIR__ . '/resources/lang' => resource_path('lang/vendor/ecommerce')], 'lang');
+        $this->publishes([__DIR__ . '/resources/views/customer' => resource_path('views/vendor/ecommerce')], 'customer-views');
+        $this->publishes([__DIR__ . '/resources/views/dashboard' => resource_path('views/vendor/ecommerce')], 'dashboard-views');
+        $this->publishes([__DIR__ . '/public' => public_path('vendor/ecommerce')], 'public');
 
         $this->assignMorphs();
 
