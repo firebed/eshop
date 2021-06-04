@@ -1,6 +1,6 @@
 <?php
 
-namespace Ecommerce\Http\Livewire\Dashboard\Category;
+namespace Ecommerce\Livewire\Dashboard\Category;
 
 use Ecommerce\Livewire\Dashboard\Category\Traits\HasBreadcrumbs;
 use Ecommerce\Livewire\Traits\TrimStrings;

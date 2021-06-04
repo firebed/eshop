@@ -16,6 +16,8 @@ use Ecommerce\Models\Product\Product;
 use Ecommerce\Models\Product\VariantType;
 use Ecommerce\Models\Settings;
 use Ecommerce\Models\User;
+use Ecommerce\Repository\Contracts\ProductContract;
+use Ecommerce\Repository\ProductRepository;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Collection;
 use Illuminate\Support\ServiceProvider;
@@ -29,6 +31,8 @@ class EcommerceServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        $this->app->bind(ProductContract::class, ProductRepository::class);
+
         $this->app->singleton('countries', fn() => Country::orderBy('name')->get());
         $this->app->singleton('settings', fn() => Settings::first());
 
@@ -37,7 +41,7 @@ class EcommerceServiceProvider extends ServiceProvider
         $this->loadRoutesFrom(__DIR__ . '/routes/web.php');
         $this->loadRoutesFrom(__DIR__ . '/routes/dashboard.php');
 
-        $this->loadMigrationsFrom(__DIR__ . '/database/migrations');
+        $this->loadMigrationsFrom(__DIR__ . '/Database/migrations');
 
         $this->loadTranslationsFrom(__DIR__ . '/resources/lang', 'com');
 
