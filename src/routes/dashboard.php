@@ -1,18 +1,15 @@
 <?php
 
-use App\Http\Controllers\Dashboard\Cart\CartController;
-use App\Http\Controllers\Dashboard\Cart\PrintController;
-use App\Http\Controllers\Dashboard\Intl\CountryController;
-use App\Http\Controllers\Dashboard\Intl\PaymentMethodController;
-use App\Http\Controllers\Dashboard\Intl\ShippingMethodController;
-use App\Http\Controllers\Dashboard\Product\CategoryController;
-use App\Http\Controllers\Dashboard\Product\ProductController;
-use App\Http\Controllers\Dashboard\Product\ProductImageController;
-use App\Http\Controllers\Dashboard\Product\ProductVariantController;
-use App\Http\Controllers\Dashboard\UserController;
-use App\Mail\OrderShippedMail;
-use App\Models\Cart\Cart;
-use Illuminate\Http\Request;
+use Ecommerce\Controllers\Dashboard\Cart\CartController;
+use Ecommerce\Controllers\Dashboard\Cart\PrintController;
+use Ecommerce\Controllers\Dashboard\Intl\CountryController;
+use Ecommerce\Controllers\Dashboard\Intl\PaymentMethodController;
+use Ecommerce\Controllers\Dashboard\Intl\ShippingMethodController;
+use Ecommerce\Controllers\Dashboard\Product\CategoryController;
+use Ecommerce\Controllers\Dashboard\Product\ProductController;
+use Ecommerce\Controllers\Dashboard\Product\ProductImageController;
+use Ecommerce\Controllers\Dashboard\Product\ProductVariantController;
+use Ecommerce\Controllers\Dashboard\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth')->group(function () {
@@ -34,15 +31,5 @@ Route::middleware('auth')->group(function () {
         Route::resource('payment-methods', PaymentMethodController::class)->only('index');
 
         Route::resource('users', UserController::class)->only('index', 'show');
-    });
-
-    Route::prefix('api')->group(function () {
-        Route::get('slugify', function (Request $request) {
-            return slugify($request->input('fields'));
-        });
-    });
-
-    Route::get('/mailable/cart/{cart}', function (Cart $cart) {
-        return (new OrderShippedMail($cart));
     });
 });

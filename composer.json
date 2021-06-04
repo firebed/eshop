@@ -27,13 +27,13 @@
   },
   "autoload": {
     "psr-4": {
-      "Firebed\\": "src/"
+      "Ecommerce\\": "src/"
     }
   },
   "extra": {
     "laravel": {
       "providers": [
-        "Firebed\\EcommerceServiceProvider"
+        "Ecommerce\\EcommerceServiceProvider"
       ]
     }
   },

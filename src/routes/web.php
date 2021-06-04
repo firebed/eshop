@@ -1,12 +1,12 @@
 <?php
 
-use App\Http\Controllers\Customer\Category\CategoryController;
-use App\Http\Controllers\Customer\Checkout\CheckoutCompletedController;
-use App\Http\Controllers\Customer\Checkout\CheckoutDetailsController;
-use App\Http\Controllers\Customer\Checkout\CheckoutLoginController;
-use App\Http\Controllers\Customer\Checkout\CheckoutPaymentController;
-use App\Http\Controllers\Customer\Checkout\CheckoutProductController;
-use App\Http\Controllers\Customer\Product\ProductController;
+use Ecommerce\Controllers\Customer\Category\CategoryController;
+use Ecommerce\Controllers\Customer\Checkout\CheckoutCompletedController;
+use Ecommerce\Controllers\Customer\Checkout\CheckoutDetailsController;
+use Ecommerce\Controllers\Customer\Checkout\CheckoutLoginController;
+use Ecommerce\Controllers\Customer\Checkout\CheckoutPaymentController;
+use Ecommerce\Controllers\Customer\Checkout\CheckoutProductController;
+use Ecommerce\Controllers\Customer\Product\ProductController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
