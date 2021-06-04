@@ -131,7 +131,7 @@ class ShowShippingMethods extends Component
 
     public function render(): Renderable
     {
-        return view('dashboard.intl.livewire.show-shipping-methods', [
+        return view('com::dashboard.intl.livewire.show-shipping-methods', [
             'shippingMethods' => $this->shippingMethods,
             'countries'       => Country::orderBy('name')->get(),
             'methods'         => ShippingMethod::all()

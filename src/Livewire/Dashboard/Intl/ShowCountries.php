@@ -86,7 +86,7 @@ class ShowCountries extends Component
 
     public function render(): Renderable
     {
-        return view('dashboard.intl.livewire.show-countries', [
+        return view('com::dashboard.intl.livewire.show-countries', [
             'countries' => $this->countries
         ]);
     }

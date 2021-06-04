@@ -33,6 +33,6 @@ class ProductProperties extends Component
      */
     public function render(): Renderable|string
     {
-        return $this->properties->isEmpty() ? "" : view('customer.product.partials.product-properties');
+        return $this->properties->isEmpty() ? "" : view('com::customer.product.partials.product-properties');
     }
 }

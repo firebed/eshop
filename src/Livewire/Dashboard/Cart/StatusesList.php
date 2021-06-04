@@ -13,6 +13,6 @@ class StatusesList extends Component
     public function render(): View
     {
         $statuses = CartStatus::withCount('carts')->get();
-        return view('dashboard.cart.partials.statuses-list', compact('statuses'));
+        return view('com::dashboard.cart.partials.statuses-list', compact('statuses'));
     }
 }

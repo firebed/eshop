@@ -12,9 +12,9 @@
                 @endif
             </div>
 
-            @includeWhen($manufacturers->isNotEmpty(), 'customer.category.partials.manufacturers')
-            @includeWhen($category->properties->isNotEmpty(), 'customer.category.partials.property-choices')
-            @includeWhen(!empty($priceRanges), 'customer.category.partials.prices')
+            @includeWhen($manufacturers->isNotEmpty(), 'com::customer.category.partials.manufacturers')
+            @includeWhen($category->properties->isNotEmpty(), 'com::customer.category.partials.property-choices')
+            @includeWhen(!empty($priceRanges), 'com::customer.category.partials.prices')
         </div>
     </div>
 </div>

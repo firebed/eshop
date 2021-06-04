@@ -15,7 +15,7 @@ class ProductController extends Controller
      */
     public function index(): Renderable
     {
-        return view('dashboard.product.index');
+        return view('com::dashboard.product.index');
     }
 
     /**
@@ -25,7 +25,7 @@ class ProductController extends Controller
      */
     public function create(): Renderable
     {
-        return view('dashboard.product.create');
+        return view('com::dashboard.product.create');
     }
 
     /**
@@ -35,7 +35,7 @@ class ProductController extends Controller
      */
     public function createGroup(): Renderable
     {
-        return view('dashboard.product.create-group');
+        return view('com::dashboard.product.create-group');
     }
 
     /**
@@ -47,7 +47,7 @@ class ProductController extends Controller
     public function edit(Product $product): Renderable
     {
         return $product->has_variants
-            ? view('dashboard.product.edit-group', compact('product'))
-            : view('dashboard.product.edit', compact('product'));
+            ? view('com::dashboard.product.edit-group', compact('product'))
+            : view('com::dashboard.product.edit', compact('product'));
     }
 }

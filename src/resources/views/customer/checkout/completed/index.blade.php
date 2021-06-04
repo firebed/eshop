@@ -1,4 +1,4 @@
-@extends('customer.layouts.master', ['title' =>  __('Cart')])
+@extends('com::customer.layouts.master', ['title' =>  __('Cart')])
 
 @section('main')
     @dump($cart)

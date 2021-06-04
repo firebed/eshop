@@ -85,6 +85,6 @@ class VariantTypes extends Component
         }
 
         $variantTypes = $this->product->variantTypes()->get();
-        return view('dashboard.product.livewire.variant-types', compact('variantTypes'));
+        return view('com::dashboard.product.livewire.variant-types', compact('variantTypes'));
     }
 }

@@ -1,4 +1,4 @@
-@extends('customer.layouts.master', ['title' => __("Rest password")])
+@extends('com::customer.layouts.master', ['title' => __("Rest password")])
 
 @section('main')
     <div class="container py-5">

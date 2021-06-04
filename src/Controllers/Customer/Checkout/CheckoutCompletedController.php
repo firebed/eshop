@@ -23,6 +23,6 @@ class CheckoutCompletedController extends Controller
             abort(401);
         }
 
-        return view('customer.checkout.completed.index', compact('cart'));
+        return view('com::customer.checkout.completed.index', compact('cart'));
     }
 }

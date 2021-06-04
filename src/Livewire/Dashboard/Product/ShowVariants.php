@@ -143,6 +143,6 @@ class ShowVariants extends Component
             $data['vats'] = Vat::all();
             $data['units'] = Unit::all();
         }
-        return view('dashboard.product-variant.livewire.show-variants', $data);
+        return view('com::dashboard.product-variant.livewire.show-variants', $data);
     }
 }

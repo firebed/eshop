@@ -20,7 +20,7 @@ class PrintController extends Controller
 
 
         $pdf = new Dompdf(['enable_remote' => TRUE]);
-        $pdf->loadHtml(view('dashboard.cart.printer.print', compact('cart')));
+        $pdf->loadHtml(view('com::dashboard.cart.printer.print', compact('cart')));
         $pdf->setHttpContext(
             stream_context_create([
                 'ssl' => [

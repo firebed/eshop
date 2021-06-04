@@ -27,6 +27,6 @@ class HomepageCategoriesList extends Component
      */
     public function render(): View
     {
-        return view('components.homepage-categories-list');
+        return view('com::components.homepage-categories-list');
     }
 }

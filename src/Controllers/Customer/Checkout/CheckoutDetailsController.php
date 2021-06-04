@@ -12,9 +12,9 @@ class CheckoutDetailsController extends Controller
     public function __invoke(Order $order): View|RedirectResponse
     {
         if ($order->isEmpty()) {
-            return redirect()->route('customer.checkout.products.index', app()->getLocale());
+            return redirect()->route('com::customer.checkout.products.index', app()->getLocale());
         }
 
-        return view('customer.checkout.details.wire-edit');
+        return view('com::customer.checkout.details.wire-edit');
     }
 }

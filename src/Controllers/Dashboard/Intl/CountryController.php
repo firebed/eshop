@@ -14,6 +14,6 @@ class CountryController extends Controller
      */
     public function index(): Renderable
     {
-        return view('dashboard.intl.countries');
+        return view('com::dashboard.intl.countries');
     }
 }

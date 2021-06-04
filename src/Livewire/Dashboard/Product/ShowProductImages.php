@@ -49,7 +49,7 @@ class ShowProductImages extends Component
     public function render(): Renderable
     {
         $images = $this->product->images('gallery')->paginate();
-        return view('dashboard.product-images.wire.show-product-images', [
+        return view('com::dashboard.product-images.wire.show-product-images', [
             'images' => $images
         ]);
     }

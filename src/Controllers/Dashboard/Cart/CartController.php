@@ -56,7 +56,7 @@ class CartController extends Controller
             $cart->viewed_at = now();
             $cart->save();
         }
-        return view('dashboard.cart.show', compact('cart'));
+        return view('com::dashboard.cart.show', compact('cart'));
     }
 
     /**
@@ -92,6 +92,6 @@ class CartController extends Controller
     public function destroy(Cart $cart): RedirectResponse
     {
         $cart->delete();
-        return redirect()->route('carts.index');
+        return redirect()->route('com::dashboard.carts.index');
     }
 }

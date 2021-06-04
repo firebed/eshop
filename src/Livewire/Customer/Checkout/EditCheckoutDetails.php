@@ -116,7 +116,7 @@ class EditCheckoutDetails extends Component
         $order->products->load('parent', 'options');
         $order->products->merge($order->products->pluck('parent')->filter())->load('translation');
 
-        return view('customer.checkout.details.wire.edit', [
+        return view('com::customer.checkout.details.wire.edit', [
             'order'           => $order,
             'addresses'       => Auth::check() ? user()->addresses : collect(),
             'countries'       => Country::visible()->orderBy('name')->get(),

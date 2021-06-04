@@ -1,4 +1,4 @@
-@extends('customer.layouts.master', ['title' => __("Confirm password")])
+@extends('com::customer.layouts.master', ['title' => __("Confirm password")])
 
 @section('content')
 <div class="container">

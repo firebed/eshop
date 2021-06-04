@@ -38,7 +38,7 @@ trait RendersProduct
             $properties = $this->category->properties->all();
         }
 
-        return view("dashboard.product.livewire.$view-product", [
+        return view("com::dashboard.product.livewire.$view-product", [
             'categories'    => $this->categories,
             'manufacturers' => Manufacturer::all(),
             'units'         => Unit::all(),
@@ -64,7 +64,7 @@ trait RendersProduct
             $properties = $this->category->properties->all();
         }
 
-        return view("dashboard.product.livewire.$view-product-group", [
+        return view("com::dashboard.product.livewire.$view-product-group", [
             'categories'    => $this->categories,
             'manufacturers' => Manufacturer::all(),
             'props'         => $properties ?? []

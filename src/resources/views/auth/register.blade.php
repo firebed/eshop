@@ -1,4 +1,4 @@
-@extends('customer.layouts.master', ['title' => __("Register")])
+@extends('com::customer.layouts.master', ['title' => __("Register")])
 
 @section('main')
     <div class="container py-5">

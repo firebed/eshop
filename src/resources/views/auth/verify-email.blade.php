@@ -1,4 +1,4 @@
-@extends('customer.layouts.app')
+@extends('com::customer.layouts.app')
 
 @section('content')
 <div class="container">

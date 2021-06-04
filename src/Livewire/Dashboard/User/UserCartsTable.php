@@ -24,6 +24,6 @@ class UserCartsTable extends Component
             ->latest()
             ->paginate();
 
-        return view('dashboard.user.livewire.user-carts-table', compact('carts'));
+        return view('com::dashboard.user.livewire.user-carts-table', compact('carts'));
     }
 }

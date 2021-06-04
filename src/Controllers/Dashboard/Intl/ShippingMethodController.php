@@ -9,6 +9,6 @@ class ShippingMethodController extends Controller
 {
     public function index(): Renderable
     {
-        return view('dashboard.intl.shipping-methods');
+        return view('com::dashboard.intl.shipping-methods');
     }
 }

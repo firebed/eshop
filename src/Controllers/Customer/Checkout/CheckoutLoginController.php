@@ -17,7 +17,7 @@ class CheckoutLoginController extends Controller
             return redirect()->route('login', app()->getLocale());
         }
 
-        return redirect()->route('customer.checkout.products.index', app()->getLocale());
+        return redirect()->route('com::customer.checkout.products.index', app()->getLocale());
     }
 
     private function loginUsingFortify(LoginRequest $request, StatefulGuard $guard): void

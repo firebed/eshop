@@ -33,6 +33,6 @@ class PopularProducts extends Component
      */
     public function render(): Renderable
     {
-        return view('components.popular-products');
+        return view('com::components.popular-products');
     }
 }

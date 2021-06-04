@@ -15,7 +15,7 @@ class CategoryController extends Controller
      */
     public function index(): View
     {
-        return view('dashboard.category.index');
+        return view('com::dashboard.category.index');
     }
 
     /**
@@ -26,6 +26,6 @@ class CategoryController extends Controller
      */
     public function show(Category $category): View
     {
-        return view('dashboard.category.index', compact('category'));
+        return view('com::dashboard.category.index', compact('category'));
     }
 }

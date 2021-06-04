@@ -31,6 +31,6 @@ class ProductController extends Controller
             session()->flash('quantity', __('The product is already in the shopping cart.'));
         }
 
-        return view('customer.product.show', compact('category', 'product', 'quantity', 'properties', 'choices'));
+        return view('com::customer.product.show', compact('category', 'product', 'quantity', 'properties', 'choices'));
     }
 }

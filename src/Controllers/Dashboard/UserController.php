@@ -15,7 +15,7 @@ class UserController extends Controller
      */
     public function index(): View
     {
-        return view('dashboard.user.index');
+        return view('com::dashboard.user.index');
     }
 
     /**
@@ -43,6 +43,6 @@ class UserController extends Controller
         $user->a = $user->carts_count - ($user->cancelled_carts_count + $user->returned_carts_count + $user->returned_carts_count);
         $user->b = $user->carts_sum_total - ($user->cancelled_carts_sum_total + $user->rejected_carts_sum_total + $user->returned_carts_sum_total);
 
-        return view('dashboard.user.show', compact('user'));
+        return view('com::dashboard.user.show', compact('user'));
     }
 }

@@ -144,7 +144,7 @@ class ShowCarts extends Component
 
     public function render(): Renderable
     {
-        return view('dashboard.cart.livewire.show-carts', [
+        return view('com::dashboard.cart.livewire.show-carts', [
             'carts'           => $this->carts,
             'shippingMethods' => ShippingMethod::all(),
             'paymentMethods'  => PaymentMethod::all(),

@@ -119,7 +119,7 @@ class ShowProducts extends Component
 
     public function render(): Renderable
     {
-        return view('dashboard.product.livewire.show-products', [
+        return view('com::dashboard.product.livewire.show-products', [
             'products' => $this->products
         ]);
     }

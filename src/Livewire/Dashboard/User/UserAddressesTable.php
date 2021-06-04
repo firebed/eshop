@@ -23,6 +23,6 @@ class UserAddressesTable extends Component
             ->with('country')
             ->paginate(3);
 
-        return view('dashboard.user.livewire.user-addresses-table', compact('addresses'));
+        return view('com::dashboard.user.livewire.user-addresses-table', compact('addresses'));
     }
 }

@@ -125,7 +125,7 @@ class EditCheckoutPayment extends Component
             ];
         }
 
-        return view('customer.checkout.payment.wire.edit', [
+        return view('com::customer.checkout.payment.wire.edit', [
             'order'           => $order,
             'shippingMethods' => $shippingMethods,
             'paymentMethods'  => $paymentMethods,

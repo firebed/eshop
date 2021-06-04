@@ -34,6 +34,6 @@ class TopSellers extends Component
      */
     public function render(): Renderable
     {
-        return view('components.top-sellers');
+        return view('com::components.top-sellers');
     }
 }
