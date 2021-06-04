@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Rules;
+namespace Ecommerce\Rules;
 
 use App\Models\Location\Country;
 use Illuminate\Contracts\Validation\Rule;

@@ -26,6 +26,9 @@
     "livewire/livewire": "^2.3"
   },
   "autoload": {
+    "files": [
+      "src/app/helpers.php"
+    ],
     "psr-4": {
       "Ecommerce\\": "src/"
     }

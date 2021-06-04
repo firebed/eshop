@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Events;
+namespace Ecommerce\Events;
 
-use App\Models\Cart\Cart;
-use App\Models\Cart\CartStatus;
+use Ecommerce\Models\Cart\Cart;
+use Ecommerce\Models\Cart\CartStatus;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;

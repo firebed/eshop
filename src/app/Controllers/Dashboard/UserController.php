@@ -2,7 +2,7 @@
 
 namespace Ecommerce\Controllers\Dashboard;
 
-use App\Models\User;
+use Ecommerce\Models\User;
 use Ecommerce\Controllers\Controller;
 use Illuminate\View\View;
 

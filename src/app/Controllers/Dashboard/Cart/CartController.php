@@ -2,7 +2,7 @@
 
 namespace Ecommerce\Controllers\Dashboard\Cart;
 
-use App\Models\Cart\Cart;
+use Ecommerce\Models\Cart\Cart;
 use Ecommerce\Controllers\Controller;
 use Exception;
 use Illuminate\Contracts\Support\Renderable;

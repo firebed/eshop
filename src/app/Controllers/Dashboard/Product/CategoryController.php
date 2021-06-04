@@ -2,7 +2,7 @@
 
 namespace Ecommerce\Controllers\Dashboard\Product;
 
-use App\Models\Product\Category;
+use Ecommerce\Models\Product\Category;
 use Ecommerce\Controllers\Controller;
 use Illuminate\View\View;
 

@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Models;
+namespace Ecommerce\Models;
 
-use App\Models\Cart\Cart;
-use App\Models\Invoice\Company;
-use App\Models\Lang\Traits\FullTextIndex;
-use App\Models\Location\Address;
+use Ecommerce\Models\Cart\Cart;
+use Ecommerce\Models\Invoice\Company;
+use Ecommerce\Models\Lang\Traits\FullTextIndex;
+use Ecommerce\Models\Location\Address;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -15,7 +15,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Cashier\Billable;
-use Spatie\Permission\Traits\HasRoles;
 
 /**
  * Class User
@@ -27,7 +26,7 @@ use Spatie\Permission\Traits\HasRoles;
  */
 class User extends Authenticatable
 {
-    use HasRoles, HasFactory, Notifiable, FullTextIndex, SoftDeletes, Billable;
+    use HasFactory, Notifiable, FullTextIndex, SoftDeletes, Billable;
 
     public $match = ['first_name', 'last_name', 'email'];
 

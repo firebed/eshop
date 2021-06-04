@@ -1,10 +1,10 @@
 <?php
 
 
-namespace App\Repository\Contracts;
+namespace Ecommerce\Repository\Contracts;
 
 
-use App\Models\Product\Product;
+use Ecommerce\Models\Product\Product;
 
 interface ProductContract
 {

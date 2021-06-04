@@ -1,10 +1,10 @@
 <?php
 
 
-namespace App\Models\Location;
+namespace Ecommerce\Models\Location;
 
 
-use App\Models\Lang\Traits\HasTranslations;
+use Ecommerce\Models\Lang\Traits\HasTranslations;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 

@@ -1,8 +1,8 @@
 <?php
 
-namespace App\View\Components;
+namespace Ecommerce\View\Components;
 
-use App\Models\Product\Category;
+use Ecommerce\Models\Product\Category;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\View\Component;
 

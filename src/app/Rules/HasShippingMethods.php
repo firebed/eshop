@@ -1,9 +1,8 @@
 <?php
 
-namespace App\Rules;
+namespace Ecommerce\Rules;
 
-use App\Http\Livewire\Cart\ShippingAddress;
-use App\Models\Location\Country;
+use Ecommerce\Models\Location\Country;
 use Illuminate\Contracts\Validation\Rule;
 
 class HasShippingMethods implements Rule
@@ -18,8 +17,8 @@ class HasShippingMethods implements Rule
     /**
      * Determine if the validation rule passes.
      *
-     * @param string          $attribute
-     * @param ShippingAddress $value
+     * @param string $attribute
+     * @param        $value
      * @return bool
      */
     public function passes($attribute, $value): bool

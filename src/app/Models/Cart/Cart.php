@@ -1,8 +1,7 @@
 <?php
 
-namespace App\Models\Cart;
+namespace Ecommerce\Models\Cart;
 
-use App\Models\Cart\Concerns\ImplementsOrder;
 use App\Models\Invoice\Invoice;
 use App\Models\Location\Address;
 use App\Models\Location\PaymentMethod;
@@ -11,6 +10,7 @@ use App\Models\Product\Product;
 use App\Models\User;
 use App\Repository\Contracts\Order;
 use Carbon\Carbon;
+use Ecommerce\Models\Cart\Concerns\ImplementsOrder;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;

@@ -1,8 +1,7 @@
 <?php
 
-namespace App\Models\Location;
+namespace Ecommerce\Models\Location;
 
-use App\Models\Cart\Cart;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;

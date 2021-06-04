@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\Cart;
+namespace Ecommerce\Models\Cart;
 
 use App\Models\Product\Product;
 use Illuminate\Database\Eloquent\Builder;

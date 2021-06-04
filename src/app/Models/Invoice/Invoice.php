@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\Invoice;
+namespace Ecommerce\Models\Invoice;
 
 use App\Models\Location\Address;
 use Illuminate\Database\Eloquent\Builder;

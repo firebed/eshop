@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Models\Cart\Concerns;
+namespace Ecommerce\Models\Cart\Concerns;
 
 
 use App\Models\Location\Address;

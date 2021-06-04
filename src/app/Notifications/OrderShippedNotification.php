@@ -1,11 +1,10 @@
 <?php
 
-namespace App\Notifications;
+namespace Ecommerce\Notifications;
 
-use App\Mail\OrderShippedMail;
-use App\Models\Cart\Cart;
+use Ecommerce\Mail\OrderShippedMail;
+use Ecommerce\Models\Cart\Cart;
 use Illuminate\Bus\Queueable;
-use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
 class OrderShippedNotification extends Notification
@@ -21,7 +20,7 @@ class OrderShippedNotification extends Notification
      * @param Cart        $cart
      * @param string|null $notesToCustomer
      */
-    public function __construct(Cart $cart, ?string $notesToCustomer = null)
+    public function __construct(Cart $cart, ?string $notesToCustomer = NULL)
     {
         $this->cart = $cart;
         $this->notesToCustomer = $notesToCustomer;

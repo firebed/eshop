@@ -2,7 +2,7 @@
 
 namespace Ecommerce\Controllers\Dashboard\Product;
 
-use App\Models\Product\Product;
+use Ecommerce\Models\Product\Product;
 use Ecommerce\Controllers\Controller;
 use Illuminate\Contracts\Support\Renderable;
 

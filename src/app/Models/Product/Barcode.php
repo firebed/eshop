@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\Product;
+namespace Ecommerce\Models\Product;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
