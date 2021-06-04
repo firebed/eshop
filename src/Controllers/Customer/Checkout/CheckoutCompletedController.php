@@ -2,7 +2,7 @@
 
 namespace Ecommerce\Controllers\Customer\Checkout;
 
-use App\Models\Cart\Cart;
+use Ecommerce\Models\Cart\Cart;
 use Ecommerce\Controllers\Controller;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;

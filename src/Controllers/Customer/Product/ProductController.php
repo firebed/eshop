@@ -2,9 +2,9 @@
 
 namespace Ecommerce\Controllers\Customer\Product;
 
-use App\Models\Product\Category;
-use App\Models\Product\Product;
-use App\Repository\Contracts\Order;
+use Ecommerce\Models\Product\Category;
+use Ecommerce\Models\Product\Product;
+use Ecommerce\Repository\Contracts\Order;
 use Ecommerce\Controllers\Controller;
 use Illuminate\Contracts\Support\Renderable;
 

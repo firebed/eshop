@@ -4,9 +4,9 @@
 namespace Ecommerce\Models\Cart\Concerns;
 
 
-use App\Models\Location\Address;
-use App\Models\Location\Country;
-use App\Models\Product\Product;
+use Ecommerce\Models\Location\Address;
+use Ecommerce\Models\Location\Country;
+use Ecommerce\Models\Product\Product;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;

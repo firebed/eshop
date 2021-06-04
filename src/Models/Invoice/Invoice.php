@@ -2,7 +2,7 @@
 
 namespace Ecommerce\Models\Invoice;
 
-use App\Models\Location\Address;
+use Ecommerce\Models\Location\Address;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;

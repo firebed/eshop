@@ -32,8 +32,8 @@
 
             <x-bs::input.group for="cart-document-type" label="{{ __('Document') }}" class="col-12">
                 <x-bs::input.select wire:model.defer="cart.document_type" id="cart-document" error="cart.document_type">
-                    <option value="{{ \App\Models\Cart\DocumentType::RECEIPT }}">{{ __('Receipt') }}</option>
-                    <option value="{{ \App\Models\Cart\DocumentType::INVOICE }}">{{ __('Invoice') }}</option>
+                    <option value="{{ \Ecommerce\Models\Cart\DocumentType::RECEIPT }}">{{ __('Receipt') }}</option>
+                    <option value="{{ \Ecommerce\Models\Cart\DocumentType::INVOICE }}">{{ __('Invoice') }}</option>
                 </x-bs::input.select>
             </x-bs::input.group>
         </x-bs::modal.body>

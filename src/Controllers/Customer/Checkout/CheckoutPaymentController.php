@@ -3,7 +3,7 @@
 namespace Ecommerce\Controllers\Customer\Checkout;
 
 use Ecommerce\Controllers\Controller;
-use App\Repository\Contracts\Order;
+use Ecommerce\Repository\Contracts\Order;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 

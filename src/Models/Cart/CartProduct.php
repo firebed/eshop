@@ -2,7 +2,7 @@
 
 namespace Ecommerce\Models\Cart;
 
-use App\Models\Product\Product;
+use Ecommerce\Models\Product\Product;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;

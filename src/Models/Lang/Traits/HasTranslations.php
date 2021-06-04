@@ -4,8 +4,8 @@
 namespace Ecommerce\Models\Lang\Traits;
 
 
-use App\Models\Lang\Locale;
-use App\Models\Lang\Translation;
+use Ecommerce\Models\Lang\Locale;
+use Ecommerce\Models\Lang\Translation;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Relations\MorphMany;

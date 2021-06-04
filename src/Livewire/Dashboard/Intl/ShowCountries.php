@@ -17,7 +17,7 @@ use Livewire\Component;
 
 /**
  * Class CountriesDashboard
- * @package App\Http\Livewire\Intl
+ * @package Ecommerce\Livewire\Dashboard\Intl
  *
  * @property Collection countries
  */

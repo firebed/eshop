@@ -2,8 +2,8 @@
 
 namespace Ecommerce\Controllers\Customer\Category;
 
-use App\Http\Requests\Customer\CustomerCategoryRequest;
-use App\Models\Product\Category;
+use Ecommerce\Requests\Customer\CustomerCategoryRequest;
+use Ecommerce\Models\Product\Category;
 use Ecommerce\Controllers\Customer\Category\Traits\ValidatesCategoryUrl;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Database\Eloquent\Builder;

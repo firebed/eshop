@@ -2,13 +2,13 @@
 
 namespace Ecommerce\Models\Cart;
 
-use App\Models\Invoice\Invoice;
-use App\Models\Location\Address;
-use App\Models\Location\PaymentMethod;
-use App\Models\Location\ShippingMethod;
-use App\Models\Product\Product;
-use App\Models\User;
-use App\Repository\Contracts\Order;
+use Ecommerce\Models\Invoice\Invoice;
+use Ecommerce\Models\Location\Address;
+use Ecommerce\Models\Location\PaymentMethod;
+use Ecommerce\Models\Location\ShippingMethod;
+use Ecommerce\Models\Product\Product;
+use Ecommerce\Models\User;
+use Ecommerce\Repository\Contracts\Order;
 use Carbon\Carbon;
 use Ecommerce\Models\Cart\Concerns\ImplementsOrder;
 use Illuminate\Database\Eloquent\Builder;

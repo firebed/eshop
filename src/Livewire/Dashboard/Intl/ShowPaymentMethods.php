@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Http\Livewire\Dashboard\Intl;
+namespace Ecommerce\Livewire\Dashboard\Intl;
 
 
 use Ecommerce\Livewire\Traits\TrimStrings;

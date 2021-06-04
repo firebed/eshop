@@ -2,8 +2,8 @@
 
 namespace Ecommerce\Models\Invoice;
 
-use App\Models\Location\Address;
-use App\Models\User;
+use Ecommerce\Models\Location\Address;
+use Ecommerce\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
