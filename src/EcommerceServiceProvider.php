@@ -2,20 +2,20 @@
 
 namespace Ecommerce;
 
-use App\Models\Cart\Cart;
-use App\Models\Invoice\Company;
-use App\Models\Invoice\Invoice;
-use App\Models\Location\Country;
-use App\Models\Location\CountryPaymentMethod;
-use App\Models\Location\CountryShippingMethod;
-use App\Models\Product\Category;
-use App\Models\Product\CategoryChoice;
-use App\Models\Product\CategoryProperty;
-use App\Models\Product\Manufacturer;
-use App\Models\Product\Product;
-use App\Models\Product\VariantType;
-use App\Models\Settings;
-use App\Models\User;
+use Ecommerce\Models\Cart\Cart;
+use Ecommerce\Models\Invoice\Company;
+use Ecommerce\Models\Invoice\Invoice;
+use Ecommerce\Models\Location\Country;
+use Ecommerce\Models\Location\CountryPaymentMethod;
+use Ecommerce\Models\Location\CountryShippingMethod;
+use Ecommerce\Models\Product\Category;
+use Ecommerce\Models\Product\CategoryChoice;
+use Ecommerce\Models\Product\CategoryProperty;
+use Ecommerce\Models\Product\Manufacturer;
+use Ecommerce\Models\Product\Product;
+use Ecommerce\Models\Product\VariantType;
+use Ecommerce\Models\Settings;
+use Ecommerce\Models\User;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Collection;
 use Illuminate\Support\ServiceProvider;
