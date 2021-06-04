@@ -2,6 +2,7 @@
 
 namespace Ecommerce;
 
+use Ecommerce\Livewire\Customer\Checkout\CartButton;
 use Ecommerce\Models\Cart\Cart;
 use Ecommerce\Models\Invoice\Company;
 use Ecommerce\Models\Invoice\Invoice;
@@ -22,6 +23,7 @@ use Ecommerce\View\Components\CategoryBreadcrumb;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Collection;
 use Illuminate\Support\ServiceProvider;
+use Livewire\Livewire;
 
 class EcommerceServiceProvider extends ServiceProvider
 {
@@ -58,6 +60,8 @@ class EcommerceServiceProvider extends ServiceProvider
         $this->assignMorphs();
 
         Collection::macro('toggle', fn($item) => $this->contains($item) ? $this->except($item->id) : $this->concat([$item]));
+
+        Livewire::component('customer.checkout.cart-button', CartButton::class);
     }
 
     private function assignMorphs(): void
