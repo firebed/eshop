@@ -1,0 +1,40 @@
+.sidebar {
+    background-color: rgb(49, 58, 70);
+    top: var(--top);
+    height: calc(100vh - var(--top));
+
+    a {
+        @extend .px-3, .py-2, .text-decoration-none;
+        color: lightgray;
+
+        &:hover {
+            background-color: rgba(0, 0, 0, 0.1);
+        }
+    }
+}
+
+@media (max-width: 991.98px) {
+    .sidebar {
+        position: fixed;
+        bottom: 0;
+        z-index: $zindex-offcanvas;
+        display: flex;
+        flex-direction: column;
+        max-width: 100%;
+        color: $offcanvas-color;
+        visibility: hidden;
+        background-clip: padding-box;
+        outline: 0;
+        transition: transform .3s ease-in-out, visibility .3s ease-in-out;
+
+        left: 0;
+        width: 100%;
+        //border-right: $offcanvas-border-width solid $offcanvas-border-color;
+        transform: translateX(-100%);
+
+        &.show {
+            visibility: visible;
+            transform: none;
+        }
+    }
+}

@@ -1,0 +1,42 @@
+{
+  "name": "firebed/e-commerce",
+  "description": "Complete e-commerce framework using Laravel",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "okang",
+      "email": "okan.giritli@gmail.com"
+    }
+  ],
+  "require": {
+    "php": "^8.0",
+    "barryvdh/laravel-dompdf": "^0.9.0",
+    "firebed/bootstrap-components": "dev-master#552a5b1c",
+    "intervention/image": "^2.5",
+    "laravel/cashier": "^12.13",
+    "laravel/fortify": "^1.7",
+    "maatwebsite/excel": "^3.1",
+    "paypal/paypal-checkout-sdk": "1.0.1",
+    "stevebauman/location": "^6.1"
+  },
+  "require-dev": {
+    "roave/security-advisories": "dev-latest"
+    ,
+    "laravel/framework": "^8.0",
+    "livewire/livewire": "^2.3"
+  },
+  "autoload": {
+    "psr-4": {
+      "Firebed\\": "src/"
+    }
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Firebed\\EcommerceServiceProvider"
+      ]
+    }
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true
+}

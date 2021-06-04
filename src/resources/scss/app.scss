@@ -1,0 +1,46 @@
+$primary: #d31f75;
+
+@import "utilities";
+
+@import "bootstrap";
+@import "colors";
+@import "buttons";
+@import "dashboard/navigation";
+@import "dashboard/scrollbars";
+
+.img-middle {
+    @extend .top-50, .start-50, .translate-middle, .w-auto, .h-auto, .mw-100, .mh-100;
+}
+
+.form-label {
+    @extend .small, .text-secondary;
+}
+
+[x-cloak] {
+    display: none;
+}
+
+.ratio-21x5 {
+    --bs-aspect-ratio: calc(9 / 25 * 100%);
+    //--bs-aspect-ratio: calc(9 / 16 * 100%);
+}
+
+.product-description-bullets > ul {
+    list-style: none; /* Remove default bullets */
+}
+
+.product-description-bullets > ul li::before {
+    content: "\2022"; /* Add content: \2022 is the CSS Code/unicode for a bullet */
+    color: #a1a1a1; /* Change the color */
+    display: inline-block; /* Needed to add space between the bullet and the text */
+    width: 1em; /* Also needed for space (tweak if needed) */
+    //margin-left: -1em; /* Also needed for space (tweak if needed) */
+}
+
+.toast {
+    background-color: rgba(250, 250, 250, 0.98);
+}
+
+.h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 {
+    color: #495057;
+}

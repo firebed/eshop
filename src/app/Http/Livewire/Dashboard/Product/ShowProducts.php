@@ -1,0 +1,126 @@
+<?php
+
+namespace App\Http\Livewire\Dashboard\Product;
+
+use App\Models\Product\Category;
+use App\Models\Product\Manufacturer;
+use App\Models\Product\Product;
+use Firebed\Livewire\Traits\Datatable\WithSelections;
+use Firebed\Livewire\Traits\Datatable\WithSorting;
+use Firebed\Livewire\Traits\WithCustomPaginationView;
+use Illuminate\Contracts\Support\Renderable;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Collection;
+use Livewire\Component;
+use Livewire\WithPagination;
+
+class ShowProducts extends Component
+{
+    use WithPagination, WithCustomPaginationView {
+        WithCustomPaginationView::paginationView insteadof  WithPagination;
+    }
+    use WithSelections;
+    use WithSorting {
+        WithSorting::queryString as sortingQueryString;
+    }
+
+    public $category     = '';
+    public $manufacturer = '';
+    public $name;
+
+    public $productsCount;
+    public $trashCount;
+
+    public function queryString(): array
+    {
+        return [
+            'name'          => ['except' => ''],
+            'category'      => ['except' => ''],
+            'manufacturer'  => ['except' => ''],
+            'sortField'     => ['except' => 'created_at'],
+            'sortDirection' => ['except' => 'desc']
+        ];
+    }
+
+    public function mount(): void
+    {
+        $this->setSorting('created_at', 'desc');
+
+        $this->productsCount = Product::exceptVariants()->count();
+        $this->trashCount = Product::onlyTrashed()->count();
+    }
+
+    public function updating($name): void
+    {
+        if (in_array($name, ['name', 'category', 'manufacturer'])) {
+            $this->resetPage();
+        }
+    }
+
+    public function getCategoriesProperty(): Collection
+    {
+        return Category::files()
+            ->with('translations', 'parent.translation')
+            ->get()
+            ->groupBy('parent_id');
+    }
+
+    public function getManufacturersProperty(): Collection
+    {
+        return Manufacturer::all();
+    }
+
+    public function clearSelections(): void
+    {
+        $this->reset('category', 'manufacturer', 'name');
+    }
+
+    public function getProductsProperty(): LengthAwarePaginator
+    {
+        return Product
+            ::exceptVariants()
+            ->when(!empty($this->category), fn($q) => $q->where('category_id', $this->category))
+            ->when($this->name, function ($q, $name) {
+                $q->where(function ($b) use ($name) {
+                    $b->where('slug', 'LIKE', "%$this->name%");
+                    $b->orWhereHas('translations', fn($c) => $c->matchAgainst($name));
+                });
+            })
+            ->with('image')
+            ->withMin('variants', 'price')
+            ->withMax('variants', 'price')
+            ->withSum('variants', 'stock')
+            ->withcount('variants')
+            ->with('category.translations', 'translations')
+            ->when($this->sortField, function ($q, $sf) {
+                switch ($sf) {
+                    case 'name':
+                        $q->select(['products.*']);
+                        $q->joinTranslation()->orderBy('translation', $this->sortDirection);
+                        break;
+                    case 'price':
+                        $q->orderBy('variants_min_price', $this->sortDirection);
+                        break;
+                    case 'stock':
+                    case 'sku':
+                    case 'variants_count':
+                    case 'created_at':
+                        $q->orderBy($this->sortField, $this->sortDirection);
+                        break;
+                }
+            })
+            ->paginate(10);
+    }
+
+    protected function getModels(): Collection
+    {
+        return $this->products->getCollection();
+    }
+
+    public function render(): Renderable
+    {
+        return view('dashboard.product.livewire.show-products', [
+            'products' => $this->products
+        ]);
+    }
+}

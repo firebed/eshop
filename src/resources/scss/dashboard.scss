@@ -1,0 +1,40 @@
+$font-size-base: 0.91rem;
+//$line-height-base: 1.6;
+
+@import "utilities";
+
+@import "~bootstrap";
+@import "colors";
+@import "buttons";
+@import "dashboard/navigation";
+@import "dashboard/scrollbars";
+
+.img-middle {
+    @extend .top-50, .start-50, .translate-middle, .w-auto, .h-auto, .mw-100, .mh-100;
+}
+
+.form-label {
+    @extend .small, .text-secondary;
+}
+
+[x-cloak] {
+    display: none;
+}
+
+.ss-multi-selected, .ss-single-selected {
+    border: 1px solid #ced4da !important;
+    min-height: 35px !important;
+    @extend .py-1;
+}
+.ss-deselect:not(.ss-hide) {
+    display: inline-block !important;
+}
+
+.toast {
+    background-color: rgba(250, 250, 250, 0.98);
+}
+
+.h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 {
+    color: #495057;
+}
+//

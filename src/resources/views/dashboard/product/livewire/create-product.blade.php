@@ -1,0 +1,25 @@
+<div class="col-12 col-xxl-8 mx-auto p-4 d-grid gap-3">
+    <div class="d-flex justify-content-between align-items-center">
+        <h1 class="fs-3 mb-0">{{ __("New Product") }}</h1>
+
+        <x-bs::button.primary wire:click="save" wire:loading.attr="disabled">
+            <em wire:loading.remove wire:target="save" class="fa fa-save me-2"></em>
+            <em wire:loading wire:target="save" class="fa fa-spinner fa-spin me-2"></em>
+            {{ __("Save") }}
+        </x-bs::button.primary>
+    </div>
+
+    <div class="row">
+        <div class="col-7 d-flex flex-column gap-4">
+            @include('dashboard.product.partials.primary')
+            @include('dashboard.product.partials.pricing')
+            @include('dashboard.product.partials.inventory')
+            @include('dashboard.product.partials.accessibility')
+        </div>
+        <div class="col-5 d-flex flex-column gap-4">
+            @include('dashboard.product.partials.image')
+            @include('dashboard.product.partials.organization')
+            @include('dashboard.product.partials.attributes')
+        </div>
+    </div>
+</div>

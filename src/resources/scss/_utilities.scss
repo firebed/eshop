@@ -1,0 +1,66 @@
+@import "~bootstrap/scss/functions";
+@import "~bootstrap/scss/variables";
+@import "~bootstrap/scss/utilities";
+
+$utilities: map-merge(
+    $utilities,
+    (
+        "opacity": (
+            property: opacity,
+            state: hover,
+            values: (
+                0: 0,
+                25: .25,
+                50: .5,
+                75: .75,
+                100: 1,
+            )
+        ),
+
+        "width": map-merge(
+            map-get($utilities, "width"),
+            (
+                responsive: true,
+                values: map-merge(
+                    map-get(map-get($utilities, "width"), "values"),
+                        (
+                            1\/3: calc(100% / 3),
+                            1r: 1rem,
+                            2r: 2rem,
+                            3r: 3rem,
+                            4r: 4rem,
+                            5r: 5rem,
+                            6r: 6rem,
+                            7r: 7rem,
+                            8r: 8rem,
+                            9r: 9rem,
+                            10r: 10rem,
+                            17r: 17rem,
+                            25r: 25rem
+                        ),
+                ),
+            ),
+        ),
+
+        "viewport-height": map-merge(
+            map-get($utilities, "viewport-height"),
+            (
+                responsive: true,
+            ),
+        ),
+
+        "font-weight": map-merge(
+            map-get($utilities, "font-weight"),
+            (
+                values: map-merge(
+                    map-get(map-get($utilities, "font-weight"), "values"),
+                    (500: 500),
+                ),
+            ),
+        ),
+    )
+);
+
+.group:hover .group-hover-opacity-100 {
+    opacity: 1 !important;
+}
