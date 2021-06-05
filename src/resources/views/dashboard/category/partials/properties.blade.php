@@ -1,5 +1,5 @@
 @isset($property)
-    @include('dashboard.category.livewire.modals.property-modal')
+    @include('eshop::dashboard.category.livewire.modals.property-modal')
 @endisset
 
 <div class="card shadow-sm">

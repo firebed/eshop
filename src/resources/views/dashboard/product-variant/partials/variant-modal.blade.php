@@ -3,10 +3,10 @@
         <x-bs::modal.header>{{ __('Edit variant') }}</x-bs::modal.header>
         <x-bs::modal.body>
             <div class="d-grid gap-3">
-                @include('dashboard.product-variant.partials.options')
+                @include('eshop::dashboard.product-variant.partials.options')
 
-                @include('dashboard.product-variant.partials.pricing')
-                @include('dashboard.product-variant.partials.inventory')
+                @include('eshop::dashboard.product-variant.partials.pricing')
+                @include('eshop::dashboard.product-variant.partials.inventory')
 
                 <div class="d-grid gap-2">
                     <div class="fw-500">{{ __("Accessibility") }}</div>

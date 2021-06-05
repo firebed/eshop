@@ -1,6 +1,6 @@
 <div class="col-12 col-xxl-8 p-4 mx-auto d-grid gap-3">
     <div class="d-grid gap-1">
-        @include('dashboard.category.partials.category-breadcrumbs')
+        @include('eshop::dashboard.category.partials.category-breadcrumbs')
 
         <div class="row row-cols-1 row-cols-sm-2 justify-content-between align-items-center g-3">
             <h1 class="col fs-3 mb-0">{{ __("Categories") }}</h1>
@@ -27,11 +27,11 @@
     </div>
 
     <x-bs::card>
-        @include('dashboard.category.partials.categories-table')
+        @include('eshop::dashboard.category.partials.categories-table')
     </x-bs::card>
 
     <form wire:submit.prevent="save">
-        @include('dashboard.category.modals.category-modal')
+        @include('eshop::dashboard.category.modals.category-modal')
     </form>
 
     <form wire:submit.prevent="delete">

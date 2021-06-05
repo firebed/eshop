@@ -13,6 +13,6 @@
             <x-bs::group label="Phone" inline>{{ $contact->phone }}</x-bs::group>
         </div>
 
-        @include('dashboard.cart.partials.show.customer-contact-modal')
+        @include('eshop::dashboard.cart.partials.show.customer-contact-modal')
     </x-bs::navbar.collapse>
 </x-bs::navbar>

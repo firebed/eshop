@@ -41,6 +41,6 @@
             </x-bs::group>
         </div>
 
-        @include('dashboard.cart.partials.show.cart-overview-modal')
+        @include('eshop::dashboard.cart.partials.show.cart-overview-modal')
     </x-bs::navbar.collapse>
 </x-bs::navbar>

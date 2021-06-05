@@ -35,8 +35,8 @@
             </x-bs::dropdown.menu>
         </x-bs::dropdown>
 
-        @include('dashboard.cart.partials.show.cart-status-modal')
-        @include('dashboard.cart.partials.show.cart-voucher-modal')
+        @include('eshop::dashboard.cart.partials.show.cart-status-modal')
+        @include('eshop::dashboard.cart.partials.show.cart-voucher-modal')
     @endif
 
     <x-bs::dropdown>
@@ -63,5 +63,4 @@
             </x-bs::modal.body>
         </x-bs::modal>
     </form>
-
 </div>

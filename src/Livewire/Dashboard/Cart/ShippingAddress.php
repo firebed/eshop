@@ -55,6 +55,6 @@ class ShippingAddress extends Component
     {
         $countries = app('countries');
         $country = $countries->find($this->shippingAddress->country_id);
-        return view('eshop::dashboard.cart.livewire.shipping-address', compact('countries', 'country'));
+        return view('eshop::dashboard.cart.wire.shipping-address', compact('countries', 'country'));
     }
 }

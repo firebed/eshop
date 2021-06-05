@@ -56,6 +56,7 @@
                     </div>
                 </div>
             </x-bs::modal.body>
+
             <x-bs::modal.footer>
                 <x-bs::modal.close-button>{{ __("Cancel") }}</x-bs::modal.close-button>
                 <x-bs::button.primary type="submit">{{ __("Save") }}</x-bs::button.primary>

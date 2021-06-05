@@ -43,6 +43,6 @@
     </div>
 
     <x-bs::card>
-        @include('dashboard.product-images.partials.product-images-table')
+        @include('eshop::dashboard.product-images.partials.product-images-table')
     </x-bs::card>
 </div>

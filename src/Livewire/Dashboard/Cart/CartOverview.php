@@ -78,6 +78,6 @@ class CartOverview extends Component
         $shippingMethod = $shippingMethods->find($this->cart->shipping_method_id);
         $paymentMethod = $paymentMethods->find($this->cart->payment_method_id);
 
-        return view('eshop::dashboard.cart.livewire.cart-overview', compact('shippingMethods', 'paymentMethods', 'shippingMethod', 'paymentMethod'));
+        return view('eshop::dashboard.cart.wire.cart-overview', compact('shippingMethods', 'paymentMethods', 'shippingMethod', 'paymentMethod'));
     }
 }

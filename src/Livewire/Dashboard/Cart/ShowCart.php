@@ -94,7 +94,7 @@ class ShowCart extends Component
 
     public function render(): Renderable
     {
-        return view('eshop::dashboard.cart.livewire.show-cart', [
+        return view('eshop::dashboard.cart.wire.show-cart', [
             'products' => $this->products,
         ]);
     }

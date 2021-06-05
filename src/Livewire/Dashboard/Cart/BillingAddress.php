@@ -65,6 +65,6 @@ class BillingAddress extends Component
     {
         $countries = app('countries');
         $country = $countries->find($this->billingAddress->country_id);
-        return view('eshop::dashboard.cart.livewire.billing-address', compact('countries', 'country'));
+        return view('eshop::dashboard.cart.wire.billing-address', compact('countries', 'country'));
     }
 }

@@ -31,12 +31,12 @@
 
     <x-bs::card>
         <div class="table-responsive">
-            @include('dashboard.intl.partials.countries-table')
+            @include('eshop::dashboard.intl.partials.countries-table')
         </div>
     </x-bs::card>
 
     <form wire:submit.prevent="save">
-        @include('dashboard.intl.partials.country-modal')
+        @include('eshop::dashboard.intl.partials.country-modal')
     </form>
 
     <form wire:submit.prevent="delete">

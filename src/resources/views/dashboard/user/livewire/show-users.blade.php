@@ -25,14 +25,14 @@
     </div>
 
     <x-bs::card>
-        @include('dashboard.user.partials.users-table')
+        @include('eshop::dashboard.user.partials.users-table')
     </x-bs::card>
 
     <form wire:submit.prevent="save">
-        @include('dashboard.user.partials.user-modal')
+        @include('eshop::dashboard.user.partials.user-modal')
     </form>
 
     <form wire:submit.prevent="delete">
-        @include('dashboard.user.partials.user-delete-modal')
+        @include('eshop::dashboard.user.partials.user-delete-modal')
     </form>
 </div>

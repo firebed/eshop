@@ -43,11 +43,11 @@
 
     <x-bs::card>
         <div class="table-responsive">
-            @include('dashboard.intl.partials.shipping-methods-table')
+            @include('eshop::dashboard.intl.partials.shipping-methods-table')
         </div>
     </x-bs::card>
 
-    @include('dashboard.intl.partials.shipping-method-modal')
+    @include('eshop::dashboard.intl.partials.shipping-method-modal')
 
     <form wire:submit.prevent="delete">
         <x-bs::modal wire:model.defer="showConfirmDelete">

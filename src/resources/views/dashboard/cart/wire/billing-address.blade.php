@@ -19,6 +19,6 @@
             @endif
         </div>
 
-        @include('dashboard.cart.partials.show.billing-address-modal')
+        @include('eshop::dashboard.cart.partials.show.billing-address-modal')
     </x-bs::navbar.collapse>
 </x-bs::navbar>

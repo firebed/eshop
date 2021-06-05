@@ -80,16 +80,16 @@
     <title>{{ __('Order') }} {{ $cart->id }}</title>
 </head>
 <body>
-@include('dashboard.cart.printer.partials.company')
+@include('eshop::dashboard.cart.printer.partials.company')
 
 <div class="mt-3">
     <table>
         <tr>
             <td>
-                @include('dashboard.cart.printer.partials.order-details')
+                @include('eshop::dashboard.cart.printer.partials.order-details')
             </td>
             <td>
-                @include('dashboard.cart.printer.partials.shipping')
+                @include('eshop::dashboard.cart.printer.partials.shipping')
             </td>
         </tr>
     </table>
@@ -100,11 +100,11 @@
 <hr class="mt-3">
 
 <div style="page-break-inside: avoid">
-    @include('dashboard.cart.printer.partials.products')
+    @include('eshop::dashboard.cart.printer.partials.products')
 </div>
 
 <div style="page-break-inside: avoid">
-    @include('dashboard.cart.printer.partials.totals')
+    @include('eshop::dashboard.cart.printer.partials.totals')
 </div>
 
 <h1 class="fw-normal text-secondary text-center mt-3">{{ __("Thank you") }}</h1>

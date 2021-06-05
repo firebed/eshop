@@ -17,6 +17,6 @@
             <x-bs::group label="{{ __('Country') }}" inline>{{ $country->name }}</x-bs::group>
         </div>
 
-        @include('dashboard.cart.partials.show.shipping-address-modal')
+        @include('eshop::dashboard.cart.partials.show.shipping-address-modal')
     </x-bs::navbar.collapse>
 </x-bs::navbar>

@@ -1,6 +1,6 @@
 <div class="col-12 col-xxl-8 p-4 mx-auto d-grid gap-3">
     <div class="d-grid gap-1">
-        @include('dashboard.category.partials.category-breadcrumbs')
+        @include('eshop::dashboard.category.partials.category-breadcrumbs')
 
         <div class="row row-cols-1 row-cols-sm-2 justify-content-between align-items-center g-3">
             <h1 class="col fs-3 mb-0">{{ __("Properties") }}</h1>
@@ -20,15 +20,15 @@
 
     <x-bs::card>
         <div class="table-responsive">
-            @include('dashboard.category.partials.category-properties-table')
+            @include('eshop::dashboard.category.partials.category-properties-table')
         </div>
     </x-bs::card>
 
     <form wire:submit.prevent="save">
-        @include('dashboard.category.modals.category-property-modal')
+        @include('eshop::dashboard.category.modals.category-property-modal')
     </form>
 
     <form wire:submit.prevent="saveChoices">
-        @include('dashboard.category.modals.category-choices-modal')
+        @include('eshop::dashboard.category.modals.category-choices-modal')
     </form>
 </div>

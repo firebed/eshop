@@ -40,11 +40,11 @@
     </div>
 
     <x-bs::card>
-        @include('dashboard.product-variant.partials.variants-table')
+        @include('eshop::dashboard.product-variant.partials.variants-table')
     </x-bs::card>
 
-    @include('dashboard.product-variant.partials.variants-discount-modal')
-    @include('dashboard.product-variant.partials.variants-price-modal')
-    @include('dashboard.product-variant.partials.delete-variant')
-    @include('dashboard.product-variant.partials.variant-modal')
+    @include('eshop::dashboard.product-variant.partials.variants-discount-modal')
+    @include('eshop::dashboard.product-variant.partials.variants-price-modal')
+    @include('eshop::dashboard.product-variant.partials.delete-variant')
+    @include('eshop::dashboard.product-variant.partials.variant-modal')
 </div>
