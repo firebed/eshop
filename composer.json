@@ -14,7 +14,6 @@
     "firebed/bootstrap-components": "dev-master#552a5b1c",
     "intervention/image": "^2.5",
     "laravel/cashier": "^12.13",
-    "laravel/fortify": "^1.7",
     "maatwebsite/excel": "^3.1",
     "paypal/paypal-checkout-sdk": "1.0.1",
     "stevebauman/location": "^6.1"
