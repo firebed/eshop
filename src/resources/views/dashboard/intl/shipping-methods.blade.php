@@ -5,5 +5,5 @@
 @endpush
 
 @section('main')
-    @livewire('dashboard.intl.show-shipping-methods')
+    <livewire:dashboard.intl.show-shipping-methods/>
 @endsection

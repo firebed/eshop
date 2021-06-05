@@ -15,12 +15,20 @@ use Eshop\Livewire\Dashboard\Cart\ShowCarts;
 use Eshop\Livewire\Dashboard\Cart\StatusesList;
 use Eshop\Livewire\Dashboard\Category\ShowCategories;
 use Eshop\Livewire\Dashboard\Category\ShowCategoryProperties;
+use Eshop\Livewire\Dashboard\Intl\ShowCountries;
+use Eshop\Livewire\Dashboard\Intl\ShowPaymentMethods;
+use Eshop\Livewire\Dashboard\Intl\ShowShippingMethods;
 use Eshop\Livewire\Dashboard\Product\CreateProduct;
 use Eshop\Livewire\Dashboard\Product\CreateProductGroup;
 use Eshop\Livewire\Dashboard\Product\EditProduct;
 use Eshop\Livewire\Dashboard\Product\EditProductGroup;
+use Eshop\Livewire\Dashboard\Product\ShowProductImages;
 use Eshop\Livewire\Dashboard\Product\ShowProducts;
+use Eshop\Livewire\Dashboard\Product\ShowVariants;
 use Eshop\Livewire\Dashboard\Product\VariantTypes;
+use Eshop\Livewire\Dashboard\User\ShowUsers;
+use Eshop\Livewire\Dashboard\User\UserAddressesTable;
+use Eshop\Livewire\Dashboard\User\UserCartsTable;
 use Illuminate\Support\ServiceProvider;
 use Livewire\Livewire;
 
@@ -51,12 +59,24 @@ class LivewireServiceProvider extends ServiceProvider
         Livewire::component('dashboard.category.show-categories', ShowCategories::class);
         Livewire::component('dashboard.category.show-category-properties', ShowCategoryProperties::class);
 
+        // Intl
+        Livewire::component('dashboard.intl.show-countries', ShowCountries::class);
+        Livewire::component('dashboard.intl.show-payment-methods', ShowPaymentMethods::class);
+        Livewire::component('dashboard.intl.show-shipping-methods', ShowShippingMethods::class);
+
         // Products
         Livewire::component('dashboard.product.create-product', CreateProduct::class);
         Livewire::component('dashboard.product.create-product-group', CreateProductGroup::class);
         Livewire::component('dashboard.product.edit-product', EditProduct::class);
         Livewire::component('dashboard.product.edit-product-group', EditProductGroup::class);
+        Livewire::component('dashboard.product.show-product-images', ShowProductImages::class);
         Livewire::component('dashboard.product.show-products', ShowProducts::class);
+        Livewire::component('dashboard.product.show-variants', ShowVariants::class);
         Livewire::component('dashboard.product.variant-types', VariantTypes::class);
+
+        // User
+        Livewire::component('dashboard.user.show-users', ShowUsers::class);
+        Livewire::component('dashboard.user.user-addresses-table', UserAddressesTable::class);
+        Livewire::component('dashboard.user.user-carts-table', UserCartsTable::class);
     }
 }

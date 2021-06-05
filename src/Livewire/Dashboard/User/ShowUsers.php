@@ -112,7 +112,7 @@ class ShowUsers extends Component
 
     public function render(): View
     {
-        return view('eshop::dashboard.user.livewire.show-users', [
+        return view('eshop::dashboard.user.wire.show-users', [
             'users' => $this->users
         ]);
     }

@@ -10,5 +10,5 @@
 @endpush
 
 @section('main')
-    @livewire('dashboard.product.show-variants', compact('product'))
+    <livewire:dashboard.product.show-variants :product="$product"/>
 @endsection

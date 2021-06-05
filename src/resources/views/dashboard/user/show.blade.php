@@ -19,7 +19,7 @@
                         <div class="fs-5 fw-500 mb-3">{{ __('Addresses') }}</div>
 
                         <div class="table-responsive">
-                            @livewire('dashboard.user.user-addresses-table', compact('user'))
+                            <livewire:dashboard.user.user-addresses-table :user="$user"/>
                         </div>
                     </x-bs::card.body>
                 </x-bs::card>
@@ -85,7 +85,7 @@
                 <div class="fs-5 fw-500 mb-3">{{ __("Orders") }}</div>
 
                 <div class="table-responsive">
-                    @livewire('dashboard.user.user-carts-table', compact('user'))
+                    <livewire:dashboard.user.user-carts-table :user="$user"/>
                 </div>
             </x-bs::card.body>
         </x-bs::card>
