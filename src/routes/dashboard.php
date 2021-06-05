@@ -23,7 +23,7 @@ Route::middleware(['web', 'auth'])->group(function () {
         Route::get('carts/{cart}/print', PrintController::class)->name('carts.print');
         Route::resource('carts', CartController::class);
 
-        Route::view('categories/properties/{property}/choices', 'dashboard.category.choices')->name('categories.properties.choices.index');
+        Route::view('categories/properties/{property}/choices', 'eshop::dashboard.category.choices')->name('categories.properties.choices.index');
         Route::resource('categories', CategoryController::class)->only('index', 'show');
 
         Route::resource('countries', CountryController::class)->only('index');

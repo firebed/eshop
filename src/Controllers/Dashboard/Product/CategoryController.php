@@ -24,8 +24,9 @@ class CategoryController extends Controller
      * @param Category $category
      * @return View
      */
-    public function show(Category $category): View
+    public function show($category): View
     {
+        dd($category, Category::find($category));
         return view('eshop::dashboard.category.index', compact('category'));
     }
 }
