@@ -26,8 +26,8 @@
         </div>
     </div>
 
-    <div class="row">
-        <div class="col-7 d-flex flex-column gap-4">
+    <div class="row g-4">
+        <div class="col-12 col-md-7 d-flex flex-column gap-4">
             @include('eshop::dashboard.product.partials.primary')
             <livewire:dashboard.product.variant-types :product="$product"/>
 
@@ -41,7 +41,7 @@
             @include('eshop::dashboard.product.partials.delete-product')
         </div>
 
-        <div class="col-5 d-flex flex-column gap-4">
+        <div class="col-12 col-md-5 d-flex flex-column gap-4">
             @include('eshop::dashboard.product.partials.image')
             @include('eshop::dashboard.product.partials.organization')
             @include('eshop::dashboard.product.partials.attributes')

@@ -1,7 +1,7 @@
 <div class="card shadow-sm">
     <div class="card-body">
         <div class="fs-5 mb-3">{{ __("Inventory") }}</div>
-        <div class="row row-cols-4 g-3 mb-3">
+        <div class="row row-cols-3 g-3 mb-3">
             <x-bs::input.group for="sku" label="{{ __('SKU') }}" class="col">
                 <x-bs::input.text wire:model.defer="product.sku" id="sku" error="product.sku"/>
             </x-bs::input.group>
