@@ -4,6 +4,7 @@ use Eshop\Models\Product\Product;
 use Eshop\Models\User;
 use Eshop\Services\SlugGenerator;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
 
 if (!function_exists('format_number')) {
@@ -55,6 +56,13 @@ if (!function_exists('slugify')) {
     function slugify($strings, $separator = '-'): string
     {
         return SlugGenerator::getSlug(implode($separator, is_array($strings) ? array_filter($strings) : [$strings]), $separator);
+    }
+}
+
+if (!function_exists('productRouteExists')) {
+    function productRouteExists(): bool
+    {
+        return Route::has('customer.products.show');
     }
 }
 

@@ -1,7 +1,9 @@
 <x-bs::table class="table-hover">
     <thead>
     <tr class="table-light">
-        <td class="w-2r rounded-top"><x-bs::input.checkbox wire:model="selectAll" id="select-all"/></td>
+        <td class="w-2r rounded-top">
+            <x-bs::input.checkbox wire:model="selectAll" id="select-all"/>
+        </td>
         <td class="w-2r"><em class="fa fa-eye text-secondary"></em></td>
         <td class="w-2r"><em class="fa fa-store text-secondary"></em></td>
         <td class="w-2r"><em class="fa fa-tag text-secondary"></em></td>
@@ -22,7 +24,7 @@
     @foreach($variants as $variant)
         <tr wire:key="row-{{ $variant->id }}">
             <td>
-                <x-bs::input.checkbox  wire:model="selected" id="variant-{{ $variant->id }}" value="{{ $variant->id }}"/>
+                <x-bs::input.checkbox wire:model="selected" id="variant-{{ $variant->id }}" value="{{ $variant->id }}"/>
             </td>
             <td><em class="fa fa-{{ $variant->visible ? 'check-circle text-teal-500' : 'minus-circle text-warning' }}"></em></td>
             <td>
@@ -56,7 +58,9 @@
             <td>{{ $variant->created_at->format('d/m/y') }}</td>
             <td class="text-end">
                 <x-bs::button.haze wire:click="edit({{ $variant->id }})" wire:loading.attr="disabled" wire:target="edit({{ $variant->id }})" size="sm">{{ __('Edit') }}</x-bs::button.haze>
-                <a href="{{ route('customer.products.show', [app()->getLocale(), $variant->category->slug, $variant->slug]) }}" class="btn btn-sm btn-haze shadow-sm"><em class="fas fa-search text-secondary"></em></a>
+                @if(productRouteExists())
+                    <a href="{{ productRoute($variant) }}" class="btn btn-sm btn-haze shadow-sm"><em class="fas fa-search text-secondary"></em></a>
+                @endif
             </td>
         </tr>
     @endforeach

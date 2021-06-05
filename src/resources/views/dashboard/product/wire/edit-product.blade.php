@@ -14,15 +14,13 @@
     </div>
 
     <div class="d-flex">
-        @if(Route::has('customer.products.show'))
+        @if(productRouteExists())
             <a href="{{ productRoute($product) }}" class="text-secondary text-decoration-none me-4"><i class="fa fa-eye"></i> {{ __("View") }}</a>
         @endif
 
         <a href="#" class="text-secondary text-decoration-none me-4"><i class="fa fa-chart-bar"></i> {{ __("Analytics") }}</a>
 
-        @if(Route::has('products.images.index'))
-            <a href="{{ route('products.images.index') }}" class="text-secondary text-decoration-none me-4"><i class="far fa-images"></i> {{ __("Images") }}</a>
-        @endif
+        <a href="{{ route('products.images.index', $product) }}" class="text-secondary text-decoration-none me-4"><i class="far fa-images"></i> {{ __("Images") }}</a>
     </div>
 
     <div class="row g-4">
