@@ -73,7 +73,6 @@ trait HasImages
             'src'         => $path,
             'width'       => $image->getWidth(),
             'height'      => $image->getHeight(),
-            'size'        => $image->filesize(),
             'conversions' => $this->prepareConversions($hashName, $manager, $file)
         ]);
         $this->images()->save($media);
@@ -107,7 +106,6 @@ trait HasImages
                 'src'    => $path,
                 'width'  => $image->getWidth(),
                 'height' => $image->getHeight(),
-                'size'   => $image->filesize()
             ];
         }
         return $conversions;
