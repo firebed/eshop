@@ -86,11 +86,11 @@ class EcommerceServiceProvider extends ServiceProvider
 
         $this->loadTranslationsFrom(__DIR__ . '/resources/lang', 'com');
 
-        $this->publishes([__DIR__ . '/config/ecommerce' => config_path('ecommerce.php')], 'config');
-        $this->publishes([__DIR__ . '/resources/lang' => resource_path('lang/vendor/ecommerce')], 'lang');
-        $this->publishes([__DIR__ . '/resources/views/customer' => resource_path('views/vendor/ecommerce')], 'customer-views');
-        $this->publishes([__DIR__ . '/resources/views/dashboard' => resource_path('views/vendor/ecommerce')], 'dashboard-views');
-        $this->publishes([__DIR__ . '/public' => public_path('vendor/ecommerce')], 'public');
+        $this->publishes([__DIR__ . '/config/ecommerce.php' => config_path('ecommerce.php')], 'com-config');
+        $this->publishes([__DIR__ . '/resources/lang' => resource_path('lang/vendor/ecommerce')], 'com-lang');
+        $this->publishes([__DIR__ . '/resources/views/customer' => resource_path('views/vendor/ecommerce')], 'com-customer-views');
+        $this->publishes([__DIR__ . '/resources/views/dashboard' => resource_path('views/vendor/ecommerce')], 'com-dashboard-views');
+        $this->publishes([__DIR__ . '/public' => public_path('vendor/ecommerce')], 'com-public');
 
         $this->assignMorphs();
 
