@@ -8,11 +8,11 @@
                     @unless($property->isValueRestricted())
                         <x-bs::input.text wire:model.defer="values.{{ $property->id }}" id="prop-{{ $property->id }}" error="values.{{ $property->id }}"/>
                     @else
-                        <x-slim-select wire:model.defer="choices.{{ $property->id }}" id="prop-{{ $property->id }}" error="choices.{{ $property->id }}" allow-deselect :multiple="$property->isValueRestrictionMultiple()">
+                        <x-eshop::slim-select wire:model.defer="choices.{{ $property->id }}" id="prop-{{ $property->id }}" error="choices.{{ $property->id }}" allow-deselect :multiple="$property->isValueRestrictionMultiple()">
                             @foreach($property->choices as $choice)
                                 <option value="{{ $choice->id }}">{{ $choice->name }}</option>
                             @endforeach
-                        </x-slim-select>
+                        </x-eshop::slim-select>
                     @endunless
                 </x-bs::input.group>
             @empty

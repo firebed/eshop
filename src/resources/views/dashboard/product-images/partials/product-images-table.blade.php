@@ -31,6 +31,6 @@
     </tbody>
 
     <caption>
-        <x-pagination :paginator="$images"/>
+        <x-eshop::pagination :paginator="$images"/>
     </caption>
 </x-bs::table>

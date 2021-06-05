@@ -13,7 +13,7 @@
         <div class="container">
             <div class="row mb-4">
                 <div class="col-3 d-none d-md-block">
-                    <x-homepage-categories-list/>
+                    <x-eshop::homepage-categories-list/>
                 </div>
                 <div class="col">
                     @include('customer.homepage.partials.carousel')
@@ -22,10 +22,10 @@
 
             <div class="row mb-4">
                 <div class="col-12 mb-4 col-xl-3 mb-xl-0">
-                    <x-top-sellers/>
+                    <x-eshop::top-sellers/>
                 </div>
                 <div class="col-12 col-xl-9">
-                    <x-popular-products/>
+                    <x-eshop::popular-products/>
                 </div>
             </div>
         </div>
