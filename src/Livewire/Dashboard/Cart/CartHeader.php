@@ -61,7 +61,7 @@ class CartHeader extends Component
             $statuses = $statuses->except([CartStatus::SUBMITTED, $status->id])->groupBy('group');
         }
 
-        return view('com::dashboard.cart.livewire.cart-header', [
+        return view('eshop::dashboard.cart.livewire.cart-header', [
             'statuses' => $statuses,
             'status'   => $status ?? NULL,
         ]);

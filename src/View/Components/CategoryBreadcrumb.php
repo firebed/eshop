@@ -36,6 +36,6 @@ class CategoryBreadcrumb extends Component
      */
     public function render(): Renderable
     {
-        return view('com::components.category-breadcrumb');
+        return view('eshop::components.category-breadcrumb');
     }
 }

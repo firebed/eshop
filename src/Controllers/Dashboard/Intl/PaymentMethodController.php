@@ -9,6 +9,6 @@ class PaymentMethodController extends Controller
 {
     public function index(): Renderable
     {
-        return view('com::dashboard.intl.payment-methods');
+        return view('eshop::dashboard.intl.payment-methods');
     }
 }

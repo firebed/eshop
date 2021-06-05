@@ -24,6 +24,6 @@ class CartButton extends Component
 
     public function render(): Renderable
     {
-        return view('com::customer.checkout.partials.cart-button');
+        return view('eshop::customer.checkout.partials.cart-button');
     }
 }

@@ -29,7 +29,7 @@ class ProductVariants extends Component
     {
         $this->addProduct($order, $product, 1);
 
-        $toast = view('com::customer.product.partials.product-toast', compact('product'))->render();
+        $toast = view('eshop::customer.product.partials.product-toast', compact('product'))->render();
         $this->showSuccessToast($product->name, $toast);
         $this->emit('setCartItemsCount', $order->products->count());
         $this->skipRender();
@@ -43,7 +43,7 @@ class ProductVariants extends Component
             ->get()
             ->sortBy(['sku', 'variant_values'], SORT_NATURAL | SORT_FLAG_CASE);
 
-        return view('com::customer.product.partials.wire-product-variants', [
+        return view('eshop::customer.product.partials.wire-product-variants', [
             'variants' => $variants
         ]);
     }

@@ -144,6 +144,6 @@ class CartItemCreateModal extends Component
 
     public function render(): View
     {
-        return view('com::dashboard.cart.livewire.cart-item-create-modal');
+        return view('eshop::dashboard.cart.livewire.cart-item-create-modal');
     }
 }

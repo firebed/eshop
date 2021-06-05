@@ -55,7 +55,7 @@ class ShowCheckoutProducts extends Component
 
         $shippingMethods = $order->shippingAddress->country->shippingMethodRange($order->shipping_method_id);
 
-        return view('com::customer.checkout.products.wire.index', [
+        return view('eshop::customer.checkout.products.wire.index', [
             'order'           => $order,
             'shippingMethods' => $shippingMethods,
             'nextShipping'    => $shippingMethods->where('fee', '<', $order->shipping_fee)->last(),

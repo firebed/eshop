@@ -127,7 +127,7 @@ class ShowPaymentMethods extends Component
 
     public function render(): Renderable
     {
-        return view('com::dashboard.intl.livewire.show-payment-methods', [
+        return view('eshop::dashboard.intl.livewire.show-payment-methods', [
             'paymentMethods' => $this->paymentMethods,
             'countries'      => Country::orderBy('name')->get(),
             'methods'        => PaymentMethod::all()

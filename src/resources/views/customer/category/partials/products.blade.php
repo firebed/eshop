@@ -28,7 +28,7 @@
                         @endif
                     </div>
 
-                    @includeWhen($product->has_variants, 'com::customer.category.partials.variant-thumbnails')
+                    @includeWhen($product->has_variants, 'eshop::customer.category.partials.variant-thumbnails')
                 </div>
             </div>
         </a>

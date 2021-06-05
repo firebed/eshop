@@ -172,7 +172,7 @@ class ShowCategories extends Component
             $this->editing = $this->makeCategory(Category::FILE);
         }
 
-        return view('com::dashboard.category.livewire.show-categories', [
+        return view('eshop::dashboard.category.livewire.show-categories', [
             'categories' => $this->categories
         ]);
     }

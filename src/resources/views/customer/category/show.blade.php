@@ -1,4 +1,4 @@
-@extends('com::customer.layouts.master', ['title' => $category->name])
+@extends('eshop::customer.layouts.master', ['title' => $category->name])
 
 @section('main')
 
@@ -9,7 +9,7 @@
             <div class="row">
                 @if($category->isFile())
                     <div class="col-lg-4 col-xl-3">
-                        @include('com::customer.category.partials.filters')
+                        @include('eshop::customer.category.partials.filters')
                     </div>
                     <div class="col">
                         <div class="d-flex align-items-baseline mb-3">
@@ -22,7 +22,7 @@
                             </div>
                         @endif
                         <div class="row row-cols-1 row-cols-sm-2 row-cols-xl-3 row-cols-xxl-4 g-3">
-                            @include('com::customer.category.partials.products')
+                            @include('eshop::customer.category.partials.products')
                         </div>
                         @if($products->hasPages())
                             <div class="mt-3 d-flex justify-content-center">

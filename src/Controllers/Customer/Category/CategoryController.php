@@ -72,7 +72,7 @@ class CategoryController extends Controller
         $breadcrumb = $this->getBreadcrumb($category);
         $priceRanges = $this->groupPriceRanges($category, $filters);
 
-        return view('com::customer.category.show', compact('breadcrumb', 'category', 'manufacturers', 'filters', 'priceRanges', 'products'));
+        return view('eshop::customer.category.show', compact('breadcrumb', 'category', 'manufacturers', 'filters', 'priceRanges', 'products'));
     }
 
     private function getBreadcrumb(Category $category): array

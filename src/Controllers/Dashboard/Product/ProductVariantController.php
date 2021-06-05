@@ -16,6 +16,6 @@ class ProductVariantController extends Controller
      */
     public function index(Product $product): Renderable
     {
-        return view('com::dashboard.product-variant.index', compact('product'));
+        return view('eshop::dashboard.product-variant.index', compact('product'));
     }
 }

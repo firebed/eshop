@@ -27,7 +27,7 @@ class AddToCartForm extends Component
     {
         $this->addProduct($order, $this->product, $this->quantity);
 
-        $toast = view('com::customer.product.partials.product-toast', [
+        $toast = view('eshop::customer.product.partials.product-toast', [
             'product' => $this->product
         ])->render();
 
@@ -38,6 +38,6 @@ class AddToCartForm extends Component
 
     public function render(): Renderable
     {
-        return view('com::customer.product.wire.add-to-cart-form',);
+        return view('eshop::customer.product.wire.add-to-cart-form',);
     }
 }

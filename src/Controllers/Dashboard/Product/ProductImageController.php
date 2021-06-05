@@ -9,6 +9,6 @@ class ProductImageController extends Controller
 {
     public function index(int $productId): Renderable
     {
-        return view('com::dashboard.product-images.index', compact('productId'));
+        return view('eshop::dashboard.product-images.index', compact('productId'));
     }
 }

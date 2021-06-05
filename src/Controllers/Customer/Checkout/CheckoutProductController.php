@@ -9,6 +9,6 @@ class CheckoutProductController extends Controller
 {
     public function __invoke(): View
     {
-        return view('com::customer.checkout.products.wire-index');
+        return view('eshop::customer.checkout.products.wire-index');
     }
 }

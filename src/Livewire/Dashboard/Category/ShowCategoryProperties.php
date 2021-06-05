@@ -150,7 +150,7 @@ class ShowCategoryProperties extends Component
             $this->property = $this->makeProperty();
         }
 
-        return view('com::dashboard.category.livewire.show-category-properties', [
+        return view('eshop::dashboard.category.livewire.show-category-properties', [
             'properties' => $this->properties
         ]);
     }

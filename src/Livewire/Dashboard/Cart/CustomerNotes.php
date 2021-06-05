@@ -41,6 +41,6 @@ class CustomerNotes extends Component
 
     public function render(): Renderable
     {
-        return view('com::dashboard.cart.livewire.customer-notes');
+        return view('eshop::dashboard.cart.livewire.customer-notes');
     }
 }

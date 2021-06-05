@@ -74,6 +74,6 @@ class Invoice extends Component
     {
         $countries = app('countries');
         $country = $countries->find($this->invoiceBilling->country_id);
-        return view('com::dashboard.cart.livewire.invoice', compact('countries', 'country'));
+        return view('eshop::dashboard.cart.livewire.invoice', compact('countries', 'country'));
     }
 }

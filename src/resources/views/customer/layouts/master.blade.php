@@ -19,7 +19,7 @@
 <body @isset($bg) class="{{ $bg }}" @else style="background-color: #f1f1f1" @endisset>
 <x-bs::toast-container id="toasts"/>
 
-@include('com::customer.layouts.header')
+@include('eshop::customer.layouts.header')
 @yield('main')
 
 <x-bs::notification.toast-js/>
