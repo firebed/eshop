@@ -20,8 +20,7 @@
     "laravel/fortify": "^1.7"
   },
   "require-dev": {
-    "roave/security-advisories": "dev-latest"
-    ,
+    "roave/security-advisories": "dev-latest",
     "laravel/framework": "^8.0",
     "livewire/livewire": "^2.3"
   },
@@ -38,7 +37,7 @@
       "providers": [
         "Eshop\\EshopServiceProvider",
         "Eshop\\CartServiceProvider",
-        "Eshop\\LivewireServiceProvider",
+        "Eshop\\LivewireServiceProvider"
       ]
     }
   },
