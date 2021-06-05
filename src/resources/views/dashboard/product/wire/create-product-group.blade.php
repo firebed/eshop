@@ -11,8 +11,8 @@
 
     <div class="row">
         <div class="col-7 d-flex flex-column gap-4">
-            @include('dashboard.product.partials.primary')
-            @include('dashboard.product.partials.create-variant-types')
+            @include('eshop::dashboard.product.partials.primary')
+            @include('eshop::dashboard.product.partials.create-variant-types')
 
             <x-bs::card>
                 <x-bs::card.body>
@@ -22,9 +22,9 @@
             </x-bs::card>
         </div>
         <div class="col-5 d-flex flex-column gap-4">
-            @include('dashboard.product.partials.image')
-            @include('dashboard.product.partials.organization')
-            @include('dashboard.product.partials.attributes')
+            @include('eshop::dashboard.product.partials.image')
+            @include('eshop::dashboard.product.partials.organization')
+            @include('eshop::dashboard.product.partials.attributes')
         </div>
     </div>
 </div>

@@ -27,16 +27,16 @@
 
     <div class="row">
         <div class="col-7 d-flex flex-column gap-4">
-            @include('dashboard.product.partials.primary')
-            @include('dashboard.product.partials.pricing')
-            @include('dashboard.product.partials.inventory')
-            @include('dashboard.product.partials.accessibility')
-            @include('dashboard.product.partials.delete-product')
+            @include('eshop::dashboard.product.partials.primary')
+            @include('eshop::dashboard.product.partials.pricing')
+            @include('eshop::dashboard.product.partials.inventory')
+            @include('eshop::dashboard.product.partials.accessibility')
+            @include('eshop::dashboard.product.partials.delete-product')
         </div>
         <div class="col-5 d-flex flex-column gap-4">
-            @include('dashboard.product.partials.image')
-            @include('dashboard.product.partials.organization')
-            @include('dashboard.product.partials.attributes')
+            @include('eshop::dashboard.product.partials.image')
+            @include('eshop::dashboard.product.partials.organization')
+            @include('eshop::dashboard.product.partials.attributes')
         </div>
     </div>
 </div>

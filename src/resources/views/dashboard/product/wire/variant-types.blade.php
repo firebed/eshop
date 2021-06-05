@@ -4,7 +4,7 @@
 
         <div class="table-responsive">
             <x-bs::table>
-                <thead name="head">
+                <thead>
                 <x-bs::table.heading>{{ __("Name") }}</x-bs::table.heading>
                 <x-bs::table.heading>&nbsp;</x-bs::table.heading>
                 </thead>

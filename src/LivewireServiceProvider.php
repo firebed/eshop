@@ -8,6 +8,7 @@ use Eshop\Livewire\Dashboard\Product\CreateProductGroup;
 use Eshop\Livewire\Dashboard\Product\EditProduct;
 use Eshop\Livewire\Dashboard\Product\EditProductGroup;
 use Eshop\Livewire\Dashboard\Product\ShowProducts;
+use Eshop\Livewire\Dashboard\Product\VariantTypes;
 use Illuminate\Support\ServiceProvider;
 use Livewire\Livewire;
 
@@ -28,5 +29,6 @@ class LivewireServiceProvider extends ServiceProvider
         Livewire::component('dashboard.product.edit-product', EditProduct::class);
         Livewire::component('dashboard.product.edit-product-group', EditProductGroup::class);
         Livewire::component('dashboard.product.show-products', ShowProducts::class);
+        Livewire::component('dashboard.product.variant-types', VariantTypes::class);
     }
 }

@@ -57,7 +57,7 @@
 
     <x-bs::card>
         <div class="table-responsive">
-            @include('dashboard.product.partials.products-table')
+            @include('eshop::dashboard.product.partials.products-table')
         </div>
     </x-bs::card>
 </div>

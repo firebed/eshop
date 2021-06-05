@@ -28,8 +28,8 @@
 
     <div class="row">
         <div class="col-7 d-flex flex-column gap-4">
-            @include('dashboard.product.partials.primary')
-            @livewire('dashboard.product.variant-types', compact('product'))
+            @include('eshop::dashboard.product.partials.primary')
+            <livewire:dashboard.product.variant-types :product="$product"/>
 
             <div class="card shadow-sm">
                 <div class="card-body">
@@ -38,13 +38,13 @@
                 </div>
             </div>
 
-            @include('dashboard.product.partials.delete-product')
+            @include('eshop::dashboard.product.partials.delete-product')
         </div>
 
         <div class="col-5 d-flex flex-column gap-4">
-            @include('dashboard.product.partials.image')
-            @include('dashboard.product.partials.organization')
-            @include('dashboard.product.partials.attributes')
+            @include('eshop::dashboard.product.partials.image')
+            @include('eshop::dashboard.product.partials.organization')
+            @include('eshop::dashboard.product.partials.attributes')
         </div>
     </div>
 </div>
