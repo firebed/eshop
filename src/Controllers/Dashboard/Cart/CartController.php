@@ -19,7 +19,7 @@ class CartController extends Controller
      */
     public function index(): Renderable
     {
-        return view('dashboard.cart.index');
+        return view('eshop::dashboard.cart.index');
     }
 
     /**
