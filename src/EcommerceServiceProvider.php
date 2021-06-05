@@ -86,6 +86,7 @@ class EcommerceServiceProvider extends ServiceProvider
 
         $this->loadTranslationsFrom(__DIR__ . '/resources/lang', 'com');
 
+        $this->publishes([__DIR__ . '/config/ecommerce' => config_path('ecommerce.php')], 'config');
         $this->publishes([__DIR__ . '/resources/lang' => resource_path('lang/vendor/ecommerce')], 'lang');
         $this->publishes([__DIR__ . '/resources/views/customer' => resource_path('views/vendor/ecommerce')], 'customer-views');
         $this->publishes([__DIR__ . '/resources/views/dashboard' => resource_path('views/vendor/ecommerce')], 'dashboard-views');
