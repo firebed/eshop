@@ -21,7 +21,7 @@
 </head>
 <body class="container-fluid bg-light">
 <div class="row">
-    @include('eshop::dashboard.partials.dashboard-navigation')
+    @include('eshop::dashboard.partials.navigation')
 
     <div class="col">
         <main class="row">

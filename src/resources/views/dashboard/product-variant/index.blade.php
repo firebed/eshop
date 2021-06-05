@@ -1,4 +1,4 @@
-@extends('dashboard.layouts.dashboard')
+@extends('eshop::dashboard.layouts.master')
 
 @push('header_scripts')
     <link href="https://cdnjs.cloudflare.com/ajax/libs/slim-select/1.26.2/slimselect.min.css" rel="stylesheet"/>

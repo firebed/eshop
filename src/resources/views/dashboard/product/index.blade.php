@@ -1,4 +1,4 @@
-@extends('eshop::dashboard.layouts.dashboard')
+@extends('eshop::dashboard.layouts.master')
 
 @section('main')
     <livewire:dashboard.product.show-products/>

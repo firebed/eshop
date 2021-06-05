@@ -1,4 +1,4 @@
-@extends('dashboard.layouts.dashboard', ['title' => 'Users'])
+@extends('eshop::dashboard.layouts.master', ['title' => 'Users'])
 
 @section('main')
     <div class="col-12 col-xxl-9 mx-auto p-4 d-grid gap-4">
