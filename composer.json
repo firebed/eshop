@@ -39,7 +39,6 @@
         "Eshop\\EshopServiceProvider",
         "Eshop\\CartServiceProvider",
         "Eshop\\LivewireServiceProvider",
-        "Eshop\\FortifyServiceProvider"
       ]
     }
   },
