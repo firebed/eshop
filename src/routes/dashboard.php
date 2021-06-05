@@ -12,7 +12,7 @@ use Ecommerce\Controllers\Dashboard\Product\ProductVariantController;
 use Ecommerce\Controllers\Dashboard\UserController;
 use Illuminate\Support\Facades\Route;
 
-Route::middleware('auth')->group(function () {
+Route::middleware(['web', 'auth'])->group(function () {
     Route::prefix('dashboard')->group(function () {
         Route::get('products/create-group', [ProductController::class, 'createGroup'])->name('products.create-group');
 

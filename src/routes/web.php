@@ -15,7 +15,7 @@ Route::get('/', function () {
 });
 
 // Global routes
-Route::group(['prefix' => '{lang}', 'middleware' => 'locale'], function () {
+Route::group(['prefix' => '{lang}', 'middleware' => ['web', 'locale']], function () {
     Route::view('/', 'customer.homepage.index')->name('home');
 
     Route::view('/account/profile', 'customer.account.profile.edit')->name('account.profile.edit');
