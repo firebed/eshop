@@ -78,8 +78,8 @@ class EshopServiceProvider extends ServiceProvider
 
     private function loadRoutes(): void
     {
-//        $this->loadRoutesFrom(__DIR__ . '/routes/web.php');
         $this->loadRoutesFrom(__DIR__ . '/routes/dashboard.php');
+        $this->loadRoutesFrom(__DIR__ . '/routes/web.php');
     }
 
     private function assignMorphs(): void

@@ -2,8 +2,8 @@
 
 namespace Eshop\Controllers\Dashboard\Product;
 
-use Eshop\Models\Product\Category;
 use Eshop\Controllers\Controller;
+use Eshop\Models\Product\Category;
 use Illuminate\View\View;
 
 class CategoryController extends Controller
@@ -13,9 +13,8 @@ class CategoryController extends Controller
         return view('eshop::dashboard.category.index');
     }
 
-    public function show($category): View
+    public function show(Category $category): View
     {
-        dd($category, Category::find($category));
         return view('eshop::dashboard.category.index', compact('category'));
     }
 }
