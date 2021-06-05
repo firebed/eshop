@@ -53,6 +53,7 @@ class EshopServiceProvider extends ServiceProvider
         $this->loadTranslationsFrom(__DIR__ . '/resources/lang', 'eshop');
 
         $this->publishes([__DIR__ . '/resources/lang' => resource_path('lang/vendor/eshop')], 'eshop-locale');
+        $this->publishes([__DIR__ . '/resources/lang/el.json' => resource_path('lang/el.json')], 'eshop-locale-el');
     }
 
     private function loadMigrations(): void

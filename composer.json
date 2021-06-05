@@ -16,7 +16,8 @@
     "laravel/cashier": "^12.13",
     "maatwebsite/excel": "^3.1",
     "paypal/paypal-checkout-sdk": "1.0.1",
-    "stevebauman/location": "^6.1"
+    "stevebauman/location": "^6.1",
+    "laravel/fortify": "^1.7"
   },
   "require-dev": {
     "roave/security-advisories": "dev-latest"
@@ -37,7 +38,8 @@
       "providers": [
         "Eshop\\EshopServiceProvider",
         "Eshop\\CartServiceProvider",
-        "Eshop\\LivewireServiceProvider"
+        "Eshop\\LivewireServiceProvider",
+        "Eshop\\FortifyServiceProvider"
       ]
     }
   },
