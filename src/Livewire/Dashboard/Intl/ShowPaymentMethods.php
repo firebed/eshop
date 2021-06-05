@@ -1,13 +1,13 @@
 <?php
 
 
-namespace Ecommerce\Livewire\Dashboard\Intl;
+namespace Eshop\Livewire\Dashboard\Intl;
 
 
-use Ecommerce\Livewire\Traits\TrimStrings;
-use Ecommerce\Models\Location\Country;
-use Ecommerce\Models\Location\CountryPaymentMethod;
-use Ecommerce\Models\Location\PaymentMethod;
+use Eshop\Livewire\Traits\TrimStrings;
+use Eshop\Models\Location\Country;
+use Eshop\Models\Location\CountryPaymentMethod;
+use Eshop\Models\Location\PaymentMethod;
 use Firebed\Livewire\Traits\Datatable\DeletesRows;
 use Firebed\Livewire\Traits\Datatable\TogglesVisibility;
 use Firebed\Livewire\Traits\Datatable\WithCRUD;

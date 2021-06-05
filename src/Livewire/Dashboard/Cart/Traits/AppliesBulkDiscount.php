@@ -1,10 +1,10 @@
 <?php
 
 
-namespace Ecommerce\Livewire\Dashboard\Cart\Traits;
+namespace Eshop\Livewire\Dashboard\Cart\Traits;
 
 
-use Ecommerce\Repository\Contracts\CartContract;
+use Eshop\Repository\Contracts\CartContract;
 use Illuminate\Support\Facades\DB;
 
 trait AppliesBulkDiscount

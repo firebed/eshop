@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Ecommerce\Models\Cart;
+namespace Eshop\Models\Cart;
 
 
 class DocumentType

@@ -1,12 +1,12 @@
 <?php
 
 
-namespace Ecommerce\Repository\Contracts;
+namespace Eshop\Repository\Contracts;
 
 
-use Ecommerce\Models\Cart\Cart;
-use Ecommerce\Models\Cart\CartProduct;
-use Ecommerce\Models\Cart\CartStatus;
+use Eshop\Models\Cart\Cart;
+use Eshop\Models\Cart\CartProduct;
+use Eshop\Models\Cart\CartStatus;
 
 interface CartContract
 {

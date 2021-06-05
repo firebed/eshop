@@ -1,11 +1,11 @@
 <?php
 
-namespace Ecommerce\Livewire\Dashboard\Product;
+namespace Eshop\Livewire\Dashboard\Product;
 
-use Ecommerce\Livewire\Dashboard\Product\Traits\DeletesProduct;
-use Ecommerce\Livewire\Dashboard\Product\Traits\RendersProduct;
-use Ecommerce\Livewire\Dashboard\Product\Traits\SavesProduct;
-use Ecommerce\Livewire\Dashboard\Product\Traits\WithProductGroupAttributes;
+use Eshop\Livewire\Dashboard\Product\Traits\DeletesProduct;
+use Eshop\Livewire\Dashboard\Product\Traits\RendersProduct;
+use Eshop\Livewire\Dashboard\Product\Traits\SavesProduct;
+use Eshop\Livewire\Dashboard\Product\Traits\WithProductGroupAttributes;
 use Firebed\Livewire\Traits\SendsNotifications;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Database\Eloquent\Collection;
@@ -13,7 +13,7 @@ use Livewire\Component;
 
 /**
  * Class ProductForm
- * @package Ecommerce\Livewire\Product
+ * @package Eshop\Livewire\Product
  *
  * @property Collection units
  * @property Collection vats

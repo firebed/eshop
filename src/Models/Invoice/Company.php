@@ -1,9 +1,9 @@
 <?php
 
-namespace Ecommerce\Models\Invoice;
+namespace Eshop\Models\Invoice;
 
-use Ecommerce\Models\Location\Address;
-use Ecommerce\Models\User;
+use Eshop\Models\Location\Address;
+use Eshop\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;

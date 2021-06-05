@@ -1,8 +1,8 @@
 <?php
 
-namespace Ecommerce\View\Components;
+namespace Eshop\View\Components;
 
-use Ecommerce\Models\Product\Product;
+use Eshop\Models\Product\Product;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\View\Component;

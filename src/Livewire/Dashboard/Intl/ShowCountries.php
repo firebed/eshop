@@ -1,10 +1,10 @@
 <?php
 
 
-namespace Ecommerce\Livewire\Dashboard\Intl;
+namespace Eshop\Livewire\Dashboard\Intl;
 
 
-use Ecommerce\Models\Location\Country;
+use Eshop\Models\Location\Country;
 use Firebed\Livewire\Traits\Datatable\DeletesRows;
 use Firebed\Livewire\Traits\Datatable\TogglesVisibility;
 use Firebed\Livewire\Traits\Datatable\WithCRUD;
@@ -17,7 +17,7 @@ use Livewire\Component;
 
 /**
  * Class CountriesDashboard
- * @package Ecommerce\Livewire\Dashboard\Intl
+ * @package Eshop\Livewire\Dashboard\Intl
  *
  * @property Collection countries
  */

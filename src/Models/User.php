@@ -1,11 +1,11 @@
 <?php
 
-namespace Ecommerce\Models;
+namespace Eshop\Models;
 
-use Ecommerce\Models\Cart\Cart;
-use Ecommerce\Models\Invoice\Company;
-use Ecommerce\Models\Lang\Traits\FullTextIndex;
-use Ecommerce\Models\Location\Address;
+use Eshop\Models\Cart\Cart;
+use Eshop\Models\Invoice\Company;
+use Eshop\Models\Lang\Traits\FullTextIndex;
+use Eshop\Models\Location\Address;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;

@@ -1,9 +1,9 @@
 <?php
 
-namespace Ecommerce\Controllers\Customer\Checkout;
+namespace Eshop\Controllers\Customer\Checkout;
 
-use Ecommerce\Controllers\Controller;
-use Ecommerce\Repository\Contracts\Order;
+use Eshop\Controllers\Controller;
+use Eshop\Repository\Contracts\Order;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 

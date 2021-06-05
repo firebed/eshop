@@ -1,9 +1,9 @@
 <?php
 
-namespace Ecommerce\Database\Factories\Cart;
+namespace Eshop\Database\Factories\Cart;
 
-use Ecommerce\Models\Cart\CartProduct;
-use Ecommerce\Models\Product\Product;
+use Eshop\Models\Cart\CartProduct;
+use Eshop\Models\Product\Product;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class CartProductFactory extends Factory

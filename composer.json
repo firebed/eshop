@@ -29,13 +29,15 @@
       "src/helpers.php"
     ],
     "psr-4": {
-      "Ecommerce\\": "src/"
+      "Eshop\\": "src/"
     }
   },
   "extra": {
     "laravel": {
       "providers": [
-        "Ecommerce\\EcommerceServiceProvider"
+        "Eshop\\EshopServiceProvider",
+        "Eshop\\CartServiceProvider",
+        "Eshop\\LivewireServiceProvider"
       ]
     }
   },

@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Ecommerce\Livewire\Dashboard\Product\Traits;
+namespace Eshop\Livewire\Dashboard\Product\Traits;
 
 
 trait DeletesProduct

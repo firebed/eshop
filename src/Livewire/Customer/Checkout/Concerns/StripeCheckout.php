@@ -1,11 +1,11 @@
 <?php
 
 
-namespace Ecommerce\Livewire\Customer\Checkout\Concerns;
+namespace Eshop\Livewire\Customer\Checkout\Concerns;
 
 
-use Ecommerce\Models\User;
-use Ecommerce\Repository\Contracts\Order;
+use Eshop\Models\User;
+use Eshop\Repository\Contracts\Order;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Cashier\Cashier;
 use Laravel\Cashier\Exceptions\PaymentActionRequired;

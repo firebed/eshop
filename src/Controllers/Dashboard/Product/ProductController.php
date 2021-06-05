@@ -1,9 +1,9 @@
 <?php
 
-namespace Ecommerce\Controllers\Dashboard\Product;
+namespace Eshop\Controllers\Dashboard\Product;
 
-use Ecommerce\Models\Product\Product;
-use Ecommerce\Controllers\Controller;
+use Eshop\Models\Product\Product;
+use Eshop\Controllers\Controller;
 use Illuminate\Contracts\Support\Renderable;
 
 class ProductController extends Controller

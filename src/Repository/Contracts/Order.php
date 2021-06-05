@@ -1,10 +1,10 @@
 <?php
 
 
-namespace Ecommerce\Repository\Contracts;
+namespace Eshop\Repository\Contracts;
 
 
-use Ecommerce\Models\Cart\Cart;
+use Eshop\Models\Cart\Cart;
 
 /**
  * Interface Order

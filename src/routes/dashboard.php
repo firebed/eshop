@@ -1,15 +1,15 @@
 <?php
 
-use Ecommerce\Controllers\Dashboard\Cart\CartController;
-use Ecommerce\Controllers\Dashboard\Cart\PrintController;
-use Ecommerce\Controllers\Dashboard\Intl\CountryController;
-use Ecommerce\Controllers\Dashboard\Intl\PaymentMethodController;
-use Ecommerce\Controllers\Dashboard\Intl\ShippingMethodController;
-use Ecommerce\Controllers\Dashboard\Product\CategoryController;
-use Ecommerce\Controllers\Dashboard\Product\ProductController;
-use Ecommerce\Controllers\Dashboard\Product\ProductImageController;
-use Ecommerce\Controllers\Dashboard\Product\ProductVariantController;
-use Ecommerce\Controllers\Dashboard\UserController;
+use Eshop\Controllers\Dashboard\Cart\CartController;
+use Eshop\Controllers\Dashboard\Cart\PrintController;
+use Eshop\Controllers\Dashboard\Intl\CountryController;
+use Eshop\Controllers\Dashboard\Intl\PaymentMethodController;
+use Eshop\Controllers\Dashboard\Intl\ShippingMethodController;
+use Eshop\Controllers\Dashboard\Product\CategoryController;
+use Eshop\Controllers\Dashboard\Product\ProductController;
+use Eshop\Controllers\Dashboard\Product\ProductImageController;
+use Eshop\Controllers\Dashboard\Product\ProductVariantController;
+use Eshop\Controllers\Dashboard\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['web', 'auth'])->group(function () {

@@ -1,8 +1,8 @@
 <?php
 
-namespace Ecommerce\Database\Factories\Product;
+namespace Eshop\Database\Factories\Product;
 
-use Ecommerce\Models\Product\Vat;
+use Eshop\Models\Product\Vat;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class VatFactory extends Factory

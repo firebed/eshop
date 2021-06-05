@@ -1,10 +1,10 @@
 <?php
 
 
-namespace Ecommerce\Livewire\Customer\Checkout\Concerns;
+namespace Eshop\Livewire\Customer\Checkout\Concerns;
 
 
-use Ecommerce\Repository\Contracts\Order;
+use Eshop\Repository\Contracts\Order;
 use PayPalCheckoutSdk\Core\PayPalHttpClient;
 use PayPalCheckoutSdk\Core\SandboxEnvironment;
 use PayPalCheckoutSdk\Orders\OrdersCaptureRequest;

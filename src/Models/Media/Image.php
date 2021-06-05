@@ -1,6 +1,6 @@
 <?php
 
-namespace Ecommerce\Models\Media;
+namespace Eshop\Models\Media;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;

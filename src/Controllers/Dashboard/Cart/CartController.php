@@ -1,9 +1,9 @@
 <?php
 
-namespace Ecommerce\Controllers\Dashboard\Cart;
+namespace Eshop\Controllers\Dashboard\Cart;
 
-use Ecommerce\Models\Cart\Cart;
-use Ecommerce\Controllers\Controller;
+use Eshop\Models\Cart\Cart;
+use Eshop\Controllers\Controller;
 use Exception;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\RedirectResponse;

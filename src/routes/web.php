@@ -1,12 +1,12 @@
 <?php
 
-use Ecommerce\Controllers\Customer\Category\CategoryController;
-use Ecommerce\Controllers\Customer\Checkout\CheckoutCompletedController;
-use Ecommerce\Controllers\Customer\Checkout\CheckoutDetailsController;
-use Ecommerce\Controllers\Customer\Checkout\CheckoutLoginController;
-use Ecommerce\Controllers\Customer\Checkout\CheckoutPaymentController;
-use Ecommerce\Controllers\Customer\Checkout\CheckoutProductController;
-use Ecommerce\Controllers\Customer\Product\ProductController;
+use Eshop\Controllers\Customer\Category\CategoryController;
+use Eshop\Controllers\Customer\Checkout\CheckoutCompletedController;
+use Eshop\Controllers\Customer\Checkout\CheckoutDetailsController;
+use Eshop\Controllers\Customer\Checkout\CheckoutLoginController;
+use Eshop\Controllers\Customer\Checkout\CheckoutPaymentController;
+use Eshop\Controllers\Customer\Checkout\CheckoutProductController;
+use Eshop\Controllers\Customer\Product\ProductController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -15,7 +15,7 @@ Route::get('/', function () {
 });
 
 // Global routes
-Route::group(['prefix' => config('ecommerce.prefix'), 'middleware' => config('ecommerce.middleware', ['web'])], function () {
+Route::group(['prefix' => config('eshop.prefix'), 'middleware' => config('eshop.middleware', ['web'])], function () {
     Route::view('/', 'customer.homepage.index')->name('home');
 
     Route::view('/account/profile', 'customer.account.profile.edit')->name('account.profile.edit');

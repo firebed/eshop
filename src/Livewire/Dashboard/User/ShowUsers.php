@@ -1,9 +1,9 @@
 <?php
 
-namespace Ecommerce\Livewire\Dashboard\User;
+namespace Eshop\Livewire\Dashboard\User;
 
-use Ecommerce\Exports\UsersExport;
-use Ecommerce\Models\User;
+use Eshop\Exports\UsersExport;
+use Eshop\Models\User;
 use Firebed\Livewire\Traits\Datatable\DeletesRows;
 use Firebed\Livewire\Traits\Datatable\WithCRUD;
 use Firebed\Livewire\Traits\Datatable\WithExports;

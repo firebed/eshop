@@ -1,13 +1,13 @@
 <?php
 
 
-namespace Ecommerce\Livewire\Customer\Checkout;
+namespace Eshop\Livewire\Customer\Checkout;
 
 
-use Ecommerce\Livewire\Customer\Checkout\Concerns\ControlsOrder;
-use Ecommerce\Models\Cart\DocumentType;
-use Ecommerce\Models\Location\Country;
-use Ecommerce\Repository\Contracts\Order;
+use Eshop\Livewire\Customer\Checkout\Concerns\ControlsOrder;
+use Eshop\Models\Cart\DocumentType;
+use Eshop\Models\Location\Country;
+use Eshop\Repository\Contracts\Order;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;

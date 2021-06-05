@@ -1,11 +1,11 @@
 <?php
 
-namespace Ecommerce\Livewire\Dashboard\Category;
+namespace Eshop\Livewire\Dashboard\Category;
 
-use Ecommerce\Livewire\Dashboard\Category\Traits\HasBreadcrumbs;
-use Ecommerce\Livewire\Traits\TrimStrings;
-use Ecommerce\Models\Product\Category;
-use Ecommerce\Services\SlugGenerator;
+use Eshop\Livewire\Dashboard\Category\Traits\HasBreadcrumbs;
+use Eshop\Livewire\Traits\TrimStrings;
+use Eshop\Models\Product\Category;
+use Eshop\Services\SlugGenerator;
 use Firebed\Livewire\Traits\Datatable\DeletesRows;
 use Firebed\Livewire\Traits\Datatable\WithSelections;
 use Firebed\Livewire\Traits\SendsNotifications;

@@ -1,12 +1,12 @@
 <?php
 
-namespace Ecommerce\Livewire\Dashboard\Product;
+namespace Eshop\Livewire\Dashboard\Product;
 
-use Ecommerce\Livewire\Dashboard\Product\Traits\SavesVariant;
-use Ecommerce\Models\Product\Product;
-use Ecommerce\Models\Product\Unit;
-use Ecommerce\Models\Product\VariantType;
-use Ecommerce\Models\Product\Vat;
+use Eshop\Livewire\Dashboard\Product\Traits\SavesVariant;
+use Eshop\Models\Product\Product;
+use Eshop\Models\Product\Unit;
+use Eshop\Models\Product\VariantType;
+use Eshop\Models\Product\Vat;
 use Firebed\Livewire\Traits\Datatable\DeletesRows;
 use Firebed\Livewire\Traits\Datatable\WithSelections;
 use Firebed\Livewire\Traits\SendsNotifications;

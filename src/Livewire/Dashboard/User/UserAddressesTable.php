@@ -1,8 +1,8 @@
 <?php
 
-namespace Ecommerce\Livewire\Dashboard\User;
+namespace Eshop\Livewire\Dashboard\User;
 
-use Ecommerce\Models\User;
+use Eshop\Models\User;
 use Firebed\Livewire\Traits\WithCustomPaginationView;
 use Illuminate\View\View;
 use Livewire\Component;

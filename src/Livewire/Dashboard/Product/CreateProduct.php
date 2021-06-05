@@ -1,10 +1,10 @@
 <?php
 
-namespace Ecommerce\Livewire\Dashboard\Product;
+namespace Eshop\Livewire\Dashboard\Product;
 
-use Ecommerce\Livewire\Dashboard\Product\Traits\RendersProduct;
-use Ecommerce\Livewire\Dashboard\Product\Traits\SavesProduct;
-use Ecommerce\Livewire\Dashboard\Product\Traits\WithProductAttributes;
+use Eshop\Livewire\Dashboard\Product\Traits\RendersProduct;
+use Eshop\Livewire\Dashboard\Product\Traits\SavesProduct;
+use Eshop\Livewire\Dashboard\Product\Traits\WithProductAttributes;
 use Firebed\Livewire\Traits\SendsNotifications;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Database\Eloquent\Collection;

@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Ecommerce\Models\Lang\Traits;
+namespace Eshop\Models\Lang\Traits;
 
 
 use Illuminate\Database\Eloquent\Builder;

@@ -1,13 +1,13 @@
 <?php
 
 
-namespace Ecommerce\Livewire\Dashboard\Product\Traits;
+namespace Eshop\Livewire\Dashboard\Product\Traits;
 
 
-use Ecommerce\Livewire\Traits\TrimStrings;
-use Ecommerce\Models\Product\Category;
-use Ecommerce\Models\Product\Product;
-use Ecommerce\Repository\ProductRepository;
+use Eshop\Livewire\Traits\TrimStrings;
+use Eshop\Models\Product\Category;
+use Eshop\Models\Product\Product;
+use Eshop\Repository\ProductRepository;
 use Illuminate\Support\Facades\DB;
 
 trait SavesProduct

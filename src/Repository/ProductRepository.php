@@ -1,11 +1,11 @@
 <?php
 
 
-namespace Ecommerce\Repository;
+namespace Eshop\Repository;
 
 
-use Ecommerce\Models\Product\Product;
-use Ecommerce\Repository\Contracts\ProductContract;
+use Eshop\Models\Product\Product;
+use Eshop\Repository\Contracts\ProductContract;
 
 class ProductRepository implements ProductContract
 {

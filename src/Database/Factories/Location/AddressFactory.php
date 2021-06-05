@@ -1,8 +1,8 @@
 <?php
 
-namespace Ecommerce\Database\Factories\Location;
+namespace Eshop\Database\Factories\Location;
 
-use Ecommerce\Models\Location\Address;
+use Eshop\Models\Location\Address;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class AddressFactory extends Factory

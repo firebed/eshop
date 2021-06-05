@@ -1,10 +1,10 @@
 <?php
 
-namespace Ecommerce\Controllers\Dashboard\Cart;
+namespace Eshop\Controllers\Dashboard\Cart;
 
-use Ecommerce\Models\Cart\Cart;
+use Eshop\Models\Cart\Cart;
 use Dompdf\Dompdf;
-use Ecommerce\Controllers\Controller;
+use Eshop\Controllers\Controller;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Http\Response;

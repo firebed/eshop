@@ -1,10 +1,10 @@
 <?php
 
-namespace Ecommerce\Controllers\Customer\Checkout;
+namespace Eshop\Controllers\Customer\Checkout;
 
-use Ecommerce\Repository\Contracts\Order;
+use Eshop\Repository\Contracts\Order;
 use Illuminate\Http\RedirectResponse;
-use Ecommerce\Controllers\Controller;
+use Eshop\Controllers\Controller;
 use Illuminate\View\View;
 
 class CheckoutDetailsController extends Controller

@@ -1,6 +1,6 @@
 <?php
 
-namespace Ecommerce\Services;
+namespace Eshop\Services;
 
 /**
  * A slug (pretty URL) generator, which supports Greek UTF-8 characters

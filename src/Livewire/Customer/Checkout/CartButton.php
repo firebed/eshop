@@ -1,8 +1,8 @@
 <?php
 
-namespace Ecommerce\Livewire\Customer\Checkout;
+namespace Eshop\Livewire\Customer\Checkout;
 
-use Ecommerce\Repository\Contracts\Order;
+use Eshop\Repository\Contracts\Order;
 use Illuminate\Contracts\Support\Renderable;
 use Livewire\Component;
 

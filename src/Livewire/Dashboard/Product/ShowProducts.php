@@ -1,10 +1,10 @@
 <?php
 
-namespace Ecommerce\Livewire\Dashboard\Product;
+namespace Eshop\Livewire\Dashboard\Product;
 
-use Ecommerce\Models\Product\Category;
-use Ecommerce\Models\Product\Manufacturer;
-use Ecommerce\Models\Product\Product;
+use Eshop\Models\Product\Category;
+use Eshop\Models\Product\Manufacturer;
+use Eshop\Models\Product\Product;
 use Firebed\Livewire\Traits\Datatable\WithSelections;
 use Firebed\Livewire\Traits\Datatable\WithSorting;
 use Firebed\Livewire\Traits\WithCustomPaginationView;

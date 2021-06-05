@@ -1,8 +1,8 @@
 <?php
 
-namespace Ecommerce\Exports;
+namespace Eshop\Exports;
 
-use Ecommerce\Models\User;
+use Eshop\Models\User;
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;

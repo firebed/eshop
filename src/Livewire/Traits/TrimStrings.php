@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Ecommerce\Livewire\Traits;
+namespace Eshop\Livewire\Traits;
 
 
 trait TrimStrings

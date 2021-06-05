@@ -1,11 +1,11 @@
 <?php
 
 
-namespace Ecommerce\Livewire\Customer\Checkout;
+namespace Eshop\Livewire\Customer\Checkout;
 
 
-use Ecommerce\Livewire\Customer\Checkout\Concerns\ControlsOrder;
-use Ecommerce\Repository\Contracts\Order;
+use Eshop\Livewire\Customer\Checkout\Concerns\ControlsOrder;
+use Eshop\Repository\Contracts\Order;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;

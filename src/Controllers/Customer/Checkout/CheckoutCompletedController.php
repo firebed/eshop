@@ -1,9 +1,9 @@
 <?php
 
-namespace Ecommerce\Controllers\Customer\Checkout;
+namespace Eshop\Controllers\Customer\Checkout;
 
-use Ecommerce\Models\Cart\Cart;
-use Ecommerce\Controllers\Controller;
+use Eshop\Models\Cart\Cart;
+use Eshop\Controllers\Controller;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 

@@ -1,8 +1,8 @@
 <?php
 
-namespace Ecommerce\Database\Factories\Invoice;
+namespace Eshop\Database\Factories\Invoice;
 
-use Ecommerce\Models\Invoice\Invoice;
+use Eshop\Models\Invoice\Invoice;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class InvoiceFactory extends Factory

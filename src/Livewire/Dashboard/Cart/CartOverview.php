@@ -1,12 +1,12 @@
 <?php
 
-namespace Ecommerce\Livewire\Dashboard\Cart;
+namespace Eshop\Livewire\Dashboard\Cart;
 
-use Ecommerce\Livewire\Traits\TrimStrings;
-use Ecommerce\Models\Cart\Cart;
-use Ecommerce\Models\Location\PaymentMethod;
-use Ecommerce\Models\Location\ShippingMethod;
-use Ecommerce\Repository\Contracts\CartContract;
+use Eshop\Livewire\Traits\TrimStrings;
+use Eshop\Models\Cart\Cart;
+use Eshop\Models\Location\PaymentMethod;
+use Eshop\Models\Location\ShippingMethod;
+use Eshop\Repository\Contracts\CartContract;
 use Firebed\Livewire\Traits\SendsNotifications;
 use Illuminate\Contracts\Support\Renderable;
 use Livewire\Component;

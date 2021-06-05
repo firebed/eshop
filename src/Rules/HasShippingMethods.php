@@ -1,8 +1,8 @@
 <?php
 
-namespace Ecommerce\Rules;
+namespace Eshop\Rules;
 
-use Ecommerce\Models\Location\Country;
+use Eshop\Models\Location\Country;
 use Illuminate\Contracts\Validation\Rule;
 
 class HasShippingMethods implements Rule

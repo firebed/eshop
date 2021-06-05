@@ -1,11 +1,11 @@
 <?php
 
 
-namespace Ecommerce\Models\Lang\Traits;
+namespace Eshop\Models\Lang\Traits;
 
 
-use Ecommerce\Models\Lang\Locale;
-use Ecommerce\Models\Lang\Translation;
+use Eshop\Models\Lang\Locale;
+use Eshop\Models\Lang\Translation;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Relations\MorphMany;

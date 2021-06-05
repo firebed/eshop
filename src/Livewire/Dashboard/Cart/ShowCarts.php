@@ -1,13 +1,13 @@
 <?php
 
-namespace Ecommerce\Livewire\Dashboard\Cart;
+namespace Eshop\Livewire\Dashboard\Cart;
 
-use Ecommerce\Exports\CartsExport;
-use Ecommerce\Models\Cart\Cart;
-use Ecommerce\Models\Cart\CartStatus;
-use Ecommerce\Models\Location\PaymentMethod;
-use Ecommerce\Models\Location\ShippingMethod;
-use Ecommerce\Repository\Contracts\CartContract;
+use Eshop\Exports\CartsExport;
+use Eshop\Models\Cart\Cart;
+use Eshop\Models\Cart\CartStatus;
+use Eshop\Models\Location\PaymentMethod;
+use Eshop\Models\Location\ShippingMethod;
+use Eshop\Repository\Contracts\CartContract;
 use Firebed\Livewire\Traits\Datatable\DeletesRows;
 use Firebed\Livewire\Traits\Datatable\WithExports;
 use Firebed\Livewire\Traits\Datatable\WithSelections;

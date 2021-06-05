@@ -1,13 +1,13 @@
 <?php
 
-namespace Ecommerce\Listeners;
+namespace Eshop\Listeners;
 
-use Ecommerce\Events\CartStatusChanged;
-use Ecommerce\Notifications\OrderCancelledNotification;
-use Ecommerce\Notifications\OrderHeldNotification;
-use Ecommerce\Notifications\OrderRejectedNotification;
-use Ecommerce\Notifications\OrderShippedNotification;
-use Ecommerce\Notifications\OrderSubmittedNotification;
+use Eshop\Events\CartStatusChanged;
+use Eshop\Notifications\OrderCancelledNotification;
+use Eshop\Notifications\OrderHeldNotification;
+use Eshop\Notifications\OrderRejectedNotification;
+use Eshop\Notifications\OrderShippedNotification;
+use Eshop\Notifications\OrderSubmittedNotification;
 use Illuminate\Support\Facades\Notification;
 
 class SendCartStatusChangedNotification

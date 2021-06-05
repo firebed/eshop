@@ -1,8 +1,8 @@
 <?php
 
-namespace Ecommerce\Controllers\Customer\Checkout;
+namespace Eshop\Controllers\Customer\Checkout;
 
-use Ecommerce\Controllers\Controller;
+use Eshop\Controllers\Controller;
 use Illuminate\Contracts\Auth\StatefulGuard;
 use Illuminate\Http\RedirectResponse;
 use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;

@@ -1,8 +1,8 @@
 <?php
 
-namespace Ecommerce\Controllers\Customer\Checkout;
+namespace Eshop\Controllers\Customer\Checkout;
 
-use Ecommerce\Controllers\Controller;
+use Eshop\Controllers\Controller;
 use Illuminate\View\View;
 
 class CheckoutProductController extends Controller

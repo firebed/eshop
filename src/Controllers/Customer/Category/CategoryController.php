@@ -1,14 +1,14 @@
 <?php
 
-namespace Ecommerce\Controllers\Customer\Category;
+namespace Eshop\Controllers\Customer\Category;
 
-use Ecommerce\Requests\Customer\CustomerCategoryRequest;
-use Ecommerce\Models\Product\Category;
-use Ecommerce\Controllers\Customer\Category\Traits\ValidatesCategoryUrl;
+use Eshop\Requests\Customer\CustomerCategoryRequest;
+use Eshop\Models\Product\Category;
+use Eshop\Controllers\Customer\Category\Traits\ValidatesCategoryUrl;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\RedirectResponse;
-use Ecommerce\Controllers\Controller;
+use Eshop\Controllers\Controller;
 use Illuminate\Support\Collection;
 
 class CategoryController extends Controller

@@ -1,8 +1,8 @@
 <?php
 
-namespace Ecommerce\Database\Factories\Location;
+namespace Eshop\Database\Factories\Location;
 
-use Ecommerce\Models\Location\CountryShippingMethod;
+use Eshop\Models\Location\CountryShippingMethod;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class CountryShippingMethodFactory extends Factory

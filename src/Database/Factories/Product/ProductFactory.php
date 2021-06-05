@@ -1,10 +1,10 @@
 <?php
 
-namespace Ecommerce\Database\Factories\Product;
+namespace Eshop\Database\Factories\Product;
 
-use Ecommerce\Models\Product\Category;
-use Ecommerce\Models\Product\Product;
-use Ecommerce\Models\Product\Vat;
+use Eshop\Models\Product\Category;
+use Eshop\Models\Product\Product;
+use Eshop\Models\Product\Vat;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class ProductFactory extends Factory

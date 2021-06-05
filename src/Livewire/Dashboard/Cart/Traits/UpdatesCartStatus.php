@@ -1,12 +1,12 @@
 <?php
 
 
-namespace Ecommerce\Livewire\Dashboard\Cart\Traits;
+namespace Eshop\Livewire\Dashboard\Cart\Traits;
 
 
-use Ecommerce\Livewire\Traits\TrimStrings;
-use Ecommerce\Models\Cart\CartStatus;
-use Ecommerce\Repository\Contracts\CartContract;
+use Eshop\Livewire\Traits\TrimStrings;
+use Eshop\Models\Cart\CartStatus;
+use Eshop\Repository\Contracts\CartContract;
 use Illuminate\Support\Facades\DB;
 
 trait UpdatesCartStatus

@@ -1,14 +1,14 @@
 <?php
 
 
-namespace Ecommerce\Livewire\Dashboard\Cart;
+namespace Eshop\Livewire\Dashboard\Cart;
 
 
-use Ecommerce\Livewire\Dashboard\Cart\Traits\AppliesBulkDiscount;
-use Ecommerce\Livewire\Traits\TrimStrings;
-use Ecommerce\Models\Cart\Cart;
-use Ecommerce\Models\Cart\CartProduct;
-use Ecommerce\Repository\Contracts\CartContract;
+use Eshop\Livewire\Dashboard\Cart\Traits\AppliesBulkDiscount;
+use Eshop\Livewire\Traits\TrimStrings;
+use Eshop\Models\Cart\Cart;
+use Eshop\Models\Cart\CartProduct;
+use Eshop\Repository\Contracts\CartContract;
 use Firebed\Livewire\Traits\Datatable\DeletesRows;
 use Firebed\Livewire\Traits\Datatable\WithCRUD;
 use Firebed\Livewire\Traits\Datatable\WithSelections;

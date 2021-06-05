@@ -1,8 +1,8 @@
 <?php
 
-namespace Ecommerce\Database\Factories\Product;
+namespace Eshop\Database\Factories\Product;
 
-use Ecommerce\Models\Product\Category;
+use Eshop\Models\Product\Category;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class CategoryFactory extends Factory

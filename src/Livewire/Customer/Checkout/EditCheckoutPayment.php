@@ -1,13 +1,13 @@
 <?php
 
 
-namespace Ecommerce\Livewire\Customer\Checkout;
+namespace Eshop\Livewire\Customer\Checkout;
 
 
-use Ecommerce\Livewire\Customer\Checkout\Concerns\ControlsOrder;
-use Ecommerce\Livewire\Customer\Checkout\Concerns\PayPalCheckout;
-use Ecommerce\Livewire\Customer\Checkout\Concerns\StripeCheckout;
-use Ecommerce\Repository\Contracts\Order;
+use Eshop\Livewire\Customer\Checkout\Concerns\ControlsOrder;
+use Eshop\Livewire\Customer\Checkout\Concerns\PayPalCheckout;
+use Eshop\Livewire\Customer\Checkout\Concerns\StripeCheckout;
+use Eshop\Repository\Contracts\Order;
 use Firebed\Livewire\Traits\SendsNotifications;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Database\Eloquent\Collection;

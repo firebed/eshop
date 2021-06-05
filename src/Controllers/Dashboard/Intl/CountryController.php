@@ -1,8 +1,8 @@
 <?php
 
-namespace Ecommerce\Controllers\Dashboard\Intl;
+namespace Eshop\Controllers\Dashboard\Intl;
 
-use Ecommerce\Controllers\Controller;
+use Eshop\Controllers\Controller;
 use Illuminate\Contracts\Support\Renderable;
 
 class CountryController extends Controller

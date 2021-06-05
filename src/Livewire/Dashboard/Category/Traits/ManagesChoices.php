@@ -1,11 +1,11 @@
 <?php
 
 
-namespace Ecommerce\Livewire\Dashboard\Category\Traits;
+namespace Eshop\Livewire\Dashboard\Category\Traits;
 
 
-use Ecommerce\Models\Product\CategoryChoice;
-use Ecommerce\Models\Product\CategoryProperty;
+use Eshop\Models\Product\CategoryChoice;
+use Eshop\Models\Product\CategoryProperty;
 use Illuminate\Support\Facades\DB;
 
 trait ManagesChoices

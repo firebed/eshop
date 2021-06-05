@@ -1,8 +1,8 @@
 <?php
 
-namespace Ecommerce\Models\Product;
+namespace Eshop\Models\Product;
 
-use Ecommerce\Models\Lang\Traits\HasTranslations;
+use Eshop\Models\Lang\Traits\HasTranslations;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;

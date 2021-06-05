@@ -1,15 +1,15 @@
 <?php
 
 
-namespace Ecommerce\Repository;
+namespace Eshop\Repository;
 
 
-use Ecommerce\Events\CartStatusChanged;
-use Ecommerce\Models\Cart\Cart;
-use Ecommerce\Models\Cart\CartProduct;
-use Ecommerce\Models\Cart\CartStatus;
-use Ecommerce\Models\Product\Product;
-use Ecommerce\Repository\Contracts\CartContract;
+use Eshop\Events\CartStatusChanged;
+use Eshop\Models\Cart\Cart;
+use Eshop\Models\Cart\CartProduct;
+use Eshop\Models\Cart\CartStatus;
+use Eshop\Models\Product\Product;
+use Eshop\Repository\Contracts\CartContract;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 

@@ -1,8 +1,8 @@
 <?php
 
-namespace Ecommerce\Exports;
+namespace Eshop\Exports;
 
-use Ecommerce\Models\Cart\Cart;
+use Eshop\Models\Cart\Cart;
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;

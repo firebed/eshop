@@ -1,12 +1,12 @@
 <?php
 
 
-namespace Ecommerce\Models\Cart\Concerns;
+namespace Eshop\Models\Cart\Concerns;
 
 
-use Ecommerce\Models\Location\Address;
-use Ecommerce\Models\Location\Country;
-use Ecommerce\Models\Product\Product;
+use Eshop\Models\Location\Address;
+use Eshop\Models\Location\Country;
+use Eshop\Models\Product\Product;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;

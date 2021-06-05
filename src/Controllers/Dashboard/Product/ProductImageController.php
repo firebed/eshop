@@ -1,8 +1,8 @@
 <?php
 
-namespace Ecommerce\Controllers\Dashboard\Product;
+namespace Eshop\Controllers\Dashboard\Product;
 
-use Ecommerce\Controllers\Controller;
+use Eshop\Controllers\Controller;
 use Illuminate\Contracts\Support\Renderable;
 
 class ProductImageController extends Controller

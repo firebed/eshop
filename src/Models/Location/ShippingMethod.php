@@ -1,6 +1,6 @@
 <?php
 
-namespace Ecommerce\Models\Location;
+namespace Eshop\Models\Location;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;

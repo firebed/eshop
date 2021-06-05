@@ -1,8 +1,8 @@
 <?php
 
-namespace Ecommerce\Notifications;
+namespace Eshop\Notifications;
 
-use Ecommerce\Models\Cart\Cart;
+use Eshop\Models\Cart\Cart;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;

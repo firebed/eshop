@@ -1,8 +1,8 @@
 <?php
 
-namespace Ecommerce\Database\Factories\Location;
+namespace Eshop\Database\Factories\Location;
 
-use Ecommerce\Models\Location\PaymentMethod;
+use Eshop\Models\Location\PaymentMethod;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class PaymentMethodFactory extends Factory

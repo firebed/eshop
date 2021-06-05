@@ -1,9 +1,9 @@
 <?php
 
-namespace Ecommerce\Controllers\Dashboard\Product;
+namespace Eshop\Controllers\Dashboard\Product;
 
-use Ecommerce\Models\Product\Category;
-use Ecommerce\Controllers\Controller;
+use Eshop\Models\Product\Category;
+use Eshop\Controllers\Controller;
 use Illuminate\View\View;
 
 class CategoryController extends Controller

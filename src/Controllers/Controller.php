@@ -1,6 +1,6 @@
 <?php
 
-namespace Ecommerce\Controllers;
+namespace Eshop\Controllers;
 
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;

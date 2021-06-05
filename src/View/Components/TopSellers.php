@@ -1,8 +1,8 @@
 <?php
 
-namespace Ecommerce\View\Components;
+namespace Eshop\View\Components;
 
-use Ecommerce\Models\Product\TopSeller;
+use Eshop\Models\Product\TopSeller;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Support\Collection;
 use Illuminate\View\Component;

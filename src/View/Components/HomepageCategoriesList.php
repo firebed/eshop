@@ -1,8 +1,8 @@
 <?php
 
-namespace Ecommerce\View\Components;
+namespace Eshop\View\Components;
 
-use Ecommerce\Models\Product\Category;
+use Eshop\Models\Product\Category;
 use Illuminate\Support\Collection;
 use Illuminate\View\Component;
 use Illuminate\View\View;

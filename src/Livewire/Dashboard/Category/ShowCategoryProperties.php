@@ -1,14 +1,14 @@
 <?php
 
 
-namespace Ecommerce\Livewire\Dashboard\Category;
+namespace Eshop\Livewire\Dashboard\Category;
 
 
-use Ecommerce\Livewire\Dashboard\Category\Traits\HasBreadcrumbs;
-use Ecommerce\Livewire\Dashboard\Category\Traits\ManagesChoices;
-use Ecommerce\Models\Product\Category;
-use Ecommerce\Models\Product\CategoryProperty;
-use Ecommerce\Services\SlugGenerator;
+use Eshop\Livewire\Dashboard\Category\Traits\HasBreadcrumbs;
+use Eshop\Livewire\Dashboard\Category\Traits\ManagesChoices;
+use Eshop\Models\Product\Category;
+use Eshop\Models\Product\CategoryProperty;
+use Eshop\Services\SlugGenerator;
 use Firebed\Livewire\Traits\Datatable\DeletesRows;
 use Firebed\Livewire\Traits\Datatable\UpdatesPositioning;
 use Firebed\Livewire\Traits\Datatable\WithSelections;

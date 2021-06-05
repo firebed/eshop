@@ -1,13 +1,13 @@
 <?php
 
 
-namespace Ecommerce\Livewire\Customer\Product;
+namespace Eshop\Livewire\Customer\Product;
 
 
-use Ecommerce\Livewire\Customer\Checkout\Concerns\ControlsOrder;
-use Ecommerce\Models\Product\Category;
-use Ecommerce\Models\Product\Product;
-use Ecommerce\Repository\Contracts\Order;
+use Eshop\Livewire\Customer\Checkout\Concerns\ControlsOrder;
+use Eshop\Models\Product\Category;
+use Eshop\Models\Product\Product;
+use Eshop\Repository\Contracts\Order;
 use Firebed\Livewire\Traits\SendsNotifications;
 use Illuminate\Contracts\Support\Renderable;
 use Livewire\Component;

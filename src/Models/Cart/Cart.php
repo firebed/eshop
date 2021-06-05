@@ -1,16 +1,16 @@
 <?php
 
-namespace Ecommerce\Models\Cart;
+namespace Eshop\Models\Cart;
 
-use Ecommerce\Models\Invoice\Invoice;
-use Ecommerce\Models\Location\Address;
-use Ecommerce\Models\Location\PaymentMethod;
-use Ecommerce\Models\Location\ShippingMethod;
-use Ecommerce\Models\Product\Product;
-use Ecommerce\Models\User;
-use Ecommerce\Repository\Contracts\Order;
+use Eshop\Models\Invoice\Invoice;
+use Eshop\Models\Location\Address;
+use Eshop\Models\Location\PaymentMethod;
+use Eshop\Models\Location\ShippingMethod;
+use Eshop\Models\Product\Product;
+use Eshop\Models\User;
+use Eshop\Repository\Contracts\Order;
 use Carbon\Carbon;
-use Ecommerce\Models\Cart\Concerns\ImplementsOrder;
+use Eshop\Models\Cart\Concerns\ImplementsOrder;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;

@@ -1,11 +1,11 @@
 <?php
 
 
-namespace Ecommerce\Livewire\Customer\Checkout\Concerns;
+namespace Eshop\Livewire\Customer\Checkout\Concerns;
 
 
-use Ecommerce\Models\Product\Product;
-use Ecommerce\Repository\Contracts\Order;
+use Eshop\Models\Product\Product;
+use Eshop\Repository\Contracts\Order;
 
 trait ControlsOrder
 {

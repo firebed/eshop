@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Ecommerce\Livewire\Dashboard\Category\Traits;
+namespace Eshop\Livewire\Dashboard\Category\Traits;
 
 
 use Illuminate\Database\Eloquent\Collection;

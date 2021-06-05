@@ -1,6 +1,6 @@
 <?php
 
-namespace Ecommerce\Models\Cart;
+namespace Eshop\Models\Cart;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;

@@ -1,9 +1,9 @@
 <?php
 
-namespace Ecommerce\Controllers\Dashboard;
+namespace Eshop\Controllers\Dashboard;
 
-use Ecommerce\Models\User;
-use Ecommerce\Controllers\Controller;
+use Eshop\Models\User;
+use Eshop\Controllers\Controller;
 use Illuminate\View\View;
 
 class UserController extends Controller

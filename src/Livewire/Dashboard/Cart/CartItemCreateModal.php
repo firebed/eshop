@@ -1,11 +1,11 @@
 <?php
 
-namespace Ecommerce\Livewire\Dashboard\Cart;
+namespace Eshop\Livewire\Dashboard\Cart;
 
-use Ecommerce\Models\Cart\CartProduct;
-use Ecommerce\Models\Product\Category;
-use Ecommerce\Models\Product\Product;
-use Ecommerce\Repository\Contracts\CartContract;
+use Eshop\Models\Cart\CartProduct;
+use Eshop\Models\Product\Category;
+use Eshop\Models\Product\Product;
+use Eshop\Repository\Contracts\CartContract;
 use Firebed\Livewire\Traits\Datatable\WithCRUD;
 use Firebed\Livewire\Traits\SendsNotifications;
 use Illuminate\Support\Facades\DB;

@@ -1,8 +1,8 @@
 <?php
 
-namespace Ecommerce\Mail;
+namespace Eshop\Mail;
 
-use Ecommerce\Models\Cart\Cart;
+use Eshop\Models\Cart\Cart;
 use Illuminate\Mail\Mailable;
 
 class OrderShippedMail extends Mailable

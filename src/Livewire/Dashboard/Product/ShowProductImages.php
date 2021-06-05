@@ -1,11 +1,11 @@
 <?php
 
 
-namespace Ecommerce\Livewire\Dashboard\Product;
+namespace Eshop\Livewire\Dashboard\Product;
 
 
-use Ecommerce\Models\Media\Image;
-use Ecommerce\Models\Product\Product;
+use Eshop\Models\Media\Image;
+use Eshop\Models\Product\Product;
 use Firebed\Livewire\Traits\SendsNotifications;
 use Illuminate\Contracts\Support\Renderable;
 use Livewire\Component;

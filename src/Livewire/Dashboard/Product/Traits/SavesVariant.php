@@ -1,10 +1,10 @@
 <?php
 
 
-namespace Ecommerce\Livewire\Dashboard\Product\Traits;
+namespace Eshop\Livewire\Dashboard\Product\Traits;
 
 
-use Ecommerce\Models\Product\Product;
+use Eshop\Models\Product\Product;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 

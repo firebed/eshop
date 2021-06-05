@@ -1,11 +1,11 @@
 <?php
 
 
-namespace Ecommerce\Livewire\Dashboard\Product\Traits;
+namespace Eshop\Livewire\Dashboard\Product\Traits;
 
 
-use Ecommerce\Models\Product\Product;
-use Ecommerce\Models\Product\Vat;
+use Eshop\Models\Product\Product;
+use Eshop\Models\Product\Vat;
 
 trait CreatesEmptyProduct
 {

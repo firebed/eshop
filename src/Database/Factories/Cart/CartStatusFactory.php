@@ -1,8 +1,8 @@
 <?php
 
-namespace Ecommerce\Database\Factories\Cart;
+namespace Eshop\Database\Factories\Cart;
 
-use Ecommerce\Models\Cart\CartStatus;
+use Eshop\Models\Cart\CartStatus;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class CartStatusFactory extends Factory

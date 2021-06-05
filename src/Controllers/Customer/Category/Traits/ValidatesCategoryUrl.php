@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Ecommerce\Controllers\Customer\Category\Traits;
+namespace Eshop\Controllers\Customer\Category\Traits;
 
 
 use Illuminate\Support\Collection;

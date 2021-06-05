@@ -1,8 +1,8 @@
 <?php
 
-namespace Ecommerce\Models\Location;
+namespace Eshop\Models\Location;
 
-use Ecommerce\Models\Lang\Traits\FullTextIndex;
+use Eshop\Models\Lang\Traits\FullTextIndex;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;

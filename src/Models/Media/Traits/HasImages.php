@@ -1,8 +1,8 @@
 <?php
 
-namespace Ecommerce\Models\Media\Traits;
+namespace Eshop\Models\Media\Traits;
 
-use Ecommerce\Models\Media\Image;
+use Eshop\Models\Media\Image;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\SoftDeletes;

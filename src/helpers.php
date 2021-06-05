@@ -1,7 +1,7 @@
 <?php
 
-use Ecommerce\Models\User;
-use Ecommerce\Services\SlugGenerator;
+use Eshop\Models\User;
+use Eshop\Services\SlugGenerator;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
 

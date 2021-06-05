@@ -1,8 +1,8 @@
 <?php
 
-namespace Ecommerce\Models\Invoice;
+namespace Eshop\Models\Invoice;
 
-use Ecommerce\Models\Location\Address;
+use Eshop\Models\Location\Address;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;

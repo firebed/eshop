@@ -1,11 +1,11 @@
 <?php
 
-namespace Ecommerce\Controllers\Customer\Product;
+namespace Eshop\Controllers\Customer\Product;
 
-use Ecommerce\Models\Product\Category;
-use Ecommerce\Models\Product\Product;
-use Ecommerce\Repository\Contracts\Order;
-use Ecommerce\Controllers\Controller;
+use Eshop\Models\Product\Category;
+use Eshop\Models\Product\Product;
+use Eshop\Repository\Contracts\Order;
+use Eshop\Controllers\Controller;
 use Illuminate\Contracts\Support\Renderable;
 
 class ProductController extends Controller

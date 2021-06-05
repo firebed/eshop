@@ -1,8 +1,8 @@
 <?php
 
-namespace Ecommerce\Livewire\Dashboard\Cart;
+namespace Eshop\Livewire\Dashboard\Cart;
 
-use Ecommerce\Models\Cart\CartStatus;
+use Eshop\Models\Cart\CartStatus;
 use Illuminate\View\View;
 use Livewire\Component;
 

@@ -1,10 +1,10 @@
 <?php
 
-namespace Ecommerce\Livewire\Dashboard\Cart;
+namespace Eshop\Livewire\Dashboard\Cart;
 
-use Ecommerce\Livewire\Traits\TrimStrings;
-use Ecommerce\Models\Cart\Cart;
-use Ecommerce\Models\Cart\DocumentType;
+use Eshop\Livewire\Traits\TrimStrings;
+use Eshop\Models\Cart\Cart;
+use Eshop\Models\Cart\DocumentType;
 use Firebed\Livewire\Traits\SendsNotifications;
 use Illuminate\Contracts\Support\Renderable;
 use Livewire\Component;

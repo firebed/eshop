@@ -1,9 +1,9 @@
 <?php
 
-namespace Ecommerce\Listeners;
+namespace Eshop\Listeners;
 
 
-use Ecommerce\Models\Cart\Cart;
+use Eshop\Models\Cart\Cart;
 use Illuminate\Database\Eloquent\Model;
 
 class MergeCustomerCarts

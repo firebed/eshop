@@ -5,8 +5,8 @@
             <x-bs::input.group for="type" label="{{ __('Type') }}" labelCol="3" inline>
                 <x-bs::input.select wire:model="editing.type">
                     <option value="" disabled>{{ __('Select type') }}</option>
-                    <option value="{{ \Ecommerce\Models\Product\Category::FILE }}">{{ __('Category') }}</option>
-                    <option value="{{ \Ecommerce\Models\Product\Category::FOLDER }}" >{{ __('Category group') }}</option>
+                    <option value="{{ \Eshop\Models\Product\Category::FILE }}">{{ __('Category') }}</option>
+                    <option value="{{ \Eshop\Models\Product\Category::FOLDER }}" >{{ __('Category group') }}</option>
                 </x-bs::input.select>
             </x-bs::input.group>
 

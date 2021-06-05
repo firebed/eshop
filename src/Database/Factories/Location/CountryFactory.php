@@ -1,8 +1,8 @@
 <?php
 
-namespace Ecommerce\Database\Factories\Location;
+namespace Eshop\Database\Factories\Location;
 
-use Ecommerce\Models\Location\Country;
+use Eshop\Models\Location\Country;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class CountryFactory extends Factory

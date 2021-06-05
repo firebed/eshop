@@ -1,13 +1,13 @@
 <?php
 
 
-namespace Ecommerce\Livewire\Dashboard\Product\Traits;
+namespace Eshop\Livewire\Dashboard\Product\Traits;
 
 
-use Ecommerce\Models\Product\Category;
-use Ecommerce\Models\Product\Manufacturer;
-use Ecommerce\Models\Product\Unit;
-use Ecommerce\Models\Product\Vat;
+use Eshop\Models\Product\Category;
+use Eshop\Models\Product\Manufacturer;
+use Eshop\Models\Product\Unit;
+use Eshop\Models\Product\Vat;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Support\Collection;
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace Ecommerce\Rules;
+namespace Eshop\Rules;
 
 use Illuminate\Contracts\Validation\Rule;
 

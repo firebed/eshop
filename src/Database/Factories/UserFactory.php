@@ -1,8 +1,8 @@
 <?php
 
-namespace Ecommerce\Database\Factories;
+namespace Eshop\Database\Factories;
 
-use Ecommerce\Models\User;
+use Eshop\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 

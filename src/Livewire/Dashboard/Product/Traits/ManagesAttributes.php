@@ -1,10 +1,10 @@
 <?php
 
 
-namespace Ecommerce\Livewire\Dashboard\Product\Traits;
+namespace Eshop\Livewire\Dashboard\Product\Traits;
 
 
-use Ecommerce\Models\Product\CategoryProperty;
+use Eshop\Models\Product\CategoryProperty;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;

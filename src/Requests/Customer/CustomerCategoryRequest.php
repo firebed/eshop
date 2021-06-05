@@ -1,9 +1,9 @@
 <?php
 
-namespace Ecommerce\Requests\Customer;
+namespace Eshop\Requests\Customer;
 
-use Ecommerce\Models\Product\CategoryChoice;
-use Ecommerce\Models\Product\Manufacturer;
+use Eshop\Models\Product\CategoryChoice;
+use Eshop\Models\Product\Manufacturer;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Collection;
 
