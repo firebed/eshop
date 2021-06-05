@@ -1,5 +1,6 @@
 <?php
 
+use Eshop\Models\Product\Product;
 use Eshop\Models\User;
 use Eshop\Services\SlugGenerator;
 use Illuminate\Support\Collection;
@@ -54,6 +55,13 @@ if (!function_exists('slugify')) {
     function slugify($strings, $separator = '-'): string
     {
         return SlugGenerator::getSlug(implode($separator, is_array($strings) ? array_filter($strings) : [$strings]), $separator);
+    }
+}
+
+if (!function_exists('productRoute')) {
+    function productRoute(Product $product): string
+    {
+        return route('customer.products.show', [app()->getLocale(), $product->category->slug, $product->slug]);
     }
 }
 

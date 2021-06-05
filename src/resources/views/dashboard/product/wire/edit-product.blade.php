@@ -15,7 +15,7 @@
 
     <div class="d-flex">
         @if(Route::has('customer.products.show'))
-            <a href="{{ route('customer.products.show') }}" class="text-secondary text-decoration-none me-4"><i class="fa fa-eye"></i> {{ __("View") }}</a>
+            <a href="{{ productRoute($product) }}" class="text-secondary text-decoration-none me-4"><i class="fa fa-eye"></i> {{ __("View") }}</a>
         @endif
 
         <a href="#" class="text-secondary text-decoration-none me-4"><i class="fa fa-chart-bar"></i> {{ __("Analytics") }}</a>

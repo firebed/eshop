@@ -5,6 +5,7 @@ namespace Eshop\Livewire\Dashboard\Product\Traits;
 
 
 use Eshop\Models\Product\Product;
+use Eshop\Models\Product\Unit;
 use Eshop\Models\Product\Vat;
 
 trait CreatesEmptyProduct
@@ -19,6 +20,7 @@ trait CreatesEmptyProduct
         $product->manufacturer_id = "";
         $product->unit_id = "";
         $product->vat = Vat::standard()->regime;
+        $product->unit()->associate(Unit::firstWhere('name', 'Piece'));
         $product->discount = 0;
         $product->price = 0;
         $product->compare_price = 0;

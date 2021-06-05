@@ -14,7 +14,7 @@
                 <x-bs::input.percentage wire:model.defer="product.discount" id="discount" error="product.discount"/>
             </x-bs::input.group>
 
-            <x-bs::input.group for="vat" label="{{ __('Vat') }}" class="col-4">
+            <x-bs::input.group for="vat" label="{{ __('Vat') }}" class="col-12">
                 <x-bs::input.select wire:model.defer="product.vat" id="vat" error="product.vat">
                     <option value="" disabled>{{ __('Select vat') }}</option>
                     @foreach($vats as $vat)

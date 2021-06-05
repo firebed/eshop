@@ -11,7 +11,7 @@
   "require": {
     "php": "^8.0",
     "barryvdh/laravel-dompdf": "^0.9.0",
-    "firebed/bootstrap-components": "dev-master#552a5b1c",
+    "firebed/bootstrap-components": "dev-master",
     "intervention/image": "^2.5",
     "laravel/cashier": "^12.13",
     "maatwebsite/excel": "^3.1",
