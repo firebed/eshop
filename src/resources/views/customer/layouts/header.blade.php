@@ -71,7 +71,7 @@
     <div class="container">
         <div class="row align-items-center">
             <a href="{{ route('home', app()->getLocale()) }}" class="col-3">
-                <img class="img-fluid" src="https://handmadenimata.gr/src/icons/logo.png" alt="{{ config('app.name') }}" height="104" width="200">
+                <img class="img-fluid" src="{{ config('ecommerce.logo') }}" alt="{{ config('app.name') }}" height="104" width="200">
             </a>
 
             <div class="col">
