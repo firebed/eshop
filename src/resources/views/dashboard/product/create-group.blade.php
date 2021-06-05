@@ -10,5 +10,5 @@
 @endpush
 
 @section('main')
-    @livewire('dashboard.product.create-product-group')
+    <livewire:dashboard.product.create-product-group/>
 @endsection

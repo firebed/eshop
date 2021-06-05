@@ -10,5 +10,5 @@
 @endpush
 
 @section('main')
-    @livewire('dashboard.product.edit-product-group', compact('product'))
+    <livewire:dashboard.product.edit-product-group :product="$product"/>
 @endsection
