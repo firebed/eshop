@@ -13,6 +13,7 @@ use Eshop\Controllers\Dashboard\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['web', 'auth'])->group(function () {
+    Route::get('dashboard/categories/{category}', [CategoryController::class, 'show'])->name('categories.show');
     Route::prefix('dashboard')->group(function () {
         Route::get('products/create-group', [ProductController::class, 'createGroup'])->name('products.create-group');
 
@@ -26,7 +27,6 @@ Route::middleware(['web', 'auth'])->group(function () {
 //        Route::view('categories/properties/{property}/choices', 'eshop::dashboard.category.choices')->name('categories.properties.choices.index');
 //        Route::resource('categories', CategoryController::class)->only('index', 'show');
 //        Route::get('categories', [CategoryController::class, 'index'])->name('categories.index');
-        Route::get('categories/{category}', [CategoryController::class, 'show'])->name('categories.show');
 
         Route::resource('countries', CountryController::class)->only('index');
         Route::resource('shipping-methods', ShippingMethodController::class)->only('index');
