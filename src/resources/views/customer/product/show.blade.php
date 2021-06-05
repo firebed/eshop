@@ -1,7 +1,7 @@
 @extends('customer.layouts.master', ['title' =>  implode(' | ', [$product->title, $product->manufacturer->name ?? NULL])])
 
 @section('main')
-    <x-eshop-category-breadcrumb :category="$category"/>
+    <x-eshop::category-breadcrumb :category="$category"/>
 
     <div class="container-fluid bg-white py-5">
         <div class="container">

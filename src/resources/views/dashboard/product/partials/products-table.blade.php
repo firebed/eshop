@@ -39,12 +39,14 @@
             <td>@if($product->has_variants) {{ format_number($product->variants_sum_stock) }} @else {{ format_number($product->stock) }} @endif</td>
             <td>@if($product->has_variants){{ $product->variants_count }}@endif</td>
             <td>
-                @if($product->has_variants && $product->variants_min_price === $product->variants_max_price)
-                    {{ format_currency($product->variants_min_price) }}
-                @elseif($product->has_variants)
-                    {{ format_currency($product->variants_min_price) }} - {{ format_currency($product->variants_max_price) }}
+                @if($product->has_variants)
+                    @if($product->variants_min_price === $product->variants_max_price)
+                        {{ format_currency($product->variants_min_price) }}
+                    @else($product->has_variants)
+                        {{ format_currency($product->variants_min_price) }} - {{ format_currency($product->variants_max_price) }}
+                    @endif
                 @else
-                    {{ format_currency(0) }}
+                    {{ format_currency($product->price) }}
                 @endif
             </td>
             <td>{{ $product->created_at->format('d/m/y') }}</td>
