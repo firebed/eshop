@@ -104,24 +104,9 @@
         </button>
         <div class="collapse navbar-collapse" id="navbar">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link active h6 mb-0 ps-lg-0" aria-current="page" href="{{ route('home', app()->getLocale()) }}">{{ __("Home") }}</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link active h6 mb-0 px-lg-3" href="{{ route('customer.categories.show', [app()->getLocale(), 'nimata-alize']) }}">{{ __("Yarns Alize") }}</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link active h6 mb-0 px-lg-3" href="{{ route("customer.categories.show", [app()->getLocale(), 'ergaleia-plektikis']) }}">{{ __("Knitting tools") }}</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link active h6 mb-0 px-lg-3" href="{{ route('customer.categories.show', [app()->getLocale(), 'nimata-gia-tsantes']) }}">{{ __("Yarns for bags") }}</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link active h6 mb-0 px-lg-3" href="{{ route("customer.categories.show", [app()->getLocale(), 'ylika-gia-tsantes']) }}">{{ __("Bag accessories") }}</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link active h6 mb-0 px-lg-3" href="{{ route('customer.categories.show', [app()->getLocale(), 'ylika-gia-kosmimata']) }}">{{ __("Jewelry accessories")}}</a>
-                </li>
+{{--                <li class="nav-item">--}}
+{{--                    <a class="nav-link active h6 mb-0 ps-lg-0" aria-current="page" href="{{ route('home', app()->getLocale()) }}">{{ __("Home") }}</a>--}}
+{{--                </li>--}}
             </ul>
             <div class="d-flex">
                 <a href="#" class="btn btn-sm btn-outline-primary rounded-pill">{{ __("Track your order") }}</a>
