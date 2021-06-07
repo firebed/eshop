@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     app()->setLocale(config('app.locale'));
-    return view('homepage.index');
+    return view('eshop::customer.homepage.index');
 });
 
 // Global routes
@@ -22,11 +22,11 @@ Route::group([
     'where' => ['lang' => 'el|en']
 ],
     function () {
-        Route::view('/', 'customer.homepage.index')->name('home');
+        Route::view('/', 'eshop::customer.homepage.index')->name('home');
 
-        Route::view('/account/profile', 'customer.account.profile.edit')->name('account.profile.edit');
-        Route::view('/account/orders', 'customer.account.orders.index')->name('account.orders.index');
-        Route::view('/account/orders/{order}', 'customer.account.orders.show')->name('account.orders.show');
+        Route::view('/account/profile', 'eshop::customer.account.profile.edit')->name('account.profile.edit');
+        Route::view('/account/orders', 'eshop::customer.account.orders.index')->name('account.orders.index');
+        Route::view('/account/orders/{order}', 'eshop::customer.account.orders.show')->name('account.orders.show');
 
         Route::as('checkout.')->group(function () {
             Route::get('cart', CheckoutProductController::class)->name('products.index');
