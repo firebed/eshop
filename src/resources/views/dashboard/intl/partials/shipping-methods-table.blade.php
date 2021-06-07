@@ -50,6 +50,6 @@
     </tbody>
 
     <caption>
-        <x-eshop::pagination :paginator="$paymentMethods"/>
+        <x-eshop::pagination :paginator="$shippingMethods"/>
     </caption>
 </x-bs::table>
