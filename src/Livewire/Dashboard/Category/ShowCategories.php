@@ -164,7 +164,7 @@ class ShowCategories extends Component
 
     protected function getModels(): Collection
     {
-        return $this->categories;
+        return collect($this->categories->items());
     }
 
     public function render(): View
