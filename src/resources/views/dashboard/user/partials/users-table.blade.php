@@ -16,7 +16,7 @@
         </thead>
 
         <tbody>
-        @foreach($users as $user)
+        @forelse($users as $user)
             <tr wire:key="cat-{{ $user->id }}">
                 <td>
                     <x-bs::input.checkbox wire:model.defer="selected" id="category-{{ $user->id }}" value="{{ $user->id }}"/>
@@ -29,14 +29,15 @@
                 <td>{{ format_number($user->carts_count) }}</td>
                 <td>{{ format_currency($user->carts_sum_total) }}</td>
             </tr>
-        @endforeach
+        @empty
+            <tr>
+                <td colspan="9" class="text-center py-4 fst-italic text-secondary">{{ __('No records found') }}</td>
+            </tr>
+        @endforelse
         </tbody>
 
         <caption>
-            <div class="d-flex justify-content-between align-items-center px-2">
-                <div class="small">{{ __('pagination.showing', ['first' => $users->firstItem() ?? 0, 'last' => $users->lastItem() ?? 0, 'total' => $users->total()]) }}</div>
-                {{ $users->onEachSide(1)->links() }}
-            </div>
+            <x-eshop::pagination :paginator="$users"/>
         </caption>
     </x-bs::table>
 </div>

@@ -34,7 +34,7 @@
     </thead>
 
     <tbody>
-    @foreach($carts as $cart)
+    @forelse($carts as $cart)
         <tr @unless($cart->isViewed()) class="fw-bold" @endunless wire:key="cart-row-{{ $cart->id }}">
             <td class="align-middle">
                 <x-bs::input.checkbox wire:model="selected" id="cart-{{ $cart->id }}" value="{{ $cart->id }}"/>
@@ -67,13 +67,14 @@
                 <a href="{{ route('carts.show', $cart) }}" class="d-block text-decoration-none text-dark">{{ $cart->submitted_at->isToday() ? $cart->submitted_at->format('H:i') : $cart->submitted_at->format('d/m/y')}}</a>
             </td>
         </tr>
-    @endforeach
+    @empty
+        <tr wire:key="no-records-found">
+            <td colspan="8" class="text-center py-4 fst-italic text-secondary">{{ __("No records found") }}</td>
+        </tr>
+    @endforelse
     </tbody>
 
     <caption>
-        <div class="d-flex justify-content-between align-items-center px-2">
-            <div class="small">{{ __('pagination.showing', ['first' => $carts->firstItem(), 'last' => $carts->lastItem(), 'total' => $carts->total()]) }}</div>
-            {{ $carts->onEachSide(1)->links() }}
-        </div>
+        <x-eshop::pagination :paginator="$carts"/>
     </caption>
 </x-bs::table>

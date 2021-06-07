@@ -2,7 +2,7 @@
     <thead>
     <tr class="table-light text-nowrap">
         <td class="w-1r rounded-top">
-            <x-bs::input.checkbox wire:model="selectAll" id="check-all" />
+            <x-bs::input.checkbox wire:model="selectAll" id="check-all"/>
         </td>
         <x-bs::table.heading sortable wire:click.prevent="sortBy('visible')" :direction="$sortField === 'visible' ? $sortDirection : null" class="w-6r">{{ __("Visible") }}</x-bs::table.heading>
         <x-bs::table.heading sortable wire:click.prevent="sortBy('position')" :direction="$sortField === 'position' ? $sortDirection : null">{{ __("Position") }}</x-bs::table.heading>
@@ -18,10 +18,10 @@
     </thead>
 
     <tbody>
-    @foreach($shippingMethods as $shippingMethod)
+    @forelse($shippingMethods as $shippingMethod)
         <tr wire:key="row-{{ $shippingMethod->id }}" @unless($shippingMethod->visible) class="text-gray-500" @endunless>
             <td class="align-middle">
-                <x-bs::input.checkbox wire:model="selected" value="{{ $shippingMethod->id }}" id="cb-{{ $shippingMethod->id }}" />
+                <x-bs::input.checkbox wire:model="selected" value="{{ $shippingMethod->id }}" id="cb-{{ $shippingMethod->id }}"/>
             </td>
             <td class="align-middle">
                 @if($shippingMethod->visible)
@@ -42,8 +42,14 @@
                 <a href="#" wire:click.prevent="edit({{ $shippingMethod->id }})" class="text-decoration-none">{{ __("Edit") }}</a>
             </td>
         </tr>
-    @endforeach
+    @empty
+        <tr>
+            <td colspan="9" class="text-center py-4 fst-italic text-secondary">{{ __('No records found') }}</td>
+        </tr>
+    @endforelse
     </tbody>
 
-    <caption class="px-2">{{ $shippingMethods->count() }} records</caption>
+    <caption>
+        <x-eshop::pagination :paginator="$paymentMethods"/>
+    </caption>
 </x-bs::table>

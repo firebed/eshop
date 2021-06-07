@@ -45,5 +45,7 @@
     @endforelse
     </tbody>
 
-    <caption class="px-2">{{ $paymentMethods->count() }} records</caption>
+    <caption>
+        <x-eshop::pagination :paginator="$paymentMethods"/>
+    </caption>
 </x-bs::table>

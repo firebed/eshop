@@ -16,7 +16,7 @@
     </thead>
 
     <tbody>
-    @foreach($products as $product)
+    @forelse($products as $product)
         <tr wire:key="row-{{ $product->id }}" wire:loading.class.delay="opacity-50" wire:target="sortBy, category, manufacturer, name">
             <td>
                 <x-bs::input.checkbox wire:model="selected" id="product-{{ $product->id}}" value="{{ $product->id }}"/>
@@ -51,14 +51,14 @@
             </td>
             <td>{{ $product->created_at->format('d/m/y') }}</td>
         </tr>
-    @endforeach
+    @empty
+        <tr wire:key="no-records-found">
+            <td colspan="8" class="text-center py-4 fst-italic text-secondary">{{ __("No records found") }}</td>
+        </tr>
+    @endforelse
     </tbody>
 
     <caption>
-        <div class="d-flex justify-content-between align-items-center px-2">
-            <div class="small">{{ __('pagination.showing', ['first' => $products->firstItem() ?? 0, 'last' => $products->lastItem() ?? 0, 'total' => $products->total()]) }}</div>
-
-            {{ $products->onEachSide(1)->links() }}
-        </div>
+        <x-eshop::pagination :paginator="$products"/>
     </caption>
 </x-bs::table>

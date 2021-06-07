@@ -12,7 +12,7 @@
     </thead>
 
     <tbody>
-    @foreach($countries as $country)
+    @forelse($countries as $country)
         <tr wire:key="row-{{ $country->code }}">
             <td class="align-middle">
                 <x-bs::input.checkbox wire:model="selected" value="{{ $country->code }}" id="cb-{{ $country->code }}"/>
@@ -32,9 +32,14 @@
                 <a href="#" wire:click.prevent="edit({{ $country->id }})" class="text-decoration-none">{{ __("Edit") }}</a>
             </td>
         </tr>
-    @endforeach
+    @empty
+        <tr wire:key="no-records-found">
+            <td colspan="8" class="text-center py-4 fst-italic text-secondary">{{ __("No records found") }}</td>
+        </tr>
+    @endforelse
     </tbody>
 
-    <caption><x-eshop::pagination :paginator="$countries"/>
+    <caption>
+        <x-eshop::pagination :paginator="$countries"/>
     </caption>
 </x-bs::table>
