@@ -16,7 +16,7 @@
                     <x-eshop-homepage-categories-list/>
                 </div>
                 <div class="col">
-                    @include('customer.homepage.partials.carousel')
+                    @include('eshop::customer.homepage.partials.carousel')
                 </div>
             </div>
 
