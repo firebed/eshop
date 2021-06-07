@@ -19,7 +19,7 @@ Route::get('/', function () {
 Route::group([
     'prefix'     => config('eshop.prefix'),
     'middleware' => config('eshop.middleware', ['web']),
-    'where' => ['lang' => 'el|en']
+    'where'      => ['lang' => 'el|en']
 ],
     function () {
         Route::view('/', 'eshop::customer.homepage.index')->name('home');
