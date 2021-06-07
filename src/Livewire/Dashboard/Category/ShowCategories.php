@@ -9,6 +9,7 @@ use Eshop\Services\SlugGenerator;
 use Firebed\Livewire\Traits\Datatable\DeletesRows;
 use Firebed\Livewire\Traits\Datatable\WithSelections;
 use Firebed\Livewire\Traits\SendsNotifications;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
@@ -28,10 +29,10 @@ class ShowCategories extends Component
     public           $image;
     public string    $name        = "";
     public string    $description = "";
-    public ?Category $category    = null;
+    public ?Category $category    = NULL;
     public Category  $editing;
 
-    public bool $showCategoryModal = false;
+    public bool $showCategoryModal = FALSE;
 
     protected function rules(): array
     {
@@ -62,10 +63,10 @@ class ShowCategories extends Component
     private function makeCategory(string $type): Category
     {
         return new Category([
-            'parent_id' => $this->category->id ?? null,
+            'parent_id' => $this->category->id ?? NULL,
             'type'      => $type,
-            'visible'   => true,
-            'promote'   => false
+            'visible'   => TRUE,
+            'promote'   => FALSE
         ]);
     }
 
@@ -75,7 +76,7 @@ class ShowCategories extends Component
         $this->editing = $this->makeCategory(Category::FILE);
 
         $this->skipRender();
-        $this->showCategoryModal = true;
+        $this->showCategoryModal = TRUE;
     }
 
     public function createGroup(): void
@@ -83,7 +84,7 @@ class ShowCategories extends Component
         $this->editing = $this->makeCategory(Category::FOLDER);
 
         $this->skipRender();
-        $this->showCategoryModal = true;
+        $this->showCategoryModal = TRUE;
     }
 
     public function edit(Category $category): void
@@ -95,10 +96,10 @@ class ShowCategories extends Component
         $this->description = $this->editing->description ?? '';
 
         $this->skipRender();
-        $this->showCategoryModal = true;
+        $this->showCategoryModal = TRUE;
     }
 
-    public function getCategoriesProperty(): Collection
+    public function getCategoriesProperty(): LengthAwarePaginator
     {
         $query = isset($this->category)
             ? $this->category->children()
@@ -110,7 +111,7 @@ class ShowCategories extends Component
             ->withCount(['products as products_count' => fn($q) => $q->exceptVariants()])
             ->withCount(['products as variants_count' => fn($q) => $q->onlyVariants()])
             ->orderBy('type')
-            ->get();
+            ->paginate();
     }
 
     public function save(): void
@@ -120,7 +121,7 @@ class ShowCategories extends Component
         $this->editing->name = $this->name;
         $this->editing->description = $this->trim($this->description);
 
-        DB::transaction(function() {
+        DB::transaction(function () {
             $this->editing->save();
 
             if (!empty($this->image)) {
@@ -130,13 +131,13 @@ class ShowCategories extends Component
         });
 
         $this->showSuccessToast('Category saved!');
-        $this->showCategoryModal = false;
+        $this->showCategoryModal = FALSE;
     }
 
     protected function deleteRows(): ?int
     {
         if (!$this->canDeleteCategories()) {
-            return null;
+            return NULL;
         }
 
         return DB::transaction(function () {
@@ -153,12 +154,12 @@ class ShowCategories extends Component
 
             $this->hideConfirmDelete();
             $count = $this->countSelected();
-            $this->showErrorToast("Delete failed!", "<p>$count categories cannot be deleted because they are used by products.</p><p>$details</p>", false);
+            $this->showErrorToast("Delete failed!", "<p>$count categories cannot be deleted because they are used by products.</p><p>$details</p>", FALSE);
             $this->skipRender();
-            return false;
+            return FALSE;
         }
 
-        return true;
+        return TRUE;
     }
 
     protected function getModels(): Collection

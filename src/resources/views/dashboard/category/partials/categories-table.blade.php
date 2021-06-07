@@ -16,7 +16,7 @@
         </thead>
 
         <tbody>
-        @foreach($categories as $category)
+        @forelse($categories as $category)
             <tr wire:key="cat-{{ $category->id }}">
                 <td>
                     <x-bs::input.checkbox wire:model.defer="selected" id="category-{{ $category->id }}" value="{{ $category->id }}"/>
@@ -54,7 +54,15 @@
                     <a href="#" wire:click.prevent="edit({{ $category->id }})" class="text-decoration-none">{{ __('Edit') }}</a>
                 </td>
             </tr>
-        @endforeach
+        @empty
+            <tr wire:key="no-records-found">
+                <td colspan="8" class="text-center py-4 fst-italic text-secondary">{{ __("No records found") }}</td>
+            </tr>
+        @endforelse
         </tbody>
+
+        <caption>
+            <x-eshop::pagination :paginator="$categories"/>
+        </caption>
     </x-bs::table>
 </div>
