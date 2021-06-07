@@ -5,7 +5,7 @@
             <td class="w-6r @if($loop->last) border-0 @endif">
                 <div class="ratio ratio-1x1">
                     @if($product->image)
-                        <img src="{{ $product->image->url('sm') }}" alt="{{ $product->tradeName }}" class="img-middle">
+                        <img src="{{ $product->image->url('sm') }}" alt="{{ $product->trademark }}" class="img-middle">
                     @endif
                 </div>
             </td>
@@ -15,7 +15,7 @@
                         <a class="text-secondary small text-decoration-none" href="{{ route('customer.products.show', [app()->getLocale(), $product->category->slug, $product->parent->slug]) }}">{{ $product->parent->name }}</a>
                         <a href="{{ route('customer.products.show', [app()->getLocale(), $product->category->slug, $product->slug]) }}" class="text-dark text-decoration-none">{{ $product->sku }} {{ $product->optionValues }}</a>
                     @else
-                        <a href="{{ route('customer.products.show', [app()->getLocale(), $product->category->slug, $product->slug]) }}" class="text-dark text-decoration-none">{{ $product->tradeName }}</a>
+                        <a href="{{ route('customer.products.show', [app()->getLocale(), $product->category->slug, $product->slug]) }}" class="text-dark text-decoration-none">{{ $product->trademark }}</a>
                     @endif
                 </div>
             </td>

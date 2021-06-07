@@ -10,7 +10,7 @@
 
         <div class="row row-cols-1 row-cols-lg-2 g-4">
             <div class="col">
-                @include('eshop::dashboard.dashboard.user.partials.user-card')
+                @include('eshop::dashboard.user.partials.user-card')
             </div>
 
             <div class="col">

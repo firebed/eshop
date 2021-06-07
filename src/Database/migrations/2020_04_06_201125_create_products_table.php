@@ -24,7 +24,7 @@ class CreateProductsTable extends Migration
             $table->unsignedInteger('weight')->default(0);
             $table->unsignedDecimal('price')->index()->default(0);
             $table->unsignedDecimal('compare_price')->default(0);
-            $table->unsignedDecimal('discount', 3)->default(0);
+            $table->unsignedDecimal('discount', 3)->default(0)->index();
             $table->unsignedDecimal('net_value')->storedAs('ROUND(price * (1 - discount), 2)')->index();
             $table->decimal('stock')->default(0);
 

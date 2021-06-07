@@ -1,5 +1,9 @@
 <form wire:submit.prevent="addToCart">
     <div class="row mb-3 g-4">
+        @if($product->canDisplayStock())
+            <div class="col-12 fw-500 text-success">{{ __("Available") }}: {{ format_number($product->available_stock) }}</div>
+        @endif
+
         <div class="col-12">
             <div class="h3 mb-0">{{ format_currency($product->netValue) }}</div>
         </div>

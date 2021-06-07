@@ -58,8 +58,8 @@
             <td>{{ $variant->created_at->format('d/m/y') }}</td>
             <td class="text-end">
                 <x-bs::button.haze wire:click="edit({{ $variant->id }})" wire:loading.attr="disabled" wire:target="edit({{ $variant->id }})" size="sm">{{ __('Edit') }}</x-bs::button.haze>
-                @if(productRouteExists())
-                    <a href="{{ productRoute($variant) }}" class="btn btn-sm btn-haze shadow-sm"><em class="fas fa-search text-secondary"></em></a>
+                @if(variantRouteExists())
+                    <a href="{{ variantRoute($variant, $product) }}" class="btn btn-sm btn-haze shadow-sm"><em class="fas fa-search text-secondary"></em></a>
                 @endif
             </td>
         </tr>

@@ -1,4 +1,4 @@
-@extends('customer.layouts.master', ['title' =>  __('Cart')])
+@extends('eshop::customer.layouts.master', ['title' =>  __('Cart')])
 
 @section('main')
     <div class="container-fluid py-5">

@@ -119,7 +119,7 @@ class EditCheckoutPayment extends Component
         foreach ($products as $product) {
             $this->products[] = [
                 'id'        => $product->id,
-                'tradeName' => $product->tradeName,
+                'trademark' => $product->trademark,
                 'quantity'  => $product->pivot->quantity . ' x',
                 'netValue'  => format_currency($product->pivot->netValue)
             ];

@@ -11,7 +11,7 @@
                 <table class="table table-borderless table-sm small mb-0">
                     @foreach($order->products as $product)
                         <tr>
-                            <td class="ps-0">{{ $product->tradeName ?? '' }}</td>
+                            <td class="ps-0">{{ $product->trademark ?? '' }}</td>
                             <td class="text-end">{{ $product->pivot->quantity }}&nbsp;x</td>
                             <td class="text-end pe-0">{{ format_currency($product->pivot->netValue) }}</td>
                         </tr>
@@ -25,7 +25,7 @@
 
     @if($shippingMethods->isEmpty())
         <div class="text-danger fw-500" wire:key="shipping-error">
-            <em class="fas fa-exclamation-circle me-2"></em>{{ __('Sorry, currently we do not ship to') }} {{ $countries->find($this->shipping->country_id)->name }}
+            <em class="fas fa-exclamation-circle me-2"></em>{{ __('Sorry, currently we do not ship to') }} {{ $this->shipping->city_or_country }}
         </div>
 
         <hr class="text-secondary">

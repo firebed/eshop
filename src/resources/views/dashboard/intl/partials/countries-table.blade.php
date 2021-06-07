@@ -29,11 +29,12 @@
             <td class="align-middle">{{ $country->timezone }}</td>
             <td>{{ __($country->created_at->format('d/m/Y')) }}</td>
             <td class="text-end">
-                <a href="#" wire:click.prevent="edit({{ $country->code }})" class="text-decoration-none">{{ __("Edit") }}</a>
+                <a href="#" wire:click.prevent="edit({{ $country->id }})" class="text-decoration-none">{{ __("Edit") }}</a>
             </td>
         </tr>
     @endforeach
     </tbody>
 
-    <caption class="px-2">{{ $countries->count() }} records</caption>
+    <caption><x-eshop::pagination :paginator="$countries"/>
+    </caption>
 </x-bs::table>

@@ -1,0 +1,1 @@
+window.bootstrap = require('bootstrap')

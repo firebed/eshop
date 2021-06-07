@@ -1,5 +1,6 @@
 <?php
 
+use Eshop\Models\Product\Category;
 use Eshop\Models\Product\Product;
 use Eshop\Models\User;
 use Eshop\Services\SlugGenerator;
@@ -59,6 +60,13 @@ if (!function_exists('slugify')) {
     }
 }
 
+if (!function_exists('routeHas')) {
+    function routeHas(string $name): bool
+    {
+        return Route::has($name);
+    }
+}
+
 if (!function_exists('productRouteExists')) {
     function productRouteExists(): bool
     {
@@ -67,14 +75,33 @@ if (!function_exists('productRouteExists')) {
 }
 
 if (!function_exists('productRoute')) {
-    function productRoute(Product $product): string
+    function productRoute(Product $product, Category $category = NULL): string
     {
-        return route('customer.products.show', [app()->getLocale(), $product->category->slug, $product->slug]);
+        $category = $category ?? $product->category;
+        return $product->isVariant()
+            ? route('customer.variants.show', [app()->getLocale(), $category->slug, $product->parent->slug, $product->slug])
+            : route('customer.products.show', [app()->getLocale(), $category->slug, $product->slug]);
+    }
+}
+
+if (!function_exists('variantRouteExists')) {
+    function variantRouteExists(): bool
+    {
+        return Route::has('customer.variants.show');
+    }
+}
+
+if (!function_exists('variantRoute')) {
+    function variantRoute(Product $variant, Product $parent = NULL, Category $category = NULL): string
+    {
+        $parent = $parent ?? $variant->parent;
+        $category = $category ?? $parent->category;
+        return route('customer.variants.show', [app()->getLocale(), $category->slug, $parent->slug, $variant->slug]);
     }
 }
 
 if (!function_exists('category_url')) {
-    function category_route($category, ?Collection $manufacturers = NULL, ?Collection $choices = NULL, $min_price = 0, $max_price = 0): ?string
+    function categoryRoute(Category $category, ?Collection $manufacturers = NULL, ?Collection $choices = NULL, $min_price = 0, $max_price = 0): ?string
     {
         $name = 'customer.categories.show';
         $params = [

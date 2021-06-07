@@ -14,6 +14,7 @@ use Firebed\Livewire\Traits\SendsNotifications;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Support\Collection;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 /**
  * Class CountriesDashboard
@@ -23,6 +24,7 @@ use Livewire\Component;
  */
 class ShowCountries extends Component
 {
+    use WithPagination;
     use WithSorting {
         queryString as sortingQueryString;
     }
@@ -70,13 +72,13 @@ class ShowCountries extends Component
         return Country::query()->whereKey($this->selected)->update(['visible' => $visible]);
     }
 
-    public function getCountriesProperty(): Collection
+    public function getCountriesProperty()
     {
         return Country
             ::when($this->search, fn($q, $s) => $q->where('name', 'LIKE', "$s%"))
             ->when($this->visibility !== '', fn($q) => $q->where('visible', $this->visibility))
             ->when($this->sortField, fn($q, $s) => $q->orderBy($s, $this->sortDirection))
-            ->get();
+            ->paginate();
     }
 
     protected function getModels(): Collection

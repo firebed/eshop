@@ -1,4 +1,5 @@
 <div class="d-grid gap-2">
+    <div class="fw-500">{{ __("Primary") }}</div>
     <div class="d-grid gap-2">
         <x-bs::input.group for="sku" label="{{ __('SKU') }}" inline>
             <x-bs::input.text wire:model.defer="variant.sku" id="sku" error="variant.sku"/>

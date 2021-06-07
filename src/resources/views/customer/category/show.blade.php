@@ -1,10 +1,9 @@
 @extends('eshop::customer.layouts.master', ['title' => $category->name])
 
 @section('main')
+    <x-eshop-category-breadcrumb :category="$category" :product="null" :variant="null"/>
 
-    <x-eshop::category-breadcrumb :category="$category"/>
-
-    <div class="container-fluid">
+    <div class="container-fluid my-4">
         <div class="container">
             <div class="row">
                 @if($category->isFile())

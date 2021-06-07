@@ -1,13 +1,12 @@
 $font-size-base: 0.91rem;
 //$line-height-base: 1.6;
 
-@import "utilities";
+@import "../utilities";
 
 @import "~bootstrap";
-@import "colors";
-@import "buttons";
-@import "dashboard/navigation";
-@import "dashboard/scrollbars";
+@import "../colors";
+@import "../buttons";
+@import "navigation";
 
 .img-middle {
     @extend .top-50, .start-50, .translate-middle, .w-auto, .h-auto, .mw-100, .mh-100;

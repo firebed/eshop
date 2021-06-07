@@ -2,15 +2,16 @@
     @foreach($product->variants->take(4) as $variant)
         <div class="col">
             <div class="ratio ratio-1x1">
-                <img src="{{ $variant->image->url('sm') }}" alt="" class="img-middle">
+                @if($variant->image && $src = $variant->image->url('sm'))
+                    <img class="img-middle" src="{{ $src }}" alt="{{ $variant->trademark }}">
+                @endif
             </div>
         </div>
     @endforeach
-    <div class="col-12 small mt-1 text-secondary">
-        @if($product->variants->count() - 4 > 0)
-            +{{ $product->variants->count() - 4 }} {{ __("options") }}
-        @else
-            &nbsp;
-        @endif
-    </div>
+
+    @if($product->variants->count() - 4 > 0)
+        <div class="col-12 small mt-1 text-secondary">
+            + {{ $product->variants->count() }} {{ __("options") }}
+        </div>
+    @endif
 </div>

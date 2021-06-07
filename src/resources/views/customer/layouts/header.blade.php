@@ -32,10 +32,11 @@
             <div class="col-auto">
                 <div class="d-flex">
                     @guest
-                        @if(Route::has('register'))
+                        @if(routeHas('register'))
                             <a href="{{ route('register', app()->getLocale()) }}" class="px-3 py-2 text-decoration-none border-end text-dark"><em class="fa fa-user-plus text-secondary"></em> {{ __("Register") }}</a>
                         @endif
-                        @if(Route::has('login'))
+                    
+                        @if(routeHas('login'))
                             <a href="{{ route('login', app()->getLocale()) }}" class="px-3 py-2 text-decoration-none border-end text-dark"><em class="fa fa-lock text-secondary"></em> {{ __("Login") }}</a>
                         @endif
                     @else
@@ -71,7 +72,7 @@
     <div class="container">
         <div class="row align-items-center">
             <a href="{{ route('home', app()->getLocale()) }}" class="col-3">
-                <img class="img-fluid" src="{{ config('eshop.logo') }}" alt="{{ config('app.name') }}" height="104" width="200">
+                <img class="img-fluid" src="{{ asset(config('eshop.logo')) }}" alt="{{ config('app.name') }}" height="{{ config('eshop.logo_height') }}" width="{{ config('eshop.logo_width') }}">
             </a>
 
             <div class="col">
@@ -82,8 +83,9 @@
             <div class="col-3 justify-content-center d-none d-md-flex">
                 <em class="fa fa-mobile-alt fa-2x text-primary me-2"></em>
                 <div class="small lh-sm">
-                    <div class="fw-500">25413 03417</div>
-                    <div class="fw-500">6939349473</div>
+                    @foreach(config('eshop.phone_numbers') as $phoneNumber)
+                        <div class="fw-500">{{ $phoneNumber }}</div>
+                    @endforeach
                 </div>
             </div>
 

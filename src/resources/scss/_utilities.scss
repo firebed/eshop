@@ -42,6 +42,22 @@ $utilities: map-merge(
             ),
         ),
 
+        "max-height": map-merge(
+            map-get($utilities, "max-height"),
+            (
+                responsive: true,
+                values: map-merge(
+                    map-get(map-get($utilities, "max-height"), "values"),
+                    (
+                        10r: 10rem,
+                        17r: 17rem,
+                        20r: 20rem,
+                        25r: 25rem
+                    ),
+                ),
+            ),
+        ),
+
         "viewport-height": map-merge(
             map-get($utilities, "viewport-height"),
             (

@@ -13,7 +13,7 @@
             <div class="d-grid gap-1 small">
                 <template x-for="product in products" :key="product.id">
                     <div class="d-flex gap-1">
-                        <div class="col" x-text="product.tradeName"></div>
+                        <div class="col" x-text="product.trademark"></div>
                         <div class="col-auto w-3r text-end text-nowrap" x-text="product.quantity"></div>
                         <div class="col-auto w-4r text-end text-nowrap" x-text="product.netValue"></div>
                     </div>

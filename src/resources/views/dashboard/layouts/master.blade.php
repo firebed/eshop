@@ -12,8 +12,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/autonumeric@4.6.0/dist/autoNumeric.min.js"></script>
 
-    <link href="{{ mix('css/dashboard.css') }}" rel="stylesheet">
-    @stack('header_link')
+    <link href="{{ asset('vendor/eshop/css/dashboard/app.css') }}" rel="stylesheet">
     @stack('header_scripts')
     @livewireStyles
 
@@ -38,8 +37,7 @@
 <x-bs::notification.toast/>
 <x-bs::notification.dialog/>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
-<script src="{{ mix('js/app.js') }}"></script>
+<script src="{{ asset('vendor/eshop/js/dashboard/app.js') }}"></script>
 @stack('footer_scripts')
 @livewireScripts
 </body>

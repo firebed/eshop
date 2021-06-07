@@ -53,7 +53,10 @@ class ShowCheckoutProducts extends Component
             $products->merge($products->pluck('parent')->filter())->load('translation');
         }
 
-        $shippingMethods = $order->shippingAddress->country->shippingMethodRange($order->shipping_method_id);
+        $shippingMethods = collect();
+        if ($order->shippingAddress->country) {
+            $order->shippingAddress->country->shippingMethodRange($order->shipping_method_id);
+        }
 
         return view('eshop::customer.checkout.products.wire.index', [
             'order'           => $order,

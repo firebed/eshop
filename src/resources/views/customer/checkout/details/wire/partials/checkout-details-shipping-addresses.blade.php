@@ -1,5 +1,4 @@
 <x-bs::card class="shadow-none" id="shipping-addresses">
-@dump($errors)
     @isset($addresses)
         @foreach($addresses as $address)
             <x-bs::card.body class="p-4 border-bottom d-flex flex-column" wire:key="shipping-addresses-{{ $address->id }}">

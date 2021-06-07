@@ -9,7 +9,7 @@
         </x-bs::input.group>
 
         <x-bs::input.group for="description" label="{{ __('Description') }}">
-            <x-bs::input.rich-text wire:model.defer="description" id="description" rows="8" error="description"/>
+            <x-bs::input.rich-text wire:model.defer="description" id="description" rows="8" error="description"  plugins="lists" toolbar="fontselect | bold italic underline | forecolor | bullist numlist | removeformat"/>
         </x-bs::input.group>
     </x-bs::card.body>
 </x-bs::card>

@@ -2,13 +2,13 @@
 
 namespace Eshop\Controllers\Customer\Category;
 
-use Eshop\Requests\Customer\CustomerCategoryRequest;
-use Eshop\Models\Product\Category;
+use Eshop\Controllers\Controller;
 use Eshop\Controllers\Customer\Category\Traits\ValidatesCategoryUrl;
+use Eshop\Models\Product\Category;
+use Eshop\Requests\Customer\CustomerCategoryRequest;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\RedirectResponse;
-use Eshop\Controllers\Controller;
 use Illuminate\Support\Collection;
 
 class CategoryController extends Controller
@@ -30,7 +30,7 @@ class CategoryController extends Controller
         $filters = $request->validated();
 
         if (!$this->validateUrl($filters, $request->manufacturers(), $request->choices())) {
-            return redirect(category_route($category, $filters['m'], $filters['c'], $filters['min_price'], $filters['max_price']));
+            return redirect(categoryRoute($category, $filters['m'], $filters['c'], $filters['min_price'], $filters['max_price']));
         }
 
         $category->load(['properties' => fn($q) => $q->whereNotNull('index')->with('translation', 'choices.translation', 'choices.property')]);
@@ -69,22 +69,9 @@ class CategoryController extends Controller
             ->orderBy('name')
             ->paginate(48);
 
-        $breadcrumb = $this->getBreadcrumb($category);
         $priceRanges = $this->groupPriceRanges($category, $filters);
 
-        return view('eshop::customer.category.show', compact('breadcrumb', 'category', 'manufacturers', 'filters', 'priceRanges', 'products'));
-    }
-
-    private function getBreadcrumb(Category $category): array
-    {
-        $breadcrumb = [];
-        $parent = $category->parent;
-        while ($parent) {
-            $parent->load('translation');
-            array_unshift($breadcrumb, $parent);
-            $parent = $parent->parent;
-        }
-        return $breadcrumb;
+        return view('eshop::customer.category.show', compact('category', 'manufacturers', 'filters', 'priceRanges', 'products'));
     }
 
     private function groupPriceRanges(Category $category, $filters): Collection

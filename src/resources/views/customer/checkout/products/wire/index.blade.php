@@ -8,15 +8,15 @@
                     <x-bs::card class="shadow-none">
                         <x-bs::card.body>
                             <div class="table-responsive bg-white">
-                                @include('customer.checkout.products.wire.partials.checkout-products-table')
+                                @include('eshop::customer.checkout.products.wire.partials.checkout-products-table')
                             </div>
                         </x-bs::card.body>
                     </x-bs::card>
                 </div>
 
-                @include('customer.checkout.products.wire.partials.checkout-products-summary')
+                @include('eshop::customer.checkout.products.wire.partials.checkout-products-summary')
 
-                @includeWhen(Auth::guest(), 'customer.checkout.partials.checkout-login-modal')
+                @includeWhen(Auth::guest(), 'eshop::customer.checkout.partials.checkout-login-modal')
             </div>
         </div>
     @else

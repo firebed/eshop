@@ -20,7 +20,7 @@
                 <div class="text-secondary">{{ __('Shipping fee for') }} <span class="text-blue-500">{{ $order->shippingAddress->city_or_country }}</span></div>
                 <div class="w-6r ms-auto text-end d-grid">
                     <span>{{ format_currency($order->shipping_fee) }}</span>
-                    @if($order->shipping_fee < $lastShipping->fee)
+                    @if($lastShipping && $order->shipping_fee < $lastShipping->fee)
                         <s class="text-danger lh-sm">{{ format_currency($lastShipping->fee) }}</s>
                     @endif
                 </div>
@@ -35,7 +35,7 @@
 
             <hr class="text-secondary my-2">
 
-            @if($order->shipping_fee < $lastShipping->fee)
+            @if($lastShipping && $order->shipping_fee < $lastShipping->fee)
                 <div wire:key="active-discounts" class="text-primary d-flex align-items-center">
                     <em class="fas fa-check-circle me-2"></em> @choice('order.shipping_discount', $order->shipping_fee)
                 </div>
@@ -48,7 +48,7 @@
                 <x-bs::progress :value="$order->products_value/$nextShipping->cart_total*100" height=".7rem" />
             @endif
 
-            @if($nextShipping !== NULL || $order->shipping_fee < $lastShipping->fee)
+            @if($nextShipping !== NULL || ($lastShipping && $order->shipping_fee < $lastShipping->fee))
                 <hr wire:key="hr" class="text-secondary my-2">
             @endif
 

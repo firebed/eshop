@@ -1,12 +1,10 @@
 $primary: #d31f75;
 
-@import "utilities";
+@import "../utilities";
 
-@import "bootstrap";
-@import "colors";
-@import "buttons";
-@import "dashboard/navigation";
-@import "dashboard/scrollbars";
+@import "~bootstrap";
+@import "../colors";
+@import "../buttons";
 
 .img-middle {
     @extend .top-50, .start-50, .translate-middle, .w-auto, .h-auto, .mw-100, .mh-100;

@@ -24,7 +24,7 @@ use Illuminate\Support\Collection;
  * @property integer         unit_id
  * @property boolean         has_variants
  * @property double          vat
- * @property double          stock
+ * @property int             stock
  * @property double          weight
  * @property double          price
  * @property double          compare_price
@@ -56,7 +56,7 @@ use Illuminate\Support\Collection;
  * @property float           netValue
  * @property float           netValueWithoutVat
  *
- * @method Builder visible($visible = true)
+ * @method Builder visible($visible = TRUE)
  * @method Builder exceptVariants()
  * @method Builder onlyVariants()
  * @method Builder filterByManufacturers($manufacturer_ids)
@@ -74,8 +74,8 @@ class Product extends Model
 
     protected $guarded = [];
 
-    protected $translatable = ['name', 'description'];
-    protected $disk         = 'products';
+    protected array  $translatable = ['name', 'description'];
+    protected string $disk         = 'products';
 
     protected $casts = [
         'price'         => 'float',
@@ -138,21 +138,39 @@ class Product extends Model
         return $this->belongsToMany(VariantType::class)->withPivot('value');
     }
 
-    public function getTradeName(string $glue = ' '): ?string
+    public function getTrademark(string $glue = ' '): ?string
     {
         return $this->isVariant()
-            ? $this->parent->name . ' ' . $this->sku . ' ' . $this->getOptionValuesAttribute($glue)
-            : $this->name;
+            ? implode(' ', array_filter([$this->parent->name, $this->getOptionValuesAttribute($glue), $this->sku]))
+            : implode(' ', array_filter([$this->name, $this->sku]));
     }
 
-    public function getTradeNameAttribute(): ?string
+    public function getTrademarkAttribute(): ?string
     {
-        return $this->getTradeName();
+        return $this->getTrademark();
     }
 
     public function getOptionValuesAttribute($glue = ' '): string
     {
-        return $this->options->pluck('pivot.value')->join($glue);
+        return $this->options->pluck('pivot.value')->join($glue ?? ' ');
+    }
+
+    public function canBeBought(int $quantity = 1): bool
+    {
+        $amount = $this->stock - $quantity;
+        return $this->available && ($this->available_gt === NULL || $amount >= $this->available_gt);
+    }
+
+    public function canDisplayStock(): bool
+    {
+        return $this->canBeBought()
+            && $this->display_stock
+            && ($this->display_stock_lt === NULL || $this->stock <= $this->display_stock_lt);
+    }
+
+    public function getAvailableStockAttribute(): int
+    {
+        return $this->stock - ($this->available_gt ?: 0);
     }
 
     /*
@@ -194,14 +212,16 @@ class Product extends Model
 
     public function scopeFilterByPrice(Builder $query, $min_price, $max_price): void
     {
-        $query->when(filled($min_price) || filled($max_price), function (Builder $q) use ($min_price, $max_price) {
-            $q->where(function(Builder $b) use ($min_price, $max_price) {
-                if (filled($min_price) && filled($max_price)) {
+        $query->when(!empty($min_price) || !empty($max_price), function (Builder $q) use ($min_price, $max_price) {
+            $q->where('visible', TRUE);
+            $q->where(function (Builder $b) use ($min_price, $max_price) {
+                $b->where('has_variants', FALSE);
+                if (!empty($min_price) && !empty($max_price)) {
                     $b->whereBetween('net_value', [$min_price, $max_price]);
                     return;
                 }
 
-                if (blank($max_price)) {
+                if (empty($max_price)) {
                     $b->where('net_value', '>=', $min_price);
                     return;
                 }
@@ -209,19 +229,22 @@ class Product extends Model
                 $b->where('net_value', '<=', $max_price);
             });
 
-            $q->orWhereHas('variants', function (Builder $b) use ($min_price, $max_price) {
-                $b->where('visible', TRUE);
-                if (filled($min_price) && filled($max_price)) {
-                    $b->whereBetween('net_value', [$min_price, $max_price]);
-                    return;
-                }
+            $q->orWhere(function (Builder $b) use ($min_price, $max_price) {
+                $b->where('has_variants', TRUE);
+                $b->whereHas('variants', function (Builder $b) use ($min_price, $max_price) {
+                    $b->where('visible', TRUE);
+                    if (!empty($min_price) && !empty($max_price)) {
+                        $b->whereBetween('net_value', [$min_price, $max_price]);
+                        return;
+                    }
 
-                if (blank($max_price)) {
-                    $b->where('net_value', '>=', $min_price);
-                    return;
-                }
+                    if (empty($max_price)) {
+                        $b->where('net_value', '>=', $min_price);
+                        return;
+                    }
 
-                $b->where('net_value', '<=', $max_price);
+                    $b->where('net_value', '<=', $max_price);
+                });
             });
         });
     }
@@ -245,11 +268,6 @@ class Product extends Model
     public function getNetValueWithoutVatAttribute(): float
     {
         return number_format($this->netValue / (1 + $this->vat), 2);
-    }
-
-    public function getTitleAttribute(): string
-    {
-        return $this->isVariant() ? implode(' ', array_filter([$this->parent->name, $this->sku, $this->name])) : $this->name;
     }
 
     public function isVariant(): bool

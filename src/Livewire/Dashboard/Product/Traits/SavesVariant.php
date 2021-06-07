@@ -21,6 +21,7 @@ trait SavesVariant
     public float  $global_price    = 0;
     public string $search          = "";
     public array  $variant_values  = [];
+    public string $description = "";
 
     public Product $variant;
 
@@ -68,6 +69,7 @@ trait SavesVariant
 
         $this->variant = $variant;
 
+        $this->description = $variant->description ?? "";
         $this->variant_values = [];
         $options = $this->variant->options()->get();
         foreach ($this->variantTypes as $vt) {
@@ -89,6 +91,7 @@ trait SavesVariant
     {
         $this->validate();
 
+        $this->variant->description = blank($this->description) ? NULL : trim($this->description);
         DB::transaction(function() {
             if ($this->variant->save()) {
                 $this->variant->options()->sync($this->mapVariantTypes());

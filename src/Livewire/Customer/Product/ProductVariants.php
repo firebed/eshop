@@ -16,34 +16,30 @@ class ProductVariants extends Component
 {
     use ControlsOrder, SendsNotifications;
 
-    public int $productId;
-    public string $categorySlug;
+    public Category $category;
+    public Product  $product;
 
-    public function mount(Product $product, Category $category): void
+    public function addToCart(Order $order, Product $product, $quantity = 1): void
     {
-        $this->productId = $product->id;
-        $this->categorySlug = $category->slug;
-    }
-
-    public function addToCart(Order $order, Product $product): void
-    {
-        $this->addProduct($order, $product, 1);
+        if (!$this->addProduct($order, $product, $quantity)) {
+            return;
+        }
 
         $toast = view('eshop::customer.product.partials.product-toast', compact('product'))->render();
-        $this->showSuccessToast($product->name, $toast);
+        $this->showSuccessToast($product->trademark, $toast);
         $this->emit('setCartItemsCount', $order->products->count());
-        $this->skipRender();
     }
 
     public function render(): Renderable
     {
-        $variants = Product::where('parent_id', $this->productId)
+        $variants = $this->product
+            ->variants()
             ->visible()
-            ->with('image', 'options')
+            ->with('parent', 'image', 'options')
             ->get()
             ->sortBy(['sku', 'variant_values'], SORT_NATURAL | SORT_FLAG_CASE);
 
-        return view('eshop::customer.product.partials.wire-product-variants', [
+        return view('eshop::customer.product.wire.product-variants', [
             'variants' => $variants
         ]);
     }

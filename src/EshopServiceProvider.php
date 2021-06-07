@@ -45,7 +45,14 @@ class EshopServiceProvider extends ServiceProvider
 
     private function loadAssets(): void
     {
-        $this->publishes([__DIR__ . '/public' => public_path('vendor/eshop')], 'eshop-assets');
+        $this->publishes([
+            __DIR__ . '/../assets/css/customer' => public_path('vendor/eshop/css/customer'),
+            __DIR__ . '/../assets/css/dashboard' => public_path('vendor/eshop/css/dashboard'),
+            __DIR__ . '/../assets/js/customer' => public_path('vendor/eshop/js/customer'),
+            __DIR__ . '/../assets/js/dashboard' => public_path('vendor/eshop/js/dashboard'),
+            __DIR__ . '/../assets/js/fslightbox.js' => public_path('vendor/eshop/js/fslightbox.js'),
+            __DIR__ . '/../assets/js/fslightbox.js.map' => public_path('vendor/eshop/js/fslightbox.js.map'),
+        ], 'eshop-assets');
     }
 
     private function loadTranslations(): void
@@ -67,7 +74,7 @@ class EshopServiceProvider extends ServiceProvider
     {
         $this->loadViewsFrom(__DIR__ . '/resources/views', 'eshop');
 
-        $this->loadViewComponentsAs('com', [
+        $this->loadViewComponentsAs('eshop', [
             CategoryBreadcrumb::class,
         ]);
 

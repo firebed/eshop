@@ -21,10 +21,17 @@ trait ControlsOrder
         $this->updateTotal($order, $order->shipping_method_id, $order->payment_method_id);
     }
 
-    protected function addProduct(Order $order, Product|int $product, int $quantity): void
+    protected function addProduct(Order $order, Product|int $product, int $quantity): bool
     {
+        if(!$product->canBeBought($quantity)) {
+            $this->showWarningDialog($product->trademark, __("Unfortunately there are not $quantity pieces of this product. Available stock: " . $product->available_stock));
+            $this->skipRender();
+            return false;
+        }
+
         $order->addProduct($product, $quantity);
         $this->updateTotal($order);
+        return true;
     }
 
     protected function updateProduct(Order $order, Product|int $product, int $quantity): void

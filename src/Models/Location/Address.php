@@ -80,6 +80,6 @@ class Address extends Model
 
     public function getCityOrCountryAttribute(): string
     {
-        return filled($this->city) && filled($this->postcode) ? $this->postcode . ', ' . $this->city : $this->country->name;
+        return filled($this->city) && filled($this->postcode) ? $this->postcode . ', ' . $this->city : ($this->country->name ?? "");
     }
 }
