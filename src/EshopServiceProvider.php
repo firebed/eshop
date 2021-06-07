@@ -15,6 +15,9 @@ use Eshop\Models\Product\Product;
 use Eshop\Models\Product\VariantType;
 use Eshop\Models\User;
 use Eshop\View\Components\CategoryBreadcrumb;
+use Eshop\View\Components\HomepageCategoriesList;
+use Eshop\View\Components\PopularProducts;
+use Eshop\View\Components\TopSellers;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Collection;
 use Illuminate\Support\ServiceProvider;
@@ -76,6 +79,9 @@ class EshopServiceProvider extends ServiceProvider
 
         $this->loadViewComponentsAs('eshop', [
             CategoryBreadcrumb::class,
+            HomepageCategoriesList::class,
+            TopSellers::class,
+            PopularProducts::class
         ]);
 
         $this->publishes([__DIR__ . '/resources/views/customer' => resource_path('views/vendor/eshop/customer')], 'eshop-customer-views');
