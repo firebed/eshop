@@ -5,19 +5,21 @@
         </a>
     </div>
 
-    <div class="col-12 col-md-auto w-100 w-md-5r order-md-0">
-        <div data-simplebar class="mh-md-17r mh-xl-20r">
-            <div class="d-flex d-md-grid gap-1">
-                @foreach($images as $image)
-                    <a href="{{ $image->url() }}" data-fslightbox="images" data-type="image" class="col-auto w-3r">
-                        <div class="ratio ratio-1x1 rounded border">
-                            <img src="{{ $image->url('sm') }}" alt="{{ $product->name }}" class="img-middle rounded">
-                        </div>
-                    </a>
-                @endforeach
+    @isset($images)
+        <div class="col-12 col-md-auto w-100 w-md-5r order-md-0">
+            <div data-simplebar class="mh-md-17r mh-xl-20r">
+                <div class="d-flex d-md-grid gap-1">
+                    @foreach($images as $image)
+                        <a href="{{ $image->url() }}" data-fslightbox="images" data-type="image" class="col-auto w-3r">
+                            <div class="ratio ratio-1x1 rounded border">
+                                <img src="{{ $image->url('sm') }}" alt="{{ $product->name }}" class="img-middle rounded">
+                            </div>
+                        </a>
+                    @endforeach
+                </div>
             </div>
         </div>
-    </div>
+    @endisset
 </div>
 
 <div class="small text-orange-500 mt-3">
