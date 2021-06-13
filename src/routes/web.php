@@ -32,7 +32,6 @@ Route::group([
             Route::get('cart', CheckoutProductController::class)->name('products.index');
 
             Route::prefix('checkout')->group(function () {
-
                 Route::post('login', CheckoutLoginController::class)->name('login');
 
                 Route::get('details', CheckoutDetailsController::class)->name('details.edit');
