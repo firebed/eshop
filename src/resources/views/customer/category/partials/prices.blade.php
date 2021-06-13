@@ -1,7 +1,7 @@
 <div class='d-flex flex-column mb-5'>
     <div class='d-flex flex-column filters'>
         <div class='d-flex mb-3'>
-            <div class='h6 mb-0'>{{ __("Prices") }}</div>
+            <div class='h6 mb-0'>{{ __("Price") }}</div>
             @if (!empty($filters['min_price']) || !empty($filters['max_price']))
                 <a href='{{ categoryRoute($category, $filters['m'], $filters['c']) }}' class='small ms-3'>{{ __('Clear') }}</a>
             @endif

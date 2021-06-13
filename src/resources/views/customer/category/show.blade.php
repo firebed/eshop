@@ -13,7 +13,7 @@
                     <div class="col">
                         <div class="d-flex align-items-baseline mb-3">
                             <h1 class="fs-4 fw-normal mb-0">{{ $category->name }}</h1>
-                            <div class="ms-3 text-secondary">({{ $products->total() }} {{ __("products") }})</div>
+                            <div class="ms-3 text-secondary">(@choice("eshop::product.products_count", $products->total(), ['count' => $products->total()]))</div>
                         </div>
                         @if($products->hasPages())
                             <div class="d-flex justify-content-end mb-3">
