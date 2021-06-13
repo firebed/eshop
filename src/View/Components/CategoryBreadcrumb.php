@@ -14,21 +14,23 @@ class CategoryBreadcrumb extends Component
     /**
      * Create a new component instance.
      *
-     * @param Category $category
+     * @param Category     $category
+     * @param Product|null $product
+     * @param Product|null $variant
      */
     public function __construct(Category $category, Product $product = NULL, Product $variant = NULL)
     {
-        $this->items[] = [
-            'name'  => __('Home'),
-            'url' => route('home', app()->getLocale())
-        ];
-
         $parent = $category->parent;
         while ($parent) {
             $parent->load('translation');
             array_unshift($this->items, $parent);
             $parent = $parent->parent;
         }
+
+        array_unshift($this->items, [
+            'name'  => __('Home'),
+            'url' => route('home', app()->getLocale())
+        ]);
 
         $this->items[] = [
             'name' => $category->name,

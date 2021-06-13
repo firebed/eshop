@@ -165,7 +165,7 @@ class Product extends Model
     public function canDisplayStock(): bool
     {
         return $this->canBeBought()
-            && $this->display_stock
+            && $this->display_stock >= 0
             && ($this->display_stock_lt === NULL || $this->stock <= $this->display_stock_lt);
     }
 

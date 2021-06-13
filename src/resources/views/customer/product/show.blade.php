@@ -50,7 +50,8 @@
                             <div class="col-12 mb-4">
                                 <div class="h3 mb-0">{{ format_currency($product->netValue) }}</div>
                             </div>
-                            @include('eshop::customer.product.partials.out-of-stock-button')
+
+                            <button class="btn btn-danger" disabled>{{ __("Out of stock") }}</button>
                         @endif
                     </div>
                 </div>
