@@ -8,7 +8,7 @@
             <div class='d-flex mb-5 align-items-end'>
                 <div class='h5 mb-0'>{{ __('Filters') }}</div>
                 @if (!empty($filters['min_price']) || !empty($filters['max_price']) || $filters['m']->isNotEmpty() || $filters['c']->isNotEmpty())
-                    <a href='{{ categoryRoute($category) }}' class='small ms-3 clear-all'>{{ __('Clear all') }}</a>
+                    <a href='{{ categoryRoute($category) }}' class='small ms-3 clear-all'>{{ __('Cancel all') }}</a>
                 @endif
             </div>
 

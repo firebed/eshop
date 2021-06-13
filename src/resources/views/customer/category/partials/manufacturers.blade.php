@@ -3,7 +3,7 @@
         <div class='d-flex mb-3'>
             <div class='h6 mb-0'>{{ __("Manufacturers") }}</div>
             @if ($filters['m']->isNotEmpty())
-                <a href='{{ categoryRoute($category, NULL, $filters['c'], $filters['min_price'], $filters['max_price']) }}' class='small ms-3'>{{ __('Clear') }}</a>
+                <a href='{{ categoryRoute($category, NULL, $filters['c'], $filters['min_price'], $filters['max_price']) }}' class='small ms-3'>{{ __('Cancel') }}</a>
             @endif
         </div>
         @foreach($manufacturers as $manufacturer)
