@@ -26,7 +26,7 @@
                             </div>
 
                             @if($variant->canDisplayStock())
-                                <div class="fw-500 small text-success">{{ __("Available") }}: {{ format_number($variant->available_stock) }}</div>
+                                <div class="fw-500 small text-success">@choice("eshop::product.availability", $variant->available_stock, ['count' => format_number($variant->available_stock)])</div>
                             @endif
 
                             <div class="d-flex align-items-baseline mt-auto">
