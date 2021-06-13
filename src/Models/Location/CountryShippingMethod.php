@@ -5,6 +5,7 @@ namespace Eshop\Models\Location;
 
 
 use Eshop\Models\Lang\Traits\HasTranslations;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\Pivot;
@@ -20,6 +21,8 @@ use Illuminate\Database\Eloquent\Relations\Pivot;
  * @property float inaccessible_area_fee
  * @property int   position
  * @property bool  visible
+ *
+ * @mixin Builder
  */
 class CountryShippingMethod extends Pivot
 {

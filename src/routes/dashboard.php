@@ -6,6 +6,7 @@ use Eshop\Controllers\Dashboard\Intl\CountryController;
 use Eshop\Controllers\Dashboard\Intl\PaymentMethodController;
 use Eshop\Controllers\Dashboard\Intl\ShippingMethodController;
 use Eshop\Controllers\Dashboard\Product\CategoryController;
+use Eshop\Controllers\Dashboard\Product\ManufacturerController;
 use Eshop\Controllers\Dashboard\Product\ProductController;
 use Eshop\Controllers\Dashboard\Product\ProductImageController;
 use Eshop\Controllers\Dashboard\Product\ProductVariantController;
@@ -29,6 +30,8 @@ Route::middleware(['web', 'auth'])->group(function () {
         Route::resource('countries', CountryController::class)->only('index');
         Route::resource('shipping-methods', ShippingMethodController::class)->only('index');
         Route::resource('payment-methods', PaymentMethodController::class)->only('index');
+
+        Route::resource('manufacturers', ManufacturerController::class)->only('index');
 
         Route::resource('users', UserController::class)->only('index', 'show');
     });

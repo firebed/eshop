@@ -5,8 +5,9 @@
     <a href="{{ route('carts.index') }}" @if(request()->routeIs('carts.*')) class="bg-gray-700" @endif><em class="fas fa-shopping-cart w-1r me-2 text-cyan-300"></em> {{ __("Orders") }}</a>
     <hr class="my-2">
     <a href="{{ route('categories.index') }}" @if(request()->routeIs('categories.*')) class="bg-gray-700" @endif><i class="fas fa-list-ul w-1r me-2 text-teal-500"></i> {{ __("Categories") }}</a>
+    <a href="{{ route('manufacturers.index') }}" @if(request()->routeIs('manufacturers.*')) class="bg-gray-700" @endif><i class="fas fa-industry w-1r me-2 text-teal-500"></i> {{ __("Manufacturers") }}</a>
     <a href="{{ route('countries.index') }}" @if(request()->routeIs('countries.index')) class="bg-gray-700" @endif><i class="fas fa-flag w-1r me-2 text-cyan-300"></i> {{ __("Countries") }}</a>
-    <a href="#" @if(request()->routeIs('localization')) class="bg-gray-700" @endif><i class="fa fa-language w-1r me-2 text-cyan-300"></i> {{ __("Translations") }}</a>
+    <a href="#" @if(request()->routeIs('localization')) class="bg-gray-700" @endif><i class="fa fa-language w-1r me-2 text-pink-400"></i> {{ __("Translations") }}</a>
     <a href="{{ route('shipping-methods.index') }}" @if(request()->routeIs('shipping-methods.index')) class="bg-gray-700" @endif><i class="fas fa-shipping-fast w-1r me-2 text-cyan-300"></i> {{ __("Shipping methods") }}</a>
     <a href="{{ route('payment-methods.index') }}" @if(request()->routeIs('payment-methods.index')) class="bg-gray-700" @endif><i class="fas fa-hand-holding-usd w-1r me-2 text-cyan-300"></i> {{ __("Payment methods") }}</a>
     <hr class="my-2">

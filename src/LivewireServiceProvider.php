@@ -27,6 +27,7 @@ use Eshop\Livewire\Dashboard\Product\CreateProduct;
 use Eshop\Livewire\Dashboard\Product\CreateProductGroup;
 use Eshop\Livewire\Dashboard\Product\EditProduct;
 use Eshop\Livewire\Dashboard\Product\EditProductGroup;
+use Eshop\Livewire\Dashboard\Product\ShowManufacturers;
 use Eshop\Livewire\Dashboard\Product\ShowProductImages;
 use Eshop\Livewire\Dashboard\Product\ShowProducts;
 use Eshop\Livewire\Dashboard\Product\ShowVariants;
@@ -68,6 +69,8 @@ class LivewireServiceProvider extends ServiceProvider
         // Categories
         Livewire::component('dashboard.category.show-categories', ShowCategories::class);
         Livewire::component('dashboard.category.show-category-properties', ShowCategoryProperties::class);
+
+        Livewire::component('dashboard.product.show-manufacturers', ShowManufacturers::class);
 
         // Intl
         Livewire::component('dashboard.intl.show-countries', ShowCountries::class);

@@ -13,9 +13,9 @@
 
     <tbody>
     @forelse($countries as $country)
-        <tr wire:key="row-{{ $country->code }}">
+        <tr wire:key="row-{{ $country->id }}">
             <td class="align-middle">
-                <x-bs::input.checkbox wire:model="selected" value="{{ $country->code }}" id="cb-{{ $country->code }}"/>
+                <x-bs::input.checkbox wire:model="selected" value="{{ $country->id }}" id="cb-{{ $country->id }}"/>
             </td>
             <td class="align-middle">
                 @if($country->visible)

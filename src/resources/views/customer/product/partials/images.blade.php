@@ -1,8 +1,10 @@
 <div class="row align-items-xl-center">
     <div class="col-12 col-md d-grid order-md-1">
-        <a href="{{ $product->image->url() }}" class="ratio ratio-4x3" data-fslightbox="images" data-type="image">
-            <img x-ref="preview" src="{{ $product->image->url() }}" alt="{{ $product->name }}" class="img-middle rounded">
-        </a>
+        @if($product->image && $src = $product->image->url())
+            <a href="{{ $src }}" class="ratio ratio-4x3" data-fslightbox="images" data-type="image">
+                <img x-ref="preview" src="{{ $src }}" alt="{{ $product->trademark }}" class="img-middle rounded">
+            </a>
+        @endif
     </div>
 
     @isset($images)

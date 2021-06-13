@@ -15,14 +15,15 @@ use Firebed\Livewire\Traits\Datatable\WithSelections;
 use Firebed\Livewire\Traits\Datatable\WithSorting;
 use Firebed\Livewire\Traits\SendsNotifications;
 use Illuminate\Contracts\Support\Renderable;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 use Livewire\Component;
 
 /**
  * Class ShippingMethodsDashboard
- * @package App\Http\Livewire\Intl
+ * @package Eshop\Livewire\Dashboard\Intl
  *
- * @property Collection shippingMethods
+ * @property LengthAwarePaginator shippingMethods
  */
 class ShowShippingMethods extends Component
 {
@@ -114,7 +115,7 @@ class ShowShippingMethods extends Component
 
     protected function getModels(): Collection
     {
-        return $this->shippingMethods;
+        return $this->shippingMethods->getCollection();
     }
 
     public function edit(int $id): void

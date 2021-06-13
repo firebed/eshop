@@ -5,12 +5,15 @@ namespace Eshop\Models\Location;
 
 
 use Eshop\Models\Lang\Traits\HasTranslations;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 
 /**
  * Class CountShippingMethod
  * @package App\Models\Location
+ *
+ * @mixin Builder
  */
 class CountryPaymentMethod extends Pivot
 {

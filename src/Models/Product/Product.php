@@ -51,6 +51,7 @@ use Illuminate\Support\Collection;
  *
  * @property string          name
  * @property string          description
+ * @property string          trademark
  *
  * @property float           discountAmount
  * @property float           netValue
@@ -141,8 +142,8 @@ class Product extends Model
     public function getTrademark(string $glue = ' '): ?string
     {
         return $this->isVariant()
-            ? implode(' ', array_filter([$this->parent->name, $this->getOptionValuesAttribute($glue), $this->sku]))
-            : implode(' ', array_filter([$this->name, $this->sku]));
+            ? implode(' ', array_filter([$this->parent->name, $this->getOptionValuesAttribute($glue)]))
+            : $this->name;
     }
 
     public function getTrademarkAttribute(): ?string

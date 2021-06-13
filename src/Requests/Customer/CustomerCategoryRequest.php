@@ -77,7 +77,7 @@ class CustomerCategoryRequest extends FormRequest
     private function getChoicesFromQuery(int $segment)
     {
         return CategoryChoice
-            ::whereIn('slug', explode('-', $this->segment($segment)))
+            ::whereIn('slug', explode('+', $this->segment($segment)))
             ->with('property')
             ->get()
             ->reject(fn($choice) => $choice->property->category_id !== $this->category->id)

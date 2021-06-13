@@ -12,6 +12,7 @@ use Firebed\Livewire\Traits\Datatable\WithSelections;
 use Firebed\Livewire\Traits\Datatable\WithSorting;
 use Firebed\Livewire\Traits\SendsNotifications;
 use Illuminate\Contracts\Support\Renderable;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -20,7 +21,7 @@ use Livewire\WithPagination;
  * Class CountriesDashboard
  * @package Eshop\Livewire\Dashboard\Intl
  *
- * @property Collection countries
+ * @property LengthAwarePaginator countries
  */
 class ShowCountries extends Component
 {
@@ -83,7 +84,7 @@ class ShowCountries extends Component
 
     protected function getModels(): Collection
     {
-        return $this->countries;
+        return $this->countries->getCollection();
     }
 
     public function render(): Renderable

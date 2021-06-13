@@ -2,6 +2,7 @@
 
 namespace Eshop\Models\Product;
 
+use Eshop\Models\Media\Traits\HasImages;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -22,7 +23,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  */
 class Manufacturer extends Model
 {
-    use HasFactory;
+    use HasFactory,
+        HasImages;
 
     public function products(): HasMany
     {

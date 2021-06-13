@@ -17,6 +17,12 @@ use Illuminate\View\View;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
+/**
+ * Class ShowCategories
+ * @package Eshop\Livewire\Dashboard\Category
+ *
+ * @property \Illuminate\Pagination\LengthAwarePaginator categories
+ */
 class ShowCategories extends Component
 {
     use SendsNotifications;
@@ -164,7 +170,7 @@ class ShowCategories extends Component
 
     protected function getModels(): Collection
     {
-        return collect($this->categories->items());
+        return $this->categories->getCollection();
     }
 
     public function render(): View

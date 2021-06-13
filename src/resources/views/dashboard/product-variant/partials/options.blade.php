@@ -18,7 +18,7 @@
         </x-bs::input.group>
 
         <x-bs::input.group for="image" label="{{ __('Image') }}" inline>
-            <x-bs::input.file wire:model.defer="image" id="image" error="image"/>
+            <x-bs::input.image wire:model.defer="image" id="image" error="image"/>
         </x-bs::input.group>
     </div>
 </div>

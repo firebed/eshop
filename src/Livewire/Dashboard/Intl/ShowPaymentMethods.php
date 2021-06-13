@@ -15,6 +15,7 @@ use Firebed\Livewire\Traits\Datatable\WithSelections;
 use Firebed\Livewire\Traits\Datatable\WithSorting;
 use Firebed\Livewire\Traits\SendsNotifications;
 use Illuminate\Contracts\Support\Renderable;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 use Livewire\Component;
 
@@ -22,7 +23,7 @@ use Livewire\Component;
  * Class CountriesDashboard
  * @package App\Http\Livewire\Intl
  *
- * @property Collection paymentMethods
+ * @property LengthAwarePaginator paymentMethods
  */
 class ShowPaymentMethods extends Component
 {
@@ -43,7 +44,7 @@ class ShowPaymentMethods extends Component
     public string $method     = '';
     public string $country    = '';
 
-    public $description = "";
+    public string $description = "";
 
     protected array $rules = [
         'model.id'                => ['nullable', 'integer'],
@@ -110,7 +111,7 @@ class ShowPaymentMethods extends Component
 
     protected function getModels(): Collection
     {
-        return $this->paymentMethods;
+        return $this->paymentMethods->getCollection();
     }
 
     public function edit(int $id): void

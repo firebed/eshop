@@ -3,6 +3,8 @@
 @push('header_scripts')
     <link rel="stylesheet" href="https://unpkg.com/simplebar@5.3.3/dist/simplebar.css"/>
     <script src="https://unpkg.com/simplebar@5.3.3/dist/simplebar.min.js"></script>
+
+    @includeUnless($product->has_variants, 'eshop::customer.product.partials.jsonld-product')
 @endpush
 
 @push('footer_scripts')

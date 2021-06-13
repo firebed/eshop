@@ -7,7 +7,7 @@
 
     <div class="d-flex justify-content-between">
         <div>
-            <x-bs::input.search wire:model="search" placeholder="{{ __('Search...') }}"/>
+            <x-bs::input.search wire:model="search" placeholder="{{ __('Search') }}"/>
         </div>
 
         <div class="d-flex gap-2">
