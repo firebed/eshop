@@ -33,6 +33,7 @@ trait SavesProduct
 
         $this->name = $this->product->name ?? '';
         $this->description = $this->product->description ?? '';
+        $this->product->manufacturer_id = $this->product->manufacturer_id ?: '';
     }
 
     public function updatedProductCategoryId($id): void

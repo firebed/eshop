@@ -18,9 +18,9 @@
             </x-bs::input.select>
 
             <x-bs::input.select wire:model="visibility">
-                <option value="">All</option>
-                <option value="1">Visible</option>
-                <option value="0">Hidden</option>
+                <option value="">{{ __("All") }}</option>
+                <option value="1">{{ __("Visible") }}</option>
+                <option value="0">{{ __("Hidden") }}</option>
             </x-bs::input.select>
         </div>
 

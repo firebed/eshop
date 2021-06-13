@@ -1,6 +1,6 @@
 <div class="col-12 col-xxl-8 mx-auto p-4 d-grid gap-3">
     <div class="d-flex justify-content-between align-items-center">
-        <h1 class="fs-3 mb-0">{{ __("New Product Group") }}</h1>
+        <h1 class="fs-3 mb-0">{{ __("New product group") }}</h1>
 
         <x-bs::button.primary wire:click="save" wire:loading.attr="disabled">
             <i wire:loading.remove wire:target="save" class="fa fa-save me-2"></i>

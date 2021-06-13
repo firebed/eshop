@@ -37,7 +37,11 @@
             <td>{{ $product->sku }}</td>
             <td>{{ $product->manufacturer->name ?? '' }}</td>
             <td>@if($product->has_variants) {{ format_number($product->variants_sum_stock) }} @else {{ format_number($product->stock) }} @endif</td>
-            <td>@if($product->has_variants){{ $product->variants_count }}@endif</td>
+            <td>
+                @if($product->has_variants)
+                    <a href="{{ route('products.variants.index', $product) }}" class="btn btn-teal">@choice("eshop::product.variants_count", $product->variants_count, ['count' => $product->variants_count])</a>
+                @endif
+            </td>
             <td>
                 @if($product->has_variants)
                     @if($product->variants_min_price === $product->variants_max_price)
