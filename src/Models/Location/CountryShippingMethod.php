@@ -28,11 +28,9 @@ class CountryShippingMethod extends Pivot
 {
     use HasFactory, HasTranslations;
 
-    public $incrementing = true;
+    public $incrementing = TRUE;
 
     protected $translatable = ['description'];
-
-//    protected $appends = ['description_for_edit'];
 
     protected $casts = [
         'fee'                   => 'float',
@@ -53,16 +51,6 @@ class CountryShippingMethod extends Pivot
     {
         return $this->belongsTo(ShippingMethod::class);
     }
-
-//    public function getDescriptionForEditAttribute(): string
-//    {
-//        return $this->description ?? '';
-//    }
-//
-//    public function setDescriptionForEditAttribute($value): void
-//    {
-//        $this->description = blank($value) ? NULL : trim($value);
-//    }
 
     public function calculateTotalFee(float $weight): float
     {

@@ -15,7 +15,6 @@ use Firebed\Livewire\Traits\Datatable\WithSelections;
 use Firebed\Livewire\Traits\Datatable\WithSorting;
 use Firebed\Livewire\Traits\SendsNotifications;
 use Illuminate\Contracts\Support\Renderable;
-use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 use Livewire\Component;
 
@@ -23,7 +22,7 @@ use Livewire\Component;
  * Class CountriesDashboard
  * @package App\Http\Livewire\Intl
  *
- * @property LengthAwarePaginator paymentMethods
+ * @property Collection paymentMethods
  */
 class ShowPaymentMethods extends Component
 {
@@ -84,7 +83,9 @@ class ShowPaymentMethods extends Component
 
     protected function deleteRows(): int
     {
-        return CountryPaymentMethod::query()->whereKey($this->selected)->delete();
+        $count = CountryPaymentMethod::query()->whereKey($this->selected)->delete();
+        $this->model = $this->makeEmptyModel();
+        return $count;
     }
 
     protected function updateVisibility($visible): int
@@ -111,13 +112,13 @@ class ShowPaymentMethods extends Component
 
     protected function getModels(): Collection
     {
-        return $this->paymentMethods->getCollection();
+        return $this->paymentMethods;
     }
 
     public function edit(int $id): void
     {
         $this->crudEdit($id);
-        $this->description = $this->model->description;
+        $this->description = $this->model->description ?? "";
     }
 
     public function save(): void

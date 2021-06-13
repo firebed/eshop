@@ -44,7 +44,7 @@
         </tr>
     @empty
         <tr>
-            <td colspan="9" class="text-center py-4 fst-italic text-secondary">{{ __('No records found') }}</td>
+            <td colspan="11" class="text-center py-4 fst-italic text-secondary">{{ __('No records found') }}</td>
         </tr>
     @endforelse
     </tbody>

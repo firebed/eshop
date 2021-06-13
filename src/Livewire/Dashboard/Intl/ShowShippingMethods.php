@@ -15,7 +15,6 @@ use Firebed\Livewire\Traits\Datatable\WithSelections;
 use Firebed\Livewire\Traits\Datatable\WithSorting;
 use Firebed\Livewire\Traits\SendsNotifications;
 use Illuminate\Contracts\Support\Renderable;
-use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 use Livewire\Component;
 
@@ -23,7 +22,7 @@ use Livewire\Component;
  * Class ShippingMethodsDashboard
  * @package Eshop\Livewire\Dashboard\Intl
  *
- * @property LengthAwarePaginator shippingMethods
+ * @property Collection shippingMethods
  */
 class ShowShippingMethods extends Component
 {
@@ -55,7 +54,7 @@ class ShowShippingMethods extends Component
         'model.inaccessible_area_fee' => ['required', 'numeric', 'min:0'],
         'model.position'              => ['required', 'integer', 'min:0'],
         'model.visible'               => ['required', 'boolean'],
-        'model.description_for_edit'  => ['nullable', 'string'],
+        'description'                 => ['nullable', 'string'],
     ];
 
     public function getQueryString(): array
@@ -88,7 +87,9 @@ class ShowShippingMethods extends Component
 
     protected function deleteRows(): int
     {
-        return CountryShippingMethod::query()->whereKey($this->selected)->delete();
+        $count = CountryShippingMethod::query()->whereKey($this->selected)->delete();
+        $this->model = $this->makeEmptyModel();
+        return $count;
     }
 
     protected function updateVisibility($visible): int
@@ -115,13 +116,13 @@ class ShowShippingMethods extends Component
 
     protected function getModels(): Collection
     {
-        return $this->shippingMethods->getCollection();
+        return $this->shippingMethods;
     }
 
     public function edit(int $id): void
     {
         $this->crudEdit($id);
-        $this->description = $this->model->description;
+        $this->description = $this->model->description ?? "";
     }
 
     public function save(): void

@@ -3,7 +3,7 @@
     <x-bs::modal.body>
         <div class="d-grid gap-2">
             <x-bs::input.group for="name" label="{{ __('Name') }}" inline>
-                <x-bs::input.text wire:model.defer="model.name" error="model.name" id="model-name" autofocus/>
+                <x-bs::input.text wire:model="model.name" error="model.name" id="model-name" autofocus/>
             </x-bs::input.group>
 
             <x-bs::input.group for="slug" label="{{ __('Slug') }}" inline>
@@ -17,6 +17,10 @@
     </x-bs::modal.body>
     <x-bs::modal.footer>
         <x-bs::modal.close-button>{{ __('Cancel') }}</x-bs::modal.close-button>
-        <x-bs::button.primary type="submit">{{ __("Save") }}</x-bs::button.primary>
+        <x-bs::button.primary type="submit" wire:loading.attr="disabled">
+            <em wire:loading class="fa fa-spinner fa-spin me-2" wire:target="save, image"></em>
+            <span wire:loading wire:target="image" wire:target="save, image">{{ __("Uploading") }}</span>
+            <span wire:loading.remove wire:target="image" wire:target="save, image">{{ __("Save") }}</span>
+        </x-bs::button.primary>
     </x-bs::modal.footer>
 </x-bs::modal>

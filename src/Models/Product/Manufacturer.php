@@ -26,6 +26,8 @@ class Manufacturer extends Model
     use HasFactory,
         HasImages;
 
+    protected string $disk = 'manufacturers';
+
     public function products(): HasMany
     {
         return $this->hasMany(Product::class);
@@ -34,5 +36,21 @@ class Manufacturer extends Model
     public function categories(): BelongsToMany
     {
         return $this->belongsToMany(Category::class, 'products');
+    }
+
+
+    /*
+    |-----------------------------------------------------------------------------
+    | OTHER
+    |-----------------------------------------------------------------------------
+    */
+    protected function registerImageConversions(): void
+    {
+        $this->addImageConversion('sm', function ($image) {
+            $image->resize(300, 300, function ($constraint) {
+                $constraint->aspectRatio();
+                $constraint->upsize();
+            });
+        });
     }
 }
