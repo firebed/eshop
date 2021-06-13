@@ -118,7 +118,7 @@ if (!function_exists('category_url')) {
             }
         } else if ($choices !== NULL && $choices->isNotEmpty()) {
             $name = 'customer.categories.filters';
-            $params[] = $choices->pluck('slug')->join('+');
+            $params[] = $choices->pluck('slug')->join('-');
         }
 
         if (!empty($min_price)) {

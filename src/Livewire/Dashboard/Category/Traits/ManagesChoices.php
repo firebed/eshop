@@ -51,7 +51,7 @@ trait ManagesChoices
                 $model = filled($choice['id']) ? $currentChoices->find($choice['id']) : new CategoryChoice();
                 $model->fill([
                     'category_property_id' => $property->id,
-                    'slug'                 => slugify($choice['name']),
+                    'slug'                 => slugify($choice['name'], '_'),
                     'position'             => $position++
                 ]);
 

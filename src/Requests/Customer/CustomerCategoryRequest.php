@@ -20,7 +20,7 @@ class CustomerCategoryRequest extends FormRequest
     {
         $this->category = $this->route('category');
 
-        return true;
+        return TRUE;
     }
 
     /**
@@ -40,7 +40,7 @@ class CustomerCategoryRequest extends FormRequest
     {
         $filters = collect(['m' => collect(), 'c' => collect()]);
         if ($this->segment(3) === 'm') {
-            $filters['m'] = $this->getManufacturersFromQuery(4);
+            $filters['m'] = $this->getManufacturersFromQuery();
 
             if ($this->segment(5) !== NULL) {
                 $filters['c'] = $this->getChoicesFromQuery(5);
@@ -66,18 +66,18 @@ class CustomerCategoryRequest extends FormRequest
         return $this->segment(3) === 'f' ? $this->segment(4) : $this->segment(5);
     }
 
-    private function getManufacturersFromQuery(int $segment)
+    private function getManufacturersFromQuery(): Collection
     {
         return Manufacturer
-            ::whereIn('slug', explode('-', $this->segment($segment)))
+            ::whereIn('slug', explode('-', $this->segment(4)))
             ->whereHas('categories', fn($q) => $q->where('categories.id', $this->category->id))
             ->get();
     }
 
-    private function getChoicesFromQuery(int $segment)
+    private function getChoicesFromQuery(int $segment): Collection
     {
         return CategoryChoice
-            ::whereIn('slug', explode('+', $this->segment($segment)))
+            ::whereIn('slug', explode('-', $this->segment($segment)))
             ->with('property')
             ->get()
             ->reject(fn($choice) => $choice->property->category_id !== $this->category->id)

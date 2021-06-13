@@ -69,10 +69,8 @@ class ShowManufacturers extends Component
 
     protected function deleteRows(): int
     {
-        $count = $this->selected();
         Manufacturer::findMany($this->selected())->each->delete();
-        $this->model = $this->makeEmptyModel();
-        return count($count);
+        return $this->countSelected();
     }
 
     public function getManufacturersProperty()
@@ -114,7 +112,7 @@ class ShowManufacturers extends Component
     public function updatedModelName(): void
     {
         if ($this->model->id === NULL) {
-            $this->model->slug = slugify($this->model->name);
+            $this->model->slug = slugify($this->model->name, '_');
         }
     }
 

@@ -83,9 +83,7 @@ class ShowPaymentMethods extends Component
 
     protected function deleteRows(): int
     {
-        $count = CountryPaymentMethod::query()->whereKey($this->selected)->delete();
-        $this->model = $this->makeEmptyModel();
-        return $count;
+        return CountryPaymentMethod::query()->whereKey($this->selected)->delete();
     }
 
     protected function updateVisibility($visible): int

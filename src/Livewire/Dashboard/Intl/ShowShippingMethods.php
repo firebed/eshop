@@ -87,9 +87,7 @@ class ShowShippingMethods extends Component
 
     protected function deleteRows(): int
     {
-        $count = CountryShippingMethod::query()->whereKey($this->selected)->delete();
-        $this->model = $this->makeEmptyModel();
-        return $count;
+        return CountryShippingMethod::query()->whereKey($this->selected)->delete();
     }
 
     protected function updateVisibility($visible): int

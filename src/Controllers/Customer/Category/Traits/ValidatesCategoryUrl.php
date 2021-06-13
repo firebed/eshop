@@ -20,7 +20,7 @@ trait ValidatesCategoryUrl
      */
     protected function validateUrl(Collection $filters, ?string $user_manufacturers, ?string $user_choices): bool
     {
-        return $filters['m']->pluck('slug')->join('+') === ($user_manufacturers ?? "")
-            && $filters['c']->pluck('slug')->join('+') === ($user_choices ?? "");
+        return $filters['m']->pluck('slug')->join('-') === ($user_manufacturers ?? "")
+            && $filters['c']->pluck('slug')->join('-') === ($user_choices ?? "");
     }
 }
