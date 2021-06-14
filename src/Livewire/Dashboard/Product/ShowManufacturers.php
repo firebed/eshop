@@ -5,11 +5,11 @@ namespace Eshop\Livewire\Dashboard\Product;
 
 
 use Eshop\Models\Product\Manufacturer;
-use Firebed\Livewire\Traits\Datatable\DeletesRows;
-use Firebed\Livewire\Traits\Datatable\WithCRUD;
-use Firebed\Livewire\Traits\Datatable\WithSelections;
-use Firebed\Livewire\Traits\Datatable\WithSorting;
-use Firebed\Livewire\Traits\SendsNotifications;
+use Firebed\Components\Livewire\Traits\Datatable\DeletesRows;
+use Firebed\Components\Livewire\Traits\Datatable\WithCRUD;
+use Firebed\Components\Livewire\Traits\Datatable\WithSelections;
+use Firebed\Components\Livewire\Traits\Datatable\WithSorting;
+use Firebed\Components\Livewire\Traits\SendsNotifications;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;

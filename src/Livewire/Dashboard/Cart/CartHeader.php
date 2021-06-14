@@ -11,7 +11,7 @@ use Eshop\Models\Cart\Cart;
 use Eshop\Models\Cart\CartStatus;
 use Eshop\Repository\Contracts\CartContract;
 use Dompdf\Dompdf;
-use Firebed\Livewire\Traits\SendsNotifications;
+use Firebed\Components\Livewire\Traits\SendsNotifications;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;

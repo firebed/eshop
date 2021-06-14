@@ -6,7 +6,7 @@ namespace Eshop\Livewire\Dashboard\Product;
 
 use Eshop\Models\Product\Product;
 use Eshop\Models\Product\VariantType;
-use Firebed\Livewire\Traits\SendsNotifications;
+use Firebed\Components\Livewire\Traits\SendsNotifications;
 use Illuminate\Contracts\Support\Renderable;
 use Livewire\Component;
 

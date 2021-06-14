@@ -3,7 +3,7 @@
 namespace Eshop\Livewire\Dashboard\User;
 
 use Eshop\Models\User;
-use Firebed\Livewire\Traits\WithCustomPaginationView;
+use Firebed\Components\Livewire\Traits\WithCustomPaginationView;
 use Illuminate\View\View;
 use Livewire\Component;
 use Livewire\WithPagination;

@@ -7,7 +7,7 @@ namespace Eshop\Livewire\Customer\Product;
 use Eshop\Livewire\Customer\Checkout\Concerns\ControlsOrder;
 use Eshop\Models\Product\Product;
 use Eshop\Repository\Contracts\Order;
-use Firebed\Livewire\Traits\SendsNotifications;
+use Firebed\Components\Livewire\Traits\SendsNotifications;
 use Illuminate\Contracts\Support\Renderable;
 use Livewire\Component;
 

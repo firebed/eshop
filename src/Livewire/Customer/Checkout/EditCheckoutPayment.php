@@ -8,7 +8,7 @@ use Eshop\Livewire\Customer\Checkout\Concerns\ControlsOrder;
 use Eshop\Livewire\Customer\Checkout\Concerns\PayPalCheckout;
 use Eshop\Livewire\Customer\Checkout\Concerns\StripeCheckout;
 use Eshop\Repository\Contracts\Order;
-use Firebed\Livewire\Traits\SendsNotifications;
+use Firebed\Components\Livewire\Traits\SendsNotifications;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
