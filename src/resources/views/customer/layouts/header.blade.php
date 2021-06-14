@@ -83,11 +83,7 @@
 
             <div class="col-3 justify-content-center d-none d-md-flex">
                 <em class="fa fa-mobile-alt fa-2x text-primary me-2"></em>
-                <div class="small lh-sm">
-                    @foreach(config('eshop.phone_numbers') as $phoneNumber)
-                        <div class="fw-500">{{ $phoneNumber }}</div>
-                    @endforeach
-                </div>
+                <div class="small lh-sm fw-500">{!! collect(__("company.phone"))->join('<br>') !!}</div>
             </div>
 
             <div class="col-auto d-flex justify-content-end">
