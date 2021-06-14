@@ -1,4 +1,4 @@
-@extends('eshop::customer.layouts.master', ['title' => __("Home")])
+@extends('eshop::customer.layouts.master', ['title' => __('company.job')])
 
 @push('header_scripts')
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/keen-slider@latest/keen-slider.min.css" />
