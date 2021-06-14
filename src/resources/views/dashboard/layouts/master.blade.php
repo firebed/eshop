@@ -16,7 +16,7 @@
     @stack('header_scripts')
     @livewireStyles
 
-    <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
+    <script defer src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js"></script>
 </head>
 <body class="container-fluid bg-light">
 <div class="row">

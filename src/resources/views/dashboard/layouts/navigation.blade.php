@@ -1,4 +1,4 @@
-<x-bs::sidebar>
+<x-bs::sidebar company="{{ config('app.name') }}">
     <a href="#" @if(request()->routeIs('dashboard')) class="bg-gray-700" @endif><i class="fas fa-tachometer-alt w-1r me-2"></i> {{ __("Dashboard") }}</a>
     <hr class="my-2">
     <a href="{{ route('products.index') }}" @if(request()->routeIs('products.*')) class="bg-gray-700" @endif><em class="fas fa-boxes w-1r me-2 text-teal-500"></em> {{ __("Products") }}</a>

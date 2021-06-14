@@ -1,19 +1,20 @@
-<div class="container-fluid border-bottom bg-light">
+<div class="container-fluid border-bottom bg-light g-0">
     <div class="container">
-        <div class="row small justify-content-between">
+        <div class="row small justify-content-between g-0">
             <div class="col-auto">
                 <div class="dropdown p-0">
-                    <div class="px-3 py-2 d-flex align-items-center border-start border-end w-10r" role="button" id="languages-menu" data-bs-toggle="dropdown" aria-expanded="false">
+                    <div class="px-3 py-2 d-flex align-items-center border-start border-end w-sm-10r" role="button" id="languages-menu" data-bs-toggle="dropdown" aria-expanded="false">
                         @if(app()->getLocale() === 'el')
                             <img class="me-2" src="{{ asset('storage/images/flags/Greece.png') }}" alt="Flag of Greece" width="16" height="16">
-                            <span>Ελληνικά</span>
-                            <em class="fa fa-chevron-down text-secondary small ms-3"></em>
+                            <span class="d-none d-sm-inline-block">Ελληνικά</span>
+                            <em class="fa fa-chevron-down text-secondary small ms-2"></em>
                         @elseif(app()->getLocale() === 'en')
                             <img class="me-2" src="{{ asset('storage/images/flags/UnitedKingdom.png') }}" alt="Flag of United Kingdom" width="16" height="16">
-                            <span>English</span>
-                            <em class="fa fa-chevron-down text-secondary small ms-3"></em>
+                            <span class="d-none d-sm-inline-block">English</span>
+                            <em class="fa fa-chevron-down text-secondary small ms-2"></em>
                         @endif
                     </div>
+
                     <ul class="dropdown-menu rounded-0 m-0 p-0 w-10r shadow-sm" aria-labelledby="languages-menu">
                         <li>
                             <a class="dropdown-item small d-flex align-items-center py-2" href="{{ route('home', 'el') }}">
