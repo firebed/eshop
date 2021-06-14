@@ -12,7 +12,7 @@ class CheckoutDetailsController extends Controller
     public function __invoke(Order $order): View|RedirectResponse
     {
         if ($order->isEmpty()) {
-            return redirect()->route('eshop::checkout.products.index', app()->getLocale());
+            return redirect()->route('checkout.products.index', app()->getLocale());
         }
 
         return view('eshop::customer.checkout.details.wire-edit');

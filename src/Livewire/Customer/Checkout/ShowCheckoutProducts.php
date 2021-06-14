@@ -40,7 +40,7 @@ class ShowCheckoutProducts extends Component
     public function render(Order $order): Renderable
     {
         if ($order->isEmpty()) {
-            return view('customer.checkout.products.wire.index', [
+            return view('eshop::customer.checkout.products.wire.index', [
                 'order'    => $order,
             ]);
         }
