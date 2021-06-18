@@ -11,16 +11,17 @@ trait WithProductGroupAttributes
     protected function rules(): array
     {
         $rules = [
-            'product.id'              => ['nullable', 'int'],
-            'name'                    => ['required', 'string'],
-            'description'             => ['nullable', 'string'],
+            'product.id'               => ['nullable', 'int'],
+            'name'                     => ['required', 'string'],
+            'description'              => ['nullable', 'string'],
 
             // Organization
-            'product.category_id'     => ['required', 'int', 'exists:categories,id'],
-            'product.manufacturer_id' => ['nullable', 'int', 'exists:manufacturers,id'],
+            'product.category_id'      => ['required', 'int', 'exists:categories,id'],
+            'product.manufacturer_id'  => ['nullable', 'int', 'exists:manufacturers,id'],
 
             // Accessibility
-            'product.visible'         => ['required', 'boolean'],
+            'product.visible'          => ['required', 'boolean'],
+            'product.variants_display' => ['required', 'string', 'in:Grid,Buttons,Dropdown'],
         ];
 
         $rules['product.slug'] = $this->product

@@ -23,7 +23,7 @@ class VariantTypes extends Component
 
     protected array $rules = [
         'editing.product_id' => 'required|integer',
-        'editing.name'       => 'required|string'
+        'editing.name'       => 'required|string',
     ];
 
     public function mount(): void
@@ -63,6 +63,7 @@ class VariantTypes extends Component
     {
         $this->validate();
 
+        $this->editing->slug = slugify($this->editing->name, '_');
         $this->editing->save();
         $this->showModal = false;
         $this->showSuccessToast('Variant type saved!');

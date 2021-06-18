@@ -6,6 +6,7 @@ use Eshop\Models\Cart\Cart;
 use Eshop\Models\Invoice\Company;
 use Eshop\Models\Lang\Traits\FullTextIndex;
 use Eshop\Models\Location\Address;
+use Firebed\Permission\Models\Traits\HasRoles;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -26,9 +27,9 @@ use Laravel\Cashier\Billable;
  */
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable, FullTextIndex, SoftDeletes, Billable;
+    use HasFactory, Notifiable, FullTextIndex, SoftDeletes, Billable, HasRoles;
 
-    public $match = ['first_name', 'last_name', 'email'];
+    public array $match = ['first_name', 'last_name', 'email'];
 
     /**
      * The attributes that are mass assignable.

@@ -21,7 +21,7 @@ trait SavesVariant
     public float  $global_price    = 0;
     public string $search          = "";
     public array  $variant_values  = [];
-    public string $description = "";
+    public string $description     = "";
 
     public Product $variant;
 
@@ -92,7 +92,7 @@ trait SavesVariant
         $this->validate();
 
         $this->variant->description = blank($this->description) ? NULL : trim($this->description);
-        DB::transaction(function() {
+        DB::transaction(function () {
             if ($this->variant->save()) {
                 $this->variant->options()->sync($this->mapVariantTypes());
                 $this->saveImage();
@@ -106,7 +106,8 @@ trait SavesVariant
     {
         return collect($this->variant_values)->map(fn($value, $key) => [
             'variant_type_id' => $key,
-            'value'           => $value
+            'value'           => $value,
+            'slug'            => slugify($value, '_')
         ]);
     }
 

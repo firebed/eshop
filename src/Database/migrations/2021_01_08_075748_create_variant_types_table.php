@@ -17,6 +17,7 @@ class CreateVariantTypesTable extends Migration
             $table->id();
             $table->foreignId('product_id')->constrained()->cascadeOnDelete();
             $table->string('name');
+            $table->string('slug');
         });
     }
 

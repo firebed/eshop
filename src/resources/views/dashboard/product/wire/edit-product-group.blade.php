@@ -29,12 +29,7 @@
             @include('eshop::dashboard.product.partials.primary')
             <livewire:dashboard.product.variant-types :product="$product"/>
 
-            <div class="card shadow-sm">
-                <div class="card-body">
-                    <div class="fs-5 mb-3">{{ __("Accessibility") }}</div>
-                    <x-bs::input.checkbox wire:model.defer="product.visible" id="visible">{{ __('Customers can view this group') }}</x-bs::input.checkbox>
-                </div>
-            </div>
+            @include('eshop::dashboard.product.partials.group-accessibility')
 
             @include('eshop::dashboard.product.partials.delete-product')
         </div>

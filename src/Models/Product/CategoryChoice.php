@@ -26,12 +26,12 @@ use Illuminate\Support\Collection;
  */
 class CategoryChoice extends Model
 {
-    use HasFactory;
-    use HasTranslations;
+    use HasFactory,
+        HasTranslations;
 
     protected $guarded = [];
 
-    protected $translatable = ['name'];
+    protected array $translatable = ['name'];
 
     public function products(): BelongsToMany
     {

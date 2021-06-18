@@ -43,7 +43,8 @@
                     @else
                         <x-bs::dropdown>
                             <x-bs::dropdown.button class="border-start border-end shadow-none" id="user-menu">
-                                <em class="text-secondary fas fa-user me-2"></em>{{ __('Account') }}
+                                <em class="text-secondary fas fa-user me-2"></em>
+                                <small>{{ __('Account') }}</small>
                             </x-bs::dropdown.button>
 
                             <x-bs::dropdown.menu button="user-menu" alignment="right">

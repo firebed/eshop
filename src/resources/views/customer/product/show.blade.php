@@ -8,6 +8,7 @@
 @endpush
 
 @push('footer_scripts')
+    <script src="https://cdn.jsdelivr.net/npm/autonumeric@4.6.0/dist/autoNumeric.min.js"></script>
     <script src="{{ asset('vendor/eshop/js/fslightbox.js') }}"></script>
 @endpush
 
@@ -37,14 +38,19 @@
 
                     @includeWhen($product->description !== NULL, 'eshop::customer.product.partials.product-description')
 
-                    <div class="d-grid gap-2 mt-4">
+                    <div class="d-grid gap-2 mt-3">
                         @if($product->has_variants)
-                            <a href="#product-variants" class="btn btn-primary btn-block">{{ __("See all variants") }} ({{ $product->variants_count }})</a>
-                        @elseif($product->canBeBought())
-                            @push('footer_scripts')
-                                <script src="https://cdn.jsdelivr.net/npm/autonumeric@4.6.0/dist/autoNumeric.min.js"></script>
-                            @endpush
+                            @if($product->variants_display === 'Grid')
+                                <a href="#product-variants" class="btn btn-primary btn-block">{{ __("See all variants") }} ({{ $product->variants_count }})</a>
+                            @endif
 
+                            @if($product->variants_display === 'Buttons')
+                                <livewire:customer.product.product-variants-buttons :product="$product"/>
+                            @endif
+
+                            @if($product->variants_display === 'Dropdown')
+                            @endif
+                        @elseif($product->canBeBought())
                             <livewire:customer.product.add-to-cart-form :product="$product"/>
                         @else
                             <div class="col-12 mb-4">
@@ -59,9 +65,9 @@
         </div>
     </div>
 
-    @if($product->has_variants)
+    @if($product->has_variants && $product->variants_display === 'Grid')
         <div id="product-variants" class="container-fluid mb-4 py-4 bg-light">
-            <livewire:customer.product.product-variants :product="$product" :category="$category" />
+            <livewire:customer.product.product-variants :product="$product" :category="$category"/>
         </div>
     @endif
 @endsection

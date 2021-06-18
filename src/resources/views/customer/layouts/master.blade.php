@@ -16,7 +16,8 @@
     @stack('header_scripts')
 
     <livewire:styles/>
-    <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.8.2/dist/alpine.min.js" defer></script>
+{{--    <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>--}}
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
 </head>
 <body @isset($bg) class="{{ $bg }}" @else style="background-color: #f1f1f1" @endisset>
 <x-bs::toast-container id="toasts"/>

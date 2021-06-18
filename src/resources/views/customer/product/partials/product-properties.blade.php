@@ -1,7 +1,7 @@
 <div class="d-grid">
     <h2 class="fs-6 fw-500">{{ __("Attributes") }}</h2>
     <div class="product-description-bullets">
-        <ul class="row row-cols-1 row-cols-sm-2 row-cols-md-1 row-cols-xl-2 mb-4 g-1 px-0">
+        <ul class="row row-cols-1 row-cols-sm-2 row-cols-md-1 row-cols-xl-2 g-1 px-0">
             @foreach($properties as $property)
                 <li class="col">
                     @if($property->show_caption)

@@ -17,7 +17,12 @@
                                id="f-{{ $choice->id }}"
                                @if($filters['c']->contains($choice->id)) checked @endif
                                @if($choice->products_count === 0) disabled @endif
-                               onchange="location.href = '{{ categoryRoute($category, $filters['m'], $filters['c']->toggle($choice), $filters['min_price'], $filters['max_price']) }}'">
+                               @if($property->isIndexMultiple())
+                                onchange="location.href = '{{ categoryRoute($category, $filters['m'], $filters['c']->toggle($choice), $filters['min_price'], $filters['max_price']) }}'"
+                               @else
+                                onchange="location.href = '{{ categoryRoute($category, $filters['m'], collect([$choice]), $filters['min_price'], $filters['max_price']) }}'"
+                               @endif
+                        >
                         <label class="form-check-label" for="f-{{ $choice->id }}">{{ $choice->name }} <small class="text-secondary">({{ $choice->products_count }})</small></label>
                     </div>
                 @endforeach

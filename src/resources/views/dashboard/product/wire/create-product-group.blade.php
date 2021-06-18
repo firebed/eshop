@@ -13,13 +13,7 @@
         <div class="col-12 col-md-7 d-flex flex-column gap-4">
             @include('eshop::dashboard.product.partials.primary')
             @include('eshop::dashboard.product.partials.create-variant-types')
-
-            <x-bs::card>
-                <x-bs::card.body>
-                    <div class="fs-5 mb-3">{{ __("Accessibility") }}</div>
-                    <x-bs::input.checkbox wire:model.defer="product.visible" id="visible">{{ __('Customers can view this group') }}</x-bs::input.checkbox>
-                </x-bs::card.body>
-            </x-bs::card>
+            @include('eshop::dashboard.product.partials.group-accessibility')
         </div>
         <div class="col-12 col-md-5 d-flex flex-column gap-4">
             @include('eshop::dashboard.product.partials.image')

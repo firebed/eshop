@@ -27,20 +27,20 @@
                         <div class="text-secondary">{{ optional($cart->submitted_at)->isoFormat('llll') }}</div>
                     </div>
 
-                    <livewire:eshop::dashboard.cart.cart-header :cart="$cart"/>
+                    <livewire:dashboard.cart.cart-header :cart="$cart"/>
                 </div>
 
                 <div class="row g-4">
-                    <div class="col-12 col-xxl-4 d-flex flex-column gap-2 order-xxl-1">
-                        <livewire:eshop::dashboard.cart.customer-notes :cart="$cart"/>
-                        <livewire:eshop::dashboard.cart.cart-overview :cart="$cart"/>
-                        <livewire:eshop::dashboard.cart.shipping-address :cart="$cart"/>
-                        <livewire:eshop::dashboard.cart.billing-address :cart="$cart"/>
-                        <livewire:eshop::dashboard.cart.invoice :cart="$cart"/>
+                    <div class="col-12 col-xxl-auto d-flex flex-column gap-2 order-xxl-1" style="width: 25rem">
+                        <livewire:dashboard.cart.customer-notes :cart="$cart"/>
+                        <livewire:dashboard.cart.cart-overview :cart="$cart"/>
+                        <livewire:dashboard.cart.shipping-address :cart="$cart"/>
+                        <livewire:dashboard.cart.billing-address :cart="$cart"/>
+                        <livewire:dashboard.cart.invoice :cart="$cart"/>
                     </div>
 
                     <div class="col">
-                        <livewire:eshop::dashboard.cart.show-cart :cart="$cart"/>
+                        <livewire:dashboard.cart.show-cart :cart="$cart"/>
                     </div>
                 </div>
             </div>

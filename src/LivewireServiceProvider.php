@@ -8,6 +8,7 @@ use Eshop\Livewire\Customer\Checkout\EditCheckoutPayment;
 use Eshop\Livewire\Customer\Checkout\ShowCheckoutProducts;
 use Eshop\Livewire\Customer\Product\AddToCartForm;
 use Eshop\Livewire\Customer\Product\ProductVariants;
+use Eshop\Livewire\Customer\Product\ProductVariantsButtons;
 use Eshop\Livewire\Dashboard\Cart\BillingAddress;
 use Eshop\Livewire\Dashboard\Cart\CartHeader;
 use Eshop\Livewire\Dashboard\Cart\CartItemCreateModal;
@@ -48,6 +49,7 @@ class LivewireServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Livewire::component('customer.product.product-variants', ProductVariants::class);
+        Livewire::component('customer.product.product-variants-buttons', ProductVariantsButtons::class);
         Livewire::component('customer.product.add-to-cart-form', AddToCartForm::class);
         Livewire::component('customer.checkout.cart-button', CartButton::class);
         Livewire::component('customer.checkout.show-checkout-products', ShowCheckoutProducts::class);

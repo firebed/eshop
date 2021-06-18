@@ -5,6 +5,7 @@ namespace Eshop\Livewire\Dashboard\Product;
 use Eshop\Livewire\Dashboard\Product\Traits\RendersProduct;
 use Eshop\Livewire\Dashboard\Product\Traits\SavesProduct;
 use Eshop\Livewire\Dashboard\Product\Traits\WithProductGroupAttributes;
+use Eshop\Models\Product\Product;
 use Eshop\Models\Product\VariantType;
 use Firebed\Components\Livewire\Traits\SendsNotifications;
 use Illuminate\Contracts\Support\Renderable;
@@ -23,11 +24,20 @@ use Livewire\Component;
 class CreateProductGroup extends Component
 {
     use SendsNotifications;
-    use SavesProduct;
+    use SavesProduct {
+        makeProduct as baseMakeProduct;
+    }
     use WithProductGroupAttributes;
     use RendersProduct;
 
     public array $variant_types = [''];
+
+    protected function makeProduct(): Product
+    {
+        $product = $this->baseMakeProduct();
+        $product->variants_display = 'Grid';
+        return $product;
+    }
 
     public function save(): void
     {

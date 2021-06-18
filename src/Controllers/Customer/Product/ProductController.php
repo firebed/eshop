@@ -30,7 +30,7 @@ class ProductController extends Controller
             'product'    => $product,
             'images'     => $product->images('gallery')->get(),
             'quantity'   => $quantity,
-            'properties' => $product->properties()->with('translation')->get()->unique(),
+            'properties' => $product->properties()->visible()->with('translation')->get()->unique(),
             'choices'    => $product->choices()->with('translation')->get()
         ]);
     }

@@ -86,7 +86,6 @@ class EshopServiceProvider extends ServiceProvider
 
         $this->publishes([__DIR__ . '/resources/views/customer' => resource_path('views/vendor/eshop/customer')], 'eshop-customer-views');
         $this->publishes([__DIR__ . '/resources/views/dashboard' => resource_path('views/vendor/eshop/dashboard')], 'eshop-dashboard-views');
-
     }
 
     private function loadRoutes(): void

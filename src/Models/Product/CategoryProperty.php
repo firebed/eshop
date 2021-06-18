@@ -90,4 +90,15 @@ class CategoryProperty extends Model
     {
         return $this->value_restriction === 'Multiple';
     }
+
+    /*
+    |-----------------------------------------------------------------------------
+    | SCOPES
+    |-----------------------------------------------------------------------------
+    */
+
+    public function scopeVisible(Builder $builder, $visible = TRUE): void
+    {
+        $builder->where('visible', $visible);
+    }
 }

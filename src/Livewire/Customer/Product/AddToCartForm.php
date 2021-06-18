@@ -16,7 +16,7 @@ class AddToCartForm extends Component
     use ControlsOrder, SendsNotifications;
 
     public Product $product;
-    public         $quantity;
+    public int     $quantity;
 
     public function mount(Order $order): void
     {

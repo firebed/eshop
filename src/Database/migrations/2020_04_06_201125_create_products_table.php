@@ -42,6 +42,7 @@ class CreateProductsTable extends Migration
             $table->string('barcode', 50)->nullable()->unique();
 //            $table->string('slug')->unique();
             $table->string('slug');
+            $table->enum('variants_display', ['Grid', 'Buttons', 'Dropdown'])->nullable();
 
             $table->timestamps();
             $table->softDeletes()->index();

@@ -38,6 +38,7 @@ use Illuminate\Support\Collection;
  * @property string          sku
  * @property string          barcode
  * @property string          slug
+ * @property string          variants_display
  * @property Collection      options Returns a collection of variant options
  *
  * @property Product         parent
@@ -116,12 +117,16 @@ class Product extends Model
 
     public function properties(): BelongsToMany
     {
-        return $this->belongsToMany(CategoryProperty::class, 'product_properties')->withPivot('category_choice_id', 'value')->orderBy('position');
+        return $this->belongsToMany(CategoryProperty::class, 'product_properties')
+            ->withPivot('category_choice_id', 'value')
+            ->orderBy('position');
     }
 
     public function choices(): BelongsToMany
     {
-        return $this->belongsToMany(CategoryChoice::class, 'product_properties')->withPivot('category_property_id', 'category_choice_id', 'value')->orderBy('position');
+        return $this->belongsToMany(CategoryChoice::class, 'product_properties')
+            ->withPivot('category_property_id', 'category_choice_id', 'value')
+            ->orderBy('position');
     }
 
     public function variants(): HasMany
@@ -136,7 +141,9 @@ class Product extends Model
 
     public function options(): BelongsToMany
     {
-        return $this->belongsToMany(VariantType::class)->withPivot('value');
+        return $this->belongsToMany(VariantType::class)
+            ->using(ProductVariantOption::class)
+            ->withPivot('value', 'slug');
     }
 
     public function getTrademark(string $glue = ' '): ?string
