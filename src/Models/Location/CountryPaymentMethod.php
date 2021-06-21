@@ -21,7 +21,7 @@ class CountryPaymentMethod extends Pivot
 
     public $incrementing = TRUE;
 
-    protected $translatable = ['description'];
+    protected array $translatable = ['description'];
 
 //    protected $appends = ['description_for_edit'];
 

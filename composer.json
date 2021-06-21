@@ -30,7 +30,9 @@
       "src/helpers.php"
     ],
     "psr-4": {
-      "Eshop\\": "src/"
+      "Eshop\\": "src/",
+      "Eshop\\Database\\Factories\\": "database/factories/",
+      "Eshop\\Database\\Seeders\\": "database/seeders/"
     }
   },
   "extra": {

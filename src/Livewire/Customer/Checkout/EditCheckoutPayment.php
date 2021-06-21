@@ -92,9 +92,10 @@ class EditCheckoutPayment extends Component
         return null;
     }
 
-    protected function submit(Order $order): void
+    protected function submit(Order $order, string $payment_id = null): void
     {
-        DB::transaction(function () use ($order) {
+        DB::transaction(function () use ($order, $payment_id) {
+            $order->payment_id = $payment_id;
 //            $order->submit();
             $expires = now()->addMinutes(5);
             $this->redirect(URL::temporarySignedRoute('checkout.completed', $expires, [app()->getLocale(), $order->id]));

@@ -12,7 +12,6 @@ use Firebed\Components\Livewire\Traits\Datatable\DeletesRows;
 use Firebed\Components\Livewire\Traits\Datatable\WithExports;
 use Firebed\Components\Livewire\Traits\Datatable\WithSelections;
 use Firebed\Components\Livewire\Traits\SendsNotifications;
-use Firebed\Components\Livewire\Traits\WithCustomPaginationView;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Support\Collection;
@@ -24,10 +23,7 @@ use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class ShowCarts extends Component
 {
-    use WithPagination, WithCustomPaginationView {
-        WithCustomPaginationView::paginationView insteadof WithPagination;
-    }
-
+    use WithPagination;
     use SendsNotifications;
     use WithSelections;
     use DeletesRows;
@@ -41,7 +37,7 @@ class ShowCarts extends Component
     public $per_page;
     public $payment_method_id  = "";
     public $shipping_method_id = "";
-    public $showStatusModal    = false;
+    public $showStatusModal    = FALSE;
 
     protected $queryString = [
         'filter'             => ['except' => ''],
@@ -79,7 +75,7 @@ class ShowCarts extends Component
         }
 
         $this->reset('status');
-        $this->showStatusModal = true;
+        $this->showStatusModal = TRUE;
     }
 
     protected function deleteRows(): ?int
@@ -98,7 +94,7 @@ class ShowCarts extends Component
 
         DB::transaction(fn() => $contract->setBulkCartStatus($status, $this->selected()));
 
-        $this->showStatusModal = false;
+        $this->showStatusModal = FALSE;
     }
 
     private function filterCarts($key = NULL, $value = NULL)

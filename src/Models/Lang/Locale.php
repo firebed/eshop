@@ -2,6 +2,7 @@
 
 namespace Eshop\Models\Lang;
 
+use Eshop\Database\Factories\Location\LocaleFactory;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -18,4 +19,9 @@ use Illuminate\Database\Eloquent\Model;
 class Locale extends Model
 {
     use HasFactory;
+
+    protected static function newFactory(): LocaleFactory
+    {
+        return LocaleFactory::new();
+    }
 }

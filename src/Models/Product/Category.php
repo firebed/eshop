@@ -2,6 +2,8 @@
 
 namespace Eshop\Models\Product;
 
+use Eshop\Database\Factories\Location\AddressFactory;
+use Eshop\Database\Factories\Product\CategoryFactory;
 use Eshop\Models\Lang\Traits\HasTranslations;
 use Eshop\Models\Media\Traits\HasImages;
 use Illuminate\Database\Eloquent\Builder;
@@ -46,8 +48,8 @@ class Category extends Model
     public const FOLDER = 'Folder';
     public const FILE   = 'File';
 
-    protected $translatable = ['name', 'description'];
-    protected $disk         = 'categories';
+    protected array  $translatable = ['name', 'description'];
+    protected string $disk         = 'categories';
 
     protected $guarded = [];
 
@@ -142,5 +144,10 @@ class Category extends Model
                 $constraint->upsize();
             });
         });
+    }
+
+    protected static function newFactory(): CategoryFactory
+    {
+        return CategoryFactory::new();
     }
 }

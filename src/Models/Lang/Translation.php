@@ -2,6 +2,7 @@
 
 namespace Eshop\Models\Lang;
 
+use Eshop\Database\Factories\Lang\TranslationFactory;
 use Eshop\Models\Lang\Traits\FullTextIndex;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -26,11 +27,16 @@ class Translation extends Model
 
     public $timestamps = FALSE;
 
-    protected $fillable = ['locale', 'cluster', 'translation'];
-    protected $match = ['translation'];
+    protected       $fillable = ['locale', 'cluster', 'translation'];
+    protected array $match    = ['translation'];
 
     public function translatable(): MorphTo
     {
         return $this->morphTo();
+    }
+
+    protected static function newFactory(): TranslationFactory
+    {
+        return TranslationFactory::new();
     }
 }

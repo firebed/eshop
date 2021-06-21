@@ -2,6 +2,7 @@
 
 namespace Eshop;
 
+use Eshop\Livewire\Customer\Account\EditProfile;
 use Eshop\Livewire\Customer\Checkout\CartButton;
 use Eshop\Livewire\Customer\Checkout\EditCheckoutDetails;
 use Eshop\Livewire\Customer\Checkout\EditCheckoutPayment;
@@ -21,6 +22,9 @@ use Eshop\Livewire\Dashboard\Cart\ShowCarts;
 use Eshop\Livewire\Dashboard\Cart\StatusesList;
 use Eshop\Livewire\Dashboard\Category\ShowCategories;
 use Eshop\Livewire\Dashboard\Category\ShowCategoryProperties;
+use Eshop\Livewire\Dashboard\Config\ShowLocales;
+use Eshop\Livewire\Dashboard\Config\ShowUnits;
+use Eshop\Livewire\Dashboard\Config\ShowVats;
 use Eshop\Livewire\Dashboard\Intl\ShowCountries;
 use Eshop\Livewire\Dashboard\Intl\ShowPaymentMethods;
 use Eshop\Livewire\Dashboard\Intl\ShowShippingMethods;
@@ -33,6 +37,7 @@ use Eshop\Livewire\Dashboard\Product\ShowProductImages;
 use Eshop\Livewire\Dashboard\Product\ShowProducts;
 use Eshop\Livewire\Dashboard\Product\ShowVariants;
 use Eshop\Livewire\Dashboard\Product\VariantTypes;
+use Eshop\Livewire\Dashboard\User\ShowUserPermissions;
 use Eshop\Livewire\Dashboard\User\ShowUsers;
 use Eshop\Livewire\Dashboard\User\UserAddressesTable;
 use Eshop\Livewire\Dashboard\User\UserCartsTable;
@@ -93,5 +98,13 @@ class LivewireServiceProvider extends ServiceProvider
         Livewire::component('dashboard.user.show-users', ShowUsers::class);
         Livewire::component('dashboard.user.user-addresses-table', UserAddressesTable::class);
         Livewire::component('dashboard.user.user-carts-table', UserCartsTable::class);
+
+        // User permissions
+        Livewire::component('dashboard.user.show-user-permissions', ShowUserPermissions::class);
+
+        // Config
+        Livewire::component('dashboard.config.show-vats', ShowVats::class);
+        Livewire::component('dashboard.config.show-locales', ShowLocales::class);
+        Livewire::component('dashboard.config.show-units', ShowUnits::class);
     }
 }

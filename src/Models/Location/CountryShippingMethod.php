@@ -4,6 +4,8 @@
 namespace Eshop\Models\Location;
 
 
+use Eshop\Database\Factories\Location\AddressFactory;
+use Eshop\Database\Factories\Location\CountryShippingMethodFactory;
 use Eshop\Models\Lang\Traits\HasTranslations;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -30,7 +32,7 @@ class CountryShippingMethod extends Pivot
 
     public $incrementing = TRUE;
 
-    protected $translatable = ['description'];
+    protected array $translatable = ['description'];
 
     protected $casts = [
         'fee'                   => 'float',
@@ -71,5 +73,10 @@ class CountryShippingMethod extends Pivot
         }
 
         return 0;
+    }
+
+    protected static function newFactory(): CountryShippingMethodFactory
+    {
+        return CountryShippingMethodFactory::new();
     }
 }

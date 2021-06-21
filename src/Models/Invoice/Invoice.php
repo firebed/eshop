@@ -2,6 +2,7 @@
 
 namespace Eshop\Models\Invoice;
 
+use Eshop\Database\Factories\Invoice\InvoiceFactory;
 use Eshop\Models\Location\Address;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -33,10 +34,13 @@ class Invoice extends Model
         return $this->morphOne(Address::class, 'addressable');
     }
 
-    public function delete()
+    public function delete(): bool
     {
-        if (parent::delete()) {
-            $this->billingAddress()->delete();
-        }
+        return $this->billingAddress()->delete() && parent::delete();
+    }
+
+    protected static function newFactory(): InvoiceFactory
+    {
+        return InvoiceFactory::new();
     }
 }

@@ -2,6 +2,9 @@
 
 namespace Eshop\Models\Cart;
 
+use Carbon\Carbon;
+use Eshop\Database\Factories\Cart\CartFactory;
+use Eshop\Models\Cart\Concerns\ImplementsOrder;
 use Eshop\Models\Invoice\Invoice;
 use Eshop\Models\Location\Address;
 use Eshop\Models\Location\PaymentMethod;
@@ -9,8 +12,6 @@ use Eshop\Models\Location\ShippingMethod;
 use Eshop\Models\Product\Product;
 use Eshop\Models\User;
 use Eshop\Repository\Contracts\Order;
-use Carbon\Carbon;
-use Eshop\Models\Cart\Concerns\ImplementsOrder;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -177,11 +178,6 @@ class Cart extends Model implements Order
         return $this->submitted_at !== NULL;
     }
 
-//    public function getVoucherUrl(): string
-//    {
-//        return $this->shippingMethod->getVoucherUrl($this->voucher);
-//    }
-
     public function isDocumentInvoice(): bool
     {
         return $this->document_type === DocumentType::INVOICE;
@@ -197,46 +193,17 @@ class Cart extends Model implements Order
         return $this->isDocumentInvoice() ? "Invoice" : "Receipt";
     }
 
-//    /**
-//     * Returns the corresponding shipping methods based on this cart's total without fees
-//     * @return Collection
-//     */
-//    public function getShippingMethodsAttribute(): Collection
-//    {
-//        return $this
-//            ->shippingAddress
-//            ->country
-//            ->shippingMethods
-//            ->where('pivot.cart_total', '<=', $this->totalWithoutFees)
-//            ->groupBy('pivot.shipping_method_id')
-//            ->map(fn($methods) => $methods->sortByDesc('pivot.cart_total')->first());
-//    }
-//
-//    /**
-//     * Returns the corresponding payment methods based on this cart's total without fees
-//     * @return Collection
-//     */
-//    public function getPaymentMethodsAttribute(): Collection
-//    {
-//        return $this
-//            ->shippingAddress
-//            ->country
-//            ->paymentMethods
-//            ->where('pivot.cart_total', '<=', $this->totalWithoutFees)
-//            ->groupBy('pivot.payment_method_id')
-//            ->map(fn($methods) => $methods->sortByDesc('pivot.cart_total')->first());
-//    }
-
     public function delete(): bool|null
     {
-        if ($deleted = parent::delete()) {
-            $this->addresses()->delete();
-
-            if ($this->invoice) {
-                $this->invoice->delete();
-            }
+        if ($this->invoice) {
+            $this->invoice->delete();
         }
 
-        return $deleted;
+        return $this->address()->delete() && parent::delete();
+    }
+
+    protected static function newFactory(): CartFactory
+    {
+        return CartFactory::new();
     }
 }

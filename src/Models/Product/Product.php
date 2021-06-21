@@ -2,6 +2,8 @@
 
 namespace Eshop\Models\Product;
 
+use Eshop\Database\Factories\Location\AddressFactory;
+use Eshop\Database\Factories\Product\ProductFactory;
 use Eshop\Models\Lang\Traits\HasTranslations;
 use Eshop\Models\Media\Traits\HasImages;
 use Illuminate\Database\Eloquent\Builder;
@@ -307,5 +309,10 @@ class Product extends Model
                 $constraint->upsize();
             });
         });
+    }
+
+    protected static function newFactory(): ProductFactory
+    {
+        return ProductFactory::new();
     }
 }

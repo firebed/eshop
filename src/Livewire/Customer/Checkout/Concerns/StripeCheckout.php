@@ -93,7 +93,7 @@ trait StripeCheckout
 
     private function success(PaymentIntent $payment, Order $order): void
     {
-        $this->submit($order);
+        $this->submit($order, $payment->id);
     }
 
     private function error(Throwable $e): void

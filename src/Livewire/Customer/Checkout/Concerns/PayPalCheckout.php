@@ -66,7 +66,7 @@ trait PayPalCheckout
         $client = self::client();
         try {
             $client->execute($request);
-            $this->submit($order);
+            $this->submit($order, $orderId);
         } catch (Throwable) {
             $this->showErrorDialog(__("PayPal Payment"), __("Payment was unsuccessful. Please select a different payment method and try again."));
         }

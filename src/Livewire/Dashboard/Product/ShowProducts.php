@@ -7,7 +7,6 @@ use Eshop\Models\Product\Manufacturer;
 use Eshop\Models\Product\Product;
 use Firebed\Components\Livewire\Traits\Datatable\WithSelections;
 use Firebed\Components\Livewire\Traits\Datatable\WithSorting;
-use Firebed\Components\Livewire\Traits\WithCustomPaginationView;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
@@ -16,9 +15,7 @@ use Livewire\WithPagination;
 
 class ShowProducts extends Component
 {
-    use WithPagination, WithCustomPaginationView {
-        WithCustomPaginationView::paginationView insteadof  WithPagination;
-    }
+    use WithPagination;
     use WithSelections;
     use WithSorting {
         WithSorting::queryString as sortingQueryString;

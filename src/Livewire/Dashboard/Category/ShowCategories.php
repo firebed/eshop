@@ -16,6 +16,7 @@ use Illuminate\Validation\Rule;
 use Illuminate\View\View;
 use Livewire\Component;
 use Livewire\WithFileUploads;
+use Livewire\WithPagination;
 
 /**
  * Class ShowCategories
@@ -25,6 +26,7 @@ use Livewire\WithFileUploads;
  */
 class ShowCategories extends Component
 {
+    use WithPagination;
     use SendsNotifications;
     use TrimStrings;
     use WithFileUploads;

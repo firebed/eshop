@@ -2,6 +2,7 @@
 
 namespace Eshop;
 
+use Eshop\Commands\SeedCommand;
 use Eshop\Models\Cart\Cart;
 use Eshop\Models\Invoice\Company;
 use Eshop\Models\Invoice\Invoice;
@@ -31,51 +32,35 @@ class EshopServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        $this->loadConfig();
-        $this->loadTranslations();
-        $this->loadMigrations();
-        $this->loadViews();
-        $this->loadRoutes();
-        $this->loadAssets();
+        $this->registerConfig();
+        $this->registerTranslations();
+        $this->registerMigrations();
+        $this->registerMorphs();
+        $this->registerViews();
+        $this->registerRoutes();
+        $this->registerCommands();
+        $this->registerPublishing();
 
         Collection::macro('toggle', fn($item) => $this->contains($item) ? $this->except($item->id) : $this->concat([$item]));
     }
 
-    private function loadConfig(): void
+    private function registerConfig(): void
     {
-        $this->publishes([__DIR__ . '/config/eshop.php' => config_path('eshop.php')], 'eshop-config');
     }
 
-    private function loadAssets(): void
+    private function registerTranslations(): void
     {
-        $this->publishes([
-            __DIR__ . '/../assets/css/customer' => public_path('vendor/eshop/css/customer'),
-            __DIR__ . '/../assets/css/dashboard' => public_path('vendor/eshop/css/dashboard'),
-            __DIR__ . '/../assets/js/customer' => public_path('vendor/eshop/js/customer'),
-            __DIR__ . '/../assets/js/dashboard' => public_path('vendor/eshop/js/dashboard'),
-            __DIR__ . '/../assets/js/fslightbox.js' => public_path('vendor/eshop/js/fslightbox.js'),
-            __DIR__ . '/../assets/js/fslightbox.js.map' => public_path('vendor/eshop/js/fslightbox.js.map'),
-        ], 'eshop-assets');
+        $this->loadTranslationsFrom(__DIR__ . '/../resources/lang', 'eshop');
     }
 
-    private function loadTranslations(): void
+    private function registerMigrations(): void
     {
-        $this->loadTranslationsFrom(__DIR__ . '/resources/lang', 'eshop');
-
-        $this->publishes([__DIR__ . '/resources/lang' => resource_path('lang/vendor/eshop')], 'eshop-locale');
-        $this->publishes([__DIR__ . '/resources/lang/el.json' => resource_path('lang/el.json')], 'eshop-locale-el');
+        $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
     }
 
-    private function loadMigrations(): void
+    private function registerViews(): void
     {
-        $this->loadMigrationsFrom(__DIR__ . '/Database/migrations');
-
-        $this->assignMorphs();
-    }
-
-    private function loadViews(): void
-    {
-        $this->loadViewsFrom(__DIR__ . '/resources/views', 'eshop');
+        $this->loadViewsFrom(__DIR__ . '/../resources/views', 'eshop');
 
         $this->loadViewComponentsAs('eshop', [
             CategoryBreadcrumb::class,
@@ -83,18 +68,46 @@ class EshopServiceProvider extends ServiceProvider
             TopSellers::class,
             PopularProducts::class
         ]);
-
-        $this->publishes([__DIR__ . '/resources/views/customer' => resource_path('views/vendor/eshop/customer')], 'eshop-customer-views');
-        $this->publishes([__DIR__ . '/resources/views/dashboard' => resource_path('views/vendor/eshop/dashboard')], 'eshop-dashboard-views');
     }
 
-    private function loadRoutes(): void
+    private function registerRoutes(): void
     {
-        $this->loadRoutesFrom(__DIR__ . '/routes/dashboard.php');
-        $this->loadRoutesFrom(__DIR__ . '/routes/web.php');
+        $this->loadRoutesFrom(__DIR__ . '/../routes/dashboard.php');
+        $this->loadRoutesFrom(__DIR__ . '/../routes/web.php');
     }
 
-    private function assignMorphs(): void
+    private function registerCommands(): void
+    {
+        if ($this->app->runningInConsole()) {
+            $this->commands([
+                SeedCommand::class,
+            ]);
+        }
+    }
+
+    private function registerPublishing(): void
+    {
+        if ($this->app->runningInConsole()) {
+            $this->publishes([__DIR__ . '/../config/eshop.php' => config_path('eshop.php')], 'eshop-config');
+
+            $this->publishes([
+                __DIR__ . '/../assets/css/customer'         => public_path('vendor/eshop/css/customer'),
+                __DIR__ . '/../assets/css/dashboard'        => public_path('vendor/eshop/css/dashboard'),
+                __DIR__ . '/../assets/js/customer'          => public_path('vendor/eshop/js/customer'),
+                __DIR__ . '/../assets/js/dashboard'         => public_path('vendor/eshop/js/dashboard'),
+                __DIR__ . '/../assets/js/fslightbox.js'     => public_path('vendor/eshop/js/fslightbox.js'),
+                __DIR__ . '/../assets/js/fslightbox.js.map' => public_path('vendor/eshop/js/fslightbox.js.map'),
+            ], 'eshop-assets');
+
+            $this->publishes([__DIR__ . '/../resources/lang' => resource_path('lang/vendor/eshop')], 'eshop-locale');
+            $this->publishes([__DIR__ . '/../resources/lang/el.json' => resource_path('lang/el.json')], 'eshop-locale-el');
+
+            $this->publishes([__DIR__ . '/../resources/views/customer' => resource_path('views/vendor/eshop/customer')], 'eshop-customer-views');
+            $this->publishes([__DIR__ . '/../resources/views/dashboard' => resource_path('views/vendor/eshop/dashboard')], 'eshop-dashboard-views');
+        }
+    }
+
+    private function registerMorphs(): void
     {
         Relation::morphMap([
             'user' => User::class,

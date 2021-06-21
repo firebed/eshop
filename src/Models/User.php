@@ -2,6 +2,7 @@
 
 namespace Eshop\Models;
 
+use Eshop\Database\Factories\UserFactory;
 use Eshop\Models\Cart\Cart;
 use Eshop\Models\Invoice\Company;
 use Eshop\Models\Lang\Traits\FullTextIndex;
@@ -40,6 +41,7 @@ class User extends Authenticatable
         'first_name',
         'last_name',
         'email',
+        'phone',
         'password',
         'birthday',
         'gender',
@@ -62,6 +64,7 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'birthday'          => 'date'
     ];
 
     public function carts(): HasMany
@@ -87,5 +90,19 @@ class User extends Authenticatable
     public function getFullNameAttribute(): string
     {
         return $this->first_name . ' ' . $this->last_name;
+    }
+
+    public function delete(): bool
+    {
+        foreach ($this->companies as $company) {
+            $company->delete();
+        }
+
+        return $this->addresses()->delete() && parent::delete();
+    }
+
+    protected static function newFactory(): UserFactory
+    {
+        return UserFactory::new();
     }
 }

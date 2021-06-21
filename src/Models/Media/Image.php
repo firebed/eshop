@@ -2,6 +2,7 @@
 
 namespace Eshop\Models\Media;
 
+use Eshop\Database\Factories\Media\ImageFactory;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -9,11 +10,12 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Support\Facades\Storage;
 
 /**
- * @property string $disk
- * @property string $collection
- * @property string $src
- * @property float  $width
- * @property float  $height
+ * @property string type
+ * @property string disk
+ * @property string collection
+ * @property string src
+ * @property float  width
+ * @property float  height
  * @property array  conversions
  *
  * @mixin Builder
@@ -33,9 +35,14 @@ class Image extends Model
         return $this->morphTo();
     }
 
-    public function url($conversion = NULL): string|NULL
+    public function url($conversion = NULL): string|null
     {
         $src = $this->src;
+
+        if ($this->type === 'Url') {
+            return $src;
+        }
+
         if ($conversion !== NULL && $this->hasConversion($conversion)) {
             $src = $this->conversion($conversion)['src'];
         }
@@ -84,5 +91,10 @@ class Image extends Model
                 }
             }
         });
+    }
+
+    protected static function newFactory(): ImageFactory
+    {
+        return ImageFactory::new();
     }
 }

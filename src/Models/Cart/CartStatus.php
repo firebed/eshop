@@ -2,6 +2,7 @@
 
 namespace Eshop\Models\Cart;
 
+use Eshop\Database\Factories\Cart\CartStatusFactory;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -57,5 +58,10 @@ class CartStatus extends Model
     public function isReleasingStocks(): bool
     {
         return $this->stock_operation === self::RELEASE;
+    }
+
+    protected static function newFactory(): CartStatusFactory
+    {
+        return CartStatusFactory::new();
     }
 }

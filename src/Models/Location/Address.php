@@ -2,6 +2,7 @@
 
 namespace Eshop\Models\Location;
 
+use Eshop\Database\Factories\Location\AddressFactory;
 use Eshop\Models\Lang\Traits\FullTextIndex;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -35,9 +36,21 @@ class Address extends Model
     use HasFactory;
     use FullTextIndex;
 
-    protected $guarded = [];
+    protected $fillable = [
+        'country_id',
+        'cluster',
+        'first_name',
+        'last_name',
+        'phone',
+        'province',
+        'city',
+        'street',
+        'street_no',
+        'floor',
+        'postcode'
+    ];
 
-    protected $match = ['first_name', 'last_name', 'phone', 'postcode'];
+    protected array $match = ['first_name', 'last_name', 'phone', 'postcode'];
 
     protected $casts = [
         'related_id' => 'integer'
@@ -81,5 +94,10 @@ class Address extends Model
     public function getCityOrCountryAttribute(): string
     {
         return filled($this->city) && filled($this->postcode) ? $this->postcode . ', ' . $this->city : ($this->country->name ?? "");
+    }
+
+    protected static function newFactory(): AddressFactory
+    {
+        return AddressFactory::new();
     }
 }

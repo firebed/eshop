@@ -10,8 +10,9 @@ use Firebed\Components\Livewire\Traits\Datatable\WithExports;
 use Firebed\Components\Livewire\Traits\Datatable\WithSelections;
 use Firebed\Components\Livewire\Traits\Datatable\WithSorting;
 use Firebed\Components\Livewire\Traits\SendsNotifications;
-use Firebed\Components\Livewire\Traits\WithCustomPaginationView;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Collection;
 use Illuminate\Validation\Rule;
 use Illuminate\View\View;
@@ -22,9 +23,8 @@ use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class ShowUsers extends Component
 {
-    use WithPagination, WithCustomPaginationView {
-        WithCustomPaginationView::paginationView insteadof WithPagination;
-    }
+    use AuthorizesRequests;
+    use WithPagination;
 
     use SendsNotifications;
     use WithSelections;
@@ -37,6 +37,14 @@ class ShowUsers extends Component
     }
 
     public string $search = "";
+
+    /**
+     * @throws AuthorizationException
+     */
+    public function mount(): void
+    {
+//        $this->authorize('View users');
+    }
 
     protected function rules(): array
     {
