@@ -208,7 +208,7 @@ trait ImplementsOrder
 
     public function getProductsValueAttribute(): float
     {
-        return $this->products->sum('pivot.netValue');
+        return $this->products->sum('pivot.total');
     }
 
     public function getTotalQuantityAttribute(): float

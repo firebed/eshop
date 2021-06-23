@@ -17,7 +17,7 @@
                 <div>{{ $product->sku . ' ' . $product->name }}</div>
             </td>
             <td style="text-align: center">{{ format_number($product->pivot->quantity) }}</td>
-            <td style="text-align: right">{{ format_currency($product->pivot->price) }}</td>
+            <td style="text-align: right">{{ format_currency($product->pivot->netValue) }}</td>
             <td style="text-align: right">{{ format_currency($product->pivot->total) }}</td>
         </tr>
     @endforeach

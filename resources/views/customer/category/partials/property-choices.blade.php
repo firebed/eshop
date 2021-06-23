@@ -5,7 +5,7 @@
                 <div class='d-flex mb-3'>
                     <div class='h6 mb-0'>{{ $property->name }}</div>
                     @if ($filters['c']->contains('property.id', $property->id))
-                        <a href='{{ categoryRoute($category, $filters['m'], $filters['c']->reject(fn($v) => $v->property->id === $property->id), $filters['min_price'], $filters['max_price']) }}' class='small ms-3'>{{ __('Do cancel') }}</a>
+                        <a href='{{ categoryRoute($category, $filters['m'], $filters['c']->reject(fn($v) => $v->property->id === $property->id), $filters['min_price'], $filters['max_price']) }}' class='small ms-3'>{{ __('eshop::filters.cancel') }}</a>
                     @endif
                 </div>
                 @foreach($property->choices as $choice)

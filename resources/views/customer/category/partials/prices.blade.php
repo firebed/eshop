@@ -1,9 +1,9 @@
 <div class='d-flex flex-column mb-5'>
     <div class='d-flex flex-column filters'>
         <div class='d-flex mb-3'>
-            <div class='h6 mb-0'>{{ __("Price") }}</div>
+            <div class='h6 mb-0'>{{ __("eshop::filters.price") }}</div>
             @if (!empty($filters['min_price']) || !empty($filters['max_price']))
-                <a href='{{ categoryRoute($category, $filters['m'], $filters['c']) }}' class='small ms-3'>{{ __('Do cancel') }}</a>
+                <a href='{{ categoryRoute($category, $filters['m'], $filters['c']) }}' class='small ms-3'>{{ __('eshop::filters.cancel') }}</a>
             @endif
         </div>
 
@@ -20,9 +20,9 @@
 
                 <label class="form-check-label" for="p-{{ $loop->index }}">
                     @if ($loop->first)
-                        {{ __('To') }} {{ format_currency($range['max']) }}
+                        {{ __('eshop::filters.price_to') }} {{ format_currency($range['max']) }}
                     @elseif($loop->last)
-                        {{ __('From') }} {{ format_currency($range['min']) }}
+                        {{ __('eshop::filters.price_from') }} {{ format_currency($range['min']) }}
                     @else
                         {{ format_number($range['min'], 2) }} - {{ format_currency($range['max']) }}
                     @endif

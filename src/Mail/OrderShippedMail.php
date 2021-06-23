@@ -30,6 +30,6 @@ class OrderShippedMail extends Mailable
     public function build(): OrderShippedMail
     {
         $this->cart->products->loadMissing('parent.translation', 'image', 'translation');
-        return $this->markdown('emails.order-shipped');
+        return $this->markdown('eshop::customer.emails.order-shipped');
     }
 }

@@ -62,7 +62,7 @@ class CountryShippingMethod extends Pivot
     public function calculateExcessWeightFee($weight): float
     {
         return $weight >= $this->weight_limit
-            ? ceil($weight - $this->weight_limit) * $this->weight_excess_fee
+            ? ceil(($weight - $this->weight_limit) / 1000) * $this->weight_excess_fee
             : 0;
     }
 

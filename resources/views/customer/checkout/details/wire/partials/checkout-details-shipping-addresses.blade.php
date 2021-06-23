@@ -2,14 +2,14 @@
     @isset($addresses)
         @foreach($addresses as $address)
             <x-bs::card.body class="p-4 border-bottom d-flex flex-column" wire:key="shipping-addresses-{{ $address->id }}">
-                <x-bs::input.radio wire:model.defer="selectedShipping" error="selectedShipping" id="address-{{ $address->id }}" name="selectedShipping" label-class="w-100">
+                <x-bs::input.radio wire:model="selectedShipping" error="selectedShipping" id="address-{{ $address->id }}" name="selectedShipping" value="{{ $address->id }}" label-class="w-100">
                 <span class="d-grid">
-                    <span class="fw-500">{{ $address->street }} {{ $address->street_no }}, {{ $address->city }} {{ $address->postcode }}</span>
+                    <span class="fw-500">{{ $address->street }} {{ $address->street_no }}, {{ $address->city }} {{ $address->country->name }} {{ $address->postcode }}</span>
                     <span class="small text-secondary">{{ $address->to }}</span>
-                    <span class="collapse {{ $address->related_id === $selectedShipping ? 'show' : '' }}">
+                    <span class="collapse {{ $address->id === $selectedShipping ? 'show' : '' }}">
                         <span class="d-grid">
-                            <div class="small text-secondary">{{ $address->phone }}</div>
-                            <div class="small text-secondary">{{ user()->email }}</div>
+                            <span class="small text-secondary">{{ $address->phone }}</span>
+                            <span class="small text-secondary">{{ user()->email }}</span>
                         </span>
                     </span>
                 </span>
@@ -19,7 +19,7 @@
     @endisset
 
     <x-bs::card.body class="p-4" wire:key="new-shipping-addresses">
-        <x-bs::input.radio wire:model.defer="selectedShipping" name="selectedShipping" id="new-address" value="0" label-class="w-100">{{ __('New address') }}</x-bs::input.radio>
+        <x-bs::input.radio wire:model="selectedShipping" name="selectedShipping" id="new-address" value="0" label-class="w-100">{{ __('New address') }}</x-bs::input.radio>
 
         <div class="collapse row row-cols-2 g-3 mt-0 @if($selectedShipping === 0) show @endif">
             <div class="col-6">
@@ -99,8 +99,9 @@
         collapseElementList.map(el => new bootstrap.Collapse(el, {toggle: false}))
 
         container.addEventListener('change', evt => {
-            if (evt.target.matches('[name=shipping_id]')) {
+            if (evt.target.matches('[name=selectedShipping]')) {
                 const prev = container.querySelector('.collapse.show')
+
                 if (prev) {
                     // prev.querySelectorAll('input, select').forEach(i => i.setAttribute('disabled', 'disabled'));
                     bootstrap.Collapse.getInstance(prev).hide()

@@ -22,11 +22,11 @@ class CountryShippingMethodFactory extends Factory
     public function definition(): array
     {
         return [
-            'fee'               => 2.0,
-            'cart_total'        => 0,
-            'weight_limit'      => 4000,
-            'weight_excess_fee' => 1,
-            'position'          => 1
+            'fee'               => $this->faker->numberBetween(0, 20),
+            'cart_total'        => $this->faker->numberBetween(0, 100),
+            'weight_limit'      => $this->faker->numberBetween(0, 10000),
+            'weight_excess_fee' => $this->faker->numberBetween(1, 10),
+            'position'          => $this->faker->numberBetween(1, 20)
         ];
     }
 }

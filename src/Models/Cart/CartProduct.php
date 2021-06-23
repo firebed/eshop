@@ -54,7 +54,12 @@ class CartProduct extends Pivot
 
     public function getNetValueAttribute(): float
     {
-        return round($this->quantity * $this->price * (1 - $this->discount), 2);
+        return round($this->price * (1 - $this->discount), 2);
+    }
+
+    public function getTotalAttribute(): float
+    {
+        return $this->quantity * $this->netValue;
     }
 
     public function getTotalWithoutVatAttribute(): float

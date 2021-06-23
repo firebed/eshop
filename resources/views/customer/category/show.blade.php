@@ -17,7 +17,7 @@
                         </div>
                         @if($products->hasPages())
                             <div class="d-flex justify-content-end mb-3">
-                                {{ $products->withQueryString()->onEachSide(1)->links('components.modern-paginator') }}
+                                {{ $products->withQueryString()->onEachSide(1)->links('eshop::components.pagination') }}
                             </div>
                         @endif
                         <div class="row row-cols-1 row-cols-sm-2 row-cols-xl-3 row-cols-xxl-4 g-3">
@@ -25,7 +25,7 @@
                         </div>
                         @if($products->hasPages())
                             <div class="mt-3 d-flex justify-content-center">
-                                {{ $products->withQueryString()->onEachSide(1)->links('components.modern-paginator') }}
+                                {{ $products->withQueryString()->onEachSide(1)->links('eshop::components.pagination') }}
                             </div>
                         @endif
                     </div>

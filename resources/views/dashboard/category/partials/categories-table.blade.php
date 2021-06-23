@@ -51,7 +51,8 @@
                 </td>
                 <td>{{ $category->created_at->format('d/m/Y') }}</td>
                 <td>
-                    <a href="#" wire:click.prevent="edit({{ $category->id }})" class="text-decoration-none">{{ __('Edit') }}</a>
+                    <a href="#" wire:click.prevent="edit({{ $category->id }})" class="btn btn-sm btn-outline-dark"><em class="far fa-edit"></em></a>
+                    <a href="{{ categoryRoute($category) }}" class="btn btn-sm btn-outline-secondary"><em class="fas fa-external-link-alt"></em></a>
                 </td>
             </tr>
         @empty

@@ -2,7 +2,6 @@
 
 namespace Eshop;
 
-use Eshop\Commands\SeedCommand;
 use Eshop\Models\Cart\Cart;
 use Eshop\Models\Invoice\Company;
 use Eshop\Models\Invoice\Invoice;
@@ -80,7 +79,6 @@ class EshopServiceProvider extends ServiceProvider
     {
         if ($this->app->runningInConsole()) {
             $this->commands([
-                SeedCommand::class,
             ]);
         }
     }

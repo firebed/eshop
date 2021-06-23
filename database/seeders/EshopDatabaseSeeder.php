@@ -8,6 +8,7 @@ use Eshop\Models\Cart\CartStatus;
 use Eshop\Models\Lang\Locale;
 use Eshop\Models\Location\Address;
 use Eshop\Models\Location\Country;
+use Eshop\Models\Location\CountryShippingMethod;
 use Eshop\Models\Location\PaymentMethod;
 use Eshop\Models\Location\ShippingMethod;
 use Eshop\Models\Product\Unit;
@@ -32,30 +33,19 @@ class EshopDatabaseSeeder extends Seeder
 
         CartStatus::factory()->count(7)->create();
 
-        $country = Country::factory()
-            ->hasAttached(ShippingMethod::first(), [
-                'fee'        => 2.0,
-                'cart_total' => 0,
-            ])
-            ->hasAttached(ShippingMethod::first(), [
-                'fee'        => 1.0,
-                'cart_total' => 30,
-            ])
-            ->hasAttached(ShippingMethod::first(), [
-                'fee'        => 0.0,
-                'cart_total' => 50,
-            ])
-            ->hasAttached(PaymentMethod::first(), [
-                'fee'        => 2,
-                'cart_total' => 0
-            ])
+        Country::factory()
+            ->has(
+                CountryShippingMethod::factory()->count(3)->for(ShippingMethod::inRandomOrder()->first()),
+                'shippingOptions'
+            )
+            ->count(10)
             ->create();
 
         Cart::factory()
             ->submitted()
             ->has(Address::factory()
                 ->state(['cluster' => 'shipping'])
-                ->for($country)
+                ->for(Country::inRandomOrder()->first())
             )
             ->for(User::first())
             ->has(CartProduct::factory()->count(5), 'items')

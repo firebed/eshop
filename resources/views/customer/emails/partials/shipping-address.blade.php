@@ -1,6 +1,12 @@
 <table style="width: 100%; background-color: whitesmoke;">
     <tr>
         <td class="pb-2">
+            <div><small>{{ __('To') }}</small></div>
+            <div>{{ $cart->shippingAddress->full_name }}</div>
+        </td>
+    </tr>
+    <tr>
+        <td class="pb-2">
             <div><small>{{ __('Street') }}</small></div>
             <div>{{ $cart->shippingAddress->street }}</div>
         </td>

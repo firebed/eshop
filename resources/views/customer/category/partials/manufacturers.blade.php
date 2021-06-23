@@ -1,9 +1,9 @@
 <div class='d-flex flex-column mb-5'>
     <div class='d-flex flex-column filters'>
         <div class='d-flex mb-3'>
-            <div class='h6 mb-0'>{{ __("Manufacturers") }}</div>
+            <div class='h6 mb-0'>{{ __("eshop::filters.manufacturers") }}</div>
             @if ($filters['m']->isNotEmpty())
-                <a href='{{ categoryRoute($category, NULL, $filters['c'], $filters['min_price'], $filters['max_price']) }}' class='small ms-3'>{{ __('Do cancel') }}</a>
+                <a href='{{ categoryRoute($category, NULL, $filters['c'], $filters['min_price'], $filters['max_price']) }}' class='small ms-3'>{{ __('eshop::filters.cancel') }}</a>
             @endif
         </div>
         @foreach($manufacturers as $manufacturer)

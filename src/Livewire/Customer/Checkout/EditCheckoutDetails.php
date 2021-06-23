@@ -6,6 +6,7 @@ namespace Eshop\Livewire\Customer\Checkout;
 
 use Eshop\Livewire\Customer\Checkout\Concerns\ControlsOrder;
 use Eshop\Models\Cart\DocumentType;
+use Eshop\Models\Location\Address;
 use Eshop\Models\Location\Country;
 use Eshop\Repository\Contracts\Order;
 use Illuminate\Contracts\Support\Renderable;
@@ -69,8 +70,14 @@ class EditCheckoutDetails extends Component
         $this->details = $order->details ?? "";
         $this->invoicing = $order->document_type === DocumentType::INVOICE;
 
-        $this->selectedShipping = $order->shippingAddress->related_id ?? 0;
-        $this->shipping = $order->shippingAddress()->firstOrNew();
+        $address = $order->shippingAddress()->firstOrNew();
+        if (!empty($address->related_id)) {
+            $this->shipping = $order->shippingAddress()->make();
+            $this->selectedShipping = $address->related_id;
+        } else {
+            $this->shipping = $address;
+            $this->selectedShipping = 0;
+        }
 
         $this->invoice = $order->invoice()->firstOrNew();
         $this->invoiceAddress = $this->invoice->billingAddress()->firstOrNew();
@@ -85,6 +92,23 @@ class EditCheckoutDetails extends Component
 
         $order = app(Order::class);
         $order->shippingAddress()->update($this->shipping->getAttributes());
+        $this->refreshOrder($order);
+    }
+
+    public function updatedSelectedShipping(): void
+    {
+        $order = app(Order::class);
+
+        if (empty($this->selectedShipping)) {
+            $clone = $this->shipping;
+            $clone->related_id = NULL;
+        } else {
+            $clone = Address::find($this->selectedShipping)->replicate(['addressable_type', 'addressable_id']);
+            $clone->related_id = $this->selectedShipping;
+        }
+        $clone->cluster = 'shipping';
+
+        $order->shippingAddress()->updateOrCreate([], $clone->getAttributes());
         $this->refreshOrder($order);
     }
 
@@ -111,7 +135,7 @@ class EditCheckoutDetails extends Component
 
     public function render(Order $order): Renderable
     {
-        $country = $order->shippingAddress->country;
+        $country = $order->shippingAddress->country ?? NULL;
 
         $order->products->load('parent', 'options');
         $order->products->merge($order->products->pluck('parent')->filter())->load('translation');

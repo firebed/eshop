@@ -37,6 +37,7 @@ class Address extends Model
     use FullTextIndex;
 
     protected $fillable = [
+        'related_id',
         'country_id',
         'cluster',
         'first_name',
