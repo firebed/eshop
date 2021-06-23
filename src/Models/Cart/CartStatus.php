@@ -26,14 +26,14 @@ class CartStatus extends Model
 {
     use HasFactory;
 
-    public const SUBMITTED = 'Submitted';
-    public const APPROVED  = 'Approved';
-    public const COMPLETED = 'Completed';
-    public const SHIPPED   = 'Shipped';
-    public const HELD      = 'Held';
-    public const CANCELLED = 'Cancelled';
-    public const REJECTED  = 'Rejected';
-    public const RETURNED  = 'Returned';
+    public const SUBMITTED = 'submitted';
+    public const APPROVED  = 'approved';
+    public const COMPLETED = 'completed';
+    public const SHIPPED   = 'shipped';
+    public const HELD      = 'held';
+    public const CANCELLED = 'cancelled';
+    public const REJECTED  = 'rejected';
+    public const RETURNED  = 'returned';
 
     public const CAPTURE = 'Capture';
     public const RELEASE = 'Release';
