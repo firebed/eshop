@@ -5,7 +5,7 @@
                 <div class="position-absolute p-2 fs-6 badge bg-yellow-500" style="z-index: 2000; top:10px; right: 10px;">{{ format_percent(-$product->discount) }}</div>
             @endif
             <div class="card-body d-flex flex-column gap-3">
-                <a class="text-decoration-none text-dark" href="{{ productRoute($product, $category) }}">
+                <a href="{{ productRoute($product, $category) }}">
                     <div class="ratio ratio-4x3">
                         @if($product->image && $src = $product->image->url('sm'))
                             <img class="img-middle" src="{{ $src }}" alt="{{ $product->name }}">
@@ -14,7 +14,7 @@
                 </a>
 
                 <div class="lh-sm fw-500">
-                    <a class="text-dark" href="{{ productRoute($product, $category) }}">{{ $product->name }}</a>
+                    <a class="text-dark text-hover-underline" href="{{ productRoute($product, $category) }}">{{ $product->name }}</a>
                 </div>
 
                 <div class="d-flex align-items-baseline fw-bold @if($product->has_variants) mt-auto @endif" style="font-size: 1.1rem">

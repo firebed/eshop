@@ -100,7 +100,7 @@ if (!function_exists('variantRoute')) {
     }
 }
 
-if (!function_exists('category_url')) {
+if (!function_exists('categoryRoute')) {
     function categoryRoute(Category $category, ?Collection $manufacturers = NULL, ?Collection $choices = NULL, $min_price = 0, $max_price = 0): ?string
     {
         $name = 'customer.categories.show';

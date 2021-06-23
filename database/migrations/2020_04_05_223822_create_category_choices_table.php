@@ -17,7 +17,7 @@ class CreateCategoryChoicesTable extends Migration
             $table->id();
             $table->foreignId('category_property_id')->constrained()->cascadeOnDelete();
             $table->string('slug');
-            $table->unsignedInteger('position');
+            $table->unsignedInteger('position')->default(0);
             $table->timestamps();
         });
     }

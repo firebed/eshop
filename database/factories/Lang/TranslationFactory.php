@@ -2,7 +2,6 @@
 
 namespace Eshop\Database\Factories\Lang;
 
-use Eshop\Models\Lang\Locale;
 use Eshop\Models\Lang\Translation;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -24,7 +23,17 @@ class TranslationFactory extends Factory
     {
         return [
             'locale'      => 'el',
-            'translation' => $this->faker->words(3, true),
+            'translation' => $this->faker->words(3, TRUE),
         ];
+    }
+
+    public function cluster($cluster): TranslationFactory
+    {
+        return $this->state(fn() => ['cluster' => $cluster]);
+    }
+
+    public function paragraph(): TranslationFactory
+    {
+        return $this->state(fn() => ['translation' => $this->faker->paragraph()]);
     }
 }

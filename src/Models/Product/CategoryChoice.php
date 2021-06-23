@@ -2,6 +2,7 @@
 
 namespace Eshop\Models\Product;
 
+use Eshop\Database\Factories\Product\CategoryChoiceFactory;
 use Eshop\Models\Lang\Traits\HasTranslations;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -41,5 +42,10 @@ class CategoryChoice extends Model
     public function property(): BelongsTo
     {
         return $this->belongsTo(CategoryProperty::class, 'category_property_id');
+    }
+
+    protected static function newFactory(): CategoryChoiceFactory
+    {
+        return CategoryChoiceFactory::new();
     }
 }

@@ -57,7 +57,7 @@
 
                 <div class="d-grid">
                     <x-bs::input.checkbox wire:model.defer="property.visible" id="property-visible">{{ __('Show this property on the product page.') }}</x-bs::input.checkbox>
-                    <x-bs::input.checkbox wire:model.defer="property.promote" id="property-promote">{{ __('Show this property on the product preview.') }}</x-bs::input.checkbox>
+                    <x-bs::input.checkbox wire:model.defer="property.promote" id="property-promote">{{ __('Show this property on the category preview.') }}</x-bs::input.checkbox>
                     <x-bs::input.checkbox wire:model.defer="property.show_empty_value" id="show-empty-value">{{ __('Show empty values.') }}</x-bs::input.checkbox>
                     <x-bs::input.checkbox wire:model.defer="property.show_caption" id="show-label">{{ __('Show caption along with value.') }}</x-bs::input.checkbox>
                 </div>

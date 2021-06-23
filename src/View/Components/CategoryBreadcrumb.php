@@ -23,13 +23,16 @@ class CategoryBreadcrumb extends Component
         $parent = $category->parent;
         while ($parent) {
             $parent->load('translation');
-            array_unshift($this->items, $parent);
+            array_unshift($this->items, [
+                'name' => $parent->name,
+                'url'  => categoryRoute($parent)
+            ]);
             $parent = $parent->parent;
         }
 
         array_unshift($this->items, [
-            'name'  => __('Home'),
-            'url' => route('home', app()->getLocale())
+            'name' => __('Home'),
+            'url'  => route('home', app()->getLocale())
         ]);
 
         $this->items[] = [

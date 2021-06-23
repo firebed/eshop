@@ -15,18 +15,18 @@ class CategoryController extends Controller
 {
     use ValidatesCategoryUrl;
 
-    public const SEPARATOR = '-';
-
-    /**
-     * Handle the incoming request.
-     *
-     * @param CustomerCategoryRequest $request
-     * @param string                  $locale
-     * @param Category                $category
-     * @return Renderable|RedirectResponse
-     */
     public function __invoke(CustomerCategoryRequest $request, string $locale, Category $category): Renderable|RedirectResponse
     {
+        if ($category->isFolder()) {
+            $children = $category->children()
+                ->visible()
+                ->with('translation', 'image')
+                ->with(['children' => fn($q) => $q->promoted()->visible()->with('translation')])
+                ->get();
+
+            return view('eshop::customer.category.show', compact('category', 'children'));
+        }
+
         $filters = $request->validated();
 
         if (!$this->validateUrl($filters, $request->manufacturers(), $request->choices())) {

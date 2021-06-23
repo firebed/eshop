@@ -108,7 +108,7 @@ class ShowCategoryProperties extends Component
     public function edit(CategoryProperty $property): void
     {
         $this->property = $property;
-        $this->name = $property->name;
+        $this->name = $property->name ?? '';
 
         $this->skipRender();
         $this->showModal = true;

@@ -11,6 +11,10 @@ use Eshop\Models\Location\Country;
 use Eshop\Models\Location\CountryShippingMethod;
 use Eshop\Models\Location\PaymentMethod;
 use Eshop\Models\Location\ShippingMethod;
+use Eshop\Models\Product\Category;
+use Eshop\Models\Product\CategoryChoice;
+use Eshop\Models\Product\CategoryProperty;
+use Eshop\Models\Product\Product;
 use Eshop\Models\Product\Unit;
 use Eshop\Models\Product\Vat;
 use Eshop\Models\User;
@@ -32,6 +36,40 @@ class EshopDatabaseSeeder extends Seeder
         PaymentMethod::factory()->count(5)->create();
 
         CartStatus::factory()->count(7)->create();
+
+        Category::factory()
+            ->folder()
+            ->count(5)
+            ->has(Category::factory()
+                ->folder()
+                ->count(5)
+                ->state(new Sequence(
+                    ['promote' => TRUE],
+                    ['promote' => FALSE],
+                ))
+                ->has(Category::factory()
+                    ->file()
+                    ->count(5)
+                    ->state(new Sequence(
+                        ['promote' => TRUE],
+                        ['promote' => FALSE],
+                    ))
+                    ->has(CategoryProperty::factory()
+                        ->index('Multiple')
+                        ->valueRestriction('Multiple')
+                        ->state(new Sequence(
+                            ['promote' => TRUE],
+                            ['promote' => FALSE],
+                        ))
+                        ->count(5)
+                        ->has(CategoryChoice::factory()->count(4), 'choices'),
+                        'properties')
+                    ->has(Product::factory()
+                        ->count(15)
+                        ->vat(Vat::inRandomOrder()->first()->regime)
+                    ), 'children'
+                ), 'children')
+            ->create();
 
         Country::factory()
             ->has(

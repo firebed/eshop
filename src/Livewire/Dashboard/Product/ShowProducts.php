@@ -83,7 +83,7 @@ class ShowProducts extends Component
                     $b->orWhereHas('translations', fn($c) => $c->matchAgainst($name));
                 });
             })
-            ->with('image')
+            ->with('manufacturer', 'image')
             ->withMin('variants', 'price')
             ->withMax('variants', 'price')
             ->withSum('variants', 'stock')

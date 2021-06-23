@@ -3,9 +3,8 @@
 namespace Eshop\Database\Factories\Product;
 
 use Eshop\Models\Lang\Translation;
-use Eshop\Models\Product\Category;
+use Eshop\Models\Media\Image;
 use Eshop\Models\Product\Product;
-use Eshop\Models\Product\Vat;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class ProductFactory extends Factory
@@ -24,17 +23,31 @@ class ProductFactory extends Factory
      */
     public function definition(): array
     {
-        $vat = Vat::inRandomOrder()->first();
-
         return [
-            'category_id'   => Category::factory()->has(Translation::factory()->state(['cluster' => 'name'])),
-            'vat'           => $vat->regime,
             'weight'        => $this->faker->numberBetween(10, 500),
-            'price'         => $this->faker->numberBetween(1, 50),
-            'compare_price' => 0,
+            'price'         => $price = $this->faker->numberBetween(5, 50),
+            'compare_price' => $this->faker->numberBetween(1, $price),
             'discount'      => $this->faker->numberBetween(1, 100) / 100,
             'stock'         => $this->faker->numberBetween(0, 100),
             'slug'          => $this->faker->slug()
         ];
+    }
+
+    public function configure(): ProductFactory
+    {
+        return $this->afterCreating(function (Product $product) {
+            $name = Translation::factory()->for($product, 'translatable')->cluster('name')->create();
+            $product->slug = slugify($name->translation);
+            $product->save();
+
+            Translation::factory()->for($product, 'translatable')->cluster('description')->paragraph()->create();
+
+            Image::factory()->for($product, 'imageable')->create();
+        });
+    }
+
+    public function vat(float $vat): ProductFactory
+    {
+        return $this->state(fn() => ['vat' => $vat]);
     }
 }
