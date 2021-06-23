@@ -36,11 +36,6 @@ class ShowUsers extends Component
 
     public string $search = "";
 
-    public function mount(): void
-    {
-        $this->authorize('View users');
-    }
-
     protected function rules(): array
     {
         return [

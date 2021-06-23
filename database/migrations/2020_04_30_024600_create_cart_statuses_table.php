@@ -15,7 +15,7 @@ class CreateCartStatusesTable extends Migration
     {
         Schema::create('cart_statuses', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('name')->unique();
             $table->boolean('notify')->default(FALSE);
             $table->string('color', 20)->nullable();
             $table->string('icon', 20)->nullable();

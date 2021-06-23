@@ -17,8 +17,6 @@ class ProductController extends Controller
      */
     public function index(): Renderable
     {
-        $this->authorize('Show products');
-
         return view('eshop::dashboard.product.index');
     }
 
@@ -30,8 +28,6 @@ class ProductController extends Controller
      */
     public function create(): Renderable
     {
-        $this->authorize('Create product');
-
         return view('eshop::dashboard.product.create');
     }
 
@@ -43,8 +39,6 @@ class ProductController extends Controller
      */
     public function createGroup(): Renderable
     {
-        $this->authorize('Create product');
-
         return view('eshop::dashboard.product.create-group');
     }
 
@@ -57,8 +51,6 @@ class ProductController extends Controller
      */
     public function edit(Product $product): Renderable
     {
-        $this->authorize('Edit product');
-
         return $product->has_variants
             ? view('eshop::dashboard.product.edit-group', compact('product'))
             : view('eshop::dashboard.product.edit', compact('product'));
