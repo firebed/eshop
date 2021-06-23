@@ -14,6 +14,7 @@ use Firebed\Components\Livewire\Traits\Datatable\UpdatesPositioning;
 use Firebed\Components\Livewire\Traits\Datatable\WithSelections;
 use Firebed\Components\Livewire\Traits\SendsNotifications;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
@@ -22,6 +23,7 @@ use Livewire\Component;
 
 class ShowCategoryProperties extends Component
 {
+    use AuthorizesRequests;
     use HasBreadcrumbs;
     use SendsNotifications;
     use WithSelections;

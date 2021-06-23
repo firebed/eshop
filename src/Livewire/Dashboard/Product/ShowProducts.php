@@ -8,6 +8,7 @@ use Eshop\Models\Product\Product;
 use Firebed\Components\Livewire\Traits\Datatable\WithSelections;
 use Firebed\Components\Livewire\Traits\Datatable\WithSorting;
 use Illuminate\Contracts\Support\Renderable;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 use Livewire\Component;
@@ -15,6 +16,7 @@ use Livewire\WithPagination;
 
 class ShowProducts extends Component
 {
+    use AuthorizesRequests;
     use WithPagination;
     use WithSelections;
     use WithSorting {

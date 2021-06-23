@@ -11,6 +11,7 @@ use Firebed\Components\Livewire\Traits\Datatable\WithSelections;
 use Firebed\Components\Livewire\Traits\Datatable\WithSorting;
 use Firebed\Components\Livewire\Traits\SendsNotifications;
 use Illuminate\Contracts\Support\Renderable;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
@@ -27,6 +28,7 @@ use Livewire\WithPagination;
  */
 class ShowManufacturers extends Component
 {
+    use AuthorizesRequests;
     use WithPagination;
     use WithSorting {
         queryString as sortingQueryString;

@@ -10,6 +10,7 @@ use Firebed\Components\Livewire\Traits\Datatable\DeletesRows;
 use Firebed\Components\Livewire\Traits\Datatable\WithSelections;
 use Firebed\Components\Livewire\Traits\SendsNotifications;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
@@ -26,6 +27,7 @@ use Livewire\WithPagination;
  */
 class ShowCategories extends Component
 {
+    use AuthorizesRequests;
     use WithPagination;
     use SendsNotifications;
     use TrimStrings;

@@ -10,7 +10,6 @@ use Firebed\Components\Livewire\Traits\Datatable\WithExports;
 use Firebed\Components\Livewire\Traits\Datatable\WithSelections;
 use Firebed\Components\Livewire\Traits\Datatable\WithSorting;
 use Firebed\Components\Livewire\Traits\SendsNotifications;
-use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Collection;
@@ -25,7 +24,6 @@ class ShowUsers extends Component
 {
     use AuthorizesRequests;
     use WithPagination;
-
     use SendsNotifications;
     use WithSelections;
     use WithCRUD;
@@ -38,12 +36,9 @@ class ShowUsers extends Component
 
     public string $search = "";
 
-    /**
-     * @throws AuthorizationException
-     */
     public function mount(): void
     {
-//        $this->authorize('View users');
+        $this->authorize('View users');
     }
 
     protected function rules(): array
