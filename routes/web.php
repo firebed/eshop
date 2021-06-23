@@ -13,6 +13,7 @@ use Eshop\Controllers\Dashboard\Account\ProfileController;
 use Eshop\Controllers\Dashboard\Account\UserAddressController;
 use Eshop\Controllers\Dashboard\Account\UserCompanyController;
 use Eshop\Controllers\Dashboard\Account\UserOrdersController;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -20,8 +21,14 @@ Route::get('/', function () {
     return view('eshop::customer.homepage.index');
 });
 
-Route::get('mail', function() {
+Route::get('mail', function () {
     \Illuminate\Support\Facades\Notification::route('mail', 'okan.giritli@gmail.com')->notify(new \Eshop\Notifications\OrderShippedNotification(\Eshop\Models\Cart\Cart::first()));
+});
+
+Route::get('raw-mail', function () {
+    Mail::raw('Hi, welcome user!', function ($message) {
+        $message->to('okan.giritli@gmail.com')->subject('Test');
+    });
 });
 
 // Global routes
