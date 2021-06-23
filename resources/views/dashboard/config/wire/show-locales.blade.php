@@ -18,6 +18,7 @@
             <tr>
                 <td class="w-1r"><x-bs::input.checkbox wire:model="selectAll" id="check-all"/></td>
                 <td>{{ __("Name") }}</td>
+                <td>{{ __("Language") }}</td>
                 <td>&nbsp;</td>
             </tr>
             </thead>
@@ -29,6 +30,7 @@
                         <x-bs::input.checkbox wire:model="selected" value="{{ $locale->id }}" id="cb-{{ $locale->id }}"/>
                     </td>
                     <td>{{ $locale->name }}</td>
+                    <td>{{ $locale->lang }}</td>
                     <td class="text-end">
                         <a href="#" wire:click.prevent="edit({{ $locale->id }})"><em class="far fa-edit"></em></a>
                     </td>

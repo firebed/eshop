@@ -6,6 +6,10 @@
             <x-bs::input.group for="name" label="{{ __('Name') }}" inline>
                 <x-bs::input.text wire:model.defer="model.name" error="model.name" autofocus/>
             </x-bs::input.group>
+
+            <x-bs::input.group for="lang" label="{{ __('Language') }}" inline>
+                <x-bs::input.text wire:model.defer="model.lang" error="model.lang" autofocus/>
+            </x-bs::input.group>
         </div>
     </x-bs::modal.body>
 

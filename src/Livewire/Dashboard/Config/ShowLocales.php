@@ -28,6 +28,7 @@ class ShowLocales extends Component
 
     protected array $rules = [
         'model.name' => ['required', 'string', 'size:2'],
+        'model.lang' => ['required', 'string'],
     ];
 
     protected function makeEmptyModel(): Locale
