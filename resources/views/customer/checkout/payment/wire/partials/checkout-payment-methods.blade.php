@@ -8,9 +8,9 @@
                 <span class="fw-500">{{ __($option->paymentMethod->name) }} @if($option->fee > 0)<small class="text-secondary">({{ format_currency($option->fee) }})</small>@endif</span>
             </span>
             </x-bs::input.radio>
-            @if($option->payment_method_id == 2 || filled($option->description))
+            @if($option->paymentMethod->isCreditCard() || filled($option->description))
                 <span class="collapse {{ $option->payment_method_id == $order->payment_method_id ? 'show' : '' }}">
-                    @includeWhen($option->payment_method_id === 2, 'customer.checkout.payment.wire.ext.stripe-card')
+                    @includeWhen($option->paymentMethod->isCreditCard(), 'eshop::customer.checkout.payment.wire.ext.stripe-card')
 
                     @if(filled($option->description))
                         {!! $option->description !!}

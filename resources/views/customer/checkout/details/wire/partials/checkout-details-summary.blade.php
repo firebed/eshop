@@ -23,9 +23,10 @@
 
     <hr class="text-secondary">
 
-    @if($shippingMethods->isEmpty())
+    @if($order->shippingAddress && $order->shippingAddress->country && $shippingMethods->isEmpty())
         <div class="text-danger fw-500" wire:key="shipping-error">
-            <em class="fas fa-exclamation-circle me-2"></em>{{ __('Sorry, currently we do not ship to') }} {{ $order->shippingAddress->city_or_country }}
+            <em class="fas fa-exclamation-circle me-2"></em>
+            {{ __('Sorry, currently we do not ship to') }} {{ $order->shippingAddress->city_or_country ?? '' }}
         </div>
 
         <hr class="text-secondary">

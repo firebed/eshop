@@ -57,7 +57,7 @@
         </tr>
     @empty
         <tr wire:key="no-records-found">
-            <td colspan="8" class="text-center py-4 fst-italic text-secondary">{{ __("No records found") }}</td>
+            <td colspan="9" class="text-center py-4 fst-italic text-secondary">{{ __("No records found") }}</td>
         </tr>
     @endforelse
     </tbody>

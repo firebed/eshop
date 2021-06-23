@@ -48,17 +48,21 @@
         </div>
     </div>
 
-    <div class="{{ $order->paymentMethod->isPayPal() ? "d-grid" : "d-none" }}">
-        @include('customer.checkout.payment.wire.ext.paypal-checkout-button')
-    </div>
+    <div>
+        @if($order->paymentMethod && $order->shippingMethod)
+            <div class="{{ $order->paymentMethod->isPayPal() ? "d-grid" : "d-none" }}">
+                @include('eshop::customer.checkout.payment.wire.ext.paypal-checkout-button')
+            </div>
 
-    <div class="{{ $order->paymentMethod->isCreditCard() ? "d-grid" : "d-none" }}">
-        @include('customer.checkout.payment.wire.ext.stripe-checkout-button')
-    </div>
+            <div class="{{ $order->paymentMethod->isCreditCard() ? "d-grid" : "d-none" }}">
+                @include('eshop::customer.checkout.payment.wire.ext.stripe-checkout-button')
+            </div>
 
-    <div class="{{ $order->paymentMethod->isPayPal() || $order->paymentMethod->isCreditCard() ? "d-none": "d-grid" }}">
-        <button type="button" wire:click.prevent="pay" class="btn btn-primary">
-            <em class="fas fa-check me-2"></em>{{ __('Complete') }}
-        </button>
+            <div class="{{ $order->paymentMethod->isPayPal() || $order->paymentMethod->isCreditCard() ? "d-none": "d-grid" }}">
+                <button type="button" wire:click.prevent="pay" class="btn btn-primary">
+                    <em class="fas fa-check me-2"></em>{{ __('Complete') }}
+                </button>
+            </div>
+        @endif
     </div>
 </div>

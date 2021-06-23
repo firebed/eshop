@@ -4,8 +4,10 @@
 namespace Eshop\Models\Location;
 
 
+use Eshop\Database\Factories\Location\CountryPaymentMethodFactory;
 use Eshop\Models\Lang\Traits\HasTranslations;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 
@@ -17,7 +19,7 @@ use Illuminate\Database\Eloquent\Relations\Pivot;
  */
 class CountryPaymentMethod extends Pivot
 {
-    use HasTranslations;
+    use HasFactory, HasTranslations;
 
     public $incrementing = TRUE;
 
@@ -55,5 +57,10 @@ class CountryPaymentMethod extends Pivot
     public function calculateTotalFee(): float
     {
         return $this->fee;
+    }
+
+    protected static function newFactory(): CountryPaymentMethodFactory
+    {
+        return CountryPaymentMethodFactory::new();
     }
 }

@@ -3,6 +3,7 @@
 namespace Eshop\Listeners;
 
 use Eshop\Events\CartStatusChanged;
+use Eshop\Models\Cart\CartStatus;
 use Eshop\Notifications\OrderCancelledNotification;
 use Eshop\Notifications\OrderHeldNotification;
 use Eshop\Notifications\OrderRejectedNotification;
@@ -21,25 +22,24 @@ class SendCartStatusChangedNotification
     public function handle(CartStatusChanged $event): void
     {
         $cart = $event->cart;
-        $status = $event->current_status;
-        $contact = $event->cart->contact()->sole();
+        $status = $event->status;
         $notes = $event->notesToCustomer;
 
         switch ($status->name) {
-            case "Submitted":
-                Notification::route('mail', $contact->email)->notify(new OrderSubmittedNotification($cart, $notes));
+            case CartStatus::SUBMITTED:
+                Notification::route('mail', $cart->email)->notify(new OrderSubmittedNotification($cart, $notes));
                 break;
-            case "Shipped":
-                Notification::route('mail', $contact->email)->notify(new OrderShippedNotification($cart, $notes));
+            case CartStatus::SHIPPED:
+                Notification::route('mail', $cart->email)->notify(new OrderShippedNotification($cart, $notes));
                 break;
-            case "Held":
-                Notification::route('mail', $contact->email)->notify(new OrderHeldNotification($cart, $notes));
+            case CartStatus::HELD:
+                Notification::route('mail', $cart->email)->notify(new OrderHeldNotification($cart, $notes));
                 break;
-            case "Cancelled":
-                Notification::route('mail', $contact->email)->notify(new OrderCancelledNotification($cart, $notes));
+            case CartStatus::CANCELLED:
+                Notification::route('mail', $cart->email)->notify(new OrderCancelledNotification($cart, $notes));
                 break;
-            case "Rejected":
-                Notification::route('mail', $contact->email)->notify(new OrderRejectedNotification($cart, $notes));
+            case CartStatus::REJECTED:
+                Notification::route('mail', $cart->email)->notify(new OrderRejectedNotification($cart, $notes));
                 break;
         }
     }

@@ -13,20 +13,20 @@ class CartStatusChanged
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     public Cart       $cart;
-    public CartStatus $current_status;
+    public CartStatus $status;
     public ?string    $notesToCustomer;
 
     /**
      * Create a new event instance.
      *
      * @param Cart        $cart
-     * @param CartStatus  $current_status
+     * @param CartStatus  $status
      * @param string|null $notesToCustomer
      */
-    public function __construct(Cart $cart, CartStatus $current_status, ?string $notesToCustomer = null)
+    public function __construct(Cart $cart, CartStatus $status, ?string $notesToCustomer = null)
     {
         $this->cart = $cart;
-        $this->current_status = $current_status;
+        $this->status = $status;
         $this->notesToCustomer = $notesToCustomer;
     }
 }

@@ -2,7 +2,6 @@
 
 namespace Eshop\Models\Location;
 
-use Eshop\Database\Factories\Location\AddressFactory;
 use Eshop\Database\Factories\Location\PaymentMethodFactory;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -24,11 +23,11 @@ class PaymentMethod extends Model
 {
     use HasFactory;
 
-    public const PAYPAL           = 1;
-    public const CREDIT_CARD      = 2;
-    public const WIRE_TRANSFER    = 3;
-    public const PAY_ON_DELIVERY  = 4;
-    public const PAYMENT_IN_STORE = 5;
+    public const PAYPAL           = 'PayPal';
+    public const CREDIT_CARD      = 'Credit Card';
+    public const WIRE_TRANSFER    = 'Bank Transfer';
+    public const PAY_ON_DELIVERY  = 'Pay on Delivery';
+    public const PAYMENT_IN_STORE = 'Payment in our store';
 
     public $timestamps = FALSE;
 
@@ -42,27 +41,27 @@ class PaymentMethod extends Model
 
     public function isPayPal(): bool
     {
-        return $this->id === self::PAYPAL;
+        return $this->name === self::PAYPAL;
     }
 
     public function isCreditCard(): bool
     {
-        return $this->id === self::CREDIT_CARD;
+        return $this->name === self::CREDIT_CARD;
     }
 
     public function isWireTransfer(): bool
     {
-        return $this->id === self::WIRE_TRANSFER;
+        return $this->name === self::WIRE_TRANSFER;
     }
 
     public function isPayOnDelivery(): bool
     {
-        return $this->id === self::PAY_ON_DELIVERY;
+        return $this->name === self::PAY_ON_DELIVERY;
     }
 
     public function isPaymentInStore(): bool
     {
-        return $this->id === self::PAYMENT_IN_STORE;
+        return $this->name === self::PAYMENT_IN_STORE;
     }
 
     protected static function newFactory(): PaymentMethodFactory

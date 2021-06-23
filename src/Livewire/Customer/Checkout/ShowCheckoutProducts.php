@@ -54,7 +54,7 @@ class ShowCheckoutProducts extends Component
         }
 
         $shippingMethods = collect();
-        if ($order->shippingAddress->country) {
+        if ($order->shippingAddress && $order->shippingAddress->country) {
             $order->shippingAddress->country->shippingMethodRange($order->shipping_method_id);
         }
 

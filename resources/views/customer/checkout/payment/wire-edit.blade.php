@@ -1,4 +1,4 @@
-@extends('customer.layouts.master', ['title' =>  __('Cart')])
+@extends('eshop::customer.layouts.master', ['title' =>  __('Cart')])
 
 @push('header_scripts')
     <link rel="stylesheet" href="https://unpkg.com/simplebar@5.3.3/dist/simplebar.css"/>

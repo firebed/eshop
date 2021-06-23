@@ -4,6 +4,8 @@
 namespace Eshop\Models\Cart\Concerns;
 
 
+use Eshop\Events\CartStatusChanged;
+use Eshop\Models\Cart\CartStatus;
 use Eshop\Models\Location\Address;
 use Eshop\Models\Location\Country;
 use Eshop\Models\Product\Product;
@@ -191,14 +193,19 @@ trait ImplementsOrder
 
     public function submit(): void
     {
-        $this->status()->associate(1);
+        $submitted = CartStatus::firstWhere('name', CartStatus::SUBMITTED);
+        $this->status()->associate($submitted);
         $this->submitted_at = now();
         $this->save();
+
+        if (empty($this->selectedShipping)) {
+            auth()->user()->addresses()->save($this->shippingAddress->replicate(['cluster']));
+        }
 
         session()->forget('cart-session-id');
         cookie()->queue(cookie()->forget('cart-cookie-id'));
 
-//        event(new CartSubmitted($this));
+        event(new CartStatusChanged($this, $submitted));
     }
 
     public function pluckProductQuantities(): Collection

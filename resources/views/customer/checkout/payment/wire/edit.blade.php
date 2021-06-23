@@ -1,16 +1,28 @@
 <form id="checkout-form">
 
     @if(session()->has('order-total-changed'))
-        <x-bs::alert type="warning">
+        <x-bs::alert type="warning" wire:key="order-total-changed">
             {{ __("Your cart has changed during payment. Please check your products and try again.") }}
+        </x-bs::alert>
+    @endif
+
+    @if($paymentMethods->isEmpty())
+        <x-bs::alert type="danger" wire:key="empty-payment-methods">
+            {{ __("There aren't any payment options available right now.") }}
+        </x-bs::alert>
+    @endif
+
+    @if($shippingMethods->isEmpty())
+        <x-bs::alert type="danger" wire:key="empty-shipping-methods">
+            {{ __("There aren't any payment options available right now.") }}
         </x-bs::alert>
     @endif
 
     <div class="row gy-4 gx-5">
         <div class="col-12 col-lg">
             <div class="d-grid gap-4 align-items-start">
-                @include('customer.checkout.payment.wire.partials.checkout-shipping-methods')
-                @include('customer.checkout.payment.wire.partials.checkout-payment-methods')
+                @include('eshop::customer.checkout.payment.wire.partials.checkout-shipping-methods')
+                @include('eshop::customer.checkout.payment.wire.partials.checkout-payment-methods')
 
                 <div class="d-none d-lg-flex">
                     <a href="{{ route('checkout.details.edit', app()->getLocale()) }}" class="btn btn-outline-secondary px-3">
@@ -21,7 +33,7 @@
         </div>
 
         <div class="col-12 col-lg-auto w-lg-25r align-self-start sticky-md-top" style="top: 2rem">
-            @include('customer.checkout.payment.wire.partials.checkout-payment-summary')
+            @include('eshop::customer.checkout.payment.wire.partials.checkout-payment-summary')
         </div>
 
         <div class="d-flex d-lg-none">

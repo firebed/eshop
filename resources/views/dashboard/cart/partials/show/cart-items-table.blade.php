@@ -46,16 +46,16 @@
                         <td>
                             <div class="ratio ratio-1x1">
                                 @if($product->image && $src = $product->image->url('sm'))
-                                    <img class="w-auto h-auto mw-100 mh-100" src="{{ $src }}" alt="{{ $product->name }}">
+                                    <img class="w-auto h-auto mw-100 mh-100 rounded" src="{{ $src }}" alt="{{ $product->name }}">
                                 @endif
                             </div>
                         </td>
                         <td>
                             @if($product->isVariant())
                                 <div>{{ $product->parent->name }}</div>
-                                <div class="fw-bold"><span class="text-secondary">{{ $product->sku }}</span> <span>{{ $product->options->pluck('pivot.value')->join(' - ') }}</span></div>
+                                <div class="fw-500><span class="text-secondary">{{ $product->sku }}</span> <span>{{ $product->options->pluck('pivot.value')->join(' - ') }}</span></div>
                             @else
-                                <div class="fw-bold"><span class="text-secondary">{{ $product->sku }}</span> <span>{{ $product->name }}</span></div>
+                                <div class="fw-500"><span class="text-secondary">{{ $product->sku }}</span> <span>{{ $product->name }}</span></div>
                             @endif
                             <x-bs::badge :value="$product->stock" :cap="$product->backorder">
                                 {{ format_number($product->stock) }}

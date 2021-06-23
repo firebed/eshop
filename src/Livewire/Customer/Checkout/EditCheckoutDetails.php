@@ -6,6 +6,7 @@ namespace Eshop\Livewire\Customer\Checkout;
 
 use Eshop\Livewire\Customer\Checkout\Concerns\ControlsOrder;
 use Eshop\Models\Cart\DocumentType;
+use Eshop\Models\Invoice\Invoice;
 use Eshop\Models\Location\Address;
 use Eshop\Models\Location\Country;
 use Eshop\Repository\Contracts\Order;
@@ -19,13 +20,13 @@ class EditCheckoutDetails extends Component
 {
     use ControlsOrder;
 
-    public string $email   = "";
-    public string $details = "";
-    public        $invoice;
-    public        $shipping;
-    public bool   $invoicing;
-    public        $invoiceAddress;
-    public int    $selectedShipping;
+    public string  $email   = "";
+    public string  $details = "";
+    public Invoice $invoice;
+    public Address $shipping;
+    public bool    $invoicing;
+    public Address $invoiceAddress;
+    public int     $selectedShipping;
 
     public function rules(): array
     {
@@ -66,7 +67,7 @@ class EditCheckoutDetails extends Component
             session()->flash('products-values-changed');
         }
 
-        $this->email = $order->email ?? "";
+        $this->email = Auth::guest() ? $order->email : "";
         $this->details = $order->details ?? "";
         $this->invoicing = $order->document_type === DocumentType::INVOICE;
 
@@ -91,7 +92,7 @@ class EditCheckoutDetails extends Component
         $this->validateOnly('shipping.country_id');
 
         $order = app(Order::class);
-        $order->shippingAddress()->update($this->shipping->getAttributes());
+        $order->shippingAddress()->updateOrCreate([], $this->shipping->getAttributes() + ['cluster' => 'shipping']);
         $this->refreshOrder($order);
     }
 
@@ -116,13 +117,13 @@ class EditCheckoutDetails extends Component
     {
         $this->validate();
 
-        $order->email = $this->email;
+        $order->email = Auth::check() ? auth()->user()->email : $this->email;
         $order->details = blank($this->details) ? NULL : trim($this->details);
         $order->ip = request()->ip();
         $order->document_type = $this->invoicing ? DocumentType::INVOICE : DocumentType::RECEIPT;
         $order->save();
 
-        $order->shippingAddress()->update($this->shipping->getAttributes());
+//        $order->shippingAddress()->update($this->shipping->getAttributes());
 
         $invoiceFilled = collect(array_merge($this->invoice->getAttributes(), $this->invoiceAddress->getAttributes()))->filter()->isNotEmpty();
         if ($invoiceFilled) {

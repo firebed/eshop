@@ -22,9 +22,10 @@ class EditCheckoutPayment extends Component
     use PayPalCheckout;
     use SendsNotifications;
 
-    public float $userTotal;
-    public       $shipping_method_id;
-    public       $payment_method_id;
+    public array  $products = [];
+    public float  $userTotal;
+    public string $shipping_method_id;
+    public string $payment_method_id;
 
     public function mount(Order $order): void
     {
@@ -37,8 +38,24 @@ class EditCheckoutPayment extends Component
         $this->userTotal = $order->total;
     }
 
+    public function orderIsSubmitted(): bool
+    {
+        $order = app(Order::class);
+
+        if (!$order->exists || $order->isSubmitted()) {
+            $this->redirectRoute('checkout.products.index', app()->getLocale());
+            return true;
+        }
+
+        return false;
+    }
+
     public function updatedShippingMethodId($id): void
     {
+        if ($this->orderIsSubmitted()) {
+            return;
+        }
+
         $order = app(Order::class);
         $order->updateShippingFee($id);
         $order->updateTotal();
@@ -49,6 +66,10 @@ class EditCheckoutPayment extends Component
 
     public function updatedPaymentMethodId($id): void
     {
+        if ($this->orderIsSubmitted()) {
+            return;
+        }
+
         $order = app(Order::class);
         $order->updatePaymentFee($id);
         $order->updateTotal();
@@ -75,13 +96,17 @@ class EditCheckoutPayment extends Component
 
     public function pay(Order $order): mixed
     {
+        if ($this->orderIsSubmitted()) {
+            return NULL;
+        }
+
         if ($this->isCartDirty($order)) {
-            return null;
+            return NULL;
         }
 
         if ($order->paymentMethod->isCreditCard()) {
             $this->payWithStripe();
-            return null;
+            return NULL;
         }
 
         if ($order->paymentMethod->isPayPal()) {
@@ -89,23 +114,25 @@ class EditCheckoutPayment extends Component
         }
 
         $this->submit($order);
-        return null;
+        return NULL;
     }
 
-    protected function submit(Order $order, string $payment_id = null): void
+    protected function submit(Order $order, string $payment_id = NULL): void
     {
         DB::transaction(function () use ($order, $payment_id) {
             $order->payment_id = $payment_id;
-//            $order->submit();
+            $order->submit();
             $expires = now()->addMinutes(5);
             $this->redirect(URL::temporarySignedRoute('checkout.completed', $expires, [app()->getLocale(), $order->id]));
         });
     }
 
-    public $products = [];
-
-    public function render(Order $order): Renderable
+    public function render(Order $order): Renderable|null
     {
+        if ($this->orderIsSubmitted()) {
+            return null;
+        }
+
         $country = $order->shippingAddress->country;
         $shippingMethods = $country->filterShippingOptions($order->products_value);
         $paymentMethods = $country->filterPaymentMethods($order->products_value);

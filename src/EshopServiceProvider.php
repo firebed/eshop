@@ -43,6 +43,11 @@ class EshopServiceProvider extends ServiceProvider
         Collection::macro('toggle', fn($item) => $this->contains($item) ? $this->except($item->id) : $this->concat([$item]));
     }
 
+    public function register(): void
+    {
+        $this->app->register(EventServiceProvider::class);
+    }
+
     private function registerConfig(): void
     {
     }

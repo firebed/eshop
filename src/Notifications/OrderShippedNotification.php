@@ -5,6 +5,7 @@ namespace Eshop\Notifications;
 use Eshop\Mail\OrderShippedMail;
 use Eshop\Models\Cart\Cart;
 use Illuminate\Bus\Queueable;
+use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
 class OrderShippedNotification extends Notification
@@ -39,10 +40,16 @@ class OrderShippedNotification extends Notification
     /**
      * Get the mail representation of the notification.
      *
-     * @return OrderShippedMail
+     * @return MailMessage
      */
-    public function toMail(): OrderShippedMail
+    public function toMail(): MailMessage
     {
-        return new OrderShippedMail($this->cart, $this->notesToCustomer);
+        $this->cart->products->loadMissing('parent.translation', 'image', 'translation');
+
+        return (new MailMessage())
+            ->markdown('eshop::customer.emails.order.shipped', [
+                'cart'            => $this->cart,
+                'notesToCustomer' => $this->notesToCustomer
+            ]);
     }
 }

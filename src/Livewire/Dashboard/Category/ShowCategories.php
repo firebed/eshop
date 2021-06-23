@@ -57,6 +57,8 @@ class ShowCategories extends Component
 
     public function mount(): void
     {
+        $this->authorize('View categories');
+
         $this->editing = $this->makeCategory(Category::FILE);
     }
 
@@ -80,6 +82,8 @@ class ShowCategories extends Component
 
     public function create(): void
     {
+        $this->authorize('Create category');
+
         $this->reset('image', 'name', 'description');
         $this->editing = $this->makeCategory(Category::FILE);
 
@@ -89,6 +93,8 @@ class ShowCategories extends Component
 
     public function createGroup(): void
     {
+        $this->authorize('Create category');
+
         $this->editing = $this->makeCategory(Category::FOLDER);
 
         $this->skipRender();
@@ -97,6 +103,8 @@ class ShowCategories extends Component
 
     public function edit(Category $category): void
     {
+        $this->authorize('Edit category');
+
         $this->reset('image');
 
         $this->editing = $category;

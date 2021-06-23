@@ -4,7 +4,7 @@
             <x-bs::card.body class="p-4 border-bottom d-flex flex-column" wire:key="shipping-addresses-{{ $address->id }}">
                 <x-bs::input.radio wire:model="selectedShipping" error="selectedShipping" id="address-{{ $address->id }}" name="selectedShipping" value="{{ $address->id }}" label-class="w-100">
                 <span class="d-grid">
-                    <span class="fw-500">{{ $address->street }} {{ $address->street_no }}, {{ $address->city }} {{ $address->country->name }} {{ $address->postcode }}</span>
+                    <span class="fw-500">{{ $address->street }} {{ $address->street_no }}, {{ $address->city }} {{ $address->postcode }}</span>
                     <span class="small text-secondary">{{ $address->to }}</span>
                     <span class="collapse {{ $address->id === $selectedShipping ? 'show' : '' }}">
                         <span class="d-grid">

@@ -20,6 +20,10 @@ Route::get('/', function () {
     return view('eshop::customer.homepage.index');
 });
 
+Route::get('mail', function() {
+    \Illuminate\Support\Facades\Notification::route('mail', 'okan.giritli@gmail.com')->notify(new \Eshop\Notifications\OrderShippedNotification(\Eshop\Models\Cart\Cart::first()));
+});
+
 // Global routes
 Route::group([
     'prefix'     => config('eshop.prefix'),

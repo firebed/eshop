@@ -5,7 +5,7 @@
             <td class="w-6r @if($loop->last) border-0 @endif">
                 <div class="ratio ratio-1x1">
                     @if($product->image)
-                        <img src="{{ $product->image->url('sm') }}" alt="{{ $product->trademark }}" class="img-middle">
+                        <img src="{{ $product->image->url('sm') }}" alt="{{ $product->trademark }}" class="img-top rounded">
                     @endif
                 </div>
             </td>

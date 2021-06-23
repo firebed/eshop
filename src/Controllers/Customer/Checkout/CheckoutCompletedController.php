@@ -5,6 +5,7 @@ namespace Eshop\Controllers\Customer\Checkout;
 use Eshop\Models\Cart\Cart;
 use Eshop\Controllers\Controller;
 use Illuminate\Contracts\Support\Renderable;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 class CheckoutCompletedController extends Controller
@@ -15,12 +16,12 @@ class CheckoutCompletedController extends Controller
      * @param Request $request
      * @param         $locale
      * @param Cart    $cart
-     * @return Renderable
+     * @return Renderable|RedirectResponse
      */
-    public function __invoke(Request $request, $locale, Cart $cart): Renderable
+    public function __invoke(Request $request, $locale, Cart $cart): Renderable|RedirectResponse
     {
         if (! $request->hasValidSignature()) {
-            abort(401);
+            return redirect()->route('checkout.products.index', $locale);
         }
 
         return view('eshop::customer.checkout.completed.index', compact('cart'));

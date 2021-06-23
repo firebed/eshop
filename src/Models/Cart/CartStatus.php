@@ -26,19 +26,19 @@ class CartStatus extends Model
 {
     use HasFactory;
 
-    public const SUBMITTED = 1;
-    public const APPROVED  = 2;
-    public const COMPLETED = 3;
-    public const SHIPPED   = 4;
-    public const HELD      = 5;
-    public const CANCELLED = 6;
-    public const REJECTED  = 7;
-    public const RETURNED  = 8;
+    public const SUBMITTED = 'Submitted';
+    public const APPROVED  = 'Approved';
+    public const COMPLETED = 'Completed';
+    public const SHIPPED   = 'Shipped';
+    public const HELD      = 'Held';
+    public const CANCELLED = 'Cancelled';
+    public const REJECTED  = 'Rejected';
+    public const RETURNED  = 'Returned';
 
     public const CAPTURE = 'Capture';
     public const RELEASE = 'Release';
 
-    public $timestamps = false;
+    public $timestamps = FALSE;
 
     public function carts(): HasMany
     {
@@ -47,7 +47,13 @@ class CartStatus extends Model
 
     public function hasCapturedStocks(): bool
     {
-        return $this->id < self::CANCELLED;
+        return in_array($this->name, [
+            self::SUBMITTED,
+            self::APPROVED,
+            self::COMPLETED,
+            self::SHIPPED,
+            self::HELD
+        ]);
     }
 
     public function isCapturingStocks(): bool

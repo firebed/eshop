@@ -16,15 +16,18 @@
                 <div class="w-6r ms-auto text-end">{{ format_currency($order->products_value) }}</div>
             </div>
 
-            <div wire:key="shipping-fee" class="d-flex align-items-start">
-                <div class="text-secondary">{{ __('Shipping fee for') }} <span class="text-blue-500">{{ $order->shippingAddress->city_or_country }}</span></div>
-                <div class="w-6r ms-auto text-end d-grid">
-                    <span>{{ format_currency($order->shipping_fee) }}</span>
-                    @if($lastShipping && $order->shipping_fee < $lastShipping->fee)
-                        <s class="text-danger lh-sm">{{ format_currency($lastShipping->fee) }}</s>
-                    @endif
+            @if($order->shippingAddress)
+                <div wire:key="shipping-fee" class="d-flex align-items-start">
+                    <div class="text-secondary">{{ __('Shipping fee for') }} <span class="text-blue-500">{{ $order->shippingAddress->city_or_country }}</span></div>
+
+                    <div class="w-6r ms-auto text-end d-grid">
+                        <span>{{ format_currency($order->shipping_fee) }}</span>
+                        @if($lastShipping && $order->shipping_fee < $lastShipping->fee)
+                            <s class="text-danger lh-sm">{{ format_currency($lastShipping->fee) }}</s>
+                        @endif
+                    </div>
                 </div>
-            </div>
+            @endif
 
             @if($order->payment_fee > 0)
                 <div wire:key="payment-fee" class="d-flex align-items-start">
@@ -45,7 +48,7 @@
                 <div wire:key="next-discounts" class="text-secondary">
                     @choice('order.shipping_discount_until', $nextShipping->fee, ['value' => format_currency($nextShipping->cart_total - $order->products_value)])
                 </div>
-                <x-bs::progress :value="$order->products_value/$nextShipping->cart_total*100" height=".7rem" />
+                <x-bs::progress :value="$order->products_value/$nextShipping->cart_total*100" height=".7rem"/>
             @endif
 
             @if($nextShipping !== NULL || ($lastShipping && $order->shipping_fee < $lastShipping->fee))

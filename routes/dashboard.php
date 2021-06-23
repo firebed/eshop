@@ -14,7 +14,7 @@ use Eshop\Controllers\Dashboard\User\UserController;
 use Eshop\Controllers\Dashboard\User\UserPermissionController;
 use Illuminate\Support\Facades\Route;
 
-Route::middleware(['web', 'auth'])->group(function () {
+Route::middleware(['web', 'auth', 'admin'])->group(function () {
     Route::prefix('dashboard')->group(function () {
         Route::get('products/create-group', [ProductController::class, 'createGroup'])->name('products.create-group');
 

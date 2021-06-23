@@ -15,8 +15,8 @@ use Throwable;
 
 trait StripeCheckout
 {
-    public $intent;
-    public $clientSecret;
+    public ?string $intent;
+    public ?string $clientSecret;
 
     protected function payWithStripe(): void
     {
@@ -25,6 +25,10 @@ trait StripeCheckout
 
     public function chargeStripeCard(Order $order, $paymentMethodId): void
     {
+        if ($this->orderIsNotSubmitted()) {
+            return;
+        }
+
         $this->intent = NULL;
 
         if (Auth::check()) {
