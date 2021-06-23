@@ -4,7 +4,7 @@
         <td class="w-1r rounded-top"><x-bs::input.checkbox wire:model="selectAll" id="check-all"/></td>
         <x-bs::table.heading sortable wire:click.prevent="sortBy('visible')" :direction="$sortField === 'visible' ? $sortDirection : null" class="w-6r">{{ __("Visible") }}</x-bs::table.heading>
         <x-bs::table.heading sortable wire:click.prevent="sortBy('name')" :direction="$sortField === 'name' ? $sortDirection : null">{{ __("Name") }}</x-bs::table.heading>
-        <x-bs::table.heading sortable wire:click.prevent="sortBy('code')" :direction="$sortField === 'code' ? $sortDirection : null">{{ __("Country code") }}</x-bs::table.heading>
+        <x-bs::table.heading sortable wire:click.prevent="sortBy('code')" :direction="$sortField === 'code' ? $sortDirection : null">{{ __("ISO code") }}</x-bs::table.heading>
         <x-bs::table.heading sortable wire:click.prevent="sortBy('timezone')" :direction="$sortField === 'timezone' ? $sortDirection : null">{{ __("Timezone") }}</x-bs::table.heading>
         <x-bs::table.heading sortable wire:click.prevent="sortBy('created_at')" :direction="$sortField === 'created_at' ? $sortDirection : null">{{ __("Created at") }}</x-bs::table.heading>
         <x-bs::table.heading class="rounded-top"/>
