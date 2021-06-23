@@ -8,6 +8,7 @@
       "email": "okan.giritli@gmail.com"
     }
   ],
+  "repositories": ,
   "require": {
     "php": "^8.0",
     "laravel/framework": "^8.0",

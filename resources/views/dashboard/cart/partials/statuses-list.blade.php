@@ -11,7 +11,7 @@
 
             @foreach($statuses as $status)
                 <x-bs::list.link href="{{ route('carts.index', ['status' => $status->id]) }}" class="d-flex justify-content-between align-items-center">
-                    <span>{{ $status->name }}</span>
+                    <span>{{ __("eshop::cart.status.$status->name") }}</span>
                     <x-bs::badge type="{{ $status->color }}">{{ format_number($status->carts_count) }}</x-bs::badge>
                 </x-bs::list.link>
             @endforeach
