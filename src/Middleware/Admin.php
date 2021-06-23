@@ -16,7 +16,7 @@ class Admin
      */
     public function handle(Request $request, Closure $next): mixed
     {
-        if (!auth()->user()->hasRole('admin')) {
+        if (!auth()->user()->hasAnyRole('Super Admin', 'Admin')) {
             abort(403);
         }
 
