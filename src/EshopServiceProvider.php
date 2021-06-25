@@ -96,10 +96,12 @@ class EshopServiceProvider extends ServiceProvider
             $this->publishes([
                 __DIR__ . '/../assets/css/customer'         => public_path('vendor/eshop/css/customer'),
                 __DIR__ . '/../assets/css/dashboard'        => public_path('vendor/eshop/css/dashboard'),
+                __DIR__ . '/../assets/css/slimselect.css'   => public_path('vendor/eshop/css/slimselect.css'),
                 __DIR__ . '/../assets/js/customer'          => public_path('vendor/eshop/js/customer'),
                 __DIR__ . '/../assets/js/dashboard'         => public_path('vendor/eshop/js/dashboard'),
                 __DIR__ . '/../assets/js/fslightbox.js'     => public_path('vendor/eshop/js/fslightbox.js'),
                 __DIR__ . '/../assets/js/fslightbox.js.map' => public_path('vendor/eshop/js/fslightbox.js.map'),
+                __DIR__ . '/../assets/js/slimselect.js'     => public_path('vendor/eshop/js/slimselect.js'),
             ], 'eshop-assets');
 
             $this->publishes([__DIR__ . '/../resources/lang' => resource_path('lang/vendor/eshop')], 'eshop-locale');

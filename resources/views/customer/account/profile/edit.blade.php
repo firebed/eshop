@@ -72,7 +72,7 @@
 
                     <div class="col">
                         <x-bs::input.floating-label for="birthday" label="{{ __('Birthday') }}">
-                            <x-bs::input.date name="birthday" error="birthday" :value="old('birthday', $user->birthday->format('d/m/Y'))" id="birthday" placeholder="{{ __('Birthday') }}"/>
+                            <x-bs::input.date name="birthday" error="birthday" :value="old('birthday', optional($user->birthday)->format('d/m/Y'))" id="birthday" placeholder="{{ __('Birthday') }}"/>
                         </x-bs::input.floating-label>
                     </div>
                 </div>

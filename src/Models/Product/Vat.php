@@ -26,7 +26,7 @@ class Vat extends Model
 
     protected $casts = ['regime' => 'float'];
 
-    public static function standard(): Vat
+    public static function standard(): ?Vat
     {
         return self::firstWhere('name', 'standard');
     }

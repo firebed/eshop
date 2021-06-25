@@ -21,15 +21,15 @@ use Livewire\Component;
  */
 class CreateProduct extends Component
 {
-    use SendsNotifications;
-    use SavesProduct;
-    use WithProductAttributes;
-    use RendersProduct;
+    use SendsNotifications,
+        SavesProduct,
+        WithProductAttributes,
+        RendersProduct;
 
     public function save(): void
     {
         $this->validate();
-        $this->saveProduct(false);
+        $this->saveProduct(FALSE);
 
         $this->redirectRoute('products.edit', $this->product);
     }

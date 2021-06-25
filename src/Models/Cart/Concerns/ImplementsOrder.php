@@ -198,7 +198,7 @@ trait ImplementsOrder
         $this->submitted_at = now();
         $this->save();
 
-        if (empty($this->selectedShipping)) {
+        if (empty($this->shippingAddress->related_id)) {
             auth()->user()->addresses()->save($this->shippingAddress->replicate(['cluster']));
         }
 

@@ -13,13 +13,14 @@ trait CreatesEmptyProduct
     protected function makeProduct(): Product
     {
         $product = new Product;
-        $product->visible = true;
-        $product->available = true;
-        $product->display_stock = true;
+        $product->visible = TRUE;
+        $product->available = TRUE;
+        $product->available_gt = 0;
+        $product->display_stock = TRUE;
         $product->category_id = "";
         $product->manufacturer_id = "";
         $product->unit_id = "";
-        $product->vat = Vat::standard()->regime;
+        $product->vat = optional(Vat::standard())->regime ?: '';
         $product->unit()->associate(Unit::firstWhere('name', 'Piece'));
         $product->discount = 0;
         $product->price = 0;

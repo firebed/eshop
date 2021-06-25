@@ -15,8 +15,10 @@ mix
     .js('resources/js/customer/app.js', './assets/js/customer/app.js')
     .js('resources/js/dashboard/app.js', './assets/js/dashboard/app.js')
     .js('node_modules/fslightbox/index.js', './assets/js/fslightbox.js')
+    // .js('node_modules/slim-select/dist/slimselect.js', './assets/js/slimselect.js')
     .sass('resources/scss/customer/app.scss', './assets/css/customer/app.css')
     .sass('resources/scss/dashboard/app.scss', './assets/css/dashboard/app.css')
+    // .css('node_modules/slim-select/dist/slimselect.css', './assets/css/slimselect.css')
     .sourceMaps();
 
 if (mix.inProduction()) {
