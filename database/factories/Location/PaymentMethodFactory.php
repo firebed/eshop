@@ -22,7 +22,7 @@ class PaymentMethodFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => $this->faker->unique()->randomElement(['PayPal', 'Credit Card', 'Bank Transfer', 'Pay on Delivery', 'Payment in our store'])
+            'name' => $this->faker->unique()->randomElement(['paypal', 'credit_card', 'wire_transfer', 'pay_on_delivery', 'pay_in_our_store'])
         ];
     }
 }

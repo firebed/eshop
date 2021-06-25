@@ -23,6 +23,7 @@ class LocaleFactory extends Factory
     {
         return [
             'name' => $this->faker->unique()->randomElement(['el', 'en', 'tr', 'es']),
+            'lang' => $this->faker->unique()->randomElement(['Ελληνικά', 'English', 'Türkçe', 'Spanish'])
         ];
     }
 }

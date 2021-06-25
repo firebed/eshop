@@ -19,13 +19,13 @@
                         <h1 class="fs-4 fw-normal">{{ __('Order') . ' #' . $order->id }}</h1>
 
                         <div class="d-grid text-secondary">
-                            <div class="text-dark fw-500 mb-2">{{ __("Order information") }}</div>
+                            <div class="text-dark fw-500 mb-2">{{ __("eshop::account.order.info") }}</div>
                             <x-bs::group :label="__('Date')" inline>
                                 <span class="text-dark">{{ $order->submitted_at->isoFormat('llll') }}</span>
                             </x-bs::group>
 
                             <x-bs::group :label="__('Status')" inline>
-                                <span class="text-dark">{{ $order->status->name }}</span>
+                                <span class="text-dark">{{ __('eshop::account.order.' . $order->status->name) }}</span>
                             </x-bs::group>
 
                             <x-bs::group :label="__('Shipping')" inline>
@@ -51,7 +51,7 @@
 
                         @if($order->details)
                             <div class="d-grid text-secondary">
-                                <div class="text-dark fw-500 mb-2">{{ __("Customer request") }}</div>
+                                <div class="text-dark fw-500 mb-2">{{ __("eshop::account.order.comments") }}</div>
                                 <div>{{ $order->details }}</div>
                             </div>
                         @endif

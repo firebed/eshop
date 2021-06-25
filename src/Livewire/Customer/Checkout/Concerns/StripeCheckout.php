@@ -25,7 +25,7 @@ trait StripeCheckout
 
     public function chargeStripeCard(Order $order, $paymentMethodId): void
     {
-        if ($this->orderIsNotSubmitted()) {
+        if ($this->orderIsSubmitted()) {
             return;
         }
 

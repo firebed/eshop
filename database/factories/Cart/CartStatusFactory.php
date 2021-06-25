@@ -22,7 +22,7 @@ class CartStatusFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => $this->faker->unique()->randomElement(['Submitted', 'Held', 'Approved', 'Completed', 'Shipped', 'Cancelled', 'Returned', 'Rejected'])
+            'name' => $this->faker->unique()->randomElement(['submitted', 'held', 'approved', 'completed', 'shipped', 'cancelled', 'returned', 'rejected'])
         ];
     }
 }

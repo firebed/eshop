@@ -57,7 +57,7 @@ trait PayPalCheckout
 
     public function confirmPayPalPayment(Order $order, $orderId): ?bool
     {
-        if ($this->orderIsNotSubmitted()) {
+        if ($this->orderIsSubmitted()) {
             return NULL;
         }
 
