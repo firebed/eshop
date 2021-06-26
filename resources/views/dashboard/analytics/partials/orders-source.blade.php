@@ -2,9 +2,11 @@
     <x-bs::card.body>
         <div class="d-grid gap-2">
             <div class="d-flex justify-content-between">
-                <div class="fw-500">{{ __("Orders source") }}</div>
+                <div class="fw-bold">{{ __("Orders source") }}</div>
                 <a href="#" class="text-decoration-none">{{ __("View report") }}</a>
             </div>
+
+            <div class="fw-500">{{ __("Order source over time") }}</div>
 
             <div class="ratio ratio-16x9">
                 <canvas id="orders-source"></canvas>
@@ -23,7 +25,7 @@
         new Chart(document.getElementById('orders-source').getContext('2d'), {
             type: 'line',
             data: {
-                labels: ['Facebook', 'Instagram', 'Online', 'Other', 'Phone', 'POS'],
+                labels: ['Facebook', 'Instagram', 'Eshop', 'Other', 'POS', 'Phone'],
                 datasets: [{
                     data: [{!! $ordersSourceToday->map(fn($count, $source) => "{source: '$source', count: $count}")->join(', ') !!}],
                     parsing: {
@@ -51,16 +53,10 @@
                     }
                 },
                 scales: {
-                    x: {
-                        beginAtZero: true,
-                        ticks: {
-                            maxTicksLimit: 12
-                        }
-                    },
                     y: {
-                        beginAtZero: true,
+                        grace: '5%',
                         ticks: {
-                            stepSize: 1
+                            precision:0
                         }
                     }
                 },

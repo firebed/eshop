@@ -2,11 +2,13 @@
     <x-bs::card.body>
         <div class="d-grid gap-2">
             <div class="d-flex justify-content-between">
-                <div class="fw-500">{{ __("Total orders") }}</div>
+                <div class="fw-bold">{{ __("Total orders") }}</div>
                 <a href="#" class="text-decoration-none">{{ __("View report") }}</a>
             </div>
 
             <div class="fw-500 fs-4">{{ $totalOrdersToday->sum() }}</div>
+
+            <div class="fw-500">{{ __("Orders over time") }}</div>
 
             <div class="ratio ratio-16x9">
                 <canvas id="total-orders"></canvas>
@@ -61,8 +63,9 @@
                     },
                     y: {
                         beginAtZero: true,
+                        grace: '5%',
                         ticks: {
-                            stepSize: 1,
+                            precision:0
                         }
                     }
                 },
