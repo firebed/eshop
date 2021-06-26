@@ -29,7 +29,7 @@ class CartFactory extends Factory
             'details'       => $this->faker->paragraph(),
             'ip'            => $this->faker->ipv4(),
             'email'         => $this->faker->safeEmail(),
-            'source'        => $this->faker->randomElement(['Online', 'Phone', 'Retail', 'Facebook', 'Instagram', 'Other'])
+            'source'        => $this->faker->randomElement(['Online', 'Phone', 'POS', 'Facebook', 'Instagram', 'Other'])
         ];
     }
 

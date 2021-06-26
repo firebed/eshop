@@ -74,7 +74,7 @@ class AnalyticsController extends Controller
             ->get()
             ->pluck('total', 'source');
 
-        foreach (['Facebook', 'Instagram', 'Online', 'Other', 'Phone', 'Retail'] as $source) {
+        foreach (['Facebook', 'Instagram', 'Online', 'Other', 'Phone', 'POS'] as $source) {
             if (!isset($data[$source])) {
                 $data[$source] = 0;
             }

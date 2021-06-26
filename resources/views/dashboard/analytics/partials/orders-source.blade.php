@@ -23,7 +23,7 @@
         new Chart(document.getElementById('orders-source').getContext('2d'), {
             type: 'line',
             data: {
-                labels: ['Facebook', 'Instagram', 'Online', 'Other', 'Phone', 'Retail'],
+                labels: ['Facebook', 'Instagram', 'Online', 'Other', 'Phone', 'POS'],
                 datasets: [{
                     data: [{!! $ordersSourceToday->map(fn($count, $source) => "{source: '$source', count: $count}")->join(', ') !!}],
                     parsing: {
