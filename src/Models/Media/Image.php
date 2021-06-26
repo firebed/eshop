@@ -24,6 +24,9 @@ class Image extends Model
 {
     use HasFactory;
 
+    public const TYPE_PATH = 'Path';
+    public const TYPE_URL = 'URL';
+
     protected $guarded = [];
 
     protected $casts = [
@@ -39,7 +42,7 @@ class Image extends Model
     {
         $src = $this->src;
 
-        if ($this->type === 'Url') {
+        if ($this->isTypeURL()) {
             return $src;
         }
 
@@ -49,6 +52,16 @@ class Image extends Model
 
         $disk = Storage::disk($this->disk);
         return $disk->exists($src) ? $disk->url($src) : NULL;
+    }
+
+    public function isTypeURL(): bool
+    {
+        return $this->type === self::TYPE_URL;
+    }
+
+    public function isTypePath(): bool
+    {
+        return $this->type === self::TYPE_PATH;
     }
 
     public function conversion($name)
@@ -82,6 +95,10 @@ class Image extends Model
     {
         static::deleted(function (Image $image) {
             if (!method_exists($image, 'isForceDeleting') || $image->isForceDeleting()) {
+                if ($image->isTypeURL()) {
+                    return;
+                }
+
                 Storage::disk($image->disk)->delete($image->src);
 
                 if ($image->conversions) {

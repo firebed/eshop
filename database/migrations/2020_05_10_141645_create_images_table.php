@@ -16,7 +16,7 @@ class CreateImagesTable extends Migration
         Schema::create('images', function (Blueprint $table) {
             $table->id();
             $table->morphs('imageable');
-            $table->enum('type', ['Path', 'Url'])->default('Path');
+            $table->enum('type', ['Path', 'URL'])->default('Path');
             $table->string('disk')->nullable();
             $table->string('collection')->nullable();
             $table->string('src');

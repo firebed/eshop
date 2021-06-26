@@ -11,7 +11,7 @@
         <x-bs::table.heading sortable wire:click.prevent="sortBy('stock')" :direction="$sortField === 'stock' ? $sortDirection : null">{{ __("Stock") }}</x-bs::table.heading>
         <x-bs::table.heading sortable wire:click.prevent="sortBy('variants_count')" :direction="$sortField === 'variants_count' ? $sortDirection : null">{{ __("Variants") }}</x-bs::table.heading>
         <x-bs::table.heading sortable wire:click.prevent="sortBy('price')" :direction="$sortField === 'price' ? $sortDirection : null">{{ __("Price") }}</x-bs::table.heading>
-        <x-bs::table.heading sortable wire:click.prevent="sortBy('created_at')" :direction="$sortField === 'created_at' ? $sortDirection : null" class="rounded-top">{{ __("Created at") }}</x-bs::table.heading>
+        <x-bs::table.heading sortable wire:click.prevent="sortBy('created_at')" :direction="$sortField === 'created_at' ? $sortDirection : null" class="rounded-top">{{ __("Deleted") }}</x-bs::table.heading>
     </tr>
     </thead>
 
@@ -53,7 +53,7 @@
                     {{ format_currency($product->price) }}
                 @endif
             </td>
-            <td>{{ $product->created_at->format('d/m/y') }}</td>
+            <td>{{ $product->deleted_at->format('d/m/y') }}</td>
         </tr>
     @empty
         <tr wire:key="no-records-found">

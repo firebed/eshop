@@ -10,6 +10,7 @@ use Eshop\Livewire\Customer\Checkout\ShowCheckoutProducts;
 use Eshop\Livewire\Customer\Product\AddToCartForm;
 use Eshop\Livewire\Customer\Product\ProductVariants;
 use Eshop\Livewire\Customer\Product\ProductVariantsButtons;
+use Eshop\Livewire\Dashboard\Analytics\ShowAnalyticsDashboard;
 use Eshop\Livewire\Dashboard\Cart\BillingAddress;
 use Eshop\Livewire\Dashboard\Cart\CartHeader;
 use Eshop\Livewire\Dashboard\Cart\CartItemCreateModal;
@@ -35,6 +36,7 @@ use Eshop\Livewire\Dashboard\Product\EditProductGroup;
 use Eshop\Livewire\Dashboard\Product\ShowManufacturers;
 use Eshop\Livewire\Dashboard\Product\ShowProductImages;
 use Eshop\Livewire\Dashboard\Product\ShowProducts;
+use Eshop\Livewire\Dashboard\Product\ShowTrashedProducts;
 use Eshop\Livewire\Dashboard\Product\ShowVariants;
 use Eshop\Livewire\Dashboard\Product\VariantTypes;
 use Eshop\Livewire\Dashboard\User\ShowUserPermissions;
@@ -91,6 +93,7 @@ class LivewireServiceProvider extends ServiceProvider
         Livewire::component('dashboard.product.edit-product-group', EditProductGroup::class);
         Livewire::component('dashboard.product.show-product-images', ShowProductImages::class);
         Livewire::component('dashboard.product.show-products', ShowProducts::class);
+        Livewire::component('dashboard.product.show-trashed-products', ShowTrashedProducts::class);
         Livewire::component('dashboard.product.show-variants', ShowVariants::class);
         Livewire::component('dashboard.product.variant-types', VariantTypes::class);
 
@@ -101,6 +104,9 @@ class LivewireServiceProvider extends ServiceProvider
 
         // User permissions
         Livewire::component('dashboard.user.show-user-permissions', ShowUserPermissions::class);
+
+        // Analytics
+        Livewire::component('dashboard.analytics.show-analytics-dashboard', ShowAnalyticsDashboard::class);
 
         // Config
         Livewire::component('dashboard.config.show-vats', ShowVats::class);

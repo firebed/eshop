@@ -45,12 +45,13 @@ class ProductController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param Product $product
+     * @param int $productId
      * @return Renderable
-     * @throws AuthorizationException
      */
-    public function edit(Product $product): Renderable
+    public function edit(int $productId): Renderable
     {
+        $product = Product::withTrashed()->findOrFail($productId);
+
         return $product->has_variants
             ? view('eshop::dashboard.product.edit-group', compact('product'))
             : view('eshop::dashboard.product.edit', compact('product'));

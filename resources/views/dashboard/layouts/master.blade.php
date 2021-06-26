@@ -18,12 +18,12 @@
     @stack('header_scripts')
     @livewireStyles
 
-{{--    <script defer src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js"></script>--}}
-
     <link rel="stylesheet" href="https://unpkg.com/simplebar@5.3.3/dist/simplebar.css"/>
     <script src="https://unpkg.com/simplebar@5.3.3/dist/simplebar.min.js"></script>
     
     <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+    <x-eshop::google-analytics/>
 </head>
 <body class="container-fluid bg-light">
 <div class="row">

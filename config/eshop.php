@@ -9,4 +9,6 @@ return [
 
     'prefix'     => '',
     'middleware' => ['web'],
+
+    'google-analytics-id' => env('GOOGLE_ANALYTICS_ID')
 ];

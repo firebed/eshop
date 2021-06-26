@@ -5,7 +5,9 @@
                 <a href="{{ route('products.index') }}" class="text-decoration-none">{{ __("All") }} <span class="text-secondary">({{ $productsCount }})</span></a>
             </div>
             <div class="border-end me-2 ps-2"></div>
-            <div class="small text-secondary"><a href="#" class="text-decoration-none">{{ __("Trash") }} <span class="text-secondary">({{ $trashCount }})</span></a></div>
+            <div class="small text-secondary">
+                <a href="{{ route('products.trashed.index') }}" class="text-decoration-none">{{ __("Trash") }} <span class="text-secondary">({{ $trashCount }})</span></a>
+            </div>
         </div>
 
         <h1 class="fs-3 mb-0">{{ __("Products") }}</h1>

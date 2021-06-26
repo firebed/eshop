@@ -1,5 +1,6 @@
 <?php
 
+use Eshop\Controllers\Dashboard\Analytics\AnalyticsController;
 use Eshop\Controllers\Dashboard\Cart\CartController;
 use Eshop\Controllers\Dashboard\Cart\PrintController;
 use Eshop\Controllers\Dashboard\Intl\CountryController;
@@ -9,6 +10,7 @@ use Eshop\Controllers\Dashboard\Product\CategoryController;
 use Eshop\Controllers\Dashboard\Product\ManufacturerController;
 use Eshop\Controllers\Dashboard\Product\ProductController;
 use Eshop\Controllers\Dashboard\Product\ProductImageController;
+use Eshop\Controllers\Dashboard\Product\ProductTrashController;
 use Eshop\Controllers\Dashboard\Product\ProductVariantController;
 use Eshop\Controllers\Dashboard\User\UserController;
 use Eshop\Controllers\Dashboard\User\UserPermissionController;
@@ -19,6 +21,7 @@ Route::middleware(['web', 'auth', 'admin'])->group(function () {
         Route::get('products/create-group', [ProductController::class, 'createGroup'])->name('products.create-group');
 
         Route::get('products/{product}/images', [ProductImageController::class, 'index'])->name('products.images.index');
+        Route::get('products/trashed', ProductTrashController::class)->name('products.trashed.index');
         Route::resource('products', ProductController::class)->only('index', 'create', 'edit');
         Route::resource('products.variants', ProductVariantController::class)->shallow()->only('index');
 
@@ -38,5 +41,7 @@ Route::middleware(['web', 'auth', 'admin'])->group(function () {
         Route::resource('users', UserController::class)->only('index', 'show');
 
         Route::view('config', 'eshop::dashboard.config.index')->name('config.index');
+
+        Route::get('analytics', AnalyticsController::class)->name('analytics');
     });
 });

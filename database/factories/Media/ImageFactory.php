@@ -22,7 +22,7 @@ class ImageFactory extends Factory
     public function definition(): array
     {
         return [
-            'type' => 'Url',
+            'type' => Image::TYPE_URL,
             'src'  => $this->faker->imageUrl()
         ];
     }
