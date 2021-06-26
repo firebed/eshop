@@ -4,11 +4,11 @@
     </tr>
     <tr>
         <td class="text-secondary" style="width: 30%">{{ __("Name") }}</td>
-        <td>{{ $cart->contact->fullName }}</td>
+        <td>{{ $cart->shippingAddress->full_name }}</td>
     </tr>
     <tr>
         <td class="text-secondary">{{ __("Phone") }}</td>
-        <td>{{ $cart->contact->phone }}</td>
+        <td>{{ $cart->shippingAddress->phone }}</td>
     </tr>
     <tr>
         <td class="text-secondary" style="width: 30%">{{ __("Street") }}</td>

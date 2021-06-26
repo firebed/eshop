@@ -12,9 +12,10 @@
 @endcomponent
 
 @if($notesToCustomer)
-    <div style="margin-bottom: 1rem">
-        {{ $notesToCustomer }}
-    </div>
+<div style="margin-bottom: 1rem">
+    <div>{{ __('eshop::lang.comments') }}</div>
+    <div>{{ $notesToCustomer }}</div>
+</div>
 @endif
 
 {{ __("Thank you for your order.") }}<br>

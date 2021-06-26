@@ -95,6 +95,34 @@ class EshopDatabaseSeeder extends Seeder
                 'paymentOptions'
             )
             ->count(10)
+            ->create([
+                'name' => 'Ελλάδα',
+                'code' => 'el'
+            ]);
+
+        Country::factory()
+            ->has(
+                CountryShippingMethod::factory()
+                    ->count(3)
+                    ->for(ShippingMethod::inRandomOrder()->first())
+                    ->state(new Sequence(
+                        ['fee' => 2, 'cart_total' => 0],
+                        ['fee' => 1, 'cart_total' => 30],
+                        ['fee' => 0, 'cart_total' => 50],
+                    )),
+                'shippingOptions'
+            )
+            ->has(CountryPaymentMethod::factory()
+                ->count(3)
+                ->for(PaymentMethod::inRandomOrder()->first())
+                ->state(new Sequence(
+                    ['fee' => 2, 'cart_total' => 0],
+                    ['fee' => 1, 'cart_total' => 30],
+                    ['fee' => 0, 'cart_total' => 50],
+                )),
+                'paymentOptions'
+            )
+            ->count(10)
             ->create();
 
         Cart::factory()

@@ -43,7 +43,7 @@ class OrderRejectedNotification extends Notification
      */
     public function toMail(): MailMessage
     {
-        return (new MailMessage)
-            ->view('emails.order-rejected', ['cart' => $this->cart, 'notesToCustomer' => $this->notesToCustomer]);
+//        return (new MailMessage)
+//            ->view('emails.order-rejected', ['cart' => $this->cart, 'notesToCustomer' => $this->notesToCustomer]);
     }
 }

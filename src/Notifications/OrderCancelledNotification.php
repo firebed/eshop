@@ -43,7 +43,7 @@ class OrderCancelledNotification extends Notification
      */
     public function toMail(): MailMessage
     {
-        return (new MailMessage)
-            ->view('emails.order-cancelled', ['cart' => $this->cart, 'notesToCustomer' => $this->notesToCustomer]);
+//        return (new MailMessage)
+//            ->view('emails.order-cancelled', ['cart' => $this->cart, 'notesToCustomer' => $this->notesToCustomer]);
     }
 }

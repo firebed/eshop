@@ -1,6 +1,6 @@
 {
-  "name": "firebed/e-shop",
-  "description": "Complete e-commerce framework using Laravel",
+  "name": "firebed/eshop",
+  "description": "Complete eshop framework using Laravel",
   "license": "MIT",
   "authors": [
     {
