@@ -106,7 +106,6 @@ class LivewireServiceProvider extends ServiceProvider
         Livewire::component('dashboard.user.show-user-permissions', ShowUserPermissions::class);
 
         // Analytics
-        Livewire::component('dashboard.analytics.show-analytics-dashboard', ShowAnalyticsDashboard::class);
 
         // Config
         Livewire::component('dashboard.config.show-vats', ShowVats::class);

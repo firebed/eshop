@@ -19,11 +19,16 @@ use Eshop\Models\Product\Product;
 use Eshop\Models\Product\Unit;
 use Eshop\Models\Product\Vat;
 use Eshop\Models\User;
+use Exception;
 use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Carbon;
 
 class EshopDatabaseSeeder extends Seeder
 {
+    /**
+     * @throws Exception
+     */
     public function run(): void
     {
         Locale::factory()->count(4)->create();
@@ -36,7 +41,15 @@ class EshopDatabaseSeeder extends Seeder
 
         PaymentMethod::factory()->count(5)->create();
 
-        CartStatus::factory()->count(7)->create();
+        CartStatus::factory()->count(7)->state(new Sequence(
+            ['name' => 'submitted'],
+            ['name' => 'approved'],
+            ['name' => 'completed'],
+            ['name' => 'shipped'],
+            ['name' => 'held'],
+            ['name' => 'returned'],
+            ['name' => 'rejected'],
+        ))->create();
 
         Category::factory()
             ->folder()
@@ -94,7 +107,6 @@ class EshopDatabaseSeeder extends Seeder
                 )),
                 'paymentOptions'
             )
-            ->count(10)
             ->create([
                 'name' => 'Ελλάδα',
                 'code' => 'el'
@@ -126,19 +138,19 @@ class EshopDatabaseSeeder extends Seeder
             ->create();
 
         Cart::factory()
-            ->submitted()
             ->has(Address::factory()
                 ->state(['cluster' => 'shipping'])
                 ->for(Country::inRandomOrder()->first())
             )
             ->for(User::first())
             ->has(CartProduct::factory()->count(5), 'items')
-            ->count(20)
+            ->count(50)
             ->state(new Sequence(
                 fn() => [
                     'status_id'          => CartStatus::inRandomOrder()->first()->id,
                     'payment_method_id'  => PaymentMethod::inRandomOrder()->first()->id,
-                    'shipping_method_id' => ShippingMethod::inRandomOrder()->first()->id
+                    'shipping_method_id' => ShippingMethod::inRandomOrder()->first()->id,
+                    'submitted_at'       => random_int(0, 1) === 0 ? today()->addHours(random_int(0, 23)) : Carbon::yesterday()->addHours(random_int(0, 23))
                 ],
             ))
             ->create();

@@ -29,6 +29,7 @@ class CartFactory extends Factory
             'details'       => $this->faker->paragraph(),
             'ip'            => $this->faker->ipv4(),
             'email'         => $this->faker->safeEmail(),
+            'source'        => $this->faker->randomElement(['Online', 'Phone', 'Retail', 'Facebook', 'Instagram', 'Other'])
         ];
     }
 
@@ -42,12 +43,8 @@ class CartFactory extends Factory
         });
     }
 
-    public function submitted(): CartFactory
+    public function submitted($date = NULL): CartFactory
     {
-        return $this->state(function (array $attributes) {
-            return [
-                'submitted_at' => $this->faker->dateTimeThisYear,
-            ];
-        });
+        return $this->state(fn() => ['submitted_at' => $date ?? $this->faker->dateTimeThisYear]);
     }
 }

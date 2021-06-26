@@ -4,7 +4,7 @@
         <td class="w-3r rounded-top">
             <x-bs::dropdown class="lh-sm">
                 <button type="button" class="p-0 m-0 border-0 bg-transparent" id="select-carts-toggler" data-bs-toggle="dropdown" aria-expanded="false">
-                    <div class="rounded bg-white" style="height: 1em; width: 1em; border: 1px solid rgba(0,0,0,.25)"></div>
+                    <span class="d-block rounded bg-white" style="height: 1em; width: 1em; border: 1px solid rgba(0,0,0,.25)"></span>
                 </button>
 
                 <x-bs::dropdown.menu button="select-carts-toggler">
@@ -46,7 +46,7 @@
                 @endif
             </td>
             <td class="align-middle">
-                <x-bs::badge type="{{ $cart->status->color ?? '' }}" class="w-100 fw-normal">{{ $cart->status->name ?? '' }}</x-bs::badge>
+                <x-bs::badge type="{{ $cart->status->color ?? '' }}" class="w-100 fw-normal">{{ __('eshop::account.order.' . $cart->status->name) ?: '' }}</x-bs::badge>
             </td>
             <td class="align-middle">
                 <a href="{{ route('carts.show', $cart) }}" class="d-block text-decoration-none text-dark">
@@ -58,7 +58,7 @@
                 <a href="{{ route('carts.show', $cart) }}" class="d-block text-decoration-none text-dark">{{ __($cart->shippingMethod->name) }}</a>
             </td>
             <td class="align-middle">
-                <a href="{{ route('carts.show', $cart) }}" class="d-block text-decoration-none text-dark">{{ __($cart->paymentMethod->name) }}</a>
+                <a href="{{ route('carts.show', $cart) }}" class="d-block text-decoration-none text-dark">{{ __('eshop::payment.' . $cart->paymentMethod->name) }}</a>
             </td>
             <td class="text-end align-middle">
                 <a href="{{ route('carts.show', $cart) }}" class="d-block text-decoration-none text-dark">{{ format_currency($cart->total) }}</a>

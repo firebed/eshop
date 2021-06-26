@@ -45,6 +45,11 @@ class CartStatus extends Model
         return $this->hasMany(Cart::class, 'status_id');
     }
 
+    public static function calculable(): array
+    {
+        return [self::SUBMITTED, self::APPROVED, self::COMPLETED, self::SHIPPED, self::HELD];
+    }
+
     public function hasCapturedStocks(): bool
     {
         return in_array($this->name, [
