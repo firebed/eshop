@@ -25,7 +25,7 @@
         new Chart(document.getElementById('orders-source').getContext('2d'), {
             type: 'line',
             data: {
-                labels: ['Facebook', 'Instagram', 'Eshop', 'Other', 'POS', 'Phone'],
+                labels: ['{!! $ordersSourceToday->keys()->join("', '") !!}'],
                 datasets: [{
                     data: [{!! $ordersSourceToday->map(fn($count, $source) => "{source: '$source', count: $count}")->join(', ') !!}],
                     parsing: {
@@ -54,6 +54,7 @@
                 },
                 scales: {
                     y: {
+                        beginAtZero: true,
                         grace: '5%',
                         ticks: {
                             precision:0
