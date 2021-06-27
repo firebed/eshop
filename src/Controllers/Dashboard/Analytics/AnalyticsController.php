@@ -3,6 +3,7 @@
 namespace Eshop\Controllers\Dashboard\Analytics;
 
 use Eshop\Controllers\Controller;
+use Eshop\Models\Cart\CartSource;
 use Eshop\Models\Cart\CartStatus;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Support\Carbon;
@@ -74,7 +75,7 @@ class AnalyticsController extends Controller
             ->get()
             ->pluck('total', 'source');
 
-        foreach (['Facebook', 'Instagram', 'Eshop', 'Other', 'Phone', 'POS'] as $source) {
+        foreach (CartSource::all() as $source) {
             if (!isset($data[$source])) {
                 $data[$source] = 0;
             }

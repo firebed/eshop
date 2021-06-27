@@ -6,7 +6,7 @@
                 <a href="#" class="text-decoration-none">{{ __("View report") }}</a>
             </div>
 
-            <div class="fw-500">{{ __("Order source over time") }}</div>
+            <div class="fw-500">{{ __("Orders over time by source") }}</div>
 
             <div class="ratio ratio-16x9">
                 <canvas id="orders-source"></canvas>

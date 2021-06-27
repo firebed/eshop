@@ -12,7 +12,7 @@
                     <x-bs::dropdown.item wire:click.prevent="$set('selected', [])">{{ __("None") }}</x-bs::dropdown.item>
                     <x-bs::dropdown.divider/>
                     @foreach($statuses as $status)
-                        <x-bs::dropdown.item wire:click.prevent="selectByStatus({{ $status->id }})">{{ $status->name }}</x-bs::dropdown.item>
+                        <x-bs::dropdown.item wire:click.prevent="selectByStatus({{ $status->id }})">{{ __("eshop::cart.status.$status->name") }}</x-bs::dropdown.item>
                     @endforeach
                     <x-bs::dropdown.divider/>
                     @foreach($shippingMethods as $method)

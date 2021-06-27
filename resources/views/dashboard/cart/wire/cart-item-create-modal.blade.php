@@ -9,14 +9,22 @@
             <x-bs::modal.body>
                 <div class="d-grid gap-2">
                     <x-bs::input.group for="create-category" label="{{ __('Category') }}" inline>
-                        <div x-data="{ items: @entangle('categories') }">
-                            <x-bs::input.select wire:model="categoryId" id="create-category" error="categoryId" autofocus>
-                                <option value="" disabled>{{ __("Select category") }}</option>
-                                <template x-for="item in items" :key="item.id">
-                                    <option x-text="item.name" x-bind:value="item.id"></option>
-                                </template>
-                            </x-bs::input.select>
-                        </div>
+                        <x-bs::input.select wire:model="categoryId" id="create-category" error="categoryId" autofocus>
+                            <option value="" disabled>{{ __("Select category") }}</option>
+                            @foreach($categories as $parentId => $group)
+                                @if($parentId)
+                                    <optgroup label="{{ $group->first()->parent->name }}">
+                                        @foreach($group as $category)
+                                            <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                        @endforeach
+                                    </optgroup>
+                                @else
+                                    @foreach($group as $category)
+                                        <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                    @endforeach
+                                @endif
+                            @endforeach
+                        </x-bs::input.select>
                     </x-bs::input.group>
 
                     <x-bs::input.group for="create-product" label="{{ __('Product') }}" inline>

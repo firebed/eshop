@@ -30,7 +30,7 @@ class CreateCartsTable extends Migration
             $table->string('voucher')->nullable();
             $table->string('email')->nullable();
             $table->string('ip')->nullable();
-            $table->enum('source', ['Eshop', 'Phone', 'POS', 'Facebook', 'Instagram', 'Other'])->default('Eshop');
+            $table->enum('source', ['eshop', 'phone', 'pos', 'facebook', 'instagram', 'other'])->default('Eshop');
 
             $table->timestamp('submitted_at')->nullable()->index();
             $table->timestamp('viewed_at')->nullable();

@@ -4,7 +4,7 @@
     @include('eshop::dashboard.cart.partials.index.cart-search')
 
     <div class="card shadow-sm">
-        <div class="table-responsive">
+        <div class="table-responsive" style="overflow-y: visible">
             @include('eshop::dashboard.cart.partials.index.carts-table')
         </div>
     </div>

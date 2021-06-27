@@ -20,14 +20,13 @@ class CartItemCreateModal extends Component
         create as baseCreate;
     }
 
-    public int $cartId;
-    public     $categoryId = "";
-    public     $productId  = "";
-    public     $variantId  = "";
+    public int    $cartId;
+    public string $categoryId = "";
+    public string $productId  = "";
+    public string $variantId  = "";
 
-    public $categories = [];
-    public $products   = [];
-    public $variants   = [];
+    public array $products   = [];
+    public array $variants   = [];
 
     protected function rules(): array
     {
@@ -101,16 +100,7 @@ class CartItemCreateModal extends Component
 
     public function create(): void
     {
-        $this->reset('categoryId', 'productId', 'variantId', 'categories', 'products', 'variants');
-
-        $this->categories = Category::query()
-            ->select('categories.id')
-            ->files()
-            ->joinTranslation()
-            ->orderBy('name')
-            ->get()
-            ->map(fn($c) => ['id' => $c->id, 'name' => $c->name])
-            ->all();
+        $this->reset('categoryId', 'productId', 'variantId', 'products', 'variants');
 
         $this->baseCreate();
         $this->updateModel(1, 0, 0, 0, 0);
@@ -139,11 +129,19 @@ class CartItemCreateModal extends Component
 
         $this->showSuccessToast('Product added to cart!');
         $this->emit('cart-items-created');
-        $this->showEditingModal = false;
+        $this->showEditingModal = FALSE;
     }
 
     public function render(): View
     {
-        return view('eshop::dashboard.cart.wire.cart-item-create-modal');
+        $categories = Category::query()
+            ->with('translation', 'parent.translation')
+            ->files()
+            ->get()
+            ->groupBy('parent_id');
+
+        return view('eshop::dashboard.cart.wire.cart-item-create-modal', [
+            'categories' => $categories
+        ]);
     }
 }
