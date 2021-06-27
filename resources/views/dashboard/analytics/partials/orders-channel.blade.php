@@ -2,14 +2,14 @@
     <x-bs::card.body>
         <div class="d-grid gap-2">
             <div class="d-flex justify-content-between">
-                <div class="fw-bold">{{ __("Orders source") }}</div>
+                <div class="fw-bold">{{ __("Orders channel") }}</div>
                 <a href="#" class="text-decoration-none">{{ __("View report") }}</a>
             </div>
 
-            <div class="fw-500">{{ __("Orders over time by source") }}</div>
+            <div class="fw-500">{{ __("Orders by channel over time") }}</div>
 
             <div class="ratio ratio-16x9">
-                <canvas id="orders-source"></canvas>
+                <canvas id="orders-channel"></canvas>
             </div>
 
             <div class="d-flex gap-3 justify-content-end small">
@@ -22,24 +22,24 @@
 
 @push('footer_scripts')
     <script>
-        new Chart(document.getElementById('orders-source').getContext('2d'), {
+        new Chart(document.getElementById('orders-channel').getContext('2d'), {
             type: 'line',
             data: {
-                labels: ['{!! $ordersSourceToday->keys()->join("', '") !!}'],
+                labels: ['{!! $ordersChannelToday->keys()->join("', '") !!}'],
                 datasets: [{
-                    data: [{!! $ordersSourceToday->map(fn($count, $source) => "{source: '$source', count: $count}")->join(', ') !!}],
+                    data: [{!! $ordersChannelToday->map(fn($count, $channel) => "{channel: '$channel', count: $count}")->join(', ') !!}],
                     parsing: {
                         yAxisKey: 'count',
-                        xAxisKey: 'source'
+                        xAxisKey: 'channel'
                     },
                     fill: false,
                     borderColor: 'rgb(177, 136, 225)',
                     borderWidth: 2,
                 }, {
-                    data: [{!! $ordersSourceYesterday->map(fn($count, $source) => "{source: '$source', count: $count}")->join(', ') !!}],
+                    data: [{!! $ordersChannelYesterday->map(fn($count, $channel) => "{channel: '$channel', count: $count}")->join(', ') !!}],
                     parsing: {
                         yAxisKey: 'count',
-                        xAxisKey: 'source'
+                        xAxisKey: 'channel'
                     },
                     fill: false,
                     borderColor: 'rgb(215,215,215)',

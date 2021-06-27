@@ -18,7 +18,7 @@
             </div>
 
             <div class="col">
-                @include('eshop::dashboard.analytics.partials.orders-source')
+                @include('eshop::dashboard.analytics.partials.orders-channel')
             </div>
         </div>
     </div>

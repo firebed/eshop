@@ -37,6 +37,7 @@ use Illuminate\Support\Collection;
  * @property string         document_type
  * @property string         email
  * @property string         ip
+ * @property string         channel
  * @property double         total
  * @property ?string        details
  * @property ?string        voucher

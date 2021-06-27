@@ -3,7 +3,7 @@
 namespace Eshop\Database\Factories\Cart;
 
 use Eshop\Models\Cart\Cart;
-use Eshop\Models\Cart\CartSource;
+use Eshop\Models\Cart\CartChannel;
 use Eshop\Models\Cart\DocumentType;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -30,7 +30,7 @@ class CartFactory extends Factory
             'details'       => $this->faker->paragraph(),
             'ip'            => $this->faker->ipv4(),
             'email'         => $this->faker->safeEmail(),
-            'source'        => $this->faker->randomElement(CartSource::all())
+            'source'        => $this->faker->randomElement(CartChannel::all())
         ];
     }
 

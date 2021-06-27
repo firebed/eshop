@@ -13,5 +13,14 @@ return [
         'cancelled' => 'Ακυρώθηκαν',
         'rejected'  => 'Απορρίφθηκαν',
         'returned'  => 'Επιστράφηκαν'
+    ],
+
+    'channel' => [
+        'instagram' => 'Instagram',
+        'facebook'  => 'Facebook',
+        'phone'     => 'Phone',
+        'eshop'     => 'Eshop',
+        'pos'       => 'POS',
+        'other'     => 'Other'
     ]
 ];

@@ -3,7 +3,7 @@
 namespace Eshop\Controllers\Dashboard\Analytics;
 
 use Eshop\Controllers\Controller;
-use Eshop\Models\Cart\CartSource;
+use Eshop\Models\Cart\CartChannel;
 use Eshop\Models\Cart\CartStatus;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Support\Carbon;
@@ -19,8 +19,8 @@ class AnalyticsController extends Controller
             'totalOrdersYesterday'  => $this->totalOrders(Carbon::yesterday()),
             'totalSalesToday'       => $this->totalSales(today()),
             'totalSalesYesterday'   => $this->totalSales(Carbon::yesterday()),
-            'ordersSourceToday'     => $this->ordersSource(today()),
-            'ordersSourceYesterday' => $this->ordersSource(Carbon::yesterday()),
+            'ordersChannelToday'     => $this->ordersChannel(today()),
+            'ordersChannelYesterday' => $this->ordersChannel(Carbon::yesterday()),
         ]);
     }
 
@@ -64,23 +64,24 @@ class AnalyticsController extends Controller
         return $data->sortKeys();
     }
 
-    private function ordersSource(Carbon $date): Collection
+    private function ordersChannel(Carbon $date): Collection
     {
         $data = DB::table('carts')
-            ->select('source', DB::raw("COUNT(*) as `total`"))
+            ->select('channel', DB::raw("COUNT(*) as `total`"))
             ->join('cart_statuses', 'cart_statuses.id', '=', 'carts.status_id')
             ->whereBetween('submitted_at', [$date->startOfDay(), $date->copy()->endOfDay()])
             ->whereIn('cart_statuses.name', CartStatus::calculable())
-            ->groupBy('source')
+            ->groupBy('channel')
             ->get()
-            ->pluck('total', 'source');
+            ->pluck('total', 'channel');
 
-        foreach (CartSource::all() as $source) {
-            if (!isset($data[$source])) {
-                $data[$source] = 0;
+        foreach (CartChannel::all() as $channel) {
+            if (!isset($data[$channel])) {
+                $data[$channel] = 0;
             }
         }
 
-        return $data->sortKeys();
+
+        return $data->mapWithKeys(fn($v, $k) => [__("eshop::cart.channel.$k") => $v])->sortKeys();
     }
 }

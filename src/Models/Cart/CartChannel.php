@@ -4,7 +4,7 @@
 namespace Eshop\Models\Cart;
 
 
-class CartSource
+class CartChannel
 {
     public const ESHOP     = 'eshop';
     public const PHONE     = 'phone';
