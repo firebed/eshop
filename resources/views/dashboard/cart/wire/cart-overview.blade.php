@@ -12,6 +12,10 @@
                 <x-bs::badge :type="$cart->document_type === 'Invoice' ? 'danger' : 'blue'">{{ __($cart->document_type) }}</x-bs::badge>
             </x-bs::group>
 
+            <x-bs::group label="{{ __('Channel') }}" inline>
+                <x-bs::badge type="blue">{{ __("eshop::cart.channel.$cart->channel") }}</x-bs::badge>
+            </x-bs::group>
+
             <x-bs::group label="{{ __('Shipping') }}" inline>
                 {{ $shippingMethod->name ?? '' }} ({{ format_currency($cart->shipping_fee) }})
             </x-bs::group>

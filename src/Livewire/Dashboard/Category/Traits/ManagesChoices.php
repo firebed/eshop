@@ -18,7 +18,7 @@ trait ManagesChoices
     public function editChoices(CategoryProperty $property): void
     {
         $this->propertyId = $property->id;
-        $this->choices = $property->choices->map(fn($c) => ['id' => $c->id, 'name' => $c->name])->all();
+        $this->choices = $property->choices->load('translation')->map(fn($c) => ['id' => $c->id, 'name' => $c->name])->all();
         $this->showChoicesModal = TRUE;
 
         $this->addChoice();

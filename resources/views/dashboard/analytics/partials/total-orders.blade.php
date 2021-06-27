@@ -25,7 +25,7 @@
 @push('footer_scripts')
     <script>
         new Chart(document.getElementById('total-orders').getContext('2d'), {
-            type: 'line',
+            type: 'bar',
             data: {
                 labels: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23],
                 datasets: [{
@@ -36,7 +36,8 @@
                     },
                     fill: false,
                     borderColor: 'rgb(177, 136, 225)',
-                    borderWidth: 2,
+                    backgroundColor: 'rgba(177, 136, 225, 0.3)',
+                    borderWidth: 1,
                 }, {
                     data: [{{ $totalOrdersYesterday->map(fn($count, $hour) => "{hour: $hour, count: $count}")->join(', ') }}],
                     parsing: {
@@ -45,7 +46,7 @@
                     },
                     fill: false,
                     borderColor: 'rgb(215,215,215)',
-                    borderWidth: 2,
+                    borderWidth: 1,
                 }]
             },
             options: {

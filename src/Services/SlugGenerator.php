@@ -135,8 +135,10 @@ class SlugGenerator
                 return 'sh';
             case 'τ':
                 return 't';
+            case 'ü':
             case 'υ':
             case 'ύ':
+                return 'u';
             case 'ϋ':
             case 'ΰ':
                 return 'y';
@@ -149,8 +151,6 @@ class SlugGenerator
             case 'ω':
             case 'ώ':
                 return 'w';
-            case 'ü':
-                return 'u';
             default:
                 return '';
         }

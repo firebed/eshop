@@ -30,12 +30,23 @@
                 </x-bs::input.group>
             </div>
 
-            <x-bs::input.group for="cart-document-type" label="{{ __('Document') }}" class="col-12">
-                <x-bs::input.select wire:model.defer="cart.document_type" id="cart-document" error="cart.document_type">
-                    <option value="{{ \Eshop\Models\Cart\DocumentType::RECEIPT }}">{{ __('Receipt') }}</option>
-                    <option value="{{ \Eshop\Models\Cart\DocumentType::INVOICE }}">{{ __('Invoice') }}</option>
-                </x-bs::input.select>
-            </x-bs::input.group>
+            <div class="row">
+                <x-bs::input.group for="cart-document-type" label="{{ __('Document') }}" class="col">
+                    <x-bs::input.select wire:model.defer="cart.document_type" id="cart-document" error="cart.document_type">
+                        <option value="{{ \Eshop\Models\Cart\DocumentType::RECEIPT }}">{{ __('Receipt') }}</option>
+                        <option value="{{ \Eshop\Models\Cart\DocumentType::INVOICE }}">{{ __('Invoice') }}</option>
+                    </x-bs::input.select>
+                </x-bs::input.group>
+
+                <x-bs::input.group for="cart-channel" label="{{ __('Channel') }}" class="col">
+                    <x-bs::input.select wire:model.defer="cart.channel" id="cart-channel" error="cart.channel">
+                        <option value="" disabled>{{ __("Select channel") }}</option>
+                        @foreach(\Eshop\Models\Cart\CartChannel::all() as $channel)
+                            <option value="{{ $channel }}">{{ __("eshop::cart.channel.$channel") }}</option>
+                        @endforeach
+                    </x-bs::input.select>
+                </x-bs::input.group>
+            </div>
         </x-bs::modal.body>
         <x-bs::modal.footer>
             <x-bs::modal.close-button>{{ __('Cancel') }}</x-bs::modal.close-button>

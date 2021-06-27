@@ -4,6 +4,7 @@ namespace Eshop\Livewire\Dashboard\Cart;
 
 use Eshop\Livewire\Traits\TrimStrings;
 use Eshop\Models\Cart\Cart;
+use Eshop\Models\Cart\CartChannel;
 use Eshop\Models\Location\PaymentMethod;
 use Eshop\Models\Location\ShippingMethod;
 use Eshop\Repository\Contracts\CartContract;
@@ -19,13 +20,17 @@ class CartOverview extends Component
     public Cart $cart;
     public bool $showEditingModal = FALSE;
 
-    protected $rules = [
-        'cart.shipping_method_id' => 'required|integer',
-        'cart.shipping_fee'       => 'required|numeric',
-        'cart.payment_method_id'  => 'required|integer',
-        'cart.payment_fee'        => 'required|numeric',
-        'cart.document_type'      => 'required|string',
-    ];
+    protected function rules(): array
+    {
+        return [
+            'cart.shipping_method_id' => 'required|integer',
+            'cart.shipping_fee'       => 'required|numeric',
+            'cart.payment_method_id'  => 'required|integer',
+            'cart.payment_fee'        => 'required|numeric',
+            'cart.document_type'      => 'required|string',
+            'cart.channel'            => 'required|string|in:' . implode(',', CartChannel::all()),
+        ];
+    }
 
     protected $listeners = [
         'cart-items-created'          => '$refresh',

@@ -23,7 +23,7 @@
 @push('footer_scripts')
     <script>
         new Chart(document.getElementById('orders-channel').getContext('2d'), {
-            type: 'line',
+            type: 'bar',
             data: {
                 labels: ['{!! $ordersChannelToday->keys()->join("', '") !!}'],
                 datasets: [{
@@ -34,7 +34,8 @@
                     },
                     fill: false,
                     borderColor: 'rgb(177, 136, 225)',
-                    borderWidth: 2,
+                    backgroundColor: 'rgba(177, 136, 225, 0.3)',
+                    borderWidth: 1,
                 }, {
                     data: [{!! $ordersChannelYesterday->map(fn($count, $channel) => "{channel: '$channel', count: $count}")->join(', ') !!}],
                     parsing: {
@@ -43,7 +44,7 @@
                     },
                     fill: false,
                     borderColor: 'rgb(215,215,215)',
-                    borderWidth: 2,
+                    borderWidth: 1,
                 }]
             },
             options: {

@@ -19,7 +19,10 @@
         @endif
 
         <a href="#" class="text-secondary text-decoration-none"><em class="fa fa-chart-bar"></em> {{ __("Analytics") }}</a>
-        <a href="{{ route('products.variants.index', $product) }}" class="text-secondary text-decoration-none"><em class="fa fa-sitemap"></em> {{ __("Variants") }}</a>
+
+        @if($product->has_variants)
+            <a href="{{ route('products.variants.index', $product) }}" class="text-secondary text-decoration-none"><em class="fa fa-sitemap"></em> {{ __("Variants") }}</a>
+        @endif
 
         @if(Route::has('products.images.index'))
             <a href="{{ route('products.images.index', $product) }}" class="text-secondary text-decoration-none me-4"><i class="far fa-images"></i> {{ __("Images") }}</a>
