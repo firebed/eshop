@@ -22,6 +22,10 @@ class SendCartStatusChangedNotification
     public function handle(CartStatusChanged $event): void
     {
         $cart = $event->cart;
+        if (empty($cart->email)) {
+            return;
+        }
+
         $status = $event->status;
         $notes = $event->notesToCustomer;
 

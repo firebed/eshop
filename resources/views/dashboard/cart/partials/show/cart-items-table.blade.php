@@ -41,7 +41,7 @@
                 @foreach($products as $product)
                     <tr wire:key="row-{{ $product->pivot->id }}">
                         <td>
-                            <x-bs::input.checkbox wire:model="selected" id="check-{{ $product->pivot->id }}" value="{{ $product->pivot->id }}"/>
+                            <x-bs::input.checkbox wire:model="selected" id="check-{{ $product->id }}" value="{{ $product->id }}"/>
                         </td>
                         <td>
                             <div class="ratio ratio-1x1">
@@ -53,14 +53,14 @@
                         <td>
                             @if($product->isVariant())
                                 <div>{{ $product->parent->name }}</div>
-                                <div class="fw-500><span class="text-secondary">{{ $product->sku }}</span> <span>{{ $product->options->pluck('pivot.value')->join(' - ') }}</span></div>
+                                <div class="fw-500"><span class="text-secondary">{{ $product->sku }}</span> <span>{{ $product->options->pluck('pivot.value')->join(' - ') }}</span></div>
                             @else
                                 <div class="fw-500"><span class="text-secondary">{{ $product->sku }}</span> <span>{{ $product->name }}</span></div>
                             @endif
                             <x-bs::badge :value="$product->stock" :cap="$product->backorder">
                                 {{ format_number($product->stock) }}
                             </x-bs::badge>
-                            {{ $product->pivot->created_at->format('d/m/y H:i:s') }}
+                            {{ $product->pivot->created_at->format('d/m/y H:i:s') }} {{ $product->weight }}
                         </td>
                         <td class="text-end">{{ format_number($product->pivot->quantity) }}</td>
                         <td class="text-end">{{ format_currency($product->pivot->price) }}</td>

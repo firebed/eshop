@@ -9,6 +9,7 @@ use Eshop\Models\Location\PaymentMethod;
 use Eshop\Models\Location\ShippingMethod;
 use Eshop\Repository\Contracts\CartContract;
 use Firebed\Components\Livewire\Traits\Datatable\DeletesRows;
+use Firebed\Components\Livewire\Traits\Datatable\WithCRUD;
 use Firebed\Components\Livewire\Traits\Datatable\WithExports;
 use Firebed\Components\Livewire\Traits\Datatable\WithSelections;
 use Firebed\Components\Livewire\Traits\SendsNotifications;
@@ -28,16 +29,17 @@ class ShowCarts extends Component
     use WithSelections;
     use DeletesRows;
     use WithExports;
+    use WithCRUD;
 
     public const PER_PAGE = 20;
 
-    public $filter;
-    public $status             = "";
-    public $editing_status     = "";
-    public $per_page;
-    public $payment_method_id  = "";
-    public $shipping_method_id = "";
-    public $showStatusModal    = FALSE;
+    public string $filter             = "";
+    public string $status             = "";
+    public string $editing_status     = "";
+    public int    $per_page           = 0;
+    public string $payment_method_id  = "";
+    public string $shipping_method_id = "";
+    public bool   $showStatusModal    = FALSE;
 
     protected $queryString = [
         'filter'             => ['except' => ''],
@@ -45,6 +47,15 @@ class ShowCarts extends Component
         'payment_method_id'  => ['except' => ''],
         'status'             => ['except' => ''],
         'per_page'           => ['except' => self::PER_PAGE],
+    ];
+
+    protected array $rules = [
+        'model.shipping_method_id' => [],
+        'model.shipping_fee'       => [],
+        'model.payment_method_id'  => [],
+        'model.payment_fee'        => [],
+        'model.document'           => [],
+        'model.channel'            => [],
     ];
 
     protected $listeners = ['cartStatusUpdated' => '$refresh'];
@@ -95,6 +106,18 @@ class ShowCarts extends Component
         DB::transaction(fn() => $contract->setBulkCartStatus($status, $this->selected()));
 
         $this->showStatusModal = FALSE;
+    }
+
+    protected function makeEmptyModel(): Cart
+    {
+        return new Cart([
+            'submitted_at' => now()
+        ]);
+    }
+
+    protected function findModel($id): Cart
+    {
+        // TODO: Implement findModel() method.
     }
 
     private function filterCarts($key = NULL, $value = NULL)

@@ -82,7 +82,7 @@ trait ImplementsOrder
             $product->pivot->save();
         }
 
-        $this->parcel_weight = $this->products->sum(fn($p) => $p->weight * $p->pivot->quantity);
+        $this->updateTotalWeight();
 
         return $isDirty;
     }

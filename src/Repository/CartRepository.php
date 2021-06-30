@@ -134,10 +134,10 @@ class CartRepository implements CartContract
         }
     }
 
-    public function deleteCartItems(Cart $cart, ...$product_ids): void
+    public function deleteCartItems(Cart $cart, ...$product_ids): int|null
     {
         if (empty($product_ids)) {
-            return;
+            return null;
         }
 
         if ($cart->isSubmitted()) {
@@ -149,8 +149,12 @@ class CartRepository implements CartContract
                 }
             }
         }
-        $cart->products()->detach($product_ids);
+
+        $rows = $cart->products()->detach($product_ids);
+        $cart->load('products');
         $this->updateTotal($cart);
+
+        return $rows;
     }
 
     public function restoreCartItems(Cart $cart, ...$productIds): void
@@ -200,6 +204,7 @@ class CartRepository implements CartContract
 
     public function updateTotal(Cart $cart): bool
     {
+        $cart->parcel_weight = $this->calculateParcelWeight($cart);
         $cart->total = $this->calculateTotal($cart);
         return $cart->save();
     }
@@ -245,6 +250,11 @@ class CartRepository implements CartContract
     public function getProductsTotal(Cart $cart): float
     {
         return $cart->products()->sum(DB::raw('ROUND(cart_product.quantity * cart_product.price * (1 - cart_product.discount), 2)'));
+    }
+
+    public function calculateParcelWeight(Cart $cart): float
+    {
+        return $cart->products->sum(fn($p) => $p->weight * $p->pivot->quantity);
     }
 
     public function captureStocks(int $cart_id): void

@@ -34,7 +34,7 @@ class ShowCart extends Component
         'cart-status-updated' => '$refresh'
     ];
 
-    protected $rules = [
+    protected array $rules = [
         'model.cart_id'    => ['required', 'numeric'],
         'model.product_id' => ['required', 'numeric'],
         'model.quantity'   => ['required', 'numeric', 'min:1'],

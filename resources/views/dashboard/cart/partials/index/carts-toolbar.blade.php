@@ -23,8 +23,8 @@
         </x-bs::input.select>
     </div>
 
-    <div class="col d-flex align-items-center">
-        <x-bs::button.white wire:click="exportSelected" wire:loading.attr="disabled" wire:target="exportSelected" class="ms-auto me-2">
+    <div class="col d-flex gap-2 align-items-center">
+        <x-bs::button.white wire:click="exportSelected" wire:loading.attr="disabled" wire:target="exportSelected" class="ms-auto">
             <em class="fa fa-file-excel text-green-500 me-2"></em> {{ __("Excel") }}
         </x-bs::button.white>
 
@@ -36,27 +36,31 @@
                 <x-bs::dropdown.item wire:click.prevent="confirmDelete()"><em class="far fa-trash-alt me-2 text-secondary"></em>{{ __("Delete") }}</x-bs::dropdown.item>
             </x-bs::dropdown.menu>
         </x-bs::dropdown>
-
-        <form wire:submit.prevent="saveStatuses">
-            <x-bs::modal wire:model.defer="showStatusModal">
-                <x-bs::modal.header>Edit cart status</x-bs::modal.header>
-                <x-bs::modal.body>
-                    <x-bs::group label="New status" inline>
-                        <x-bs::input.select wire:model.defer="editing_status" error="editing_status">
-                            <option value="" disabled>{{ __("Select status") }}</option>
-                            @foreach($statuses as $status)
-                                <option value="{{ $status->id }}">{{ __($status->name) }}</option>
-                            @endforeach
-                        </x-bs::input.select>
-                    </x-bs::group>
-                </x-bs::modal.body>
-                <x-bs::modal.footer>
-                    <x-bs::modal.close-button>{{ __('Cancel') }}</x-bs::modal.close-button>
-                    <x-bs::button.primary type="submit">
-                        <em wire:loading class="fa fa-spinner fa-spin me-2"></em>{{ __("Save") }}
-                    </x-bs::button.primary>
-                </x-bs::modal.footer>
-            </x-bs::modal>
-        </form>
+        
+        <x-bs::button.primary wire:click.prevent="create()">
+            <em class="fas fa-plus me-2"></em>{{ __("New") }}
+        </x-bs::button.primary>
     </div>
+
+    <form wire:submit.prevent="saveStatuses">
+        <x-bs::modal wire:model.defer="showStatusModal">
+            <x-bs::modal.header>Edit cart status</x-bs::modal.header>
+            <x-bs::modal.body>
+                <x-bs::group label="New status" inline>
+                    <x-bs::input.select wire:model.defer="editing_status" error="editing_status">
+                        <option value="" disabled>{{ __("Select status") }}</option>
+                        @foreach($statuses as $status)
+                            <option value="{{ $status->id }}">{{ __($status->name) }}</option>
+                        @endforeach
+                    </x-bs::input.select>
+                </x-bs::group>
+            </x-bs::modal.body>
+            <x-bs::modal.footer>
+                <x-bs::modal.close-button>{{ __('Cancel') }}</x-bs::modal.close-button>
+                <x-bs::button.primary type="submit">
+                    <em wire:loading class="fa fa-spinner fa-spin me-2"></em>{{ __("Save") }}
+                </x-bs::button.primary>
+            </x-bs::modal.footer>
+        </x-bs::modal>
+    </form>
 </div>

@@ -80,6 +80,7 @@ class ShowManufacturers extends Component
         return Manufacturer
             ::when($this->search, fn($q, $s) => $q->where('name', 'LIKE', "$s%"))
             ->when($this->sortField, fn($q, $s) => $q->orderBy($s, $this->sortDirection))
+            ->with('image')
             ->paginate();
     }
 
