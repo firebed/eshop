@@ -49,6 +49,18 @@ class CreateProductGroup extends Component
         $this->redirectRoute('products.edit', $this->product);
     }
 
+    public function addVariantType(): void
+    {
+        $this->variant_types[] = '';
+    }
+
+    public function removeVariantType(int $index): void
+    {
+        unset($this->variant_types[$index]);
+
+        $this->variant_types = array_values($this->variant_types);
+    }
+
     private function saveVariantTypes(): void
     {
         $variantTypes = collect($this->variant_types)->transform(fn($v) => new VariantType(['name' => $v]));
