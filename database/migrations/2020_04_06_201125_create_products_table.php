@@ -20,7 +20,7 @@ class CreateProductsTable extends Migration
             $table->foreignId('manufacturer_id')->nullable()->constrained()->nullOnDelete();
             $table->foreignId('unit_id')->nullable()->constrained()->nullOnDelete();
             $table->boolean('has_variants')->default(false)->index();
-            $table->unsignedDecimal('vat', 2)->default(0);
+            $table->unsignedDecimal('vat', 2)->nullable();
             $table->unsignedInteger('weight')->default(0);
             $table->unsignedDecimal('price')->index()->default(0);
             $table->unsignedDecimal('compare_price')->default(0);
@@ -36,13 +36,13 @@ class CreateProductsTable extends Migration
             $table->boolean('available')->default(true);
             $table->integer('available_gt')->nullable();
 
-
             $table->string('location', 50)->nullable();
             $table->string('sku', 100)->nullable()->index();
             $table->string('barcode', 50)->nullable()->unique();
 //            $table->string('slug')->unique();
             $table->string('slug');
             $table->enum('variants_display', ['Grid', 'Buttons', 'Dropdown'])->nullable();
+            $table->boolean('preview_variants')->default(true);
 
             $table->timestamps();
             $table->softDeletes()->index();

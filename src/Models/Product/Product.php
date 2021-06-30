@@ -2,7 +2,6 @@
 
 namespace Eshop\Models\Product;
 
-use Eshop\Database\Factories\Location\AddressFactory;
 use Eshop\Database\Factories\Product\ProductFactory;
 use Eshop\Models\Lang\Traits\HasTranslations;
 use Eshop\Models\Media\Traits\HasImages;
@@ -41,6 +40,7 @@ use Illuminate\Support\Collection;
  * @property string          barcode
  * @property string          slug
  * @property string          variants_display
+ * @property bool            preview_variants
  * @property Collection      options Returns a collection of variant options
  *
  * @property Product         parent

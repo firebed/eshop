@@ -36,6 +36,7 @@ class CreateProductGroup extends Component
     {
         $product = $this->baseMakeProduct();
         $product->variants_display = 'Grid';
+        $product->preview_variants = true;
         return $product;
     }
 

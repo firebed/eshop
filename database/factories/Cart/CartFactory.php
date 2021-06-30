@@ -30,7 +30,7 @@ class CartFactory extends Factory
             'details'       => $this->faker->paragraph(),
             'ip'            => $this->faker->ipv4(),
             'email'         => $this->faker->safeEmail(),
-            'source'        => $this->faker->randomElement(CartChannel::all())
+            'channel'       => $this->faker->randomElement(CartChannel::all())
         ];
     }
 

@@ -22,6 +22,7 @@ trait WithProductGroupAttributes
             // Accessibility
             'product.visible'          => ['required', 'boolean'],
             'product.variants_display' => ['required', 'string', 'in:Grid,Buttons,Dropdown'],
+            'product.preview_variants' => ['required', 'boolean'],
         ];
 
         $rules['product.slug'] = $this->product

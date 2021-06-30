@@ -33,7 +33,7 @@
                     @endif
                 </div>
 
-                @includeWhen($product->has_variants && $product->variants->isNotEmpty(), 'eshop::customer.category.partials.variant-thumbnails')
+                @includeWhen($product->has_variants && $product->preview_variants && $product->variants->isNotEmpty(), 'eshop::customer.category.partials.variant-thumbnails')
             </div>
         </div>
     </div>

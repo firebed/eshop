@@ -10,5 +10,9 @@
                 <option value="Dropdown">{{ __("Dropdown") }}</option>
             </x-bs::input.select>
         </x-bs::input.group>
+
+        <x-bs::input.switch for="preview-variants" wire:model.defer="product.preview_variants">
+            {{ __("Preview variants") }}
+        </x-bs::input.switch>
     </x-bs::card.body>
 </x-bs::card>
