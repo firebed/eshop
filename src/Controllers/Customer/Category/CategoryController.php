@@ -63,7 +63,7 @@ class CategoryController extends Controller
             ->filterByPropertyChoices($filters['c']->groupBy('property.id'))
             ->filterByPrice($filters['min_price'], $filters['max_price'])
             ->with('image')
-            ->with(['variants' => fn($q) => $q->visible()->with('image')])
+            ->with(['variants' => fn($q) => $q->visible()->with('parent', 'image')])
             ->select('products.*')
             ->joinTranslation()
             ->orderBy('name')

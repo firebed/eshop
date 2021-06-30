@@ -9,8 +9,6 @@
         </div>
     @endforeach
 
-    @dump($variantId)
-
     <form wire:submit.prevent="addToCart">
         <div class="row mb-3 g-4">
             @if($product->canDisplayStock())
