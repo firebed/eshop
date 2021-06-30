@@ -43,7 +43,7 @@ class CreateProductGroup extends Component
     {
         $this->validate();
 
-        $this->saveProduct(true);
+        $this->saveProduct(TRUE);
         $this->saveVariantTypes();
 
         $this->redirectRoute('products.edit', $this->product);
@@ -63,7 +63,10 @@ class CreateProductGroup extends Component
 
     private function saveVariantTypes(): void
     {
-        $variantTypes = collect($this->variant_types)->transform(fn($v) => new VariantType(['name' => $v]));
+        $variantTypes = collect($this->variant_types)->transform(fn($v) => new VariantType([
+            'name' => $v,
+            'slug' => slugify($v)
+        ]));
         $this->product->variantTypes()->saveMany($variantTypes);
     }
 
