@@ -47,8 +47,9 @@ class CategoryController extends Controller
         $manufacturers = $category
             ->manufacturers()
             ->distinct()
-            ->withCount(['products' => function (Builder $q) use ($filters) {
+            ->withCount(['products' => function (Builder $q) use ($filters, $category) {
                 $q->visible()
+                    ->where('category_id', $category->id)
                     ->exceptVariants()
                     ->filterByPropertyChoices($filters['c']->groupBy('property.id'))
                     ->filterByPrice($filters['min_price'], $filters['max_price']);

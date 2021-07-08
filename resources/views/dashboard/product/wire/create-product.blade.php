@@ -14,12 +14,21 @@
             @include('eshop::dashboard.product.partials.primary')
             @include('eshop::dashboard.product.partials.pricing')
             @include('eshop::dashboard.product.partials.inventory')
-            @include('eshop::dashboard.product.partials.accessibility')
+            @include('eshop::dashboard.product.partials.variant-types')
         </div>
         <div class="col-12 col-md-5 d-flex flex-column gap-4">
             @include('eshop::dashboard.product.partials.image')
             @include('eshop::dashboard.product.partials.organization')
             @include('eshop::dashboard.product.partials.attributes')
+            @include('eshop::dashboard.product.partials.accessibility')
         </div>
+    </div>
+
+    <div>
+        <x-bs::button.primary wire:click="save" wire:loading.attr="disabled">
+            <em wire:loading.remove wire:target="save" class="fa fa-save me-2"></em>
+            <em wire:loading wire:target="save" class="fa fa-spinner fa-spin me-2"></em>
+            {{ __("Save") }}
+        </x-bs::button.primary>
     </div>
 </div>

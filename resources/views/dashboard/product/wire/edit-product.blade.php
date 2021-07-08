@@ -13,14 +13,18 @@
         </div>
     </div>
 
-    <div class="d-flex">
+    <div class="d-flex gap-3">
         @if(productRouteExists())
-            <a href="{{ productRoute($product) }}" class="text-secondary text-decoration-none me-4"><i class="fa fa-eye"></i> {{ __("View") }}</a>
+            <a href="{{ productRoute($product) }}" class="text-secondary text-decoration-none"><i class="fa fa-eye"></i> {{ __("View") }}</a>
         @endif
 
-        <a href="#" class="text-secondary text-decoration-none me-4"><i class="fa fa-chart-bar"></i> {{ __("Analytics") }}</a>
+        @if($product->has_variants)
+            <a href="{{ route('products.variants.index', $product) }}" class="text-secondary text-decoration-none"><em class="fa fa-sitemap"></em> {{ __("Variants") }}</a>
+        @endif
 
-        <a href="{{ route('products.images.index', $product) }}" class="text-secondary text-decoration-none me-4"><i class="far fa-images"></i> {{ __("Images") }}</a>
+{{--        <a href="#" class="text-secondary text-decoration-none me-4"><i class="fa fa-chart-bar"></i> {{ __("Analytics") }}</a>--}}
+
+        <a href="{{ route('products.images.index', $product) }}" class="text-secondary text-decoration-none"><i class="far fa-images"></i> {{ __("Images") }}</a>
     </div>
 
     <div class="row g-4">
@@ -28,13 +32,14 @@
             @include('eshop::dashboard.product.partials.primary')
             @include('eshop::dashboard.product.partials.pricing')
             @include('eshop::dashboard.product.partials.inventory')
-            @include('eshop::dashboard.product.partials.accessibility')
+            <livewire:dashboard.product.variant-types :product="$product"/>
             @include('eshop::dashboard.product.partials.delete-product')
         </div>
         <div class="col-12 col-md-5 d-flex flex-column gap-4">
             @include('eshop::dashboard.product.partials.image')
             @include('eshop::dashboard.product.partials.organization')
             @include('eshop::dashboard.product.partials.attributes')
+            @include('eshop::dashboard.product.partials.accessibility')
         </div>
     </div>
 </div>

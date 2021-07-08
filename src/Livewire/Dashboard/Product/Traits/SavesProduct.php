@@ -4,7 +4,6 @@
 namespace Eshop\Livewire\Dashboard\Product\Traits;
 
 
-use Eshop\Livewire\Traits\TrimStrings;
 use Eshop\Models\Product\Category;
 use Eshop\Models\Product\Product;
 use Eshop\Repository\ProductRepository;
@@ -12,13 +11,12 @@ use Illuminate\Support\Facades\DB;
 
 trait SavesProduct
 {
-    use TrimStrings;
     use ManagesAttributes;
     use SavesProductImage;
     use CreatesEmptyProduct;
 
     public Product   $product;
-    public ?Category $category = null;
+    public ?Category $category = NULL;
 
     public string $name        = '';
     public string $description = '';
@@ -50,9 +48,8 @@ trait SavesProduct
         }
     }
 
-    protected function saveProduct(bool $has_variants): void
+    protected function saveProduct(): void
     {
-        $this->product->has_variants = $has_variants;
         $this->product->name = $this->name;
         $this->product->description = $this->trim($this->description);
         $this->product->manufacturer_id = $this->trim($this->product->manufacturer_id);

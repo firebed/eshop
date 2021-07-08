@@ -19,6 +19,9 @@ trait WithProductGroupAttributes
             'product.category_id'      => ['required', 'int', 'exists:categories,id'],
             'product.manufacturer_id'  => ['nullable', 'int', 'exists:manufacturers,id'],
 
+            // Variants
+            'product.has_variants'     => ['required', 'boolean'],
+
             // Accessibility
             'product.visible'          => ['required', 'boolean'],
             'product.variants_display' => ['required', 'string', 'in:Grid,Buttons,Dropdown'],

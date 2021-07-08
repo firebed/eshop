@@ -23,6 +23,7 @@ use Illuminate\Support\Collection;
  * @property integer         category_id
  * @property integer         manufacturer_id
  * @property integer         unit_id
+ * @property boolean         is_physical
  * @property boolean         has_variants
  * @property double          vat
  * @property int             stock
@@ -85,7 +86,8 @@ class Product extends Model
         'price'         => 'float',
         'compare_price' => 'float',
         'discount'      => 'float',
-        'vat'           => 'float',
+        'has_physical'  => 'bool',
+        'is_physical'   => 'bool',
         'visible'       => 'bool',
         'available'     => 'bool',
         'display_stock' => 'bool',

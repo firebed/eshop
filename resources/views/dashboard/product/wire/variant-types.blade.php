@@ -1,6 +1,8 @@
 <div class="card shadow-sm">
     <div class="card-body d-grid gap-3">
-        <div class="fs-5">{{ __("Variant types") }}</div>
+        <div class="fs-5">{{ __("Variants") }}</div>
+
+        <div>{{ __('eshop::product.has_variants') }}</div>
 
         <div class="table-responsive">
             <x-bs::table>

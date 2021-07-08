@@ -18,8 +18,6 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware(['web', 'auth', 'admin'])->group(function () {
     Route::prefix('dashboard')->group(function () {
-        Route::get('products/create-group', [ProductController::class, 'createGroup'])->name('products.create-group');
-
         Route::get('products/{product}/images', [ProductImageController::class, 'index'])->name('products.images.index');
         Route::get('products/trashed', ProductTrashController::class)->name('products.trashed.index');
         Route::resource('products', ProductController::class)->only('index', 'create', 'edit');

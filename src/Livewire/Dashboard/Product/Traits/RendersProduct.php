@@ -46,28 +46,4 @@ trait RendersProduct
             'props'         => $properties ?? []
         ]);
     }
-
-    protected function renderCreateProductGroup(): Renderable
-    {
-        return $this->renderProductGroup('create');
-    }
-
-    protected function renderEditProductGroup(): Renderable
-    {
-        return $this->renderProductGroup('edit');
-    }
-
-    public function renderProductGroup($view): Renderable
-    {
-        if (filled($this->category)) {
-            $this->category->properties->loadMissing('translation', 'choices.translation');
-            $properties = $this->category->properties->all();
-        }
-
-        return view("eshop::dashboard.product.wire.$view-product-group", [
-            'categories'    => $this->categories,
-            'manufacturers' => Manufacturer::all(),
-            'props'         => $properties ?? []
-        ]);
-    }
 }

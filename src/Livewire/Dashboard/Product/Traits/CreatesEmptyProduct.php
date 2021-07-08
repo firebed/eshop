@@ -13,6 +13,7 @@ trait CreatesEmptyProduct
     protected function makeProduct(): Product
     {
         $product = new Product;
+        $product->is_physical = TRUE;
         $product->visible = TRUE;
         $product->available = TRUE;
         $product->available_gt = 0;

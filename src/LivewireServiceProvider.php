@@ -88,9 +88,7 @@ class LivewireServiceProvider extends ServiceProvider
 
         // Products
         Livewire::component('dashboard.product.create-product', CreateProduct::class);
-        Livewire::component('dashboard.product.create-product-group', CreateProductGroup::class);
         Livewire::component('dashboard.product.edit-product', EditProduct::class);
-        Livewire::component('dashboard.product.edit-product-group', EditProductGroup::class);
         Livewire::component('dashboard.product.show-product-images', ShowProductImages::class);
         Livewire::component('dashboard.product.show-products', ShowProducts::class);
         Livewire::component('dashboard.product.show-trashed-products', ShowTrashedProducts::class);

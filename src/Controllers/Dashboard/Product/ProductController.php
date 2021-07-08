@@ -32,17 +32,6 @@ class ProductController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return Renderable
-     * @throws AuthorizationException
-     */
-    public function createGroup(): Renderable
-    {
-        return view('eshop::dashboard.product.create-group');
-    }
-
-    /**
      * Show the form for editing the specified resource.
      *
      * @param int $productId
@@ -52,8 +41,6 @@ class ProductController extends Controller
     {
         $product = Product::withTrashed()->findOrFail($productId);
 
-        return $product->has_variants
-            ? view('eshop::dashboard.product.edit-group', compact('product'))
-            : view('eshop::dashboard.product.edit', compact('product'));
+        return view('eshop::dashboard.product.edit', compact('product'));
     }
 }

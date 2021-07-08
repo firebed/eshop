@@ -16,10 +16,10 @@ class VariantTypes extends Component
 
     public Product     $product;
     public VariantType $editing;
-    public bool        $showModal = false;
+    public bool        $showModal = FALSE;
 
-    public int  $deleteId = 0;
-    public bool $showConfirmDelete = false;
+    public int  $deleteId          = 0;
+    public bool $showConfirmDelete = FALSE;
 
     protected array $rules = [
         'editing.product_id' => 'required|integer',
@@ -41,7 +41,7 @@ class VariantTypes extends Component
         $this->editing = $this->makeVariantType();
 
         $this->skipRender();
-        $this->showModal = true;
+        $this->showModal = TRUE;
     }
 
     public function edit(VariantType $variantType): void
@@ -49,13 +49,13 @@ class VariantTypes extends Component
         $this->editing = $variantType;
 
         $this->skipRender();
-        $this->showModal = true;
+        $this->showModal = TRUE;
     }
 
     public function confirmDelete($id): void
     {
         $this->deleteId = $id;
-        $this->showConfirmDelete = true;
+        $this->showConfirmDelete = TRUE;
         $this->skipRender();
     }
 
@@ -65,7 +65,12 @@ class VariantTypes extends Component
 
         $this->editing->slug = slugify($this->editing->name, '_');
         $this->editing->save();
-        $this->showModal = false;
+
+        $this->product->update([
+            'has_variants' => true
+        ]);
+
+        $this->showModal = FALSE;
         $this->showSuccessToast('Variant type saved!');
     }
 
@@ -75,7 +80,13 @@ class VariantTypes extends Component
         $variantType->delete();
         $this->reset('deleteId');
 
-        $this->showConfirmDelete = false;
+        if ($this->product->variantTypes()->count() === 0) {
+            $this->product->update([
+                'has_variants' => false
+            ]);
+        }
+
+        $this->showConfirmDelete = FALSE;
         $this->showSuccessToast('Variant type deleted!');
     }
 

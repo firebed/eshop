@@ -22,7 +22,7 @@
                 </x-bs::input.checkbox>
 
                 <x-bs::input.group for="display-stock-lt" label="{{ __('Hide availability when stock is greater than') }}" label-col="9" class="ps-4" inline>
-                    <x-bs::input.integer wire:model.defer="product.display_stock_lt" class="form-control-sm"/>
+                    <x-bs::input.integer wire:model.defer="product.display_stock_lt" class="form-control-sm" id="display-stock-lt"/>
                 </x-bs::input.group>
             </div>
         </div>

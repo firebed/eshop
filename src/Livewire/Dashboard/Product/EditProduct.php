@@ -6,6 +6,7 @@ use Eshop\Livewire\Dashboard\Product\Traits\DeletesProduct;
 use Eshop\Livewire\Dashboard\Product\Traits\RendersProduct;
 use Eshop\Livewire\Dashboard\Product\Traits\SavesProduct;
 use Eshop\Livewire\Dashboard\Product\Traits\WithProductAttributes;
+use Eshop\Livewire\Traits\TrimStrings;
 use Firebed\Components\Livewire\Traits\SendsNotifications;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Database\Eloquent\Collection;
@@ -23,7 +24,7 @@ use Livewire\Component;
 class EditProduct extends Component
 {
     use SendsNotifications;
-
+    use TrimStrings;
     use SavesProduct;
     use DeletesProduct;
     use WithProductAttributes;
@@ -32,7 +33,7 @@ class EditProduct extends Component
     public function save(): void
     {
         $this->validate();
-        $this->saveProduct(false);
+        $this->saveProduct();
 
         $this->showSuccessToast('Product saved!');
     }

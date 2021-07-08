@@ -17,6 +17,7 @@ trait WithProductAttributes
             'product.id'               => ['nullable', 'int'],
 
             // Organization
+            'product.is_physical'      => ['required', 'bool'],
             'product.category_id'      => ['required', 'int'],
             'product.manufacturer_id'  => ['nullable', 'int'],
 
@@ -31,7 +32,7 @@ trait WithProductAttributes
             'product.price'            => ['required', 'numeric', 'min:0'],
             'product.compare_price'    => ['required', 'numeric', 'min:0'],
             'product.discount'         => ['required', 'numeric', 'min:0'],
-            'product.vat'              => ['required', 'numeric', 'min:0'],
+            'product.vat'              => ['required', 'numeric', 'min:0', 'max:1'],
 
             // Inventory
             'product.weight'           => ['required', 'numeric', 'min:0'],
