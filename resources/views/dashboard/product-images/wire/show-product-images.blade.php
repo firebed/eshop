@@ -13,21 +13,7 @@
         </div>
     </div>
 
-    <div class="d-flex gap-4">
-        @if(Route::has('customer.products.show'))
-            <a href="{{ route('customer.products.show', [app()->getLocale(), $product->category->slug, $product->slug]) }}" class="text-secondary text-decoration-none"><i class="fa fa-eye"></i> {{ __("View") }}</a>
-        @endif
-
-        <a href="#" class="text-secondary text-decoration-none"><em class="fa fa-chart-bar"></em> {{ __("Analytics") }}</a>
-
-        @if($product->has_variants)
-            <a href="{{ route('products.variants.index', $product) }}" class="text-secondary text-decoration-none"><em class="fa fa-sitemap"></em> {{ __("Variants") }}</a>
-        @endif
-
-        @if(Route::has('products.images.index'))
-            <a href="{{ route('products.images.index', $product) }}" class="text-secondary text-decoration-none me-4"><i class="far fa-images"></i> {{ __("Images") }}</a>
-        @endif
-    </div>
+    @include('eshop::dashboard.product.partials.product-navigation')
 
     @error('uploads.*')
     <div class="alert alert-danger">{{ $message }}</div>

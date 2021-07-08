@@ -2,8 +2,16 @@
     <div class="d-grid gap-2">
         <a href="{{ route('products.edit', $product) }}" class="text-decoration-none"><em class="fa fa-chevron-left"></em> {{ $product->name }}</a>
 
-        <h1 class="fs-3 mb-0">{{ __("Variants") }}</h1>
+        <div class="d-flex align-items-center justify-content-between">
+            <h1 class="fs-3 mb-0">{{ __("Variants") }}</h1>
+
+            <x-bs::button.primary wire:click="create" wire:loading.attr="disabled" wire:target="create" class="text-nowrap">
+                <em class="fa fa-plus me-2"></em> {{ __("New") }}
+            </x-bs::button.primary>
+        </div>
     </div>
+
+    @include('eshop::dashboard.product.partials.product-navigation')
 
     <div class="d-flex justify-content-between">
         <div>
@@ -32,10 +40,6 @@
                     </x-bs::dropdown.item>
                 </x-bs::dropdown.menu>
             </x-bs::dropdown>
-
-            <x-bs::button.primary wire:click="create" wire:loading.attr="disabled" wire:target="create" class="text-nowrap">
-                <em class="fa fa-plus me-2"></em> {{ __("New") }}
-            </x-bs::button.primary>
         </div>
     </div>
 

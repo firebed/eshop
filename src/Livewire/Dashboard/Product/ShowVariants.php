@@ -24,9 +24,9 @@ class ShowVariants extends Component
 
     public $product;
 
-    public $showModal         = FALSE;
-    public $showDiscountModal = FALSE;
-    public $showPriceModal    = FALSE;
+    public bool $showModal         = FALSE;
+    public bool $showDiscountModal = FALSE;
+    public bool $showPriceModal    = FALSE;
 
     protected $queryString = [
         'search' => ['except' => ''],
