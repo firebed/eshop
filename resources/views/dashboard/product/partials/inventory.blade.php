@@ -36,9 +36,11 @@
 
             <x-bs::input.group for="unit-id" label="{{ __('Unit') }}" class="col">
                 <x-bs::input.select name="unit_id" id="unit-id" error="unit_id">
-                    <option value="" disabled selected>{{ __('Select unit') }}</option>
+                    <option value="" disabled selected>{{ __('eshop::unit.select') }}</option>
                     @foreach($units as $unit)
-                        <option value="{{ $unit->id }}" @if($unit->id == old('unit_id', $product->unit_id ?? null)) selected @endif>{{ __($unit->name) }}</option>
+                        <option value="{{ $unit->id }}" @if($unit->id == old('unit_id', $product->unit_id ?? null)) selected @endif>
+                            {{ __("eshop::unit.$unit->name") }}
+                        </option>
                     @endforeach
                 </x-bs::input.select>
             </x-bs::input.group>

@@ -42,7 +42,9 @@
                 <option value="" disabled>{{ __('Select unit') }}</option>
                 @isset($units)
                     @foreach($units as $unit)
-                        <option value="{{ $unit->id }}" @if($unit->id == old('unit_id', $variant->unit_id ?? $product->unit_id)) selected @endif>{{ __($unit->name) }}</option>
+                        <option value="{{ $unit->id }}" @if($unit->id == old('unit_id', $variant->unit_id ?? $product->unit_id)) selected @endif>
+                            {{ __("eshop::unit.$unit->name") }}
+                        </option>
                     @endforeach
                 @endisset
             </x-bs::input.select>

@@ -22,7 +22,9 @@
                 <option value="" disabled>{{ __('Select vat') }}</option>
                 @isset($vats)
                     @foreach($vats as $vat)
-                        <option value="{{ $vat->regime }}" @if($vat->regime === old('vat', $variant->vat ?? $product->vat ?? 0)) selected @endif>{{ __($vat->name) }} ({{ format_percent($vat->regime) }})</option>
+                        <option value="{{ $vat->regime }}" @if($vat->regime === old('vat', $variant->vat ?? $product->vat ?? 0)) selected @endif>
+                            {{ __("eshop::vat.$vat->name") }} ({{ format_percent($vat->regime) }})
+                        </option>
                     @endforeach
                 @endisset
             </x-bs::input.select>
