@@ -12,7 +12,7 @@
         <x-bs::input.select wire:model="payment_method_id">
             <option value="">{{ __("Payment") }}</option>
             @foreach($paymentMethods as $method)
-                <option value="{{ $method->id }}">{{ __($method->name) }}</option>
+                <option value="{{ $method->id }}">{{ __("eshop::payment.$method->name") }}</option>
             @endforeach
         </x-bs::input.select>
 
@@ -36,10 +36,10 @@
                 <x-bs::dropdown.item wire:click.prevent="confirmDelete()"><em class="far fa-trash-alt me-2 text-secondary"></em>{{ __("Delete") }}</x-bs::dropdown.item>
             </x-bs::dropdown.menu>
         </x-bs::dropdown>
-        
-        <x-bs::button.primary wire:click.prevent="create()">
-            <em class="fas fa-plus me-2"></em>{{ __("New") }}
-        </x-bs::button.primary>
+{{--        --}}
+{{--        <x-bs::button.primary wire:click.prevent="create()">--}}
+{{--            <em class="fas fa-plus me-2"></em>{{ __("New") }}--}}
+{{--        </x-bs::button.primary>--}}
     </div>
 
     <form wire:submit.prevent="saveStatuses">
