@@ -20,7 +20,7 @@
 
             <x-bs::input.group for="vat" label="{{ __('Vat') }}" class="col">
                 <x-bs::input.select name="vat" error="vat" id="vat">
-                    <option value="" disabled>{{ __('Select vat') }}</option>
+                    <option value="" disabled>{{ __('eshop::vat.select') }}</option>
                     @foreach($vats as $vat)
                         <option value="{{ $vat->regime }}" @if($vat->regime === old('vat', $product->vat ?? null)) selected @endif>
                             {{ __("eshop::vat.$vat->name") }} ({{ format_percent($vat->regime) }})

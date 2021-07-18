@@ -19,7 +19,7 @@
 
         <x-bs::input.group for="vat" label="{{ __('eshop::product.tax') }}" class="col">
             <x-bs::input.select name="vat" id="vat" error="vat">
-                <option value="" disabled>{{ __('Select vat') }}</option>
+                <option value="" disabled>{{ __('eshop::vat.select') }}</option>
                 @isset($vats)
                     @foreach($vats as $vat)
                         <option value="{{ $vat->regime }}" @if($vat->regime === old('vat', $variant->vat ?? $product->vat ?? 0)) selected @endif>

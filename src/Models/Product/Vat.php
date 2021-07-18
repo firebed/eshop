@@ -24,11 +24,6 @@ class Vat extends Model
 
     protected $guarded = [];
 
-    public static function standard(): ?Vat
-    {
-        return self::firstWhere('name', 'standard');
-    }
-
     protected static function newFactory(): VatFactory
     {
         return VatFactory::new();
