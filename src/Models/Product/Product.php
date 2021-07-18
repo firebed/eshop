@@ -5,12 +5,15 @@ namespace Eshop\Models\Product;
 use Eshop\Database\Factories\Product\ProductFactory;
 use Eshop\Models\Lang\Traits\HasTranslations;
 use Eshop\Models\Media\Traits\HasImages;
+use Eshop\Models\Seo\Seo;
+use Eshop\Models\Seo\Traits\HasSeo;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Collection;
 
@@ -76,8 +79,13 @@ class Product extends Model
     use SoftDeletes;
     use HasTranslations;
     use HasImages;
+    use HasSeo;
 
-    protected $guarded = [];
+    protected $fillable = [
+        'name', 'description', 'category_id', 'manufacturer_id', 'unit_id', 'is_physical', 'vat', 'weight',
+        'price', 'compare_price', 'discount', 'stock', 'visible', 'display_stock', 'display_stock_lt', 'available', 'available_gt',
+        'location', 'sku', 'barcode', 'slug', 'has_variants', 'variants_display', 'preview_variants'
+    ];
 
     protected array  $translatable = ['name', 'description'];
     protected string $disk         = 'products';
@@ -86,7 +94,7 @@ class Product extends Model
         'price'         => 'float',
         'compare_price' => 'float',
         'discount'      => 'float',
-        'has_physical'  => 'bool',
+        'has_variants'  => 'bool',
         'is_physical'   => 'bool',
         'visible'       => 'bool',
         'available'     => 'bool',
@@ -296,6 +304,7 @@ class Product extends Model
     {
         $this->attributes['display_stock_lt'] = blank($value) ? NULL : $value;
     }
+
 
 
     /*

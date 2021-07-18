@@ -7,6 +7,7 @@ use Eshop\Services\SlugGenerator;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 if (!function_exists('format_number')) {
     function format_number($number, $min_fraction_digits = 0, $max_fraction_digits = 2, $locale = NULL): bool|string
@@ -54,9 +55,10 @@ if (!function_exists('format_weight')) {
 }
 
 if (!function_exists('slugify')) {
-    function slugify($strings, $separator = '-'): string
+    function slugify($strings, $separator = '-', $toLowerCase = true): string
     {
-        return SlugGenerator::getSlug(implode($separator, is_array($strings) ? array_filter($strings) : [$strings]), $separator);
+        $string = implode($separator, is_array($strings) ? array_filter($strings) : [$strings]);
+        return SlugGenerator::getSlug($string, $separator, $toLowerCase);
     }
 }
 
@@ -75,12 +77,12 @@ if (!function_exists('productRouteExists')) {
 }
 
 if (!function_exists('productRoute')) {
-    function productRoute(Product $product, Category $category = NULL): string
+    function productRoute(Product $product, Category $category = NULL, $absolute = true): string
     {
         $category = $category ?? $product->category;
         return $product->isVariant()
-            ? route('customer.variants.show', [app()->getLocale(), $category->slug, $product->parent->slug, $product->slug])
-            : route('customer.products.show', [app()->getLocale(), $category->slug, $product->slug]);
+            ? route('customer.variants.show', [app()->getLocale(), $category->slug, $product->parent->slug, $product->slug], $absolute)
+            : route('customer.products.show', [app()->getLocale(), $category->slug, $product->slug], $absolute);
     }
 }
 
@@ -92,11 +94,25 @@ if (!function_exists('variantRouteExists')) {
 }
 
 if (!function_exists('variantRoute')) {
-    function variantRoute(Product $variant, Product $parent = NULL, Category $category = NULL): string
+    function variantRoute(Product $variant, Product $parent = NULL, Category $category = NULL, $absolute = true): string
     {
         $parent = $parent ?? $variant->parent;
         $category = $category ?? $parent->category;
-        return route('customer.variants.show', [app()->getLocale(), $category->slug, $parent->slug, $variant->slug]);
+        return route('customer.variants.show', [app()->getLocale(), $category->slug, $parent->slug, $variant->slug], $absolute);
+    }
+}
+
+if (!function_exists('str')) {
+    function str(string $string): \Illuminate\Support\Stringable
+    {
+        return Str::of($string);
+    }
+}
+
+if (!function_exists('title')) {
+    function title(string $title): string
+    {
+        return $title . ' - ' . config('app.name');
     }
 }
 

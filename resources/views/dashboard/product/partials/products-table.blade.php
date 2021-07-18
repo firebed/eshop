@@ -39,7 +39,7 @@
             <td>@if($product->has_variants) {{ format_number($product->variants_sum_stock) }} @else {{ format_number($product->stock) }} @endif</td>
             <td>
                 @if($product->has_variants)
-                    <a href="{{ route('products.variants.index', $product) }}" class="btn btn-teal">@choice("eshop::product.variants_count", $product->variants_count, ['count' => $product->variants_count])</a>
+                    <a href="{{ route('products.variants.index', $product) }}">@choice("eshop::product.variants_count", $product->variants_count, ['count' => $product->variants_count])</a>
                 @endif
             </td>
             <td>

@@ -15,11 +15,14 @@ class SlugGenerator
      * @param string $separator
      * @return string the generated slug
      */
-    public static function getSlug(string $string, $separator = '-'): string
+    public static function getSlug(string $string, string $separator = '-', bool $toLowerCase = TRUE): string
     {
         $slug = '';
         $lastCharacter = '';
-        $string = mb_strtolower(trim($string), 'utf-8');
+        $string = trim($string);
+        if ($toLowerCase) {
+            $string = mb_strtolower(trim($string), 'utf-8');
+        }
 
         $iMax = mb_strlen($string, 'utf-8');
         for ($i = 0; $i < $iMax; $i++) {
@@ -41,8 +44,8 @@ class SlugGenerator
      * A UTF-8 substr function adapted from the following: http://us.php.net/manual/en/function.substr.php#44838
      *
      * @param string $str
-     * @param int $start
-     * @param int $end
+     * @param int    $start
+     * @param int    $end
      * @return string a utf-8 character
      */
     private static function utf8_substr(string $str, int $start, int $end): string

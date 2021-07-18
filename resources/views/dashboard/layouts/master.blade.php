@@ -20,12 +20,13 @@
 
     <link rel="stylesheet" href="https://unpkg.com/simplebar@5.3.3/dist/simplebar.css"/>
     <script src="https://unpkg.com/simplebar@5.3.3/dist/simplebar.min.js"></script>
-    
-    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+    <script defer src="https://unpkg.com/alpinejs@3.2.1/dist/cdn.min.js"></script>
 
     <x-eshop::google-analytics/>
 </head>
 <body class="container-fluid bg-light">
+
 <div class="row">
     @include('eshop::dashboard.layouts.navigation')
 
@@ -43,6 +44,8 @@
 
 <x-bs::notification.toast/>
 <x-bs::notification.dialog/>
+
+@include('eshop::dashboard.layouts.toasts')
 
 <script src="{{ asset('vendor/eshop/js/dashboard/app.js') }}"></script>
 @stack('footer_scripts')

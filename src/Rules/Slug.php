@@ -8,14 +8,13 @@ use Illuminate\Contracts\Validation\Rule;
 
 class Slug implements Rule
 {
-    public function passes($attribute, $value)
+    public function passes($attribute, $value): bool
     {
-
-        return 'regex:/^([a-z0-9]+-)*[a-z0-9]+$/i';
+        return preg_match('/^([a-z0-9]+-)*[a-z0-9]+$/i', $value);
     }
 
-    public function message()
+    public function message(): string
     {
-        // TODO: Implement message() method.
+        return trans('validation.regex');
     }
 }

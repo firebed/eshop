@@ -2,7 +2,6 @@
 
 namespace Eshop;
 
-use Eshop\Livewire\Customer\Account\EditProfile;
 use Eshop\Livewire\Customer\Checkout\CartButton;
 use Eshop\Livewire\Customer\Checkout\EditCheckoutDetails;
 use Eshop\Livewire\Customer\Checkout\EditCheckoutPayment;
@@ -10,7 +9,6 @@ use Eshop\Livewire\Customer\Checkout\ShowCheckoutProducts;
 use Eshop\Livewire\Customer\Product\AddToCartForm;
 use Eshop\Livewire\Customer\Product\ProductVariants;
 use Eshop\Livewire\Customer\Product\ProductVariantsButtons;
-use Eshop\Livewire\Dashboard\Analytics\ShowAnalyticsDashboard;
 use Eshop\Livewire\Dashboard\Cart\BillingAddress;
 use Eshop\Livewire\Dashboard\Cart\CartHeader;
 use Eshop\Livewire\Dashboard\Cart\CartItemCreateModal;
@@ -29,15 +27,16 @@ use Eshop\Livewire\Dashboard\Config\ShowVats;
 use Eshop\Livewire\Dashboard\Intl\ShowCountries;
 use Eshop\Livewire\Dashboard\Intl\ShowPaymentMethods;
 use Eshop\Livewire\Dashboard\Intl\ShowShippingMethods;
-use Eshop\Livewire\Dashboard\Product\CreateProduct;
-use Eshop\Livewire\Dashboard\Product\CreateProductGroup;
-use Eshop\Livewire\Dashboard\Product\EditProduct;
-use Eshop\Livewire\Dashboard\Product\EditProductGroup;
+use Eshop\Livewire\Dashboard\Product\CreateMassVariants;
+use Eshop\Livewire\Dashboard\Product\ProductImages;
+use Eshop\Livewire\Dashboard\Product\ProductProperties;
+use Eshop\Livewire\Dashboard\Product\ProductSeo;
 use Eshop\Livewire\Dashboard\Product\ShowManufacturers;
 use Eshop\Livewire\Dashboard\Product\ShowProductImages;
 use Eshop\Livewire\Dashboard\Product\ShowProducts;
 use Eshop\Livewire\Dashboard\Product\ShowTrashedProducts;
-use Eshop\Livewire\Dashboard\Product\ShowVariants;
+use Eshop\Livewire\Dashboard\Product\VariantSeo;
+use Eshop\Livewire\Dashboard\Product\VariantsTable;
 use Eshop\Livewire\Dashboard\Product\VariantTypes;
 use Eshop\Livewire\Dashboard\User\ShowUserPermissions;
 use Eshop\Livewire\Dashboard\User\ShowUsers;
@@ -87,13 +86,16 @@ class LivewireServiceProvider extends ServiceProvider
         Livewire::component('dashboard.intl.show-shipping-methods', ShowShippingMethods::class);
 
         // Products
-        Livewire::component('dashboard.product.create-product', CreateProduct::class);
-        Livewire::component('dashboard.product.edit-product', EditProduct::class);
         Livewire::component('dashboard.product.show-product-images', ShowProductImages::class);
         Livewire::component('dashboard.product.show-products', ShowProducts::class);
         Livewire::component('dashboard.product.show-trashed-products', ShowTrashedProducts::class);
-        Livewire::component('dashboard.product.show-variants', ShowVariants::class);
+        Livewire::component('dashboard.product.variants-table', VariantsTable::class);
+        Livewire::component('dashboard.product.images', ProductImages::class);
+        Livewire::component('dashboard.product.product-properties', ProductProperties::class);
+        Livewire::component('dashboard.product.product-seo', ProductSeo::class);
         Livewire::component('dashboard.product.variant-types', VariantTypes::class);
+        Livewire::component('dashboard.variant.create-mass-variants', CreateMassVariants::class);
+        Livewire::component('dashboard.variant.variant-seo', VariantSeo::class);
 
         // User
         Livewire::component('dashboard.user.show-users', ShowUsers::class);

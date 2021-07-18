@@ -13,6 +13,7 @@ use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -123,11 +124,14 @@ class ShowTrashedProducts extends Component
 
     protected function deleteRows(): ?int
     {
-        $products = Product::onlyTrashed()->whereIn('id', $this->selected())->get();
+        $products = Product::onlyTrashed()->whereIn('id', $this->selected())->with('variants')->get();
 
-        foreach ($products as $product) {
-            $product->forceDelete();
-        }
+        DB::transaction(function() use ($products) {
+            foreach ($products as $product) {
+                $product->variants->each->forceDelete();
+                $product->forceDelete();
+            }
+        });
 
         return $products->count();
     }

@@ -13,6 +13,7 @@ use Eshop\Models\Product\CategoryProperty;
 use Eshop\Models\Product\Manufacturer;
 use Eshop\Models\Product\Product;
 use Eshop\Models\Product\VariantType;
+use Eshop\Models\Seo\Seo;
 use Eshop\Models\User;
 use Eshop\View\Components\CategoryBreadcrumb;
 use Eshop\View\Components\HomepageCategoriesList;
@@ -96,12 +97,12 @@ class EshopServiceProvider extends ServiceProvider
             $this->publishes([
                 __DIR__ . '/../assets/css/customer'         => public_path('vendor/eshop/css/customer'),
                 __DIR__ . '/../assets/css/dashboard'        => public_path('vendor/eshop/css/dashboard'),
-//                __DIR__ . '/../assets/css/slimselect.css'   => public_path('vendor/eshop/css/slimselect.css'),
+                //                __DIR__ . '/../assets/css/slimselect.css'   => public_path('vendor/eshop/css/slimselect.css'),
                 __DIR__ . '/../assets/js/customer'          => public_path('vendor/eshop/js/customer'),
                 __DIR__ . '/../assets/js/dashboard'         => public_path('vendor/eshop/js/dashboard'),
                 __DIR__ . '/../assets/js/fslightbox.js'     => public_path('vendor/eshop/js/fslightbox.js'),
                 __DIR__ . '/../assets/js/fslightbox.js.map' => public_path('vendor/eshop/js/fslightbox.js.map'),
-//                __DIR__ . '/../assets/js/slimselect.js'     => public_path('vendor/eshop/js/slimselect.js'),
+                //                __DIR__ . '/../assets/js/slimselect.js'     => public_path('vendor/eshop/js/slimselect.js'),
             ], 'eshop-assets');
 
             $this->publishes([__DIR__ . '/../resources/lang' => resource_path('lang/vendor/eshop')], 'eshop-locale');
@@ -131,7 +132,9 @@ class EshopServiceProvider extends ServiceProvider
             //
             'cart'            => Cart::class,
             'invoice'         => Invoice::class,
-            'company'         => Company::class
+            'company'         => Company::class,
+            //
+            'seo'             => Seo::class
         ]);
     }
 

@@ -6,28 +6,49 @@ return [
     'products_count' => '{1} 1 product|[2,*] :count products',
     'availability'   => '{0} Out of stock|[1,*] :count in stock',
 
+    'seo_search_listing'      => 'SEO search listing',
     'products'                => 'Products',
     'category'                => 'Category',
     'manufacturer'            => 'Manufacturer',
     'search'                  => 'Search',
     'new_product'             => 'New product',
-    'variant_type'            => 'Type',
-    'has_variants'            => 'Add variants if this product comes in multiple versions, like different sizes or colors.',
     'variant_options'         => 'Options',
     'price'                   => 'Price',
+    'compare_price'           => 'Compare at price',
     'discount'                => 'Discount',
     'stock'                   => 'Stock',
     'sku'                     => 'SKU',
     'barcode'                 => 'Barcode',
+    'tax'                     => 'Tax',
     'image'                   => 'Image',
     'variants'                => 'Variants',
-    'add_variant'             => 'Add variant',
     'more_options'            => 'More options',
-    'add_variant_images'      => 'Add images',
-    'select_variants'         => 'Select',
-    'edit_variant_options'    => 'Edit options',
-    'edit_variant_prices'     => 'Edit prices',
-    'edit_variant_stocks'     => 'Edit stocks',
-    'reorder_variant_options' => 'Reorder options',
-    'is_physical'             => 'This is a physical product'
+    'is_physical'             => 'This is a physical product',
+    'in_stock'                => ':stock in stock',
+    'edit_seo'                => 'Edit website SEO',
+    'delete_product'          => 'Delete product',
+    'delete_confirmation'     => 'You are about to send this product to recycle bin from where you can restore the product to permanently delete it.',
+
+    'variant_type' => [
+        'has_variants' => 'Add variants if this product comes in multiple versions, like different sizes or colors.',
+        'name'         => 'Name',
+        'new'          => 'Add new',
+        'size'         => 'Size',
+        'color'        => 'Color',
+        'material'     => 'Material',
+    ],
+
+    'notifications' => [
+        'created'           => 'The product was saved!',
+        'saved'             => 'The product was saved!',
+        'deleted'           => 'The product was deleted!',
+        'error'             => 'An error occurred',
+        'validation_failed' => 'The validation failed. Please check the details.'
+    ],
+
+    'actions' => [
+        'save'   => 'Save',
+        'delete' => 'Delete product',
+        'cancel' => 'Cancel',
+    ]
 ];

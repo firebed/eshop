@@ -1,0 +1,78 @@
+<?php
+
+namespace Eshop\Requests\Dashboard\Product;
+
+use Eshop\Requests\Traits\WithRequestNotifications;
+use Eshop\Rules\Slug;
+use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
+
+class VariantRequest extends FormRequest
+{
+    use WithRequestNotifications;
+
+    public function authorize(): bool
+    {
+        return TRUE;
+    }
+
+    protected function prepareForValidation(): void
+    {
+        $this->merge([
+            'is_physical'   => $this->has('is_physical'),
+            'visible'       => $this->has('visible'),
+            'available'     => $this->has('available'),
+            'display_stock' => $this->has('display_stock'),
+        ]);
+    }
+
+    public function rules(): array
+    {
+        $variant = $this->route('variant');
+
+        return [
+            # Options
+            'options'          => ['required', 'array'],
+            'options.*'        => ['required', 'string'],
+
+            # Pricing
+            'price'            => ['required', 'numeric', 'min:0'],
+            'compare_price'    => ['required', 'numeric', 'min:0'],
+            'discount'         => ['required', 'numeric', 'between:0,1'],
+            'vat'              => ['required', 'numeric', 'exists:vats,regime'],
+
+            # Inventory
+            'is_physical'      => ['required', 'boolean'],
+            'sku'              => ['required', 'string', Rule::unique('products')->when($variant, fn($q) => $q->ignore($variant))],
+            'barcode'          => ['nullable', 'string', Rule::unique('products')->when($variant, fn($q) => $q->ignore($variant))],
+            'location'         => ['nullable', 'string'],
+            'stock'            => ['required', 'integer'],
+            'weight'           => ['required', 'integer', 'min:0'],
+            'unit_id'          => ['required', 'integer', 'exists:units,id'],
+
+            # Accessibility
+            'visible'          => ['nullable', 'boolean'],
+            'available'        => ['nullable', 'boolean'],
+            'available_gt'     => ['nullable', 'integer'],
+            'display_stock'    => ['nullable', 'boolean'],
+            'display_stock_lt' => ['nullable', 'integer'],
+
+            # SEO
+            'slug'             => ['required', 'string', new Slug(), Rule::unique('products', 'slug')->when($variant, fn($q) => $q->ignore($variant))],
+            'seo.locale'       => ['required', 'string', 'size:2', 'exists:locales,name'],
+            'seo.title'        => ['required', 'string', 'max:70', Rule::unique('seo', 'title')->where('locale', app()->getLocale())->when($variant, fn($q) => $q->whereNot('seo_id', $variant->id))],
+            'seo.description'  => ['nullable', 'string'],
+
+            # Media
+            'image'            => ['nullable', 'image'],
+        ];
+    }
+
+    public function attributes(): array
+    {
+        return array_merge(parent::attributes(), [
+            'options.*' => 'options',
+            'seo.title' => 'title'
+        ]);
+    }
+}

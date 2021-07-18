@@ -7,7 +7,7 @@ use Eshop\Controllers\Customer\Checkout\CheckoutLoginController;
 use Eshop\Controllers\Customer\Checkout\CheckoutPaymentController;
 use Eshop\Controllers\Customer\Checkout\CheckoutProductController;
 use Eshop\Controllers\Customer\Product\ProductController;
-use Eshop\Controllers\Customer\Product\ProductVariantController;
+use Eshop\Controllers\Customer\Product\VariantController;
 use Eshop\Controllers\Dashboard\Account\PasswordController;
 use Eshop\Controllers\Dashboard\Account\ProfileController;
 use Eshop\Controllers\Dashboard\Account\UserAddressController;
@@ -75,6 +75,6 @@ Route::group([
         Route::get('{category:slug}/f/{filters}', CategoryController::class)->name('customer.categories.filters');
         Route::get('{category:slug}', CategoryController::class)->name('customer.categories.show');
 
-        Route::get('{category:slug}/{product:slug}/{variant:slug}', [ProductVariantController::class, 'show'])->name('customer.variants.show');
+        Route::get('{category:slug}/{product:slug}/{variant:slug}', [VariantController::class, 'show'])->name('customer.variants.show');
         Route::get('{category:slug}/{product:slug}', [ProductController::class, 'show'])->name('customer.products.show');
     });

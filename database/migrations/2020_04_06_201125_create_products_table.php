@@ -38,12 +38,12 @@ class CreateProductsTable extends Migration
             $table->integer('available_gt')->nullable();
 
             $table->string('location', 50)->nullable();
-            $table->string('sku', 100)->nullable()->index();
+            $table->string('sku', 100)->unique();
             $table->string('barcode', 50)->nullable()->unique();
 //            $table->string('slug')->unique();
             $table->string('slug');
             $table->enum('variants_display', ['Grid', 'Buttons', 'Dropdown'])->nullable();
-            $table->boolean('preview_variants')->default(TRUE);
+            $table->boolean('preview_variants')->nullable();
 
             $table->timestamps();
             $table->softDeletes()->index();

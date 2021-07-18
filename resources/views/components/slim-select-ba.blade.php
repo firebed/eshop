@@ -1,10 +1,10 @@
 @props([
+    'values' => '',
     'error' => NULL,
     'allowDeselect' => false,
 ])
 
-<div wire:ignore
-     x-data="{ values: @entangle($attributes->wire('model')) }"
+<div x-data
      x-init="new SlimSelect({
         select: $refs.select,
         showSearch: false,
@@ -14,10 +14,10 @@
             values = selected ? selected : ''
         }
      })
-     $refs.select.slim.set(values)
+     //$refs.select.slim.set(values)
     "
 >
-    <select hidden x-ref="select" {{ $attributes->whereDoesntStartWith('wire:model') }}>
+    <select hidden x-ref="select" {{ $attributes }}>
         {{ $slot }}
     </select>
 </div>

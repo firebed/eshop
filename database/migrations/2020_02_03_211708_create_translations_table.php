@@ -22,7 +22,7 @@ class CreateTranslationsTable extends Migration
             $table->string('cluster', 50)->nullable();
 
             $table->unique(['locale', 'translatable_id', 'translatable_type', 'cluster'], 'unique_translation');
-            $table->foreign('locale')->references('name')->on('locales')->onUpdate('CASCADE')->cascadeOnDelete();
+            $table->foreign('locale')->references('name')->on('locales')->cascadeOnUpdate()->cascadeOnDelete();
         });
 
         DB::statement("ALTER TABLE translations ADD FULLTEXT search(translation)");
