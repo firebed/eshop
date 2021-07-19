@@ -30,7 +30,7 @@
                             <div class="d-flex justify-content-end">
                                 <x-bs::button.primary x-bind:disabled="submitting" type="submit">
                                     <em x-cloak x-show="submitting" class="fa fa-spinner fa-spin me-2"></em>
-                                    {{ __('Save') }}
+                                    {{ __('eshop::variant.buttons.save') }}
                                 </x-bs::button.primary>
                             </div>
                         </form>

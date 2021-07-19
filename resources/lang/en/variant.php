@@ -1,8 +1,8 @@
 <?php
 
 return [
-    'bulk_create'                  => 'Create bulk variants',
-    'bulk_edit'                    => 'Edit bulk variants',
+    'bulk_create'                  => 'Bulk create variants',
+    'bulk_edit'                    => 'Bulk edit variants',
     'delete'                       => 'Delete variant',
     'delete_confirmation'          => 'You are about to send this variant to the recycle bin from where you can restore or delete it permanently.',
     'delete_multiple'              => 'Delete multiple variants',
@@ -26,7 +26,8 @@ return [
         'apply_all' => 'Apply to all',
         'delete'    => 'Delete',
         'add_new'   => 'Add new',
-        'add_many'  => 'Add many'
+        'add_many'  => 'Add many',
+        'add_more'  => 'Add more',
     ],
 
     'notifications' => [

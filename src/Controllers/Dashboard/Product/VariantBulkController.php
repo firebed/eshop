@@ -65,16 +65,19 @@ class VariantBulkController extends Controller
         return redirect()->route('products.variants.index', $product);
     }
 
-    public function edit(Request $request, Product $product): Renderable
+    public function edit(Request $request, Product $product): RedirectResponse|Renderable
     {
         $ids = $request->query('ids');
+        $variants = empty($ids)
+            ? $product->variants->load('options')
+            : Product::whereKey($ids)->with('options')->get();
 
-        $request->session()->flashInput(['bulk_ids' => $ids]);
+        $request->session()->flashInput(['bulk_ids' => $ids ?? []]);
 
         return view('eshop::dashboard.variant.bulk-edit', [
             'product'      => $product,
             'properties'   => $request->query('properties', []),
-            'variants'     => Product::whereKey($ids)->with('options')->get(),
+            'variants'     => $variants,
             'variantTypes' => VariantType::where('product_id', $product->id)->pluck('name', 'id')->all()
         ]);
     }

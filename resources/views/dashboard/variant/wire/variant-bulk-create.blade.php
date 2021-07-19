@@ -46,6 +46,6 @@
     </x-bs::table>
 
     <x-bs::button.secondary size="sm" wire:click.prevent="add()" wire:loading.attr="disabled">
-        {{ __('Add more') }}
+        {{ __('eshop::variant.buttons.add_more') }}
     </x-bs::button.secondary>
 </div>

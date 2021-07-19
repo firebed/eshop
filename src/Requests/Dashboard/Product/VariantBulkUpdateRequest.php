@@ -42,7 +42,7 @@ class VariantBulkUpdateRequest extends FormRequest
                     break;
                 case 'sku':
                     $rules["bulk_sku.*"] = ['required', 'distinct'];
-                    foreach ($this->bulk_ids as $i => $id) {
+                    foreach ($this->input('bulk_ids', []) as $i => $id) {
                         $rules["bulk_sku.$i"] = ['required', 'distinct', "unique:products,sku,$id"];
                     }
                     break;
