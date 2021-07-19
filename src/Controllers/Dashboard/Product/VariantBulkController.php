@@ -69,6 +69,8 @@ class VariantBulkController extends Controller
     {
         $ids = $request->query('ids');
 
+        $request->session()->flashInput(['bulk_ids' => $ids]);
+
         return view('eshop::dashboard.variant.bulk-edit', [
             'product'      => $product,
             'properties'   => $request->query('properties', []),
