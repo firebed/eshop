@@ -3,7 +3,7 @@
     @method('delete')
 
     <x-bs::button.danger type="button" data-bs-toggle="modal" data-bs-target="#variant-delete-form">
-        {{ __('eshop::variant.actions.delete') }}
+        {{ __('eshop::variant.buttons.delete') }}
     </x-bs::button.danger>
 
     <div class="modal fade" id="variant-delete-form" tabindex="-1">
@@ -24,11 +24,11 @@
                 </div>
 
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('eshop::variant.actions.cancel') }}</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('eshop::variant.buttons.cancel') }}</button>
 
                     <button type="submit" class="btn btn-danger" x-bind:disabled="submitting">
                         <em x-cloak x-show="submitting" class="fa fa-spinner fa-spin me-2"></em>
-                        {{ __('eshop::variant.actions.delete') }}
+                        {{ __('eshop::variant.buttons.delete') }}
                     </button>
                 </div>
             </div>

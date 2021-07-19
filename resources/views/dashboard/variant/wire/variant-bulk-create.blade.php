@@ -1,9 +1,3 @@
-{{--        @if($errors->any())--}}
-{{--            <x-bs::alert type="danger">--}}
-{{--                {!! implode('', $errors->all('<div>:message</div>')) !!}--}}
-{{--            </x-bs::alert>--}}
-{{--        @endif--}}
-
 <div class="table-responsive mb-3">
     <x-bs::table class="mb-2">
         <thead>
@@ -23,16 +17,16 @@
             <tr>
                 @foreach($variantTypes as $id => $name)
                     <td>
-                        <x-bs::input.text wire:model.debounce="variants.{{ $index }}.options.{{ $id }}" error="variants.{{ $index }}.options.{{ $id }}" name="variants[{{ $index }}][options][{{ $id }}]" class="option"/>
+                        <x-bs::input.text wire:model.debounce="variants.{{ $index }}.options.{{ $id }}" error="variants.{{ $index }}.options.{{ $id }}" name="variants[{{ $index }}][options][{{ $id }}]" class="option" required/>
                     </td>
                 @endforeach
 
-                <td x-data="{price:0}">
-                    <x-eshop::money x-effect="price = value" value="{{ $variants[$index]['price'] }}"/>
+                <td x-data="{ price: {{ $variants[$index]['price'] }} }">
+                    <x-eshop::money x-effect="price = value" value="price"/>
                     <input x-model="price" name="variants[{{ $index }}][price]" hidden/>
                 </td>
-                <td x-data="{stock:0}">
-                    <x-eshop::integer x-effect="stock = value" value="{{ $variants[$index]['stock'] }}"/>
+                <td x-data="{ stock: {{ $variants[$index]['stock'] }} }">
+                    <x-eshop::integer x-effect="stock = value" value="stock"/>
                     <input x-model="stock" name="variants[{{ $index }}][stock]" hidden/>
                 </td>
                 <td>

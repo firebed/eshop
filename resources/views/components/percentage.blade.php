@@ -8,12 +8,12 @@
     'symbolPlacement' => config('intl.currency_placement'),
     'signPlacement' => config('intl.sign_placement'),
     'decimalPadding' => 'floats',
-    'emptyInputBehavior' => 'null'
+    'emptyInputBehavior' => 'zero'
 ])
 
 <input type="text"
        autocomplete="off"
-       x-data="{ value: {{ $value }} }"
+       x-data="{ value: {{ $value ?: 0 }} }"
        x-init="
         new AutoNumeric($el, value, {
             digitGroupSeparator           : '{{ $groupsSeparator }}',
@@ -27,7 +27,8 @@
             allowDecimalPadding           : '{{ $decimalPadding }}',
             rawValueDivisor               : 100,
             modifyValueOnWheel            : false,
-            emptyInputBehavior            : '{{ $emptyInputBehavior }}'
+            emptyInputBehavior            : '{{ $emptyInputBehavior }}',
+            watchExternalChanges          : true
         })
         $el.addEventListener('autoNumeric:rawValueModified', evt => value = evt.detail.newRawValue)
         "

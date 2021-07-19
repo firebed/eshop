@@ -1,20 +1,14 @@
 <?php
 
 return [
-    'actions' => [
-        'new'      => 'Add new',
-        'add_many' => 'Add many',
-        'delete'   => 'Delete',
-        'cancel'   => 'Cancel'
-    ],
+    'create_mass_variants'         => 'Add multiple variants',
+    'delete'                       => 'Delete variant',
+    'delete_confirmation'          => 'You are about to send this variant to the recycle bin from where you can restore or delete it permanently.',
+    'delete_multiple'              => 'Delete multiple variants',
+    'delete_multiple_confirmation' => 'You are about to send multiple variant to the recycle bin from where you can restore or delete them permanently.',
+    'variants'                     => 'Variants',
 
-    'create_mass_variants' => 'Add multiple variants',
-    'delete'              => 'Delete variant',
-    'delete_confirmation' => 'You are about to send this variant to the recycle bin from where you can restore or delete it permanently.',
-    'new'                 => 'Add new variant',
-    'variants'            => 'Variants',
-
-    'mass-actions' => [
+    'bulk-actions' => [
         'image'         => 'Change images',
         'price'         => 'Change prices',
         'compare_price' => 'Change compare prices',
@@ -22,7 +16,15 @@ return [
         'sku'           => 'Change sku',
         'stock'         => 'Change stocks',
         'weight'        => 'Change weights',
-        'apply_to_all'  => 'Apply to all'
+    ],
+
+    'buttons' => [
+        'save'      => 'Save',
+        'cancel'    => 'Cancel',
+        'apply_all' => 'Apply to all',
+        'delete'    => 'Delete',
+        'add_new'   => 'Add new',
+        'add_many'  => 'Add many'
     ],
 
     'notifications' => [

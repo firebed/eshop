@@ -8,9 +8,8 @@ use Eshop\Controllers\Dashboard\Intl\PaymentMethodController;
 use Eshop\Controllers\Dashboard\Intl\ShippingMethodController;
 use Eshop\Controllers\Dashboard\Product\CategoryController;
 use Eshop\Controllers\Dashboard\Product\ManufacturerController;
-use Eshop\Controllers\Dashboard\Product\MassVariantController;
-use Eshop\Controllers\Dashboard\Product\MassVariantImageController;
-use Eshop\Controllers\Dashboard\Product\MassVariantPropertyController;
+use Eshop\Controllers\Dashboard\Product\VariantBulkController;
+use Eshop\Controllers\Dashboard\Product\VariantBulkImageController;
 use Eshop\Controllers\Dashboard\Product\ProductController;
 use Eshop\Controllers\Dashboard\Product\ProductImageController;
 use Eshop\Controllers\Dashboard\Product\ProductTrashController;
@@ -25,13 +24,15 @@ Route::middleware(['web', 'auth', 'admin'])->group(function () {
         Route::get('products/trashed', ProductTrashController::class)->name('products.trashed.index');
         Route::resource('products', ProductController::class)->except('show');
 
-        Route::put('variants/images', MassVariantImageController::class)->name('variants.images.update');
-        Route::put('variants/properties', MassVariantPropertyController::class)->name('variants.properties.update');
-        Route::resource('products.variants', VariantController::class)->shallow()->except('show');
+        Route::put('variants/images', VariantBulkImageController::class)->name('variants.bulk-images.update');
 
-        Route::get('products/{product}/variants/mass-create', [MassVariantController::class, 'create'])->name('products.variants.mass-create');
-        Route::post('products/{product}/variants/mass-create', [MassVariantController::class, 'store'])->name('products.variants.mass-store');
-        Route::delete('products/variants/mass-destroy', [MassVariantController::class, 'destroy'])->name('variants.mass-destroy');
+        Route::get('products/{product}/variants/bulk-create', [VariantBulkController::class, 'create'])->name('variants.bulk-create');
+        Route::post('products/{product}/variants/bulk-create', [VariantBulkController::class, 'store'])->name('variants.bulk-store');
+        Route::get('variants/bulk-edit', [VariantBulkController::class, 'edit'])->name('variants.bulk-edit');
+        Route::put('variants/bulk-edit', [VariantBulkController::class, 'update'])->name('variants.bulk-update');
+        Route::delete('variants/bulk-destroy', [VariantBulkController::class, 'destroy'])->name('variants.bulk-destroy');
+
+        Route::resource('products.variants', VariantController::class)->shallow()->except('show');
 
         Route::get('carts/{cart}/print', PrintController::class)->name('carts.print');
         Route::resource('carts', CartController::class);

@@ -13,20 +13,7 @@
     @foreach($variants as $variant)
         <tr wire:key="variant-row-{{ $variant->id }}">
             <td>
-                <x-bs::input.checkbox
-                        data-id="{{ $variant->id }}"
-                        data-options="{{ $variant->options->pluck('pivot.value')->join(' / ') }}"
-                        data-price="{{ $variant->price }}"
-                        data-compare_price="{{ $variant->compare_price }}"
-                        data-discount="{{ $variant->discount }}"
-                        data-sku="{{ $variant->sku }}"
-                        data-stock="{{ $variant->stock }}"
-                        data-weight="{{ $variant->weight }}"
-                        data-barcode="{{ $variant->barcode }}"
-                        :checked="in_array($variant->id, old('ids', []))"
-                        class="variant"
-                        id="variant-{{ $variant->id }}"
-                        value="{{ $variant->id }}"/>
+                <x-bs::input.checkbox :checked="in_array($variant->id, old('bulk_ids', []))" class="variant" id="variant-{{ $variant->id }}" value="{{ $variant->id }}"/>
             </td>
 
             <td>
@@ -40,7 +27,8 @@
             <td>
                 <a href="{{ route('variants.edit', array_filter([$variant, 'search' => $search])) }}" class="d-grid gap-1 text-decoration-none">
                     <div class="text-dark">{{ $variant->options->pluck('pivot.value')->join(' / ') }}</div>
-                    <small class="text-secondary">{{ __('eshop::product.in_stock', ['stock' => format_number($variant->stock)]) }}</small>
+                    <small class="text-secondary lh-sm">{{ $variant->sku }}</small>
+                    <small class="text-secondary lh-sm">{{ __('eshop::product.in_stock', ['stock' => format_number($variant->stock)]) }}</small>
                 </a>
             </td>
         </tr>

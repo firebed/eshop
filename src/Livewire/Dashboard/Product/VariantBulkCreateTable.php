@@ -5,7 +5,7 @@ namespace Eshop\Livewire\Dashboard\Product;
 use Illuminate\Contracts\Support\Renderable;
 use Livewire\Component;
 
-class CreateMassVariants extends Component
+class VariantBulkCreateTable extends Component
 {
     public float   $productPrice = 0;
     public ?string $productSku   = '';
@@ -51,6 +51,6 @@ class CreateMassVariants extends Component
 
     public function render(): Renderable
     {
-        return view('eshop::dashboard.variant.wire.create-mass-variants');
+        return view('eshop::dashboard.variant.wire.variant-bulk-create');
     }
 }

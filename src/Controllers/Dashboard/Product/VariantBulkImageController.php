@@ -8,7 +8,7 @@ use Eshop\Models\Product\Product;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
-class MassVariantImageController extends Controller
+class VariantBulkImageController extends Controller
 {
     use WithNotifications;
 

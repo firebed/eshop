@@ -2,25 +2,18 @@
 
 namespace Eshop\Requests\Dashboard\Product;
 
+use Eshop\Requests\Traits\WithRequestNotifications;
 use Illuminate\Foundation\Http\FormRequest;
 
-class MassVariantRequest extends FormRequest
+class VariantBulkCreateRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
+    use WithRequestNotifications;
+
     public function authorize(): bool
     {
         return TRUE;
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array
-     */
     public function rules(): array
     {
         return [

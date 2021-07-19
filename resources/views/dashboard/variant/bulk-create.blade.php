@@ -18,10 +18,10 @@
                 <x-bs::card>
                     <x-bs::card.body>
                         <h2 class="fs-5 fw-500">{{ __('eshop::variant.create_mass_variants') }}</h2>
-                        <form action="{{ route('products.variants.mass-create', $product) }}" method="post" x-on:submit="submitting = true">
+                        <form action="{{ route('variants.bulk-create', $product) }}" method="post" x-on:submit="submitting = true">
                             @csrf
 
-                            <livewire:dashboard.variant.create-mass-variants
+                            <livewire:dashboard.variant.variant-bulk-create
                                     :productPrice="$product->price"
                                     :productSku="$product->sku"
                                     :variantTypes="$variantTypes"

@@ -1,22 +1,22 @@
-<form action="{{ route('variants.images.update') }}" method="post" enctype="multipart/form-data"
+<form action="{{ route('variants.bulk-images.update') }}" method="post" enctype="multipart/form-data"
       x-data="{
             submitting: false,
             ids: []
-          }"
+      }"
       x-on:submit="submitting = true"
 >
     @csrf
     @method('put')
 
-    <div class="modal fade" id="mass-variant-image-modal" tabindex="-1"
+    <div class="modal fade" id="variant-bulk-image-modal" tabindex="-1"
          x-init="$el.addEventListener('show.bs.modal', () => {
-                ids = [...document.querySelectorAll('.variant:checked')].map(i => i.value)
-            })"
+            ids = [...document.querySelectorAll('.variant:checked')].map(i => i.value)
+        })"
     >
         <div class="modal-dialog">
             <div class="modal-content shadow">
                 <div class="modal-header">
-                    <h5 class="modal-title">{{ __('eshop::variant.mass-actions.image') }}</h5>
+                    <h5 class="modal-title">{{ __('eshop::variant.bulk-actions.image') }}</h5>
 
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
@@ -42,11 +42,11 @@
                 </div>
 
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('eshop::product.actions.cancel') }}</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('eshop::variant.buttons.cancel') }}</button>
 
                     <button type="submit" class="btn btn-primary" x-bind:disabled="submitting">
                         <em x-cloak x-show="submitting" class="fa fa-spinner fa-spin me-2"></em>
-                        {{ __('eshop::product.actions.save') }}
+                        {{ __('eshop::variant.buttons.save') }}
                     </button>
                 </div>
             </div>

@@ -7,27 +7,28 @@ use Eshop\Controllers\Dashboard\Product\Traits\WithVariantOptions;
 use Eshop\Controllers\Dashboard\Traits\WithNotifications;
 use Eshop\Models\Product\Product;
 use Eshop\Models\Product\VariantType;
-use Eshop\Requests\Dashboard\Product\MassVariantRequest;
+use Eshop\Requests\Dashboard\Product\VariantBulkCreateRequest;
+use Eshop\Requests\Dashboard\Product\VariantBulkUpdateRequest;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Throwable;
 
-class MassVariantController extends Controller
+class VariantBulkController extends Controller
 {
     use WithNotifications,
         WithVariantOptions;
 
     public function create(Product $product): Renderable
     {
-        return view('eshop::dashboard.variant.mass-create', [
+        return view('eshop::dashboard.variant.bulk-create', [
             'product'      => $product,
             'variantTypes' => VariantType::where('product_id', $product->id)->pluck('name', 'id')->all()
         ]);
     }
 
-    public function store(MassVariantRequest $request, Product $product): RedirectResponse
+    public function store(VariantBulkCreateRequest $request, Product $product): RedirectResponse
     {
         try {
             DB::transaction(function () use ($request, $product) {
@@ -62,6 +63,36 @@ class MassVariantController extends Controller
         $count = count($request->variants);
         $this->showSuccessNotification(trans_choice('eshop::variant.notifications.created_many', $count, ["number" => $count]));
         return redirect()->route('products.variants.index', $product);
+    }
+
+    public function edit(): Renderable
+    {
+        return view('eshop::dashboard.variant.bulk-edit');
+    }
+
+    public function update(VariantBulkUpdateRequest $request): RedirectResponse
+    {
+        $property = $request->input('property');
+        $data = array_combine($request->input('bulk_ids'), $request->input('bulk_values'));
+        $distinct = array_unique($data);
+
+        try {
+            DB::transaction(function () use ($property, $data, $distinct) {
+                foreach ($distinct as $value) {
+                    Product::whereKey(array_keys($data, $value))->update([
+                        $property => $value
+                    ]);
+                }
+            });
+
+            $count = count($data);
+            $this->showSuccessNotification(trans_choice("eshop::variant.notifications.{$property}_updated", $count, ['number' => $count]));
+        } catch (Throwable) {
+            $this->showErrorNotification(trans('eshop::variant.notifications.error'));
+        }
+
+        $request->flashOnly('bulk_ids');
+        return back();
     }
 
     public function destroy(Request $request): RedirectResponse
