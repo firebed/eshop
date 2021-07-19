@@ -17,7 +17,7 @@
             <div class="col-8" x-data='{ submitting: false }'>
                 <x-bs::card>
                     <x-bs::card.body>
-                        <h2 class="fs-5 fw-500">{{ __('eshop::variant.create_mass_variants') }}</h2>
+                        <h2 class="fs-5 fw-500">{{ __('eshop::variant.bulk_create') }}</h2>
                         <form action="{{ route('variants.bulk-create', $product) }}" method="post" x-on:submit="submitting = true">
                             @csrf
 

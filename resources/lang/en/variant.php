@@ -1,7 +1,8 @@
 <?php
 
 return [
-    'create_mass_variants'         => 'Add multiple variants',
+    'bulk_create'                  => 'Create bulk variants',
+    'bulk_edit'                    => 'Edit bulk variants',
     'delete'                       => 'Delete variant',
     'delete_confirmation'          => 'You are about to send this variant to the recycle bin from where you can restore or delete it permanently.',
     'delete_multiple'              => 'Delete multiple variants',
@@ -9,6 +10,7 @@ return [
     'variants'                     => 'Variants',
 
     'bulk-actions' => [
+        'edit'          => 'Bulk edit',
         'image'         => 'Change images',
         'price'         => 'Change prices',
         'compare_price' => 'Change compare prices',
@@ -30,6 +32,7 @@ return [
     'notifications' => [
         'created'               => 'The variant was saved!',
         'saved'                 => 'The variant was saved!',
+        'saved_many'            => 'The variant was udpated!',
         'error'                 => 'An error occurred!',
         'deleted'               => 'The variant was deleted!',
         'created_many'          => '1 variant was created!|:number variants were created!',

@@ -65,30 +65,43 @@ class VariantBulkController extends Controller
         return redirect()->route('products.variants.index', $product);
     }
 
-    public function edit(): Renderable
+    public function edit(Request $request, Product $product): Renderable
     {
-        return view('eshop::dashboard.variant.bulk-edit');
+        $ids = $request->query('ids');
+
+        return view('eshop::dashboard.variant.bulk-edit', [
+            'product'      => $product,
+            'properties'   => $request->query('properties', []),
+            'variants'     => Product::whereKey($ids)->with('options')->get(),
+            'variantTypes' => VariantType::where('product_id', $product->id)->pluck('name', 'id')->all()
+        ]);
     }
 
     public function update(VariantBulkUpdateRequest $request): RedirectResponse
     {
-        $property = $request->input('property');
-        $data = array_combine($request->input('bulk_ids'), $request->input('bulk_values'));
-        $distinct = array_unique($data);
+        foreach($request->properties as $property) {
+            $data = array_combine($request->input('bulk_ids'), $request->input("bulk_$property"));
+            $distinct = array_unique($data);
 
-        try {
-            DB::transaction(function () use ($property, $data, $distinct) {
-                foreach ($distinct as $value) {
-                    Product::whereKey(array_keys($data, $value))->update([
-                        $property => $value
-                    ]);
+            try {
+                DB::transaction(function () use ($property, $data, $distinct) {
+                    foreach ($distinct as $value) {
+                        Product::whereKey(array_keys($data, $value))->update([
+                            $property => $value
+                        ]);
+                    }
+                });
+
+                $count = count($data);
+                if (count($request->input('properties', [])) === 1) {
+                    $property = $request->input('properties')[0];
+                    $this->showSuccessNotification(trans_choice("eshop::variant.notifications.{$property}_updated", $count, ['number' => $count]));
+                } else {
+                    $this->showSuccessNotification(trans("eshop::variant.notifications.saved_many"));
                 }
-            });
-
-            $count = count($data);
-            $this->showSuccessNotification(trans_choice("eshop::variant.notifications.{$property}_updated", $count, ['number' => $count]));
-        } catch (Throwable) {
-            $this->showErrorNotification(trans('eshop::variant.notifications.error'));
+            } catch (Throwable) {
+                $this->showErrorNotification(trans('eshop::variant.notifications.error'));
+            }
         }
 
         $request->flashOnly('bulk_ids');

@@ -1,4 +1,4 @@
-<form action="{{ route('variants.bulk-update') }}" method="post"
+<form action="{{ route('variants.bulk-update', $product) }}" method="post"
       x-data="{
         submitting: false,
         selectedVariants: [],
@@ -33,7 +33,7 @@
                 </div>
 
                 <div class="modal-body">
-                    <input type="text" x-bind:value="property" name="property" hidden>
+                    <input type="hidden" x-bind:value="property" name="properties[]">
 
                     <div class="input-group mb-3">
                         <x-eshop::money x-show="property === 'price' || property === 'compare_price'" x-effect="global = value" value="0" class="rounded-start"/>
@@ -56,31 +56,31 @@
 
                                     <td x-data="{ v: {{ $variant->price }} }" x-show="property === 'price'" class="text-end w-7r">
                                         <x-eshop::money x-bind:class="property" x-effect="v = value" value="v" class="text-end"/>
-                                        <input x-model="v" x-bind:disabled="property !== 'price' || !selectedVariants.includes({{ $variant->id }})" type="text" name="bulk_values[]" hidden>
+                                        <input x-model="v" x-bind:disabled="property !== 'price' || !selectedVariants.includes({{ $variant->id }})" type="text" name="bulk_price[]" hidden>
                                     </td>
 
                                     <td x-data="{ v: {{ $variant->compare_price }} }" x-show="property === 'compare_price'" class="text-end w-7r">
                                         <x-eshop::money x-bind:class="property" x-effect="v = value" value="v" class="text-end"/>
-                                        <input x-model="v" x-bind:disabled="property !== 'compare_price' || !selectedVariants.includes({{ $variant->id }})" type="text" name="bulk_values[]" hidden>
+                                        <input x-model="v" x-bind:disabled="property !== 'compare_price' || !selectedVariants.includes({{ $variant->id }})" type="text" name="bulk_compare_price[]" hidden>
                                     </td>
 
                                     <td x-data="{ v: {{ $variant->discount }} }" x-show="property === 'discount'" class="text-end w-7r">
                                         <x-eshop::percentage x-bind:class="property" x-effect="v = value" value="v" class="text-end"/>
-                                        <input x-model="v" x-bind:disabled="property !== 'discount' || !selectedVariants.includes({{ $variant->id }})" type="text" name="bulk_values[]" hidden>
+                                        <input x-model="v" x-bind:disabled="property !== 'discount' || !selectedVariants.includes({{ $variant->id }})" type="text" name="bulk_discount[]" hidden>
                                     </td>
 
                                     <td x-show="property === 'sku'" class="text-end w-10r">
-                                        <x-bs::input.text x-bind:class="property" x-bind:disabled="property !== 'sku' || !selectedVariants.includes({{ $variant->id }})" name="bulk_values[]" value="{{ $variant->sku }}"/>
+                                        <x-bs::input.text x-bind:class="property" x-bind:disabled="property !== 'sku' || !selectedVariants.includes({{ $variant->id }})" name="bulk_sku[]" value="{{ $variant->sku }}"/>
                                     </td>
 
                                     <td x-data="{ v: {{ $variant->stock }} }" x-show="property === 'stock'" class="text-end w-7r">
                                         <x-eshop::integer x-bind:class="property" x-effect="v = value" value="v" class="text-end"/>
-                                        <input x-model="v" x-bind:disabled="property !== 'stock' || !selectedVariants.includes({{ $variant->id }})" type="text" name="bulk_values[]" hidden>
+                                        <input x-model="v" x-bind:disabled="property !== 'stock' || !selectedVariants.includes({{ $variant->id }})" type="text" name="bulk_stock[]" hidden>
                                     </td>
 
                                     <td x-data="{ v: {{ $variant->weight }} }" x-show="property === 'weight'" class="text-end w-7r">
                                         <x-eshop::integer x-bind:class="property" x-effect="v = value" value="v" class="text-end"/>
-                                        <input x-model="v" x-bind:disabled="property !== 'weight' || !selectedVariants.includes({{ $variant->id }})" type="text" name="bulk_values[]" hidden>
+                                        <input x-model="v" x-bind:disabled="property !== 'weight' || !selectedVariants.includes({{ $variant->id }})" type="text" name="bulk_weight[]" hidden>
                                     </td>
                                 </tr>
                             @endforeach

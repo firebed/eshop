@@ -5,6 +5,14 @@
         <x-bs::dropdown wire:ignore>
             <x-bs::dropdown.button class="btn-white" id="bulk-actions">{{ __("Actions") }}</x-bs::dropdown.button>
             <x-bs::dropdown.menu button="bulk-actions" alignment="right">
+                <li class="p-0">
+                    <div class="dropdown-item p-0">
+                        @include('eshop::dashboard.variant.partials.variant-bulk-edit-menu-item')
+                    </div>
+                </li>
+
+                <x-bs::dropdown.divider/>
+
                 <x-bs::dropdown.item data-bs-toggle="modal" data-bs-target="#variant-bulk-image-modal">
                     <em class="fa fa-image me-2 text-secondary w-1r"></em>
                     {{ __('eshop::variant.bulk-actions.image') }}
@@ -23,24 +31,24 @@
                 </x-bs::dropdown.item>
 
                 <x-bs::dropdown.item data-bs-toggle="modal" data-bs-target="#variant-bulk-edit-modal" data-property="discount" data-title="{{ __('eshop::variant.bulk-actions.discount') }}">
-                    <em class="fa fa-tag me-2 text-secondary w-1r"></em>
+                    <em class="fa fa-percent me-2 text-secondary w-1r"></em>
                     {{ __('eshop::variant.bulk-actions.discount') }}
                 </x-bs::dropdown.item>
 
                 <x-bs::dropdown.divider/>
 
                 <x-bs::dropdown.item data-bs-toggle="modal" data-bs-target="#variant-bulk-edit-modal" data-property="sku" data-title="{{ __('eshop::variant.bulk-actions.sku') }}">
-                    <em class="fa fa-tag me-2 text-secondary w-1r"></em>
+                    <em class="fa fa-box-open me-2 text-secondary w-1r"></em>
                     {{ __('eshop::variant.bulk-actions.sku') }}
                 </x-bs::dropdown.item>
 
                 <x-bs::dropdown.item data-bs-toggle="modal" data-bs-target="#variant-bulk-edit-modal" data-property="stock" data-title="{{ __('eshop::variant.bulk-actions.stock') }}">
-                    <em class="fa fa-tag me-2 text-secondary w-1r"></em>
+                    <em class="fa fa-battery-half me-2 text-secondary w-1r"></em>
                     {{ __('eshop::variant.bulk-actions.stock') }}
                 </x-bs::dropdown.item>
 
                 <x-bs::dropdown.item data-bs-toggle="modal" data-bs-target="#variant-bulk-edit-modal" data-property="weight" data-title="{{ __('eshop::variant.bulk-actions.weight') }}">
-                    <em class="fa fa-tag me-2 text-secondary w-1r"></em>
+                    <em class="fa fa-weight-hanging me-2 text-secondary w-1r"></em>
                     {{ __('eshop::variant.bulk-actions.weight') }}
                 </x-bs::dropdown.item>
 

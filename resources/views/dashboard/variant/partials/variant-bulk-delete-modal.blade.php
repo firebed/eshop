@@ -1,4 +1,4 @@
-<form action="{{ route('variants.bulk-destroy') }}" method="post"
+<form action="{{ route('variants.bulk-destroy', $product) }}" method="post"
       x-data="{
             submitting: false,
             ids: []

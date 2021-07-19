@@ -8,11 +8,11 @@ use Eshop\Controllers\Dashboard\Intl\PaymentMethodController;
 use Eshop\Controllers\Dashboard\Intl\ShippingMethodController;
 use Eshop\Controllers\Dashboard\Product\CategoryController;
 use Eshop\Controllers\Dashboard\Product\ManufacturerController;
-use Eshop\Controllers\Dashboard\Product\VariantBulkController;
-use Eshop\Controllers\Dashboard\Product\VariantBulkImageController;
 use Eshop\Controllers\Dashboard\Product\ProductController;
 use Eshop\Controllers\Dashboard\Product\ProductImageController;
 use Eshop\Controllers\Dashboard\Product\ProductTrashController;
+use Eshop\Controllers\Dashboard\Product\VariantBulkController;
+use Eshop\Controllers\Dashboard\Product\VariantBulkImageController;
 use Eshop\Controllers\Dashboard\Product\VariantController;
 use Eshop\Controllers\Dashboard\User\UserController;
 use Eshop\Controllers\Dashboard\User\UserPermissionController;
@@ -26,11 +26,13 @@ Route::middleware(['web', 'auth', 'admin'])->group(function () {
 
         Route::put('variants/images', VariantBulkImageController::class)->name('variants.bulk-images.update');
 
-        Route::get('products/{product}/variants/bulk-create', [VariantBulkController::class, 'create'])->name('variants.bulk-create');
-        Route::post('products/{product}/variants/bulk-create', [VariantBulkController::class, 'store'])->name('variants.bulk-store');
-        Route::get('variants/bulk-edit', [VariantBulkController::class, 'edit'])->name('variants.bulk-edit');
-        Route::put('variants/bulk-edit', [VariantBulkController::class, 'update'])->name('variants.bulk-update');
-        Route::delete('variants/bulk-destroy', [VariantBulkController::class, 'destroy'])->name('variants.bulk-destroy');
+        Route::prefix('products/{product}/variants')->as('variants.')->group(function () {
+            Route::get('bulk-create', [VariantBulkController::class, 'create'])->name('bulk-create');
+            Route::post('bulk-create', [VariantBulkController::class, 'store'])->name('bulk-store');
+            Route::get('bulk-edit', [VariantBulkController::class, 'edit'])->name('bulk-edit');
+            Route::put('bulk-edit', [VariantBulkController::class, 'update'])->name('bulk-update');
+            Route::delete('bulk-destroy', [VariantBulkController::class, 'destroy'])->name('bulk-destroy');
+        });
 
         Route::resource('products.variants', VariantController::class)->shallow()->except('show');
 
