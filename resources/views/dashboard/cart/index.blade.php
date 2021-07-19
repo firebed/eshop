@@ -7,7 +7,7 @@
                 <livewire:dashboard.cart.statuses-list/>
             </div>
 
-            <div class="col-12 col-xxl">
+            <div class="col-12 col-xxl flex-shrink-1">
                 <livewire:dashboard.cart.show-carts/>
             </div>
         </div>

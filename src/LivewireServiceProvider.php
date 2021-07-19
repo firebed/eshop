@@ -28,7 +28,6 @@ use Eshop\Livewire\Dashboard\Intl\ShowCountries;
 use Eshop\Livewire\Dashboard\Intl\ShowPaymentMethods;
 use Eshop\Livewire\Dashboard\Intl\ShowShippingMethods;
 use Eshop\Livewire\Dashboard\Product\CreateMassVariants;
-use Eshop\Livewire\Dashboard\Product\ProductImages;
 use Eshop\Livewire\Dashboard\Product\ProductProperties;
 use Eshop\Livewire\Dashboard\Product\ProductSeo;
 use Eshop\Livewire\Dashboard\Product\ShowManufacturers;
@@ -90,7 +89,6 @@ class LivewireServiceProvider extends ServiceProvider
         Livewire::component('dashboard.product.show-products', ShowProducts::class);
         Livewire::component('dashboard.product.show-trashed-products', ShowTrashedProducts::class);
         Livewire::component('dashboard.product.variants-table', VariantsTable::class);
-        Livewire::component('dashboard.product.images', ProductImages::class);
         Livewire::component('dashboard.product.product-properties', ProductProperties::class);
         Livewire::component('dashboard.product.product-seo', ProductSeo::class);
         Livewire::component('dashboard.product.variant-types', VariantTypes::class);
