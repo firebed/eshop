@@ -22,7 +22,7 @@ class UnitFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => $this->faker->unique()->randomElement(['Piece', 'Meter', 'Set', 'Weight']),
+            'name' => $this->faker->unique()->randomElement(['piece', 'set', 'meter', 'weight']),
         ];
     }
 }

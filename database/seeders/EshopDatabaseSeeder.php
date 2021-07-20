@@ -23,6 +23,8 @@ use Exception;
 use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
 class EshopDatabaseSeeder extends Seeder
 {
@@ -31,60 +33,17 @@ class EshopDatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        Locale::factory()->count(4)->create();
+        $this->call(LocaleSeeder::class);
+        $this->call(UnitSeeder::class);
+        $this->call(VatSeeder::class);
+        $this->call(CategorySeeder::class);
+        $this->call(CartStatusSeeder::class);
 
-        Unit::factory()->count(4)->create();
+//        ShippingMethod::factory()->count(4)->create();
 
-        Vat::factory()->count(4)->create();
+//        PaymentMethod::factory()->count(5)->create();
 
-        ShippingMethod::factory()->count(4)->create();
-
-        PaymentMethod::factory()->count(5)->create();
-
-        CartStatus::factory()->count(7)->state(new Sequence(
-            ['name' => 'submitted'],
-            ['name' => 'approved'],
-            ['name' => 'completed'],
-            ['name' => 'shipped'],
-            ['name' => 'held'],
-            ['name' => 'returned'],
-            ['name' => 'rejected'],
-        ))->create();
-
-        Category::factory()
-            ->folder()
-            ->count(5)
-            ->has(Category::factory()
-                ->folder()
-                ->count(5)
-                ->state(new Sequence(
-                    ['promote' => TRUE],
-                    ['promote' => FALSE],
-                ))
-                ->has(Category::factory()
-                    ->file()
-                    ->count(5)
-                    ->state(new Sequence(
-                        ['promote' => TRUE],
-                        ['promote' => FALSE],
-                    ))
-                    ->has(CategoryProperty::factory()
-                        ->index('Multiple')
-                        ->valueRestriction('Multiple')
-                        ->state(new Sequence(
-                            ['promote' => TRUE],
-                            ['promote' => FALSE],
-                        ))
-                        ->count(5)
-                        ->has(CategoryChoice::factory()->count(4), 'choices'),
-                        'properties')
-                    ->has(Product::factory()
-                        ->count(15)
-                        ->vat(Vat::inRandomOrder()->first()->regime)
-                    ), 'children'
-                ), 'children')
-            ->create();
-
+        return;
         Country::factory()
             ->has(
                 CountryShippingMethod::factory()

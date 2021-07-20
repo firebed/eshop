@@ -116,7 +116,7 @@
 
                             <div class="d-flex justify-content-end mt-4">
                                 <x-bs::button.primary x-bind:disabled="submitting" type="submit">
-                                    <em x-cloak x-show="submitting" class="fa fa-spinner fa-spin me-2"></em>
+                                    <em x-cloak x-show="submitting" class="fa fa-circle-notch fa-spin me-2"></em>
                                     {{ __('Save') }}
                                 </x-bs::button.primary>
                             </div>

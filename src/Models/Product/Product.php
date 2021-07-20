@@ -155,6 +155,7 @@ class Product extends Model
     {
         return $this->belongsToMany(VariantType::class)
             ->using(ProductVariantOption::class)
+            ->orderBy('variant_types.id')
             ->withPivot('value', 'slug');
     }
 

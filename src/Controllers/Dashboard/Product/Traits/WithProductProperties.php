@@ -26,7 +26,8 @@ trait WithProductProperties
 
     protected function saveProperties(Product $product, array $data): void
     {
-        $properties = collect($data)->mapWithKeys(fn($v) => $v);
+        $properties = collect($data)->mapWithKeys(fn($v) => $v)->filter();
+
         foreach ($properties as $propertyId => $choices) {
             if (is_array($choices)) {
                 foreach ($choices as $choice) {

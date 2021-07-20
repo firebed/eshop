@@ -54,8 +54,8 @@ class VariantBulkController extends Controller
                         ]);
                     });
             });
-        } catch (Throwable) {
-            $this->showErrorNotification(trans('eshop::variant.notifications.error'));
+        } catch (Throwable $e) {
+            $this->showErrorNotification(trans('eshop::variant.notifications.error') . ': ' . $e->getMessage());
             $request->flash();
             return back();
         }

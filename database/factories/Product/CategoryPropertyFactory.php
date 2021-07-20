@@ -2,9 +2,10 @@
 
 namespace Eshop\Database\Factories\Product;
 
-use Eshop\Models\Lang\Translation;
+use Eshop\Models\Product\CategoryChoice;
 use Eshop\Models\Product\CategoryProperty;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Database\Eloquent\Factories\Sequence;
 
 class CategoryPropertyFactory extends Factory
 {
@@ -52,12 +53,36 @@ class CategoryPropertyFactory extends Factory
         return $this->state(fn() => ['promote' => TRUE]);
     }
 
-    public function configure(): CategoryPropertyFactory
+    public function size(): CategoryPropertyFactory
     {
-        return $this->afterCreating(function (CategoryProperty $property) {
-            $name = Translation::factory()->for($property, 'translatable')->cluster('name')->create();
-            $property->slug = slugify($name->translation);
-            $property->save();
-        });
+        return $this
+            ->index('Multiple')
+            ->valueRestriction('Multiple')
+            ->state(new Sequence(['name' => 'Μέγεθος', 'slug' => 'megethos']))
+            ->has(CategoryChoice::factory()
+                ->count(4)
+                ->state(new Sequence(
+                    ['name' => 'XXL', 'slug' => 'xxl'],
+                    ['name' => 'XL', 'slug' => 'xl'],
+                    ['name' => 'M', 'slug' => 'm'],
+                    ['name' => 'S', 'slug' => 's'],
+                )), 'choices');
+    }
+
+    public function color(): CategoryPropertyFactory
+    {
+        return $this
+            ->index('Multiple')
+            ->valueRestriction('Multiple')
+            ->state(new Sequence(['name' => 'Χρώμα', 'slug' => 'xrwma']))
+            ->has(CategoryChoice::factory()
+                ->count(5)
+                ->state(new Sequence(
+                    ['name' => 'Κόκκινο', 'slug' => 'kokkino'],
+                    ['name' => 'Άσπρο', 'slug' => 'aspro'],
+                    ['name' => 'Μπλε', 'slug' => 'mple'],
+                    ['name' => 'Μαύρο', 'slug' => 'mauro'],
+                    ['name' => 'Γκρι', 'slug' => 'gkri'],
+                )), 'choices');
     }
 }

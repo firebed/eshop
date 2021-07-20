@@ -22,7 +22,42 @@ class CartStatusFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => $this->faker->unique()->randomElement(['submitted', 'held', 'approved', 'completed', 'shipped', 'cancelled', 'returned', 'rejected'])
+            'name'   => $this->faker->unique()->text(10)
         ];
+    }
+
+    public function name($name): CartStatusFactory
+    {
+        return $this->state(['name' => $name]);
+    }
+
+    public function notify(bool $notify = true): CartStatusFactory
+    {
+        return $this->state(['notify' => $notify]);
+    }
+
+    public function color(bool $color): CartStatusFactory
+    {
+        return $this->state(['color' => $color]);
+    }
+
+    public function icon(bool $icon): CartStatusFactory
+    {
+        return $this->state(['icon' => $icon]);
+    }
+
+    public function capture(): CartStatusFactory
+    {
+        return $this->state(['stock_operation' => CartStatus::CAPTURE]);
+    }
+
+    public function release(): CartStatusFactory
+    {
+        return $this->state(['stock_operation' => CartStatus::RELEASE]);
+    }
+
+    public function group(int $group): CartStatusFactory
+    {
+        return $this->state(['group' => $group]);
     }
 }

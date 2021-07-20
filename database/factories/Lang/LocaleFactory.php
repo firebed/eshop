@@ -1,6 +1,6 @@
 <?php
 
-namespace Eshop\Database\Factories\Location;
+namespace Eshop\Database\Factories\Lang;
 
 use Eshop\Models\Lang\Locale;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -22,8 +22,8 @@ class LocaleFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => $this->faker->unique()->randomElement(['el', 'en', 'tr', 'es']),
-            'lang' => $this->faker->unique()->randomElement(['Ελληνικά', 'English', 'Türkçe', 'Spanish'])
+            'name' => $this->faker->unique()->countryCode,
+            'lang' => $this->faker->unique()->country
         ];
     }
 }

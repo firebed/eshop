@@ -2,13 +2,15 @@
 
 namespace Eshop\Database\Factories\Product;
 
-use Eshop\Models\Lang\Translation;
-use Eshop\Models\Media\Image;
+use Eshop\Database\Seeders\Traits\HasProducts;
 use Eshop\Models\Product\Product;
+use Eshop\Models\Product\Vat;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class ProductFactory extends Factory
 {
+    use HasProducts;
+
     /**
      * The name of the factory's corresponding model.
      *
@@ -24,30 +26,18 @@ class ProductFactory extends Factory
     public function definition(): array
     {
         return [
-            'weight'        => $this->faker->numberBetween(10, 500),
-            'price'         => $price = $this->faker->numberBetween(5, 50),
-            'compare_price' => $this->faker->numberBetween(1, $price),
-            'discount'      => $this->faker->numberBetween(1, 100) / 100,
-            'stock'         => $this->faker->numberBetween(0, 100),
-            'slug'          => $this->faker->slug()
+            'weight' => $this->faker->numberBetween(10, 500),
+            'price'  => $this->faker->numberBetween(5, 50),
+            'stock'  => $this->faker->numberBetween(0, 100),
+            'vat'    => Vat::first()
         ];
     }
 
-    public function configure(): ProductFactory
+    public function name(string $name): ProductFactory
     {
-        return $this->afterCreating(function (Product $product) {
-            $name = Translation::factory()->for($product, 'translatable')->cluster('name')->create();
-            $product->slug = slugify($name->translation);
-            $product->save();
-
-            Translation::factory()->for($product, 'translatable')->cluster('description')->paragraph()->create();
-
-            Image::factory()->for($product, 'imageable')->create();
-        });
-    }
-
-    public function vat(float $vat): ProductFactory
-    {
-        return $this->state(fn() => ['vat' => $vat]);
+        return $this->state([
+            'name' => $name,
+            'slug' => slugify($name)
+        ]);
     }
 }

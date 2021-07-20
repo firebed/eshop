@@ -26,4 +26,12 @@ class ImageFactory extends Factory
             'src'  => $this->faker->imageUrl()
         ];
     }
+
+    public function url($url): ImageFactory
+    {
+        return $this->state([
+            'type' => Image::TYPE_URL,
+            'src' => $url
+        ]);
+    }
 }
