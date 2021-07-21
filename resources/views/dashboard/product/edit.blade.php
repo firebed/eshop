@@ -37,7 +37,18 @@
                     @include('eshop::dashboard.product.partials.pricing')
                     @include('eshop::dashboard.product.partials.inventory')
 
-                    <livewire:dashboard.product.variant-types :variantTypes="old('variantTypes', $variantTypes)"/>
+
+                    <x-bs::card>
+                        <x-bs::card.body class="d-grid gap-3">
+                            <div class="fw-500">{{ __("Variants") }}</div>
+
+                            <div>{{ __('eshop::product.variant_type.has_variants') }}</div>
+
+                            <livewire:dashboard.product.variant-types :variantTypes="old('variantTypes', $variantTypes)"/>
+
+                            @include('eshop::dashboard.product.partials.variants-display')
+                        </x-bs::card.body>
+                    </x-bs::card>
 
                     <livewire:dashboard.product.product-seo
                             :productName="old('name', $product->name)"

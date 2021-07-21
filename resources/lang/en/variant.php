@@ -46,5 +46,14 @@ return [
         'stock_updated'         => 'Variant\'s stock was updated!|The stocks of :number variants have been updated!',
         'weight_updated'        => 'Variant\'s weight was updated!|The weights of :number variants have been updated!',
         'validation_failed'     => 'The validation failed. Please check the details.'
+    ],
+
+    'display' => [
+        'title'   => 'Variants display',
+        'preview' => 'Show variants preview',
+        'select'  => 'Select display',
+        'grid'    => 'Grid',
+        'buttons' => 'Buttons',
+        'list'    => 'List',
     ]
 ];

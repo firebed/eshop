@@ -61,7 +61,7 @@ class ProductRequest extends FormRequest
             'display_stock_lt'    => ['nullable', 'integer'],
 
             # Variants
-            'variants_display'    => ['nullable', 'string', 'in:Grid,Buttons,Dropdown'],
+            'variants_display'    => ['nullable', 'string', 'in:grid,buttons,list'],
             'preview_variants'    => ['required', 'boolean'],
 
             # Seo

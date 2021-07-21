@@ -72,7 +72,7 @@ class VariantController extends Controller
             'variant'      => $variant,
             'vats'         => Vat::all(),
             'units'        => Unit::all(),
-            'variantTypes' => VariantType::where('product_id', $variant->parent_id)->pluck('name', 'id'),
+            'variantTypes' => VariantType::where('product_id', $variant->parent_id)->orderBy('id')->pluck('name', 'id'),
             'options'      => $variant->options->pluck('pivot.value', 'id')
         ]);
     }
