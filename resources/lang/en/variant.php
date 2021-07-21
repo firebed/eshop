@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'new'                          => 'Add new variant',
     'bulk_create'                  => 'Bulk create variants',
     'bulk_edit'                    => 'Bulk edit variants',
     'delete'                       => 'Delete variant',
