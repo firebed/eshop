@@ -95,6 +95,7 @@ class ProductVariantsButtons extends Component
     {
         return $this->product
             ->variants()
+            ->with('options')
             ->visible()
             ->get()
             ->sortBy(['sku', 'variant_values'], SORT_NATURAL | SORT_FLAG_CASE);

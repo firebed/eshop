@@ -14,7 +14,7 @@
 
 @section('main')
     @if($product->isVariant())
-        <x-eshop-category-breadcrumb :category="$category" :product="$parent" :variant="$product"/>
+        <x-eshop-category-breadcrumb :category="$category" :product="$product->parent" :variant="$product"/>
     @else
         <x-eshop-category-breadcrumb :category="$category" :product="$product" :variant="null"/>
     @endif
@@ -37,17 +37,17 @@
 
                     @includeWhen($product->description !== NULL, 'eshop::customer.product.partials.product-description')
 
-                    <div class="d-grid gap-2 mt-3">
+                    <div class="d-grid gap-2">
                         @if($product->has_variants)
-                            @if($product->variants_display === 'Grid')
+                            @if($product->variants_display === 'grid')
                                 <a href="#product-variants" class="btn btn-primary btn-block">{{ __("See all variants") }} ({{ $product->variants_count }})</a>
                             @endif
 
-                            @if($product->variants_display === 'Buttons')
+                            @if($product->variants_display === 'buttons')
                                 <livewire:customer.product.product-variants-buttons :product="$product"/>
                             @endif
 
-                            @if($product->variants_display === 'Dropdown')
+                            @if($product->variants_display === 'list')
                             @endif
                         @elseif($product->canBeBought())
                             <livewire:customer.product.add-to-cart-form :product="$product"/>
@@ -64,7 +64,7 @@
         </div>
     </div>
 
-    @if($product->has_variants && $product->variants_display === 'Grid')
+    @if($product->has_variants && $product->variants_display === 'grid')
         <div id="product-variants" class="container-fluid mb-4 py-4 bg-light">
             <livewire:customer.product.product-variants :product="$product" :category="$category"/>
         </div>

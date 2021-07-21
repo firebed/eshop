@@ -1,4 +1,4 @@
-<div wire:loading.class="opacity-75" class="col-12 col-md-auto w-md-25r align-self-start sticky-md-top position-relative">
+<div wire:loading.class="opacity-75" class="col w-md-25r align-self-start sticky-md-top position-relative">
     <div wire:loading class="position-absolute start-50 top-50 translate-middle">
         <em class="fa fa-fan fa-spin text-primary fs-5"></em>
     </div>

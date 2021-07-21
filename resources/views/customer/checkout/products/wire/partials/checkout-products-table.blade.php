@@ -10,10 +10,10 @@
                 </div>
             </td>
             <td @if($loop->last) class="border-0" @endif>
-                <div class="d-grid justify-content-start">
+                <div class="d-grid justify-content-start text-nowrap">
                     @if($product->isVariant())
                         <a class="text-secondary small text-decoration-none" href="{{ route('customer.products.show', [app()->getLocale(), $product->category->slug, $product->parent->slug]) }}">{{ $product->parent->name }}</a>
-                        <a href="{{ route('customer.products.show', [app()->getLocale(), $product->category->slug, $product->slug]) }}" class="text-dark text-decoration-none">{{ $product->sku }} {{ $product->optionValues }}</a>
+                        <a href="{{ route('customer.products.show', [app()->getLocale(), $product->category->slug, $product->slug]) }}" class="text-dark text-decoration-none">{{ $product->optionValues }}</a>
                     @else
                         <a href="{{ route('customer.products.show', [app()->getLocale(), $product->category->slug, $product->slug]) }}" class="text-dark text-decoration-none">{{ $product->trademark }}</a>
                     @endif

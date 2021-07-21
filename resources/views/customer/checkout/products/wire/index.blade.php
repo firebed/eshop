@@ -3,8 +3,8 @@
         <div class="d-grid gap-3">
             <h1 class="fs-3 fw-normal">{{ __('Your cart') }}</h1>
 
-            <div class="row g-5">
-                <div class="col-12 col-md">
+            <div class="row row-cols-1 row-cols-md-2 g-5">
+                <div class="col flex-grow-1">
                     <x-bs::card class="shadow-none">
                         <x-bs::card.body>
                             <div class="table-responsive bg-white">

@@ -40,7 +40,8 @@ class VariantController extends Controller
     public function store(VariantRequest $request, Product $product): RedirectResponse
     {
         try {
-            $variant = $product->replicate(['slug', 'variants_display', 'preview_variants', 'net_value']);
+            $variant = $product->replicate(['slug', 'has_variants', 'variants_display', 'preview_variants', 'net_value']);
+
             DB::transaction(function () use ($request, $product, $variant) {
                 $variant->fill($request->only($variant->getFillable()));
 

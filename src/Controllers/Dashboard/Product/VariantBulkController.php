@@ -34,7 +34,7 @@ class VariantBulkController extends Controller
             DB::transaction(function () use ($request, $product) {
                 collect($request->input('variants', []))
                     ->each(function ($input) use ($product) {
-                        $variant = $product->replicate(['slug', 'variants_display', 'preview_variants', 'net_value']);
+                        $variant = $product->replicate(['slug', 'has_variants', 'variants_display', 'preview_variants', 'net_value']);
 
                         $variant->fill([
                             'price'   => $input['price'],
