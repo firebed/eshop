@@ -24,8 +24,13 @@ trait WithProductProperties
         return compact('values', 'choices');
     }
 
-    protected function saveProperties(Product $product, array $data): void
+    protected function saveProperties(Product $product, ?array $data): void
     {
+        if (empty($data)) {
+            $product->properties()->sync([]);
+            return;
+        }
+
         $properties = collect($data)->mapWithKeys(fn($v) => $v)->filter();
 
         foreach ($properties as $propertyId => $choices) {

@@ -22,6 +22,8 @@
                                @else
                                 onchange="location.href = '{{ categoryRoute($category, $filters['m'], collect([$choice]), $filters['min_price'], $filters['max_price']) }}'"
                                @endif
+
+                                @if($property->name === 'Χρώμα') style="background-color: {{ config("eshop.colors.$choice->name") }}" @endif
                         >
                         <label class="form-check-label" for="f-{{ $choice->id }}">{{ $choice->name }} <small class="text-secondary">({{ $choice->products_count }})</small></label>
                     </div>

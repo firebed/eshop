@@ -18,7 +18,7 @@ trait WithVariantTypes
         $product->variantTypes()->saveMany($variantTypes);
     }
 
-    protected function syncVariantTypes(Product $product, $data): void
+    protected function syncVariantTypes(Product $product, array $data): void
     {
         $variantTypes = $product->variantTypes()->pluck('name', 'id');
         $deleteIds = $variantTypes->keys()->diff(array_column($data, 'id'));

@@ -84,7 +84,7 @@ class ProductController extends Controller
             'properties'    => $this->prepareProperties($product),
             'vats'          => Vat::all(),
             'units'         => Unit::all(),
-            'variantTypes'  => $product->variantTypes()->pluck('name', 'id')->map(fn($v, $k) => ['id' => $k, 'name' => $v])->values()->all(),
+            'variantTypes'  => $product->variantTypes()->orderBy('id')->pluck('name', 'id')->map(fn($v, $k) => ['id' => $k, 'name' => $v])->values()->all(),
             'categories'    => Category::files()->with('translations', 'parent.translation')->get()->groupBy('parent_id'),
             'manufacturers' => Manufacturer::all(),
         ]);
@@ -98,14 +98,9 @@ class ProductController extends Controller
 
                 $product->seo()->updateOrCreate([], $request->input('seo'));
 
-                if ($request->filled('variantTypes')) {
-                    $this->syncVariantTypes($product, $request->input('variantTypes'));
-                }
+                $this->syncVariantTypes($product, $request->input('variantTypes', []));
 
-                $product->properties()->sync([]);
-                if ($request->filled('properties')) {
-                    $this->saveProperties($product, $request->input('properties'));
-                }
+                $this->saveProperties($product, $request->input('properties', []));
 
                 if ($request->hasFile('image')) {
                     $this->replaceProductImage($product, $request->file('image'));
@@ -113,9 +108,9 @@ class ProductController extends Controller
             });
 
             $this->showSuccessNotification(trans('eshop::product.notifications.saved'));
-        } catch (Throwable) {
+        } catch (Throwable $e) {
             $request->flash();
-            $this->showErrorNotification(trans('eshop::product.notifications.error'));
+            $this->showErrorNotification(trans('eshop::product.notifications.error') . ': ' . $e->getMessage());
         }
 
         return back();
