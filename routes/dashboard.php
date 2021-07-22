@@ -37,6 +37,7 @@ Route::middleware(['web', 'auth', 'admin'])->group(function () {
 
         Route::resource('products.variants', VariantController::class)->shallow()->except('show');
 
+        Route::delete('collections/{collection}/detach-product/{product}', [CollectionController::class, 'detachProduct'])->name('collections.detachProduct');
         Route::delete('collections/destroy-many', [CollectionController::class, 'destroyMany'])->name('collections.destroyMany');
         Route::resource('collections', CollectionController::class)->except('show');
 

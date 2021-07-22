@@ -6,6 +6,7 @@ return [
     'products_count' => '{1} 1 product|[2,*] :count products',
     'availability'   => '{0} Out of stock|[1,*] :count in stock',
 
+    'name'                => 'Product name',
     'seo_search_listing'  => 'SEO search listing',
     'products'            => 'Products',
     'category'            => 'Category',

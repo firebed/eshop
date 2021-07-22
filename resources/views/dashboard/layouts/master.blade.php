@@ -19,7 +19,7 @@
     @livewireStyles
 
     <link rel="stylesheet" href="https://unpkg.com/simplebar@5.3.3/dist/simplebar.css"/>
-    <script src="https://unpkg.com/simplebar@5.3.3/dist/simplebar.min.js"></script>
+    <script defer src="https://unpkg.com/simplebar@5.3.3/dist/simplebar.min.js"></script>
 
     <script defer src="https://unpkg.com/alpinejs@3.2.1/dist/cdn.min.js"></script>
 
@@ -34,7 +34,10 @@
         <main class="row">
             <div class="col-12 bg-white shadow-sm sticky-lg-top d-flex justify-content-between align-items-center px-4" style="height: 3.5rem">
                 <div></div>
-                <div>User</div>
+                <div class="d-flex align-items-center">
+                    <div class="w-2r fs-4 text-secondary"><em class="fas fa-user"></em></div>
+                    <div class="text-nowrap">{{ auth()->user()->fullName }}</div>
+                </div>
             </div>
 
             @yield('main')

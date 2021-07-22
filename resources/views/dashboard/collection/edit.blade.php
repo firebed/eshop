@@ -26,11 +26,17 @@
 
                     <div>
                         <x-bs::button.primary type="submit" x-bind:disabled="submitting">
-                            <em x-cloak x-show="submitting" class="fas fa-circle-notch fa-spin me-2"></em>
+                            <em x-cloak x-show="submitting" class="spinner-border spinner-border-sm text-light me-2"></em>
                             {{ __('eshop::collection.buttons.save') }}
                         </x-bs::button.primary>
                     </div>
                 </form>
+            </x-bs::card.body>
+        </x-bs::card>
+        
+        <x-bs::card>
+            <x-bs::card.body>
+                @include('eshop::dashboard.collection.partials.collection-product-table')
             </x-bs::card.body>
         </x-bs::card>
 
@@ -55,7 +61,7 @@
                         </x-bs::input.group>
 
                         <x-bs::button.danger type="submit" x-bind:disabled="submitting">
-                            <em x-cloak x-show="submitting" class="fas fa-circle-notch fa-spin me-2"></em>
+                            <em x-cloak x-show="submitting" class="spinner-border spinner-border-sm text-light me-2"></em>
                             {{ __('eshop::collection.buttons.delete') }}
                         </x-bs::button.danger>
                     </div>

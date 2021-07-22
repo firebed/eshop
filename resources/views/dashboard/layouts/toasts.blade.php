@@ -4,16 +4,16 @@
             toasts: [@if(session('toast')) {{ json_encode(session('toast', ), JSON_THROW_ON_ERROR) }} @endif],
 
             addToast(type, msg, autohide = true) {
-                this.toasts.push({id: Date.now(), type: type, body: msg, autohide: autohide})
+                this.toasts.push({type: type, body: msg, autohide: autohide})
             },
 
             removeToast(toast) {
                 this.toasts.splice(this.toasts.indexOf(toast), 1)
             }
          }"
-         x-on:show-toast.window="addToast($event.detail.type, $event.detail.body, $event.detail.autohide)"
+         x-on:show-toast.window="console.log($event);addToast($event.detail.type, $event.detail.body, $event.detail.autohide)"
     >
-        <template x-for="toast in toasts" :key="toast.id">
+        <template x-for="(toast, i) in toasts" :key="i">
             <div class="toast fade"
                  x-init="
                     new bootstrap.Toast($el, {autohide: toast.autohide}).show()

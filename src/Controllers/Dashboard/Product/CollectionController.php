@@ -5,12 +5,13 @@ namespace Eshop\Controllers\Dashboard\Product;
 use Eshop\Controllers\Controller;
 use Eshop\Controllers\Dashboard\Traits\WithNotifications;
 use Eshop\Models\Product\Collection;
+use Eshop\Models\Product\Product;
 use Eshop\Requests\Dashboard\Product\CollectionDeleteRequest;
 use Eshop\Requests\Dashboard\Product\CollectionRequest;
 use Illuminate\Contracts\Support\Renderable;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Sabberworm\CSS\Rule\Rule;
 
 class CollectionController extends Controller
 {
@@ -38,7 +39,8 @@ class CollectionController extends Controller
 
     public function edit(Collection $collection): Renderable
     {
-        return view('eshop::dashboard.collection.edit', compact('collection'));
+        $products = $collection->products()->with('translation', 'parent.translation', 'image')->get();
+        return view('eshop::dashboard.collection.edit', compact('collection', 'products'));
     }
 
     public function update(CollectionRequest $request, Collection $collection): RedirectResponse
@@ -66,5 +68,17 @@ class CollectionController extends Controller
 
         $this->showSuccessNotification(trans_choice('eshop::collection.notifications.deleted_many', $count, ['number' => $count]));
         return redirect()->route('collections.index');
+    }
+
+    public function detachProduct(Request $request, Collection $collection, Product $product): RedirectResponse|JsonResponse
+    {
+        $collection->products()->detach($product);
+
+        if ($request->expectsJson()) {
+            return response()->json();
+        }
+
+        $this->showSuccessNotification(trans('eshop::collection.notifications.product_detached'));
+        return redirect()->route('collections.edit', $collection);
     }
 }

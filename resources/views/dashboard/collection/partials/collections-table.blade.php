@@ -19,7 +19,7 @@
                 <td><x-bs::input.checkbox name="ids[]" value="{{ $collection->id }}" class="collection" id="coll-{{ $collection->id }}"/></td>
                 <td>
                     <div class="d-grid">
-                        <a href="{{ route('collections.edit', $collection) }}">{{ $collection->name }}</a>
+                        <a href="{{ route('collections.edit', $collection) }}" class="text-decoration-none">{{ $collection->name }}</a>
                     </div>
                 </td>
                 <td>{{ $collection->products_count }}</td>
