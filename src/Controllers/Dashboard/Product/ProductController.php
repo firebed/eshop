@@ -8,6 +8,7 @@ use Eshop\Controllers\Dashboard\Product\Traits\WithProductProperties;
 use Eshop\Controllers\Dashboard\Product\Traits\WithVariantTypes;
 use Eshop\Controllers\Dashboard\Traits\WithNotifications;
 use Eshop\Models\Product\Category;
+use Eshop\Models\Product\Collection;
 use Eshop\Models\Product\Manufacturer;
 use Eshop\Models\Product\Product;
 use Eshop\Models\Product\Unit;
@@ -38,6 +39,7 @@ class ProductController extends Controller
             'variantTypes'  => collect([]),
             'categories'    => Category::files()->with('translations', 'parent.translation')->get()->groupBy('parent_id'),
             'manufacturers' => Manufacturer::all(),
+            'collections'   => Collection::all(),
             'choices'       => [],
             'values'        => [],
             'props'         => []
@@ -61,6 +63,8 @@ class ProductController extends Controller
                 if ($request->filled('properties')) {
                     $this->saveProperties($product, $request->input('properties'));
                 }
+
+                $product->collections()->sync($request->input('collections', []));
 
                 if ($request->hasFile('image')) {
                     $product->saveImage($request->file('image'));
@@ -87,6 +91,7 @@ class ProductController extends Controller
             'variantTypes'  => $product->variantTypes()->orderBy('id')->pluck('name', 'id')->map(fn($v, $k) => ['id' => $k, 'name' => $v])->values()->all(),
             'categories'    => Category::files()->with('translations', 'parent.translation')->get()->groupBy('parent_id'),
             'manufacturers' => Manufacturer::all(),
+            'collections'   => Collection::all(),
         ]);
     }
 
@@ -101,6 +106,8 @@ class ProductController extends Controller
                 $this->syncVariantTypes($product, $request->input('variantTypes', []));
 
                 $this->saveProperties($product, $request->input('properties', []));
+
+                $product->collections()->sync($request->input('collections', []));
 
                 if ($request->hasFile('image')) {
                     $this->replaceProductImage($product, $request->file('image'));

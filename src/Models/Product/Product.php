@@ -158,6 +158,11 @@ class Product extends Model
             ->withPivot('value', 'slug');
     }
 
+    public function collections(): BelongsToMany
+    {
+        return $this->belongsToMany(\Eshop\Models\Product\Collection::class);
+    }
+
     public function getTrademark(string $glue = ' '): ?string
     {
         return $this->isVariant()

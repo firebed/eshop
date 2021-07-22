@@ -83,7 +83,11 @@ class ProductRequest extends FormRequest
             'variantTypes'        => ['nullable', 'array'],
             'variantTypes.*'      => ['required', 'array'],
             'variantTypes.*.id'   => ['nullable', 'integer', 'exists:variant_types,id'],
-            'variantTypes.*.name' => ['required', 'string', 'distinct']
+            'variantTypes.*.name' => ['required', 'string', 'distinct'],
+
+            # Collections
+            'collections'         => ['nullable', 'array'],
+            'collections.*'       => ['required', 'integer', 'exists:collections,id'],
         ];
     }
 

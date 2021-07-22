@@ -51,5 +51,7 @@ return [
         'save'   => 'Save',
         'delete' => 'Delete product',
         'cancel' => 'Cancel',
-    ]
+    ],
+
+    'collections' => 'Collections'
 ];

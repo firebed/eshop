@@ -3,7 +3,7 @@
          x-data="{
             toasts: [@if(session('toast')) {{ json_encode(session('toast', ), JSON_THROW_ON_ERROR) }} @endif],
 
-            addToast(type, msg, autohide) {
+            addToast(type, msg, autohide = true) {
                 this.toasts.push({id: Date.now(), type: type, body: msg, autohide: autohide})
             },
 

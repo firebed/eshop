@@ -7,6 +7,7 @@ use Eshop\Controllers\Dashboard\Intl\CountryController;
 use Eshop\Controllers\Dashboard\Intl\PaymentMethodController;
 use Eshop\Controllers\Dashboard\Intl\ShippingMethodController;
 use Eshop\Controllers\Dashboard\Product\CategoryController;
+use Eshop\Controllers\Dashboard\Product\CollectionController;
 use Eshop\Controllers\Dashboard\Product\ManufacturerController;
 use Eshop\Controllers\Dashboard\Product\ProductController;
 use Eshop\Controllers\Dashboard\Product\ProductImageController;
@@ -35,6 +36,9 @@ Route::middleware(['web', 'auth', 'admin'])->group(function () {
         });
 
         Route::resource('products.variants', VariantController::class)->shallow()->except('show');
+
+        Route::delete('collections/destroy-many', [CollectionController::class, 'destroyMany'])->name('collections.destroyMany');
+        Route::resource('collections', CollectionController::class)->except('show');
 
         Route::get('carts/{cart}/print', PrintController::class)->name('carts.print');
         Route::resource('carts', CartController::class);
