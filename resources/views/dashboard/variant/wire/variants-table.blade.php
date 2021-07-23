@@ -64,6 +64,14 @@
 
     <x-bs::card>
         <div class="table-responsive">
+{{--            @foreach($options as $group)--}}
+{{--                <div class="d-flex gap-1">--}}
+{{--                    @foreach($group as $option)--}}
+{{--                        <a href="#">{{ $option }}</a>--}}
+{{--                    @endforeach--}}
+{{--                </div>--}}
+{{--            @endforeach--}}
+
             @include('eshop::dashboard.variant.partials.variants-table')
         </div>
     </x-bs::card>

@@ -55,10 +55,10 @@ if (!function_exists('format_weight')) {
 }
 
 if (!function_exists('slugify')) {
-    function slugify($strings, $separator = '-', $toLowerCase = true): string
+    function slugify($strings, $separator = '-'): string
     {
         $string = implode($separator, is_array($strings) ? array_filter($strings) : [$strings]);
-        return SlugGenerator::getSlug($string, $separator, $toLowerCase);
+        return SlugGenerator::getSlug($string, $separator);
     }
 }
 

@@ -1,14 +1,16 @@
 <?php
 
 return [
-    'new'                          => 'Add new variant',
-    'bulk_create'                  => 'Bulk create variants',
-    'bulk_edit'                    => 'Bulk edit variants',
-    'delete'                       => 'Delete variant',
-    'delete_confirmation'          => 'You are about to send this variant to the recycle bin from where you can restore or delete it permanently.',
-    'delete_multiple'              => 'Delete multiple variants',
-    'delete_multiple_confirmation' => 'You are about to send multiple variant to the recycle bin from where you can restore or delete them permanently.',
-    'variants'                     => 'Variants',
+    'new'                           => 'Add new variant',
+    'bulk_create'                   => 'Bulk create variants',
+    'bulk_edit'                     => 'Bulk edit variants',
+    'delete'                        => 'Delete variant',
+    'delete_confirmation'           => 'You are about to send this variant to the recycle bin from where you can restore or delete it permanently.',
+    'delete_multiple'               => 'Delete multiple variants',
+    'delete_multiple_confirmation'  => 'You are about to send multiple variant to the recycle bin from where you can restore or delete them permanently.',
+    'variants'                      => 'Variants',
+    'generate_combinations'         => 'Generate combinations',
+    'generate_combinations_content' => 'Attention! All other unsaved combinations will be removed.',
 
     'bulk-actions' => [
         'edit'          => 'Bulk edit',
@@ -26,15 +28,17 @@ return [
         'cancel'    => 'Cancel',
         'apply_all' => 'Apply to all',
         'delete'    => 'Delete',
+        'add'       => 'Add',
         'add_new'   => 'Add new',
         'add_many'  => 'Add many',
         'add_more'  => 'Add more',
+        'generate'  => 'Generate',
     ],
 
     'notifications' => [
         'created'               => 'The variant was saved!',
         'saved'                 => 'The variant was saved!',
-        'saved_many'            => 'The variant was udpated!',
+        'saved_many'            => 'The variant was updated!',
         'error'                 => 'An error occurred!',
         'deleted'               => 'The variant was deleted!',
         'created_many'          => '1 variant was created!|:number variants were created!',

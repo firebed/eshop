@@ -15,14 +15,11 @@ class SlugGenerator
      * @param string $separator
      * @return string the generated slug
      */
-    public static function getSlug(string $string, string $separator = '-', bool $toLowerCase = TRUE): string
+    public static function getSlug(string $string, string $separator = '-'): string
     {
         $slug = '';
         $lastCharacter = '';
-        $string = trim($string);
-        if ($toLowerCase) {
-            $string = mb_strtolower(trim($string), 'utf-8');
-        }
+        $string = mb_strtolower(trim($string), 'utf-8');
 
         $iMax = mb_strlen($string, 'utf-8');
         for ($i = 0; $i < $iMax; $i++) {

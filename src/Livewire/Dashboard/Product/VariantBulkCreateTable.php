@@ -7,10 +7,12 @@ use Livewire\Component;
 
 class VariantBulkCreateTable extends Component
 {
-    public float   $productPrice = 0;
-    public ?string $productSku   = '';
-    public array   $variantTypes = [];
-    public array   $variants     = [];
+    public float   $productPrice          = 0;
+    public ?string $productSku            = '';
+    public array   $variantTypes          = [];
+    public array   $variants              = [];
+    public array   $combinations          = [];
+    public bool    $showCombinationsModal = FALSE;
 
     public function mount(): void
     {
@@ -32,15 +34,51 @@ class VariantBulkCreateTable extends Component
         $this->skipRender();
     }
 
-    public function add(): void
+    public function add(array $options = []): void
     {
         $this->variants[] = [
-            'options' => [],
-            'sku'     => $this->productSku . '-',
+            'options' => $options,
+            'sku'     => strtoupper(slugify(array_merge([$this->productSku], $options))),
             'price'   => $this->productPrice,
             'stock'   => 0,
             'barcode' => ''
         ];
+    }
+
+    private function getCombinations($arrays): array
+    {
+        $result = [[]];
+        foreach ($arrays as $property => $property_values) {
+            $tmp = array();
+            foreach ($result as $result_item) {
+                foreach ($property_values as $property_value) {
+                    $tmp[] = array_merge($result_item, [$property => $property_value]);
+                }
+            }
+            $result = $tmp;
+        }
+        return $result;
+    }
+
+    public function showCombinationsModal(): void
+    {
+        $this->showCombinationsModal = TRUE;
+        $this->skipRender();
+    }
+
+    public function generateCombinations(): void
+    {
+        $arrays = [];
+        foreach ($this->combinations as $id => $combination) {
+            $arrays[$id] = array_map('trim', explode(',', $combination));
+        }
+        $this->variants = [];
+        $combinations = $this->getCombinations($arrays);
+        foreach ($combinations as $combination) {
+            $this->add(collect($combination)->mapWithKeys(fn($c, $k) => [array_search($k, $this->variantTypes) => $c])->all());
+        }
+
+        $this->showCombinationsModal = FALSE;
     }
 
     public function remove(int $index): void

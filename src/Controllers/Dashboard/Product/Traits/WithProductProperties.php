@@ -26,8 +26,9 @@ trait WithProductProperties
 
     protected function saveProperties(Product $product, ?array $data): void
     {
+        $product->properties()->sync([]);
+
         if (empty($data)) {
-            $product->properties()->sync([]);
             return;
         }
 

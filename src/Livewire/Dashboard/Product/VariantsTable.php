@@ -23,11 +23,6 @@ class VariantsTable extends Component
         'search' => ['except' => ''],
     ];
 
-    /**
-     * Get the product's all variants
-     *
-     * @return Collection
-     */
     public function getVariantsProperty(): Collection
     {
         return Product::query()
@@ -52,16 +47,18 @@ class VariantsTable extends Component
         return $this->variants;
     }
 
-    /**
-     * Get the view that represent the component.
-     *
-     * @return Renderable
-     */
     public function render(): Renderable
     {
-        $data['variants'] = $this->variants;
-        $data['variantTypes'] = $this->variantTypes;
-
-        return view('eshop::dashboard.variant.wire.variants-table', $data);
+        $options = $this->variants
+            ->pluck('options')
+            ->collapse()
+            ->groupBy('pivot.variant_type_id')
+            ->map(fn($g) => $g->pluck('pivot.value')->unique()->sort());
+        ;
+        return view('eshop::dashboard.variant.wire.variants-table', [
+            'variants'     => $this->variants,
+            'variantTypes' => $this->variantTypes,
+            'options'      => $options
+        ]);
     }
 }
