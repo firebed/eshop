@@ -123,7 +123,7 @@ class EditCheckoutDetails extends Component
         $order->document_type = $this->invoicing ? DocumentType::INVOICE : DocumentType::RECEIPT;
         $order->save();
 
-//        $order->shippingAddress()->update($this->shipping->getAttributes());
+        $order->shippingAddress()->update($this->shipping->getAttributes());
 
         $invoiceFilled = collect(array_merge($this->invoice->getAttributes(), $this->invoiceAddress->getAttributes()))->filter()->isNotEmpty();
         if ($invoiceFilled) {

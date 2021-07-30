@@ -6,7 +6,7 @@
             @foreach($variantTypes as $id => $name)
                 <x-bs::input.group for="option-{{ $id }}" label="{{ $name }}">
                     <x-bs::input.text
-                            x-on:input.debounce="$dispatch('variant-options-updated', [...$refs.options.querySelectorAll('input')].map(i => i.value))"
+                            x-on:input="$dispatch('variant-options-updated', [...$refs.options.querySelectorAll('input')].map(i => i.value))"
                             name="options[{{ $id }}]"
                             value="{{ old('options.' . $id, $options[$id] ?? '') }}"
                             id="option-{{ $id }}"

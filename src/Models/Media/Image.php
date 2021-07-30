@@ -51,7 +51,8 @@ class Image extends Model
         }
 
         $disk = Storage::disk($this->disk);
-        return $disk->exists($src) ? $disk->url($src) : NULL;
+//        return $disk->exists($src) ? $disk->url($src) : NULL;
+        return $disk->url($src);
     }
 
     public function isTypeURL(): bool

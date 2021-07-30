@@ -41,12 +41,7 @@
                     </x-bs::card.body>
                 </x-bs::card>
 
-                <livewire:dashboard.product.product-seo
-                        :productName="old('name')"
-                        :categoryId="old('category_id')"
-                        :title="old('seo.title', '')"
-                        :slug="old('slug', '')"
-                        :description="old('seo.description', '')"/>
+                @include('eshop::dashboard.product.partials.product-seo')
             </div>
             <div class="col-12 col-md-5 d-flex flex-column gap-4">
                 @include('eshop::dashboard.product.partials.image')

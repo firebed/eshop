@@ -6,7 +6,7 @@
 
     <div class="row g-3">
         <x-bs::input.group for="sku" label="{{ __('SKU') }}" class="col">
-            <x-bs::input.text x-on:variant-options-updated.window="$el.value = '{{ $product->sku }}' + '-' + $event.detail.join('-')" value="{{ old('sku', $variant->sku ?? ($product->sku . '-') ?? '') }}" name="sku" id="sku" error="sku" required/>
+            <x-bs::input.text x-on:variant-options-updated.window="$el.value = '{{ $product->sku }}' + '-' + slugify($event.detail.join('-'))" value="{{ old('sku', $variant->sku ?? ($product->sku . '-') ?? '') }}" name="sku" id="sku" error="sku" required/>
         </x-bs::input.group>
 
         <x-bs::input.group for="barcode" label="{{ __('Barcode') }}" class="col">

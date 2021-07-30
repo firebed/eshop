@@ -4,18 +4,18 @@
 
         <div class="d-grid gap-3">
             <x-bs::input.group for="category" label="{{ __('Category') }}">
-                <x-bs::input.select x-on:change="$dispatch('product-category-changed', $el.value)" name="category_id" error="category_id" id="category" required>
+                <x-bs::input.select x-on:change="$dispatch('product-category-changed', {id: $el.value, slug: $el.options[$el.selectedIndex].getAttribute('data-slug')})" name="category_id" error="category_id" id="category" required>
                     <option value="" disabled selected>{{ __('Select category') }}</option>
                     @foreach($categories as $parentId => $group)
                         @if($parentId)
                             <optgroup label="{{ $group->first()->parent->name }}">
                                 @foreach($group as $category)
-                                    <option value="{{ $category->id }}" @if($category->id == old('category_id', $product->category_id ?? NULL)) selected @endif>{{ $category->name }}</option>
+                                    <option data-slug="{{ $category->slug }}" value="{{ $category->id }}" @if($category->id == old('category_id', $product->category_id ?? NULL)) selected @endif>{{ $category->name }}</option>
                                 @endforeach
                             </optgroup>
                         @else
                             @foreach($group as $category)
-                                <option value="{{ $category->id }}" @if($category->id == old('category_id', $product->category_id ?? NULL)) selected @endif>{{ $category->name }}</option>
+                                <option data-slug="{{ $category->slug }}" value="{{ $category->id }}" @if($category->id == old('category_id', $product->category_id ?? NULL)) selected @endif>{{ $category->name }}</option>
                             @endforeach
                         @endif
                     @endforeach

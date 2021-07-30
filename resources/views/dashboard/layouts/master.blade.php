@@ -21,6 +21,7 @@
     <link rel="stylesheet" href="https://unpkg.com/simplebar@5.3.3/dist/simplebar.css"/>
     <script defer src="https://unpkg.com/simplebar@5.3.3/dist/simplebar.min.js"></script>
 
+    <script defer src="{{ asset('vendor/eshop/js/dashboard/app.js') }}"></script>
     <script defer src="https://unpkg.com/alpinejs@3.2.1/dist/cdn.min.js"></script>
 
     <x-eshop::google-analytics/>
@@ -50,7 +51,6 @@
 
 @include('eshop::dashboard.layouts.toasts')
 
-<script src="{{ asset('vendor/eshop/js/dashboard/app.js') }}"></script>
 @stack('footer_scripts')
 @livewireScripts
 </body>

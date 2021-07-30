@@ -10,18 +10,12 @@ trait WithProductProperties
 {
     protected function prepareProperties(Product $product): array
     {
-        $values = $product->properties
-            ->reject
-            ->isValueRestricted()
-            ->pluck('pivot.value', 'id')->all();
-
         $choices = $product->properties
-            ->filter->isValueRestricted()
             ->groupBy('id')
             ->map(fn($g) => $g->pluck('pivot.category_choice_id')->all())
             ->all();
 
-        return compact('values', 'choices');
+        return compact('choices');
     }
 
     protected function saveProperties(Product $product, ?array $data): void

@@ -21,7 +21,7 @@
             </thead>
             <tbody>
             @foreach($variants as $index => $variant)
-                <tr>
+                <tr wire:key="row-{{ $index }}">
                     @foreach($variantTypes as $id => $name)
                         <td>
                             <x-bs::input.text wire:model.debounce="variants.{{ $index }}.options.{{ $id }}" error="variants.{{ $index }}.options.{{ $id }}" name="variants[{{ $index }}][options][{{ $id }}]" class="option" required/>

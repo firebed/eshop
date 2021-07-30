@@ -16,14 +16,10 @@ class CreateCategoryPropertiesTable extends Migration
         Schema::create('category_properties', function (Blueprint $table) {
             $table->id();
             $table->foreignId('category_id')->constrained()->cascadeOnDelete();
-            $table->enum('index', ['None', 'Simple', 'Multiple'])->default('None');
-            $table->enum('value_restriction', ['None', 'Simple', 'Multiple'])->default('None');
-            $table->boolean('visible')->default(TRUE);
-            $table->boolean('promote')->default(FALSE);
-            $table->boolean('show_caption')->default(FALSE);
-            $table->boolean('show_empty_value')->default(FALSE);
-            $table->unsignedTinyInteger('position')->default(0);
+            $table->enum('type', ['checkbox', 'radio']);
             $table->string('slug');
+            $table->boolean('visible')->default(TRUE);
+            $table->unsignedTinyInteger('position')->default(0);
             $table->unique(['category_id', 'slug']);
             $table->timestamps();
         });

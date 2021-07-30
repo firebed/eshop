@@ -11,7 +11,7 @@
                 this.toasts.splice(this.toasts.indexOf(toast), 1)
             }
          }"
-         x-on:show-toast.window="console.log($event);addToast($event.detail.type, $event.detail.body, $event.detail.autohide)"
+         x-on:show-toast.window="addToast($event.detail.type, $event.detail.body, $event.detail.autohide)"
     >
         <template x-for="(toast, i) in toasts" :key="i">
             <div class="toast fade"

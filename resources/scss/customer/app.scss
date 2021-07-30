@@ -5,6 +5,7 @@ $primary: #d31f75;
 @import "~bootstrap";
 @import "../colors";
 @import "../buttons";
+@import "filters";
 
 .img-middle {
   @extend .top-50, .start-50, .translate-middle, .w-auto, .h-auto, .mw-100, .mh-100;
@@ -35,8 +36,8 @@ $primary: #d31f75;
   //--bs-aspect-ratio: calc(9 / 16 * 100%);
 }
 
-.product-description-bullets > ul {
-  list-style: none; /* Remove default bullets */
+.product-description > p:last-child {
+  margin: 0;
 }
 
 .product-description-bullets > ul li::before {

@@ -30,9 +30,9 @@ class CategoryChoice extends Model
     use HasFactory,
         HasTranslations;
 
-    protected $guarded = [];
-
     protected array $translatable = ['name'];
+
+    protected $fillable = ['name', 'slug', 'position'];
 
     public function products(): BelongsToMany
     {

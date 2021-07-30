@@ -1,7 +1,7 @@
-<div class="container-fluid pt-3">
-    <div class="container">
+<div class="container-fluid py-3">
+    <div class="container-xxl">
         <nav aria-label="breadcrumb" class="small">
-            <ol class="breadcrumb">
+            <ol class="breadcrumb m-0">
                 @foreach($items as $item)
                     <li class="breadcrumb-item">
                         @if($loop->last)

@@ -5,9 +5,9 @@
 @endpush
 
 @section('main')
-    @if(!isset($category) || $category->isFolder())
-        <livewire:dashboard.category.show-categories :category="$category ?? NULL"/>
-    @else
-        <livewire:dashboard.category.show-category-properties :category="$category"/>
-    @endif
+    <div class="col-12 col-xxl-8 p-4 mx-auto d-grid gap-3">
+        @include('eshop::dashboard.category.partials.category-breadcrumbs')
+
+        @include('eshop::dashboard.category.partials.categories-table')
+    </div>
 @endsection

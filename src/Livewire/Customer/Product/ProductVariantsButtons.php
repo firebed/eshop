@@ -24,25 +24,25 @@ class ProductVariantsButtons extends Component
     use ControlsOrder,
         SendsNotifications;
 
-    public ?Product $product      = NULL;
-    public int      $quantity     = 1;
-    public string   $filtersQuery = '';
-    public array    $filters      = [];
+    public ?Product $product  = NULL;
+    public int      $quantity = 1;
+    public string   $options  = '';
+    public array    $filters  = [];
     public int      $variantId;
 
     protected function queryString(): array
     {
         return [
-            'filtersQuery' => ['except' => '']
+            'options' => ['except' => '']
         ];
     }
 
     public function mount(): void
     {
-        if (filled($this->filtersQuery)) {
+        if (filled($this->options)) {
             $uniqueOptions = $this->uniqueVariantOptions->collapse();
 
-            $userSelected = explode('-', $this->filtersQuery);
+            $userSelected = explode('-', $this->options);
             foreach ($userSelected as $f) {
                 $option = $uniqueOptions->firstWhere('pivot.slug', $f);
                 if ($option !== NULL) {
@@ -50,7 +50,7 @@ class ProductVariantsButtons extends Component
                 }
             }
 
-            $this->filtersQuery = implode('-', $this->filters);
+            $this->options = implode('-', $this->filters);
         }
 
         $this->findVariant();
@@ -72,7 +72,7 @@ class ProductVariantsButtons extends Component
     {
         $this->filters[$type->id] = $slug;
 
-        $this->filtersQuery = implode('-', $this->filters);
+        $this->options = implode('-', $this->filters);
 
         $this->findVariant();
     }
@@ -84,11 +84,17 @@ class ProductVariantsButtons extends Component
             ->collapse()
             ->whereIn('pivot.slug', $this->filters)
             ->groupBy('pivot.product_id')
-            ->filter(fn($c) => $c->count() === 2)
+            ->filter(fn($c) => $c->count() === $this->product->variantTypes->count())
             ->keys()
             ->first();
 
         $this->variantId = $variantId ?? 0;
+
+        if ($variant = Product::find($this->variantId)) {
+            $image = $variant->image->url();
+            $images = $variant->images('gallery')->get()->map(fn($i) => $i->url('sm'))->all();
+            $this->dispatchBrowserEvent('variant-selected', compact('image', 'images'));
+        }
     }
 
     public function getVariantsProperty(): Collection
@@ -113,6 +119,7 @@ class ProductVariantsButtons extends Component
     public function render(): Renderable
     {
         return view('eshop::customer.product.wire.product-variants-buttons', [
+            'variant'       => $this->variantId ? Product::find($this->variantId) : NULL,
             'variants'      => $this->variants,
             'uniqueOptions' => $this->uniqueVariantOptions
         ]);

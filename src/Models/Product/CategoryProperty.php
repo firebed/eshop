@@ -17,13 +17,9 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  *
  * @property integer    id
  * @property integer    category_id
- * @property string     index
- * @property string     value_restriction
- * @property boolean    visible
- * @property boolean    promote
- * @property boolean    show_caption
- * @property integer    position
  * @property string     slug
+ * @property boolean    visible
+ * @property integer    position
  *
  * @property Collection $choices
  *
@@ -37,14 +33,20 @@ class CategoryProperty extends Model
     protected array $translatable = ['name'];
 
     protected $casts = [
-        'visible'          => 'bool',
-        'promote'          => 'bool',
-        'show_caption'     => 'bool',
-        'show_empty_value' => 'bool',
-        'position'         => 'integer'
+        'visible' => 'bool',
     ];
 
-    protected $guarded = [];
+    protected $fillable = ['type', 'name', 'slug', 'visible', 'position'];
+
+    public function isCheckbox(): bool
+    {
+        return $this->type === 'checkbox';
+    }
+
+    public function isRadio(): bool
+    {
+        return $this->type === 'radio';
+    }
 
     /*
     |-----------------------------------------------------------------------------
@@ -60,36 +62,6 @@ class CategoryProperty extends Model
     public function choices(): HasMany
     {
         return $this->hasMany(CategoryChoice::class)->orderBy('position');
-    }
-
-    public function isIndexed(): bool
-    {
-        return $this->index !== 'None';
-    }
-
-    public function isIndexMultiple(): bool
-    {
-        return $this->index === 'Multiple';
-    }
-
-    public function isIndexSimple(): bool
-    {
-        return $this->index === 'Simple';
-    }
-
-    public function isValueRestricted(): bool
-    {
-        return $this->value_restriction !== 'None';
-    }
-
-    public function isValueRestrictionSimple(): bool
-    {
-        return $this->value_restriction === 'Simple';
-    }
-
-    public function isValueRestrictionMultiple(): bool
-    {
-        return $this->value_restriction === 'Multiple';
     }
 
     /*

@@ -26,12 +26,12 @@ class ProductController extends Controller
         }
 
         return view('eshop::customer.product.show', [
-            'category'   => $category,
-            'product'    => $product,
-            'images'     => $product->images('gallery')->get(),
-            'quantity'   => $quantity,
-            'properties' => $product->properties()->visible()->with('translation')->get()->unique(),
-            'choices'    => $product->choices()->with('translation')->get()
+            'category'      => $category,
+            'product'       => $product,
+            'images'        => $product->images('gallery')->get(),
+            'quantity'      => $quantity,
+            'properties'    => $product->properties()->visible()->with('translation')->get()->unique(),
+            'choices'       => $product->choices()->with('translation')->get()
         ]);
     }
 }

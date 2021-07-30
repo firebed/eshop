@@ -12,11 +12,13 @@
     x-data="{ html: '', text: '' }"
     x-init="tinymce.init({
         target: $refs.input,
-        plugins: ['{{ $plugins }}'],
+        plugins: ['paste', '{{ $plugins }}'],
         menubar: '{{ $menubar }}',
         toolbar: '{{ $toolbar }}',
         entity_encoding: 'raw',
         paste_as_text: {{ $pasteAsText }},
+        forced_root_block: false,
+        paste_as_text: true,
         relative_urls : false,
         setup: function (editor) {
             editor.on('input', e => {html = editor.getContent(); text = editor.getContent({format: 'text'})})

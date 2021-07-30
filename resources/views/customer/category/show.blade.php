@@ -4,27 +4,48 @@
     <x-eshop-category-breadcrumb :category="$category" :product="null" :variant="null"/>
 
     <div class="container-fluid my-4">
-        <div class="container">
+        <div class="container-xxl">
             @if($category->isFile())
                 <div class="row">
-                    <div class="col-lg-4 col-xl-3">
+                    <div class="col-auto">
                         @include('eshop::customer.category.partials.filters')
                     </div>
-                    <div class="col">
-                        <div class="d-flex align-items-baseline mb-3">
+                    <div class="col d-flex flex-column gap-3">
+                        <div class="d-flex align-items-baseline">
                             <h1 class="fs-4 fw-normal mb-0">{{ $category->name }}</h1>
                             <div class="ms-3 text-secondary">(@choice("eshop::product.products_count", $products->total(), ['count' => $products->total()]))</div>
                         </div>
+
+                        <div class="d-flex gap-2">
+                            @foreach($filters['m'] as $m)
+                                <a href="{{ categoryRoute($category, $filters['m']->toggle($m), $filters['c'], $filters['min_price'], $filters['max_price']) }}" class="btn btn-smoke px-2 py-0 d-flex gap-2 align-items-center">
+                                    <small class="py-1">{{ $m->name }}</small>
+                                    <span class="h-100" style="border-left: 1px solid #c5c5c5"></span>
+                                    <span class="py-1 btn-close" style="width: .25rem; height: .25rem"></span>
+                                </a>
+                            @endforeach
+
+                            @foreach($filters['c'] as $c)
+                                <a href="{{ categoryRoute($category, $filters['m'], $filters['c']->toggle($c), $filters['min_price'], $filters['max_price']) }}" class="btn btn-smoke px-2 py-0 d-flex gap-2 align-items-center">
+                                    <small class="py-1">{{ $category->properties->find($c->category_property_id)->choices->find($c->id)->name }}</small>
+                                    <span class="h-100" style="border-left: 1px solid #c5c5c5"></span>
+                                    <span class="py-1 btn-close" style="width: .25rem; height: .25rem"></span>
+                                </a>
+                            @endforeach
+                        </div>
+
                         @if($products->hasPages())
-                            <div class="d-flex justify-content-end mb-3">
+                            <div class="d-flex justify-content-end">
                                 {{ $products->withQueryString()->onEachSide(1)->links('eshop::components.pagination') }}
                             </div>
                         @endif
-                        <div class="row row-cols-1 row-cols-sm-2 row-cols-xl-3 row-cols-xxl-4 g-3">
+
+                        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 g-3">
                             @include('eshop::customer.category.partials.products')
                         </div>
+
                         @if($products->hasPages())
-                            <div class="mt-3 d-flex justify-content-center">
+                            <div class="d-flex justify-content-center">
                                 {{ $products->withQueryString()->onEachSide(1)->links('eshop::components.pagination') }}
                             </div>
                         @endif

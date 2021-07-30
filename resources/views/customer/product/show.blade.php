@@ -19,45 +19,53 @@
         <x-eshop-category-breadcrumb :category="$category" :product="$product" :variant="null"/>
     @endif
 
-    <div class="container-fluid bg-white py-5">
-        <div class="container">
-            <div class="row row-cols-1 row-cols-md-2 g-4">
+    <div class="container-fluid bg-white py-4">
+        <div class="container-xxl">
+            <div class="row row-cols-1 row-cols-md-2 g-5">
                 <div class="col">
                     @include('eshop::customer.product.partials.images')
                 </div>
 
-                <div class="col d-grid gap-4 align-self-start">
-                    <h1 class="fs-3 fw- mb-0">{{ $product->trademark }}</h1>
+                <div class="col">
+                    @can('Edit product')
+                        <div class="d-flex gap-3 mb-2">
+                            <a href="{{ route('products.edit', $product) }}" class="text-decoration-none">
+                                <em class="far fa-edit me-1"></em>{{ __('eshop::buttons.edit') }}
+                            </a>
+                        </div>
+                    @endcan
 
-                    @include('eshop::customer.product.partials.product-category')
-                    @includeWhen($product->isVariant(), 'eshop::customer.product.partials.product-parent')
-                    @includeWhen(isset($product->manufacturer), 'eshop::customer.product.partials.product-manufacturer')
+                    <div class="d-grid gap-4 align-self-start">
+                        <h1 class="fs-3 fw-500 mb-0">{{ $product->trademark }}</h1>
 
-                    @includeWhen(filled($properties), 'eshop::customer.product.partials.product-properties')
+                        @include('eshop::customer.product.partials.product-category')
+                        @includeWhen($product->isVariant(), 'eshop::customer.product.partials.product-parent')
+                        @includeWhen(isset($product->manufacturer), 'eshop::customer.product.partials.product-manufacturer')
 
-                    @includeWhen($product->description !== NULL, 'eshop::customer.product.partials.product-description')
+                        @includeWhen($product->description !== NULL, 'eshop::customer.product.partials.product-description')
 
-                    <div class="d-grid gap-2">
-                        @if($product->has_variants)
-                            @if($product->variants_display === 'grid')
-                                <a href="#product-variants" class="btn btn-primary btn-block">{{ __("See all variants") }} ({{ $product->variants_count }})</a>
+                        <div class="d-grid gap-2">
+                            @if($product->has_variants)
+                                @if($product->variants_display === 'grid')
+                                    <a href="#product-variants" class="btn btn-primary btn-block">{{ __("See all variants") }} ({{ $product->variants_count }})</a>
+                                @endif
+
+                                @if($product->variants_display === 'buttons')
+                                    <livewire:customer.product.product-variants-buttons :product="$product"/>
+                                @endif
+
+                                @if($product->variants_display === 'list')
+                                @endif
+                            @elseif($product->canBeBought())
+                                <livewire:customer.product.add-to-cart-form :product="$product"/>
+                            @else
+                                <div class="col-12 mb-4">
+                                    <div class="h3 mb-0">{{ format_currency($product->netValue) }}</div>
+                                </div>
+
+                                <button class="btn btn-danger" disabled>{{ __("Out of stock") }}</button>
                             @endif
-
-                            @if($product->variants_display === 'buttons')
-                                <livewire:customer.product.product-variants-buttons :product="$product"/>
-                            @endif
-
-                            @if($product->variants_display === 'list')
-                            @endif
-                        @elseif($product->canBeBought())
-                            <livewire:customer.product.add-to-cart-form :product="$product"/>
-                        @else
-                            <div class="col-12 mb-4">
-                                <div class="h3 mb-0">{{ format_currency($product->netValue) }}</div>
-                            </div>
-
-                            <button class="btn btn-danger" disabled>{{ __("Out of stock") }}</button>
-                        @endif
+                        </div>
                     </div>
                 </div>
             </div>

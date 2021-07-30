@@ -23,11 +23,11 @@ class PaymentMethod extends Model
 {
     use HasFactory;
 
-    public const PAYPAL           = 'PayPal';
-    public const CREDIT_CARD      = 'Credit Card';
-    public const WIRE_TRANSFER    = 'Bank Transfer';
-    public const PAY_ON_DELIVERY  = 'Pay on Delivery';
-    public const PAYMENT_IN_STORE = 'Payment in our store';
+    public const PAYPAL           = 'paypal';
+    public const CREDIT_CARD      = 'credit_card';
+    public const WIRE_TRANSFER    = 'wire_transfer';
+    public const PAY_ON_DELIVERY  = 'pay_on_delivery';
+    public const PAYMENT_IN_STORE = 'pay_in_out_store';
 
     public $timestamps = FALSE;
 

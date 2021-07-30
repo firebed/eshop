@@ -64,11 +64,7 @@
 
                     <x-bs::card>
                         <x-bs::card.body>
-                            <livewire:dashboard.variant.variant-seo
-                                    :product="$product"
-                                    :title="old('seo.title', $product->name)"
-                                    :slug="old('slug', $product->slug)"
-                                    :description="old('seo.description')"/>
+                            @include('eshop::dashboard.variant.partials.variant-seo')
                         </x-bs::card.body>
                     </x-bs::card>
 

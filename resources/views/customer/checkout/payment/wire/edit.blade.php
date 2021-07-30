@@ -18,8 +18,8 @@
         </x-bs::alert>
     @endif
 
-    <div class="row gy-4 gx-5">
-        <div class="col-12 col-lg">
+    <div class="row row-cols-1 row-cols-lg-2 gx-5 gy-4">
+        <div class="col flex-grow-1">
             <div class="d-grid gap-4 align-items-start">
                 @include('eshop::customer.checkout.payment.wire.partials.checkout-shipping-methods')
                 @include('eshop::customer.checkout.payment.wire.partials.checkout-payment-methods')
@@ -32,7 +32,7 @@
             </div>
         </div>
 
-        <div class="col-12 col-lg-auto w-lg-25r align-self-start sticky-md-top" style="top: 2rem">
+        <div class="col w-lg-25r align-self-start sticky-md-top" style="top: 2rem">
             @include('eshop::customer.checkout.payment.wire.partials.checkout-payment-summary')
         </div>
 

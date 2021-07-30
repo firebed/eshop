@@ -33,7 +33,7 @@ class CategoryController extends Controller
             return redirect(categoryRoute($category, $filters['m'], $filters['c'], $filters['min_price'], $filters['max_price']));
         }
 
-        $category->load(['properties' => fn($q) => $q->whereNotNull('index')->with('translation', 'choices.translation', 'choices.property')]);
+        $category->load(['properties' => fn($q) => $q->with('translation', 'choices.translation', 'choices.property')]);
         foreach ($category->properties as $property) {
             $property->choices->loadCount(['products' => function ($q) use ($filters, $property) {
                 $q->visible()

@@ -21,6 +21,7 @@
     "@popperjs/core": "^2.9.2",
     "axios": "^0.21.1",
     "bootstrap": "^5.0.2",
-    "slim-select": "^1.27.0"
+    "slim-select": "^1.27.0",
+    "slugify": "^1.6.0"
   }
 }

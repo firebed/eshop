@@ -1,8 +1,8 @@
 <div>
     @foreach($product->variantTypes as $type)
-        <div class="fw-500 mb-3">{{ __($type->name) }}</div>
+        <div class="fw-500 mb-1">{{ __($type->name) }}</div>
 
-        <div class="d-flex gap-3 mb-3">
+        <div class="d-flex flex-wrap gap-3 mb-3">
             @foreach($uniqueOptions[$type->id] as $option)
                 <button type="button" wire:click="select({{ $type->id }}, '{{ $option->pivot->slug }}')" class="btn @if(in_array($option->pivot->slug, $filters, true)) btn-primary @else btn-outline-primary @endif">{{ $option->pivot->value }}</button>
             @endforeach
@@ -10,14 +10,14 @@
     @endforeach
 
     <form wire:submit.prevent="addToCart">
-        <div class="row row-cols-1 row-cols-sm-2 mb-3 g-4">
-            @if($product->canDisplayStock())
-                <div class="col-12 fw-500 text-success">@choice("eshop::product.availability", $product->available_stock, ['count' => format_number($product->available_stock)])</div>
-            @endif
-
+        <div class="row row-cols-1 row-cols-sm-2 gy-2">
             <div class="col-12">
                 <div class="h3 mb-0">{{ format_currency($product->netValue) }}</div>
             </div>
+
+            @if($variant && $variant->canDisplayStock())
+                <div class="col-12 fw-500 text-success">@choice("eshop::product.availability", $variant->available_stock, ['count' => format_number($variant->available_stock)])</div>
+            @endif
 
             <div class="col d-grid gap-1">
                 <div class="input-group">
@@ -33,7 +33,7 @@
             </div>
 
             <div>
-                <button type="submit" class="btn btn-green w-100">
+                <button type="submit" class="btn btn-green w-100" @if($variant === NULL) disabled @endif>
                     <em class="fa fa-shopping-cart"></em>
                     <span class="ms-3">{{ __("Add to cart") }}</span>
                 </button>

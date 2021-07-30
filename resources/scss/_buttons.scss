@@ -33,3 +33,7 @@
 .btn-alpha {
     @include button-variant(#906e4d, #906e4d);
 }
+
+.btn-smoke {
+    @include button-variant(#e8e8e8, #e8e8e8)
+}

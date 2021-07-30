@@ -3,10 +3,11 @@
 use Eshop\Controllers\Dashboard\Analytics\AnalyticsController;
 use Eshop\Controllers\Dashboard\Cart\CartController;
 use Eshop\Controllers\Dashboard\Cart\PrintController;
+use Eshop\Controllers\Dashboard\Category\CategoryController;
+use Eshop\Controllers\Dashboard\Category\CategoryPropertyController;
 use Eshop\Controllers\Dashboard\Intl\CountryController;
 use Eshop\Controllers\Dashboard\Intl\PaymentMethodController;
 use Eshop\Controllers\Dashboard\Intl\ShippingMethodController;
-use Eshop\Controllers\Dashboard\Product\CategoryController;
 use Eshop\Controllers\Dashboard\Product\CollectionController;
 use Eshop\Controllers\Dashboard\Product\ManufacturerController;
 use Eshop\Controllers\Dashboard\Product\ProductController;
@@ -44,7 +45,14 @@ Route::middleware(['web', 'auth', 'admin'])->group(function () {
         Route::get('carts/{cart}/print', PrintController::class)->name('carts.print');
         Route::resource('carts', CartController::class);
 
-        Route::resource('categories', CategoryController::class)->only('index', 'show');
+        Route::put('categories/properties/{property}/moveUp', [CategoryPropertyController::class, 'moveUp'])->name('categories.properties.moveUp');
+        Route::put('categories/properties/{property}/moveDown', [CategoryPropertyController::class, 'moveDown'])->name('categories.properties.moveDown');
+        Route::resource('categories.properties', CategoryPropertyController::class)->only('create', 'store');
+        Route::resource('categories/properties', CategoryPropertyController::class, ['as' => 'categories'])->only('edit', 'update', 'destroy');
+        Route::get('categories/expand/{category?}', [CategoryController::class, 'expand'])->name('categories.expand');
+        Route::post('categories/move', [CategoryController::class, 'move'])->name('categories.move');
+        Route::delete('categories/destroyMany', [CategoryController::class, 'destroyMany'])->name('categories.destroyMany');
+        Route::resource('categories', CategoryController::class)->except('show');
         Route::view('categories/properties/{property}/choices', 'eshop::dashboard.category.choices')->name('categories.properties.choices.index');
 
         Route::resource('countries', CountryController::class)->only('index');

@@ -2,10 +2,10 @@
 
 namespace Eshop\Models\Product;
 
-use Eshop\Database\Factories\Location\AddressFactory;
 use Eshop\Database\Factories\Product\CategoryFactory;
 use Eshop\Models\Lang\Traits\HasTranslations;
 use Eshop\Models\Media\Traits\HasImages;
+use Eshop\Models\Seo\Traits\HasSeo;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -44,14 +44,15 @@ class Category extends Model
     use HasFactory;
     use HasTranslations;
     use HasImages;
+    use HasSeo;
 
     public const FOLDER = 'Folder';
     public const FILE   = 'File';
 
-    protected array  $translatable = ['name', 'description'];
+    protected array  $translatable = ['name'];
     protected string $disk         = 'categories';
 
-    protected $guarded = [];
+    protected $fillable = ['parent_id', 'type', 'name', 'slug', 'visible', 'promote'];
 
     protected $casts = [
         'visible' => 'bool',
@@ -144,6 +145,13 @@ class Category extends Model
                 $constraint->upsize();
             });
         });
+    }
+
+    public function delete(): ?bool
+    {
+        $this->load('children');
+        $this->children->each->delete();
+        return parent::delete();
     }
 
     protected static function newFactory(): CategoryFactory

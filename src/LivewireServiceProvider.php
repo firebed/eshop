@@ -19,22 +19,20 @@ use Eshop\Livewire\Dashboard\Cart\ShippingAddress;
 use Eshop\Livewire\Dashboard\Cart\ShowCart;
 use Eshop\Livewire\Dashboard\Cart\ShowCarts;
 use Eshop\Livewire\Dashboard\Cart\StatusesList;
-use Eshop\Livewire\Dashboard\Category\ShowCategories;
-use Eshop\Livewire\Dashboard\Category\ShowCategoryProperties;
+use Eshop\Livewire\Dashboard\Category\CategoriesTree;
+use Eshop\Livewire\Dashboard\Category\CategoryPropertyChoices;
 use Eshop\Livewire\Dashboard\Config\ShowLocales;
 use Eshop\Livewire\Dashboard\Config\ShowUnits;
 use Eshop\Livewire\Dashboard\Config\ShowVats;
 use Eshop\Livewire\Dashboard\Intl\ShowCountries;
 use Eshop\Livewire\Dashboard\Intl\ShowPaymentMethods;
 use Eshop\Livewire\Dashboard\Intl\ShowShippingMethods;
-use Eshop\Livewire\Dashboard\Product\VariantBulkCreateTable;
 use Eshop\Livewire\Dashboard\Product\ProductProperties;
-use Eshop\Livewire\Dashboard\Product\ProductSeo;
 use Eshop\Livewire\Dashboard\Product\ShowManufacturers;
 use Eshop\Livewire\Dashboard\Product\ShowProductImages;
 use Eshop\Livewire\Dashboard\Product\ShowProducts;
 use Eshop\Livewire\Dashboard\Product\ShowTrashedProducts;
-use Eshop\Livewire\Dashboard\Product\VariantSeo;
+use Eshop\Livewire\Dashboard\Product\VariantBulkCreateTable;
 use Eshop\Livewire\Dashboard\Product\VariantsTable;
 use Eshop\Livewire\Dashboard\Product\VariantTypes;
 use Eshop\Livewire\Dashboard\User\ShowUserPermissions;
@@ -74,8 +72,8 @@ class LivewireServiceProvider extends ServiceProvider
         Livewire::component('dashboard.cart.statuses-list', StatusesList::class);
 
         // Categories
-        Livewire::component('dashboard.category.show-categories', ShowCategories::class);
-        Livewire::component('dashboard.category.show-category-properties', ShowCategoryProperties::class);
+        Livewire::component('dashboard.category.property-choices', CategoryPropertyChoices::class);
+        Livewire::component('dashboard.category.categories-tree', CategoriesTree::class);
 
         Livewire::component('dashboard.product.show-manufacturers', ShowManufacturers::class);
 
@@ -90,10 +88,8 @@ class LivewireServiceProvider extends ServiceProvider
         Livewire::component('dashboard.product.show-trashed-products', ShowTrashedProducts::class);
         Livewire::component('dashboard.product.variants-table', VariantsTable::class);
         Livewire::component('dashboard.product.product-properties', ProductProperties::class);
-        Livewire::component('dashboard.product.product-seo', ProductSeo::class);
         Livewire::component('dashboard.product.variant-types', VariantTypes::class);
         Livewire::component('dashboard.variant.variant-bulk-create', VariantBulkCreateTable::class);
-        Livewire::component('dashboard.variant.variant-seo', VariantSeo::class);
 
         // User
         Livewire::component('dashboard.user.show-users', ShowUsers::class);

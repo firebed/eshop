@@ -2,8 +2,9 @@
 
 namespace Eshop\Controllers\Dashboard\Product;
 
+use BaconQrCode\Common\Mode;
 use Eshop\Controllers\Controller;
-use Eshop\Controllers\Dashboard\Product\Traits\WithProductImage;
+use Eshop\Controllers\Dashboard\Product\Traits\WithImage;
 use Eshop\Controllers\Dashboard\Product\Traits\WithProductProperties;
 use Eshop\Controllers\Dashboard\Product\Traits\WithVariantTypes;
 use Eshop\Controllers\Dashboard\Traits\WithNotifications;
@@ -15,6 +16,7 @@ use Eshop\Models\Product\Unit;
 use Eshop\Models\Product\Vat;
 use Eshop\Requests\Dashboard\Product\ProductRequest;
 use Illuminate\Contracts\Support\Renderable;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\DB;
 use Throwable;
@@ -24,7 +26,7 @@ class ProductController extends Controller
     use WithVariantTypes,
         WithProductProperties,
         WithNotifications,
-        WithProductImage;
+        WithImage;
 
     public function index(): Renderable
     {
@@ -50,8 +52,9 @@ class ProductController extends Controller
     {
         try {
             $product = new Product();
+            $product->fill($request->only($product->getFillable()));
+
             DB::transaction(function () use ($product, $request) {
-                $product->fill($request->only($product->getFillable()));
                 $product->save();
 
                 $product->seo()->create($request->input('seo'));
@@ -71,10 +74,10 @@ class ProductController extends Controller
                 }
             });
 
-            $this->showSuccessNotification(trans('eshop::product.notifications.created'));
+            $this->showSuccessNotification(trans('eshop::notifications.created'));
         } catch (Throwable) {
             $request->flash();
-            $this->showErrorNotification(trans('eshop::product.notifications.error'));
+            $this->showErrorNotification(trans('eshop::notifications.error'));
             return back();
         }
 
@@ -110,14 +113,14 @@ class ProductController extends Controller
                 $product->collections()->sync($request->input('collections', []));
 
                 if ($request->hasFile('image')) {
-                    $this->replaceProductImage($product, $request->file('image'));
+                    $this->replaceImage($product, $request->file('image'));
                 }
             });
 
-            $this->showSuccessNotification(trans('eshop::product.notifications.saved'));
+            $this->showSuccessNotification(trans('eshop::notifications.saved'));
         } catch (Throwable $e) {
             $request->flash();
-            $this->showErrorNotification(trans('eshop::product.notifications.error') . ': ' . $e->getMessage());
+            $this->showErrorNotification(trans('eshop::notifications.error') . ': ' . $e->getMessage());
         }
 
         return back();
@@ -125,11 +128,17 @@ class ProductController extends Controller
 
     public function destroy(Product $product): RedirectResponse
     {
-        $product->delete();
+        try {
+            DB::transaction(function () use ($product) {
+                $product->variants->each->delete();
+                $product->delete();
+            });
 
-        $product->variants()->delete();
-
-        $this->showSuccessNotification(trans('eshop::product.notifications.deleted'));
-        return redirect()->route('products.index');
+            $this->showSuccessNotification(trans('eshop::notifications.deleted'));
+            return redirect()->route('products.index');
+        } catch (Throwable $e) {
+            $this->showErrorNotification(trans('eshop::notifications.error'), $e->getMessage());
+            return back();
+        }
     }
 }

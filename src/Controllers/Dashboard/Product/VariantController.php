@@ -3,7 +3,7 @@
 namespace Eshop\Controllers\Dashboard\Product;
 
 use Eshop\Controllers\Controller;
-use Eshop\Controllers\Dashboard\Product\Traits\WithProductImage;
+use Eshop\Controllers\Dashboard\Product\Traits\WithImage;
 use Eshop\Controllers\Dashboard\Product\Traits\WithVariantOptions;
 use Eshop\Controllers\Dashboard\Traits\WithNotifications;
 use Eshop\Models\Product\Product;
@@ -20,7 +20,7 @@ class VariantController extends Controller
 {
     use WithNotifications,
         WithVariantOptions,
-        WithProductImage;
+        WithImage;
 
     public function index(Product $product): Renderable
     {
@@ -90,7 +90,7 @@ class VariantController extends Controller
                 $this->saveVariantOptions($variant, $request->input('options'));
 
                 if ($request->hasFile('image')) {
-                    $this->replaceProductImage($variant, $request->file('image'));
+                    $this->replaceImage($variant, $request->file('image'));
                 }
 
                 $this->showSuccessNotification(trans('eshop::variant.notifications.saved'));
