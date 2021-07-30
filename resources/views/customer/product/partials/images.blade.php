@@ -2,7 +2,7 @@
      x-data="{ show: true, thumbnails: [] }"
      x-on:variant-selected.window="
         thumbnails = $event.detail.images
-        $refs.preview.src = $event.detail.image
+        $refs.preview.src = $event.detail.image ?: $refs.preview.src
         $refs.preview.parentElement.href = $event.detail.image
         refreshFsLightbox()
     ">

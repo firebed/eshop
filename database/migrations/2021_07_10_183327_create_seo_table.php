@@ -18,7 +18,7 @@ class CreateSeoTable extends Migration
             $table->morphs('seo');
             $table->string('locale', 2);
             $table->string('title');
-            $table->string('description')->nullable();
+            $table->string('description', 500)->nullable();
             $table->timestamps();
 
             $table->unique(['locale', 'title']);
