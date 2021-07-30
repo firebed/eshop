@@ -1,8 +1,8 @@
 <div x-data="{
             open: {{ empty($product) || $errors->has('seo.*') || $errors->has('slug') ? 'true' : 'false' }},
-            title: '{{ $title = old('seo.title', $variant->seo->title ?? '') }}',
+            title: '{{ $title = addslashes(old('seo.title', $variant->seo->title ?? '')) }}',
             slug: '{{ $slug = old('slug', $variant->slug ?? '') }}',
-            description: '{{ $description = old('seo.description', $variant->seo->description ?? '') }}',
+            description: '{{ $description = addslashes(old('seo.description', $variant->seo->description ?? '')) }}',
             productSlug: '{{ $productSlug = $product->slug ?? '' }}',
             categorySlug: '{{ $categorySlug = $product->category->slug ?? '' }}',
 

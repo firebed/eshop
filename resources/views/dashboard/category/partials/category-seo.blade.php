@@ -2,8 +2,8 @@
     <x-bs::card.body>
         <div x-data="{
             open: {{ $errors->has('seo.*') || $errors->has('slug') ? 'true' : 'false' }},
-            title: '{{ $title = old('seo.title', $category->seo->title ?? $category->name ?? '') }}',
-            slug: '{{ $slug = old('slug', $category->slug ?? '') }}',
+            title: '{{ $title = addslashes(old('seo.title', $category->seo->title ?? $category->name ?? '')) }}',
+            slug: '{{ $slug = addslashes(old('slug', $category->slug ?? '')) }}',
             description: '{{ $description = old('seo.description', $category->seo->description ?? '') }}',
 
             updateSlug() {
