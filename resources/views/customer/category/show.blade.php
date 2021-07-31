@@ -36,7 +36,7 @@
 
                         @if($products->hasPages())
                             <div class="d-flex justify-content-end">
-                                {{ $products->withQueryString()->onEachSide(1)->links('eshop::components.pagination') }}
+                                {{ $products->onEachSide(1)->links('bs::pagination.paginator') }}
                             </div>
                         @endif
 
@@ -46,7 +46,7 @@
 
                         @if($products->hasPages())
                             <div class="d-flex justify-content-center">
-                                {{ $products->withQueryString()->onEachSide(1)->links('eshop::components.pagination') }}
+                                {{ $products->onEachSide(1)->links('bs::pagination.paginator') }}
                             </div>
                         @endif
                     </div>
