@@ -48,5 +48,6 @@ return [
 
     'filters'          => 'Filters',
     'filters_info'     => 'This product will appear in the searching results if the client selects any of the below options.',
-    'image_color_diff' => 'Depending on your device, the colors of the images may differ slightly from the actual products.'
+    'image_color_diff' => 'Depending on your device, the colors of the images may differ slightly from the actual products.',
+    'primary_details'  => 'Details',
 ];
