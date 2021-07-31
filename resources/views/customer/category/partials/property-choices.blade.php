@@ -11,7 +11,7 @@
 
             @includeWhen($property->isCheckbox() && $property->name !== 'Χρώμα', 'eshop::customer.category.partials.filter-checkbox')
             @includeWhen($property->isCheckbox() && $property->name === 'Χρώμα', 'eshop::customer.category.partials.filter-color')
-            @includeWhen($property->isRadio(), 'eshop::customer.category.partials.filter-checkbox')
+            @includeWhen($property->isRadio(), 'eshop::customer.category.partials.filter-radio')
         </div>
     @endif
 @endforeach

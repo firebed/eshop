@@ -1,10 +1,10 @@
 @if($product->preview_variants)
-    <div class="row row-cols-4 gx-1">
+    <div class="row row-cols-4 gx-1 mt-2">
         @foreach($product->variants->take(4) as $variant)
             <div class="col">
                 <div class="ratio ratio-1x1">
                     @if($variant->image && $src = $variant->image->url('sm'))
-                        <img class="img-middle" src="{{ $src }}" alt="{{ $variant->trademark }}">
+                        <img class="img-middle rounded" src="{{ $src }}" alt="{{ $variant->trademark }}">
                     @endif
                 </div>
             </div>
