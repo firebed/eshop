@@ -13,7 +13,7 @@ trait WithVariantOptions
         foreach ($options as $variantTypeId => $option) {
             $variant->options()->attach($variantTypeId, [
                 'value' => $option,
-                'slug'  => slugify($option)
+                'slug'  => slugify($option, '_')
             ]);
         }
     }
