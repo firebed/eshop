@@ -2,10 +2,12 @@
     @foreach($product->variantTypes as $type)
         <div class="fw-500 mb-1">{{ __($type->name) }}</div>
 
-        <div class="d-flex flex-wrap gap-3 mb-3">
+        <div class="row row-cols-2 row-cols-sm-3 row-cols-xl-4 g-2 mb-3">
             @isset($uniqueOptions[$type->id])
                 @foreach($uniqueOptions[$type->id] as $option)
-                    <button type="button" wire:click="select({{ $type->id }}, '{{ $option->pivot->slug }}')" class="btn @if(in_array($option->pivot->slug, $filters, TRUE)) btn-primary @else btn-outline-primary @endif">{{ $option->pivot->value }}</button>
+                    <div class="col d-grid">
+                        <button type="button" wire:click="select({{ $type->id }}, '{{ $option->pivot->slug }}')" class="btn @if(in_array($option->pivot->slug, $filters, TRUE)) btn-primary @else btn-outline-primary @endif">{{ $option->pivot->value }}</button>
+                    </div>
                 @endforeach
             @endisset
         </div>
