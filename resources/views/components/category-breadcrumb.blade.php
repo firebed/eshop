@@ -1,4 +1,4 @@
-<div class="container-fluid py-3">
+<div class="container-fluid py-3 d-none d-md-block">
     <div class="container-xxl">
         <nav aria-label="breadcrumb" class="small">
             <ol class="breadcrumb m-0">

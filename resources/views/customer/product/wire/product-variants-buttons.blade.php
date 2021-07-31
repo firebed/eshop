@@ -3,9 +3,11 @@
         <div class="fw-500 mb-1">{{ __($type->name) }}</div>
 
         <div class="d-flex flex-wrap gap-3 mb-3">
-            @foreach($uniqueOptions[$type->id] as $option)
-                <button type="button" wire:click="select({{ $type->id }}, '{{ $option->pivot->slug }}')" class="btn @if(in_array($option->pivot->slug, $filters, true)) btn-primary @else btn-outline-primary @endif">{{ $option->pivot->value }}</button>
-            @endforeach
+            @isset($uniqueOptions[$type->id])
+                @foreach($uniqueOptions[$type->id] as $option)
+                    <button type="button" wire:click="select({{ $type->id }}, '{{ $option->pivot->slug }}')" class="btn @if(in_array($option->pivot->slug, $filters, TRUE)) btn-primary @else btn-outline-primary @endif">{{ $option->pivot->value }}</button>
+                @endforeach
+            @endisset
         </div>
     @endforeach
 

@@ -6,7 +6,7 @@
     <div class="container-fluid my-4">
         <div class="container-xxl">
             @if($category->isFile())
-                <div class="row">
+                <div class="row gx-0 gx-xl-3">
                     <div class="col-auto">
                         @include('eshop::customer.category.partials.filters')
                     </div>

@@ -49,6 +49,8 @@ $utilities: map-merge(
                 values: map-merge(
                     map-get(map-get($utilities, "max-height"), "values"),
                     (
+                        auto: auto,
+                        3r: 3rem,
                         10r: 10rem,
                         17r: 17rem,
                         20r: 20rem,
