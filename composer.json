@@ -20,7 +20,8 @@
     "maatwebsite/excel": "^3.1",
     "paypal/paypal-checkout-sdk": "1.0.1",
     "stevebauman/location": "^6.1",
-    "laravel/fortify": "^1.7"
+    "laravel/fortify": "^1.7",
+    "firebed/sitemap": "dev-master"
   },
   "require-dev": {
     "roave/security-advisories": "dev-latest"

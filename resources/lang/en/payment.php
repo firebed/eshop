@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'payment'          => 'Payment',
     'credit_card'      => 'Credit Card',
     'wire_transfer'    => 'Wire Transfer',
     'pay_in_our_store' => 'Pay in our store',

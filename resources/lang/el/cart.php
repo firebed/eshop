@@ -12,7 +12,18 @@ return [
         'held'      => 'Σε αναμονή',
         'cancelled' => 'Ακυρώθηκαν',
         'rejected'  => 'Απορρίφθηκαν',
-        'returned'  => 'Επιστράφηκαν'
+        'returned'  => 'Επιστράφηκαν',
+
+        'action' => [
+            'submitted' => 'Αναμονή προς έγκριση',
+            'approved'  => 'Εγκρίθηκε',
+            'completed' => 'Ολοκληρώθηκε',
+            'shipped'   => 'Στάλθηκε',
+            'held'      => 'Σε αναμονή',
+            'cancelled' => 'Ακυρώθηκε',
+            'rejected'  => 'Απορρίφθηκε',
+            'returned'  => 'Επιστράφηκε'
+        ]
     ],
 
     'channel' => [

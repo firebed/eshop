@@ -14,14 +14,14 @@
 
     <script src="https://cdn.jsdelivr.net/npm/autonumeric@4.6.0/dist/autoNumeric.min.js"></script>
 
-    <link href="{{ asset('vendor/eshop/css/dashboard/app.css') }}" rel="stylesheet">
+    <link href="{{ mix('css/dashboard/app.css') }}" rel="stylesheet">
     @stack('header_scripts')
     @livewireStyles
 
     <link rel="stylesheet" href="https://unpkg.com/simplebar@5.3.3/dist/simplebar.css"/>
     <script defer src="https://unpkg.com/simplebar@5.3.3/dist/simplebar.min.js"></script>
 
-    <script defer src="{{ asset('vendor/eshop/js/dashboard/app.js') }}"></script>
+    <script defer src="{{ mix('js/dashboard/app.js') }}"></script>
     <script defer src="https://unpkg.com/alpinejs@3.2.1/dist/cdn.min.js"></script>
 
     <x-eshop::google-analytics/>

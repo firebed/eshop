@@ -4,6 +4,7 @@ namespace Eshop\Controllers\Dashboard\Account;
 
 use Eshop\Controllers\Controller;
 use Eshop\Models\Cart\Cart;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 
 class UserOrdersController extends Controller
@@ -21,8 +22,16 @@ class UserOrdersController extends Controller
         return view('eshop::customer.account.order.index', compact('orders'));
     }
 
-    public function show(string $lang, Cart $order): View
+    public function show(string $lang, Cart $order): RedirectResponse|View
     {
+        if ($order->user_id !== auth()->id()) {
+            abort(403);
+        }
+
+        if (!$order->isSubmitted()) {
+            return redirect()->route('account.orders.index', $lang);
+        }
+
         $order->load(['products' => fn($q) => $q->with('translation', 'image')]);
         $products = $order->products;
 

@@ -11,6 +11,10 @@
 
     <hr class="my-2">
 
+    <a href="{{ route('pos.create') }}" @if(request()->routeIs('pos.create')) class="bg-gray-700" @endif><i class="fas fa-cash-register w-1r me-2 text-yellow-500"></i>{{ __("POS") }}</a>
+
+    <hr class="my-2">
+
     @can('View categories')
         <a href="{{ route('categories.index') }}" @if(request()->routeIs('categories.*')) class="bg-gray-700" @endif><i class="fas fa-list-ul w-1r me-2 text-teal-500"></i>{{ __("Categories") }}</a>
     @endcan

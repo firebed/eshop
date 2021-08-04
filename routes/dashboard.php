@@ -8,6 +8,8 @@ use Eshop\Controllers\Dashboard\Category\CategoryPropertyController;
 use Eshop\Controllers\Dashboard\Intl\CountryController;
 use Eshop\Controllers\Dashboard\Intl\PaymentMethodController;
 use Eshop\Controllers\Dashboard\Intl\ShippingMethodController;
+use Eshop\Controllers\Dashboard\Pos\PosCategoryController;
+use Eshop\Controllers\Dashboard\Pos\PosController;
 use Eshop\Controllers\Dashboard\Product\CollectionController;
 use Eshop\Controllers\Dashboard\Product\ManufacturerController;
 use Eshop\Controllers\Dashboard\Product\ProductController;
@@ -67,5 +69,8 @@ Route::middleware(['web', 'auth', 'admin'])->group(function () {
         Route::view('config', 'eshop::dashboard.config.index')->name('config.index');
 
         Route::get('analytics', AnalyticsController::class)->name('analytics');
+
+        Route::get('pos/categories', [PosCategoryController::class, 'index'])->name('pos.categories.index');
+        Route::resource('pos', PosController::class)->only('create', 'store');
     });
 });

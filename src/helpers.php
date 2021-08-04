@@ -77,12 +77,14 @@ if (!function_exists('productRouteExists')) {
 }
 
 if (!function_exists('productRoute')) {
-    function productRoute(Product $product, Category $category = NULL, $absolute = true): string
+    function productRoute(Product $product, Category $category = NULL, $locale = NULL, $absolute = TRUE): string
     {
+        $locale = $locale ?: app()->getLocale();
+
         $category = $category ?? $product->category;
         return $product->isVariant()
-            ? route('customer.variants.show', [app()->getLocale(), $category->slug, $product->parent->slug, $product->slug], $absolute)
-            : route('customer.products.show', [app()->getLocale(), $category->slug, $product->slug], $absolute);
+            ? route('customer.variants.show', [$locale, $category->slug, $product->parent->slug, $product->slug], $absolute)
+            : route('customer.products.show', [$locale, $category->slug, $product->slug], $absolute);
     }
 }
 
@@ -94,11 +96,13 @@ if (!function_exists('variantRouteExists')) {
 }
 
 if (!function_exists('variantRoute')) {
-    function variantRoute(Product $variant, Product $parent = NULL, Category $category = NULL, $absolute = true): string
+    function variantRoute(Product $variant, Product $parent = NULL, Category $category = NULL, $locale = NULL, $absolute = TRUE): string
     {
+        $locale = $locale ?: app()->getLocale();
+
         $parent = $parent ?? $variant->parent;
         $category = $category ?? $parent->category;
-        return route('customer.variants.show', [app()->getLocale(), $category->slug, $parent->slug, $variant->slug], $absolute);
+        return route('customer.variants.show', [$locale, $category->slug, $parent->slug, $variant->slug], $absolute);
     }
 }
 
@@ -117,11 +121,11 @@ if (!function_exists('title')) {
 }
 
 if (!function_exists('categoryRoute')) {
-    function categoryRoute(Category $category, ?Collection $manufacturers = NULL, ?Collection $choices = NULL, $min_price = 0, $max_price = 0): ?string
+    function categoryRoute(Category $category, ?Collection $manufacturers = NULL, ?Collection $choices = NULL, $min_price = 0, $max_price = 0, $locale = NULL): ?string
     {
         $name = 'customer.categories.show';
         $params = [
-            app()->getLocale(),
+            $locale ?: app()->getLocale(),
             $category->slug
         ];
 

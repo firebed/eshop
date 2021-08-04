@@ -1,0 +1,39 @@
+.btn-teal {
+    @include button-variant($teal-400, $teal-400);
+}
+
+.btn-green {
+    @include button-variant(#50b64a, #50b64a, white);
+    color: white !important;
+}
+
+.btn-blue {
+    @include button-variant(#0d6efd, #0d6efd, white);
+    color: white !important;
+}
+
+.btn-white {
+    @include button-variant(
+            white,
+            #d5d5d5,
+        $hover-background: #f2f2f2,
+        $disabled-background: $gray-100
+    );
+}
+
+.btn-haze {
+    @include button-variant(
+            #f0f1f3,
+            #eaeaec,
+        $hover-background: $gray-200,
+        $disabled-background: $gray-200
+    );
+}
+
+.btn-alpha {
+    @include button-variant(#906e4d, #906e4d);
+}
+
+.btn-smoke {
+    @include button-variant(#e8e8e8, #e8e8e8)
+}

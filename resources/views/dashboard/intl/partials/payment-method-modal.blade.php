@@ -24,7 +24,7 @@
                             <option value="" disabled>{{ __('Payment method') }}</option>
                             @isset($methods)
                                 @foreach($methods as $method)
-                                    <option value="{{ $method->id }}">{{ $method->name }}</option>
+                                    <option value="{{ $method->id }}">{{ __("eshop::payment.$method->name") }}</option>
                                 @endforeach
                             @endisset
                         </x-bs::input.select>

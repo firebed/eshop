@@ -25,11 +25,11 @@
                             </x-bs::group>
 
                             <x-bs::group :label="__('Status')" inline>
-                                <span class="text-dark">{{ __('eshop::account.order.' . $order->status->name) }}</span>
+                                <span class="text-dark">{{ __('eshop::cart.status.action.' . $order->status->name) }}</span>
                             </x-bs::group>
 
                             <x-bs::group :label="__('Shipping')" inline>
-                                <span class="text-dark">{{ $order->shippingMethod->name ?? '' }}</span>
+                                <span class="text-dark">{{ __("eshop::shipping.{$order->shippingMethod->name}") ?? '' }}</span>
                             </x-bs::group>
 
                             <x-bs::group :label="__('Shipping fee')" inline>
@@ -37,7 +37,7 @@
                             </x-bs::group>
 
                             <x-bs::group :label="__('Payment')" inline>
-                                <span class="text-dark">{{ $order->paymentMethod->name ?? '' }}</span>
+                                <span class="text-dark">{{ __("eshop::payment.{$order->paymentMethod->name}") ?? '' }}</span>
                             </x-bs::group>
 
                             <x-bs::group :label="__('Payment fee')" inline>

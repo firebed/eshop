@@ -27,7 +27,7 @@
                     <td class="w-1r">
                         <x-bs::input.checkbox wire:model="selectAll" id="checkAll"/>
                     </td>
-                    <td class="w-5r">&nbsp;</td>
+                    <td class="w-6r">&nbsp;</td>
                     <td>{{ __("Description") }}</td>
                     <td class="text-end">{{ __("Quantity") }}</td>
                     <td class="text-end">{{ __("Price") }}</td>
@@ -46,21 +46,23 @@
                         <td>
                             <div class="ratio ratio-1x1">
                                 @if($product->image && $src = $product->image->url('sm'))
-                                    <img class="w-auto h-auto mw-100 mh-100 rounded" src="{{ $src }}" alt="{{ $product->name }}">
+                                    <img class="img-middle rounded" src="{{ $src }}" alt="{{ $product->name }}">
                                 @endif
                             </div>
                         </td>
                         <td>
-                            @if($product->isVariant())
-                                <div>{{ $product->parent->name }}</div>
-                                <div class="fw-500"><span class="text-secondary">{{ $product->sku }}</span> <span>{{ $product->options->pluck('pivot.value')->join(' - ') }}</span></div>
-                            @else
-                                <div class="fw-500"><span class="text-secondary">{{ $product->sku }}</span> <span>{{ $product->name }}</span></div>
-                            @endif
-                            <x-bs::badge :value="$product->stock" :cap="$product->backorder">
-                                {{ format_number($product->stock) }}
-                            </x-bs::badge>
-                            {{ $product->pivot->created_at->format('d/m/y H:i:s') }} {{ $product->weight }}
+                            <div class="d-grid gap-1">
+                                @if($product->isVariant())
+                                    <div>{{ $product->parent->name }}</div>
+                                    <div class="fw-500"><span class="text-secondary">{{ $product->sku }}</span> <span>{{ $product->options->pluck('pivot.value')->join(' - ') }}</span></div>
+                                @else
+                                    <div class="fw-500"><span class="text-secondary">{{ $product->sku }}</span> <span>{{ $product->name }}</span></div>
+                                @endif
+                                <div class="d-flex gap-2 align-items-center small">
+                                    <x-bs::badge :value="$product->stock" :cap="$product->backorder">{{ format_number($product->stock) }}</x-bs::badge>
+                                    <span>{{ $product->pivot->created_at->format('d/m/y H:i:s') }} {{ $product->weight }}</span>
+                                </div>
+                            </div>
                         </td>
                         <td class="text-end">{{ format_number($product->pivot->quantity) }}</td>
                         <td class="text-end">{{ format_currency($product->pivot->price) }}</td>

@@ -9,7 +9,9 @@
     <x-bs::navbar.collapse id="shipping-address">
         <div class="d-grid flex-grow-1 gap-1 mt-3">
             <x-bs::group label="{{ __('To') }}" inline>{{ $shippingAddress->to }}</x-bs::group>
-            <x-bs::group label="{{ __('Phone') }}" inline>{{ $shippingAddress->phone }}</x-bs::group>
+            <x-bs::group label="{{ __('Phone') }}" inline>
+                <a href="tel:{{ $shippingAddress->phone}}">{{ $shippingAddress->phone }}</a>
+            </x-bs::group>
             <x-bs::group label="{{ __('Street') }}" inline>{{ $shippingAddress->street }} {{ $shippingAddress->street_no }}</x-bs::group>
             <x-bs::group label="{{ __('City') }}" inline>{{ $shippingAddress->city }}</x-bs::group>
             <x-bs::group label="{{ __('Postcode') }}" inline>{{ $shippingAddress->postcode }}</x-bs::group>

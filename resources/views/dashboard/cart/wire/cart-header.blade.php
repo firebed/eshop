@@ -19,14 +19,14 @@
 
         <x-bs::dropdown>
             <x-bs::dropdown.button wire:loading.attr="disabled" wire:target="resetStatus, editCartStatus" id="statuses-dropdown" class="btn-{{ $status->color }} rounded-pill py-0 border-2 border-white">
-                {{ __($status->name) }}
+                {{ __("eshop::cart.status.action.$status->name") }}
             </x-bs::dropdown.button>
 
             <x-bs::dropdown.menu button="statuses-dropdown">
                 @foreach($statuses as $stats)
                     @foreach($stats as $stat)
                         <x-bs::dropdown.item wire:click.prevent="editCartStatus({{ $stat->id }})" wire:key="stat-{{ $stat->id }}">
-                            {{ $stat->name }}
+                            {{ __("eshop::cart.status.action.$stat->name") }}
                         </x-bs::dropdown.item>
                     @endforeach
                     <x-bs::dropdown.divider/>

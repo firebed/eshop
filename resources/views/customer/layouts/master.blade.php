@@ -12,7 +12,7 @@
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA==" crossorigin="anonymous"/>
 
-    <link href="{{ asset('vendor/eshop/css/customer/app.css') }}" rel="stylesheet">
+    <link href="{{ mix('css/customer/app.css') }}" rel="stylesheet">
 
     <livewire:styles/>
     <script defer src="https://unpkg.com/alpinejs@3.2.1/dist/cdn.min.js"></script>
@@ -32,7 +32,7 @@
 
 <livewire:scripts/>
 
-<script src="{{ asset('vendor/eshop/js/customer/app.js') }}"></script>
+<script src="{{ mix('js/customer/app.js') }}"></script>
 @stack('footer_scripts')
 </body>
 </html>

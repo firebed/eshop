@@ -14,7 +14,7 @@ class CartButton extends Component
 
     public function mount(Order $order): void
     {
-        $this->count = $order->isNotEmpty() ? $order->items()->count() : 0;
+        $this->count = $order->isNotEmpty() ? $order->products()->count() : 0;
     }
 
     public function setCartItemsCount($count): void

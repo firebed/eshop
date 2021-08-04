@@ -2,6 +2,8 @@
 
 namespace Eshop;
 
+use Eshop\Commands\InstallCommand;
+use Eshop\Commands\SitemapCommand;
 use Eshop\Models\Cart\Cart;
 use Eshop\Models\Invoice\Company;
 use Eshop\Models\Invoice\Invoice;
@@ -52,7 +54,7 @@ class EshopServiceProvider extends ServiceProvider
     private function registerConfig(): void
     {
         $this->mergeConfigFrom(
-            __DIR__.'/../config/colors.php', 'colors'
+            __DIR__ . '/../config/colors.php', 'colors'
         );
     }
 
@@ -88,6 +90,8 @@ class EshopServiceProvider extends ServiceProvider
     {
         if ($this->app->runningInConsole()) {
             $this->commands([
+                SitemapCommand::class,
+                InstallCommand::class
             ]);
         }
     }
@@ -96,17 +100,6 @@ class EshopServiceProvider extends ServiceProvider
     {
         if ($this->app->runningInConsole()) {
             $this->publishes([__DIR__ . '/../config/eshop.php' => config_path('eshop.php')], 'eshop-config');
-
-            $this->publishes([
-                __DIR__ . '/../assets/css/customer'         => public_path('vendor/eshop/css/customer'),
-                __DIR__ . '/../assets/css/dashboard'        => public_path('vendor/eshop/css/dashboard'),
-                //                __DIR__ . '/../assets/css/slimselect.css'   => public_path('vendor/eshop/css/slimselect.css'),
-                __DIR__ . '/../assets/js/customer'          => public_path('vendor/eshop/js/customer'),
-                __DIR__ . '/../assets/js/dashboard'         => public_path('vendor/eshop/js/dashboard'),
-                __DIR__ . '/../assets/js/fslightbox.js'     => public_path('vendor/eshop/js/fslightbox.js'),
-                __DIR__ . '/../assets/js/fslightbox.js.map' => public_path('vendor/eshop/js/fslightbox.js.map'),
-                //                __DIR__ . '/../assets/js/slimselect.js'     => public_path('vendor/eshop/js/slimselect.js'),
-            ], 'eshop-assets');
 
             $this->publishes([__DIR__ . '/../resources/lang' => resource_path('lang/vendor/eshop')], 'eshop-locale');
             $this->publishes([__DIR__ . '/../resources/lang/el.json' => resource_path('lang/el.json')], 'eshop-locale-el');

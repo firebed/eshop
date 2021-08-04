@@ -43,7 +43,7 @@
     </div>
 
     <div class="d-flex align-items-center">
-        <div>{{ __($order->paymentMethod->name ?? 'Payment fee') }}</div>
+        <div>{{ __('eshop::payment.' . ($order->paymentMethod->name ?? 'payment')) }}</div>
         <div class="w-6r ms-auto text-end" id="products-value">{{ format_currency($order->payment_fee) }}</div>
     </div>
 

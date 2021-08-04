@@ -27,6 +27,9 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  */
 class CategoryProperty extends Model
 {
+    public const TYPE_CHECKBOX = 'checkbox';
+    public const TYPE_RADIO    = 'radio';
+
     use HasFactory;
     use HasTranslations;
 
@@ -40,12 +43,12 @@ class CategoryProperty extends Model
 
     public function isCheckbox(): bool
     {
-        return $this->type === 'checkbox';
+        return $this->type === self::TYPE_CHECKBOX;
     }
 
     public function isRadio(): bool
     {
-        return $this->type === 'radio';
+        return $this->type === self::TYPE_RADIO;
     }
 
     /*

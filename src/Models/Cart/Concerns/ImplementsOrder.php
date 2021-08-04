@@ -198,6 +198,10 @@ trait ImplementsOrder
         $this->submitted_at = now();
         $this->save();
 
+        foreach($this->products as $product) {
+            $product->decrement('stock', $product->pivot->quantity);
+        }
+
         if (empty($this->shippingAddress->related_id)) {
             auth()->user()->addresses()->save($this->shippingAddress->replicate(['cluster']));
         }

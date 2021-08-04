@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'payment'          => 'Πληρωμή',
     'credit_card'      => 'Πιστωτική Κάρτα',
     'wire_transfer'    => 'Κατάθεση σε Τράπεζα',
     'pay_in_our_store' => 'Πληρωμή στο κατάστημα μας',

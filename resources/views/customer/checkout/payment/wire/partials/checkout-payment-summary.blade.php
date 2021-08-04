@@ -35,7 +35,7 @@
 
         @if($order->payment_fee > 0)
             <div wire:key="payment-fee" class="d-flex align-items-center">
-                <div>{{ __($order->paymentMethod->name) }}</div>
+                <div>{{ __('eshop::payment.' . $order->paymentMethod->name) }}</div>
                 <div class="w-6r ms-auto text-end" id="products-value">{{ format_currency($order->payment_fee) }}</div>
             </div>
         @endif
