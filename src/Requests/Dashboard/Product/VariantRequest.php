@@ -3,6 +3,7 @@
 namespace Eshop\Requests\Dashboard\Product;
 
 use Eshop\Requests\Traits\WithRequestNotifications;
+use Eshop\Rules\SeoTitle;
 use Eshop\Rules\Slug;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
@@ -51,7 +52,7 @@ class VariantRequest extends FormRequest
             # SEO
             'slug'             => ['required', 'string', new Slug(), Rule::unique('products', 'slug')->when($variant, fn($q) => $q->ignore($variant))],
             'seo.locale'       => ['required', 'string', 'size:2', 'exists:locales,name'],
-            'seo.title'        => ['required', 'string', 'max:70', Rule::unique('seo', 'title')->where('locale', app()->getLocale())->when($variant, fn($q) => $q->whereNot('seo_id', $variant->id))],
+            'seo.title'        => ['required', 'string', 'max:70', new SeoTitle($variant)],
             'seo.description'  => ['nullable', 'string'],
 
             # Media
