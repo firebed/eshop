@@ -36,7 +36,7 @@ class EshopDatabaseSeeder extends Seeder
         $this->call(LocaleSeeder::class);
         $this->call(UnitSeeder::class);
         $this->call(VatSeeder::class);
-        $this->call(CategorySeeder::class);
+//        $this->call(CategorySeeder::class);
         $this->call(CartStatusSeeder::class);
 
 //        ShippingMethod::factory()->count(4)->create();
