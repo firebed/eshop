@@ -13,17 +13,7 @@ class VariantRequest extends FormRequest
 
     public function authorize(): bool
     {
-        return TRUE;
-    }
-
-    protected function prepareForValidation(): void
-    {
-        $this->merge([
-            'is_physical'   => $this->has('is_physical'),
-            'visible'       => $this->has('visible'),
-            'available'     => $this->has('available'),
-            'display_stock' => $this->has('display_stock'),
-        ]);
+        return true;
     }
 
     public function rules(): array
@@ -44,6 +34,7 @@ class VariantRequest extends FormRequest
             # Inventory
             'is_physical'      => ['required', 'boolean'],
             'sku'              => ['required', 'string', Rule::unique('products')->when($variant, fn($q) => $q->ignore($variant))],
+            'mpn'              => ['nullable', 'string'],
             'barcode'          => ['nullable', 'string', Rule::unique('products')->when($variant, fn($q) => $q->ignore($variant))],
             'location'         => ['nullable', 'string'],
             'stock'            => ['required', 'integer'],
@@ -73,6 +64,16 @@ class VariantRequest extends FormRequest
         return array_merge(parent::attributes(), [
             'options.*' => 'options',
             'seo.title' => 'title'
+        ]);
+    }
+
+    protected function prepareForValidation(): void
+    {
+        $this->merge([
+            'is_physical'   => $this->has('is_physical'),
+            'visible'       => $this->has('visible'),
+            'available'     => $this->has('available'),
+            'display_stock' => $this->has('display_stock'),
         ]);
     }
 }

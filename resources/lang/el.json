@@ -35,6 +35,9 @@
   "Country": "Χώρα",
   "Created at": "Δημιουργήθηκε",
   "Customer": "Πελάτης",
+  "Shipping options": "Επιλογές αποστολής",
+  "Payment options": "Επιλογές πληρωμής",
+  "Type": "Είδος",
   "Customers": "Πελάτες",
   "Customers can purchase this product": "Οι πελάτες μπορούνε να αγοράσουν αυτό το προϊόν",
   "Customers can purchase this variant": "Οι πελάτες μπορούνε να αγοράσουν αυτή την παραλλαγή",
@@ -110,6 +113,8 @@
   "No attributes found for this category.": "Δεν βρέθηκαν χαρακτηριστικά για αυτή την κατηγορία.",
   "No records found": "Δεν βρέθηκαν εγγραφές",
   "Number": "Αριθμός",
+  "Offer": "Προσφορά",
+  "Offers": "Προσφορές",
   "Order": "Παραγγελία",
   "Orders": "Παραγγελίες",
   "Orders total": "Σύνολο παραγγελιών",
@@ -176,6 +181,7 @@
   "Sorry, currently we do not ship to": "Δυστυχώς, προς το παρόν δεν υπάρχουν αποστολές για",
   "Standard": "Κανονικό",
   "Status": "Κατάσταση",
+  "Order total": "Σύνολο",
   "Stock": "Απόθεμα",
   "Store": "Κατάστημα",
   "Street": "Οδός",
@@ -213,5 +219,6 @@
   "Your order has been shipped!": "Η παραγγελία σου στάλθηκε!",
   "Zero": "Μηδενικό",
   "or": "ή",
-  "variants": "παραλλαγές"
+  "variants": "παραλλαγές",
+  "Updated at": "Τελευταία ενημέρωση"
 }

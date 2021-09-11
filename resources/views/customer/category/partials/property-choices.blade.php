@@ -1,6 +1,6 @@
 @foreach($category->properties as $property)
     @if($property->choices->isNotEmpty())
-        <div class='d-grid mb-5'>
+        <div class='d-grid gap-1 mb-5'>
             <div class='d-flex gap-3 align-items-baseline mb-3'>
                 <div>{{ $property->name }}</div>
 

@@ -12,7 +12,7 @@
             },
 
             removeLineBreaks(text) {
-                return text.replace(/\r?\n|\r/g, ' ')
+                return text.replace(/\r?\n|\r|\s\s+/g, ' ')
             }
         }"
              x-on:product-name-updated.window="

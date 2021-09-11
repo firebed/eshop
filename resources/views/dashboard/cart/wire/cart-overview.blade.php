@@ -17,11 +17,11 @@
             </x-bs::group>
 
             <x-bs::group label="{{ __('Shipping') }}" inline>
-                {{ __("eshop::shipping.$shippingMethod->name") ?? '' }} ({{ format_currency($cart->shipping_fee) }})
+                @isset($shippingMethod){{ __("eshop::shipping.$shippingMethod->name") ?? '' }}@endisset ({{ format_currency($cart->shipping_fee) }})
             </x-bs::group>
 
             <x-bs::group label="{{ __('Payment') }}" inline>
-                {{ __("eshop::payment.$paymentMethod->name") ?? '' }} ({{ format_currency($cart->payment_fee) }})
+                @isset($paymentMethod){{ __("eshop::payment.$paymentMethod->name") ?? '' }}@endisset ({{ format_currency($cart->payment_fee) }})
             </x-bs::group>
 
             <x-bs::group label="{{ __('Weight') }}" inline>

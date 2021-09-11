@@ -7,7 +7,7 @@
         </td>
         <td class="text-end">
             <div>{{ __("company.address") }}</div>
-            <div>{{ __("company.phone") }}</div>
+            <div>{{ __("company.phone")[0] }}</div>
             <div>{{ __("company.vat") }} • {{ __("company.tax_office") }}</div>
             <div>{{ __("company.email") }}</div>
         </td>

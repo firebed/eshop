@@ -1,14 +1,15 @@
 <form wire:submit.prevent="addToCart">
-    <div class="row row-cols-1 row-cols-sm-2 mb-3 g-4">
+    <div class="row mb-3 g-4">
         @if($product->canDisplayStock())
             <div class="col-12 fw-500 text-success">@choice("eshop::product.availability", $product->available_stock, ['count' => format_number($product->available_stock)])</div>
         @endif
 
-        <div class="col-12">
+        <div class="col-12 hstack gap-3">
             <div class="h3 mb-0">{{ format_currency($product->netValue) }}</div>
+            @if($product->discount > 0) <s class="text-secondary">{{ format_currency($product->price) }}</s>@endif
         </div>
 
-        <div class="col d-grid gap-1">
+        <div class="col-12 col-sm d-grid gap-1">
             <div class="input-group">
                 <x-bs::button.light onclick="AutoNumeric.set('#quantity', AutoNumeric.getNumber('#quantity')-1)" class="border shadow-none" aria-label="{{ __('Decrease quantity') }}"><em class="fa fa-minus"></em></x-bs::button.light>
                 <label for="quantity" class="visually-hidden">{{ __("Quantity") }}</label>
@@ -21,7 +22,7 @@
             </div>
         </div>
 
-        <div class="col">
+        <div class="col-12 col-sm">
             <button type="submit" class="btn btn-green w-100">
                 <em class="fa fa-shopping-cart"></em>
                 <span class="ms-3">{{ __("Add to cart") }}</span>

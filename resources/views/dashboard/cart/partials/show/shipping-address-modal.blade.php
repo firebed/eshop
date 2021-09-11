@@ -16,7 +16,7 @@
                 </x-bs::input.group>
 
                 <x-bs::input.group for="shipping-address-country" label="{{ __('Country') }}" class="col">
-                    <x-bs::input.select wire:model.defer="shippingAddress.country_code" id="shipping-address-country" error="shippingAddress.country_code">
+                    <x-bs::input.select wire:model.defer="shippingAddress.country_id" id="shipping-address-country" error="shippingAddress.country_id">
                         @foreach($countries as $country)
                             <option value="{{ $country->code }}">{{ $country->name }}</option>
                         @endforeach

@@ -7,6 +7,8 @@ use Eshop\Database\Factories\Cart\CartFactory;
 use Eshop\Models\Cart\Concerns\ImplementsOrder;
 use Eshop\Models\Invoice\Invoice;
 use Eshop\Models\Location\Address;
+use Eshop\Models\Location\CountryPaymentMethod;
+use Eshop\Models\Location\CountryShippingMethod;
 use Eshop\Models\Location\PaymentMethod;
 use Eshop\Models\Location\ShippingMethod;
 use Eshop\Models\Product\Product;
@@ -87,14 +89,19 @@ class Cart extends Model implements Order
     |-----------------------------------------------------------------------------
     */
 
+    protected static function newFactory(): CartFactory
+    {
+        return CartFactory::new();
+    }
+
     public function shippingMethod(): BelongsTo
     {
-        return $this->belongsTo(ShippingMethod::class);
+        return $this->belongsTo(CountryShippingMethod::class, 'shipping_method_id');
     }
 
     public function paymentMethod(): BelongsTo
     {
-        return $this->belongsTo(PaymentMethod::class);
+        return $this->belongsTo(CountryPaymentMethod::class, 'payment_method_id');
     }
 
     public function status(): BelongsTo
@@ -137,25 +144,20 @@ class Cart extends Model implements Order
         return $this->hasMany(CartProduct::class);
     }
 
-    public function user(): BelongsTo
-    {
-        return $this->belongsTo(User::class);
-    }
-
     /*
     |-----------------------------------------------------------------------------
     | SCOPES
     |-----------------------------------------------------------------------------
     */
 
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
+
     public function scopeSubmitted(Builder $query): void
     {
         $query->whereNotNull('submitted_at');
-    }
-
-    public function scopeAbandoned(Builder $query): void
-    {
-        $query->whereNull('submitted_at');
     }
 
     /*
@@ -164,6 +166,11 @@ class Cart extends Model implements Order
     |-----------------------------------------------------------------------------
     */
 
+    public function scopeAbandoned(Builder $query): void
+    {
+        $query->whereNull('submitted_at');
+    }
+
     public function markAsViewed(): void
     {
         $this->viewed_at = now();
@@ -171,12 +178,12 @@ class Cart extends Model implements Order
 
     public function isViewed(): bool
     {
-        return $this->viewed_at !== NULL;
+        return $this->viewed_at !== null;
     }
 
     public function isSubmitted(): bool
     {
-        return $this->submitted_at !== NULL;
+        return $this->submitted_at !== null;
     }
 
     public function isDocumentInvoice(): bool
@@ -201,10 +208,5 @@ class Cart extends Model implements Order
         }
 
         return $this->address()->delete() && parent::delete();
-    }
-
-    protected static function newFactory(): CartFactory
-    {
-        return CartFactory::new();
     }
 }

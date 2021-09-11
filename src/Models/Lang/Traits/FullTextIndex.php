@@ -31,12 +31,14 @@ trait FullTextIndex
         return implode(' ', $striped);
     }
 
-    public function scopeMatchAgainst(Builder $builder, $search): void
+    public function scopeMatchAgainst(Builder $builder, $search): Builder
     {
         $against = self::prepareSearchTerm($search);
         if ($against !== NULL) {
             $match = implode(', ', $this->match);
             $builder->whereRaw("MATCH($match) AGAINST (? IN BOOLEAN MODE)", $against);
         }
+
+        return $builder;
     }
 }

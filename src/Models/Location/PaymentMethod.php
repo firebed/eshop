@@ -29,7 +29,11 @@ class PaymentMethod extends Model
     public const PAY_ON_DELIVERY  = 'pay_on_delivery';
     public const PAYMENT_IN_STORE = 'pay_in_out_store';
 
-    public $timestamps = FALSE;
+    protected $fillable = ['name', 'show_total_on_order_form'];
+
+    protected $casts = [
+        'show_total_on_order_form' => 'boolean'
+    ];
 
     public function countries(): BelongsToMany
     {

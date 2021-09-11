@@ -11,7 +11,7 @@
     <tbody>
     @foreach($cart->products as $product)
         <tr>
-            <td style="text-align: left"><img alt="{{ $product->name }}" src="{{ asset($product->image->url('sm')) }}" style="max-width: 60px"></td>
+            <td style="text-align: left">@if($src = $product->image?->url('sm')) <img alt="{{ $product->name }}" src="{{ asset($src) }}" style="max-width: 60px"> @endif</td>
             <td style="text-align: left">
                 <div class="mb-1 font-weight-bold"><strong>{{ $product->parent->name ?? '' }}</strong></div>
                 <div>{{ $product->sku . ' ' . $product->name }}</div>

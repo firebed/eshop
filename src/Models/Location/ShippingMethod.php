@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Str;
 
 /**
@@ -19,6 +20,8 @@ use Illuminate\Support\Str;
  * @property ?string    tracking_url
  * @property ?string    icon
  *
+ * @property Collection $inaccessibleAreas
+ *
  * @property Collection countries
  *
  * @mixin Builder
@@ -27,15 +30,23 @@ class ShippingMethod extends Model
 {
     use HasFactory;
 
-    public const ACS = 1;
+    protected $fillable = ['name', 'tracking_url'];
 
-    public $timestamps = false;
+    protected static function newFactory(): ShippingMethodFactory
+    {
+        return ShippingMethodFactory::new();
+    }
 
     public function countries(): BelongsToMany
     {
         return $this->belongsToMany(Country::class)
-            ->withPivot('fee', 'cart_total', 'weight_limit', 'weight_excess_charge', 'inaccessible_area_charge', 'position', 'enabled')
+            ->withPivot('fee', 'cart_total', 'weight_limit', 'weight_excess_fee', 'inaccessible_area_fee', 'position', 'visible')
             ->withTimestamps();
+    }
+
+    public function inaccessibleAreas(): HasMany
+    {
+        return $this->hasMany(InaccessibleArea::class);
     }
 
     public function getVoucherUrl($voucher): string
@@ -44,10 +55,5 @@ class ShippingMethod extends Model
             return '#';
         }
         return Str::replaceFirst('{$tracking}', urlencode($voucher), $this->tracking_url);
-    }
-
-    protected static function newFactory(): ShippingMethodFactory
-    {
-        return ShippingMethodFactory::new();
     }
 }

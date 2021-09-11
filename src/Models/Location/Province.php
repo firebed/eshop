@@ -23,6 +23,12 @@ class Province extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['country_id', 'name', 'shippable'];
+
+    protected $casts = [
+        'shippable' => 'bool'
+    ];
+
     public function country(): BelongsTo
     {
         return $this->belongsTo(Country::class);

@@ -4,8 +4,8 @@
 namespace Eshop\Models\Cart\Concerns;
 
 
-use Eshop\Events\CartStatusChanged;
-use Eshop\Models\Cart\CartStatus;
+use Eshop\Actions\Order\PaymentFeeCalculator;
+use Eshop\Actions\Order\ShippingFeeCalculator;
 use Eshop\Models\Location\Address;
 use Eshop\Models\Location\Country;
 use Eshop\Models\Product\Product;
@@ -29,6 +29,55 @@ trait ImplementsOrder
         }
     }
 
+    private function createIfNotExists(): void
+    {
+        if ($this->exists) {
+            return;
+        }
+
+        $this->user()->associate(auth()->user());
+        if (Auth::guest()) {
+            $this->cookie_id = (string)Str::uuid();
+        }
+
+        $this->channel = 'eshop';
+
+        if ($this->save()) {
+            if ($this->cookie_id !== NULL) {
+                session()->put('cart-session-id', $this->id);
+                cookie()->queue('cart-cookie-id', $this->cookie_id, now()->addMonths(2)->diffInMinutes());
+            }
+
+            $location = Location::get();
+            $country = Country::code($location->countryCode)->first() ?? Country::default();
+
+            $shippingAddress = new Address(['cluster' => 'shipping']);
+
+            if (auth()->user() && auth()->user()->addresses->isNotEmpty()) {
+                $userAddress = auth()->user()->addresses->first();
+                $shippingAddress = $userAddress->replicate(['addressable_type', 'addressable_id']);
+                $shippingAddress->cluster = 'shipping';
+                $shippingAddress->related_id = $userAddress->id;
+            } else {
+                $shippingAddress->country()->associate($country);
+            }
+
+            $this->shippingAddress()->save($shippingAddress);
+        }
+    }
+
+    private function mapProduct($product, $quantity): array
+    {
+        return [
+            'quantity'      => $quantity,
+            'price'         => $product->price,
+            'compare_price' => $product->compare_price,
+            'discount'      => $product->discount,
+            'vat'           => $product->vat,
+            'deleted_at'    => NULL
+        ];
+    }
+
     public function syncProducts(mixed $ids): void
     {
         $this->createIfNotExists();
@@ -49,6 +98,11 @@ trait ImplementsOrder
         }
     }
 
+    public function updateQuantity(Product|int $product, int $quantity): void
+    {
+        $this->updateProduct($product, ['quantity' => $quantity]);
+    }
+
     public function updateProduct(Product|int $product, array $attributes): void
     {
         $this->products()->updateExistingPivot($product, $attributes);
@@ -57,11 +111,6 @@ trait ImplementsOrder
 //            $this->products->find($product)->pivot->fill($attributes);
             $this->unsetRelation('products');
         }
-    }
-
-    public function updateQuantity(Product|int $product, int $quantity): void
-    {
-        $this->updateProduct($product, ['quantity' => $quantity]);
     }
 
     public function removeProduct($ids): void
@@ -87,9 +136,9 @@ trait ImplementsOrder
         return $isDirty;
     }
 
-    public function isEmpty(): bool
+    public function updateTotalWeight(): void
     {
-        return !$this->exists || $this->products->isEmpty();
+        $this->parcel_weight = $this->products->sum(fn($p) => $p->weight * $p->pivot->quantity);
     }
 
     public function isNotEmpty(): bool
@@ -97,9 +146,9 @@ trait ImplementsOrder
         return !$this->isEmpty();
     }
 
-    public function updateTotalWeight(): void
+    public function isEmpty(): bool
     {
-        $this->parcel_weight = $this->products->sum(fn($p) => $p->weight * $p->pivot->quantity);
+        return !$this->exists || $this->products->isEmpty();
     }
 
     public function updateTotal(): void
@@ -107,44 +156,25 @@ trait ImplementsOrder
         $this->total = $this->products_value + $this->total_fees;
     }
 
-    public function updateFees($preferredShippingMethodId = NULL, $preferredPaymentMethodId = NULL): void
-    {
-        $this->updateShippingFee($preferredShippingMethodId);
-        $this->updatePaymentFee($preferredPaymentMethodId);
-    }
-
-    public function updateShippingFee(int $preferredShippingMethodId = NULL): void
-    {
-        $country = $this->shippingAddress->country ?? NULL;
-        if ($country === NULL) {
-            return;
-        }
-
-        $shippingMethods = $country->filterShippingOptions($this->products_value);
-
-        if ($shippingMethods->isEmpty()) {
-            $this->shippingMethod()->disassociate();
-            $this->shipping_fee = 0;
-            return;
-        }
-
-        $suggestedShippingMethod = $shippingMethods->first();
-        $suggestedShippingFee = $suggestedShippingMethod->calculateTotalFee($this->parcel_weight);
-
-        $this->shippingMethod()->associate($suggestedShippingMethod->shipping_method_id);
-        $this->shipping_fee = $suggestedShippingFee;
-
-        if ($preferredShippingMethodId === NULL) {
-            return;
-        }
-
-        $preferredShippingMethod = $shippingMethods->firstWhere('shipping_method_id', $preferredShippingMethodId);
-        if ($preferredShippingMethod !== NULL && $preferredShippingMethod !== $suggestedShippingMethod) {
-            $preferredShippingFee = $preferredShippingMethod->calculateTotalFee($this->parcel_weight);
-            $this->shippingMethod()->associate($preferredShippingMethod->shipping_method_id);
-            $this->shipping_fee = $preferredShippingFee;
-        }
-    }
+//    public function updateFees($preferredShippingMethodId = NULL, $preferredPaymentMethodId = NULL): void
+//    {
+//        $this->updateShippingFee($preferredShippingMethodId);
+//        $this->updatePaymentFee($preferredPaymentMethodId);
+//    }
+//
+//    public function updateShippingFee(int $preferredShippingMethodId = NULL): void
+//    {
+//        $country = $this->shippingAddress->country ?? NULL;
+//        if ($country === NULL) {
+//            return;
+//        }
+//
+//        $calculator = new ShippingFeeCalculator();
+//        [$method, $fee] = $calculator->handle($country, $this->products_value, $this->parcel_weight, $this->shippingAddress->postcode, $preferredShippingMethodId);
+//
+//        $this->shippingMethod()->associate($method);
+//        $this->shipping_fee = $fee ?: 0;
+//    }
 
     public function updatePaymentFee(int $preferredPaymentMethodId = NULL): void
     {
@@ -153,31 +183,11 @@ trait ImplementsOrder
             return;
         }
 
-        $paymentMethods = $country->filterPaymentMethods($this->products_value);
+        $calculator = new PaymentFeeCalculator();
+        [$method, $fee] = $calculator->handle($country, $this->products_value, $preferredPaymentMethodId);
 
-        if ($paymentMethods->isEmpty()) {
-            $this->paymentMethod()->disassociate();
-            $this->payment_fee = 0;
-            return;
-        }
-
-        $suggestedPaymentMethod = $paymentMethods->first();
-        $suggestedPaymentFee = $suggestedPaymentMethod->calculateTotalFee();
-
-        $this->paymentMethod()->associate($suggestedPaymentMethod->payment_method_id);
-        $this->payment_fee = $suggestedPaymentFee;
-
-        if ($preferredPaymentMethodId === NULL) {
-            return;
-        }
-
-        $preferredPaymentMethod = $paymentMethods->firstWhere('payment_method_id', $preferredPaymentMethodId);
-
-        if ($preferredPaymentMethod !== NULL && $preferredPaymentMethod !== $suggestedPaymentMethod) {
-            $preferredPaymentFee = $preferredPaymentMethod->calculateTotalFee();
-            $this->paymentMethod()->associate($preferredPaymentMethod->payment_method_id);
-            $this->payment_fee = $preferredPaymentFee;
-        }
+        $this->paymentMethod()->associate($method);
+        $this->payment_fee = $fee ?: 0;
     }
 
     public function getProductQuantity(Product|int $product): int
@@ -189,27 +199,6 @@ trait ImplementsOrder
         }
 
         return 0;
-    }
-
-    public function submit(): void
-    {
-        $submitted = CartStatus::firstWhere('name', CartStatus::SUBMITTED);
-        $this->status()->associate($submitted);
-        $this->submitted_at = now();
-        $this->save();
-
-        foreach($this->products as $product) {
-            $product->decrement('stock', $product->pivot->quantity);
-        }
-
-        if (empty($this->shippingAddress->related_id)) {
-            auth()->user()->addresses()->save($this->shippingAddress->replicate(['cluster']));
-        }
-
-        session()->forget('cart-session-id');
-        cookie()->queue(cookie()->forget('cart-cookie-id'));
-
-        event(new CartStatusChanged($this, $submitted));
     }
 
     public function pluckProductQuantities(): Collection
@@ -235,43 +224,5 @@ trait ImplementsOrder
     public function getTotalWithoutFeesAttribute(): float
     {
         return $this->total - $this->total_fees;
-    }
-
-    private function mapProduct($product, $quantity): array
-    {
-        return [
-            'quantity'      => $quantity,
-            'price'         => $product->price,
-            'compare_price' => $product->compare_price,
-            'discount'      => $product->discount,
-            'vat'           => $product->vat,
-            'deleted_at'    => NULL
-        ];
-    }
-
-    private function createIfNotExists(): void
-    {
-        if ($this->exists) {
-            return;
-        }
-
-        $this->user()->associate(auth()->user());
-        if (Auth::guest()) {
-            $this->cookie_id = (string)Str::uuid();
-        }
-
-        if ($this->save()) {
-            if ($this->cookie_id !== NULL) {
-                session()->put('cart-session-id', $this->id);
-                cookie()->queue('cart-cookie-id', $this->cookie_id, now()->addMonths(2)->diffInMinutes());
-            }
-
-            $location = Location::get();
-            $country = Country::code($location->countryCode)->first() ?? Country::default();
-
-            $shippingAddress = new Address(['cluster' => 'shipping']);
-            $shippingAddress->country()->associate($country);
-            $this->shippingAddress()->save($shippingAddress);
-        }
     }
 }

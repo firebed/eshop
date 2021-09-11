@@ -1,17 +1,22 @@
 @foreach($products as $product)
     <div class="col">
-        <div class="card h-100 position-relative">
-            @if($product->discount > 0)
-                <div class="position-absolute p-2 fs-6 badge bg-yellow-500" style="z-index: 2000; top:10px; right: 10px;">{{ format_percent(-$product->discount) }}</div>
-            @endif
+        <div class="card h-100">
+            <div class="card-body vstack position-relative">
+                @if((!$product->has_variants && $product->discount > 0) || ($product->has_variants && $product->variants->where('discount', '>', 0)->isNotEmpty()))
+                    <div class="position-absolute fs-6 badge fw-normal bg-yellow-200 text-orange-600" style="z-index: 2000; right: 1rem">
+                        @unless($product->has_variants)
+                            {{ format_percent(-$product->discount) }}
+                        @else
+                            % {{ __("Offer") }}
+                        @endunless
+                    </div>
+                @endif
 
-            <div class="card-body d-flex flex-column">
                 <a href="{{ productRoute($product, $category) }}" class="ratio ratio-1x1 mb-3">
                     @if($product->image && $src = $product->image->url('sm'))
-                        <img src="{{ $src }}" alt="{{ $product->name }}" class="img-middle rounded">
+                        <img src="{{ $src }}" alt="{{ $product->name }}" class="rounded">
                     @endif
                 </a>
-
 
                 <div class="lh-sm fw-500 mb-3">
                     <a class="text-dark text-hover-underline" href="{{ productRoute($product, $category) }}">{{ $product->name }}</a>

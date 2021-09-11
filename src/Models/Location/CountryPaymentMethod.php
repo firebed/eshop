@@ -25,14 +25,17 @@ class CountryPaymentMethod extends Pivot
 
     protected array $translatable = ['description'];
 
-//    protected $appends = ['description_for_edit'];
-
     protected $casts = [
         'fee'        => 'float',
         'cart_total' => 'float',
         'position'   => 'integer',
         'visible'    => 'bool',
     ];
+
+    protected static function newFactory(): CountryPaymentMethodFactory
+    {
+        return CountryPaymentMethodFactory::new();
+    }
 
     public function country(): BelongsTo
     {
@@ -44,23 +47,39 @@ class CountryPaymentMethod extends Pivot
         return $this->belongsTo(PaymentMethod::class);
     }
 
-//    public function getDescriptionForEditAttribute(): string
-//    {
-//        return $this->description ?? '';
-//    }
-//
-//    public function setDescriptionForEditAttribute($value): void
-//    {
-//        $this->description = blank($value) ? NULL : trim($value);
-//    }
-
-    public function calculateTotalFee(): float
+    public function isPayPal(): bool
     {
-        return $this->fee;
+        $this->loadMissing('paymentMethod');
+        return $this->paymentMethod->isPayPal();
     }
 
-    protected static function newFactory(): CountryPaymentMethodFactory
+    public function isCreditCard(): bool
     {
-        return CountryPaymentMethodFactory::new();
+        $this->loadMissing('paymentMethod');
+        return $this->paymentMethod->isCreditCard();
+    }
+
+    public function isWireTransfer(): bool
+    {
+        $this->loadMissing('paymentMethod');
+        return $this->paymentMethod->isWireTransfer();
+    }
+
+    public function isPayOnDelivery(): bool
+    {
+        $this->loadMissing('paymentMethod');
+        return $this->paymentMethod->isPayOnDelivery();
+    }
+
+    public function isPaymentInStore(): bool
+    {
+        $this->loadMissing('paymentMethod');
+        return $this->paymentMethod->isPaymentInStore();
+    }
+
+    public function getNameAttribute(): string
+    {
+        $this->loadMissing('paymentMethod');
+        return $this->paymentMethod->name;
     }
 }

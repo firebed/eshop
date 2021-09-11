@@ -82,6 +82,11 @@ class User extends Authenticatable
         return $this->hasMany(Company::class);
     }
 
+    public function searches(): HasMany
+    {
+        return $this->hasMany(CustomerSearch::class);
+    }
+
     public function activeCart(): HasOne
     {
         return $this->hasOne(Cart::class)->abandoned();

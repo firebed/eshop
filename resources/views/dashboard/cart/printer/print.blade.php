@@ -95,7 +95,7 @@
     </table>
 </div>
 
-@includeWhen($cart->paymentMethod && $cart->paymentMethod->show_total_on_order_form, 'dashboard.cart.printer.partials.pay-on-delivery')
+@includeWhen($cart->paymentMethod && $cart->paymentMethod->show_total_on_order_form, 'eshop::dashboard.cart.printer.partials.pay-on-delivery')
 
 <hr class="mt-3">
 

@@ -15,21 +15,25 @@ class ShippingAddress extends Component
 
     public $shippingAddress;
     public $showModal;
+    public int $cartId;
 
     protected $rules = [
-        'shippingAddress.first_name' => 'required|string',
-        'shippingAddress.last_name'  => 'required|string',
-        'shippingAddress.phone'      => 'required|string',
-        'shippingAddress.country_id' => 'required|integer',
-        'shippingAddress.province'   => 'nullable|string',
-        'shippingAddress.city'       => 'required|string',
-        'shippingAddress.street'     => 'required|string',
-        'shippingAddress.postcode'   => 'required|string',
+        'shippingAddress.first_name'       => 'required|string',
+        'shippingAddress.last_name'        => 'required|string',
+        'shippingAddress.phone'            => 'required|string',
+        'shippingAddress.country_id'       => 'required|integer',
+        'shippingAddress.province'         => 'nullable|string',
+        'shippingAddress.city'             => 'required|string',
+        'shippingAddress.street'           => 'required|string',
+        'shippingAddress.postcode'         => 'required|string',
     ];
 
     public function mount(Cart $cart): void
     {
-        $this->shippingAddress = $cart->shippingAddress()->first();
+        $this->cartId = $cart->id;
+        $this->shippingAddress = $cart->shippingAddress()->firstOrNew([], [
+            'country_id'       => 1
+        ]);
     }
 
     public function edit(): void
@@ -41,9 +45,11 @@ class ShippingAddress extends Component
     public function save(): void
     {
         $this->validate();
-
         $this->shippingAddress->province = $this->trim($this->shippingAddress->province);
 
+        $this->shippingAddress->cluster = 'shipping';
+        $cart = Cart::find($this->cartId);
+        $cart->shippingAddress()->save($this->shippingAddress);
         $this->shippingAddress->save();
         $this->shippingAddress->load('country');
 
@@ -54,7 +60,10 @@ class ShippingAddress extends Component
     public function render(): Renderable
     {
         $countries = app('countries');
-        $country = $countries->find($this->shippingAddress->country_id);
+        $country = null;
+        if (isset($this->shippingAddress)) {
+            $countries->find($this->shippingAddress->country_id);
+        }
         return view('eshop::dashboard.cart.wire.shipping-address', compact('countries', 'country'));
     }
 }

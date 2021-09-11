@@ -55,10 +55,14 @@
                 </a>
             </td>
             <td class="align-middle">
-                <a href="{{ route('carts.show', $cart) }}" class="d-block text-decoration-none text-dark">{{ __($cart->shippingMethod->name) }}</a>
+                @if($cart->shippingMethod)
+                    <a href="{{ route('carts.show', $cart) }}" class="d-block text-decoration-none text-dark">{{ __($cart->shippingMethod->name) }}</a>
+                @endif
             </td>
             <td class="align-middle">
-                <a href="{{ route('carts.show', $cart) }}" class="d-block text-decoration-none text-dark">{{ __('eshop::payment.' . $cart->paymentMethod->name) }}</a>
+                @if($cart->paymentMethod)
+                    <a href="{{ route('carts.show', $cart) }}" class="d-block text-decoration-none text-dark">{{ __('eshop::payment.' . $cart->paymentMethod->name) }}</a>
+                @endif
             </td>
             <td class="text-end align-middle">
                 <a href="{{ route('carts.show', $cart) }}" class="d-block text-decoration-none text-dark">{{ format_currency($cart->total) }}</a>

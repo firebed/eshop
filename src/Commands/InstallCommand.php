@@ -47,7 +47,6 @@ class InstallCommand extends Command
 
         $packages[$configurationKey] = static::updatePackageArray(
             array_key_exists($configurationKey, $packages) ? $packages[$configurationKey] : [],
-            $configurationKey
         );
 
         ksort($packages[$configurationKey]);
@@ -63,7 +62,7 @@ class InstallCommand extends Command
         return [
                 "fslightbox"         => "^3.2.3",
                 "@popperjs/core"     => "^2.9.2",
-                "bootstrap"          => "^5.0.2",
+                "bootstrap"          => "^5.1.0",
                 "slim-select"        => "^1.27.0",
                 "slugify"            => "^1.6.0",
                 "postcss"            => "^8.1.14",
@@ -87,7 +86,9 @@ class InstallCommand extends Command
         (new Filesystem)->ensureDirectoryExists(resource_path('js/customer'));
 
         copy(__DIR__ . '/stubs/scss/_buttons.scss', resource_path('scss/_buttons.scss'));
+        copy(__DIR__ . '/stubs/scss/_color-wheel.scss', resource_path('scss/_color-wheel.scss'));
         copy(__DIR__ . '/stubs/scss/_colors.scss', resource_path('scss/_colors.scss'));
+        copy(__DIR__ . '/stubs/scss/_loader.scss', resource_path('scss/_loader.scss'));
         copy(__DIR__ . '/stubs/scss/_utilities.scss', resource_path('scss/_utilities.scss'));
 
         copy(__DIR__ . '/stubs/scss/dashboard/_navigation.scss', resource_path('scss/dashboard/_navigation.scss'));
@@ -95,7 +96,10 @@ class InstallCommand extends Command
         copy(__DIR__ . '/stubs/scss/dashboard/_variables.scss', resource_path('scss/dashboard/_variables.scss'));
         copy(__DIR__ . '/stubs/scss/dashboard/app.scss', resource_path('scss/dashboard/app.scss'));
 
+        copy(__DIR__ . '/stubs/scss/customer/_cart-button.scss', resource_path('scss/customer/_filters.scss'));
         copy(__DIR__ . '/stubs/scss/customer/_filters.scss', resource_path('scss/customer/_filters.scss'));
+        copy(__DIR__ . '/stubs/scss/customer/_logo.scss', resource_path('scss/customer/app.scss'));
+        copy(__DIR__ . '/stubs/scss/customer/_navbar.scss', resource_path('scss/customer/_filters.scss'));
         copy(__DIR__ . '/stubs/scss/customer/_variables.scss', resource_path('scss/customer/_variables.scss'));
         copy(__DIR__ . '/stubs/scss/customer/app.scss', resource_path('scss/customer/app.scss'));
     }

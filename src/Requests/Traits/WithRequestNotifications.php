@@ -13,7 +13,10 @@ trait WithRequestNotifications
 
     protected function failedValidation(Validator $validator): void
     {
-        $this->showWarningNotification(trans('eshop::notifications.validation_failed'));
+        //TODO Get the messages from the validator and show them to the user
+//        $this->showWarningNotification(trans('eshop::notifications.validation_failed'));
+
+        $this->showWarningNotification(implode('<br>', collect($validator->getMessageBag()->getMessages())->flatten()->all()));
 
         parent::failedValidation($validator);
     }

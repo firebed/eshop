@@ -2,6 +2,9 @@
 
 namespace Eshop\Controllers\Customer\Product;
 
+use Eshop\Actions\Schema\BreadcrumbSchema;
+use Eshop\Actions\Schema\ProductSchema;
+use Eshop\Actions\Schema\WebPageSchema;
 use Eshop\Controllers\Controller;
 use Eshop\Models\Product\Category;
 use Eshop\Models\Product\Product;
@@ -10,7 +13,7 @@ use Illuminate\Contracts\Support\Renderable;
 
 class VariantController extends Controller
 {
-    public function show(string $locale, Category $category, Product $product, Product $variant, Order $order): Renderable
+    public function show(string $locale, Category $category, Product $product, Product $variant, Order $order, WebPageSchema $webPage, ProductSchema $json, BreadcrumbSchema $breadcrumb): Renderable
     {
         $variant->load(['parent.translation']);
 
@@ -26,7 +29,10 @@ class VariantController extends Controller
             'product'    => $variant,
             'quantity'   => $quantity,
             'properties' => $product->properties()->with('translation')->get()->unique(),
-            'choices'    => $product->choices()->with('translation')->get()
+            'choices'    => $product->choices()->with('translation')->get(),
+            'psd'        => $json->handle($variant),
+            'breadcrumb' => $breadcrumb->handle($category, $product, $variant),
+            'webPage'    => $webPage->handle($variant->seo->title, $variant->seo->description ?? $product->seo->description),
         ]);
     }
 }

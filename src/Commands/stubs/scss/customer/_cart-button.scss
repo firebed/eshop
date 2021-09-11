@@ -1,0 +1,8 @@
+.cart-button {
+    @extend .bg-primary, .border, .border-2, .border-light, .rounded-pill, .position-absolute, .translate-middle-y, .text-light;
+
+    top: 0;
+    right: -.4rem;
+    padding: 0 0.3rem;
+    font-size: 11px;
+}

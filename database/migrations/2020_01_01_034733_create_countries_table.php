@@ -19,7 +19,6 @@ class CreateCountriesTable extends Migration
             $table->string('code', 2)->unique();
             $table->string('timezone')->nullable();
             $table->boolean('visible')->default(true);
-            $table->boolean('strict')->default(false);
             $table->timestamps();
         });
     }

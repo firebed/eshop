@@ -2,7 +2,6 @@
 
 namespace Eshop\Models\Location;
 
-use Eshop\Database\Factories\Location\AddressFactory;
 use Eshop\Database\Factories\Location\CountryFactory;
 use Eshop\Models\Cart\Cart;
 use Illuminate\Database\Eloquent\Builder;
@@ -33,11 +32,26 @@ class Country extends Model
 {
     use HasFactory;
 
-    protected $guarded = [];
+    protected $fillable = ['name', 'code', 'timezone', 'shippable', 'visible'];
 
     protected $casts = [
         'visible' => 'bool'
     ];
+
+    public static function scopeCode(Builder $builder, string $code): Builder
+    {
+        return $builder->where('code', $code);
+    }
+
+    public static function default(): null|Country
+    {
+        return self::firstWhere('code', config('app.country'));
+    }
+
+    protected static function newFactory(): CountryFactory
+    {
+        return CountryFactory::new();
+    }
 
     public function provinces(): HasMany
     {
@@ -75,25 +89,22 @@ class Country extends Model
     public function filterShippingOptions(float $products_value): Collection
     {
         return $this->shippingOptions
-            ->where('visible', TRUE)
+            ->where('visible', true)
             ->where('cart_total', '<=', $products_value)
-            ->groupBy('shipping_method_id') // One of many same shipping methods
-            ->map(fn($g) => $g->sortByDesc('cart_total')->unique('shipping_method_id'))
-            ->collapse();
+            ->sortBy('position')
+            ->sortByDesc('cart_total')
+            ->groupBy('shipping_method_id')
+            ->map(function ($c) {
+                return $c->groupBy(fn($g) => $g->inaccessible_area_fee > 0 ? 'inaccessible_area' : 'accessible_area')
+                    ->map(fn($i) => $i->unique('shipping_method_id'));
+            })
+            ->flatten();
     }
 
-    public function shippingMethodRange($shippingMethodId)
-    {
-        return $this->shippingOptions
-            ->where('shipping_method_id', $shippingMethodId)
-            ->where('visible', TRUE)
-            ->sortBy('fee');
-    }
-
-    public function filterPaymentMethods(float $products_value): Collection
+    public function filterPaymentOptions(float $products_value): Collection
     {
         return $this->paymentOptions
-            ->where('visible', TRUE)
+            ->where('visible', true)
             ->where('cart_total', '<=', $products_value)
             ->groupBy('payment_method_id')
             ->map(fn($g) => $g->sortByDesc('cart_total')->unique('payment_method_id'))
@@ -107,21 +118,6 @@ class Country extends Model
 
     public function scopeVisible(Builder $builder): Builder
     {
-        return $builder->where('visible', TRUE);
-    }
-
-    public static function scopeCode(Builder $builder, string $code): Builder
-    {
-        return $builder->where('code', $code);
-    }
-
-    public static function default(): null|Country
-    {
-        return self::firstWhere('code', config('app.country'));
-    }
-
-    protected static function newFactory(): CountryFactory
-    {
-        return CountryFactory::new();
+        return $builder->where('visible', true);
     }
 }

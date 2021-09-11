@@ -13,6 +13,10 @@
             <x-bs::input.group for="barcode" label="{{ __('Barcode') }}" class="col">
                 <x-bs::input.text name="barcode" value="{{ old('barcode', $product->barcode ?? '') }}" error="barcode" id="barcode"/>
             </x-bs::input.group>
+
+            <x-bs::input.group for="mpn" label="{{ __('MPN') }}" class="col">
+                <x-bs::input.text name="mpn" value="{{ old('mpn', $product->mpn ?? '') }}" error="mpn" id="mpn"/>
+            </x-bs::input.group>
         </div>
 
         <x-bs::input.checkbox x-model="is_physical" name="is_physical" error="is_physical" id="physical-product">

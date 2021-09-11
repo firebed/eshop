@@ -4,6 +4,8 @@
 return [
     'see_your_cart' => 'Δες το καλάθι σου',
 
+    'added_product' => 'Το προϊόν προστέθηκε στο καλάθι.',
+
     'status' => [
         'submitted' => 'Νέες παραγγελίες',
         'approved'  => 'Εγκρίθηκαν',

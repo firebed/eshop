@@ -1,0 +1,15 @@
+#logo {
+    background: var(--bg) no-repeat 0 0/100%;
+    color: transparent;
+    font-size: 0;
+    display: block;
+    width: 245px;
+    height: 61px;
+}
+
+@media(min-width: 576px) {
+    #logo {
+        width: 306px;
+        height: 76px;
+    }
+}

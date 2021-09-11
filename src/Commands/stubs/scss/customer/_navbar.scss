@@ -1,0 +1,107 @@
+@media (min-width: 991.98px) {
+    #navbar .dropdown-item:active {
+        background-color: #e9ecef;
+    }
+
+    #navbar .dropdown > .dropdown-menu {
+        top: calc(100% + 0.5rem);
+        height: auto !important;
+        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+        border-radius: 0;
+    }
+
+    #navbar .dropdown .dropdown { // Submenus
+        > .dropdown-toggle {
+            padding-right: 3rem;
+
+            &:after {
+                content: '\f054';
+                font-family: "Font Awesome 5 Free", serif;
+                color: #808080;
+                border: 0;
+                font-size: small;
+                font-weight: 900;
+                position: absolute;
+                top: 0.45rem;
+                right: 1rem;
+            }
+        }
+
+        > .dropdown-menu {
+            top: -0.55rem;
+            transform: scale(0.95);
+            left: 100%;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 150ms ease-out;
+            display: block;
+        }
+
+        &:hover > .dropdown-menu {
+            transform: scale(1);
+            visibility: visible;
+            opacity: 1;
+            left: 100%;
+        }
+    }
+}
+
+@media (max-width: 991.98px) {
+    #navbar .dropdown-item:hover, #navbar .dropdown-item:active {
+        background-color: inherit;
+    }
+
+    #navbar .offcanvas-body, #navbar .offcanvas-body a {
+        color: black !important;
+    }
+
+    #navbar .dropdown-menu {
+        padding: 0;
+        border: none;
+        overflow: hidden;
+        display: block;
+
+        visibility: hidden;
+        opacity: 0;
+        height: 0;
+        //max-height: 0;
+        transition: all 0.3s ease-in-out;
+
+        .dropdown-item {
+            clear: none;
+            padding: 0.5rem 1rem;
+        }
+
+        &.show {
+            visibility: visible;
+            opacity: 1;
+            //max-height: 1200px;
+        }
+    }
+
+    #navbar .dropdown .dropdown > .dropdown-menu { // Submenus
+        padding-left: 1rem;
+    }
+
+    #navbar .dropdown-toggle {
+        padding-right: 3rem;
+        position: relative;
+
+        &:after {
+            content: '\f054';
+            font-family: "Font Awesome 5 Free", serif;
+            border: 0;
+            color: #808080;
+            padding: 0.4rem .75rem;
+            font-weight: 900;
+            position: absolute;
+            top: 0.15rem;
+            right: 0;
+            transition: all 0.15s ease-in-out;
+        }
+    }
+
+    #navbar .dropdown-toggle.show:after {
+        transform: rotate(90deg)
+    }
+}

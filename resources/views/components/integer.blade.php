@@ -11,7 +11,7 @@
 
 <input type="text"
        autocomplete="off"
-       x-data="{ value: {{ $value }} }"
+       x-data="{ value: {{ $value ?: 0 }} }"
        x-init="
         new AutoNumeric($el, value, {
             digitGroupSeparator           : '',

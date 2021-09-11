@@ -12,11 +12,11 @@
     </tr>
     <tr>
         <td class="text-secondary">{{ __('Shipping') }}</td>
-        <td>@isset($cart->shippingMethod) {{ __($cart->shippingMethod->name) }} @endisset</td>
+        <td>@isset($cart->shippingMethod) {{ __("eshop::shipping." . $cart->shippingMethod->name) }} @endisset</td>
     </tr>
     <tr>
         <td class="text-secondary">{{ __('Payment') }}</td>
-        <td>@isset($cart->paymentMethod) {{ __($cart->paymentMethod->name) }} @endisset</td>
+        <td>@isset($cart->paymentMethod) {{ __("eshop::payment." . $cart->paymentMethod->name) }} @endisset</td>
     </tr>
     <tr>
         <td class="text-secondary">{{ __('Date') }}</td>

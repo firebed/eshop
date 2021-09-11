@@ -39,6 +39,7 @@ class CreateProductsTable extends Migration
 
             $table->string('location', 50)->nullable();
             $table->string('sku', 100)->unique();
+            $table->string('mpn', 100)->nullable()->index();
             $table->string('barcode', 50)->nullable()->unique();
 //            $table->string('slug')->unique();
             $table->string('slug');

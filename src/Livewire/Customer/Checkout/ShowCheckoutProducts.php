@@ -4,6 +4,8 @@
 namespace Eshop\Livewire\Customer\Checkout;
 
 
+use Eshop\Actions\Order\RefreshOrder;
+use Eshop\Actions\Order\ShippingFeeCalculator;
 use Eshop\Livewire\Customer\Checkout\Concerns\ControlsOrder;
 use Eshop\Repository\Contracts\Order;
 use Illuminate\Contracts\Support\Renderable;
@@ -16,10 +18,15 @@ class ShowCheckoutProducts extends Component
 
     public array $quantities;
 
-    public function mount(Order $order): void
+    public function mount(Order $order, RefreshOrder $refreshOrder): void
     {
-        if ($order->isNotEmpty() && DB::transaction(fn() => $this->softRefreshOrder($order))) {
-            session()->flash('products-values-changed');
+        if ($order->isNotEmpty()) {
+            DB::transaction(function () use ($refreshOrder, $order) {
+                $refreshOrder->handle($order);
+                if ($refreshOrder->totalHasChanged()) {
+                    session()->flash('products-values-changed');
+                }
+            });
         }
     }
 
@@ -37,11 +44,11 @@ class ShowCheckoutProducts extends Component
         $this->removeProduct($order, $productId);
     }
 
-    public function render(Order $order): Renderable
+    public function render(Order $order, ShippingFeeCalculator $sfc): Renderable
     {
         if ($order->isEmpty()) {
             return view('eshop::customer.checkout.products.wire.index', [
-                'order'    => $order,
+                'order' => $order,
             ]);
         }
 
@@ -55,14 +62,21 @@ class ShowCheckoutProducts extends Component
 
         $shippingMethods = collect();
         if ($order->shippingAddress && $order->shippingAddress->country) {
-            $order->shippingAddress->country->shippingMethodRange($order->shipping_method_id);
+            $country = $order->shippingAddress->country;
+            $shippingMethods = $country->shippingOptions
+                ->where('shipping_method_id', $order->shippingMethod->shipping_method_id)
+                ->where('visible', true)
+                ->sortBy('fee');
         }
 
+        $defaultShipping = $shippingMethods->last();
+
         return view('eshop::customer.checkout.products.wire.index', [
-            'order'           => $order,
-            'shippingMethods' => $shippingMethods,
-            'nextShipping'    => $shippingMethods->where('fee', '<', $order->shipping_fee)->last(),
-            'lastShipping'    => $shippingMethods->last()
+            'order'                => $order,
+            'shippingMethods'      => $shippingMethods,
+            'nextShippingDiscount' => $shippingMethods->where('cart_total', '>', $order->products_value)->last(),
+            'defaultShipping'      => $defaultShipping,
+            'defaultShippingFee'   => $defaultShipping ? $sfc->handle($defaultShipping, $order->parcel_weight, $order->shippingAddress->postcode ?? null) : null,
         ]);
     }
 }

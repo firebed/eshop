@@ -54,6 +54,7 @@ class Address extends Model
     protected array $match = ['first_name', 'last_name', 'phone', 'postcode'];
 
     protected $casts = [
+        'country_id' => 'integer',
         'related_id' => 'integer'
     ];
 

@@ -13,19 +13,7 @@ class ProductRequest extends FormRequest
 
     public function authorize(): bool
     {
-        return TRUE;
-    }
-
-    protected function prepareForValidation(): void
-    {
-        $this->merge([
-            'is_physical'      => $this->has('is_physical'),
-            'visible'          => $this->has('visible'),
-            'available'        => $this->has('available'),
-            'display_stock'    => $this->has('display_stock'),
-            'preview_variants' => $this->has('preview_variants'),
-            'has_variants'     => $this->filled('variantTypes'),
-        ]);
+        return true;
     }
 
     public function rules(): array
@@ -47,6 +35,7 @@ class ProductRequest extends FormRequest
             # Inventory
             'is_physical'         => ['required', 'boolean'],
             'sku'                 => ['required', 'string', Rule::unique('products')->when($product, fn($q) => $q->ignore($product))],
+            'mpn'                 => ['nullable', 'string'],
             'barcode'             => ['nullable', 'string', Rule::unique('products')->when($product, fn($q) => $q->ignore($product))],
             'location'            => ['nullable', 'string'],
             'stock'               => ['required', 'integer'],
@@ -95,6 +84,18 @@ class ProductRequest extends FormRequest
     {
         return array_merge(parent::attributes(), [
             'variantTypes.*.name' => 'name'
+        ]);
+    }
+
+    protected function prepareForValidation(): void
+    {
+        $this->merge([
+            'is_physical'      => $this->has('is_physical'),
+            'visible'          => $this->has('visible'),
+            'available'        => $this->has('available'),
+            'display_stock'    => $this->has('display_stock'),
+            'preview_variants' => $this->has('preview_variants'),
+            'has_variants'     => $this->filled('variantTypes'),
         ]);
     }
 }

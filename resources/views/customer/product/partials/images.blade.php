@@ -25,14 +25,15 @@
                     </div>
                 @endif
 
-                @forelse($images as $image)
-                    <div class="d-flex w-3r w-sm-auto">
-                        <a x-show="thumbnails.length === 0" href="{{ $image->url() }}" data-fslightbox="images" data-type="image" class="ratio ratio-1x1 rounded border">
-                            <img src="{{ $image->url('sm') }}" alt="{{ $product->name }}" class="img-top rounded">
-                        </a>
-                    </div>
-                @empty
-                @endforelse
+                @isset($images)
+                    @foreach($images as $image)
+                        <div class="d-flex w-3r w-sm-auto">
+                            <a x-show="thumbnails.length === 0" href="{{ $image->url() }}" data-fslightbox="images" data-type="image" class="ratio ratio-1x1 rounded border">
+                                <img src="{{ $image->url('sm') }}" alt="{{ $product->name }}" class="img-top rounded">
+                            </a>
+                        </div>
+                    @endforeach
+                @endisset
 
                 <template x-for="thumb in thumbnails" :key="thumb">
                     <div class="d-flex w-3r w-sm-auto">

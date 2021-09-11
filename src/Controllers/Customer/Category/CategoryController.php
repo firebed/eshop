@@ -2,6 +2,8 @@
 
 namespace Eshop\Controllers\Customer\Category;
 
+use Eshop\Actions\Schema\BreadcrumbSchema;
+use Eshop\Actions\Schema\WebPageSchema;
 use Eshop\Controllers\Controller;
 use Eshop\Controllers\Customer\Category\Traits\ValidatesCategoryUrl;
 use Eshop\Models\Product\Category;
@@ -15,7 +17,7 @@ class CategoryController extends Controller
 {
     use ValidatesCategoryUrl;
 
-    public function __invoke(CustomerCategoryRequest $request, string $locale, Category $category): Renderable|RedirectResponse
+    public function __invoke(CustomerCategoryRequest $request, string $locale, Category $category, WebPageSchema $webPage, BreadcrumbSchema $breadcrumb): Renderable|RedirectResponse
     {
         if ($category->isFolder()) {
             $children = $category->children()
@@ -24,7 +26,12 @@ class CategoryController extends Controller
                 ->with(['children' => fn($q) => $q->promoted()->visible()->with('translation')])
                 ->get();
 
-            return view('eshop::customer.category.show', compact('category', 'children'));
+            return view('eshop::customer.category.show', [
+                'category'   => $category,
+                'children'   => $children,
+                'webPage'    => $webPage->handle($category->seo->title ?? $category->title, $category->seo?->description),
+                'breadcrumb' => $breadcrumb->handle($category)
+            ]);
         }
 
         $filters = $request->validated();
@@ -72,7 +79,15 @@ class CategoryController extends Controller
 
         $priceRanges = $this->groupPriceRanges($category, $filters);
 
-        return view('eshop::customer.category.show', compact('category', 'manufacturers', 'filters', 'priceRanges', 'products'));
+        return view('eshop::customer.category.show', [
+            'category'      => $category,
+            'manufacturers' => $manufacturers,
+            'filters'       => $filters,
+            'priceRanges'   => $priceRanges,
+            'products'      => $products,
+            'webPage'       => $webPage->handle($category->seo->title ?? $category->name, $category->seo?->description),
+            'breadcrumb'    => $breadcrumb->handle($category)
+        ]);
     }
 
     private function groupPriceRanges(Category $category, $filters): Collection

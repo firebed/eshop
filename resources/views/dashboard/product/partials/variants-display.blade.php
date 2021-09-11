@@ -3,7 +3,7 @@
         <option value="" @if(old('variants_display', $product->variants_display ?? '') === null) selected @endif>{{ __('eshop::variant.display.select') }}</option>
         <option value="grid" @if(old('variants_display', $product->variants_display ?? '') === 'grid') selected @endif>{{ __('eshop::variant.display.grid') }}</option>
         <option value="buttons" @if(old('variants_display', $product->variants_display ?? '') === 'buttons') selected @endif>{{ __('eshop::variant.display.buttons') }}</option>
-        <option value="list" @if(old('variants_display', $product->variants_display ?? '') === 'list') selected @endif>{{ __('eshop::variant.display.list') }}</option>
+{{--        <option value="list" @if(old('variants_display', $product->variants_display ?? '') === 'list') selected @endif>{{ __('eshop::variant.display.list') }}</option>--}}
     </x-bs::input.select>
 </x-bs::input.group>
 

@@ -6,7 +6,7 @@
             </div>
         @endif
 
-        <div>{{ __("The product was added to cart") }}</div>
+        <div>{{ __("eshop::cart.added_product") }}</div>
     </div>
 
     <a href="{{ route('checkout.products.index', app()->getLocale()) }}" class="btn btn-sm btn-outline-primary">{{ __('eshop::cart.see_your_cart') }}</a>

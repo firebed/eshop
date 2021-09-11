@@ -58,10 +58,20 @@ class ProductVariantsButtons extends Component
 
     public function addToCart(Order $order): void
     {
-        $product = Product::find($this->variantId);
-        if (!$this->addProduct($order, $product, $this->quantity)) {
+        if (empty($this->variantId)) {
+            $this->showWarningDialog("Παρακαλώ επιλέξτε παραλλαγή");
+            $this->skipRender();
             return;
         }
+
+        $product = Product::find($this->variantId);
+        if (!$product->canBeBought($this->quantity)) {
+            $this->showWarningDialog($product->trademark, __("Unfortunately there are not $this->quantity pieces of this product. Available stock: " . $product->available_stock));
+            $this->skipRender();
+            return;
+        }
+
+        $this->addProduct($order, $product, $this->quantity);
 
         $toast = view('eshop::customer.product.partials.product-toast', compact('product'))->render();
         $this->showSuccessToast($product->trademark, $toast);

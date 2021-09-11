@@ -21,9 +21,13 @@ class ProductVariants extends Component
 
     public function addToCart(Order $order, Product $product, $quantity = 1): void
     {
-        if (!$this->addProduct($order, $product, $quantity)) {
+        if (!$product->canBeBought($quantity)) {
+            $this->showWarningDialog($product->trademark, __("Unfortunately there are not $quantity pieces of this product. Available stock: " . $product->available_stock));
+            $this->skipRender();
             return;
         }
+
+        $this->addProduct($order, $product, $quantity);
 
         $toast = view('eshop::customer.product.partials.product-toast', compact('product'))->render();
         $this->showSuccessToast($product->trademark, $toast);

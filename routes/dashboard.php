@@ -5,10 +5,13 @@ use Eshop\Controllers\Dashboard\Cart\CartController;
 use Eshop\Controllers\Dashboard\Cart\PrintController;
 use Eshop\Controllers\Dashboard\Category\CategoryController;
 use Eshop\Controllers\Dashboard\Category\CategoryPropertyController;
+use Eshop\Controllers\Dashboard\Intl\BulkProvinceController;
 use Eshop\Controllers\Dashboard\Intl\CountryController;
+use Eshop\Controllers\Dashboard\Intl\CountryPaymentMethodController;
+use Eshop\Controllers\Dashboard\Intl\CountryShippingMethodController;
 use Eshop\Controllers\Dashboard\Intl\PaymentMethodController;
+use Eshop\Controllers\Dashboard\Intl\ProvinceController;
 use Eshop\Controllers\Dashboard\Intl\ShippingMethodController;
-use Eshop\Controllers\Dashboard\Pos\PosCategoryController;
 use Eshop\Controllers\Dashboard\Pos\PosController;
 use Eshop\Controllers\Dashboard\Product\CollectionController;
 use Eshop\Controllers\Dashboard\Product\ManufacturerController;
@@ -26,7 +29,8 @@ Route::middleware(['web', 'auth', 'admin'])->group(function () {
     Route::prefix('dashboard')->group(function () {
         Route::get('products/{product}/images', [ProductImageController::class, 'index'])->name('products.images.index');
         Route::get('products/trashed', ProductTrashController::class)->name('products.trashed.index');
-        Route::resource('products', ProductController::class)->except('show');
+        Route::get('products/{product}/edit', [ProductController::class, 'edit'])->name('products.edit')->withTrashed();
+        Route::resource('products', ProductController::class)->except('show', 'edit');
 
         Route::put('variants/images', VariantBulkImageController::class)->name('variants.bulk-images.update');
 
@@ -57,9 +61,13 @@ Route::middleware(['web', 'auth', 'admin'])->group(function () {
         Route::resource('categories', CategoryController::class)->except('show');
         Route::view('categories/properties/{property}/choices', 'eshop::dashboard.category.choices')->name('categories.properties.choices.index');
 
-        Route::resource('countries', CountryController::class)->only('index');
-        Route::resource('shipping-methods', ShippingMethodController::class)->only('index');
-        Route::resource('payment-methods', PaymentMethodController::class)->only('index');
+        Route::resource('countries', CountryController::class);
+        Route::resource('countries.provinces', ProvinceController::class)->shallow()->only('store', 'update', 'destroy');
+        Route::delete('countries.bulk-provinces', [BulkProvinceController::class, 'destroy'])->name('provinces.bulk-delete');
+        Route::resource('shipping-methods', ShippingMethodController::class);
+        Route::resource('payment-methods', PaymentMethodController::class);
+        Route::get('country-shipping-methods', CountryShippingMethodController::class)->name('country-shipping-methods.index');
+        Route::get('country-payment-methods', CountryPaymentMethodController::class)->name('country-payment-methods.index');
 
         Route::resource('manufacturers', ManufacturerController::class)->only('index');
 
@@ -70,7 +78,6 @@ Route::middleware(['web', 'auth', 'admin'])->group(function () {
 
         Route::get('analytics', AnalyticsController::class)->name('analytics');
 
-        Route::get('pos/categories', [PosCategoryController::class, 'index'])->name('pos.categories.index');
-        Route::resource('pos', PosController::class)->only('create', 'store');
+        Route::resource('pos', PosController::class)->except('index', 'show')->parameter('pos', 'cart');
     });
 });

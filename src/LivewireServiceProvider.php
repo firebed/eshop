@@ -3,8 +3,6 @@
 namespace Eshop;
 
 use Eshop\Livewire\Customer\Checkout\CartButton;
-use Eshop\Livewire\Customer\Checkout\EditCheckoutDetails;
-use Eshop\Livewire\Customer\Checkout\EditCheckoutPayment;
 use Eshop\Livewire\Customer\Checkout\ShowCheckoutProducts;
 use Eshop\Livewire\Customer\Product\AddToCartForm;
 use Eshop\Livewire\Customer\Product\ProductVariants;
@@ -24,9 +22,15 @@ use Eshop\Livewire\Dashboard\Category\CategoryPropertyChoices;
 use Eshop\Livewire\Dashboard\Config\ShowLocales;
 use Eshop\Livewire\Dashboard\Config\ShowUnits;
 use Eshop\Livewire\Dashboard\Config\ShowVats;
-use Eshop\Livewire\Dashboard\Intl\ShowCountries;
-use Eshop\Livewire\Dashboard\Intl\ShowPaymentMethods;
-use Eshop\Livewire\Dashboard\Intl\ShowShippingMethods;
+use Eshop\Livewire\Dashboard\Intl\CountryPaymentMethods;
+use Eshop\Livewire\Dashboard\Intl\CountryShippingMethods;
+use Eshop\Livewire\Dashboard\Intl\InaccessibleAreas;
+use Eshop\Livewire\Dashboard\Pos\PosInvoice;
+use Eshop\Livewire\Dashboard\Pos\PosModels;
+use Eshop\Livewire\Dashboard\Pos\PosPayment;
+use Eshop\Livewire\Dashboard\Pos\PosProducts;
+use Eshop\Livewire\Dashboard\Pos\PosProductsSearch;
+use Eshop\Livewire\Dashboard\Pos\PosShipping;
 use Eshop\Livewire\Dashboard\Product\ProductProperties;
 use Eshop\Livewire\Dashboard\Product\ShowManufacturers;
 use Eshop\Livewire\Dashboard\Product\ShowProductImages;
@@ -56,8 +60,6 @@ class LivewireServiceProvider extends ServiceProvider
         Livewire::component('customer.product.add-to-cart-form', AddToCartForm::class);
         Livewire::component('customer.checkout.cart-button', CartButton::class);
         Livewire::component('customer.checkout.show-checkout-products', ShowCheckoutProducts::class);
-        Livewire::component('customer.checkout.edit-checkout-details', EditCheckoutDetails::class);
-        Livewire::component('customer.checkout.edit-checkout-payment', EditCheckoutPayment::class);
 
         // Cart
         Livewire::component('dashboard.cart.billing-address', BillingAddress::class);
@@ -78,9 +80,9 @@ class LivewireServiceProvider extends ServiceProvider
         Livewire::component('dashboard.product.show-manufacturers', ShowManufacturers::class);
 
         // Intl
-        Livewire::component('dashboard.intl.show-countries', ShowCountries::class);
-        Livewire::component('dashboard.intl.show-payment-methods', ShowPaymentMethods::class);
-        Livewire::component('dashboard.intl.show-shipping-methods', ShowShippingMethods::class);
+        Livewire::component('dashboard.intl.country-payment-methods', CountryPaymentMethods::class);
+        Livewire::component('dashboard.intl.country-shipping-methods', CountryShippingMethods::class);
+        Livewire::component('dashboard.shipping-methods.inaccessible-areas', InaccessibleAreas::class);
 
         // Products
         Livewire::component('dashboard.product.show-product-images', ShowProductImages::class);
@@ -98,6 +100,14 @@ class LivewireServiceProvider extends ServiceProvider
 
         // User permissions
         Livewire::component('dashboard.user.show-user-permissions', ShowUserPermissions::class);
+
+        // Pos
+        Livewire::component('dashboard.pos.models', PosModels::class);
+        Livewire::component('dashboard.pos.products', PosProducts::class);
+        Livewire::component('dashboard.pos.shipping', PosShipping::class);
+        Livewire::component('dashboard.pos.payment', PosPayment::class);
+        Livewire::component('dashboard.pos.invoice', PosInvoice::class);
+        Livewire::component('dashboard.pos.products-search', PosProductsSearch::class);
 
         // Analytics
 

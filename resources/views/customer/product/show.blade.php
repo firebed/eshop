@@ -1,15 +1,37 @@
-@extends('eshop::customer.layouts.master', ['title' =>  $product->seo->title])
+@extends('eshop::customer.layouts.master', ['title' =>  $product->seo->title ?? $product->trademark])
+
+@push('meta')
+    @if(!empty($product->seo->description))
+        <meta name="description" content="{{ $product->seo->description }}">
+    @endif
+
+    <script type="application/ld+json">{!! $webPage !!}</script>
+    @if(!empty($breadcrumb))
+        <script type="application/ld+json">{!! $breadcrumb !!}</script>
+    @endif
+    <script type="application/ld+json">{!! $psd !!}</script>
+
+    <meta property="og:title" content="{{ $product->seo->title ?? $product->trademark }}">
+    <meta property="og:site_name" content="{{ config('app.name') }}">
+    @if(!empty($product->seo->description))
+        <meta property="og:description" content="{{ $product->seo->description }}">
+    @endif
+    <meta property="og:type" content="website">
+    @if($product->image)
+        <meta property="og:image" content="{{ $product->image->url() }}">
+    @endif
+@endpush
 
 @push('header_scripts')
+    <link rel="canonical" href="{{ productRoute($product) }}">
+
     <link rel="stylesheet" href="https://unpkg.com/simplebar@5.3.3/dist/simplebar.css"/>
     <script src="https://unpkg.com/simplebar@5.3.3/dist/simplebar.min.js"></script>
-
-    @includeUnless($product->has_variants, 'eshop::customer.product.partials.jsonld-product')
 @endpush
 
 @push('footer_scripts')
     <script src="https://cdn.jsdelivr.net/npm/autonumeric@4.6.0/dist/autoNumeric.min.js"></script>
-    <script src="{{ asset('vendor/eshop/js/fslightbox.js') }}"></script>
+    <script src="{{ mix('js/fslightbox.js') }}"></script>
 @endpush
 
 @section('main')
@@ -29,7 +51,7 @@
                 <div class="col">
                     @can('Edit product')
                         <div class="d-flex gap-3 mb-2">
-                            <a href="{{ route('products.edit', $product) }}" class="text-decoration-none">
+                            <a href="{{ $product->isVariant() ? route('variants.edit', $product) : route('products.edit', $product) }}" class="text-decoration-none">
                                 <em class="far fa-edit me-1"></em>{{ __('eshop::buttons.edit') }}
                             </a>
                         </div>
@@ -59,8 +81,9 @@
                             @elseif($product->canBeBought())
                                 <livewire:customer.product.add-to-cart-form :product="$product"/>
                             @else
-                                <div class="col-12 mb-4">
+                                <div class="col-12 mb-4 hstack gap-3">
                                     <div class="h3 mb-0">{{ format_currency($product->netValue) }}</div>
+                                    @if($product->discount > 0) <s class="text-secondary">{{ format_currency($product->price) }}</s>@endif
                                 </div>
 
                                 <button class="btn btn-danger" disabled>{{ __("Out of stock") }}</button>

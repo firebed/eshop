@@ -4,6 +4,8 @@
 namespace Eshop\Livewire\Customer\Checkout\Concerns;
 
 
+use Eshop\Actions\Order\FindShippingMethodForOrder;
+use Eshop\Actions\Order\ShippingFeeCalculator;
 use Eshop\Models\Product\Product;
 use Eshop\Repository\Contracts\Order;
 
@@ -15,20 +17,38 @@ trait ControlsOrder
         $this->updateTotal($order);
     }
 
+    protected function updateTotal(Order $order): void
+    {
+        $country = $order->shippingAddress->country ?? null;
+        if ($country === null) {
+            $order->shippingMethod()->disassociate();
+            $order->shipping_fee = 0;
+        } else {
+            $shippingMethod = (new FindShippingMethodForOrder())->handle($country, $order->products_value, $order->shipping_method_id);
+            if ($shippingMethod) {
+                $order->shippingMethod()->associate($shippingMethod?->shipping_method_id);
+                $order->shipping_fee = (new ShippingFeeCalculator())->handle($shippingMethod, $order->parcel_weight, $order->shippingAddress->postcode);
+            } else {
+                $order->shippingMethod()->disassociate();
+                $order->shipping_fee = 0;
+            }
+        }
+
+        $order->updateTotalWeight();
+//        $order->updateFees($preferredShippingMethodId, $preferredPaymentMethodId);
+        $order->updatePaymentFee($order->payment_method_id);
+        $order->updateTotal();
+        $order->save();
+    }
+
     protected function softRefreshOrder(Order $order): void
     {
         $order->refreshProducts();
         $this->updateTotal($order, $order->shipping_method_id, $order->payment_method_id);
     }
 
-    protected function addProduct(Order $order, Product|int $product, int $quantity): bool
+    protected function addProduct(Order $order, Product $product, int $quantity): bool
     {
-        if(!$product->canBeBought($quantity)) {
-            $this->showWarningDialog($product->trademark, __("Unfortunately there are not $quantity pieces of this product. Available stock: " . $product->available_stock));
-            $this->skipRender();
-            return false;
-        }
-
         $order->addProduct($product, $quantity);
         $this->updateTotal($order);
         return true;
@@ -44,13 +64,5 @@ trait ControlsOrder
     {
         $order->removeProduct($product);
         $this->updateTotal($order);
-    }
-
-    protected function updateTotal(Order $order, $preferredShippingMethodId = NULL, $preferredPaymentMethodId = NULL): void
-    {
-        $order->updateTotalWeight();
-        $order->updateFees($preferredShippingMethodId, $preferredPaymentMethodId);
-        $order->updateTotal();
-        $order->save();
     }
 }

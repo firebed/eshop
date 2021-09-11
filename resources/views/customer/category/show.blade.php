@@ -1,4 +1,47 @@
-@extends('eshop::customer.layouts.master', ['title' => $category->name])
+@php($title = $category->seo->title ?? $category->name)
+
+@extends('eshop::customer.layouts.master', ['title' => $title])
+
+@push('meta')
+    @if(!empty($category->seo->description))
+        <meta name="description" content="{{ $category->seo->description }}">
+    @endif
+
+    <script type="application/ld+json">{!! $webPage !!}</script>
+    @if(!empty($breadcrumb))
+        <script type="application/ld+json">{!! $breadcrumb !!}</script>
+    @endif
+
+    <meta property="og:title" content="{{ $title }}">
+    <meta property="og:site_name" content="{{ config('app.name') }}">
+    @if(!empty($category->seo->description))
+        <meta property="og:description" content="{{ $category->seo->description }}">
+    @endif
+    <meta property="og:type" content="website">
+    @if($category->image)
+        <meta property="og:image" content="{{ $category->image->url() }}">
+    @endif
+@endpush
+
+@push('meta')
+    @isset($products)
+        @if($products->onFirstPage())
+            <link rel="canonical" href="{{ categoryRoute($category) }}">
+        @else
+            <link rel="canonical" href="{{ $products->url($products->currentPage()) }}">
+        @endif
+
+        @if($products->currentPage() == 2)
+            <link rel="prev" href="{{ categoryRoute($category) }}">
+        @elseif($products->currentPage() > 2)
+            <link rel="prev" href="{{ $products->previousPageUrl() }}">
+        @endif
+
+        @if($products->hasMorePages())
+            <link rel="next" href="{{ $products->nextPageUrl() }}">
+        @endif
+    @endif
+@endpush
 
 @section('main')
     <x-eshop-category-breadcrumb :category="$category" :product="null" :variant="null"/>

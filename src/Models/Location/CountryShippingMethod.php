@@ -4,7 +4,6 @@
 namespace Eshop\Models\Location;
 
 
-use Eshop\Database\Factories\Location\AddressFactory;
 use Eshop\Database\Factories\Location\CountryShippingMethodFactory;
 use Eshop\Models\Lang\Traits\HasTranslations;
 use Illuminate\Database\Eloquent\Builder;
@@ -30,7 +29,7 @@ class CountryShippingMethod extends Pivot
 {
     use HasFactory, HasTranslations;
 
-    public $incrementing = TRUE;
+    public $incrementing = true;
 
     protected array $translatable = ['description'];
 
@@ -44,6 +43,17 @@ class CountryShippingMethod extends Pivot
         'visible'               => 'bool',
     ];
 
+    protected static function newFactory(): CountryShippingMethodFactory
+    {
+        return CountryShippingMethodFactory::new();
+    }
+
+    public function getNameAttribute(): string
+    {
+        $this->loadMissing('shippingMethod');
+        return $this->shippingMethod->name;
+    }
+
     public function country(): BelongsTo
     {
         return $this->belongsTo(Country::class);
@@ -52,31 +62,5 @@ class CountryShippingMethod extends Pivot
     public function shippingMethod(): BelongsTo
     {
         return $this->belongsTo(ShippingMethod::class);
-    }
-
-    public function calculateTotalFee(float $weight): float
-    {
-        return $this->fee + $this->calculateExcessWeightFee($weight) + $this->calculateInaccessibleAreaFee();
-    }
-
-    public function calculateExcessWeightFee($weight): float
-    {
-        return $weight >= $this->weight_limit
-            ? ceil(($weight - $this->weight_limit) / 1000) * $this->weight_excess_fee
-            : 0;
-    }
-
-    public function calculateInaccessibleAreaFee(): float
-    {
-        if ($this->id === ShippingMethod::ACS) {
-            return 0;
-        }
-
-        return 0;
-    }
-
-    protected static function newFactory(): CountryShippingMethodFactory
-    {
-        return CountryShippingMethodFactory::new();
     }
 }

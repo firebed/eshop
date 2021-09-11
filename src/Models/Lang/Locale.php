@@ -21,6 +21,8 @@ class Locale extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['name', 'lang'];
+
     protected static function newFactory()
     {
         return LocaleFactory::new();

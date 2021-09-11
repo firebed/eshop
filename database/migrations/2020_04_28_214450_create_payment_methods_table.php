@@ -18,6 +18,7 @@ class CreatePaymentMethodsTable extends Migration
             $table->string('name', 50);
             $table->string('icon')->nullable();
             $table->boolean('show_total_on_order_form')->default(false);
+            $table->timestamps();
         });
     }
 

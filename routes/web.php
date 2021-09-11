@@ -6,23 +6,29 @@ use Eshop\Controllers\Customer\Checkout\CheckoutDetailsController;
 use Eshop\Controllers\Customer\Checkout\CheckoutLoginController;
 use Eshop\Controllers\Customer\Checkout\CheckoutPaymentController;
 use Eshop\Controllers\Customer\Checkout\CheckoutProductController;
+use Eshop\Controllers\Customer\HomepageController;
+use Eshop\Controllers\Customer\Pages\PageController;
 use Eshop\Controllers\Customer\Product\ProductController;
+use Eshop\Controllers\Customer\Product\ProductOfferController;
+use Eshop\Controllers\Customer\Product\ProductSearchController;
 use Eshop\Controllers\Customer\Product\VariantController;
 use Eshop\Controllers\Dashboard\Account\PasswordController;
 use Eshop\Controllers\Dashboard\Account\ProfileController;
 use Eshop\Controllers\Dashboard\Account\UserAddressController;
 use Eshop\Controllers\Dashboard\Account\UserCompanyController;
 use Eshop\Controllers\Dashboard\Account\UserOrdersController;
+use Eshop\Models\Cart\Cart;
+use Eshop\Notifications\OrderShippedNotification;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    app()->setLocale(config('app.locale'));
-    return view('eshop::customer.homepage.index');
+    return redirect()->route('home', config('app.locale'));
 });
 
 Route::get('mail', function () {
-    \Illuminate\Support\Facades\Notification::route('mail', 'okan.giritli@gmail.com')->notify(new \Eshop\Notifications\OrderShippedNotification(\Eshop\Models\Cart\Cart::first()));
+    Notification::route('mail', 'okan.giritli@gmail.com')->notify(new OrderShippedNotification(Cart::first()));
 });
 
 Route::get('raw-mail', function () {
@@ -38,7 +44,7 @@ Route::group([
     'where'      => ['lang' => 'el|en']
 ],
     function () {
-        Route::view('/', 'eshop::customer.homepage.index')->name('home');
+        Route::get('/', HomepageController::class)->name('home');
 
         Route::group(['middleware' => 'auth', 'prefix' => 'account', 'as' => 'account.'], function () {
             Route::get('profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -62,19 +68,34 @@ Route::group([
             Route::prefix('checkout')->group(function () {
                 Route::post('login', CheckoutLoginController::class)->name('login');
 
-                Route::get('details', CheckoutDetailsController::class)->name('details.edit');
+                Route::get('details', [CheckoutDetailsController::class, 'edit'])->name('details.edit');
+                Route::put('details', [CheckoutDetailsController::class, 'update'])->name('details.update');
+                Route::post('details/userShipping', [CheckoutDetailsController::class, 'userShipping'])->name('details.userShipping');
+                Route::post('details/shippingCountry', [CheckoutDetailsController::class, 'shippingCountry'])->name('details.shippingCountry');
 
-                Route::get('payment', CheckoutPaymentController::class)->name('payment.edit');
+                Route::get('payment', [CheckoutPaymentController::class, 'edit'])->name('payment.edit');
+                Route::put('payment', [CheckoutPaymentController::class, 'update'])->name('payment.update');
+                Route::post('payment', [CheckoutPaymentController::class, 'store'])->name('payment.store');
 
                 Route::get('completed/{cart}', CheckoutCompletedController::class)->name('completed');
             });
         });
 
-        Route::get('{category:slug}/m/{manufacturers}/{filters}', CategoryController::class)->name('customer.categories.manufacturers.filters');
-        Route::get('{category:slug}/m/{manufacturers}', CategoryController::class)->name('customer.categories.manufacturers');
-        Route::get('{category:slug}/f/{filters}', CategoryController::class)->name('customer.categories.filters');
-        Route::get('{category:slug}', CategoryController::class)->name('customer.categories.show');
+        Route::get('{page}', PageController::class)->where('page', '(shipping-methods|payment-methods|terms-of-service|data-protection|return-policy|cancellation-policy|secure-transactions)')->name('pages.show');
 
-        Route::get('{category:slug}/{product:slug}/{variant:slug}', [VariantController::class, 'show'])->name('customer.variants.show');
-        Route::get('{category:slug}/{product:slug}', [ProductController::class, 'show'])->name('customer.products.show');
+        Route::as('customer.')->group(function () {
+            Route::get('search', [ProductSearchController::class, 'index'])->name('products.search.index');
+            Route::post('search', [ProductSearchController::class, 'ajax'])->name('products.search.ajax');
+
+            Route::get('offers', ProductOfferController::class)->name('products.offers.index');
+
+            Route::get('{category:slug}/m/{manufacturers}/{filters}', CategoryController::class)->name('categories.manufacturers.filters');
+            Route::get('{category:slug}/m/{manufacturers}', CategoryController::class)->name('categories.manufacturers');
+            Route::get('{category:slug}/f/{filters}', CategoryController::class)->name('categories.filters');
+
+            Route::get('{category:slug}/{product:slug}/{variant:slug}', [VariantController::class, 'show'])->name('variants.show');
+            Route::get('{category:slug}/{product:slug}', [ProductController::class, 'show'])->name('products.show');
+
+            Route::get('{category:slug}', CategoryController::class)->name('categories.show');
+        });
     });

@@ -6,6 +6,7 @@ namespace Eshop\Livewire\Customer\Checkout\Concerns;
 
 use Eshop\Repository\Contracts\Order;
 use PayPalCheckoutSdk\Core\PayPalHttpClient;
+use PayPalCheckoutSdk\Core\ProductionEnvironment;
 use PayPalCheckoutSdk\Core\SandboxEnvironment;
 use PayPalCheckoutSdk\Orders\OrdersCaptureRequest;
 use PayPalCheckoutSdk\Orders\OrdersCreateRequest;
@@ -82,8 +83,14 @@ trait PayPalCheckout
         return new PayPalHttpClient(self::environment());
     }
 
-    public static function environment(): SandboxEnvironment
+    public static function environment(): ProductionEnvironment|SandboxEnvironment
     {
+        if (app()->isProduction()) {
+            $clientId = env("PAYPAL_LIVE_CLIENT_ID");
+            $clientSecret = env("PAYPAL_LIVE_CLIENT_SECRET");
+            return new ProductionEnvironment($clientId, $clientSecret);
+        }
+
         $clientId = env("PAYPAL_SANDBOX_CLIENT_ID");
         $clientSecret = env("PAYPAL_SANDBOX_CLIENT_SECRET");
         return new SandboxEnvironment($clientId, $clientSecret);

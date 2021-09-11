@@ -5,6 +5,7 @@ namespace Eshop\Models\Product;
 use Eshop\Database\Factories\Product\ProductFactory;
 use Eshop\Models\Lang\Traits\HasTranslations;
 use Eshop\Models\Media\Traits\HasImages;
+use Eshop\Models\Product\Jsonld\Jsonld;
 use Eshop\Models\Seo\Traits\HasSeo;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -39,6 +40,7 @@ use Illuminate\Support\Collection;
  * @property ?integer|string display_stock_lt
  * @property string          location
  * @property string          sku
+ * @property string          mpn
  * @property string          barcode
  * @property string          slug
  * @property string          variants_display
@@ -62,7 +64,7 @@ use Illuminate\Support\Collection;
  * @property float           netValue
  * @property float           netValueWithoutVat
  *
- * @method Builder visible($visible = TRUE)
+ * @method Builder visible($visible = true)
  * @method Builder exceptVariants()
  * @method Builder onlyVariants()
  * @method Builder filterByManufacturers($manufacturer_ids)
@@ -82,7 +84,7 @@ class Product extends Model
     protected $fillable = [
         'name', 'description', 'category_id', 'manufacturer_id', 'unit_id', 'is_physical', 'vat', 'weight',
         'price', 'compare_price', 'discount', 'stock', 'visible', 'display_stock', 'display_stock_lt', 'available', 'available_gt',
-        'location', 'sku', 'barcode', 'slug', 'has_variants', 'variants_display', 'preview_variants'
+        'location', 'sku', 'mpn', 'barcode', 'slug', 'has_variants', 'variants_display', 'preview_variants'
     ];
 
     protected array  $translatable = ['name', 'description'];
@@ -105,6 +107,11 @@ class Product extends Model
     | RELATIONS
     |-----------------------------------------------------------------------------
     */
+
+    protected static function newFactory(): ProductFactory
+    {
+        return ProductFactory::new();
+    }
 
     public function parent(): BelongsTo
     {
@@ -183,19 +190,15 @@ class Product extends Model
     public function canBeBought(int $quantity = 1): bool
     {
         $amount = $this->stock - $quantity;
-        return $this->available && ($this->available_gt === NULL || $amount >= $this->available_gt);
+//        dd($this->available);
+        return $this->available && ($this->available_gt === null || $amount >= $this->available_gt);
     }
 
     public function canDisplayStock(): bool
     {
         return $this->canBeBought()
             && $this->display_stock >= 0
-            && ($this->display_stock_lt === NULL || $this->stock <= $this->display_stock_lt);
-    }
-
-    public function getAvailableStockAttribute(): int
-    {
-        return $this->stock - ($this->available_gt ?: 0);
+            && ($this->display_stock_lt === null || $this->stock <= $this->display_stock_lt);
     }
 
     /*
@@ -204,7 +207,12 @@ class Product extends Model
     |-----------------------------------------------------------------------------
     */
 
-    public function scopeVisible(Builder $builder, $visible = TRUE): void
+    public function getAvailableStockAttribute(): int
+    {
+        return $this->stock - ($this->available_gt ?: 0);
+    }
+
+    public function scopeVisible(Builder $builder, $visible = true): void
     {
         $builder->where('visible', $visible);
     }
@@ -235,12 +243,26 @@ class Product extends Model
         }
     }
 
+    public function scopeOnSale(Builder $builder): Builder
+    {
+        return $builder->where(function (Builder $b) {
+            $b->where('discount', '>', 0);
+            $b->orWhereHas('variants', fn($q) => $q->where('visible', true)->where('discount', '>', 0));
+        });
+    }
+
+    /*
+    |-----------------------------------------------------------------------------
+    | ACCESSORS & MUTATORS
+    |-----------------------------------------------------------------------------
+    */
+
     public function scopeFilterByPrice(Builder $query, $min_price, $max_price): void
     {
         $query->when(!empty($min_price) || !empty($max_price), function (Builder $q) use ($min_price, $max_price) {
-            $q->where('visible', TRUE);
+            $q->where('visible', true);
             $q->where(function (Builder $b) use ($min_price, $max_price) {
-                $b->where('has_variants', FALSE);
+                $b->where('has_variants', false);
                 if (!empty($min_price) && !empty($max_price)) {
                     $b->whereBetween('net_value', [$min_price, $max_price]);
                     return;
@@ -255,9 +277,9 @@ class Product extends Model
             });
 
             $q->orWhere(function (Builder $b) use ($min_price, $max_price) {
-                $b->where('has_variants', TRUE);
+                $b->where('has_variants', true);
                 $b->whereHas('variants', function (Builder $b) use ($min_price, $max_price) {
-                    $b->where('visible', TRUE);
+                    $b->where('visible', true);
                     if (!empty($min_price) && !empty($max_price)) {
                         $b->whereBetween('net_value', [$min_price, $max_price]);
                         return;
@@ -273,12 +295,6 @@ class Product extends Model
             });
         });
     }
-
-    /*
-    |-----------------------------------------------------------------------------
-    | ACCESSORS & MUTATORS
-    |-----------------------------------------------------------------------------
-    */
 
     public function getDiscountAmountAttribute(): float
     {
@@ -297,17 +313,17 @@ class Product extends Model
 
     public function isVariant(): bool
     {
-        return $this->parent_id !== NULL;
+        return $this->parent_id !== null;
     }
 
     public function setAvailableGtAttribute($value): void
     {
-        $this->attributes['available_gt'] = blank($value) ? NULL : $value;
+        $this->attributes['available_gt'] = blank($value) ? null : $value;
     }
 
     public function setDisplayStockLtAttribute($value): void
     {
-        $this->attributes['display_stock_lt'] = blank($value) ? NULL : $value;
+        $this->attributes['display_stock_lt'] = blank($value) ? null : $value;
     }
 
 
@@ -316,6 +332,12 @@ class Product extends Model
     | OTHER
     |-----------------------------------------------------------------------------
     */
+
+    public function getIsOnSale(): bool
+    {
+        return $this->discount > 0 || $this->price < $this->compare_price;
+    }
+
     protected function registerImageConversions(): void
     {
         $this->addImageConversion('sm', function ($image) {
@@ -324,10 +346,5 @@ class Product extends Model
                 $constraint->upsize();
             });
         });
-    }
-
-    protected static function newFactory(): ProductFactory
-    {
-        return ProductFactory::new();
     }
 }

@@ -24,7 +24,7 @@ class HasPaymentMethods implements Rule
     public function passes($attribute, $value): bool
     {
         $country = Country::find($value);
-        return $country && $country->filterShippingOptions($this->productsValue)->isNotEmpty();
+        return $country && $country->filterPaymentOptions($this->productsValue)->isNotEmpty();
     }
 
     /**
