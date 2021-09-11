@@ -89,6 +89,7 @@ class InstallCommand extends Command
         copy(__DIR__ . '/stubs/scss/_color-wheel.scss', resource_path('scss/_color-wheel.scss'));
         copy(__DIR__ . '/stubs/scss/_colors.scss', resource_path('scss/_colors.scss'));
         copy(__DIR__ . '/stubs/scss/_loader.scss', resource_path('scss/_loader.scss'));
+        copy(__DIR__ . '/stubs/scss/_scrollbar.scss', resource_path('scss/_scrollbar.scss'));
         copy(__DIR__ . '/stubs/scss/_utilities.scss', resource_path('scss/_utilities.scss'));
 
         copy(__DIR__ . '/stubs/scss/dashboard/_navigation.scss', resource_path('scss/dashboard/_navigation.scss'));
@@ -96,10 +97,10 @@ class InstallCommand extends Command
         copy(__DIR__ . '/stubs/scss/dashboard/_variables.scss', resource_path('scss/dashboard/_variables.scss'));
         copy(__DIR__ . '/stubs/scss/dashboard/app.scss', resource_path('scss/dashboard/app.scss'));
 
-        copy(__DIR__ . '/stubs/scss/customer/_cart-button.scss', resource_path('scss/customer/_filters.scss'));
+        copy(__DIR__ . '/stubs/scss/customer/_cart-button.scss', resource_path('scss/customer/_cart-button.scss'));
         copy(__DIR__ . '/stubs/scss/customer/_filters.scss', resource_path('scss/customer/_filters.scss'));
-        copy(__DIR__ . '/stubs/scss/customer/_logo.scss', resource_path('scss/customer/app.scss'));
-        copy(__DIR__ . '/stubs/scss/customer/_navbar.scss', resource_path('scss/customer/_filters.scss'));
+        copy(__DIR__ . '/stubs/scss/customer/_logo.scss', resource_path('scss/customer/_logo.scss'));
+        copy(__DIR__ . '/stubs/scss/customer/_navbar.scss', resource_path('scss/customer/_navbar.scss'));
         copy(__DIR__ . '/stubs/scss/customer/_variables.scss', resource_path('scss/customer/_variables.scss'));
         copy(__DIR__ . '/stubs/scss/customer/app.scss', resource_path('scss/customer/app.scss'));
     }
