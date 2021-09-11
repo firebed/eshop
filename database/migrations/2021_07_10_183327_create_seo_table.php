@@ -21,8 +21,6 @@ class CreateSeoTable extends Migration
             $table->string('description', 500)->nullable();
             $table->timestamps();
 
-            $table->unique(['locale', 'title']);
-
             $table->foreign('locale')->references('name')->on('locales')->cascadeOnUpdate()->cascadeOnDelete();
         });
     }
