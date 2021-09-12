@@ -3,7 +3,7 @@
         <div class="row row-cols-2 row-cols-sm-2 row-cols-xl-4 g-4">
             <div class="col vstack">
                 <div class="fw-500 mb-2">Πληροφορίες</div>
-                <a href="{{ route('pages.show', [app()->getLocale(), 'terms-of-use']) }}" class="text-dark text-hover-underline">Όροι χρήσης</a>
+                <a href="{{ route('pages.show', [app()->getLocale(), 'terms-of-service']) }}" class="text-dark text-hover-underline">Όροι χρήσης</a>
                 <a href="{{ route('pages.show', [app()->getLocale(), 'data-protection']) }}" class="text-dark text-hover-underline">Προσωπικά δεδομένα</a>
                 <a href="{{ route('pages.show', [app()->getLocale(), 'return-policy']) }}" class="text-dark text-hover-underline">Πολιτική επιστροφών</a>
                 <a href="{{ route('pages.show', [app()->getLocale(), 'cancellation-policy']) }}" class="text-dark text-hover-underline">Πολιτική ακύρωσης</a>
