@@ -3,11 +3,14 @@
         <x-bs::modal.header>{{ __('Edit cart status') }}</x-bs::modal.header>
         <x-bs::modal.body>
             <div class="d-grid gap-3" x-data="{ notify: @entangle('notify_customer').defer }">
-                <div class="d-flex align-items-center">
-                    <x-bs::badge type="{{ $status->color }}" class="rounded-pill p-2 w-8r">{{ $status->name ?? '' }}</x-bs::badge>
-                    <em class="fa fa-arrow-right mx-3"></em>
-                    <x-bs::badge type="{{ $new_status->color ?? '' }}" class="rounded-pill p-2 w-8r">{{ $new_status->name ?? '' }}</x-bs::badge>
-                </div>
+                @if($status)
+                    <div class="d-flex align-items-center">
+                        <x-bs::badge type="{{ $status->color }}" class="rounded-pill p-2 w-8r">{{ $status->name ?? '' }}</x-bs::badge>
+                        <em class="fa fa-arrow-right mx-3"></em>
+                        <x-bs::badge type="{{ $new_status->color ?? '' }}" class="rounded-pill p-2 w-8r">{{ $new_status->name ?? '' }}</x-bs::badge>
+                    </div>
+                @endif
+
                 <x-bs::input.checkbox x-model="notify" id="notify-customer">
                     {{ __("Notify customer via email") }}
                 </x-bs::input.checkbox>
