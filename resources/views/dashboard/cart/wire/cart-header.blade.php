@@ -18,9 +18,11 @@
         </x-bs::dropdown>
 
         <x-bs::dropdown>
-            <x-bs::dropdown.button wire:loading.attr="disabled" wire:target="resetStatus, editCartStatus" id="statuses-dropdown" class="btn-{{ $status->color }} rounded-pill py-0 border-2 border-white">
-                {{ __("eshop::cart.status.action.$status->name") }}
-            </x-bs::dropdown.button>
+            @if($status)
+                <x-bs::dropdown.button wire:loading.attr="disabled" wire:target="resetStatus, editCartStatus" id="statuses-dropdown" class="btn-{{ $status->color }} rounded-pill py-0 border-2 border-white">
+                    {{ __("eshop::cart.status.action.$status->name") }}
+                </x-bs::dropdown.button>
+            @endif
 
             <x-bs::dropdown.menu button="statuses-dropdown">
                 @foreach($statuses as $stats)
