@@ -69,7 +69,9 @@
                     <div class="col">
                         <div class="vstack h-100 gap-2">
                             <a href="{{ productRoute($product) }}" title="{{ $product->name }}" class="ratio ratio-1x1">
-                                <img src="{{ $product->image->url('sm') }}" alt="" class="rounded">
+                                @if($src = $product->image?->url('sm'))
+                                    <img src="{{ $src }}" alt="" class="rounded">
+                                @endif
                             </a>
 
                             <h2 class="fs-6"><a href="{{ productRoute($product) }}" class="fw-500 text-decoration-none text-dark">{{ $product->name }}</a></h2>
@@ -93,7 +95,9 @@
                     <x-bs::slider.item {{--class="w-md-50 w-lg-1/3 w-xl-25 pb-1"--}}>
                         <div class="vstack h-100 gap-2 justify-content-between">
                             <a href="{{ productRoute($product) }}" title="{{ $product->name }}" class="ratio ratio-1x1">
-                                <img class="rounded" src="{{ $product->image->url('sm') }}" alt="">
+                                @if($src = $product->image?->url('sm'))
+                                    <img class="rounded" src="{{ $src }}" alt="">
+                                @endif
                             </a>
 
                             <h2 class="fs-6"><a href="{{ productRoute($product) }}" title="{{ $product->name }}" class="fw-500 text-decoration-none text-dark">{{ $product->name }}</a></h2>

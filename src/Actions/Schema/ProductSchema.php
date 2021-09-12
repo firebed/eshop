@@ -13,7 +13,7 @@ class ProductSchema
         }
 
         if ($product->seo === null) {
-            $product->loadMissing('variants.parent', 'translation', 'variants.translation');
+            $product->loadMissing('variants.parent', 'translations', 'variants.translations');
         }
 
         $sData = [

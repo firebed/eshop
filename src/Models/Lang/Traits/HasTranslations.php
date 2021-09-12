@@ -30,6 +30,18 @@ trait HasTranslations
     protected string $translationLocale;
     protected array  $translationAttributes = [];
 
+    protected static function bootHasTranslations(): void
+    {
+        static::saved(fn($model) => $model->saveTranslations());
+
+        static::deleting(function ($model) {
+            $isSoftDelete = in_array(SoftDeletes::class, class_uses($model), false);
+            if (!$isSoftDelete || $model->isForceDeleting()) {
+                $model->deleteTranslations();
+            }
+        });
+    }
+
     public function translations(?string $cluster = null, ?string $locale = null): MorphMany
     {
         return $this
@@ -166,6 +178,7 @@ trait HasTranslations
         if (!$this->isTranslatableAttribute($key)) {
             return parent::getAttribute($key);
         }
+
         return $this->translate($key);
     }
 
@@ -176,17 +189,5 @@ trait HasTranslations
         } else {
             $this->setTranslation($key, $value);
         }
-    }
-
-    protected static function bootHasTranslations(): void
-    {
-        static::saved(fn($model) => $model->saveTranslations());
-
-        static::deleting(function ($model) {
-            $isSoftDelete = in_array(SoftDeletes::class, class_uses($model), false);
-            if (!$isSoftDelete || $model->isForceDeleting()) {
-                $model->deleteTranslations();
-            }
-        });
     }
 }

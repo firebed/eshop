@@ -25,6 +25,18 @@ class AddToCartForm extends Component
 
     public function addToCart(Order $order): void
     {
+        if ($this->product === null) {
+            $this->showWarningDialog("Παρακαλώ επιλέξτε παραλλαγή");
+            $this->skipRender();
+            return;
+        }
+
+        if (!$this->product->canBeBought($this->quantity)) {
+            $this->showWarningDialog($this->product->trademark, __("eshop::order.max_available_stock", ['quantity' => $this->quantity, 'available' => $this->product->available_stock]));
+            $this->skipRender();
+            return;
+        }
+
         if (!$this->addProduct($order, $this->product, $this->quantity)) {
             return;
         }

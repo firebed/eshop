@@ -10,5 +10,6 @@ return [
     'thank_you' => 'Thank you :name!',
     'received'  => 'We received your order and we will inform you by email when it\'s ready.',
 
-    'total' => 'Order total'
+    'total'               => 'Order total',
+    "max_available_stock" => "Unfortunately there are not :quantity pieces of this product. Available stock: :available"
 ];

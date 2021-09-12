@@ -25,12 +25,12 @@ class BreadcrumbSchema
         }
 
         if ($product !== null) {
-            $product->loadMissing('translation');
+            $product->loadMissing('translations');
             $items[] = $this->item(productRoute($product, $category), $product->seo->title ?? $product->name, $product->image, count($items) + 1);
         }
 
         if ($variant !== null) {
-            $variant->loadMissing('translation');
+            $variant->loadMissing('translations');
             $items[] = $this->item(variantRoute($variant, $product, $category), $variant->seo->title ?? $variant->option_values, $variant->image, count($items) + 1);
         }
 
