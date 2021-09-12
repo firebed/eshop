@@ -57,7 +57,7 @@ class ProductRequest extends FormRequest
             # Seo
             'slug'                => ['required', 'string', new Slug(), Rule::unique('products')->when($product, fn($q) => $q->ignore($product))],
             'seo.locale'          => ['required', 'string', 'size:2', 'exists:locales,name'],
-            'seo.title'           => ['required', 'string', 'max:70', new SeoTitle($product)],
+            'seo.title'           => ['required', 'string', 'max:70', new SeoTitle($product ?? 'product')],
             'seo.description'     => ['required', 'string'],
 
             # Media

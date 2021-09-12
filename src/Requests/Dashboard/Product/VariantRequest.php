@@ -52,7 +52,7 @@ class VariantRequest extends FormRequest
             # SEO
             'slug'             => ['required', 'string', new Slug(), Rule::unique('products', 'slug')->when($variant, fn($q) => $q->ignore($variant))],
             'seo.locale'       => ['required', 'string', 'size:2', 'exists:locales,name'],
-            'seo.title'        => ['required', 'string', 'max:70', new SeoTitle($variant)],
+            'seo.title'        => ['required', 'string', 'max:70', new SeoTitle($variant ?? 'variant')],
             'seo.description'  => ['nullable', 'string'],
 
             # Media

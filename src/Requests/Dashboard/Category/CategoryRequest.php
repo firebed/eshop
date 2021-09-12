@@ -42,7 +42,7 @@ class CategoryRequest extends FormRequest
             # Seo
             'slug'            => ['required', 'string', new Slug(), new UniqueSlug('categories', ignore: $category)],
             'seo.locale'      => ['required', 'string', 'size:2', 'exists:locales,name'],
-            'seo.title'       => ['required', 'string', 'max:70', new SeoTitle($category)],
+            'seo.title'       => ['required', 'string', 'max:70', new SeoTitle($category ?? 'category')],
             'seo.description' => ['nullable', 'string'],
 
             # Media
