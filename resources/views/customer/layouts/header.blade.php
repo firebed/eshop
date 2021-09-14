@@ -1,4 +1,4 @@
-<div class="container-fluid border-bottom bg-light">
+<div class="container-fluid border-bottom bg-primary">
     <div class="container-xxl">
         @include('eshop::customer.layouts.header-top')
     </div>
@@ -10,7 +10,7 @@
     </div>
 </div>
 
-<div class="container-fluid bg-primary">
+<div class="container-fluid">
     <div class="container-xxl">
         @include('eshop::customer.layouts.header-bottom')
     </div>

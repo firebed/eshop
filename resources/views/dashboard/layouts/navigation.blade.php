@@ -27,6 +27,8 @@
         <a href="{{ route('collections.index') }}" @if(request()->routeIs('collections.*')) class="bg-gray-700" @endif><em class="fas fa-layer-group w-2r me-2 text-pink-500"></em>{{ __("eshop::collection.collections") }}</a>
     @endcan
 
+    <hr class="my-2">
+
     @can('View countries')
         <a href="{{ route('countries.index') }}" @if(request()->routeIs('countries.index')) class="bg-gray-700" @endif><i class="fas fa-flag w-2r me-2 text-cyan-300"></i>{{ __("Countries") }}</a>
     @endcan
@@ -51,11 +53,15 @@
         <a href="{{ route('country-payment-methods.index') }}" @if(request()->routeIs('country-payment-methods.index')) class="bg-gray-700" @endif><i class="fas fa-money-check w-2r me-2 text-cyan-300"></i>{{ __("Payment options") }}</a>
     @endcan
 
+    <hr class="my-2">
+
     @can('View users')
         <a href="{{ route('users.index') }}" @if(request()->routeIs('users.index')) class="bg-gray-700" @endif><i class="fas fa-users w-2r me-2 text-purple-300"></i>{{ __("Users") }}</a>
     @endcan
 
-    <hr class="my-2">
+    @can('View slides')
+        <a href="{{ route('slides.index') }}" @if(request()->routeIs('slides.index')) class="bg-gray-700" @endif><i class="fas fa-video w-2r me-2 text-yellow-300"></i>{{ __("Διαφάνειες") }}</a>
+    @endcan
 
 {{--    <a href="#" @if(request()->routeIs('store')) class="bg-gray-700" @endif><i class="fas fa-store w-2r me-2 text-blue-300"></i> {{ __("Store") }}</a>--}}
 

@@ -18,7 +18,7 @@
         <livewire:customer.checkout.cart-button/>
     </div>
 
-    <div class="col-12 col-lg order-lg-1">
+    <div class="col-12 col-lg order-lg-1 px-lg-5">
         <form x-data="searchBar()" x-on:click.outside="close" action="{{ route('customer.products.search.index', app()->getLocale()) }}" class="position-relative">
             <label class="d-none" for="search-bar">{{ __("Search") }}</label>
             <input x-ref="input"

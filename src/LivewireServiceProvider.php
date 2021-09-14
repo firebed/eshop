@@ -39,6 +39,7 @@ use Eshop\Livewire\Dashboard\Product\ShowTrashedProducts;
 use Eshop\Livewire\Dashboard\Product\VariantBulkCreateTable;
 use Eshop\Livewire\Dashboard\Product\VariantsTable;
 use Eshop\Livewire\Dashboard\Product\VariantTypes;
+use Eshop\Livewire\Dashboard\Slide\ShowSlides;
 use Eshop\Livewire\Dashboard\User\ShowUserPermissions;
 use Eshop\Livewire\Dashboard\User\ShowUsers;
 use Eshop\Livewire\Dashboard\User\UserAddressesTable;
@@ -108,6 +109,9 @@ class LivewireServiceProvider extends ServiceProvider
         Livewire::component('dashboard.pos.payment', PosPayment::class);
         Livewire::component('dashboard.pos.invoice', PosInvoice::class);
         Livewire::component('dashboard.pos.products-search', PosProductsSearch::class);
+
+        // Slides
+        Livewire::component('dashboard.slide.show-slides', ShowSlides::class);
 
         // Analytics
 

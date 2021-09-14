@@ -16,6 +16,7 @@ use Eshop\Models\Product\Manufacturer;
 use Eshop\Models\Product\Product;
 use Eshop\Models\Product\VariantType;
 use Eshop\Models\Seo\Seo;
+use Eshop\Models\Slide\Slide;
 use Eshop\Models\User;
 use Eshop\View\Components\CategoryBreadcrumb;
 use Illuminate\Database\Eloquent\Relations\Relation;
@@ -124,7 +125,9 @@ class EshopServiceProvider extends ServiceProvider
             'invoice'         => Invoice::class,
             'company'         => Company::class,
             //
-            'seo'             => Seo::class
+            'seo'             => Seo::class,
+            //
+            'slide'           => Slide::class
         ]);
     }
 

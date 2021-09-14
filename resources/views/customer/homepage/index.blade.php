@@ -26,27 +26,33 @@
 @endpush
 
 @section('main')
-    <div class="container-fluid py-3 bg-white">
+    <div class="container-fluid bg-white">
         <div class="container-xxl">
-            <div class="row">
-                <div class="col-3 d-none d-md-block">
-                    {{--                    <x-eshop-homepage-categories-list/>--}}
+            <div class="row g-0">
+                <div class="col-3 d-none d-lg-block">
+                    <div class="list-group border-0 rounded-0">
+                        <a href="#" class="list-group-item list-group-item-action fw-500">Βρεφικά Ρούχα</a>
+                        <a href="#" class="list-group-item list-group-item-action"><span class="ps-3">Ολόσωμες Φόρμες</span></a>
+                        <a href="#" class="list-group-item list-group-item-action"><span class="ps-3">Σετ για νεογέννητα</span></a>
+                        <a href="#" class="list-group-item list-group-item-action"><span class="ps-3">Κορμάκια</span></a>
+                        <a href="#" class="list-group-item list-group-item-action"><span class="ps-3">Πιτζάμες</span></a>
+
+                        <a href="#" class="list-group-item list-group-item-action fw-500">Παδικά Ρούχα</a>
+                        <a href="#" class="list-group-item list-group-item-action"><span class="ps-3">Σετ φόρμες</span></a>
+                        <a href="#" class="list-group-item list-group-item-action"><span class="ps-3">Πουκάμισα</span></a>
+                        <a href="#" class="list-group-item list-group-item-action"><span class="ps-3">Παντελόνια - Σορτς</span></a>
+                        <a href="#" class="list-group-item list-group-item-action"><span class="ps-3">Πιτζάμες</span></a>
+
+                        <a href="#" class="d-none d-xl-block list-group-item list-group-item-action fw-500">Αξεσουάρ</a>
+                        <a href="#" class="d-none d-xl-block list-group-item list-group-item-action"><span class="ps-3">Σαλιάρες</span></a>
+                        <a href="#" class="d-none d-xl-block list-group-item list-group-item-action"><span class="ps-3">Κουβέρτες</span></a>
+                        <a href="#" class="d-none d-xl-block list-group-item list-group-item-action"><span class="ps-3">Παπούτσια</span></a>
+                    </div>
                 </div>
-                <div class="col">
+                <div class="col pt-3 ps-lg-5 pt-lg-5">
                     @include('eshop::customer.homepage.partials.carousel')
                 </div>
             </div>
-
-            {{--            <div class="row mb-4">--}}
-            {{--                <div class="col-12 col-xl-3">--}}
-            {{--                    --}}{{--                    <x-eshop-top-sellers/>--}}
-            {{--                </div>--}}
-
-            {{--                <div class="col-12 col-xl-9">--}}
-            {{--                    --}}{{--                    <div class="h4">Top Seller</div>--}}
-            {{--                    --}}{{--                    <x-eshop-popular-products/>--}}
-            {{--                </div>--}}
-            {{--            </div>--}}
         </div>
     </div>
 
@@ -86,7 +92,7 @@
     <div class="container-fluid py-3 pb-5 bg-white">
         <div class="container-xxl">
             <div class="fw-bold py-5 vstack gap-3">
-                <h2 class="mx-auto">Top Seller</h2>
+                <h2 class="mx-auto">Best Sellers</h2>
                 <div class="border-bottom border-3 border-primary w-3r mx-auto"></div>
             </div>
 

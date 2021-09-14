@@ -298,17 +298,17 @@ class Product extends Model
 
     public function getDiscountAmountAttribute(): float
     {
-        return number_format($this->price * $this->discount, 2);
+        return round($this->price * $this->discount, 2);
     }
 
     public function getNetValueAttribute(): float
     {
-        return number_format($this->price - $this->discountAmount, 2);
+        return round($this->price - $this->discountAmount, 2);
     }
 
     public function getNetValueWithoutVatAttribute(): float
     {
-        return number_format($this->netValue / (1 + $this->vat), 2);
+        return round($this->netValue / (1 + $this->vat), 2);
     }
 
     public function isVariant(): bool

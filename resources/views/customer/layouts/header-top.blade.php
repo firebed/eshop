@@ -1,12 +1,12 @@
 <div class="hstack small justify-content-between">
     <x-bs::dropdown>
-        <x-bs::dropdown.button class="shadow-none ps-0" id="languages-menu">
+        <x-bs::dropdown.button class="shadow-none ps-0 text-light" id="languages-menu">
             @if(app()->getLocale() === 'el')
                 <img class="me-2" src="{{ asset('storage/images/flags/Greece.png') }}" alt="Flag of Greece" width="16" height="16">
-                <small class="d-none d-sm-inline-block">Ελληνικά</small>
+                <small>Ελληνικά</small>
             @else
                 <img class="me-2" src="{{ asset('storage/images/flags/UnitedKingdom.png') }}" alt="Flag of United Kingdom" width="16" height="16">
-                <small class="d-none d-sm-inline-block">English</small>
+                <small>English</small>
             @endif
         </x-bs::dropdown.button>
 
@@ -23,7 +23,7 @@
 
     @isset(__("company.phone")[0])
         @php $phone = __("company.phone")[0] @endphp
-        <a href="tel:{{ $phone }}" class="lh-sm text-decoration-none text-dark text-nowrap"><em class="fas fa-phone text-secondary"></em> {{ $phone }}</a>
+        <a href="tel:{{ $phone }}" class="d-none d-sm-inline-block lh-sm text-decoration-none text-light text-nowrap"><em class="fas fa-phone"></em> {{ $phone }}</a>
     @endisset
 
     <div class="d-flex">
@@ -37,12 +37,17 @@
             @endif
         @else
             <x-bs::dropdown>
-                <x-bs::dropdown.button class="shadow-none pe-0" id="user-menu">
-                    <em class="text-secondary fas fa-user me-2"></em>
+                <x-bs::dropdown.button class="text-light shadow-none pe-0" id="user-menu">
+                    <em class="text-light fas fa-user me-2"></em>
                     <small>{{ __('Account') }}</small>
                 </x-bs::dropdown.button>
 
                 <x-bs::dropdown.menu class="shadow-sm" button="user-menu" alignment="right" style="z-index: 1500">
+                    @can('View dashboard')
+                        <x-bs::dropdown.item target="_blank" href="{{ route('products.index') }}">Διαχείριση</x-bs::dropdown.item>
+                        <x-bs::dropdown.divider/>
+                    @endcan
+
                     <x-bs::dropdown.item href="{{ route('account.profile.edit', app()->getLocale()) }}">{{ __('Profile') }}</x-bs::dropdown.item>
                     <x-bs::dropdown.item href="{{ route('account.orders.index', app()->getLocale()) }}">{{ __('My orders') }}</x-bs::dropdown.item>
                     {{--                                <x-bs::dropdown.item href="{{ route('account.wishlist.index') }}">{{ __('Wishlist') }}</x-bs::dropdown.item>--}}
