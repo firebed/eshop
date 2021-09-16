@@ -38,7 +38,7 @@ class PayPalService
             throw new Error("The order has no shipping address");
         }
 
-        $currency = config('app.currency');
+        $currency = config('eshop.currency');
 
         $request = new OrdersCreateRequest();
         $request->prefer('return=representation');

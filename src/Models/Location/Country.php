@@ -45,7 +45,7 @@ class Country extends Model
 
     public static function default(): null|Country
     {
-        return self::firstWhere('code', config('app.country'));
+        return self::firstWhere('code', config('eshop.country'));
     }
 
     protected static function newFactory(): CountryFactory

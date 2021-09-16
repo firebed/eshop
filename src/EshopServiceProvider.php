@@ -4,6 +4,7 @@ namespace Eshop;
 
 use Eshop\Commands\InstallCommand;
 use Eshop\Commands\SitemapCommand;
+use Eshop\Middleware\Locale;
 use Eshop\Models\Cart\Cart;
 use Eshop\Models\Invoice\Company;
 use Eshop\Models\Invoice\Invoice;
@@ -40,6 +41,8 @@ class EshopServiceProvider extends ServiceProvider
         $this->registerRoutes();
         $this->registerCommands();
         $this->registerPublishing();
+
+        app('router')->aliasMiddleware('locale', Locale::class);
 
         Collection::macro('toggle', fn($item) => $this->contains($item) ? $this->except($item->id) : $this->concat([$item]));
     }
@@ -78,7 +81,6 @@ class EshopServiceProvider extends ServiceProvider
     private function registerRoutes(): void
     {
         $this->loadRoutesFrom(__DIR__ . '/../routes/dashboard.php');
-        $this->loadRoutesFrom(__DIR__ . '/../routes/web.php');
     }
 
     private function registerCommands(): void
@@ -94,13 +96,21 @@ class EshopServiceProvider extends ServiceProvider
     private function registerPublishing(): void
     {
         if ($this->app->runningInConsole()) {
-            $this->publishes([__DIR__ . '/../config/eshop.php' => config_path('eshop.php')], 'eshop-config');
+            $this->publishes([__DIR__ . '/../stubs/config/eshop.php' => config_path('eshop.php')], 'eshop-config');
+            $this->publishes([__DIR__ . '/../resources/lang/el.json' => resource_path('lang/el.json')], 'eshop-lang-el');
+            $this->publishes([__DIR__ . '/../stubs/controllers' => app_path('Http\Controllers')], 'eshop-customer-controllers');
+            $this->publishes([__DIR__ . '/../stubs/resources/views' => resource_path('views')], 'eshop-customer-views');
 
-            $this->publishes([__DIR__ . '/../resources/lang' => resource_path('lang/vendor/eshop')], 'eshop-locale');
-            $this->publishes([__DIR__ . '/../resources/lang/el.json' => resource_path('lang/el.json')], 'eshop-locale-el');
-
-            $this->publishes([__DIR__ . '/../resources/views/customer' => resource_path('views/vendor/eshop/customer')], 'eshop-customer-views');
+            $this->publishes([__DIR__ . '/../resources/lang' => resource_path('lang/vendor/eshop')], 'eshop-lang');
             $this->publishes([__DIR__ . '/../resources/views/dashboard' => resource_path('views/vendor/eshop/dashboard')], 'eshop-dashboard-views');
+
+            $this->publishes([
+                __DIR__ . '/../stubs/config/eshop.php' => config_path('eshop.php'),
+                __DIR__ . '/../resources/lang/el.json' => resource_path('lang/el.json'),
+                __DIR__ . '/../stubs/controllers' => app_path('Http\Controllers'),
+                __DIR__ . '/../stubs/resources/views' => resource_path('views'),
+                __DIR__ . '/../stubs/livewire' => app_path('Http\Livewire')
+            ], 'eshop-setup');
         }
     }
 

@@ -1,14 +1,13 @@
 <?php
 
 return [
-    'invoicing' => TRUE,
+    'invoicing' => env('INVOICING', true),
 
-    'logo'        => '',
-    'logo_width'  => 0,
-    'logo_height' => 0,
+    'locales' => [],
 
-    'prefix'     => '',
-    'middleware' => ['web'],
+    'default_locale' => env('COUNTRY_LOCALE', 'en'),
+    'country'        => env('COUNTRY', 'us'),
+    'currency'       => env('CURRENCY', 'USD'),
 
     'google-analytics-id' => env('GOOGLE_ANALYTICS_ID'),
 ];

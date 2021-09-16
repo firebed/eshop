@@ -33,7 +33,7 @@ if (!function_exists('format_currency')) {
     {
         $formatter = new NumberFormatter(app()->getLocale(), NumberFormatter::CURRENCY);
         $formatter->setAttribute(NumberFormatter::ROUNDING_MODE, NumberFormatter::ROUND_HALFUP);
-        return $formatter->formatCurrency($number, config('app.currency'));
+        return $formatter->formatCurrency($number, config('eshop.currency'));
     }
 }
 
@@ -72,7 +72,7 @@ if (!function_exists('routeHas')) {
 if (!function_exists('productRouteExists')) {
     function productRouteExists(): bool
     {
-        return Route::has('customer.products.show');
+        return Route::has('products.show');
     }
 }
 
@@ -83,15 +83,15 @@ if (!function_exists('productRoute')) {
 
         $category = $category ?? $product->category;
         return $product->isVariant()
-            ? route('customer.variants.show', [$locale, $category->slug, $product->parent->slug, $product->slug], $absolute)
-            : route('customer.products.show', [$locale, $category->slug, $product->slug], $absolute);
+            ? route('variants.show', [$locale, $category->slug, $product->parent->slug, $product->slug], $absolute)
+            : route('products.show', [$locale, $category->slug, $product->slug], $absolute);
     }
 }
 
 if (!function_exists('variantRouteExists')) {
     function variantRouteExists(): bool
     {
-        return Route::has('customer.variants.show');
+        return Route::has('variants.show');
     }
 }
 
@@ -102,7 +102,7 @@ if (!function_exists('variantRoute')) {
 
         $parent = $parent ?? $variant->parent;
         $category = $category ?? $parent->category;
-        return route('customer.variants.show', [$locale, $category->slug, $parent->slug, $variant->slug], $absolute);
+        return route('variants.show', [$locale, $category->slug, $parent->slug, $variant->slug], $absolute);
     }
 }
 
@@ -123,21 +123,21 @@ if (!function_exists('title')) {
 if (!function_exists('categoryRoute')) {
     function categoryRoute(Category $category, ?Collection $manufacturers = NULL, ?Collection $choices = NULL, $min_price = 0, $max_price = 0, $locale = NULL): ?string
     {
-        $name = 'customer.categories.show';
+        $name = 'categories.show';
         $params = [
             $locale ?: app()->getLocale(),
             $category->slug
         ];
 
         if ($manufacturers !== NULL && $manufacturers->isNotEmpty()) {
-            $name = 'customer.categories.manufacturers';
+            $name = 'categories.manufacturers';
             $params[] = $manufacturers->pluck('slug')->join('-');
             if ($choices !== NULL && $choices->isNotEmpty()) {
-                $name = 'customer.categories.manufacturers.filters';
+                $name = 'categories.manufacturers.filters';
                 $params[] = $choices->pluck('slug')->join('-');
             }
         } else if ($choices !== NULL && $choices->isNotEmpty()) {
-            $name = 'customer.categories.filters';
+            $name = 'categories.filters';
             $params[] = $choices->pluck('slug')->join('-');
         }
 

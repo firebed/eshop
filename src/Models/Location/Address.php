@@ -80,7 +80,7 @@ class Address extends Model
 
     public function isLocalCountry(): bool
     {
-        return strcasecmp($this->country->code, config('app.country')) === 0;
+        return strcasecmp($this->country->code, config('eshop.country')) === 0;
     }
 
     public function isRelated(): bool

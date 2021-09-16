@@ -18,7 +18,7 @@
 
             <td>
                 <div class="ratio ratio-1x1 border rounded">
-                    @if($variant->image && $src = $variant->image->url('sm'))
+                    @if($src = $variant->image?->url('sm'))
                         <img class="w-auto h-auto mw-100 mh-100 rounded" src="{{ $src }}" alt="{{ $variant->sku }}">
                     @endif
                 </div>

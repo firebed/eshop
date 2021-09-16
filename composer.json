@@ -39,8 +39,10 @@
   "extra": {
     "laravel": {
       "providers": [
+        "Eshop\\EshopServiceProvider",
         "Eshop\\CartServiceProvider",
-        "Eshop\\LivewireServiceProvider"
+        "Eshop\\LivewireServiceProvider",
+        "Intervention\\Image\\ImageServiceProvider"
       ]
     }
   },
