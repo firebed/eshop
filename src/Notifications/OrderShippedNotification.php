@@ -47,7 +47,7 @@ class OrderShippedNotification extends Notification
         $this->cart->products->loadMissing('parent.translation', 'image', 'translation');
 
         return (new MailMessage())
-            ->markdown('eshop::customer.emails.order.shipped', [
+            ->markdown('emails.order.shipped', [
                 'cart'            => $this->cart,
                 'notesToCustomer' => $this->notesToCustomer
             ]);

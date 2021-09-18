@@ -14,7 +14,7 @@
                 <livewire:dashboard.product.variants-table :product="$product"/>
             </div>
 
-            <div class="col-12 col-lg-8 d-grid gap-4">
+            <div class="col-12 col-lg-8 vstack gap-4">
                 <form action="{{ route('variants.update', $variant) }}" enctype="multipart/form-data" method="post" class="d-grid gap-4"
                       x-data='{ submitting: false }'
                       x-on:submit="submitting = true"

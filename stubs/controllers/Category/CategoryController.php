@@ -3,8 +3,7 @@
 namespace App\Http\Controllers\Category;
 
 use App\Http\Controllers\Category\Traits\ValidatesCategoryUrl;
-use Eshop\Actions\Schema\BreadcrumbSchema;
-use Eshop\Actions\Schema\WebPageSchema;
+use Eshop\Actions\Schema\Schema;
 use Eshop\Controllers\Controller;
 use Eshop\Models\Product\Category;
 use Eshop\Requests\Customer\CustomerCategoryRequest;
@@ -17,7 +16,7 @@ class CategoryController extends Controller
 {
     use ValidatesCategoryUrl;
 
-    public function __invoke(CustomerCategoryRequest $request, string $locale, Category $category, WebPageSchema $webPage, BreadcrumbSchema $breadcrumb): Renderable|RedirectResponse
+    public function __invoke(CustomerCategoryRequest $request, string $locale, Category $category, Schema $schema): Renderable|RedirectResponse
     {
         if ($category->isFolder()) {
             $children = $category->children()
@@ -29,8 +28,8 @@ class CategoryController extends Controller
             return view('category.show', [
                 'category'   => $category,
                 'children'   => $children,
-                'webPage'    => $webPage->handle($category->seo->title ?? $category->title, $category->seo?->description),
-                'breadcrumb' => $breadcrumb->handle($category)
+                'webPage'    => $schema->webPage($category->seo->title ?? $category->name, $category->seo?->description),
+                'breadcrumb' => $schema->breadcrumb($category)
             ]);
         }
 
@@ -85,8 +84,8 @@ class CategoryController extends Controller
             'filters'       => $filters,
             'priceRanges'   => $priceRanges,
             'products'      => $products,
-            'webPage'       => $webPage->handle($category->seo->title ?? $category->name, $category->seo?->description),
-            'breadcrumb'    => $breadcrumb->handle($category)
+            'webPage'       => $schema->webPage($category->seo->title ?? $category->name, $category->seo?->description),
+            'breadcrumb'    => $schema->breadcrumb($category)
         ]);
     }
 

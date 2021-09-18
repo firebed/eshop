@@ -20,6 +20,6 @@ class OrderSubmittedMail extends Mailable
     {
         $this->cart->products->loadMissing('parent.translation', 'image', 'translation');
 
-        return $this->markdown('eshop::customer.emails.order.submitted');
+        return $this->markdown('emails.order.submitted');
     }
 }

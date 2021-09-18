@@ -80,6 +80,11 @@ class InstallCommand extends Command
             app_path('Providers/FortifyServiceProvider.php'),
         );
 
+        copy(
+            __DIR__.'/../../stubs/models/User.php',
+            app_path('Models/User.php'),
+        );
+
         if (!is_dir($directory = app_path('Actions/Fortify')) && !mkdir($directory, 0755, true) && !is_dir($directory)) {
             throw new RuntimeException(sprintf('Directory "%s" was not created', $directory));
         }
@@ -89,6 +94,8 @@ class InstallCommand extends Command
         copy(__DIR__.'/../../stubs/fortify/Actions/ResetUserPassword.php', app_path('Actions/Fortify/ResetUserPassword.php'));
         copy(__DIR__.'/../../stubs/fortify/Actions/UpdateUserPassword.php', app_path('Actions/Fortify/UpdateUserPassword.php'));
         copy(__DIR__.'/../../stubs/fortify/Actions/UpdateUserProfileInformation.php', app_path('Actions/Fortify/UpdateUserProfileInformation.php'));
+
+        copy(__DIR__.'/../../stubs/config/filesystems.php', config_path('filesystems.php'));
 
         Artisan::call('vendor:publish', ['--tag' => 'eshop-setup', '--force' => 'default']);
         Artisan::call('optimize:clear');

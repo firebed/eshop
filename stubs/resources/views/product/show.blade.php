@@ -73,13 +73,13 @@
                                 @endif
 
                                 @if($product->variants_display === 'buttons')
-                                    <livewire:customer.product.product-variants-buttons :product="$product"/>
+                                    <livewire:product.product-variants-buttons :product="$product"/>
                                 @endif
 
                                 @if($product->variants_display === 'list')
                                 @endif
                             @elseif($product->canBeBought())
-                                <livewire:customer.product.add-to-cart-form :product="$product"/>
+                                <livewire:product.add-to-cart-form :product="$product"/>
                             @else
                                 <div class="col-12 mb-4 hstack gap-3">
                                     <div class="h3 mb-0">{{ format_currency($product->netValue) }}</div>
@@ -97,7 +97,7 @@
 
     @if($product->has_variants && $product->variants_display === 'grid')
         <div id="product-variants" class="container-fluid mb-4 py-4 bg-light">
-            <livewire:customer.product.product-variants :product="$product" :category="$category"/>
+            <livewire:product.product-variants :product="$product" :category="$category"/>
         </div>
     @endif
 @endsection

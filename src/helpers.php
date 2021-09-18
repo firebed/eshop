@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 if (!function_exists('format_number')) {
-    function format_number($number, $min_fraction_digits = 0, $max_fraction_digits = 2, $locale = NULL): bool|string
+    function format_number($number, $min_fraction_digits = 0, $max_fraction_digits = 2, $locale = null): bool|string
     {
         $formatter = new NumberFormatter($locale ?? app()->getLocale(), NumberFormatter::DECIMAL);
         $formatter->setAttribute(NumberFormatter::MIN_FRACTION_DIGITS, $min_fraction_digits);
@@ -77,7 +77,7 @@ if (!function_exists('productRouteExists')) {
 }
 
 if (!function_exists('productRoute')) {
-    function productRoute(Product $product, Category $category = NULL, $locale = NULL, $absolute = TRUE): string
+    function productRoute(Product $product, Category $category = null, $locale = null, $absolute = true): string
     {
         $locale = $locale ?: app()->getLocale();
 
@@ -96,7 +96,7 @@ if (!function_exists('variantRouteExists')) {
 }
 
 if (!function_exists('variantRoute')) {
-    function variantRoute(Product $variant, Product $parent = NULL, Category $category = NULL, $locale = NULL, $absolute = TRUE): string
+    function variantRoute(Product $variant, Product $parent = null, Category $category = null, $locale = null, $absolute = true): string
     {
         $locale = $locale ?: app()->getLocale();
 
@@ -121,7 +121,7 @@ if (!function_exists('title')) {
 }
 
 if (!function_exists('categoryRoute')) {
-    function categoryRoute(Category $category, ?Collection $manufacturers = NULL, ?Collection $choices = NULL, $min_price = 0, $max_price = 0, $locale = NULL): ?string
+    function categoryRoute(Category $category, ?Collection $manufacturers = null, ?Collection $choices = null, $min_price = 0, $max_price = 0, $locale = null): ?string
     {
         $name = 'categories.show';
         $params = [
@@ -129,14 +129,14 @@ if (!function_exists('categoryRoute')) {
             $category->slug
         ];
 
-        if ($manufacturers !== NULL && $manufacturers->isNotEmpty()) {
+        if ($manufacturers !== null && $manufacturers->isNotEmpty()) {
             $name = 'categories.manufacturers';
             $params[] = $manufacturers->pluck('slug')->join('-');
-            if ($choices !== NULL && $choices->isNotEmpty()) {
+            if ($choices !== null && $choices->isNotEmpty()) {
                 $name = 'categories.manufacturers.filters';
                 $params[] = $choices->pluck('slug')->join('-');
             }
-        } else if ($choices !== NULL && $choices->isNotEmpty()) {
+        } else if ($choices !== null && $choices->isNotEmpty()) {
             $name = 'categories.filters';
             $params[] = $choices->pluck('slug')->join('-');
         }
@@ -161,7 +161,7 @@ if (!function_exists('user')) {
 }
 
 if (!function_exists('dir_size')) {
-    function dir_size($disk, $dir, $format = TRUE): string
+    function dir_size($disk, $dir, $format = true): string
     {
         $files = Storage::disk($disk)->files($dir);
         $size = 0;
@@ -184,5 +184,12 @@ if (!function_exists('format_bytes')) {
         $suffixes = array(' bytes', ' KB', ' MB', ' GB', ' TB');
 
         return round(1024 ** ($base - floor($base)), 1) . $suffixes[floor($base)];
+    }
+}
+
+if (!function_exists('telephone')) {
+    function telephone(string $number): string
+    {
+        return preg_replace('/\s+/', '', $number);
     }
 }

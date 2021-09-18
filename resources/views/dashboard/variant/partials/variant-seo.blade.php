@@ -17,8 +17,8 @@
      class="d-grid gap-2"
 >
     <div class="d-flex justify-content-between align-items-baseline mb-3">
-        <div class="fw-500">{{ __("eshop::product.seo_search_listing") }}</div>
-        <a x-on:click.prevent="open = !open" href="#" class="text-decoration-none">{{ __('eshop::product.edit_seo') }}</a>
+        <div class="fw-500">{{ __("eshop::seo.search_listing") }}</div>
+        <a x-on:click.prevent="open = !open" href="#" class="text-decoration-none">{{ __('eshop::seo.edit') }}</a>
     </div>
 
     <div class="d-grid w-100">

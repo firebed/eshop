@@ -13,7 +13,7 @@ class ProfileController extends Controller
 {
     public function edit(): View
     {
-        return view('eshop::customer.account.profile.edit', [
+        return view('account.profile.edit', [
             'user' => auth()->user()
         ]);
     }

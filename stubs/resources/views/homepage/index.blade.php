@@ -1,20 +1,18 @@
-@extends('layouts.master', ['title' => __('company.job')])
-
-@php($description = "Χιλιάδες προϊόντα σε βρεφικά ρούχα και παιδικά ρούχα και αξεσουάρ για αγόρια και κορίτσια για όλες τις ηλικίες σας περιμένουν στο κατάστημα Minimoda με μειωμένες τιμές.")
+@extends('layouts.master', ['title' => __('company.seo.title')])
 
 @push('meta')
     <link rel="canonical" href="{{ route('home', app()->getLocale()) }}">
-    <meta name="description" content="{{ $description }}">
+    <meta name="description" content="{{ __('company.seo.description') }}">
 
     <script type="application/ld+json">{!! $webSite !!}</script>
-    <script type="application/ld+json">{!! $webPage->handle(config('app.name'), $description) !!}</script>
+    <script type="application/ld+json">{!! $webPage->handle(config('app.name'), __('company.seo.description')) !!}</script>
     <script type="application/ld+json">{!! $organization !!}</script>
 
     <meta property="og:title" content="{{ config('app.name') }}">
     <meta property="og:site_name" content="{{ config('app.name') }}">
-    <meta property="og:description" content="{{ $description }}">
+    <meta property="og:description" content="{{ __('company.seo.description') }}">
     <meta property="og:type" content="website">
-    <meta property="og:image" content="{{ asset('/storage/images/alt_logo.png') }}">
+    <meta property="og:image" content="{{ asset(config('eshop.logo')) }}">
 @endpush
 
 @push('header_scripts')

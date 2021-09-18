@@ -14,12 +14,18 @@ return [
     'email'           => '',
     'logo'            => '',
 
+    'seo' => [
+        'title'       => '',
+        'description' => '',
+    ],
+
     'bank_accounts' => [
-        'Εθνική Τράπεζα' => [
-            'number' => '',
-            'iban'   => '',
-            'owner'  => ''
-        ],
+//        [
+//            'bank'   => '',
+//            'number' => '',
+//            'iban'   => '',
+//            'owner'  => ''
+//        ],
     ],
 
     "social" => [

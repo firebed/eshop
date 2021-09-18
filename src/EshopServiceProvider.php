@@ -4,6 +4,7 @@ namespace Eshop;
 
 use Eshop\Commands\InstallCommand;
 use Eshop\Commands\SitemapCommand;
+use Eshop\Middleware\Admin;
 use Eshop\Middleware\Locale;
 use Eshop\Models\Cart\Cart;
 use Eshop\Models\Invoice\Company;
@@ -23,6 +24,7 @@ use Eshop\View\Components\CategoryBreadcrumb;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Collection;
 use Illuminate\Support\ServiceProvider;
+use Intervention\Image\ImageServiceProvider;
 
 class EshopServiceProvider extends ServiceProvider
 {
@@ -43,6 +45,7 @@ class EshopServiceProvider extends ServiceProvider
         $this->registerPublishing();
 
         app('router')->aliasMiddleware('locale', Locale::class);
+        app('router')->aliasMiddleware('admin', Admin::class);
 
         Collection::macro('toggle', fn($item) => $this->contains($item) ? $this->except($item->id) : $this->concat([$item]));
     }
@@ -50,6 +53,10 @@ class EshopServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->app->register(EventServiceProvider::class);
+        $this->app->register(AuthServiceProvider::class);
+        $this->app->register(CartServiceProvider::class);
+        $this->app->register(LivewireServiceProvider::class);
+        $this->app->register(ImageServiceProvider::class);
     }
 
     private function registerConfig(): void
@@ -107,9 +114,9 @@ class EshopServiceProvider extends ServiceProvider
             $this->publishes([
                 __DIR__ . '/../stubs/config/eshop.php' => config_path('eshop.php'),
                 __DIR__ . '/../resources/lang/el.json' => resource_path('lang/el.json'),
-                __DIR__ . '/../stubs/controllers' => app_path('Http\Controllers'),
-                __DIR__ . '/../stubs/resources/views' => resource_path('views'),
-                __DIR__ . '/../stubs/livewire' => app_path('Http\Livewire')
+                __DIR__ . '/../stubs/controllers'      => app_path('Http\Controllers'),
+                __DIR__ . '/../stubs/resources/views'  => resource_path('views'),
+                __DIR__ . '/../stubs/livewire'         => app_path('Http\Livewire')
             ], 'eshop-setup');
         }
     }

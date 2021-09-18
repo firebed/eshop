@@ -16,7 +16,7 @@ class OrganizationSchema
                 "@type" => "Person",
                 "name"  => config('company.name')
             ],
-            "saveAs"       => __('company.social'),
+            "sameAs"       => __('company.social'),
             "address"      => [
                 "@type"           => "PostalAddress",
                 "addressLocality" => __('company.addressLocality'),
@@ -26,7 +26,7 @@ class OrganizationSchema
             "contactPoint" => [
                 "@type"       => "ContactPoint",
                 "contactType" => "Support",
-                "telephone"   => __('company.phone')[0],
+                "telephone"   => telephone(__('company.phone')[0]),
                 "email"       => __('company.email')
             ]
         ]);

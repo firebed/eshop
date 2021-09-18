@@ -21,10 +21,9 @@
         </x-bs::dropdown.menu>
     </x-bs::dropdown>
 
-    @isset(__("company.phone")[0])
-        @php $phone = __("company.phone")[0] @endphp
-        <a href="tel:{{ $phone }}" class="d-none d-sm-inline-block lh-sm text-decoration-none text-light text-nowrap"><em class="fas fa-phone"></em> {{ $phone }}</a>
-    @endisset
+    @if($phone = __("company.phone")[0])
+        <a href="tel:{{ telephone($phone) }}" class="d-none d-sm-inline-block lh-sm text-decoration-none text-light text-nowrap"><em class="fas fa-phone"></em> {{ $phone }}</a>
+    @endif
 
     <div class="d-flex">
         @guest
