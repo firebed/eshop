@@ -32,7 +32,7 @@ class VariantController extends Controller
             'choices'    => $product->choices()->with('translation')->get(),
             'psd'        => $json->handle($variant),
             'breadcrumb' => $breadcrumb->handle($category, $product, $variant),
-            'webPage'    => $webPage->handle($variant->seo->title, $variant->seo->description ?? $product->seo->description),
+            'webPage'    => $webPage->handle($variant->seo->title ?? $variant->option_values, $variant->seo->description ?? $product->seo->description ?? null),
         ]);
     }
 }

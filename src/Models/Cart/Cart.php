@@ -203,9 +203,7 @@ class Cart extends Model implements Order
 
     public function delete(): bool|null
     {
-        if ($this->invoice) {
-            $this->invoice->delete();
-        }
+        $this->invoice?->delete();
 
         return $this->address()->delete() && parent::delete();
     }

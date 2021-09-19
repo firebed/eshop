@@ -13,7 +13,7 @@
         <div class="list-group shadow-sm">
             @foreach($paymentMethods as $method)
                 <a href="{{ route('payment-methods.edit', $method) }}" class="py-3 list-group-item list-group-item-action">
-                    {{ $method->name }}
+                    {{ __("eshop::payment.$method->name") }}
                 </a>
             @endforeach
         </div>

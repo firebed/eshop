@@ -8,7 +8,7 @@
                 </tr>
                 <tr>
                     <td>{{ __("Weight") }}</td>
-                    <td>{{ format_weight($cart->weight) }}</td>
+                    <td>{{ format_weight($cart->parcel_weight) }}</td>
                 </tr>
                 @isset($cart->details)
                     <tr>
@@ -25,12 +25,12 @@
                 </tr>
 
                 <tr>
-                    <td class="text-end">@isset($cart->shippingMethod) {{ __($cart->shippingMethod->name) }}: @else {{ __('Shipping') }} @endisset</td>
+                    <td class="text-end">@isset($cart->shippingMethod) {{ __("eshop::shipping." . $cart->shippingMethod->shippingMethod->name) }}: @else {{ __('Shipping') }} @endisset</td>
                     <td class="number">{{ format_currency($cart->shipping_fee) }}</td>
                 </tr>
 
                 <tr>
-                    <td class="text-end">@isset($cart->paymentMethod) {{ __($cart->paymentMethod->name) }}: @else {{ __('Payment') }} @endisset</td>
+                    <td class="text-end">@isset($cart->paymentMethod) {{ __("eshop::payment." . $cart->paymentMethod->paymentMethod->name) }}: @else {{ __('Payment') }} @endisset</td>
                     <td class="number">{{ format_currency($cart->payment_fee) }}</td>
                 </tr>
 

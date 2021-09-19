@@ -41,26 +41,26 @@
                 @foreach($products as $product)
                     <tr wire:key="row-{{ $product->pivot->id }}">
                         <td>
-                            <x-bs::input.checkbox wire:model="selected" id="check-{{ $product->id }}" value="{{ $product->id }}"/>
+                            <x-bs::input.checkbox wire:model="selected" id="check-{{ $product->id }}" value="{{ $product->pivot->id }}"/>
                         </td>
                         <td>
                             <div class="ratio ratio-1x1">
                                 @if($product->image && $src = $product->image->url('sm'))
-                                    <img class="img-middle rounded" src="{{ $src }}" alt="{{ $product->name }}">
+                                    <img class="img-top rounded" src="{{ $src }}" alt="{{ $product->name }}">
                                 @endif
                             </div>
                         </td>
                         <td>
-                            <div class="d-grid gap-1">
+                            <div class="vstack gap-1">
                                 @if($product->isVariant())
                                     <div>{{ $product->parent->name }}</div>
                                     <div class="fw-500"><span class="text-secondary">{{ $product->sku }}</span> <span>{{ $product->options->pluck('pivot.value')->join(' - ') }}</span></div>
                                 @else
                                     <div class="fw-500"><span class="text-secondary">{{ $product->sku }}</span> <span>{{ $product->name }}</span></div>
                                 @endif
-                                <div class="d-flex gap-2 align-items-center small">
-                                    <x-bs::badge :value="$product->stock" :cap="$product->backorder">{{ format_number($product->stock) }}</x-bs::badge>
-                                    <span>{{ $product->pivot->created_at->format('d/m/y H:i:s') }} {{ $product->weight }}</span>
+                                <div class="hstack gap-2 align-items-baseline">
+                                    <x-bs::badge :value="$product->stock" :cap="$product->backorder" class="px-3">{{ format_number($product->stock) }}</x-bs::badge>
+                                    <small>{{ $product->pivot->created_at->format('d/m/y H:i:s') }} {{ $product->weight }}</small>
                                 </div>
                             </div>
                         </td>

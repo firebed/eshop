@@ -16,7 +16,7 @@ class AreasSeeder extends Seeder
         Schema::enableForeignKeyConstraints();
 
         $this->seedAreasFromFile('greece.csv', 1);
-        $this->seedAreasFromFile('cyprus.csv', 2);
+        $this->seedAreasFromFile('cyprus.csv', 3);
     }
 
     private function seedAreasFromFile(string $filename, int $country_id): void

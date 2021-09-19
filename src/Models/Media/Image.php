@@ -14,8 +14,6 @@ use Illuminate\Support\Facades\Storage;
  * @property string disk
  * @property string collection
  * @property string src
- * @property float  width
- * @property float  height
  * @property array  conversions
  *
  * @mixin Builder
@@ -89,7 +87,13 @@ class Image extends Model
 
     public function getDimensionsAttribute(): string
     {
-        return $this->width . 'x' . $this->height;
+        $size = $this->size;
+        return $size[0] . 'x' . $size[1];
+    }
+
+    public function getSizeAttribute(): array
+    {
+        return getimagesize($this->url());
     }
 
     protected static function booted(): void

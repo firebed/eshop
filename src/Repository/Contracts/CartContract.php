@@ -118,11 +118,11 @@ interface CartContract
 
     /**
      *
-     * @param Cart  $cart        The cart instance.
-     * @param int[] $product_ids The product primary keys.
+     * @param Cart  $cart             The cart instance.
+     * @param int[] $cart_product_ids The product primary keys.
      * @return int|null
      */
-    public function deleteCartItems(Cart $cart, ...$product_ids): int|null;
+    public function deleteCartItems(Cart $cart, array $cart_product_ids): int|null;
 
     /**
      * Restores a cart product by it's primary key.

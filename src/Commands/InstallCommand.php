@@ -88,7 +88,7 @@ class InstallCommand extends Command
         if (!is_dir($directory = app_path('Actions/Fortify')) && !mkdir($directory, 0755, true) && !is_dir($directory)) {
             throw new RuntimeException(sprintf('Directory "%s" was not created', $directory));
         }
-        copy(__DIR__.'/../../stubs/fortify/Actions/CreateNewUser.php', app_path('Actions/Fortify/FortifyServiceProvider.php'));
+        copy(__DIR__.'/../../stubs/fortify/Actions/CreateNewUser.php', app_path('Actions/Fortify/CreateNewUser.php'));
         copy(__DIR__.'/../../stubs/fortify/Actions/PasswordResetResponse.php', app_path('Actions/Fortify/PasswordResetResponse.php'));
         copy(__DIR__.'/../../stubs/fortify/Actions/PasswordValidationRules.php', app_path('Actions/Fortify/PasswordValidationRules.php'));
         copy(__DIR__.'/../../stubs/fortify/Actions/ResetUserPassword.php', app_path('Actions/Fortify/ResetUserPassword.php'));

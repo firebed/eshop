@@ -30,7 +30,7 @@ class CartRepository implements CartContract
             $cart = Cart::findOrFail($cart);
         }
 
-        if ($cart->status_id !== NULL && $cart->isSubmitted()) {
+        if ($cart->status_id !== null && $cart->isSubmitted()) {
             $status = $cart->status;
             if ($status->hasCapturedStocks()) {
                 $this->releaseStocks($cart->id);
@@ -61,7 +61,7 @@ class CartRepository implements CartContract
 
         $data = compact('quantity', 'price', 'compare_price', 'discount', 'vat');
 
-        $cart->products()->syncWithoutDetaching([$product_id => $data]);
+        $cart->products()->syncWithoutDetaching([$product_id => $data + ['deleted_at' => null]]);
 
         $this->updateTotal($cart);
 
@@ -95,9 +95,10 @@ class CartRepository implements CartContract
                         'price'         => $product->price,
                         'compare_price' => $product->compare_price,
                         'discount'      => $product->discount,
-                        'vat'           => $product->vat
+                        'vat'           => $product->vat,
+                        'deleted_at'    => null
                     ]
-                    : NULL;
+                    : null;
             })
             ->filter()
             ->all();
@@ -117,13 +118,9 @@ class CartRepository implements CartContract
 
     public function updateCartItem(CartProduct $cartProduct): void
     {
-        $cartProduct->save();
-
         $cart = $cartProduct->relationLoaded('cart')
             ? $cartProduct->cart
             : $cartProduct->cart()->sole();
-
-        $this->updateTotal($cart);
 
         if ($cart->status_id && $cartProduct->isDirty('quantity')) {
             $status = $cart->status()->sole();
@@ -132,25 +129,29 @@ class CartRepository implements CartContract
                 $this->decrementProductStock($cartProduct->product_id, $cartProduct->quantity - $prevQty);
             }
         }
+
+        $cartProduct->save();
+        $this->updateTotal($cart);
     }
 
-    public function deleteCartItems(Cart $cart, ...$product_ids): int|null
+    public function deleteCartItems(Cart $cart, array $cart_product_ids): int|null
     {
-        if (empty($product_ids)) {
+        if (empty($cart_product_ids)) {
             return null;
         }
+
+        $cartProducts = CartProduct::findMany($cart_product_ids);
 
         if ($cart->isSubmitted()) {
             $status = $cart->status()->sole();
             if ($status->isCapturingStocks()) {
-                $cartProducts = CartProduct::findMany($product_ids);
                 foreach ($cartProducts as $cartProduct) {
                     $this->incrementProductStock($cartProduct->product_id, $cartProduct->quantity);
                 }
             }
         }
 
-        $rows = $cart->products()->detach($product_ids);
+        $rows = $cart->items()->whereKey($cart_product_ids)->delete();
         $cart->load('products');
         $this->updateTotal($cart);
 
@@ -273,7 +274,7 @@ class CartRepository implements CartContract
         }
     }
 
-    public function setDiscount(Cart $cart, float $discount, ?array $cart_item_id = NULL): void
+    public function setDiscount(Cart $cart, float $discount, ?array $cart_item_id = null): void
     {
         $query = empty($cart_item_id)
             ? CartProduct::where('cart_id', $cart->id)
@@ -285,14 +286,14 @@ class CartRepository implements CartContract
 
     public function incrementProductStock(int $product_id, float $stock_amount): void
     {
-        if ($stock_amount !== .0) {
+        if ($stock_amount != 0) {
             Product::query()->whereKey($product_id)->increment('stock', $stock_amount);
         }
     }
 
     public function decrementProductStock(int $product_id, float $stock_amount): void
     {
-        if ($stock_amount !== .0) {
+        if ($stock_amount != 0) {
             Product::query()->whereKey($product_id)->decrement('stock', $stock_amount);
         }
     }
@@ -324,12 +325,12 @@ class CartRepository implements CartContract
 
     public function shouldCaptureProductStocks(CartStatus $previousStatus, CartStatus $currentStatus): bool
     {
-        return $currentStatus->isCapturingStocks() && ($previousStatus === NULL || $previousStatus->isReleasingStocks());
+        return $currentStatus->isCapturingStocks() && ($previousStatus === null || $previousStatus->isReleasingStocks());
     }
 
     public function shouldReleaseProductStocks(CartStatus $previousStatus, CartStatus $currentStatus): bool
     {
-        return $currentStatus->isReleasingStocks() && ($previousStatus === NULL || $previousStatus->isCapturingStocks());
+        return $currentStatus->isReleasingStocks() && ($previousStatus === null || $previousStatus->isCapturingStocks());
     }
 
     public function setVoucher(Cart|int $cart, ?string $voucher): bool

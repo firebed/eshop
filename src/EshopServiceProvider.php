@@ -124,27 +124,27 @@ class EshopServiceProvider extends ServiceProvider
     private function registerMorphs(): void
     {
         Relation::morphMap([
-            'user' => User::class,
-
-            'category'          => Category::class,
-            'category_choice'   => CategoryChoice::class,
-            'category_property' => CategoryProperty::class,
-
-            'product'         => Product::class,
-            'variant_type'    => VariantType::class,
+            'user'                    => User::class,
             //
-            'payment_method'  => CountryPaymentMethod::class,
-            'shipping_method' => CountryShippingMethod::class,
+            'category'                => Category::class,
+            'category_choice'         => CategoryChoice::class,
+            'category_property'       => CategoryProperty::class,
             //
-            'manufacturer'    => Manufacturer::class,
+            'product'                 => Product::class,
+            'variant_type'            => VariantType::class,
             //
-            'cart'            => Cart::class,
-            'invoice'         => Invoice::class,
-            'company'         => Company::class,
+            'country_payment_method'  => CountryPaymentMethod::class,
+            'country_shipping_method' => CountryShippingMethod::class,
             //
-            'seo'             => Seo::class,
+            'manufacturer'            => Manufacturer::class,
             //
-            'slide'           => Slide::class
+            'cart'                    => Cart::class,
+            'invoice'                 => Invoice::class,
+            'company'                 => Company::class,
+            //
+            'seo'                     => Seo::class,
+            //
+            'slide'                   => Slide::class
         ]);
     }
 
