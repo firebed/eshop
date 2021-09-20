@@ -20,7 +20,7 @@
         </div>
     </div>
 
-    <div class="table-responsive" style="height: calc(100vh - 22.35rem)">
+    <div class="table-responsive" style="height: calc(100vh - 21.45rem)">
         <table class="table table-striped small mb-0">
             <thead>
             <tr class="fw-500 table-light">

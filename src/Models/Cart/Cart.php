@@ -205,6 +205,6 @@ class Cart extends Model implements Order
     {
         $this->invoice?->delete();
 
-        return $this->address()->delete() && parent::delete();
+        return $this->addresses()->delete() && parent::delete();
     }
 }
