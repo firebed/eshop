@@ -79,7 +79,7 @@ class CheckoutPaymentController extends Controller
                 return response()->json(['requires_action' => true, 'client_secret' => $e->payment->clientSecret()]);
             } catch (Throwable) {
                 DB::rollBack();
-                return response()->json(__("Payment was unsuccessful. Please select a different payment method and try again."));
+                return response()->json(__("Payment was unsuccessful. Please select a different payment method and try again."), 422);
             }
         }
 

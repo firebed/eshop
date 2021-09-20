@@ -41,6 +41,7 @@
 
         function error(msg) {
             document.getElementById('card-error').textContent = msg
+            document.getElementById('card-error').style.display = msg ? 'block' : 'none'
         }
 
         form.addEventListener('submit', function (event) {
