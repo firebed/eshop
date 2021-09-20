@@ -14,6 +14,7 @@ window.slugify.extend({
     'Θ': 'TH',
     'ξ': 'ks',
     'Ξ': 'KS',
+    'η': 'i'
 });
 
 window.slugifyLower = function (string) {

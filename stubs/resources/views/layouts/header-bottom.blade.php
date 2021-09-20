@@ -24,11 +24,8 @@
                     <div class="offcanvas-body">
                         <ul x-data="menu()" class="navbar-nav me-auto flex-grow-1">
                             @include('layouts.menu-items.menu-item-1')
-                            @include('layouts.menu-items.menu-item-2')
-                            @include('layouts.menu-items.menu-item-3')
-                            @include('layouts.menu-items.menu-item-4')
-                            @include('layouts.menu-items.menu-item-5')
-                            @include('layouts.menu-items.menu-item-6')
+{{--                            Main menu items--}}
+                            @include('layouts.menu-items.menu-item-track-order')
                         </ul>
 
                         <div class="d-none d-lg-flex align-items-center">

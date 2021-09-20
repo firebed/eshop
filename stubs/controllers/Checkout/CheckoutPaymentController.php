@@ -2,24 +2,22 @@
 
 namespace App\Http\Controllers\Checkout;
 
-use Error;
+use App\Http\Requests\CheckoutPaymentRequest;
 use Eshop\Actions\Order\RefreshOrder;
 use Eshop\Actions\Order\ShippingFeeCalculator;
 use Eshop\Actions\Order\SubmitOrder;
 use Eshop\Controllers\Controller;
 use Eshop\Controllers\Dashboard\Traits\WithNotifications;
-use Eshop\Models\Location\InaccessibleArea;
 use Eshop\Repository\Contracts\Order;
-use Eshop\Requests\Customer\CheckoutPaymentRequest;
 use Eshop\Services\PayPalService;
 use Eshop\Services\Stripe\StripeService;
+use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\URL;
-use Illuminate\View\View;
 use Laravel\Cashier\Exceptions\PaymentActionRequired;
 use Throwable;
 
@@ -49,7 +47,7 @@ class CheckoutPaymentController extends Controller
                 $paypal->capture($orderId);
                 DB::commit();
                 return response()->json(URL::signedRoute('checkout.completed', [app()->getLocale(), $order->id]));
-            } catch (Throwable $e) {
+            } catch (Throwable) {
                 DB::rollBack();
                 return response()->json(__("Payment was unsuccessful. Please select a different payment method and try again."), 422);
             }
@@ -92,7 +90,7 @@ class CheckoutPaymentController extends Controller
         return redirect()->to(URL::signedRoute('checkout.completed', [app()->getLocale(), $order->id]));
     }
 
-    public function edit(Order $order, RefreshOrder $refreshOrder, ShippingFeeCalculator $calc): View|RedirectResponse
+    public function edit(Order $order, RefreshOrder $refreshOrder, ShippingFeeCalculator $calc): Renderable|RedirectResponse
     {
         if ($order->isEmpty() || $order->isSubmitted()) {
             return redirect()->route('checkout.products.index', app()->getLocale());
@@ -112,8 +110,6 @@ class CheckoutPaymentController extends Controller
             }
         }
 
-//        $area = InaccessibleArea::where('country_id', $country->id)->where('postcode', $order->shippingAddress->postcode)->first();
-//
         $shippingMethods = $shippingMethods->reject(fn($method) => $method->area === null && $method->inaccessible_area_fee > 0);
 
         $refreshOrder->handle($order);
@@ -122,18 +118,11 @@ class CheckoutPaymentController extends Controller
         $products->load('parent', 'options');
         $products->merge($order->products->pluck('parent')->filter())->load('translation');
 
-//        $calculator = $refreshOrder->shippingFeeCalculator;
-
         return view('checkout.payment.edit', [
-            'order'                 => $order,
-            'shippingMethods'       => $shippingMethods,
-            'paymentMethods'        => $paymentMethods,
-            'products'              => $products,
-//            'area'                  => $area,
-//            'inaccessible_area_fee' => $calculator->getInaccessibleAreaFee(),
-//            'excess_weight_fee'     => $calculator->getExcessWeightFee(),
-//            'weight_limit'          => $calculator->getMethod()?->weight_limit ?: 0,
-//            'calculator'            => $calculator,
+            'order'           => $order,
+            'shippingMethods' => $shippingMethods,
+            'paymentMethods'  => $paymentMethods,
+            'products'        => $products,
         ]);
     }
 
@@ -153,16 +142,10 @@ class CheckoutPaymentController extends Controller
         $products = $order->products->load('parent', 'options');
         $products->merge($order->products->pluck('parent')->filter())->load('translation');
 
-//        $calculator = $refreshOrder->shippingFeeCalculator;
-
         return response()
             ->json(view('checkout.payment.partials.checkout-payment-summary', [
-                'order'                 => $order,
-                'products'              => $products,
-//                'inaccessible_area_fee' => $calculator->getInaccessibleAreaFee(),
-//                'excess_weight_fee'     => $calculator->getExcessWeightFee(),
-//                'weight_limit'          => $calculator->getMethod()?->weight_limit ?: 0,
-//                'calculator'            => $calculator,
+                'order'    => $order,
+                'products' => $products,
             ])->render());
     }
 }

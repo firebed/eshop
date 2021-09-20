@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Product;
 
+use App\Http\Requests\ProductSearchRequest;
 use Eshop\Actions\Schema\WebPageSchema;
 use Eshop\Controllers\Controller;
 use Eshop\Models\Product\Category;
 use Eshop\Models\Product\Manufacturer;
 use Eshop\Models\Product\Product;
-use Eshop\Requests\Customer\ProductSearchRequest;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Support\Collection;
 
@@ -40,7 +40,7 @@ class ProductOfferController extends Controller
         }
 
         $manufacturers = Manufacturer::whereHas('products', fn($q) => $q->onSale()->filterByPrice($request->query('min_price'), $request->query('max_price')))->get();
-//        dd($products);
+
         return view('product-offers.index', [
             'categories'            => $categories,
             'manufacturers'         => $manufacturers,

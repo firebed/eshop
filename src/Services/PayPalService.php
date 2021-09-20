@@ -127,7 +127,7 @@ class PayPalService
                 'sku'         => $product->sku,
                 'unit_amount' => [
                     'currency_code' => $currency,
-                    'value'         => $product->pivot->total
+                    'value'         => $product->pivot->net_value
                 ],
                 'quantity'    => $product->pivot->quantity,
                 //                'category' => 'PHYSICAL_GOODS',

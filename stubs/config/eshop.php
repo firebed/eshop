@@ -19,4 +19,11 @@ return [
     'sign_placement'     => env('SIGN_PLACEMENT', 'p'),
 
     'google-analytics-id' => env('GOOGLE_ANALYTICS_ID'),
+
+    'style' => [
+        'header-top' => '',
+        'header-main' => '',
+        'header-bottom' => '',
+        'header-categories' => ''
+    ]
 ];

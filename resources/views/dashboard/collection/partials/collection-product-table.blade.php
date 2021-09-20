@@ -21,6 +21,7 @@
                 <td class="align-middle">
                     <div class="d-grid">
                         <a href="{{ route('products.edit', $product) }}" class="text-decoration-none">{{ $product->name }}</a>
+                        <small class="text-secondary">{{ $product->category->name }}</small>
                     </div>
                 </td>
                 <td class="text-end align-middle">

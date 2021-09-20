@@ -13,26 +13,27 @@ class ShippingAddress extends Component
     use TrimStrings;
     use SendsNotifications;
 
-    public $shippingAddress;
-    public $showModal;
+    public     $shippingAddress;
+    public     $showModal;
     public int $cartId;
 
     protected $rules = [
-        'shippingAddress.first_name'       => 'required|string',
-        'shippingAddress.last_name'        => 'required|string',
-        'shippingAddress.phone'            => 'required|string',
-        'shippingAddress.country_id'       => 'required|integer',
-        'shippingAddress.province'         => 'nullable|string',
-        'shippingAddress.city'             => 'required|string',
-        'shippingAddress.street'           => 'required|string',
-        'shippingAddress.postcode'         => 'required|string',
+        'shippingAddress.first_name' => 'required|string',
+        'shippingAddress.last_name'  => 'required|string',
+        'shippingAddress.phone'      => 'required|string',
+        'shippingAddress.country_id' => 'required|integer',
+        'shippingAddress.province'   => 'nullable|string',
+        'shippingAddress.city'       => 'required|string',
+        'shippingAddress.street'     => 'required|string',
+        'shippingAddress.street_no'  => 'nullable|string',
+        'shippingAddress.postcode'   => 'required|string',
     ];
 
     public function mount(Cart $cart): void
     {
         $this->cartId = $cart->id;
         $this->shippingAddress = $cart->shippingAddress()->firstOrNew([], [
-            'country_id'       => 1
+            'country_id' => 1
         ]);
     }
 
@@ -62,7 +63,7 @@ class ShippingAddress extends Component
         $countries = app('countries');
         $country = null;
         if (isset($this->shippingAddress)) {
-            $countries->find($this->shippingAddress->country_id);
+            $country = $countries->find($this->shippingAddress->country_id);
         }
         return view('eshop::dashboard.cart.wire.shipping-address', compact('countries', 'country'));
     }

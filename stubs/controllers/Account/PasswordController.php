@@ -1,8 +1,9 @@
 <?php
 
-namespace Eshop\Controllers\Dashboard\Account;
+namespace App\Http\Controllers\Account;
 
 use Eshop\Controllers\Controller;
+use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -10,9 +11,9 @@ use Illuminate\View\View;
 
 class PasswordController extends Controller
 {
-    public function edit(): View
+    public function edit(): Renderable
     {
-        return view('eshop::customer.account.password.edit');
+        return view('account.password.edit');
     }
 
     public function update(Request $request): RedirectResponse

@@ -16,8 +16,8 @@ class CreateCartsTable extends Migration
         Schema::create('carts', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->nullable()->constrained()->nullOnDelete();
-            $table->foreignId('payment_method_id')->nullable()->constrained()->nullOnDelete();
-            $table->foreignId('shipping_method_id')->nullable()->constrained()->nullOnDelete();
+            $table->foreignId('payment_method_id')->nullable()->constrained('country_payment_method')->nullOnDelete();
+            $table->foreignId('shipping_method_id')->nullable()->constrained('country_shipping_method')->nullOnDelete();
             $table->foreignId('status_id')->nullable()->constrained('cart_statuses')->nullOnDelete();
             $table->string('cookie_id', 36)->unique()->nullable();
             $table->string('payment_id')->unique()->nullable();

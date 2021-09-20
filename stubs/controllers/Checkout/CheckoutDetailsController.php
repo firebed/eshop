@@ -2,23 +2,23 @@
 
 namespace App\Http\Controllers\Checkout;
 
+use App\Http\Requests\CheckoutDetailsRequest;
 use Eshop\Actions\Order\RefreshOrder;
 use Eshop\Controllers\Controller;
 use Eshop\Models\Cart\DocumentType;
 use Eshop\Models\Location\Address;
 use Eshop\Models\Location\Country;
 use Eshop\Repository\Contracts\Order;
-use Eshop\Requests\Customer\CheckoutDetailsRequest;
+use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\View\View;
 
 class CheckoutDetailsController extends Controller
 {
-    public function edit(Request $request, Order $order, RefreshOrder $refreshOrder): View|RedirectResponse
+    public function edit(Request $request, Order $order, RefreshOrder $refreshOrder): Renderable|RedirectResponse
     {
         if ($order->isEmpty()) {
             return redirect()->route('checkout.products.index', app()->getLocale());
@@ -44,7 +44,6 @@ class CheckoutDetailsController extends Controller
         $products = $order->products;
         $products->load('parent', 'options');
         $products->merge($order->products->pluck('parent')->filter())->load('translation');
-//        $order->load('products.parent.translation', 'products.translation', 'products.options');
 
         return view('checkout.details.edit', [
             'order'                 => $order,

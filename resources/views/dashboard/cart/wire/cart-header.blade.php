@@ -1,6 +1,6 @@
-<div class="d-flex gap-3 align-items-center">
-    <a href="#" class="text-decoration-none text-dark" wire:click.prevent="exportToPdf">
-        <em class="fa fa-print text-secondary"></em> {{ __("Print") }}
+<div class="hstack gap-2 align-items-center">
+    <a href="#" class="btn btn-warning rounded-pill py-0 border-2 border-white" wire:click.prevent="exportToPdf">
+        <em class="fa fa-print"></em> {{ __("Print") }}
     </a>
 
     @if($cart->submitted_at)

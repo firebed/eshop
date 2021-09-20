@@ -22,9 +22,15 @@
                         </x-bs::input.group>
                     </div>
 
-                    <x-bs::input.group for="invoice-billing-street" label="{{ __('Street') }}">
-                        <x-bs::input.text wire:model.defer="invoiceBilling.street" id="invoice-billing-street" error="invoiceBilling.street"/>
-                    </x-bs::input.group>
+                    <div class="row">
+                        <x-bs::input.group for="invoice-billing-street" label="{{ __('Street') }}" class="col-8">
+                            <x-bs::input.text wire:model.defer="invoiceBilling.street" id="invoice-billing-street" error="invoiceBilling.street"/>
+                        </x-bs::input.group>
+
+                        <x-bs::input.group for="invoice-billing-street-no" label="{{ __('Street no') }}" class="col-4">
+                            <x-bs::input.text wire:model.defer="invoiceBilling.street_no" id="invoice-billing-street-no" error="invoiceBilling.street_no"/>
+                        </x-bs::input.group>
+                    </div>
 
                     <div class="row row-cols-2">
                         <x-bs::input.group for="invoice-billing-city" label="{{ __('City') }}" class="col">

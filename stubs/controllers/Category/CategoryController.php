@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\Category;
 
 use App\Http\Controllers\Category\Traits\ValidatesCategoryUrl;
+use App\Http\Requests\CategoryRequest;
 use Eshop\Actions\Schema\Schema;
 use Eshop\Controllers\Controller;
 use Eshop\Models\Product\Category;
-use Eshop\Requests\Customer\CustomerCategoryRequest;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\RedirectResponse;
@@ -16,7 +16,7 @@ class CategoryController extends Controller
 {
     use ValidatesCategoryUrl;
 
-    public function __invoke(CustomerCategoryRequest $request, string $locale, Category $category, Schema $schema): Renderable|RedirectResponse
+    public function __invoke(CategoryRequest $request, string $locale, Category $category, Schema $schema): Renderable|RedirectResponse
     {
         if ($category->isFolder()) {
             $children = $category->children()

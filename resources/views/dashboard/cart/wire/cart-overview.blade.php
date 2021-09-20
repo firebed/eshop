@@ -32,7 +32,7 @@
                 {{ format_number($cart->total_quantity) }}
             </x-bs::group>
 
-            <x-bs::group label="{{ __('Items total') }}" inline>
+            <x-bs::group label="{{ __('Subtotal') }}" inline>
                 {{ format_currency($cart->total - $cart->total_fees) }}
             </x-bs::group>
 

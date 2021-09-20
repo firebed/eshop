@@ -29,7 +29,8 @@ trait ManagesVoucher
     private function updateVoucherUrl(): void
     {
         if ($this->voucher) {
-            $shippingMethod = $this->cart->shippingMethod()->first();
+            $countryShippingMethod = $this->cart->shippingMethod()->first();
+            $shippingMethod = $countryShippingMethod->shippingMethod;
             $this->voucherUrl = $shippingMethod
                 ? $shippingMethod->getVoucherUrl($this->voucher)
                 : NULL;

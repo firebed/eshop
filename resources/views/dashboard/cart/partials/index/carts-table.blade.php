@@ -42,7 +42,7 @@
             <td class="align-middle"><a href="{{ route('carts.show', $cart) }}" class="text-decoration-none text-dark">#{{ $cart->id }}</a></td>
             <td class="align-middle">
                 @if($cart->isDocumentInvoice())
-                    <x-bs::badge type="danger">ΤΙΜ</x-bs::badge>
+                    <span class="badge bg-red-400 rounded-pill px-3">ΤΙΜ</span>
                 @endif
             </td>
             <td class="align-middle">

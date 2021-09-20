@@ -1,6 +1,6 @@
 <div class="vstack mt-3 gap-4">
     <div class="vstack gap-2 align-items-baseline">
-        <div class="hstack"><em class="fas fa-lock text-green fs-4 me-2"></em><span>Ασφαλείς online αγορές</span></div>
+        <div class="hstack"><em class="fas fa-lock text-alpha fs-4 me-2"></em><span>Ασφαλείς online αγορές</span></div>
     </div>
 
     <div id="card-element" class="form-control bg-white"></div>

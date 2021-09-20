@@ -44,13 +44,13 @@
 
     <form wire:submit.prevent="saveStatuses">
         <x-bs::modal wire:model.defer="showStatusModal">
-            <x-bs::modal.header>Edit cart status</x-bs::modal.header>
+            <x-bs::modal.header>{{ __("Edit cart status") }}</x-bs::modal.header>
             <x-bs::modal.body>
-                <x-bs::group label="New status" inline>
+                <x-bs::group label="{{ __('New status') }}" inline>
                     <x-bs::input.select wire:model.defer="editing_status" error="editing_status">
                         <option value="" disabled>{{ __("Select status") }}</option>
                         @foreach($statuses as $status)
-                            <option value="{{ $status->id }}">{{ __($status->name) }}</option>
+                            <option value="{{ $status->id }}">{{ __("eshop::cart.status.action." . $status->name) }}</option>
                         @endforeach
                     </x-bs::input.select>
                 </x-bs::group>

@@ -33,7 +33,7 @@ class CategoryRequest extends FormRequest
         return [
             'parent_id'       => ['nullable', 'integer', 'exists:categories,id'],
             'type'            => ['required', 'string', 'in:File,Folder'],
-            'name'            => ['required', 'string', new UniqueTranslation($category)],
+            'name'            => ['required', 'string'],
 
             # Accessibility
             'visible'         => ['required', 'boolean'],

@@ -35,7 +35,7 @@
                         <livewire:dashboard.cart.customer-notes :cart="$cart"/>
                         <livewire:dashboard.cart.cart-overview :cart="$cart"/>
                         <livewire:dashboard.cart.shipping-address :cart="$cart"/>
-                        <livewire:dashboard.cart.billing-address :cart="$cart"/>
+{{--                        <livewire:dashboard.cart.billing-address :cart="$cart"/>--}}
                         <livewire:dashboard.cart.invoice :cart="$cart"/>
                     </div>
 

@@ -39,7 +39,11 @@ class CollectionController extends Controller
 
     public function edit(Collection $collection): Renderable
     {
-        $products = $collection->products()->with('translation', 'parent.translation', 'image')->get();
+        $products = $collection->products()
+            ->with('translation', 'category.translation', 'parent.translation', 'image')
+            ->orderBy('category_id')
+            ->get();
+
         return view('eshop::dashboard.collection.edit', compact('collection', 'products'));
     }
 

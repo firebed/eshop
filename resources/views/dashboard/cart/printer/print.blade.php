@@ -107,7 +107,8 @@
     @include('eshop::dashboard.cart.printer.partials.totals')
 </div>
 
-<h1 class="fw-normal text-secondary text-center mt-3">{{ __("Thank you") }}</h1>
+<h2 class="fw-normal text-secondary text-center mt-3">{{ __("Thank you for your order.") }}</h2>
+<div class="fw-normal text-secondary text-center">{{ config('app.name') }}</div>
 
 </body>
 </html>

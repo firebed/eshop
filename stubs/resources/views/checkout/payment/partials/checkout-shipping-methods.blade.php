@@ -19,7 +19,7 @@
 
                 @if($option->total_fee > 0)
                     <small class="text-secondary">({{ format_currency($option->total_fee) }})</small>
-                @else
+                @elseif($option->area?->type === 'ΔΠ')
                     <small class="text-secondary">(Δωρεάν αποστολή)</small>
                 @endif
             </x-bs::input.radio>

@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers\Product;
 
+use App\Http\Requests\ProductSearchRequest;
 use Eshop\Actions\HighlightText;
-use Eshop\Actions\Schema\WebPageSchema;
 use Eshop\Actions\ProductsSearch;
+use Eshop\Actions\Schema\WebPageSchema;
 use Eshop\Controllers\Controller;
 use Eshop\Models\Product\Category;
 use Eshop\Models\Product\Manufacturer;
 use Eshop\Models\Product\Product;
-use Eshop\Requests\Customer\ProductSearchRequest;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;

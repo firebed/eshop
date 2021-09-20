@@ -3,7 +3,7 @@
         <td class="fw-bold" colspan="2">{{ __("Order details") }}</td>
     </tr>
     <tr>
-        <td class="text-secondary" style="width: 30%">{{ __('Invoice form') }}</td>
+        <td class="text-secondary" style="width: 30%">{{ __('Document') }}</td>
         <td>{{ __('Order form') }}</td>
     </tr>
     <tr>

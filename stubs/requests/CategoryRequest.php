@@ -1,13 +1,13 @@
 <?php
 
-namespace Eshop\Requests\Customer;
+namespace App\Http\Requests;
 
 use Eshop\Models\Product\CategoryChoice;
 use Eshop\Models\Product\Manufacturer;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Collection;
 
-class CustomerCategoryRequest extends FormRequest
+class CategoryRequest extends FormRequest
 {
     private $category;
 

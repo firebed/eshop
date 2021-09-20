@@ -1,30 +1,30 @@
 <?php
 
-namespace Eshop\Controllers\Dashboard\Account;
+namespace App\Http\Controllers\Account;
 
+use App\Http\Requests\UserCompanyRequest;
 use Eshop\Controllers\Controller;
 use Eshop\Models\Invoice\Company;
 use Eshop\Models\Location\Address;
 use Eshop\Models\Location\Country;
-use Eshop\Requests\Customer\UserCompanyRequest;
+use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\DB;
-use Illuminate\View\View;
 
 class UserCompanyController extends Controller
 {
-    public function index(): View
+    public function index(): Renderable
     {
         $companies = auth()->user()->companies()->with('address.country')->get();
 
-        return view('eshop::customer.account.company.index', [
+        return view('account.company.index', [
             'companies' => $companies
         ]);
     }
 
-    public function create(): View
+    public function create(): Renderable
     {
-        return view('eshop::customer.account.company.create', [
+        return view('account.company.create', [
             'countries' => Country::visible()->get()
         ]);
     }
@@ -41,9 +41,9 @@ class UserCompanyController extends Controller
             ->with('success', __("The new company was saved!"));
     }
 
-    public function edit(string $lang, Company $company): View
+    public function edit(string $lang, Company $company): Renderable
     {
-        return view('eshop::customer.account.company.edit', [
+        return view('account.company.edit', [
             'company'   => $company,
             'countries' => Country::visible()->get()
         ]);

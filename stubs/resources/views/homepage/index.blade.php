@@ -29,22 +29,7 @@
             <div class="row g-0">
                 <div class="col-3 d-none d-lg-block">
                     <div class="list-group border-0 rounded-0">
-                        <a href="#" class="list-group-item list-group-item-action fw-500">Βρεφικά Ρούχα</a>
-                        <a href="#" class="list-group-item list-group-item-action"><span class="ps-3">Ολόσωμες Φόρμες</span></a>
-                        <a href="#" class="list-group-item list-group-item-action"><span class="ps-3">Σετ για νεογέννητα</span></a>
-                        <a href="#" class="list-group-item list-group-item-action"><span class="ps-3">Κορμάκια</span></a>
-                        <a href="#" class="list-group-item list-group-item-action"><span class="ps-3">Πιτζάμες</span></a>
-
-                        <a href="#" class="list-group-item list-group-item-action fw-500">Παδικά Ρούχα</a>
-                        <a href="#" class="list-group-item list-group-item-action"><span class="ps-3">Σετ φόρμες</span></a>
-                        <a href="#" class="list-group-item list-group-item-action"><span class="ps-3">Πουκάμισα</span></a>
-                        <a href="#" class="list-group-item list-group-item-action"><span class="ps-3">Παντελόνια - Σορτς</span></a>
-                        <a href="#" class="list-group-item list-group-item-action"><span class="ps-3">Πιτζάμες</span></a>
-
-                        <a href="#" class="d-none d-xl-block list-group-item list-group-item-action fw-500">Αξεσουάρ</a>
-                        <a href="#" class="d-none d-xl-block list-group-item list-group-item-action"><span class="ps-3">Σαλιάρες</span></a>
-                        <a href="#" class="d-none d-xl-block list-group-item list-group-item-action"><span class="ps-3">Κουβέρτες</span></a>
-                        <a href="#" class="d-none d-xl-block list-group-item list-group-item-action"><span class="ps-3">Παπούτσια</span></a>
+{{--                        List of preferred categories--}}
                     </div>
                 </div>
                 <div class="col pt-3 ps-lg-5 pt-lg-5">
@@ -61,10 +46,7 @@
                 <div class="border-bottom border-3 border-primary w-3r mx-auto"></div>
 
                 <div class="d-flex flex-wrap gap-3 mx-auto">
-                    <x-bs::button.primary class="rounded-pill px-3 btn-sm">Αγόρι</x-bs::button.primary>
-                    <x-bs::button.primary class="rounded-pill px-3 btn-sm">Κορίτσι</x-bs::button.primary>
-                    <x-bs::button.primary class="rounded-pill px-3 btn-sm">Σαλοπέτα</x-bs::button.primary>
-                    <x-bs::button.primary class="rounded-pill px-3 btn-sm">Σετ για νεογέννητα</x-bs::button.primary>
+{{--                    <x-bs::button.primary class="rounded-pill px-3 btn-sm">Category</x-bs::button.primary>--}}
                 </div>
             </div>
 
@@ -105,7 +87,7 @@
                             </a>
 
                             <h2 class="fs-6"><a href="{{ productRoute($product) }}" title="{{ $product->name }}" class="fw-500 text-decoration-none text-dark">{{ $product->name }}</a></h2>
-                            <a href="{{ productRoute($product) }}" title="{{ $product->name }}" class="text-decoration-none text-dark mt-auto"><strong>{{ format_currency($product->price) }}</strong></a>
+                            <a href="{{ productRoute($product) }}" title="{{ $product->name }}" class="text-decoration-none text-dark mt-auto"><strong>{{ format_currency($product->net_value) }}</strong></a>
                         </div>
                     </x-bs::slider.item>
                 @endforeach

@@ -1,10 +1,10 @@
 <?php
 
-namespace Eshop\Requests\Customer;
+namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ProductOfferRequest extends FormRequest
+class ProductSearchRequest extends FormRequest
 {
     public function authorize(): bool
     {

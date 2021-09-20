@@ -32,22 +32,22 @@ class CartsExport implements FromCollection, WithMapping, WithHeadings
      */
     public function collection(): Collection
     {
-        return Cart::with('contact', 'paymentMethod', 'shippingAddress')->findMany($this->ids);
+        return Cart::with('paymentMethod', 'shippingAddress')->findMany($this->ids);
     }
 
     public function map($row): array
     {
         return [
-            $this->removeAccents($row->contact->fullName), #ΟΝΟΜΑ ΠΑΡΑΛΗΠΤΗ
+            $this->removeAccents($row->shippingAddress->fullName), #ΟΝΟΜΑ ΠΑΡΑΛΗΠΤΗ
             '', #ΕΠΩΝΥΜΙΑ ΕΤΑΙΡΙΑΣ
             $this->removeAccents($row->shippingAddress->region . (!empty($row->shippingAddress->region) ? ' - ' : '') . $row->shippingAddress->city), #ΠΕΡΙΟΧΗ
             $this->removeAccents($row->shippingAddress->street), #ΟΔΟΣ
             $this->removeAccents($row->shippingAddress->street_no), #ΑΡΙΘΜΟΣ
             $row->floor ?? '', #ΟΡΟΦΟΣ
             $this->removeAccents($row->shippingAddress->postcode), #ΤΚ
-            $row->contact->email, #EMAIL ΠΑΡΑΛΗΠΤΗ
+            $row->email, #EMAIL ΠΑΡΑΛΗΠΤΗ
             '', #ΤΗΛΕΦΩΝΟ
-            $this->removeAccents($row->contact->phone), #ΚΙΝΗΤΟ
+            $this->removeAccents($row->shippingAddress->phone), #ΚΙΝΗΤΟ
             '', #ΥΠΟΚΑΤΑΣΤΗΜΑ
             $this->removeAccents($row->details), #ΠΑΡΑΤΗΡΗΣΕΙΣ
             "2", #ΧΡΕΩΣΗ

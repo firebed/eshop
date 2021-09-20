@@ -41,8 +41,7 @@ class CreateProductsTable extends Migration
             $table->string('sku', 100)->unique();
             $table->string('mpn', 100)->nullable()->index();
             $table->string('barcode', 50)->nullable()->unique();
-//            $table->string('slug')->unique();
-            $table->string('slug');
+            $table->string('slug')->unique();
             $table->enum('variants_display', ['grid', 'buttons', 'list'])->nullable();
             $table->boolean('preview_variants')->nullable();
 
@@ -60,10 +59,6 @@ class CreateProductsTable extends Migration
      */
     public function down(): void
     {
-        Schema::table('products', function ($table) {
-            $table->dropIndex('search');
-        });
-
         Schema::dropIfExists('products');
     }
 }

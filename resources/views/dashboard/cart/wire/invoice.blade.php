@@ -15,7 +15,7 @@
                 <x-bs::group label="{{ __('Vat number') }}" inline>{{ $invoice->vat }}</x-bs::group>
                 <x-bs::group label="{{ __('Tax office') }}" inline>{{ $invoice->tax_office }}</x-bs::group>
 
-                <x-bs::group label="{{ __('Street') }}" inline>{{ $invoiceBilling->street }}</x-bs::group>
+                <x-bs::group label="{{ __('Street') }}" inline>{{ $invoiceBilling->street }} {{ $invoiceBilling->street_no }}</x-bs::group>
                 <x-bs::group label="{{ __('State/Province') }}" inline>{{ $invoiceBilling->province ?? '' }}</x-bs::group>
                 <x-bs::group label="{{ __('Postcode') }}" inline>{{ $invoiceBilling->postcode }}</x-bs::group>
                 <x-bs::group label="{{ __('City') }}" inline>{{ $invoiceBilling->city }}</x-bs::group>

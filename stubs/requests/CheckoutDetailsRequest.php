@@ -1,6 +1,6 @@
 <?php
 
-namespace Eshop\Requests\Customer;
+namespace App\Http\Requests;
 
 use Eshop\Models\Location\Country;
 use Illuminate\Foundation\Http\FormRequest;

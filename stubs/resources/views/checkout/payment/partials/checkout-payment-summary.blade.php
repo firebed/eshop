@@ -1,4 +1,4 @@
-<aside id="checkout-payment-summary" class="vstack bg-white p-3 border rounded-3 position-relative" style="font-size: .90rem !important; border-top: 3px solid #50b64a !important">
+<aside id="checkout-payment-summary" class="vstack bg-white p-3 border rounded-3 position-relative" style="font-size: .90rem !important; border-top: 3px solid {{ $order->paymentMethod?->isPayPal() ? "#ffc439" : "#50b64a" }} !important">
     <h2 class="fs-5 mb-3">{{ __('Cart summary') }}</h2>
 
     <div data-simplebar data-simplebar-auto-hide="false" style="max-height: 200px">
@@ -42,25 +42,6 @@
             <div class="w-6r ms-auto text-end" id="products-value">{{ format_currency($order->payment_fee) }}</div>
         </div>
     @endif
-
-{{--    @if($inaccessible_area_fee > 0 || $excess_weight_fee > 0)--}}
-{{--        <hr class="text-secondary">--}}
-{{--        <div class="vstack gap-2 text-danger small fw-500">--}}
-{{--            @if ($inaccessible_area_fee > 0)--}}
-{{--                <div class="d-flex">--}}
-{{--                    <div><em class="fas fa-exclamation-circle me-2"></em></div>--}}
-{{--                    <div>{{ __("eshop::order.inaccessible_area_fee", ['fee' => format_currency($inaccessible_area_fee)]) }}</div>--}}
-{{--                </div>--}}
-{{--            @endif--}}
-
-{{--            @if ($excess_weight_fee > 0)--}}
-{{--                <div class="d-flex">--}}
-{{--                    <div><em class="fas fa-exclamation-circle me-2"></em></div>--}}
-{{--                    <div>{{ __("eshop::order.excess_weight_fee", ['fee' => format_currency($excess_weight_fee), 'weight' => format_weight($weight_limit->weight_limit)]) }}</div>--}}
-{{--                </div>--}}
-{{--            @endif--}}
-{{--        </div>--}}
-{{--    @endif--}}
 
     <hr class="text-secondary">
 

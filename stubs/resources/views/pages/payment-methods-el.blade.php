@@ -37,8 +37,8 @@
                     <div class="fw-normal mb-3">Μπορείτε να καταθέσετε το ποσό της παραγγελίας στους παρακάτω λογαριασμούς. Στο καταθετήριο τραπέζης πρέπει οπωσδήποτε να αναγράφεται το ονοματεπώνυμο σας και ο αριθμός της παραγγελίας που σας έχει σταλεί στο email σας κατά την ολοκλήρωσή της.</div>
 
                     <ol>
-                        @foreach ($bankAccounts as $bank => $account)
-                            <li class="mb-3">{{ $bank }}
+                        @foreach ($bankAccounts as $account)
+                            <li class="mb-3">{{ $account['bank'] }}
                                 <div class="fw-normal">
                                     <div>ΑΡΙΘΜΟΣ ΛΟΓΑΡΙΑΣΜΟΥ: {{ $account['number'] }}</div>
                                     <div>IBAN: {{ $account['iban'] }}</div>

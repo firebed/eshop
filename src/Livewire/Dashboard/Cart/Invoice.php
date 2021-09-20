@@ -34,6 +34,7 @@ class Invoice extends Component
         'invoiceBilling.province'   => 'nullable|string',
         'invoiceBilling.city'       => 'required_if:isInvoice,true|string',
         'invoiceBilling.street'     => 'required_if:isInvoice,true|string',
+        'invoiceBilling.street_no'  => 'nullable|string',
         'invoiceBilling.postcode'   => 'required_if:isInvoice,true|string',
     ];
 

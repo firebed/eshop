@@ -1,17 +1,17 @@
 <?php
 
-namespace Eshop\Controllers\Dashboard\Account;
+namespace App\Http\Controllers\Account;
 
 use Eshop\Controllers\Controller;
+use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Validation\Rule;
-use Illuminate\View\View;
 
 class ProfileController extends Controller
 {
-    public function edit(): View
+    public function edit(): Renderable
     {
         return view('account.profile.edit', [
             'user' => auth()->user()
@@ -29,10 +29,12 @@ class ProfileController extends Controller
             'birthday'   => ['nullable', 'date_format:d/m/Y']
         ]);
 
-        $data['birthday'] = Carbon::createFromFormat('d/m/Y', $request->input('birthday'));
+        if ($request->filled('birthday')) {
+            $data['birthday'] = Carbon::createFromFormat('d/m/Y', $request->input('birthday'));
+        }
 
         auth()->user()->update($data);
 
-        return back()->with('success', TRUE);
+        return back()->with('success', true);
     }
 }

@@ -53,14 +53,24 @@
                         <td>
                             <div class="vstack gap-1">
                                 @if($product->isVariant())
-                                    <div>{{ $product->parent->name }}</div>
-                                    <div class="fw-500"><span class="text-secondary">{{ $product->sku }}</span> <span>{{ $product->options->pluck('pivot.value')->join(' - ') }}</span></div>
+                                    <a href="{{ route('variants.edit', $product->id) }}" class="text-hover-underline">
+                                        <span class="fw-500">{{ $product->options->pluck('pivot.value')->join(' - ') }}</span>
+                                        <small class="text-secondary">(SKU: {{ $product->sku }})</small>
+                                    </a>
+                                    <div class="text-secondary">{{ $product->parent->name }}</div>
                                 @else
                                     <div class="fw-500"><span class="text-secondary">{{ $product->sku }}</span> <span>{{ $product->name }}</span></div>
                                 @endif
                                 <div class="hstack gap-2 align-items-baseline">
-                                    <x-bs::badge :value="$product->stock" :cap="$product->backorder" class="px-3">{{ format_number($product->stock) }}</x-bs::badge>
-                                    <small>{{ $product->pivot->created_at->format('d/m/y H:i:s') }} {{ $product->weight }}</small>
+                                    @if($product->stock > $product->available_gt)
+                                        <span class="fw-500 rounded-pill small bg-teal-200 px-3"><em class="fas fa-boxes text-secondary me-2"></em>{{ format_number($product->stock) }}</span>
+                                    @elseif($product->stock == $product->available_gt)
+                                        <span class="fw-500 rounded-pill small bg-yellow-200 px-3"><em class="fas fa-boxes text-secondary me-2"></em>{{ format_number($product->stock) }}</span>
+                                    @else
+                                        <span class="fw-500 rounded-pill small bg-red-400 px-3"><em class="fas fa-boxes me-2"></em>{{ format_number($product->stock) }}</span>
+                                    @endif
+                                    <span class="fw-500 rounded-pill small bg-gray-200 px-3"><em class="fas fa-weight-hanging text-secondary me-2"></em>{{ format_weight($product->weight) }}</span>
+{{--                                    <small class="text-secondary">{{ $product->pivot->created_at->format('d/m/y H:i:s') }}</small>--}}
                                 </div>
                             </div>
                         </td>

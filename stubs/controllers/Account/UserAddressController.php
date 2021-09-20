@@ -1,26 +1,26 @@
 <?php
 
-namespace Eshop\Controllers\Dashboard\Account;
+namespace App\Http\Controllers\Account;
 
+use App\Http\Requests\UserAddressRequest;
 use Eshop\Controllers\Controller;
 use Eshop\Models\Location\Address;
 use Eshop\Models\Location\Country;
-use Eshop\Requests\Customer\UserAddressRequest;
+use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\View\View;
 
 class UserAddressController extends Controller
 {
-    public function index(): View
+    public function index(): Renderable
     {
         $addresses = auth()->user()->addresses()->with('country')->get();
 
-        return view('eshop::customer.account.address.index', [
+        return view('account.address.index', [
             'addresses' => $addresses
         ]);
     }
 
-    public function create(): View
+    public function create(): Renderable
     {
         return view('eshop::customer.account.address.create', [
             'countries' => Country::visible()->get()
@@ -36,9 +36,9 @@ class UserAddressController extends Controller
             ->with('success', __("The new address was saved!"));
     }
 
-    public function edit(string $lang, Address $address): View
+    public function edit(string $lang, Address $address): Renderable
     {
-        return view('eshop::customer.account.address.edit', [
+        return view('account.address.edit', [
             'address'   => $address,
             'countries' => Country::visible()->get()
         ]);
