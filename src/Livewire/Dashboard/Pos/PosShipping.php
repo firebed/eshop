@@ -82,7 +82,7 @@ class PosShipping extends Component
             $country = $this->country;
             $options = $country->filterShippingOptions($this->products_value);
             foreach ($options as $option) {
-                $option->total_fee = $calculator->handle($option, $this->weight, $this->shipping['postcode']);
+                $option->total_fee = $calculator->handle($option, $this->weight, $this->shipping['postcode'] ?? null);
             }
 
             return $options;
