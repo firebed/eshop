@@ -4,7 +4,7 @@
     <link rel="stylesheet" href="https://unpkg.com/simplebar@5.3.3/dist/simplebar.css"/>
     <script src="https://unpkg.com/simplebar@5.3.3/dist/simplebar.min.js"></script>
 
-    <script src="https://www.paypal.com/sdk/js?client-id={{ env(app()->isProduction() ? "PAYPAL_LIVE_CLIENT_ID" : "PAYPAL_SANDBOX_CLIENT_ID") }}&currency=EUR"></script>
+    <script src="https://www.paypal.com/sdk/js?client-id={{ config("eshop." . app()->isProduction() ? "paypal_live_client_id" : "paypal_sandbox_client_id") }}&currency={{ config('eshop.currency') }}"></script>
     <script src="https://js.stripe.com/v3/"></script>
 @endpush
 

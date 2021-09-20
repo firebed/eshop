@@ -1,4 +1,4 @@
-@php($id = config('eshop.google-analytics-id'))
+@php($id = config('eshop.google_analytics_id'))
 
 @if($id)
     <script async src="https://www.googletagmanager.com/gtag/js?id={{ $id }}"></script>
