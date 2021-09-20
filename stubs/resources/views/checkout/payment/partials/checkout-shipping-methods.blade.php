@@ -41,7 +41,7 @@
                                     @endif
                                 @endif
                             </div>
-                        @else
+                        @elseif($option->area?->type === 'ΔΠ')
                             <div>Η διεύθυνση σας ανήκει σε δυσπρόσιτη περιοχή και χρεώνεστε {{ format_currency($option->inaccessible_area_fee) }} επιπλέον για την αποστολή του δέματος στην περιοχή σας.</div>
                         @endif
 
