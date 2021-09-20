@@ -19,6 +19,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\URL;
 use Laravel\Cashier\Exceptions\PaymentActionRequired;
+use Stripe\Exception\ApiErrorException;
 use Throwable;
 
 class CheckoutPaymentController extends Controller
@@ -77,6 +78,9 @@ class CheckoutPaymentController extends Controller
             } catch (PaymentActionRequired $e) {
                 DB::rollBack();
                 return response()->json(['requires_action' => true, 'client_secret' => $e->payment->clientSecret()]);
+            } catch (ApiErrorException $e) {
+                DB::rollBack();
+                return response()->json($e->getError()->message, 422);
             } catch (Throwable) {
                 DB::rollBack();
                 return response()->json(__("Payment was unsuccessful. Please select a different payment method and try again."), 422);

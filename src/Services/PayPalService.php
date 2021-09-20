@@ -22,13 +22,13 @@ class PayPalService
     public static function environment(): ProductionEnvironment|SandboxEnvironment
     {
         if (app()->isProduction()) {
-            $clientId = env("PAYPAL_LIVE_CLIENT_ID");
-            $clientSecret = env("PAYPAL_LIVE_CLIENT_SECRET");
+            $clientId = config("eshop.paypal_live_client_id");
+            $clientSecret = config("eshop.paypal_live_client_secret");
             return new ProductionEnvironment($clientId, $clientSecret);
         }
 
-        $clientId = env("PAYPAL_SANDBOX_CLIENT_ID");
-        $clientSecret = env("PAYPAL_SANDBOX_CLIENT_SECRET");
+        $clientId = config("eshop.paypal_sandbox_client_id");
+        $clientSecret = config("eshop.paypal_sandbox_client_secret");
         return new SandboxEnvironment($clientId, $clientSecret);
     }
 
