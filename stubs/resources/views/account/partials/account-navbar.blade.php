@@ -12,7 +12,7 @@
             <x-bs::navbar.link href="{{ route('account.orders.index', app()->getLocale()) }}" class="px-4">{{ __('My orders') }}</x-bs::navbar.link>
             <x-bs::navbar.link href="{{ route('account.addresses.index', app()->getLocale()) }}" class="px-4">{{ __('My addresses') }}</x-bs::navbar.link>
 {{--            <x-bs::navbar.link href="{{ route('account.invoices.index', app()->getLocale()) }}" class="px-4">{{ __('Invoices') }}</x-bs::navbar.link>--}}
-            <x-bs::navbar.link href="{{ route('account.companies.index', app()->getLocale()) }}" class="px-4">{{ __('My companies') }}</x-bs::navbar.link>
+{{--            <x-bs::navbar.link href="{{ route('account.companies.index', app()->getLocale()) }}" class="px-4">{{ __('My companies') }}</x-bs::navbar.link>--}}
         </x-bs::navbar.nav>
     </x-bs::navbar.collapse>
 </x-bs::navbar>

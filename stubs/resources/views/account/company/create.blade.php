@@ -1,5 +1,9 @@
 @extends('layouts.master', ['title' =>  __('Add new company')])
 
+@push('footer_scripts')
+    @include('eshop::dashboard.layouts.toasts')
+@endpush
+
 @section('main')
     @include('account.partials.account-navbar')
 
