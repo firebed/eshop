@@ -18,7 +18,7 @@ class CategoryController extends Controller
 
     public function __invoke(CategoryRequest $request, string $locale, Category $category, Schema $schema): Renderable|RedirectResponse
     {
-        if (!$category->visiblε) {
+        if (!$category->visible) {
             abort(404);
         }
 
