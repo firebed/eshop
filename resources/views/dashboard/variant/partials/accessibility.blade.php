@@ -29,7 +29,7 @@
         </div>
     </div>
 
-    <x-bs::input.checkbox name="recent" :checked="old('recent', $variant->recent ?? $product->recent)" id="recent">
+    <x-bs::input.checkbox name="recent" :checked="old('recent', $variant->recent ?? $product->recent ?? false)" id="recent">
         {{ __("Display new label") }}
     </x-bs::input.checkbox>
 </div>
