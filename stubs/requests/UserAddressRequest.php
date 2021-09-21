@@ -33,7 +33,7 @@ class UserAddressRequest extends FormRequest
             'province'   => ['required', 'string'],
             'country_id' => ['required', 'integer', 'exists:countries,id'],
             'floor'      => ['nullable', 'string'],
-            'phone'      => ['nullable', 'string'],
+            'phone'      => ['required', 'string'],
         ];
     }
 }

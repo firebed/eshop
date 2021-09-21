@@ -60,12 +60,6 @@
 
                             <div class="row">
                                 <div class="col">
-                                    <x-bs::input.floating-label for="province" label="{{ __('Province') }}">
-                                        <x-bs::input.text name="province" :value="old('province', $address->province)" error="province" id="province" placeholder="{{ __('Province') }}"/>
-                                    </x-bs::input.floating-label>
-                                </div>
-
-                                <div class="col">
                                     <x-bs::input.floating-label for="country" label="{{ __('Country') }}">
                                         <x-bs::input.select name="country_id" error="country_id" id="country">
                                             <option disabled selected>{{ __("Country") }}</option>
@@ -73,6 +67,12 @@
                                                 <option value="{{ $country->id }}" @if(old('country_id', $address->country_id) == $country->id) selected @endif>{{ $country->name }}</option>
                                             @endforeach
                                         </x-bs::input.select>
+                                    </x-bs::input.floating-label>
+                                </div>
+
+                                <div class="col">
+                                    <x-bs::input.floating-label for="province" label="{{ __('Province') }}">
+                                        <x-bs::input.text name="province" :value="old('province', $address->province)" error="province" id="province" placeholder="{{ __('Province') }}"/>
                                     </x-bs::input.floating-label>
                                 </div>
                             </div>

@@ -22,7 +22,7 @@ class UserAddressController extends Controller
 
     public function create(): Renderable
     {
-        return view('eshop::customer.account.address.create', [
+        return view('account.address.create', [
             'countries' => Country::visible()->get()
         ]);
     }

@@ -58,8 +58,12 @@
                 card: cardElement,
                 billing_details: {
                     name: '{{ $order->shippingAddress->full_name }}',
+                    @if(filled($order->shippingAddress->phone))
                     phone: '{{ $order->shippingAddress->phone }}',
+                    @endif
+                            @if(filled($order->email))
                     email: '{{ $order->email }}',
+                    @endif
                     address: {
                         city: '{{ $order->shippingAddress->city }}',
                         country: '{{ $order->shippingAddress->country->code }}',
