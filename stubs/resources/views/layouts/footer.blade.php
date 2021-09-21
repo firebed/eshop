@@ -2,7 +2,7 @@
     <div class="container-xxl">
         <div class="row row-cols-2 row-cols-sm-2 row-cols-xl-4 g-4">
             <div class="col vstack">
-                <div class="fw-500 mb-2">{{ __("Information") }}</div>
+                <div class="fw-500 mb-2">{{ __("Security") }}</div>
                 <a href="{{ route('pages.show', [app()->getLocale(), 'terms-of-service']) }}" class="text-dark text-hover-underline">{{ __("Terms of service") }}</a>
                 <a href="{{ route('pages.show', [app()->getLocale(), 'data-protection']) }}" class="text-dark text-hover-underline">{{ __("Data protection") }}</a>
                 <a href="{{ route('pages.show', [app()->getLocale(), 'return-policy']) }}" class="text-dark text-hover-underline">{{ __("Return policy") }}</a>

@@ -62,7 +62,7 @@
                                         <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
                                     </div>
-                                    <p class="text-secondary">{!! __("Fields with an asterisk (<span class='text-danger'>*</span>) are required.") !!}</p>
+
                                     <div class="col-12 d-flex flex-column justify-content-center align-items-center">
                                         <button type="submit" class="btn btn-primary rounded-pill mb-3 px-4">{{ __("Register") }}</button>
                                     </div>
