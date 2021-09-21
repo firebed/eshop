@@ -1,14 +1,6 @@
 @extends('layouts.master', ['title' => __('Order') . ' #' . $order->id])
 
 @section('main')
-    <div class="container-fluid bg-pink-500">
-        <div class="container pt-4">
-            <div class="row py-4">
-                <div class="col fs-3 text-light">{{ user()->fullName }}</div>
-            </div>
-        </div>
-    </div>
-
     @include('account.partials.account-navbar')
 
     <div class="container-fluid py-4" @if(session('success')) x-data x-init="$dispatch('toast-notification', {type: 'success', title: '{{ session('success') }}', content: '', autohide: true})" @endif>

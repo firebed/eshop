@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Account;
 
 use App\Http\Requests\UserCompanyRequest;
 use Eshop\Controllers\Controller;
+use Eshop\Controllers\Dashboard\Traits\WithNotifications;
 use Eshop\Models\Invoice\Company;
 use Eshop\Models\Location\Address;
 use Eshop\Models\Location\Country;
@@ -13,6 +14,8 @@ use Illuminate\Support\Facades\DB;
 
 class UserCompanyController extends Controller
 {
+    use WithNotifications;
+
     public function index(): Renderable
     {
         $companies = auth()->user()->companies()->with('address.country')->get();
@@ -36,9 +39,10 @@ class UserCompanyController extends Controller
             $company->address()->save(new Address($request->validated()));
         });
 
+        $this->showSuccessNotification(__("eshop::notifications.saved"));
+
         return redirect()
-            ->route('account.companies.index', app()->getLocale())
-            ->with('success', __("The new company was saved!"));
+            ->route('account.companies.index', app()->getLocale());
     }
 
     public function edit(string $lang, Company $company): Renderable
@@ -54,13 +58,17 @@ class UserCompanyController extends Controller
         $company->update($request->validated());
         $company->address->update($request->validated());
 
-        return back()->with('success', __("The company was saved"));
+        $this->showSuccessNotification(__("eshop::notifications.saved"));
+
+        return back();
     }
 
     public function destroy(string $lang, Company $company): RedirectResponse
     {
         $company->delete();
 
-        return back()->with('success', __("The company was deleted!"));
+        $this->showSuccessNotification(__("eshop::notifications.deleted"));
+
+        return back();
     }
 }

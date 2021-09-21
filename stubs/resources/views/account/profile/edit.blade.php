@@ -10,26 +10,11 @@
 @endpush
 
 @section('main')
-    <div class="container-fluid bg-pink-500">
-        <div class="container pt-4">
-            <div class="row py-4">
-                <div class="col fs-3 text-light">{{ user()->fullName }}</div>
-            </div>
-        </div>
-    </div>
-
     @include('account.partials.account-navbar')
 
     <div class="container-fluid py-3">
         <div class="container">
             <h1 class="fs-4 fw-normal mb-4">{{ __("Edit profile") }}</h1>
-
-            @if(session('success'))
-                <div class="alert alert-success alert-dismissible fade show" role="alert">
-                    {{ __("Changes were successfully saved") }}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-            @endif
 
             <form method="post" action="{{ route('account.profile.update', app()->getLocale()) }}">
                 @method('PUT')

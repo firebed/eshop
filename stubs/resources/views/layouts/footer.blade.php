@@ -27,7 +27,6 @@
             <div class="col vstack">
                 <div class="fw-500 mb-2">{{ __("Contact") }}</div>
                 <div>{{ __("company.address") }}</div>
-                <div>{{ __("company.postalCode") }}</div>
                 <div>{{ implode('-', __("company.phone")) }}</div>
                 <div>{{ __("company.email") }}</div>
             </div>

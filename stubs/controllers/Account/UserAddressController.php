@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Account;
 
 use App\Http\Requests\UserAddressRequest;
 use Eshop\Controllers\Controller;
+use Eshop\Controllers\Dashboard\Traits\WithNotifications;
 use Eshop\Models\Location\Address;
 use Eshop\Models\Location\Country;
 use Illuminate\Contracts\Support\Renderable;
@@ -11,6 +12,8 @@ use Illuminate\Http\RedirectResponse;
 
 class UserAddressController extends Controller
 {
+    use WithNotifications;
+
     public function index(): Renderable
     {
         $addresses = auth()->user()->addresses()->with('country')->get();
@@ -31,9 +34,10 @@ class UserAddressController extends Controller
     {
         auth()->user()->addresses()->save(new Address($request->validated()));
 
+        $this->showSuccessNotification(__("eshop::notifications.saved"));
+
         return redirect()
-            ->route('account.addresses.index', app()->getLocale())
-            ->with('success', __("The new address was saved!"));
+            ->route('account.addresses.index', app()->getLocale());
     }
 
     public function edit(string $lang, Address $address): Renderable
@@ -48,13 +52,17 @@ class UserAddressController extends Controller
     {
         $address->update($request->validated());
 
-        return back()->with('success', __("The address was saved"));
+        $this->showSuccessNotification(__("eshop::notifications.saved"));
+
+        return back();
     }
 
     public function destroy(string $lang, Address $address): RedirectResponse
     {
         $address->delete();
 
-        return back()->with('success', __("The address was deleted!"));
+        $this->showSuccessNotification(__("eshop::notifications.deleted"));
+
+        return back();
     }
 }
