@@ -23,9 +23,9 @@
 
                     <div class="offcanvas-body">
                         <ul x-data="menu()" class="navbar-nav me-auto flex-grow-1">
-                            @include('layouts.menu-items.menu-item-1')
-{{--                            Main menu items--}}
-                            @include('layouts.menu-items.menu-item-track-order')
+                            @include('layouts.menu-items.home-item')
+                            @includeIf('layouts.menu-items.items')
+                            @include('layouts.menu-items.track-order')
                         </ul>
 
                         <div class="d-none d-lg-flex align-items-center">
