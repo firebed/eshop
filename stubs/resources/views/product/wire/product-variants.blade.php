@@ -5,10 +5,6 @@
         @foreach($variants as $variant)
             <div class="col" wire:key="variant-{{ $variant->id }}">
                 <div class="card h-100 position-relative">
-                    @if($variant->discount > 0)
-                        <div class="position-absolute p-2 fs-6 badge bg-yellow-500" style="z-index: 2000; top:10px; right: 10px;">{{ format_percent(-$variant->discount) }}</div>
-                    @endif
-
                     <div class="card-body d-grid gap-3">
                         <a class="text-decoration-none text-dark d-grid gap-2" href="{{ variantRoute($variant, $product, $category) }}">
                             @if($variant->image)
@@ -49,6 +45,14 @@
                             @endif
                         </div>
                     </div>
+
+                    @if($variant->recent)
+                        <img src="{{ asset('storage/images/new-ribbon.png') }}" alt="New ribbon" class="position-absolute" style="width: 100px; height: 100px; left: -13px; top: -12px">
+                    @endif
+
+                    @if($variant->discount > 0)
+                        <div class="position-absolute p-2 fs-6 badge bg-yellow-500" style="z-index: 2000; top:10px; right: 10px;">{{ format_percent(-$variant->discount) }}</div>
+                    @endif
                 </div>
             </div>
         @endforeach
