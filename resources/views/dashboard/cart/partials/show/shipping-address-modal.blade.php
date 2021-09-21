@@ -16,16 +16,28 @@
                 </x-bs::input.group>
 
                 <x-bs::input.group for="shipping-address-country" label="{{ __('Country') }}" class="col">
-                    <x-bs::input.select wire:model.defer="shippingAddress.country_id" id="shipping-address-country" error="shippingAddress.country_id">
+                    <x-bs::input.select wire:model="shippingAddress.country_id" id="shipping-address-country" error="shippingAddress.country_id">
+                        <option value="">{{ __("Select country") }}</option>
                         @foreach($countries as $country)
-                            <option value="{{ $country->code }}">{{ $country->name }}</option>
+                            <option value="{{ $country->id }}">{{ $country->name }}</option>
                         @endforeach
                     </x-bs::input.select>
                 </x-bs::input.group>
 
-                <x-bs::input.group for="shipping-address-province" label="{{ __('State/Province') }}" class="col">
-                    <x-bs::input.text wire:model.defer="shippingAddress.province" id="shipping-address-province" error="shippingAddress.province"/>
-                </x-bs::input.group>
+                @if(empty($provinces))
+                    <x-bs::input.group for="shipping-address-province" label="{{ __('Province') }}" class="col">
+                        <x-bs::input.text wire:model.defer="shippingAddress.province" id="shipping-address-province" error="shippingAddress.province"/>
+                    </x-bs::input.group>
+                @else
+                    <x-bs::input.group for="shipping-address-province" label="{{ __('Province') }}" class="col">
+                        <x-bs::input.select wire:model="shippingAddress.province" id="shipping-address-province" error="shippingAddress.province">
+                            <option value="">{{ __("Select province") }}</option>
+                            @foreach($provinces as $province)
+                                <option value="{{ $province }}">{{ $province }}</option>
+                            @endforeach
+                        </x-bs::input.select>
+                    </x-bs::input.group>
+                @endif
 
                 <x-bs::input.group for="shipping-address-city" label="{{ __('City') }}" class="col">
                     <x-bs::input.text wire:model.defer="shippingAddress.city" id="shipping-address-city" error="shippingAddress.city"/>

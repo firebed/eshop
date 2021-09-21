@@ -4,6 +4,7 @@ namespace Eshop\Livewire\Dashboard\Cart;
 
 use Eshop\Livewire\Traits\TrimStrings;
 use Eshop\Models\Cart\Cart;
+use Eshop\Models\Location\Country;
 use Firebed\Components\Livewire\Traits\SendsNotifications;
 use Illuminate\Contracts\Support\Renderable;
 use Livewire\Component;
@@ -16,6 +17,8 @@ class ShippingAddress extends Component
     public     $shippingAddress;
     public     $showModal;
     public int $cartId;
+
+    public array $provinces = [];
 
     protected $rules = [
         'shippingAddress.first_name' => 'required|string',
@@ -35,12 +38,25 @@ class ShippingAddress extends Component
         $this->shippingAddress = $cart->shippingAddress()->firstOrNew([], [
             'country_id' => 1
         ]);
+
+        $this->loadProvinces();
     }
 
     public function edit(): void
     {
         $this->skipRender();
         $this->showModal = true;
+    }
+
+    public function updatedShippingAddressCountryId(): void
+    {
+        $this->loadProvinces();
+    }
+
+    private function loadProvinces(): void
+    {
+        $country = Country::find($this->shippingAddress->country_id);
+        $this->provinces = $country?->provinces()->orderBy('name')->pluck('name')->all() ?? [];
     }
 
     public function save(): void

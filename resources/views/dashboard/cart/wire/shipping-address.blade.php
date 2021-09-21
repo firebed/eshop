@@ -15,7 +15,7 @@
             <x-bs::group label="{{ __('Street') }}" inline>{{ $shippingAddress?->street }} {{ $shippingAddress?->street_no }}</x-bs::group>
             <x-bs::group label="{{ __('City') }}" inline>{{ $shippingAddress?->city }}</x-bs::group>
             <x-bs::group label="{{ __('Postcode') }}" inline>{{ $shippingAddress?->postcode }}</x-bs::group>
-            <x-bs::group label="{{ __('Region') }}" inline>{{ $shippingAddress?->province ?? '' }}</x-bs::group>
+            <x-bs::group label="{{ __('Province') }}" inline>{{ $shippingAddress?->province ?? '' }}</x-bs::group>
             <x-bs::group label="{{ __('Country') }}" inline>{{ $country?->name }}</x-bs::group>
         </div>
 

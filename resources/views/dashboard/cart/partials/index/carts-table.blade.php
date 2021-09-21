@@ -47,7 +47,9 @@
             </td>
             <td class="align-middle">
                 @if($cart->status)
-                    <x-bs::badge type="{{ $cart->status->color ?? '' }}" class="w-100 fw-normal">{{ __('eshop::account.order.' . $cart->status->name) ?: '' }}</x-bs::badge>
+                    <a href="{{ route('carts.show', $cart) }}" class="d-block text-decoration-none text-dark">
+                        <x-bs::badge type="{{ $cart->status->color ?? '' }}" class="w-100 fw-normal">{{ __('eshop::account.order.' . $cart->status->name) ?: '' }}</x-bs::badge>
+                    </a>
                 @endif
             </td>
             <td class="align-middle">
