@@ -98,6 +98,7 @@ class Product extends Model
         'has_variants'     => 'bool',
         'is_physical'      => 'bool',
         'visible'          => 'bool',
+        'recent'           => 'bool',
         'available'        => 'bool',
         'display_stock'    => 'bool',
         'preview_variants' => 'bool',

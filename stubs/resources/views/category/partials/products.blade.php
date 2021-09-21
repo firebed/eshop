@@ -30,6 +30,10 @@
 
                 @includeWhen($product->has_variants && $product->variants->isNotEmpty(), 'category.partials.variant-thumbnails')
 
+                @if($product->recent)
+                    <img src="{{ asset('storage/images/new-ribbon.png') }}" alt="New ribbon" class="position-absolute" style="width: 100px; height: 100px; left: -13px; top: -12px">
+                @endif
+
                 @if((!$product->has_variants && $product->discount > 0) || ($product->has_variants && $product->variants->where('discount', '>', 0)->isNotEmpty()))
                     <div class="position-absolute fs-6 badge fw-normal bg-yellow-200 text-orange-600" style="right: 1rem">
                         @unless($product->has_variants)
