@@ -48,7 +48,7 @@ trait ImplementsOrder
             }
 
             $location = Location::get(request()?->ip());
-            $country = Country::code($location->countryCode)->first() ?? Country::default();
+            $country = $location ? Country::code($location->countryCode)->first() : Country::default();
 
             $shippingAddress = new Address(['cluster' => 'shipping']);
 

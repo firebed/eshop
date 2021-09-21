@@ -46,7 +46,8 @@ class CheckoutDetailsController extends Controller
         $products->load('parent', 'options');
         $products->merge($order->products->pluck('parent')->filter())->load('translation');
 
-        $userCountry = Country::code(Location::get($request->ip())->countryCode)->first() ?? Country::default();
+        $location = Location::get($request->ip());
+        $userCountry = $location ? Country::code($location->countryCode)->first() : Country::default();
 
         return view('checkout.details.edit', [
             'order'                 => $order,
