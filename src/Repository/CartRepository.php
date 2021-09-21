@@ -24,7 +24,7 @@ class CartRepository implements CartContract
         $cart->save();
     }
 
-    public function deleteCart(mixed $cart): void
+    public function deleteCart(mixed $cart): bool|null
     {
         if (is_numeric($cart)) {
             $cart = Cart::findOrFail($cart);
@@ -37,15 +37,20 @@ class CartRepository implements CartContract
             }
         }
 
-        $cart->delete();
+        return $cart->delete();
     }
 
-    public function deleteCarts(array $ids): void
+    public function deleteCarts(array $ids): int
     {
         $carts = Cart::whereKey($ids)->with('status')->get();
+        $rows = 0;
         foreach ($carts as $cart) {
-            $this->deleteCart($cart);
+            if ($this->deleteCart($cart)) {
+                $rows++;
+            }
         }
+
+        return $rows;
     }
 
     public function attachCartProduct(mixed $cart, CartProduct $cart_product): void

@@ -4,6 +4,7 @@
 namespace Eshop\Livewire\Dashboard\Cart;
 
 
+use Eshop\Controllers\Dashboard\Traits\WithNotifications;
 use Eshop\Livewire\Dashboard\Cart\Traits\ManagesVoucher;
 use Eshop\Livewire\Dashboard\Cart\Traits\UpdatesCartStatus;
 use Eshop\Livewire\Traits\TrimStrings;
@@ -23,6 +24,7 @@ class CartHeader extends Component
     use TrimStrings;
     use ManagesVoucher;
     use UpdatesCartStatus;
+    use WithNotifications;
 
     public Cart $cart;
     public bool $showConfirmDelete = false;
@@ -49,6 +51,7 @@ class CartHeader extends Component
     {
         DB::transaction(fn() => $contract->deleteCart($this->cart));
         $this->redirectRoute('carts.index');
+        $this->showSuccessNotification('Η παραγγελία διαγράφηκε!');
     }
 
     public function render(): Renderable

@@ -23,14 +23,14 @@ interface CartContract
      *
      * @param mixed $cart
      */
-    public function deleteCart(mixed $cart): void;
+    public function deleteCart(mixed $cart): bool|null;
 
     /**
      * Deletes a set of cart items.
      *
      * @param array $ids The ids of the carts to delete.
      */
-    public function deleteCarts(array $ids): void;
+    public function deleteCarts(array $ids): int;
 
     /**
      * @param mixed       $cart
