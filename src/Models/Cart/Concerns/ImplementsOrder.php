@@ -5,7 +5,6 @@ namespace Eshop\Models\Cart\Concerns;
 
 
 use Eshop\Actions\Order\PaymentFeeCalculator;
-use Eshop\Actions\Order\ShippingFeeCalculator;
 use Eshop\Models\Location\Address;
 use Eshop\Models\Location\Country;
 use Eshop\Models\Product\Product;
@@ -48,7 +47,7 @@ trait ImplementsOrder
                 cookie()->queue('cart-cookie-id', $this->cookie_id, now()->addMonths(2)->diffInMinutes());
             }
 
-            $location = Location::get();
+            $location = Location::get(request()?->ip());
             $country = Country::code($location->countryCode)->first() ?? Country::default();
 
             $shippingAddress = new Address(['cluster' => 'shipping']);

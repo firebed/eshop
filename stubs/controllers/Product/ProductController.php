@@ -13,6 +13,10 @@ class ProductController extends Controller
 {
     public function show(string $locale, Category $category, Product $product, Order $order, Schema $schema): Renderable
     {
+        if (!($category->visible && $product->visible)) {
+            abort(404);
+        }
+
         if ($product->has_variants) {
             $product->loadCount(['variants' => fn($q) => $q->visible()]);
         }

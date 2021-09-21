@@ -15,6 +15,10 @@ class VariantController extends Controller
 {
     public function show(string $locale, Category $category, Product $product, Product $variant, Order $order, WebPageSchema $webPage, ProductSchema $json, BreadcrumbSchema $breadcrumb): Renderable
     {
+        if (!($category->visible && $product->visible && $variant->visible)) {
+            abort(404);
+        }
+
         $variant->load(['parent.translation']);
 
         $quantity = $order->getProductQuantity($variant);

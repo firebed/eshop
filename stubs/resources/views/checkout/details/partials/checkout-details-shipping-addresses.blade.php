@@ -69,7 +69,7 @@
                         <x-bs::input.select name="shippingAddress[country_id]" error="shippingAddress.country_id" id="shipping-country" class="pb-2">
                             <option value="">{{ __('Select country') }}</option>
                             @foreach($countries as $country)
-                                <option value="{{ $country->id }}" @if(old('shippingAddress.country_id', $shipping?->country_id) == $country->id) selected @endif>{{ $country->name }}</option>
+                                <option value="{{ $country->id }}" @if(old('shippingAddress.country_id', $shipping->country_id ?? $userCountry?->id) == $country->id) selected @endif>{{ $country->name }}</option>
                             @endforeach
                         </x-bs::input.select>
                     </x-bs::input.floating-label>
@@ -111,7 +111,7 @@
     <script>
         const container = document.getElementById('shipping-addresses')
         let prev = container.querySelector('.collapse.show')
-console.log(prev)
+        console.log(prev)
         container.addEventListener('change', evt => {
             if (evt.target.matches('[name=selected_shipping_id]')) {
 

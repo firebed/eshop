@@ -18,6 +18,10 @@ class CategoryController extends Controller
 
     public function __invoke(CategoryRequest $request, string $locale, Category $category, Schema $schema): Renderable|RedirectResponse
     {
+        if (!$category->visiblε) {
+            abort(404);
+        }
+
         if ($category->isFolder()) {
             $children = $category->children()
                 ->visible()

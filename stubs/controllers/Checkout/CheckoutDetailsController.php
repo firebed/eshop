@@ -15,6 +15,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Stevebauman\Location\Facades\Location;
 
 class CheckoutDetailsController extends Controller
 {
@@ -45,9 +46,12 @@ class CheckoutDetailsController extends Controller
         $products->load('parent', 'options');
         $products->merge($order->products->pluck('parent')->filter())->load('translation');
 
+        $userCountry = Country::code(Location::get($request->ip())->countryCode)->first() ?? Country::default();
+
         return view('checkout.details.edit', [
             'order'                 => $order,
             'products'              => $products,
+            'userCountry'           => $userCountry,
             'addresses'             => Auth::check() ? user()->addresses : collect(),
             'countries'             => Country::visible()->orderBy('name')->get(),
             'provinces'             => $provinces,
