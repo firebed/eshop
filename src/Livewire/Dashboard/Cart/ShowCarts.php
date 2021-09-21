@@ -91,8 +91,11 @@ class ShowCarts extends Component
 
     protected function deleteRows(): ?int
     {
+        dd($this->selected());
         $contract = app(CartContract::class);
-        return DB::transaction(fn() => $contract->deleteCarts($this->selected()));
+        $rows = DB::transaction(fn() => $contract->deleteCarts($this->selected()));
+        $this->clearSelections();
+        return $rows;
     }
 
     public function saveStatuses(CartContract $contract): void

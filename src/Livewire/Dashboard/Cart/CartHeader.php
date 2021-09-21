@@ -47,6 +47,7 @@ class CartHeader extends Component
 
     public function deleteCart(CartContract $contract): void
     {
+        dd($this->cart);
         DB::transaction(fn() => $contract->deleteCart($this->cart));
         $this->redirectRoute('carts.index');
     }
