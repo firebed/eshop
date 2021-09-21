@@ -43,10 +43,11 @@ class VariantRequest extends FormRequest
             'unit_id'          => ['required', 'integer', 'exists:units,id'],
 
             # Accessibility
-            'visible'          => ['nullable', 'boolean'],
-            'available'        => ['nullable', 'boolean'],
+            'visible'          => ['required', 'boolean'],
+            'recent'           => ['required', 'boolean'],
+            'available'        => ['required', 'boolean'],
             'available_gt'     => ['nullable', 'integer'],
-            'display_stock'    => ['nullable', 'boolean'],
+            'display_stock'    => ['required', 'boolean'],
             'display_stock_lt' => ['nullable', 'integer'],
 
             # SEO
@@ -73,6 +74,7 @@ class VariantRequest extends FormRequest
         $this->merge([
             'is_physical'   => $this->has('is_physical'),
             'visible'       => $this->has('visible'),
+            'recent'        => $this->has('recent'),
             'available'     => $this->has('available'),
             'display_stock' => $this->has('display_stock'),
         ]);

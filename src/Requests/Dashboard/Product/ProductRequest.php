@@ -45,6 +45,7 @@ class ProductRequest extends FormRequest
 
             # Accessibility
             'visible'             => ['required', 'boolean'],
+            'recent'              => ['required', 'boolean'],
             'available'           => ['required', 'boolean'],
             'available_gt'        => ['required', 'integer'],
             'display_stock'       => ['required', 'boolean'],
@@ -93,6 +94,7 @@ class ProductRequest extends FormRequest
         $this->merge([
             'is_physical'      => $this->has('is_physical'),
             'visible'          => $this->has('visible'),
+            'recent'           => $this->has('recent'),
             'available'        => $this->has('available'),
             'display_stock'    => $this->has('display_stock'),
             'preview_variants' => $this->has('preview_variants'),

@@ -30,6 +30,7 @@ class CreateProductsTable extends Migration
             $table->decimal('stock')->default(0);
 
             $table->boolean('visible')->default(TRUE)->index();
+            $table->boolean('recent')->default(FALSE)->index();
 
             $table->boolean('display_stock')->default(TRUE);
             $table->integer('display_stock_lt')->nullable();

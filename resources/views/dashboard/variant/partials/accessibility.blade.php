@@ -28,4 +28,8 @@
             <input x-model="number" type="text" name="display_stock_lt" hidden>
         </div>
     </div>
+
+    <x-bs::input.checkbox name="recent" :checked="old('recent', $variant->recent ?? $product->recent)" id="recent">
+        {{ __("Display new label") }}
+    </x-bs::input.checkbox>
 </div>

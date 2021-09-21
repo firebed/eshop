@@ -34,6 +34,7 @@ use Illuminate\Support\Collection;
  * @property double          compare_price
  * @property double          discount
  * @property boolean         visible
+ * @property boolean         recent
  * @property boolean         available
  * @property ?integer|string available_gt
  * @property boolean         display_stock
@@ -83,7 +84,7 @@ class Product extends Model
 
     protected $fillable = [
         'name', 'description', 'category_id', 'manufacturer_id', 'unit_id', 'is_physical', 'vat', 'weight',
-        'price', 'compare_price', 'discount', 'stock', 'visible', 'display_stock', 'display_stock_lt', 'available', 'available_gt',
+        'price', 'compare_price', 'discount', 'stock', 'visible', 'recent', 'display_stock', 'display_stock_lt', 'available', 'available_gt',
         'location', 'sku', 'mpn', 'barcode', 'slug', 'has_variants', 'variants_display', 'preview_variants'
     ];
 
