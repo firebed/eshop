@@ -16,6 +16,8 @@ class ShippingFeeCalculator
 
     public function handle(CountryShippingMethod $countryShippingMethod, ?int $weight, ?string $postcode): float
     {
+        $this->area = null;
+
         $this->method = $countryShippingMethod;
         $this->base_fee = $this->method->fee;
         $this->inaccessible_area_fee = $this->calculateInaccessibleAreaFee($countryShippingMethod, $postcode);
