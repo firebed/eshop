@@ -47,7 +47,7 @@
 
                     <div class="d-flex gap-2">
                         @foreach($selectedManufacturers as $manufacturer)
-                            <a href="{{ route('products.search.index', ['$manufacturer_ids' => $selectedManufacturers->toggle($manufacturer), request()->query('min_price'), request()->query('max_price')]) }}" class="btn btn-smoke px-2 py-0 d-flex gap-2 align-items-center">
+                            <a href="{{ route('products.search.index', array_filter([app()->getLocale(), 'search_term' => request()->query('search_term'), 'manufacturer_ids' => $selectedManufacturers->toggle($manufacturer)->pluck('id')->join('-'), 'min_price' => request()->query('min_price'), 'max_price' => request()->query('max_price')])) }}" class="btn btn-smoke px-2 py-0 d-flex gap-2 align-items-center">
                                 <small class="py-1">{{ $manufacturer->name }}</small>
                                 <span class="h-100" style="border-left: 1px solid #c5c5c5"></span>
                                 <span class="py-1 btn-close" style="width: .25rem; height: .25rem"></span>

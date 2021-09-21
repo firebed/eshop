@@ -3,12 +3,12 @@
         <div>{{ __("eshop::filters.price") }}</div>
 
         @if (request()->filled('min_price') || request()->filled('max_price'))
-            <a href='{{ route('products.search.index', [app()->getLocale(), 'search_term' => request()->query('search_term'), 'manufacturer_ids' => request()->query('manufacturer_ids')]) }}' class='small text-hover-underline'>{{ __('eshop::filters.cancel') }}</a>
+            <a href='{{ route('products.offers.index', [app()->getLocale(), 'manufacturer_ids' => request()->query('manufacturer_ids')]) }}' class='small text-hover-underline'>{{ __('eshop::filters.cancel') }}</a>
         @endif
     </div>
 
     @foreach($priceRanges as $range)
-        <a href="{{ route('products.search.index', [app()->getLocale(), 'search_term' => request()->query('search_term'), 'manufacturer_ids' => request()->query('manufacturer_ids'), 'min_price' => $range['min'], 'max_price' => $range['max']]) }}"
+        <a href="{{ route('products.offers.index', [app()->getLocale(), 'manufacturer_ids' => request()->query('manufacturer_ids'), 'min_price' => $range['min'], 'max_price' => $range['max']]) }}"
            rel="nofollow"
            class="filter-option filter-radio @if(request()->query('min_price') == $range['min'] && request()->query('max_price') == $range['max']) selected @endif @if($range['products_count'] === 0) disabled @endif"
         >

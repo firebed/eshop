@@ -2,16 +2,6 @@
     <div class="col">
         <div class="card h-100">
             <div class="card-body vstack position-relative">
-                @if((!$product->has_variants && $product->discount > 0) || ($product->has_variants && $product->variants->where('discount', '>', 0)->isNotEmpty()))
-                    <div class="position-absolute fs-6 badge fw-normal bg-yellow-200 text-orange-600" style="z-index: 2000; right: 1rem">
-                        @unless($product->has_variants)
-                            {{ format_percent(-$product->discount) }}
-                        @else
-                            % {{ __("Offer") }}
-                        @endunless
-                    </div>
-                @endif
-
                 <a href="{{ productRoute($product) }}" class="ratio ratio-1x1 mb-3">
                     @if($product->image && $src = $product->image->url('sm'))
                         <img src="{{ $src }}" alt="{{ $product->name }}" class="rounded">
@@ -39,6 +29,16 @@
                 </div>
 
                 @includeWhen($product->has_variants && $product->variants->isNotEmpty(), 'product-search.partials.variant-thumbnails')
+
+                @if((!$product->has_variants && $product->discount > 0) || ($product->has_variants && $product->variants->where('discount', '>', 0)->isNotEmpty()))
+                    <div class="position-absolute fs-6 badge fw-normal bg-yellow-200 text-orange-600" style="right: 1rem">
+                        @unless($product->has_variants)
+                            {{ format_percent(-$product->discount) }}
+                        @else
+                            % {{ __("Offer") }}
+                        @endunless
+                    </div>
+                @endif
             </div>
         </div>
     </div>

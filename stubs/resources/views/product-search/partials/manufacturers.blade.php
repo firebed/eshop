@@ -3,12 +3,12 @@
         <div>{{ __("eshop::filters.manufacturers") }}</div>
 
         @if ($selectedManufacturers->isNotEmpty())
-            <a href='{{ route('products.search.index', [app()->getLocale(), 'min_price' => request()->query('min_price'), 'max_price' => request()->query('max_price')]) }}' class='small text-hover-underline'>{{ __('eshop::filters.cancel') }}</a>
+            <a href='{{ route('products.search.index', [app()->getLocale(), 'search_term' => request()->query('search_term'), 'min_price' => request()->query('min_price'), 'max_price' => request()->query('max_price')]) }}' class='small text-hover-underline'>{{ __('eshop::filters.cancel') }}</a>
         @endif
     </div>
 
     @foreach($manufacturers as $manufacturer)
-        <a href="{{ route('products.search.index', [app()->getLocale(), 'manufacturer_ids' => $selectedManufacturers->toggle($manufacturer), 'min_price' => request()->query('min_price'), 'max_price' => request()->query('max_price')]) }}"
+        <a href="{{ route('products.search.index', [app()->getLocale(), 'search_term' => request()->query('search_term'), 'manufacturer_ids' => $selectedManufacturers->toggle($manufacturer)->pluck('id')->join('-'), 'min_price' => request()->query('min_price'), 'max_price' => request()->query('max_price')]) }}"
            class="filter-option filter-checkbox @if($selectedManufacturers->contains($manufacturer->id)) selected @endif @if($manufacturer->products_count === 0) disabled @endif"
         >
             {{ $manufacturer->name }}

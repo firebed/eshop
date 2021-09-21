@@ -74,17 +74,13 @@
 
 .filter-checkbox:after, .filter-radio:after {
   position: absolute;
-  top: 47%;
+  top: 49%;
   -webkit-transform: translateY(-50%);
   -ms-transform: translateY(-50%);
   transform: translateY(-50%);
   -webkit-transition: opacity ease-in-out .1s;
   transition: opacity ease-in-out .1s;
   opacity: 0
-}
-
-.filter-radio:after {
-  opacity: 50% !important;
 }
 
 .filter-checkbox.icon:before, .filter-checkbox.icon:after, .filter-radio.icon:before, .filter-radio.icon:after {
@@ -161,6 +157,7 @@
   }
 
   .filter-checkbox:after {
+    top: 47%;
     right: auto;
     left: 5px;
   }

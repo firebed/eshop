@@ -23,8 +23,8 @@ class ProductSearchController extends Controller
 
         $manufacturer_ids = collect(explode('-', $request->input('manufacturer_ids')))->filter();
 
-        $categories = Category::whereHas('products', fn($q) => $q->exceptVariants()->filterByPrice($request->query('min_price'), $request->query('max_price'))->whereHas('translations', fn($c) => $c->matchAgainst($search_term)->where('cluster', 'name')))
-            ->withCount(['products' => fn($q) => $q->exceptVariants()->filterByPrice($request->query('min_price'), $request->query('max_price'))->whereHas('translations', fn($c) => $c->matchAgainst($search_term)->where('cluster', 'name'))])
+        $categories = Category::whereHas('products', fn($q) => $q->visible()->exceptVariants()->filterByPrice($request->query('min_price'), $request->query('max_price'))->whereHas('translations', fn($c) => $c->matchAgainst($search_term)->where('cluster', 'name')))
+            ->withCount(['products' => fn($q) => $q->visible()->exceptVariants()->filterByPrice($request->query('min_price'), $request->query('max_price'))->whereHas('translations', fn($c) => $c->matchAgainst($search_term)->where('cluster', 'name'))])
             ->with('translation')
             ->get();
 
@@ -42,11 +42,11 @@ class ProductSearchController extends Controller
 
         $selectedManufacturers = collect();
         if (count($manufacturer_ids) > 0) {
-            $selectedManufacturers = Manufacturer::findMany($selectedManufacturers);
+            $selectedManufacturers = Manufacturer::findMany($manufacturer_ids);
         }
 
-        $manufacturers = Manufacturer::whereHas('products', fn($q) => $q->exceptVariants()->whereHas('translations', fn($c) => $c->matchAgainst($search_term)->where('cluster', 'name'))->filterByPrice($request->query('min_price'), $request->query('max_price')))
-            ->withCount(['products' => fn($q) => $q->exceptVariants()->filterByPrice($request->query('min_price'), $request->query('max_price'))->whereHas('translations', fn($c) => $c->matchAgainst($search_term)->where('cluster', 'name'))])
+        $manufacturers = Manufacturer::whereHas('products', fn($q) => $q->visible()->exceptVariants()->whereHas('translations', fn($c) => $c->matchAgainst($search_term)->where('cluster', 'name'))->filterByPrice($request->query('min_price'), $request->query('max_price')))
+            ->withCount(['products' => fn($q) => $q->visible()->exceptVariants()->whereHas('translations', fn($c) => $c->matchAgainst($search_term)->where('cluster', 'name'))->filterByPrice($request->query('min_price'), $request->query('max_price'))])
             ->get();
 
         return view('product-search.index', [

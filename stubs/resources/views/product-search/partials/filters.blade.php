@@ -4,7 +4,7 @@
             <div class="h5 mb-0 offcanvas-title">{{ __('eshop::product.filters') }}</div>
 
             @if ($selectedManufacturers->isNotEmpty() || request()->filled('min_price') || request()->filled('max_price'))
-                <a href="{{ route('products.search.index', app()->getLocale()) }}" class="text-hover-underline">
+                <a href="{{ route('products.search.index', array_filter([app()->getLocale(), 'search_term' => request()->query('search_term')])) }}" class="text-hover-underline">
                     {{ __('eshop::filters.cancel_all') }}
                 </a>
             @endif

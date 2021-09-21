@@ -36,7 +36,7 @@ class ProductOfferController extends Controller
 
         $selectedManufacturers = collect();
         if (count($manufacturer_ids) > 0) {
-            $selectedManufacturers = Manufacturer::findMany($selectedManufacturers);
+            $selectedManufacturers = Manufacturer::findMany($manufacturer_ids);
         }
 
         $manufacturers = Manufacturer::whereHas('products', fn($q) => $q->exceptVariants()->onSale()->filterByPrice($request->query('min_price'), $request->query('max_price')))
