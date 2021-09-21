@@ -98,7 +98,7 @@ class InstallCommand extends Command
         if (!is_dir($directory = app_path('Http/Requests')) && !mkdir($directory, 0755, true) && !is_dir($directory)) {
             throw new RuntimeException(sprintf('Directory "%s" was not created', $directory));
         }
-        copy(__DIR__.'/../../stubs/requests/CategoryRequest.php.php', app_path('Http/Requests/UpdateUserProfileInformation.php'));
+        copy(__DIR__.'/../../stubs/requests/CategoryRequest.php', app_path('Http/Requests/UpdateUserProfileInformation.php'));
         copy(__DIR__.'/../../stubs/requests/CheckoutDetailsRequest.php', app_path('Http/Requests/UpdateUserProfileInformation.php'));
         copy(__DIR__.'/../../stubs/requests/CheckoutPaymentRequest.php', app_path('Http/Requests/UpdateUserProfileInformation.php'));
         copy(__DIR__.'/../../stubs/requests/ProductOfferRequest.php', app_path('Http/Requests/UpdateUserProfileInformation.php'));
