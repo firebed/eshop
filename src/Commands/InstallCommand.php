@@ -60,15 +60,9 @@ class InstallCommand extends Command
             throw new RuntimeException(sprintf('Directory "%s" was not created', $directory));
         }
 
-        copy(
-            __DIR__.'/../../assets/flags/Greece.png',
-            public_path('storage/images/flags/Greece.png'),
-        );
-
-        copy(
-            __DIR__.'/../../assets/flags/UnitedKingdom.png',
-            public_path('storage/images/flags/UnitedKingdom.png'),
-        );
+        copy(__DIR__.'/../../assets/flags/Greece.png', public_path('storage/images/flags/Greece.png'));
+        copy(__DIR__.'/../../assets/flags/UnitedKingdom.png', public_path('storage/images/flags/UnitedKingdom.png'));
+        copy(__DIR__.'/../../assets/new-ribbon.png', public_path('storage/images/new-ribbon.png'));
 
         copy(
             __DIR__.'/../../stubs/fortify/fortify.php',
