@@ -98,13 +98,13 @@ class InstallCommand extends Command
         if (!is_dir($directory = app_path('Http/Requests')) && !mkdir($directory, 0755, true) && !is_dir($directory)) {
             throw new RuntimeException(sprintf('Directory "%s" was not created', $directory));
         }
-        copy(__DIR__.'/../../stubs/requests/CategoryRequest.php', app_path('Http/Requests/UpdateUserProfileInformation.php'));
-        copy(__DIR__.'/../../stubs/requests/CheckoutDetailsRequest.php', app_path('Http/Requests/UpdateUserProfileInformation.php'));
-        copy(__DIR__.'/../../stubs/requests/CheckoutPaymentRequest.php', app_path('Http/Requests/UpdateUserProfileInformation.php'));
-        copy(__DIR__.'/../../stubs/requests/ProductOfferRequest.php', app_path('Http/Requests/UpdateUserProfileInformation.php'));
-        copy(__DIR__.'/../../stubs/requests/ProductSearchRequest.php', app_path('Http/Requests/UpdateUserProfileInformation.php'));
-        copy(__DIR__.'/../../stubs/requests/UserAddressRequest.php', app_path('Http/Requests/UpdateUserProfileInformation.php'));
-        copy(__DIR__.'/../../stubs/requests/UserCompanyRequest.php', app_path('Http/Requests/UpdateUserProfileInformation.php'));
+        copy(__DIR__.'/../../stubs/requests/CategoryRequest.php', app_path('Http/Requests/CategoryRequest.php'));
+        copy(__DIR__.'/../../stubs/requests/CheckoutDetailsRequest.php', app_path('Http/Requests/CheckoutDetailsRequest.php'));
+        copy(__DIR__.'/../../stubs/requests/CheckoutPaymentRequest.php', app_path('Http/Requests/CheckoutPaymentRequest.php'));
+        copy(__DIR__.'/../../stubs/requests/ProductOfferRequest.php', app_path('Http/Requests/ProductOfferRequest.php'));
+        copy(__DIR__.'/../../stubs/requests/ProductSearchRequest.php', app_path('Http/Requests/ProductSearchRequest.php'));
+        copy(__DIR__.'/../../stubs/requests/UserAddressRequest.php', app_path('Http/Requests/UserAddressRequest.php'));
+        copy(__DIR__.'/../../stubs/requests/UserCompanyRequest.php', app_path('Http/Requests/UserCompanyRequest.php'));
 
         copy(__DIR__.'/../../stubs/config/filesystems.php', config_path('filesystems.php'));
 
