@@ -23,8 +23,8 @@ class ProductSearchController extends Controller
 
         $manufacturer_ids = collect(explode('-', $request->input('manufacturer_ids')))->filter();
 
-        $categories = Category::whereHas('products', fn($q) => $q->filterByPrice($request->query('min_price'), $request->query('max_price'))->whereHas('translations', fn($c) => $c->matchAgainst($search_term)->where('cluster', 'name')))
-            ->withCount(['products' => fn($q) => $q->filterByPrice($request->query('min_price'), $request->query('max_price'))->whereHas('translations', fn($c) => $c->matchAgainst($search_term)->where('cluster', 'name'))])
+        $categories = Category::whereHas('products', fn($q) => $q->exceptVariants()->filterByPrice($request->query('min_price'), $request->query('max_price'))->whereHas('translations', fn($c) => $c->matchAgainst($search_term)->where('cluster', 'name')))
+            ->withCount(['products' => fn($q) => $q->exceptVariants()->filterByPrice($request->query('min_price'), $request->query('max_price'))->whereHas('translations', fn($c) => $c->matchAgainst($search_term)->where('cluster', 'name'))])
             ->with('translation')
             ->get();
 
@@ -45,7 +45,9 @@ class ProductSearchController extends Controller
             $selectedManufacturers = Manufacturer::findMany($selectedManufacturers);
         }
 
-        $manufacturers = Manufacturer::whereHas('products', fn($q) => $q->whereHas('translations', fn($c) => $c->matchAgainst($search_term)->where('cluster', 'name'))->filterByPrice($request->query('min_price'), $request->query('max_price')))->get();
+        $manufacturers = Manufacturer::whereHas('products', fn($q) => $q->exceptVariants()->whereHas('translations', fn($c) => $c->matchAgainst($search_term)->where('cluster', 'name'))->filterByPrice($request->query('min_price'), $request->query('max_price')))
+            ->withCount(['products' => fn($q) => $q->exceptVariants()->filterByPrice($request->query('min_price'), $request->query('max_price'))->whereHas('translations', fn($c) => $c->matchAgainst($search_term)->where('cluster', 'name'))])
+            ->get();
 
         return view('product-search.index', [
             'search_term'           => $search_term,

@@ -17,8 +17,8 @@ class ProductOfferController extends Controller
     {
         $manufacturer_ids = collect(explode('-', $request->input('manufacturer_ids')))->filter();
 
-        $categories = Category::whereHas('products', fn($q) => $q->onSale()->filterByPrice($request->query('min_price'), $request->query('max_price')))
-            ->withCount(['products' => fn($q) => $q->onSale()->filterByPrice($request->query('min_price'), $request->query('max_price'))])
+        $categories = Category::whereHas('products', fn($q) => $q->exceptVariants()->onSale()->filterByPrice($request->query('min_price'), $request->query('max_price')))
+            ->withCount(['products' => fn($q) => $q->exceptVariants()->onSale()->filterByPrice($request->query('min_price'), $request->query('max_price'))])
             ->with('translation')
             ->get();
 
@@ -39,7 +39,9 @@ class ProductOfferController extends Controller
             $selectedManufacturers = Manufacturer::findMany($selectedManufacturers);
         }
 
-        $manufacturers = Manufacturer::whereHas('products', fn($q) => $q->onSale()->filterByPrice($request->query('min_price'), $request->query('max_price')))->get();
+        $manufacturers = Manufacturer::whereHas('products', fn($q) => $q->exceptVariants()->onSale()->filterByPrice($request->query('min_price'), $request->query('max_price')))
+            ->withCount(['products' => fn($q) => $q->exceptVariants()->onSale()->filterByPrice($request->query('min_price'), $request->query('max_price'))])
+            ->get();
 
         return view('product-offers.index', [
             'categories'            => $categories,

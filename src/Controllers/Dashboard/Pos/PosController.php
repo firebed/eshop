@@ -4,8 +4,11 @@ namespace Eshop\Controllers\Dashboard\Pos;
 
 use Eshop\Controllers\Controller;
 use Eshop\Controllers\Dashboard\Traits\WithNotifications;
+use Eshop\Livewire\Dashboard\Cart\ShippingAddress;
 use Eshop\Models\Cart\Cart;
 use Eshop\Models\Cart\CartStatus;
+use Eshop\Models\Invoice\Invoice;
+use Eshop\Models\Location\Address;
 use Eshop\Models\Product\Product;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -52,8 +55,12 @@ class PosController extends Controller
                 $cart->viewed_at = now();
             }
 
-            $cart->shipping_method_id = $request->input('shipping_method_id');
-            $cart->payment_method_id = $request->input('payment_method_id');
+            $hasInvoice = !empty(array_filter($request->input('invoice')));
+
+            $cart->document_type = $hasInvoice ? 'Invoice' : 'Receipt';
+            $cart->email = $request->input('email');
+            $cart->shipping_method_id = $request->input('country_shipping_method_id');
+            $cart->payment_method_id = $request->input('country_payment_method_id');
             $cart->shipping_fee = $request->input('shipping_fee');
             $cart->payment_fee = $request->input('payment_fee');
             $cart->submitted_at = now();
@@ -78,14 +85,26 @@ class PosController extends Controller
             }
 
             DB::beginTransaction();
-            $cart->save();
-            $cart->products()->sync($pivot);
-            $this->decrementProductStocks($cart);
 
-            foreach ($items as $productId => $item) {
-                Product::query()
-                    ->whereKey($productId)
-                    ->decrement('stock', $item['quantity']);
+            $cart->save();
+            $cart->products()->syncWithoutDetaching($pivot);
+
+            $products = $cart->products;
+            foreach ($products as $product) {
+                $product->timestamps = false;
+                $product->decrement('stock', $product->pivot->quantity);
+            }
+
+            $shippingAddress = new Address($request->input('shipping'));
+            $shippingAddress->cluster = 'shipping';
+            $cart->shippingAddress()->save($shippingAddress);
+
+            if ($hasInvoice) {
+                $invoice = new Invoice($request->input('invoice'));
+                $cart->invoice()->save($invoice);
+
+                $invoiceAddress = new Address($request->input('invoiceAddress'));
+                $invoice->billingAddress()->save($invoiceAddress);
             }
 
             DB::commit();
@@ -130,6 +149,10 @@ class PosController extends Controller
                 return $carry + $qty * $weight;
             }, 0);
 
+            $hasInvoice = !empty(array_filter($request->input('invoice')));
+
+            $cart->document_type = $hasInvoice ? 'Invoice' : 'Receipt';
+            $cart->email = $request->input('email');
             $cart->shipping_method_id = $request->input('shipping_method_id');
             $cart->payment_method_id = $request->input('payment_method_id');
             $cart->shipping_fee = $request->input('shipping_fee');
@@ -140,7 +163,14 @@ class PosController extends Controller
             $previousProducts = $cart->products;
             $diff = $previousProducts->reject(fn($product) => isset($items[$product->id]));
             DB::beginTransaction();
-            $cart->save();
+            $cart->shippingAddress()->update($request->input('shipping'));
+
+            if (!$hasInvoice) {
+                $cart->invoice?->delete();
+            } else {
+                $invoice = $cart->invoice()->updateOrCreate([], $request->input('invoice'));
+                $invoice->billingAddress()->updateOrCreate([], $request->input('invoiceAddress'));
+            }
 
             if ($diff->isNotEmpty()) {
                 // Products that were removed
@@ -175,7 +205,9 @@ class PosController extends Controller
                     ]
                 ]);
             }
+            $cart->save();
             DB::commit();
+
             $this->showSuccessNotification('Οι αλλαγές αποθηκεύτηκαν!');
         } catch (Throwable $e) {
             DB::rollBack();
@@ -184,14 +216,5 @@ class PosController extends Controller
 
         $query = http_build_query(array_filter(session('pos-models-query', [])));
         return back()->with($query);
-    }
-
-    private function decrementProductStocks(Cart $cart): void
-    {
-        $products = $cart->products;
-        foreach ($products as $cartItem) {
-            $cartItem->timestamps = false;
-            $cartItem->decrement('stock', $cartItem->pivot->quantity);
-        }
     }
 }

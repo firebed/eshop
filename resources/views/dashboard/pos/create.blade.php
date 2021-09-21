@@ -3,7 +3,7 @@
 @section('main')
     <form x-data="{submitting: false}" x-on:submit="submitting = true" x-on:keydown.enter.prevent="" action="{{ route('pos.store') }}" method="post" class="d-flex px-0">
         @csrf
-        <div class="col-12 col-md-7 d-grid p-4 border-end">
+        <div class="col-12 col-md-8 d-grid p-4 border-end">
             <div class="row scrollbar" style="overflow-y:auto; height: calc(100vh - 13.8rem)">
                 <livewire:dashboard.pos.models/>
             </div>
@@ -53,7 +53,7 @@
             </div>
         </div>
 
-        <div class="col-12 col-md-5 bg-white p-4 shadow">
+        <div class="col-12 col-md-4 bg-white p-4 shadow">
             @livewire('dashboard.pos.products', [
                 'items' => old('items', []),
                 'submitted_at' => now(),

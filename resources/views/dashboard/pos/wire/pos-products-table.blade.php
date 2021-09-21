@@ -1,6 +1,6 @@
 <div class="vstack h-100">
     <div class="vstack mb-3">
-        <div class="fw-500 fs-3">@isset($cart->id) Παραγγελία #{{ $cart->id }} @else Νέα παραγγελία @endisset</div>
+        <div class="fw-500 fs-3">@isset($cart_id) Παραγγελία #{{ $cart_id }} @else Νέα παραγγελία @endisset</div>
         <div class="text-secondary small d-flex justify-content-between">
             <span>@if ($submitted_at) {{ $submitted_at->isoFormat('dddd, LL HH:mm') }} @else &nbsp; @endif</span>
             <span><em class="fas fa-weight-hanging me-2"></em>{{ format_weight($weight) }}</span>
@@ -8,7 +8,7 @@
     </div>
 
     <div class="row gx-3 mb-3">
-        <div class="col-8">
+        <div class="col-7">
             @livewire('dashboard.pos.products-search')
         </div>
 

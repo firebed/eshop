@@ -8,8 +8,8 @@
     </div>
 
     @foreach($manufacturers as $manufacturer)
-        <a href="{{ route('products.search.index', [app()->getLocale(), $selectedManufacturers->toggle($manufacturer), 'min_price' => request()->query('min_price'), 'max_price' => request()->query('max_price')]) }}"
-           class="filter-option filter-checkbox @if($filters['m']->contains($manufacturer->id)) selected @endif @if($manufacturer->products_count === 0) disabled @endif"
+        <a href="{{ route('products.search.index', [app()->getLocale(), 'manufacturer_ids' => $selectedManufacturers->toggle($manufacturer), 'min_price' => request()->query('min_price'), 'max_price' => request()->query('max_price')]) }}"
+           class="filter-option filter-checkbox @if($selectedManufacturers->contains($manufacturer->id)) selected @endif @if($manufacturer->products_count === 0) disabled @endif"
         >
             {{ $manufacturer->name }}
             <small>({{ $manufacturer->products_count }})</small>

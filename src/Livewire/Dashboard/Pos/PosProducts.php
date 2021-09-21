@@ -14,6 +14,7 @@ use Livewire\Component;
 class PosProducts extends Component
 {
     public ?Carbon $submitted_at = null;
+    public int     $cart_id;
     public array   $items        = [];
     public float   $shipping_fee = 0;
     public float   $payment_fee  = 0;

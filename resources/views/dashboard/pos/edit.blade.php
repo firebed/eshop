@@ -5,7 +5,7 @@
         @csrf
         @method('put')
 
-        <div class="col-12 col-md-7 d-grid p-4 border-end">
+        <div class="col-12 col-md-8 d-grid p-4 border-end">
             <div class="row scrollbar" style="overflow-y:auto; height: calc(100vh - 13.8rem)">
                 <livewire:dashboard.pos.models/>
             </div>
@@ -47,8 +47,9 @@
             </div>
         </div>
 
-        <div class="col-12 col-md-5 bg-white p-4 shadow">
+        <div class="col-12 col-md-4 bg-white p-4 shadow">
             @livewire('dashboard.pos.products', [
+                'cart_id' => $cart->id,
                 'items' => old('items', $items),
                 'submitted_at' => $cart->submitted_at ?? now(),
                 'shipping_fee' => old('shipping_fee', $cart->shipping_fee) ?? 0,

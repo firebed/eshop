@@ -4,7 +4,7 @@
             <div class="h5 mb-0 offcanvas-title">{{ __('eshop::product.filters') }}</div>
 
             @if ($selectedManufacturers->isNotEmpty() || request()->filled('min_price') || request()->filled('max_price'))
-                <a href="{{ route('products.search.index', app()->getLocale()) }}" class="text-hover-underline">
+                <a href="{{ route('products.offers.index', app()->getLocale()) }}" class="text-hover-underline">
                     {{ __('eshop::filters.cancel_all') }}
                 </a>
             @endif
@@ -14,9 +14,9 @@
     </div>
 
     <div class="offcanvas-body">
-        @includeWhen($categories->isNotEmpty(), 'product-search.partials.categories')
-        @includeWhen($manufacturers->isNotEmpty(), 'product-search.partials.manufacturers')
-        @includeWhen(!empty($priceRanges), 'product-search.partials.prices')
+        @includeWhen($categories->isNotEmpty(), 'product-offers.partials.categories')
+        @includeWhen($manufacturers->isNotEmpty(), 'product-offers.partials.manufacturers')
+        @includeWhen(!empty($priceRanges), 'product-offers.partials.prices')
     </div>
 
     <div class="offcanvas-header offcanvas-footer d-sm-none">

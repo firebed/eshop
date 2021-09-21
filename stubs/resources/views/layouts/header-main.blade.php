@@ -34,7 +34,7 @@
                    autocorrect="off"
                    autocapitalize="off">
 
-            <div x-cloak x-show="show && results.length > 0" x-transition class="position-absolute h-5r bg-white border shadow-sm vstack w-100 rounded py-2 top-100" style="z-index: 1050">
+            <div x-cloak x-show="show && results.length > 0" x-transition class="position-absolute h-5r bg-white border shadow-sm vstack w-100 rounded py-2 top-100" style="z-index: 2050">
                 <template x-for="(result, i) in results" :key="i">
                     <a x-bind:href="result.href" class="text-decoration-none list-group-item-action text-dark px-3 py-2" x-html="result.text"></a>
                 </template>
