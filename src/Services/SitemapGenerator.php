@@ -65,7 +65,7 @@ class SitemapGenerator
 
     private function generateCategoriesSitemap(Collection $alternateLocales): Sitemap|null
     {
-        $categories = Category::with('image')->latest()->get();
+        $categories = Category::with('translation', 'image')->latest()->get();
         if ($categories->isEmpty()) {
             return NULL;
         }

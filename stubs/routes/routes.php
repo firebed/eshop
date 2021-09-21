@@ -34,9 +34,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return redirect()->route('home', config('app.locale'));
-});
+Route::get('/', HomepageController::class);
 
 Route::get('mail', function () {
     Notification::route('mail', 'okan.giritli@gmail.com')->notify(new OrderShippedNotification(Cart::first()));
