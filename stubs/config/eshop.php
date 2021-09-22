@@ -31,11 +31,4 @@ return [
 
     'paypal_sandbox_client_id'     => env('PAYPAL_SANDBOX_CLIENT_ID'),
     'paypal_sandbox_client_secret' => env('PAYPAL_SANDBOX_CLIENT_SECRET'),
-
-    'style' => [
-        'header-top'        => '',
-        'header-main'       => '',
-        'header-bottom'     => '',
-        'header-categories' => ''
-    ]
 ];
