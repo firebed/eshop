@@ -1,4 +1,7 @@
-@extends('layouts.master', ['title' => 'Ασφάλεια συναλλαγών'])
+@extends('pages.master', [
+    'title' => __("Secure transactions"),
+    'description' => __("Secure transactions")
+])
 
 @section('main')
     <div class="container-fluid py-4 bg-white">

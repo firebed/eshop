@@ -1,5 +1,6 @@
 <?php
 
+use Eshop\Actions\Schema\Schema;
 use Eshop\Models\Product\Category;
 use Eshop\Models\Product\Product;
 use Eshop\Models\User;
@@ -191,5 +192,12 @@ if (!function_exists('telephone')) {
     function telephone(string $number): string
     {
         return preg_replace('/\s+/', '', $number);
+    }
+}
+
+if (!function_exists('schema')) {
+    function schema(): Schema
+    {
+        return new Schema();
     }
 }

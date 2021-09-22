@@ -1,4 +1,4 @@
-<div class="d-flex">
-    <div class="me-3">{{ __("Category") }}:</div>
+<div class="small hstack gap-2">
+    <span class="text-secondary">{{ __("Category") }}: </span>
     <a href="{{ categoryRoute($category) }}" class="text-decoration-none">{{ $category->name }}</a>
 </div>

@@ -6,7 +6,7 @@ class OrganizationSchema
 {
     public function handle(): string
     {
-        return json_encode([
+        $organization = [
             "@context"     => "https://schema.org",
             "type"         => "Organization",
             "legalName"    => __('company.name'),
@@ -16,7 +16,6 @@ class OrganizationSchema
                 "@type" => "Person",
                 "name"  => config('company.name')
             ],
-            "sameAs"       => __('company.social'),
             "address"      => [
                 "@type"           => "PostalAddress",
                 "addressLocality" => __('company.addressLocality'),
@@ -29,6 +28,12 @@ class OrganizationSchema
                 "telephone"   => telephone(__('company.phone')[0]),
                 "email"       => __('company.email')
             ]
-        ]);
+        ];
+
+        if (($sameAs = config('company.social')) && is_array($sameAs)) {
+            $organization["sameAs"] = $sameAs;            
+        }
+
+        return json_encode($organization);
     }
 }

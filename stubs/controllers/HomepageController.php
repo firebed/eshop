@@ -2,9 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Eshop\Actions\Schema\OrganizationSchema;
-use Eshop\Actions\Schema\WebPageSchema;
-use Eshop\Actions\Schema\WebSiteSchema;
 use Eshop\Controllers\Controller;
 use Eshop\Models\Product\Collection;
 use Eshop\Models\Slide\Slide;
@@ -12,7 +9,7 @@ use Illuminate\Contracts\Support\Renderable;
 
 class HomepageController extends Controller
 {
-    public function __invoke(WebSiteSchema $webSite, WebPageSchema $webPage, OrganizationSchema $organization): Renderable
+    public function __invoke(): Renderable
     {
         $slides = Slide::with('image')->get();
         $collections = Collection::findMany([1, 2]);
@@ -29,12 +26,9 @@ class HomepageController extends Controller
             ->get();
 
         return view('homepage.index', [
-            'slides'       => $slides,
-            'trending'     => $trending,
-            'popular'      => $popular,
-            'webSite'      => $webSite->handle(),
-            'webPage'      => $webPage,
-            'organization' => $organization->handle()
+            'slides'   => $slides,
+            'trending' => $trending,
+            'popular'  => $popular
         ]);
     }
 }

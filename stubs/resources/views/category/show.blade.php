@@ -1,31 +1,33 @@
-@php($title = $category->seo->title ?? $category->name)
+@php($title = $category->seo->title ?? $category->name ?? "")
+@php($description = $category?->seo->description ?? "")
 
 @extends('layouts.master', ['title' => $title])
 
 @push('meta')
+    @foreach(array_keys(config('eshop.locales')) as $locale)
+        <link rel="alternate" hreflang="{{ $locale }}" href="{{ categoryRoute($category, locale: $locale) }}" />
+    @endforeach
+    
     @if(!empty($category->seo->description))
-        <meta name="description" content="{{ $category->seo->description }}">
+        <meta name="description" content="{{ $description }}">
     @endif
 
-    <script type="application/ld+json">{!! $webPage !!}</script>
-    @if(!empty($breadcrumb))
-        <script type="application/ld+json">{!! $breadcrumb !!}</script>
-    @endif
-
+    <script type="application/ld+json">{!! schema()->webPage($title, $description) !!}</script>
+    <script type="application/ld+json">{!! schema()->breadcrumb($category) !!}</script>
+    
     <meta property="og:title" content="{{ $title }}">
     <meta property="og:site_name" content="{{ config('app.name') }}">
-    @if(!empty($category->seo->description))
-        <meta property="og:description" content="{{ $category->seo->description }}">
+    @if(!empty($description))
+        <meta property="og:description" content="{{ $description }}">
     @endif
     <meta property="og:type" content="website">
     @if($category->image)
         <meta property="og:image" content="{{ $category->image->url() }}">
     @endif
-@endpush
-
-@push('meta')
-    @isset($products)
-        @if($products->onFirstPage())
+    <meta name="twitter:card" content="summary" />
+    
+    @if($category->isFile())
+        @if(!$products->hasPages() || $products->onFirstPage())
             <link rel="canonical" href="{{ categoryRoute($category) }}">
         @else
             <link rel="canonical" href="{{ $products->url($products->currentPage()) }}">
@@ -40,7 +42,11 @@
         @if($products->hasMorePages())
             <link rel="next" href="{{ $products->nextPageUrl() }}">
         @endif
+    @else
+        <link rel="canonical" href="{{ categoryRoute($category) }}">
     @endif
+    
+    <meta name='robots' content='index, follow' />
 @endpush
 
 @section('main')

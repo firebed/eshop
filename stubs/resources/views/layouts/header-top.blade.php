@@ -11,11 +11,11 @@
         </x-bs::dropdown.button>
 
         <x-bs::dropdown.menu class="shadow-sm" button="languages-menu">
-            <x-bs::dropdown.item href="{{ route('home', 'el') }}">
+            <x-bs::dropdown.item href="{{ str_replace('/' . app()->getLocale(), '/el', url()->current()) }}">
                 <img class="me-2" src="{{ asset('storage/images/flags/Greece.png') }}" alt="Flag of Greece" width="16" height="16">Ελληνικά
             </x-bs::dropdown.item>
 
-            <x-bs::dropdown.item href="{{ route('home', 'en') }}">
+            <x-bs::dropdown.item href="{{ str_replace('/' . app()->getLocale(), '/en', url()->current()) }}">
                 <img class="me-2" src="{{ asset('storage/images/flags/UnitedKingdom.png') }}" alt="Flag of United Kingdom" width="16" height="16">English
             </x-bs::dropdown.item>
         </x-bs::dropdown.menu>

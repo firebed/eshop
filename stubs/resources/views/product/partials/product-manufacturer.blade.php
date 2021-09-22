@@ -1,4 +1,4 @@
-<div class="d-flex">
-    <div class="me-3">{{ __("Manufacturer") }}:</div>
+<div class="small hstack gap-2">
+    <span class="text-secondary">{{ __("Manufacturer") }}:</span>
     <a href="{{ categoryRoute($category, collect([$product->manufacturer])) }}" class="text-decoration-none">{{ $product->manufacturer->name }}</a>
 </div>

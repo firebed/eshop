@@ -1,4 +1,7 @@
-@extends('layouts.master', ['title' => 'Τρόποι αποστολής'])
+@extends('pages.master', [
+    'title' => __("Shipping methods"),
+    'description' => __("Shipping methods")
+])
 
 @php
     $shippingFee = 2.5;

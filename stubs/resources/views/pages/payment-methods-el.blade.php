@@ -1,4 +1,7 @@
-@extends('layouts.master', ['title' => 'Τρόποι πληρωμής'])
+@extends('pages.master', [
+    'title' => __("Payment methods"),
+    'description' => __("Payment methods")
+])
 
 @php
     $url = env('APP_URL');
@@ -6,7 +9,10 @@
     $link = "<a href='$url'>$base</a>";
 
     $paymentFee = 1.5;
-    $bankAccounts = Lang::get('company.bank_accounts');
+    $bankAccounts = __('company.bank_accounts');
+    if (!is_array($bankAccounts)) {
+        $bankAccounts = [];
+    }
 @endphp
 
 @section('main')

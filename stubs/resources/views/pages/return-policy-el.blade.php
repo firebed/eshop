@@ -1,4 +1,7 @@
-@extends('layouts.master', ['title' => 'Πολιτική επιστροφών'])
+@extends('pages.master', [
+    'title' => __("Return policy"),
+    'description' => __("Return policy")
+])
 
 @php
     $url = env('APP_URL');

@@ -1,4 +1,7 @@
-@extends('layouts.master', ['title' => 'Πολιτική Προστασίας Προσωπικών Δεδομένων'])
+@extends('pages.master', [
+    'title' => __("General Data Protection Regulation"),
+    'description' => __("General Data Protection Regulation")
+])
 
 @php
     $url = env('APP_URL');

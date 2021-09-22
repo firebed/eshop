@@ -7,9 +7,9 @@ use Eshop\Models\Product\Product;
 
 class Schema
 {
-    public function webSite(): string
+    public function webSite($id): string
     {
-        return (new WebSiteSchema())->handle();
+        return (new WebSiteSchema())->handle($id);
     }
 
     public function webPage(string $name, string $description = null): string

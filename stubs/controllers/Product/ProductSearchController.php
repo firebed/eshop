@@ -5,21 +5,24 @@ namespace App\Http\Controllers\Product;
 use App\Http\Requests\ProductSearchRequest;
 use Eshop\Actions\HighlightText;
 use Eshop\Actions\ProductsSearch;
-use Eshop\Actions\Schema\WebPageSchema;
 use Eshop\Controllers\Controller;
 use Eshop\Models\Product\Category;
 use Eshop\Models\Product\Manufacturer;
 use Eshop\Models\Product\Product;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 
 class ProductSearchController extends Controller
 {
-    public function index(string $lang, ProductSearchRequest $request, ProductsSearch $search, WebPageSchema $webPage): Renderable
+    public function index(string $lang, ProductSearchRequest $request, ProductsSearch $search): RedirectResponse|Renderable
     {
         $search_term = $request->input('search_term', '');
+        if (blank($search_term)) {
+            return redirect('/');
+        }
 
         $manufacturer_ids = collect(explode('-', $request->input('manufacturer_ids')))->filter();
 
@@ -56,7 +59,6 @@ class ProductSearchController extends Controller
             'products'              => $products,
             'priceRanges'           => $this->groupPriceRanges($search, $manufacturer_ids, $search_term),
             'filters'               => $request->validated(),
-            'webPage'               => $webPage,
             'selectedManufacturers' => $selectedManufacturers,
         ]);
     }

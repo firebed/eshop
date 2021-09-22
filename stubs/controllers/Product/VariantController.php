@@ -2,9 +2,6 @@
 
 namespace App\Http\Controllers\Product;
 
-use Eshop\Actions\Schema\BreadcrumbSchema;
-use Eshop\Actions\Schema\ProductSchema;
-use Eshop\Actions\Schema\WebPageSchema;
 use Eshop\Controllers\Controller;
 use Eshop\Models\Product\Category;
 use Eshop\Models\Product\Product;
@@ -13,7 +10,7 @@ use Illuminate\Contracts\Support\Renderable;
 
 class VariantController extends Controller
 {
-    public function show(string $locale, Category $category, Product $product, Product $variant, Order $order, WebPageSchema $webPage, ProductSchema $json, BreadcrumbSchema $breadcrumb): Renderable
+    public function show(string $locale, Category $category, Product $product, Product $variant, Order $order): Renderable
     {
         if (!($category->visible && $product->visible && $variant->visible)) {
             abort(404);
@@ -27,16 +24,13 @@ class VariantController extends Controller
             session()->flash('quantity', __('The product is already in the shopping cart.'));
         }
 
-        return view('product.show', [
+        return view('product-variant.show', [
             'category'   => $category,
             'parent'     => $product,
             'product'    => $variant,
             'quantity'   => $quantity,
             'properties' => $product->properties()->with('translation')->get()->unique(),
             'choices'    => $product->choices()->with('translation')->get(),
-            'psd'        => $json->handle($variant),
-            'breadcrumb' => $breadcrumb->handle($category, $product, $variant),
-            'webPage'    => $webPage->handle($variant->seo->title ?? $variant->option_values, $variant->seo->description ?? $product->seo->description ?? null),
         ]);
     }
 }

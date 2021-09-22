@@ -2,6 +2,7 @@
 
 namespace App\Actions\Fortify;
 
+use Eshop\Controllers\Dashboard\Traits\WithNotifications;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
@@ -10,6 +11,7 @@ use Laravel\Fortify\Contracts\ResetsUserPasswords;
 class ResetUserPassword implements ResetsUserPasswords
 {
     use PasswordValidationRules;
+    use WithNotifications;
 
     /**
      * Validate and reset the user's forgotten password.
@@ -28,5 +30,7 @@ class ResetUserPassword implements ResetsUserPasswords
         $user->forceFill([
             'password' => Hash::make($input['password']),
         ])->save();
+        
+        $this->showSuccessNotification(__("Your password has been reset"));
     }
 }

@@ -109,7 +109,8 @@ class CheckoutPaymentController extends Controller
 
         foreach ($shippingMethods as $shippingMethod) {
             $shippingMethod->total_fee = $calc->handle($shippingMethod, $order->parcel_weight, $order->shippingAddress->postcode);
-            if (($area = $calc->getArea())?->type !== null) {
+            $area = $shippingMethod->shippingMethod->inaccessibleAreas()->firstWhere('postcode', $order->shippingAddress->postcode);
+            if ($area?->type !== null) {
                 $shippingMethod->setRelation('area', $area);
             }
         }

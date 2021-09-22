@@ -18,10 +18,10 @@ class PageController extends Controller
         $path = "pages.$filename-$locale";
 
         if (view()->exists($path)) {
-            return view($path);
+            return view($path, ['page' => $filename]);
         }
 
-        $defaultLocale = config('app.default_locale');
+        $defaultLocale = config('app.fallback_locale');
         if ($defaultLocale === $locale) {
             abort(404);
         }

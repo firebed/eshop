@@ -4,12 +4,12 @@ namespace Eshop\Actions\Schema;
 
 class WebSiteSchema
 {
-    public function toArray(): array
+    public function toArray($id): array
     {
         return [
             "@context"        => "https://schema.org",
             "@type"           => "WebSite",
-            "id"             => config('app.url') . '/#website',
+            "@id"             => config('app.url') . "/#$id",
             "url"             => config('app.url'),
             "sameAs"          => __('company.social'),
             "potentialAction" => [
@@ -20,8 +20,8 @@ class WebSiteSchema
         ];
     }
 
-    public function handle(): string
+    public function handle($id): string
     {
-        return json_encode($this->toArray());
+        return json_encode($this->toArray($id));
     }
 }

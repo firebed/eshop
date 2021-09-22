@@ -1,4 +1,7 @@
-@extends('layouts.master', ['title' => 'Πολιτική ακύρωσης'])
+@extends('pages.master', [
+    'title' => __("Cancellation policy"),
+    'description' => __("Cancellation policy")
+])
 
 @php
     $url = env('APP_URL');

@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Category;
 
 use App\Http\Controllers\Category\Traits\ValidatesCategoryUrl;
 use App\Http\Requests\CategoryRequest;
-use Eshop\Actions\Schema\Schema;
 use Eshop\Controllers\Controller;
 use Eshop\Models\Product\Category;
 use Illuminate\Contracts\Support\Renderable;
@@ -16,7 +15,7 @@ class CategoryController extends Controller
 {
     use ValidatesCategoryUrl;
 
-    public function __invoke(CategoryRequest $request, string $locale, Category $category, Schema $schema): Renderable|RedirectResponse
+    public function __invoke(CategoryRequest $request, string $locale, Category $category): Renderable|RedirectResponse
     {
         if (!$category->visible) {
             abort(404);
@@ -30,10 +29,8 @@ class CategoryController extends Controller
                 ->get();
 
             return view('category.show', [
-                'category'   => $category,
-                'children'   => $children,
-                'webPage'    => $schema->webPage($category->seo->title ?? $category->name, $category->seo?->description),
-                'breadcrumb' => $schema->breadcrumb($category)
+                'category' => $category,
+                'children' => $children
             ]);
         }
 
@@ -74,6 +71,7 @@ class CategoryController extends Controller
             ->filterByPropertyChoices($filters['c']->groupBy('property.id'))
             ->filterByPrice($filters['min_price'], $filters['max_price'])
             ->with('image')
+            ->with('translations')
             ->with(['variants' => fn($q) => $q->visible()->with('translation', 'parent.translation', 'options', 'image')])
             ->select('products.*')
             ->joinTranslation()
@@ -87,9 +85,7 @@ class CategoryController extends Controller
             'manufacturers' => $manufacturers,
             'filters'       => $filters,
             'priceRanges'   => $priceRanges,
-            'products'      => $products,
-            'webPage'       => $schema->webPage($category->seo->title ?? $category->name, $category->seo?->description),
-            'breadcrumb'    => $schema->breadcrumb($category)
+            'products'      => $products
         ]);
     }
 

@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Product;
 
 use App\Http\Requests\ProductSearchRequest;
-use Eshop\Actions\Schema\WebPageSchema;
 use Eshop\Controllers\Controller;
 use Eshop\Models\Product\Category;
 use Eshop\Models\Product\Manufacturer;
@@ -13,7 +12,7 @@ use Illuminate\Support\Collection;
 
 class ProductOfferController extends Controller
 {
-    public function __invoke(string $lang, ProductSearchRequest $request, WebPageSchema $webPage): Renderable
+    public function __invoke(string $lang, ProductSearchRequest $request): Renderable
     {
         $manufacturer_ids = collect(explode('-', $request->input('manufacturer_ids')))->filter();
 
@@ -49,7 +48,6 @@ class ProductOfferController extends Controller
             'products'              => $products,
             'priceRanges'           => $this->groupPriceRanges($manufacturer_ids),
             'filters'               => $request->validated(),
-            'webPage'               => $webPage,
             'selectedManufacturers' => $selectedManufacturers,
         ]);
     }

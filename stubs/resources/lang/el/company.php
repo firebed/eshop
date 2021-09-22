@@ -20,12 +20,12 @@ return [
     ],
 
     'bank_accounts' => [
-//        [
-//            'bank'   => '',
-//            'number' => '',
-//            'iban'   => '',
-//            'owner'  => ''
-//        ],
+        //        [
+        //            'bank'   => '',
+        //            'number' => '',
+        //            'iban'   => '',
+        //            'owner'  => ''
+        //        ],
     ],
 
     "social" => [

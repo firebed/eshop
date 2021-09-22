@@ -1,5 +1,10 @@
 <?php
 
+use App\Http\Controllers\Account\PasswordController;
+use App\Http\Controllers\Account\ProfileController;
+use App\Http\Controllers\Account\UserAddressController;
+use App\Http\Controllers\Account\UserCompanyController;
+use App\Http\Controllers\Account\UserOrdersController;
 use App\Http\Controllers\Category\CategoryController;
 use App\Http\Controllers\Checkout\CheckoutCompletedController;
 use App\Http\Controllers\Checkout\CheckoutDetailsController;
@@ -12,11 +17,6 @@ use App\Http\Controllers\Product\ProductController;
 use App\Http\Controllers\Product\ProductOfferController;
 use App\Http\Controllers\Product\ProductSearchController;
 use App\Http\Controllers\Product\VariantController;
-use App\Http\Controllers\Account\PasswordController;
-use App\Http\Controllers\Account\ProfileController;
-use App\Http\Controllers\Account\UserAddressController;
-use App\Http\Controllers\Account\UserCompanyController;
-use App\Http\Controllers\Account\UserOrdersController;
 use Eshop\Models\Cart\Cart;
 use Eshop\Notifications\OrderShippedNotification;
 use Illuminate\Support\Facades\Mail;
@@ -49,7 +49,7 @@ Route::get('raw-mail', function () {
 // Global routes
 Route::group([
     'prefix'     => '{lang}',
-    'middleware' => ['web', 'locale'],
+    'middleware' => ['locale'],
     'where'      => ['lang' => implode('|', array_keys(config('eshop.locales', [])))]
 ],
     function () {

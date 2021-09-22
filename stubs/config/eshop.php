@@ -8,9 +8,15 @@ return [
         'en' => 'English'
     ],
 
+    'countries' => [
+        'el' => 'GR',
+        'en' => 'US'
+    ],
+
     'logo'               => 'storage/images/logo.png',
-    'default_locale'     => env('COUNTRY_LOCALE', 'en'),
-    'country'            => env('COUNTRY', 'us'),
+    'logo_width'         => 306,
+    'logo_height'        => 76,
+    'country'            => env('COUNTRY', 'US'),
     'currency'           => env('CURRENCY', 'USD'),
     'currency_symbol'    => env('CURRENCY_SYMBOL', '$'),
     'group_separator'    => env('GROUP_SEPARATOR', ','),

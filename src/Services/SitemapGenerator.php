@@ -2,7 +2,6 @@
 
 namespace Eshop\Services;
 
-use Eshop\Models\Lang\Locale;
 use Eshop\Models\Product\Category;
 use Eshop\Models\Product\Product;
 use Firebed\Sitemap\Sitemap;
@@ -10,7 +9,6 @@ use Firebed\Sitemap\SitemapIndex;
 use Firebed\Sitemap\Url;
 use Illuminate\Contracts\Filesystem\Filesystem;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\URL as BaseURL;
 
@@ -23,21 +21,19 @@ class SitemapGenerator
     {
         $this->increaseMemoryLimit();
 
-        $locales = Locale::get();
+        $pages = $this->generatePagesSitemap();
+        $this->writeSitemap($pages, 'sitemaps/pages.xml');
 
-//        $pages = $this->generatePagesSitemap($locales);
-//        $this->writeSitemap($pages, 'sitemaps/pages.xml');
-
-        $categories = $this->generateCategoriesSitemap($locales);
+        $categories = $this->generateCategoriesSitemap();
         $this->writeSitemap($categories, 'sitemaps/categories.xml');
 
-//        $products = $this->generateProductsSitemap($locales);
-//        $this->writeSitemap($products, 'sitemaps/products.xml');
+        $products = $this->generateProductsSitemap();
+        $this->writeSitemap($products, 'sitemaps/products.xml');
 
         $index = (new SitemapIndex())
-//            ->addSitemapIf($pages !== NULL, fn() => [BaseURL::asset('sitemaps/pages.xml'), now()])
-            ->addSitemapIf($categories !== null, fn() => [BaseURL::asset('sitemaps/categories.xml'), now()]);
-//            ->addSitemapIf($products !== NULL, fn() => [BaseURL::asset('sitemaps/products.xml'), now()]);
+            ->addSitemapIf($pages !== null, fn() => [BaseURL::asset('sitemaps/pages.xml'), now()])
+            ->addSitemapIf($categories !== null, fn() => [BaseURL::asset('sitemaps/categories.xml'), now()])
+            ->addSitemapIf($products !== null, fn() => [BaseURL::asset('sitemaps/products.xml'), now()]);
 
         if (!$index->isEmpty()) {
             $index->writeToDisk('public', 'sitemap.xml');
@@ -66,21 +62,27 @@ class SitemapGenerator
         ini_set('memory_limit', "1G");
     }
 
-    private function generatePagesSitemap(Collection $locales): Sitemap|null
+    private function generatePagesSitemap(): Sitemap|null
     {
         $sitemap = new Sitemap();
 
-        foreach ($locales as $locale) {
-            $home = new URL(route('home', $locale->name));
-            foreach ($locales as $alternateLocale) {
-                $home->addAlternate(route('home', $alternateLocale->name), $alternateLocale->name);
-            }
-            $sitemap->addUrl($home);
-        }
+        $sitemap->addUrl('/', today()->startOfMonth(), Url::CHANGE_FREQ_MONTHLY, 1);
+        $sitemap->addUrl(route('home', app()->getLocale()), today()->startOfMonth(), Url::CHANGE_FREQ_MONTHLY, 1);
+        $sitemap->addUrl(route('pages.show', [app()->getLocale(), 'terms-of-service']), today()->startOfYear(), Url::CHANGE_FREQ_YEARLY);
+        $sitemap->addUrl(route('pages.show', [app()->getLocale(), 'data-protection']), today()->startOfYear(), Url::CHANGE_FREQ_YEARLY);
+        $sitemap->addUrl(route('pages.show', [app()->getLocale(), 'return-policy']), today()->startOfYear(), Url::CHANGE_FREQ_YEARLY);
+        $sitemap->addUrl(route('pages.show', [app()->getLocale(), 'secure-transactions']), today()->startOfYear(), Url::CHANGE_FREQ_YEARLY);
+        $sitemap->addUrl(route('pages.show', [app()->getLocale(), 'shipping-methods']), today()->startOfMonth(), Url::CHANGE_FREQ_MONTHLY);
+        $sitemap->addUrl(route('pages.show', [app()->getLocale(), 'payment-methods']), today()->startOfMonth(), Url::CHANGE_FREQ_MONTHLY);
+        $sitemap->addUrl(route('pages.show', [app()->getLocale(), 'login']), today()->startOfYear(), Url::CHANGE_FREQ_YEARLY);
+        $sitemap->addUrl(route('pages.show', [app()->getLocale(), 'register']), today()->startOfYear(), Url::CHANGE_FREQ_YEARLY);
+        $sitemap->addUrl(route('pages.show', [app()->getLocale(), 'cart']), today()->startOfYear(), Url::CHANGE_FREQ_YEARLY);
+        $sitemap->addUrl(route('pages.show', [app()->getLocale(), 'offers']), today(), Url::CHANGE_FREQ_DAILY);
+
         return $sitemap;
     }
 
-    private function generateCategoriesSitemap(Collection $locales): Sitemap|null
+    private function generateCategoriesSitemap(): Sitemap|null
     {
         $categories = Category::with('translation', 'image')->visible()->latest()->get();
         if ($categories->isEmpty()) {
@@ -88,28 +90,22 @@ class SitemapGenerator
         }
 
         $sitemap = new Sitemap();
-        foreach ($locales as $locale) {
-            foreach ($categories as $category) {
-                $url = new Url(categoryRoute($category, locale: $locale->name), $category->updated_at, Url::CHANGE_FREQ_MONTHLY);
+        foreach ($categories as $category) {
+            $url = new Url(categoryRoute($category), $category->updated_at, Url::CHANGE_FREQ_MONTHLY);
 
-                foreach ($locales as $alternateLocale) {
-                    $url->addAlternate(categoryRoute($category, locale: $alternateLocale->name), $alternateLocale->name);
-                }
-
-                if ($category->image) {
-                    $url->addImage($category->image->url(), $category->name);
-                }
-
-                $sitemap->addUrl($url);
+            if ($category->image) {
+                $url->addImage($category->image->url(), $category->name);
             }
+
+            $sitemap->addUrl($url);
         }
 
         return $sitemap;
     }
 
-    private function generateProductsSitemap(Collection $locales): Sitemap|null
+    private function generateProductsSitemap(): Sitemap|null
     {
-        $products = Product::with('category', 'images', 'translations')->latest()->get();
+        $products = Product::with('category', 'images', 'translations')->visible()->latest()->get();
         if ($products->isEmpty()) {
             return null;
         }
@@ -123,14 +119,6 @@ class SitemapGenerator
             $url->loc = $product->isVariant()
                 ? variantRoute($product, $products->firstWhere('parent_id', $product->parent_id), $product->category)
                 : productRoute($product, $product->category);
-
-            foreach ($locales as $locale) {
-                $alternate = $product->isVariant()
-                    ? variantRoute($product, $products->firstWhere('parent_id', $product->parent_id), $product->category, $locale->name)
-                    : productRoute($product, $product->category, $locale->name);
-
-                $url->addAlternate($alternate, $locale->name);
-            }
 
             foreach ($product->images as $image) {
                 $url->addImage($image->url(), $product->name);

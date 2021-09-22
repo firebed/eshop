@@ -1,15 +1,15 @@
-@php($title = $product->seo->title ?? $product->trademark ?? "")
-@php($description = $product->seo->description ?? null)
+@php($title = $product->seo->title ?? $product->option_values ?? "")
+@php($description = $product->seo->description ?? $parent->seo->description ?? null)
 
 @extends('layouts.master', ['title' =>  $title])
 
 @push('meta')
-    <link rel="canonical" href="{{ productRoute($product, $category) }}">
+    <link rel="canonical" href="{{ productRoute($parent, $category) }}">
     @foreach(array_keys(config('eshop.locales')) as $locale)
-        <link rel="alternate" hreflang="{{ $locale }}" href="{{ productRoute($product, $category, locale: $locale) }}"/>
+        <link rel="alternate" hreflang="{{ $locale }}" href="{{ variantRoute($product, $parent, $category, $locale) }}"/>
     @endforeach
 
-    <script type="application/ld+json">{!! schema()->breadcrumb($category, $product) !!}</script>
+    <script type="application/ld+json">{!! schema()->breadcrumb($category, $parent, $product) !!}</script>
     <script type="application/ld+json">{!! schema()->product($product) !!}</script>
     <script type="application/ld+json">{!! schema()->webPage($title, $description) !!}</script>
 
@@ -42,7 +42,7 @@
 @endpush
 
 @section('main')
-    <x-eshop-category-breadcrumb :category="$category" :product="$product" :variant="null"/>
+    <x-eshop-category-breadcrumb :category="$category" :product="$parent" :variant="$product"/>
 
     <div class="container-fluid bg-white py-4">
         <div class="container-xxl">
@@ -67,24 +67,14 @@
 
                         <div class="vstack gap-1 my-2">
                             @include('product.partials.product-category')
+                            @include('product.partials.product-parent')
                             @includeWhen(isset($product->manufacturer), 'product.partials.product-manufacturer')
                         </div>
-                        
-                        @includeWhen($product->description !== null, 'product.partials.product-description')
+
+                        @includeWhen($description = $product->description ?? $parent->description, 'product.partials.product-description', ['description' => $description])
 
                         <div class="d-grid gap-2">
-                            @if($product->has_variants)
-                                @if($product->variants_display === 'grid')
-                                    <a href="#product-variants" class="btn btn-primary btn-block">{{ __("See all variants") }} ({{ $product->variants_count }})</a>
-                                @endif
-
-                                @if($product->variants_display === 'buttons')
-                                    <livewire:product.product-variants-buttons :product="$product"/>
-                                @endif
-
-                                @if($product->variants_display === 'list')
-                                @endif
-                            @elseif($product->canBeBought())
+                            @if($product->canBeBought())
                                 <livewire:product.add-to-cart-form :product="$product"/>
                             @else
                                 <div class="col-12 mb-3 hstack gap-3">
@@ -100,10 +90,4 @@
             </div>
         </div>
     </div>
-
-    @if($product->has_variants && $product->variants_display === 'grid')
-        <div id="product-variants" class="container-fluid mb-4 py-4 bg-light">
-            <livewire:product.product-variants :product="$product" :category="$category"/>
-        </div>
-    @endif
 @endsection

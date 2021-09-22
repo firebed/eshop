@@ -53,7 +53,7 @@ trait HasTranslations
     public function scopeJoinTranslation(Builder $builder, string $cluster = 'name'): void
     {
         $builder->selectRaw("translations.translation as $cluster");
-        $builder->join('translations', function (JoinClause $q) use ($cluster) {
+        $builder->leftJoin('translations', function (JoinClause $q) use ($cluster) {
             $q->on('translations.translatable_id', '=', $this->getQualifiedKeyName());
             $q->where('translations.translatable_type', $this->getMorphClass());
             $q->where('translations.locale', $this->getLocale());
@@ -165,7 +165,7 @@ trait HasTranslations
 
     public function getFallbackLocale()
     {
-        return config('translatable.fallback_locale');
+        return config('app.fallback_locale');
     }
 
     public function deleteTranslations(?string $cluster = null, ?string $locale = null): void

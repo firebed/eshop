@@ -1,4 +1,7 @@
-@extends('layouts.master', ['title' => 'Όροι χρήσης'])
+@extends('pages.master', [
+    'title' => __("Terms of service"),
+    'description' => __("Terms of service")
+])
 
 @php
     $url = env('APP_URL');
