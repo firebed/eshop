@@ -12,6 +12,10 @@ return [
         'el' => 'GR',
         'en' => 'US'
     ],
+    
+    'cc' => [
+        
+    ],
 
     'logo'               => 'storage/images/logo.png',
     'logo_width'         => 306,

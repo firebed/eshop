@@ -15,12 +15,14 @@
                         <div class="text-dark fw-500 mb-2">{{ __("eshop::account.order.info") }}</div>
 
                         <x-bs::group :label="__('Date')" inline>
-                            <span class="text-dark">{{ $cart->submitted_at->isoFormat('llll') }}</span>
+                            <span class="text-dark">{{ $cart->submitted_at?->isoFormat('llll') }}</span>
                         </x-bs::group>
 
-                        <x-bs::group :label="__('Status')" inline>
-                            <span class="text-dark">{{ __('eshop::cart.status.action.' . $cart->status->name) }}</span>
-                        </x-bs::group>
+                        @if($cart->status)
+                            <x-bs::group :label="__('Status')" inline>
+                                <span class="text-dark">{{ __('eshop::cart.status.action.' . $cart->status->name) }}</span>
+                            </x-bs::group>
+                        @endif
 
                         <x-bs::group :label="__('Shipping')" inline>
                             <span class="text-dark">{{ __("eshop::shipping.{$cart->shippingMethod->name}") ?? '' }}</span>

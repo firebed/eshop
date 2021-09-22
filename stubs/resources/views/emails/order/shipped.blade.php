@@ -1,27 +1,18 @@
 @component('mail::message')
+
+@include('emails.order.partials.logo')
+
 <div style="font-size: 20pt; margin-bottom: 1rem;">{{ __("Order") . ' #' . $cart->id }}</div>
 
-<div style="margin-bottom: 1rem">{{ __("Your order has been shipped!") }}</div>
+<div style="font-size: 1.25rem; margin-bottom: 1rem">{{ __("Your order has been shipped!") }}</div>
 
 @include('emails.order.partials.shipping-address')
 
 @include('emails.order.partials.items')
 
-<table style="width: 100%; table-layout: fixed;">
-<tr>
-<td style="text-align: center">
-@component('mail::button', ['color' => 'success', 'url' => route('account.orders.show', [app()->getLocale(), $cart])])
-    {{ __('See you order') }}
+@component('mail::button', ['color' => 'success', 'url' => URL::signedRoute('checkout.completed', [app()->getLocale(), $cart->id])])
+    {{ __('View you order') }}
 @endcomponent
-</td>
-
-<td style="text-align: center">
-@component('mail::button', ['color' => 'success', 'url' => route('account.orders.show', [app()->getLocale(), $cart])])
-    {{ __('See you order') }}
-@endcomponent
-</td>
-</tr>
-</table>
 
 @if($notesToCustomer)
 <div style="margin-bottom: 1rem">

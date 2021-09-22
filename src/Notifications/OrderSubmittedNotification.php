@@ -14,7 +14,7 @@ class OrderSubmittedNotification extends Notification
     private Cart    $cart;
     private ?string $notesToCustomer;
 
-    public function __construct(Cart $cart, ?string $notesToCustomer = NULL)
+    public function __construct(Cart $cart, ?string $notesToCustomer = null)
     {
         $this->cart = $cart;
         $this->notesToCustomer = $notesToCustomer;
@@ -29,10 +29,16 @@ class OrderSubmittedNotification extends Notification
     {
         $this->cart->products->loadMissing('parent.translation', 'image', 'translation');
 
-        return (new MailMessage())
-            ->markdown('emails.order.submitted', [
-                'cart'            => $this->cart,
-                'notesToCustomer' => $this->notesToCustomer
-            ]);
+        $mail = new MailMessage();
+        $mail->subject(__("Order Shipped Notification"));
+        foreach (config('eshop.cc', []) as $cc) {
+            $mail->cc($cc);
+        }
+        $mail->markdown('emails.order.submitted', [
+            'cart'            => $this->cart,
+            'notesToCustomer' => $this->notesToCustomer
+        ]);
+        
+        return $mail;
     }
 }

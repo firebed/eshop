@@ -44,6 +44,7 @@ class OrderHeldNotification extends Notification
     public function toMail(): MailMessage
     {
 //        return (new MailMessage)
+//        ->cc(config('eshop.mail_cc'))
 //            ->view('emails.order-held', ['cart' => $this->cart, 'notesToCustomer' => $this->notesToCustomer]);
     }
 }

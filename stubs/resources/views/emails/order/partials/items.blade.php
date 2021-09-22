@@ -24,14 +24,14 @@
     </tbody>
     <tfoot>
     <tr>
-        <td colspan="4" style="text-align: right;">{{ $cart->shippingMethod->name }}</td>
+        <td colspan="4" style="text-align: right;">{{ __("eshop::shipping.{$cart->shippingMethod->name}") }}</td>
         <td style="text-align: right">{{ format_currency($cart->shipping_fee) }}</td>
     </tr>
     <tr>
-        <td colspan="4" style="text-align: right;">{{ $cart->paymentMethod->name }}</td>
+        <td colspan="4" style="text-align: right;">{{ __("eshop::payment.{$cart->paymentMethod->name}") }}</td>
         <td style="text-align: right">{{ format_currency($cart->payment_fee) }}</td>
     </tr>
-    <tr>
+        <tr>
         <td colspan="4" style="text-align: right;"><strong>{{ __("Total") }}</strong></td>
         <td style="text-align: right"><strong>{{ format_currency($cart->total) }}</strong></td>
     </tr>

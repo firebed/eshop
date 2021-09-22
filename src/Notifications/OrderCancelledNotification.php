@@ -44,6 +44,7 @@ class OrderCancelledNotification extends Notification
     public function toMail(): MailMessage
     {
 //        return (new MailMessage)
+//        ->cc(config('eshop.mail_cc'))
 //            ->view('emails.order-cancelled', ['cart' => $this->cart, 'notesToCustomer' => $this->notesToCustomer]);
     }
 }
