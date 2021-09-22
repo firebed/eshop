@@ -81,7 +81,10 @@ trait HasImages
 
     protected function resizeBaseImage($image): void
     {
-        //
+        $image->resize(800, null, function ($constraint) {
+            $constraint->aspectRatio();
+            $constraint->upsize();
+        });
     }
 
     private function saveToDisk($path, $image, $quality): void
