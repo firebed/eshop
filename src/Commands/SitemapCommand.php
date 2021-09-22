@@ -31,7 +31,7 @@ class SitemapCommand extends Command
         $this->report($elapsed, $generator->total_sitemaps, $generator->total_urls);
 
         if ($this->option('ping')) {
-            $response = Google::pingSitemap(URL::asset("sitemap.xml"));
+            $response = Google::pingSitemap(urlencode(URL::asset("sitemap.xml")));
             if ($response->ok()) {
                 $this->info("Ping to Google: Success!");
             } else {
