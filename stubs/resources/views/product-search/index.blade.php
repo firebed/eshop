@@ -7,7 +7,7 @@
     
     <meta name="description" content="Δες τα προϊόντα της αναζήτησης '{{ $search_term }}' για όλες της κατηγορίες στην καλύτερη τιμή!">
 
-    <script type="application/ld+json">{!! $webPage->handle($search_term . ' - Όλες οι κατηγορίες', "Δες τα προϊόντα της αναζήτησης '$search_term' για όλες της κατηγορίες στην καλύτερη τιμή!") !!}</script>
+    <script type="application/ld+json">{!! schema()->webPage($search_term . ' - Όλες οι κατηγορίες', "Δες τα προϊόντα της αναζήτησης '$search_term' για όλες της κατηγορίες στην καλύτερη τιμή!") !!}</script>
     
     <meta property="og:title" content="{{ $search_term }} - Όλες οι κατηγορίες">
     <meta property="og:site_name" content="{{ config('app.name') }}">

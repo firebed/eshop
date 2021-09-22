@@ -7,7 +7,7 @@
     
     <meta name="description" content="Δες όλες τις προσφορές των προϊόντων για όλες της κατηγορίες στην καλύτερη τιμή!">
 
-    <script type="application/ld+json">{!! $webPage->handle('Προσφορές - Όλες οι κατηγορίες', "Δες όλες τις προσφορές των προϊόντων για όλες της κατηγορίες στην καλύτερη τιμή!") !!}</script>
+    <script type="application/ld+json">{!! schema()->webPage('Προσφορές - Όλες οι κατηγορίες', "Δες όλες τις προσφορές των προϊόντων για όλες της κατηγορίες στην καλύτερη τιμή!") !!}</script>
 
     <meta property="og:title" content="Προσφορές - Όλες οι κατηγορίες">
     <meta property="og:site_name" content="{{ config('app.name') }}">
