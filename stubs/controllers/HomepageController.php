@@ -15,13 +15,13 @@ class HomepageController extends Controller
         $collections = Collection::findMany([1, 2]);
 
         $trending = $collections->first()
-            ->products()
+            ?->products()
             ->with('category.translation', 'image', 'translation')
             ->get()
             ->groupBy('category.name');
 
         $popular = $collections->skip(1)->first()
-            ->products()
+            ?->products()
             ->with('category.translation', 'image', 'translation')
             ->get();
 
