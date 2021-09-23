@@ -40,8 +40,6 @@ class CheckoutDetailsController extends Controller
             $provinces = $country->provinces()->where('shippable', true)->orderBy('name')->pluck('name');
         }
 
-        $calculator = $refreshOrder->shippingFeeCalculator;
-
         $products = $order->products;
         $products->load('parent', 'options');
         $products->merge($order->products->pluck('parent')->filter())->load('translation');
@@ -50,20 +48,17 @@ class CheckoutDetailsController extends Controller
         $userCountry = $location ? Country::code($location->countryCode)->first() : Country::default();
 
         return view('checkout.details.edit', [
-            'order'                 => $order,
-            'products'              => $products,
-            'userCountry'           => $userCountry,
-            'addresses'             => Auth::check() ? user()->addresses : collect(),
-            'countries'             => Country::visible()->orderBy('name')->get(),
-            'provinces'             => $provinces,
-            'shipping'              => $order->shippingAddress?->related_id !== null ? null : $order->shippingAddress,
-            'invoice'               => $order->invoice,
-            'selected_shipping_id'  => $order->shippingAddress?->related_id,
-            'invoicing'             => $order->document_type === DocumentType::INVOICE,
-            'has_shipping_methods'  => $has_shipping_methods,
-            'inaccessible_area_fee' => $calculator->getInaccessibleAreaFee(),
-            'excess_weight_fee'     => $calculator->getExcessWeightFee(),
-            'weight_limit'          => $calculator->getMethod()?->weight_limit ?: 0
+            'order'                => $order,
+            'products'             => $products,
+            'userCountry'          => $userCountry,
+            'addresses'            => Auth::check() ? user()->addresses : collect(),
+            'countries'            => Country::visible()->orderBy('name')->get(),
+            'provinces'            => $provinces,
+            'shipping'             => $order->shippingAddress?->related_id !== null ? null : $order->shippingAddress,
+            'invoice'              => $order->invoice,
+            'selected_shipping_id' => $order->shippingAddress?->related_id,
+            'invoicing'            => $order->document_type === DocumentType::INVOICE,
+            'has_shipping_methods' => $has_shipping_methods,
         ]);
     }
 
@@ -118,20 +113,15 @@ class CheckoutDetailsController extends Controller
             $has_shipping_methods = $country->filterShippingOptions($order->products_value)->isNotEmpty();
         }
 
-        $calculator = $refreshOrder->shippingFeeCalculator;
-
         $products = $order->products;
         $products->load('parent', 'options');
         $products->merge($order->products->pluck('parent')->filter())->load('translation');
 
         return response()->json(view('checkout.details.partials.checkout-details-summary', [
-            'order'                 => $order,
-            'products'              => $products,
-            'shipping'              => $order->shipping,
-            'has_shipping_methods'  => $has_shipping_methods,
-            'inaccessible_area_fee' => $calculator->getInaccessibleAreaFee(),
-            'excess_weight_fee'     => $calculator->getExcessWeightFee(),
-            'weight_limit'          => $calculator->getMethod()?->weight_limit ?: 0
+            'order'                => $order,
+            'products'             => $products,
+            'shipping'             => $order->shipping,
+            'has_shipping_methods' => $has_shipping_methods,
         ])->render());
     }
 
@@ -154,20 +144,15 @@ class CheckoutDetailsController extends Controller
                 ->pluck('name');
         }
 
-        $calculator = $refreshOrder->shippingFeeCalculator;
-
         $products = $order->products;
         $products->load('parent', 'options');
         $products->merge($order->products->pluck('parent')->filter())->load('translation');
 
         $summary = view('checkout.details.partials.checkout-details-summary', [
-            'order'                 => $order,
-            'products'              => $products,
-            'shipping'              => $order->shippingAddress,
-            'has_shipping_methods'  => $has_shipping_methods,
-            'inaccessible_area_fee' => $calculator->getInaccessibleAreaFee(),
-            'excess_weight_fee'     => $calculator->getExcessWeightFee(),
-            'weight_limit'          => $calculator->getMethod()?->weight_limit ?: 0
+            'order'                => $order,
+            'products'             => $products,
+            'shipping'             => $order->shippingAddress,
+            'has_shipping_methods' => $has_shipping_methods,
         ])->render();
 
         $provinces = view('checkout.details.partials.provinces', [

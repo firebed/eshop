@@ -7,19 +7,15 @@ use Eshop\Repository\Contracts\Order;
 
 class RefreshOrder
 {
-    public ShippingFeeCalculator       $shippingFeeCalculator;
-    private Order                      $order;
-    private FindShippingMethodForOrder $findShippingMethodForOrder;
-    private PaymentFeeCalculator       $paymentFeeCalculator;
-    private bool                       $totalHasChanged = false;
+    private Order $order;
+    private bool  $totalHasChanged = false;
+    private ShippingFeeCalculator $shippingFeeCalculator;
 
-    public function __construct(FindShippingMethodForOrder $findShippingMethodForOrder, ShippingFeeCalculator $shippingFeeCalculator, PaymentFeeCalculator $paymentFeeCalculator)
+    public function __construct(ShippingFeeCalculator $shippingFeeCalculator)
     {
-        $this->findShippingMethodForOrder = $findShippingMethodForOrder;
         $this->shippingFeeCalculator = $shippingFeeCalculator;
-        $this->paymentFeeCalculator = $paymentFeeCalculator;
     }
-
+    
     public function handle(Order $order): void
     {
         $this->order = $order;
@@ -48,16 +44,19 @@ class RefreshOrder
         if ($country === null || ($shippingOptions = $country->filterShippingOptions($this->order->products_value))->isEmpty()) {
             $this->order->shippingMethod()->disassociate();
             $this->order->shipping_fee = 0;
+            session()->put('countryShippingMethod');
             return;
         }
 
-        $option = $shippingOptions->firstWhere('id', $this->order->shipping_method_id);
+        $countryShippingMethod = session('countryShippingMethod');
+        $option = $shippingOptions->firstWhere('id', $countryShippingMethod);
         if ($option === null) {
             $option = $shippingOptions->first(); // Fallback
         }
-
-        $this->order->shippingMethod()->associate($option);
-        $this->order->shipping_fee = $option ? $this->shippingFeeCalculator->handle($option, $this->order->parcel_weight, $this->order->shippingAddress->postcode) : 0;
+        
+        session()->put('countryShippingMethod', $option->id);
+        $this->order->shippingMethod()->associate($option->shipping_method_id);
+        $this->order->shipping_fee = $this->shippingFeeCalculator->handle($option, $this->order->parcel_weight, $this->order->shippingAddress->postcode);
     }
 
     private function updatePayment(?Country $country): void
@@ -65,15 +64,18 @@ class RefreshOrder
         if ($country === null || ($paymentOptions = $country->filterPaymentOptions($this->order->products_value))->isEmpty()) {
             $this->order->paymentMethod()->disassociate();
             $this->order->payment_fee = 0;
+            session()->put('countryPaymentMethod');
             return;
         }
 
-        $option = $paymentOptions->firstWhere('id', $this->order->payment_method_id);
+        $countryPaymentMethod = session('countryPaymentMethod');
+        $option = $paymentOptions->firstWhere('id', $countryPaymentMethod);
         if ($option === null) {
             $option = $paymentOptions->first(); // Fallback
         }
 
-        $this->order->paymentMethod()->associate($option);
+        session()->put('countryPaymentMethod', $option->id);
+        $this->order->paymentMethod()->associate($option->payment_method_id);
         $this->order->payment_fee = $option->fee;
     }
 

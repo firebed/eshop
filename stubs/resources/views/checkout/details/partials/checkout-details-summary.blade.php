@@ -23,15 +23,6 @@
     </div>
 
     <hr class="text-secondary">
-{{--@dump($order->shippingAddress?->country)--}}
-{{--    @if($order->shippingAddress?->country && !$has_shipping_methods)--}}
-{{--        <div class="text-danger fw-500">--}}
-{{--            <em class="fas fa-exclamation-circle me-2"></em>--}}
-{{--            {{ __('Sorry, currently we do not ship to') }} {{ $order->shippingAddress->city_or_country ?? '' }}--}}
-{{--        </div>--}}
-
-{{--        <hr class="text-secondary">--}}
-{{--    @endif--}}
 
     <div class="d-flex align-items-center">
         <div>{{ __('Products value') }}</div>
@@ -42,26 +33,6 @@
         <div>{{ __('Shipping fee') }}</div>
         <div class="w-6r ms-auto text-end" id="products-value">{{ format_currency($order->shipping_fee) }}</div>
     </div>
-
-    @if($inaccessible_area_fee > 0 || $excess_weight_fee > 0)
-        <hr>
-        <div class="vstack gap-2 text-danger small fw-500">
-            @if ($inaccessible_area_fee > 0)
-                <div class="d-flex">
-                    <div><em class="fas fa-exclamation-circle me-2"></em></div>
-                    <div>{{ __("eshop::order.inaccessible_area_fee", ['fee' => format_currency($inaccessible_area_fee)]) }}</div>
-                </div>
-            @endif
-
-            @if ($excess_weight_fee > 0)
-                <div class="d-flex">
-                    <div><em class="fas fa-exclamation-circle me-2"></em></div>
-                    <div>{{ __("eshop::order.excess_weight_fee", ['fee' => format_currency($excess_weight_fee), 'weight' => format_weight($weight_limit)]) }}</div>
-                </div>
-            @endif
-        </div>
-        <hr>
-    @endif
 
     <div class="d-flex align-items-center">
         <div>{{ __('eshop::payment.' . ($order->paymentMethod->name ?? 'payment')) }}</div>

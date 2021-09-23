@@ -1,6 +1,6 @@
 <div>
     @foreach($product->variantTypes as $type)
-        <div class="fw-500 mb-1">{{ __("Select") }} {{ __($type->name) }}</div>
+        <div class="fw-500 mb-2">{{ __("Select") }} {{ __($type->name) }}</div>
 
         <div class="row row-cols-2 row-cols-sm-3 row-cols-xl-4 g-2 mb-3">
             @isset($uniqueOptions[$type->id])

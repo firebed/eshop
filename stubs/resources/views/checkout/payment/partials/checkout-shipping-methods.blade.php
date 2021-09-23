@@ -5,7 +5,7 @@
         <x-bs::card.body class="p-4 {{ !$loop->last ? 'border-bottom' : '' }}">
             <x-bs::input.radio
                     :value="$option->id"
-                    :checked="$order->shipping_method_id == $option->id"
+                    :checked="$country_shipping_method_id == $option->id"
                     name="country_shipping_method_id"
                     error="country_shipping_method_id"
                     id="method-{{ $option->id }}"
@@ -26,12 +26,11 @@
 
             @if($option->description || ($option->area?->shipping_method_id === $option->shipping_method_id && $option->area?->type !== null))
                 <div x-init="new bootstrap.Collapse($el, {toggle: false})" @class(['ms-4', 'collapse', 'show' => old('shipping_method_id', $order->shipping_method_id) === $option->id])>
-                    <div class="vstack gap-3 pt-3">
+                    <div class="vstack gap-3 pt-3 text-secondary">
                         @if($option->area?->type === 'ΔΠ' && $option->inaccessible_area_fee === .0)
                             <div class="vstack">
                                 <div>Η διεύθυνση σας ανήκει σε δυσπρόσιτη περιοχή και θα παραλάβετε το δέμα σας στην μεταφορική της περιοχής σας.</div>
                                 @if($option->area)
-                                    <hr>
                                     @if($option->area->courier_address)
                                         <div>Διεύθυνση: {{ $option->area->courier_address }}</div>
                                     @endif

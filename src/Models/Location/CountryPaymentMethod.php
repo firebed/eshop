@@ -21,7 +21,7 @@ class CountryPaymentMethod extends Pivot
 {
     use HasFactory, HasTranslations;
 
-    public $incrementing = TRUE;
+    public $incrementing = true;
 
     protected array $translatable = ['description'];
 
@@ -45,41 +45,5 @@ class CountryPaymentMethod extends Pivot
     public function paymentMethod(): BelongsTo
     {
         return $this->belongsTo(PaymentMethod::class);
-    }
-
-    public function isPayPal(): bool
-    {
-        $this->loadMissing('paymentMethod');
-        return $this->paymentMethod->isPayPal();
-    }
-
-    public function isCreditCard(): bool
-    {
-        $this->loadMissing('paymentMethod');
-        return $this->paymentMethod->isCreditCard();
-    }
-
-    public function isWireTransfer(): bool
-    {
-        $this->loadMissing('paymentMethod');
-        return $this->paymentMethod->isWireTransfer();
-    }
-
-    public function isPayOnDelivery(): bool
-    {
-        $this->loadMissing('paymentMethod');
-        return $this->paymentMethod->isPayOnDelivery();
-    }
-
-    public function isPaymentInStore(): bool
-    {
-        $this->loadMissing('paymentMethod');
-        return $this->paymentMethod->isPaymentInStore();
-    }
-
-    public function getNameAttribute(): string
-    {
-        $this->loadMissing('paymentMethod');
-        return $this->paymentMethod->name;
     }
 }

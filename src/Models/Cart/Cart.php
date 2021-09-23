@@ -7,8 +7,6 @@ use Eshop\Database\Factories\Cart\CartFactory;
 use Eshop\Models\Cart\Concerns\ImplementsOrder;
 use Eshop\Models\Invoice\Invoice;
 use Eshop\Models\Location\Address;
-use Eshop\Models\Location\CountryPaymentMethod;
-use Eshop\Models\Location\CountryShippingMethod;
 use Eshop\Models\Location\PaymentMethod;
 use Eshop\Models\Location\ShippingMethod;
 use Eshop\Models\Product\Product;
@@ -60,8 +58,6 @@ use Illuminate\Support\Collection;
  * @property int            items_count
  * @property int            sum_quantity
  * @property int            products_value
- * @property Collection     shippingMethods
- * @property Collection     paymentMethods
  *
  * @method Builder submitted()
  * @method Builder abandoned()
@@ -96,12 +92,12 @@ class Cart extends Model implements Order
 
     public function shippingMethod(): BelongsTo
     {
-        return $this->belongsTo(CountryShippingMethod::class, 'shipping_method_id');
+        return $this->belongsTo(ShippingMethod::class);
     }
 
     public function paymentMethod(): BelongsTo
     {
-        return $this->belongsTo(CountryPaymentMethod::class, 'payment_method_id');
+        return $this->belongsTo(PaymentMethod::class);
     }
 
     public function status(): BelongsTo

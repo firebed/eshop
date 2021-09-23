@@ -69,8 +69,8 @@
                             @include('product.partials.product-category')
                             @includeWhen(isset($product->manufacturer), 'product.partials.product-manufacturer')
                         </div>
-                        
-                        @includeWhen($product->description !== null, 'product.partials.product-description')
+
+                        @includeWhen($description = $product->description, 'product.partials.product-description', ['description' => $description])
 
                         <div class="d-grid gap-2">
                             @if($product->has_variants)

@@ -3,31 +3,26 @@
 namespace Eshop\Actions\Order;
 
 use Eshop\Models\Location\Country;
-use Eshop\Models\Location\CountryPaymentMethod;
 
 class PaymentFeeCalculator
 {
-    public function handle(Country $country, float $productsTotal, $preferredShippingMethodId = NULL): null|array
+    public function handle(Country $country, float $productsTotal, $preferredCountryPaymentMethodId = null): null|array
     {
-        $paymentMethods = $country->filterPaymentOptions($productsTotal);
-        $this->method = NULL;
-
-        if ($paymentMethods->isEmpty()) {
-            return NULL;
+        $paymentOptions = $country->filterPaymentOptions($productsTotal);
+        if ($paymentOptions->isEmpty()) {
+            return null;
         }
 
-        if ($preferredShippingMethodId !== NULL) {
-            $this->method = $paymentMethods->firstWhere('payment_method_id', $preferredShippingMethodId);
+        $method = null;
+
+        if ($preferredCountryPaymentMethodId !== null) {
+            $method = $paymentOptions->firstWhere('id', $preferredCountryPaymentMethodId);
         }
 
-        if ($this->method === NULL) {
-            $this->method = $paymentMethods->first();
+        if ($method === null) {
+            $method = $paymentOptions->first();
         }
 
-        if ($this->method === NULL) {
-            return NULL;
-        }
-
-        return [$this->method, $this->method->fee];
+        return [$method, $method->fee];
     }
 }

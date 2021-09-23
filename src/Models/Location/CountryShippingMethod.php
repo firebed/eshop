@@ -48,12 +48,6 @@ class CountryShippingMethod extends Pivot
         return CountryShippingMethodFactory::new();
     }
 
-    public function getNameAttribute(): string
-    {
-        $this->loadMissing('shippingMethod');
-        return $this->shippingMethod->name;
-    }
-
     public function country(): BelongsTo
     {
         return $this->belongsTo(Country::class);

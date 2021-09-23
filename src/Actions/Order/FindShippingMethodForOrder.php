@@ -7,18 +7,19 @@ use Eshop\Models\Location\CountryShippingMethod;
 
 class FindShippingMethodForOrder
 {
-    public function handle(Country $country, float $productsValue, $preferredCountryShippingMethodId = NULL): CountryShippingMethod|null
+    public function handle(Country $country, float $productsValue, $preferredCountryShippingMethodId = null): CountryShippingMethod|null
     {
         $shippingOptions = $country->filterShippingOptions($productsValue);
         if ($shippingOptions->isEmpty()) {
-            return NULL;
+            return null;
         }
 
-        $preferredShippingMethod = $shippingOptions->firstWhere('id', $preferredCountryShippingMethodId);
-        if ($preferredShippingMethod) {
-            return $preferredShippingMethod;
+        $method = null;
+
+        if ($preferredCountryShippingMethodId) {
+            $method = $shippingOptions->firstWhere('id', $preferredCountryShippingMethodId);
         }
 
-        return $shippingOptions->first();
+        return $method ?? $shippingOptions->first();
     }
 }

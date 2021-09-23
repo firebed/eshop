@@ -11,6 +11,7 @@ use Eshop\Repository\Contracts\Order;
 use Firebed\Components\Livewire\Traits\SendsNotifications;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 
 /**
@@ -71,7 +72,7 @@ class ProductVariantsButtons extends Component
             return;
         }
 
-        $this->addProduct($order, $product, $this->quantity);
+        DB::transaction(fn() => $this->addProduct($order, $product, $this->quantity));
 
         $toast = view('product.partials.product-toast', compact('product'))->render();
         $this->showSuccessToast($product->trademark, $toast);
