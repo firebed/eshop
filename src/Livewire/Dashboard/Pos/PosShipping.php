@@ -5,7 +5,6 @@ namespace Eshop\Livewire\Dashboard\Pos;
 use Eshop\Actions\Order\FindShippingMethodForOrder;
 use Eshop\Actions\Order\ShippingFeeCalculator;
 use Eshop\Models\Location\Country;
-use Eshop\Models\Location\CountryShippingMethod;
 use Eshop\Models\Location\ShippingMethod;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Support\Collection;
@@ -76,16 +75,20 @@ class PosShipping extends Component
         return null;
     }
 
-    public function getShippingMethodsProperty(ShippingFeeCalculator $calculator): Collection
+    public function getShippingOptionsProperty(ShippingFeeCalculator $calculator): Collection
     {
         if (isset($this->shipping['country_id']) && $this->shipping['country_id']) {
             $country = $this->country;
             $options = $country->filterShippingOptions($this->products_value);
             foreach ($options as $option) {
                 $option->total_fee = $calculator->handle($option, $this->weight, $this->shipping['postcode'] ?? null);
+                $area = $option->shippingMethod->inaccessibleAreas()->firstWhere('postcode', $this->shipping['postcode'] ?? null);
+                if ($area?->type !== null) {
+                    $option->setRelation('area', $area);
+                }
             }
 
-            return $options;
+            return $options->reject(fn($method) => $method->area === null && $method->inaccessible_area_fee > 0);
         }
 
         return collect();
@@ -127,7 +130,7 @@ class PosShipping extends Component
         return view('eshop::dashboard.pos.wire.pos-shipping', [
             'countries'       => $this->countries,
             'provinces'       => $this->provinces,
-            'shippingMethods' => $this->shippingMethods,
+            'shippingOptions' => $this->shippingOptions,
         ]);
     }
 

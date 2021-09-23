@@ -76,13 +76,20 @@
                 </x-bs::input.floating-label>
             </div>
 
+            <div class="text-center py-3">
+                <button wire:click.prevent="calculateShipping" wire:loading.attr="disabled" class="btn btn-warning">
+                    <em wire:loading wire:target="calculateShipping" class="fas fa-spinner fa-spin me-2"></em>
+                    Υπολογισμός μεταφορικών
+                </button>
+            </div>
+
             <div class="fw-500 mt-3">Μέθοδος αποστολής</div>
 
             <x-bs::input.floating-label for="shipping-method" label="{{ __('Shipping method') }}" class="col-8">
                 <x-bs::input.select wire:model.defer="method" name="shipping_method_id" error="shipping_method" id="shipping-method">
                     <option value="">{{ __('Select shipping method') }}</option>
-                    @foreach($shippingMethods as $method)
-                        <option value="{{ $method->id }}">{{ __('eshop::shipping.' . $method->name) }} ({{ format_currency($method->total_fee) }})</option>
+                    @foreach($shippingOptions as $option)
+                        <option value="{{ $option->shipping_method_id }}">{{ __('eshop::shipping.' . $option->shippingMethod->name) }} ({{ format_currency($option->total_fee) }})</option>
                     @endforeach
                 </x-bs::input.select>
             </x-bs::input.floating-label>
@@ -91,15 +98,6 @@
                 <x-bs::input.money wire:model.lazy="fee" x-effect="fee = value" error="shipping_fee" id="shipping-fee" placeholder="{{ __('Shipping fee') }}"/>
                 <input type="hidden" x-model="fee" name="shipping_fee"/>
             </x-bs::input.floating-label>
-
-            <div class="text-center py-3">
-                <button wire:click.prevent="calculateShipping" wire:loading.attr="disabled" class="btn btn-warning">
-                    <em wire:loading wire:target="calculateShipping" class="fas fa-spinner fa-spin me-2"></em>
-                    Υπολογισμός μεταφορικών
-                </button>
-            </div>
-
-            <hr>
 
             <div class="fw-500">Ανάλυση μεταφορικών</div>
 
