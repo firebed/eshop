@@ -4,6 +4,7 @@ namespace Eshop\Livewire\Dashboard\Pos;
 
 use Carbon\Carbon;
 use Eshop\Models\Product\Product;
+use Firebed\Components\Livewire\Traits\SendsNotifications;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Support\Collection;
 use Livewire\Component;
@@ -13,6 +14,8 @@ use Livewire\Component;
  */
 class PosProducts extends Component
 {
+    use SendsNotifications;
+    
     public ?Carbon $submitted_at = null;
     public int     $cart_id;
     public array   $items        = [];
@@ -55,6 +58,8 @@ class PosProducts extends Component
         }
 
         $this->updateTotal();
+        
+        $this->showSuccessToast('Προστέθηκε!', delay: 500);
     }
 
     public function updateProduct(int $productId, int $quantity, float $price, float $discount): void
