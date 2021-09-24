@@ -4,7 +4,7 @@ use App\Http\Controllers\Account\PasswordController;
 use App\Http\Controllers\Account\ProfileController;
 use App\Http\Controllers\Account\UserAddressController;
 use App\Http\Controllers\Account\UserCompanyController;
-use App\Http\Controllers\Account\UserOrdersController;
+use App\Http\Controllers\Account\UserOrderController;
 use App\Http\Controllers\Category\CategoryController;
 use App\Http\Controllers\Checkout\CheckoutCompletedController;
 use App\Http\Controllers\Checkout\CheckoutDetailsController;
@@ -62,7 +62,7 @@ Route::group([
             Route::get('password', [PasswordController::class, 'edit'])->name('password.edit');
             Route::put('password', [PasswordController::class, 'update'])->name('password.update');
 
-            Route::resource('orders', UserOrdersController::class)->only('index', 'show');
+            Route::resource('orders', UserOrderController::class)->only('index', 'show');
 
             Route::resource('addresses', UserAddressController::class)->except('show');
 

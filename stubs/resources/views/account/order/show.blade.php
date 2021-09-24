@@ -94,7 +94,7 @@
                                             </div>
                                         </td>
 
-                                        <td>{{ $product->name }}</td>
+                                        <td>{{ $product->trademark }}</td>
                                         <td class="text-end">{{ format_number($product->pivot->quantity) }} x</td>
                                         <td class="text-end">{{ format_currency($product->pivot->netValue) }}</td>
                                     </tr>

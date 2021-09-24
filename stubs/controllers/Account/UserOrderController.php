@@ -7,7 +7,7 @@ use Eshop\Models\Cart\Cart;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\RedirectResponse;
 
-class UserOrdersController extends Controller
+class UserOrderController extends Controller
 {
     public function index(): Renderable
     {
@@ -15,7 +15,7 @@ class UserOrdersController extends Controller
             ->user()
             ->carts()
             ->submitted()
-            ->with('status', 'paymentMethod', 'shippingMethod')
+            ->with('status', 'paymentMethod', 'shippingMethod', 'shippingAddress')
             ->latest('submitted_at')
             ->paginate();
 

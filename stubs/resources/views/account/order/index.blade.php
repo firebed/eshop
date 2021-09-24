@@ -11,7 +11,8 @@
                 <x-bs::table hover>
                     <thead>
                     <tr>
-                        <td>{{ __("ID") }}</td>
+                        <td>#</td>
+                        <td>{{ __("Receiver") }}</td>
                         <td>{{ __("Status") }}</td>
                         <td>{{ __("Payment") }}</td>
                         <td>{{ __("Shipping") }}</td>
@@ -25,11 +26,14 @@
                     @forelse($orders as $order)
                         <tr>
                             <td class="align-middle">{{ $order->id }}</td>
-                            <td class="align-middle">{{ __('eshop::account.order.' . $order->status->name) }}</td>
+                            <td class="align-middle">{{ $order->shippingAddress?->to }}</td>
+                            <td class="align-middle fw-500">
+                                {{ __('eshop::account.order.' . $order->status->name) }}
+                            </td>
                             <td class="align-middle">{{ __('eshop::payment.' . $order->paymentMethod->name) ?? "" }}</td>
-                            <td class="align-middle">{{ $order->shippingMethod->name ?? "" }}</td>
+                            <td class="align-middle">{{ $order->shippingMethod?->name }}</td>
                             <td class="align-middle">{{ format_currency($order->total) }}</td>
-                            <td class="align-middle">{{ $order->submitted_at->isoFormat('lll') }}</td>
+                            <td class="align-middle">{{ $order->submitted_at?->isoFormat('ll HH:mm') }}</td>
                             <td class="text-end"><a href="{{ route('account.orders.show', [app()->getLocale(), $order]) }}" class="btn btn-sm btn-primary">{{ __("eshop::account.order.details") }}</a></td>
                         </tr>
                     @empty
@@ -37,7 +41,7 @@
                     </tbody>
 
                     <caption>
-                        <x-eshop::wire-pagination :paginator="$orders"/>
+                        <x-eshop::pagination :paginator="$orders"/>
                     </caption>
                 </x-bs::table>
             </div>

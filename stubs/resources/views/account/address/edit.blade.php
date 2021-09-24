@@ -13,7 +13,7 @@
 
             <div class="row row-cols-1 row-cols-md-2 g-4">
                 <div class="col">
-                    <form method="post" action="{{ route('account.addresses.update', [app()->getLocale(), $address]) }}" @if(session('success')) x-data x-init="$dispatch('toast-notification', {type: 'success', title: '{{ session('success') }}', content: '', autohide: true})" @endif>
+                    <form x-data="{ submitting: false }" x-on:submit="submitting = true" method="post" action="{{ route('account.addresses.update', [app()->getLocale(), $address]) }}" @if(session('success')) x-data x-init="$dispatch('toast-notification', {type: 'success', title: '{{ session('success') }}', content: '', autohide: true})" @endif>
                         @csrf
                         @method('put')
 
@@ -54,24 +54,10 @@
                                 </div>
                             </div>
 
-                            <div class="row">
-                                <div class="col">
-                                    <x-bs::input.floating-label for="country" label="{{ __('Country') }}">
-                                        <x-bs::input.select name="country_id" error="country_id" id="country">
-                                            <option disabled selected>{{ __("Country") }}</option>
-                                            @foreach($countries as $country)
-                                                <option value="{{ $country->id }}" @if(old('country_id', $address->country_id) == $country->id) selected @endif>{{ $country->name }}</option>
-                                            @endforeach
-                                        </x-bs::input.select>
-                                    </x-bs::input.floating-label>
-                                </div>
-
-                                <div class="col">
-                                    <x-bs::input.floating-label for="province" label="{{ __('Province') }}">
-                                        <x-bs::input.text name="province" :value="old('province', $address->province)" error="province" id="province" placeholder="{{ __('Province') }}"/>
-                                    </x-bs::input.floating-label>
-                                </div>
-                            </div>
+                            @livewire('account.user-address-country', [
+                                'country_id' => old('country_id', $address->country_id),
+                                'province' => old('province', $address->province)
+                            ])
 
                             <x-bs::input.floating-label for="floor" label="{{ __('Floor') }}">
                                 <x-bs::input.text name="floor" :value="old('floor', $address->floor)" error="floor" id="floor" placeholder="{{ __('Floor') }}"/>
@@ -81,7 +67,12 @@
                                 <x-bs::input.text name="phone" :value="old('phone', $address->phone)" error="phone" id="phone" placeholder="{{ __('phone') }}"/>
                             </x-bs::input.floating-label>
 
-                            <x-bs::button.primary type="submit">{{ __("Save") }}</x-bs::button.primary>
+                            <x-bs::button.primary x-bind:disabled="submitting" type="submit">
+                                <div x-cloak x-show="submitting" class="spinner-border spinner-border-sm" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                                {{ __("Save") }}
+                            </x-bs::button.primary>
                         </div>
                     </form>
                 </div>

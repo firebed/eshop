@@ -18,7 +18,7 @@
         <div class="container">
             <h1 class="fs-4 fw-normal mb-4">{{ __("Edit profile") }}</h1>
 
-            <form method="post" action="{{ route('account.profile.update', app()->getLocale()) }}">
+            <form x-data="{submitting: false }" x-on:submit="submitting = true" method="post" action="{{ route('account.profile.update', app()->getLocale()) }}">
                 @method('PUT')
                 @csrf
 
@@ -64,7 +64,12 @@
                     </div>
                 </div>
 
-                <x-bs::button.primary type="submit">{{ __("Save") }}</x-bs::button.primary>
+                <x-bs::button.primary x-bind:disabled="submitting" type="submit">
+                    <div x-cloak x-show="submitting" class="spinner-border spinner-border-sm" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                    {{ __("Save") }}
+                </x-bs::button.primary>
             </form>
         </div>
     </div>
