@@ -80,31 +80,31 @@
     <title>{{ __('Order') }} {{ $cart->id }}</title>
 </head>
 <body>
-@include('eshop::dashboard.cart.printer.partials.company')
+@include('order-printer.partials.company')
 
 <div class="mt-3">
     <table>
         <tr>
             <td>
-                @include('eshop::dashboard.cart.printer.partials.order-details')
+                @include('order-printer.partials.order-details')
             </td>
             <td>
-                @include('eshop::dashboard.cart.printer.partials.shipping')
+                @include('order-printer.partials.shipping')
             </td>
         </tr>
     </table>
 </div>
 
-@includeWhen($cart->paymentMethod && $cart->paymentMethod->show_total_on_order_form, 'eshop::dashboard.cart.printer.partials.pay-on-delivery')
+@includeWhen($cart->paymentMethod && $cart->paymentMethod->show_total_on_order_form, 'order-printer.partials.pay-on-delivery')
 
 <hr class="mt-3">
 
 <div style="page-break-inside: avoid">
-    @include('eshop::dashboard.cart.printer.partials.products')
+    @include('order-printer.partials.products')
 </div>
 
 <div style="page-break-inside: avoid">
-    @include('eshop::dashboard.cart.printer.partials.totals')
+    @include('order-printer.partials.totals')
 </div>
 
 <h2 class="fw-normal text-secondary text-center mt-3">{{ __("Thank you for your order.") }}</h2>
