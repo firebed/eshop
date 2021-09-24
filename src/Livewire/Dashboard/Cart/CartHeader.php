@@ -33,10 +33,10 @@ class CartHeader extends Component
     {
         return response()->streamDownload(function () {
             $pdf = new Dompdf(['enable_remote' => true]);
-            $pdf->loadHtml(view('eshop::dashboard.cart.printer.print', ['cart' => $this->cart]));
+            $pdf->loadHtml(view('order-printer.print', ['cart' => $this->cart]));
 
             $pdf->render();
-            $this->showSuccessToast('Download successful!');
+            $this->showSuccessToast('Εκτύπωση επιτυχής!');
             echo $pdf->output();
         }, 'order-' . $this->cart->id . '.pdf');
     }
