@@ -1,4 +1,4 @@
-<x-bs::sidebar company="{{ config('app.name') }}">
+<x-eshop::sidebar company="{{ config('app.name') }}">
 {{--    <a href="#" @if(request()->routeIs('dashboard')) class="bg-gray-700" @endif><i class="fas fa-tachometer-alt w-2r me-2"></i> {{ __("Dashboard") }}</a>--}}
 {{--    <hr class="my-2">--}}
     @can('View products')
@@ -72,4 +72,4 @@
     @can('Edit configuration')
         <a href="{{ route('config.index') }}" @if(request()->routeIs('config')) class="bg-gray-700" @endif><i class="fa fa-cogs w-2r me-2"></i>{{ __("Configuration") }}</a>
     @endcan
-</x-bs::sidebar>
+</x-eshop::sidebar>

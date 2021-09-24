@@ -22,7 +22,7 @@
             </x-bs::dropdown>
         </td>
 
-        <td class="w-3r">{{ __('ID') }}</td>
+        <td class="w-3r">#</td>
         <td class="w-3r">&nbsp;</td>
         <td class="w-7r">{{ __("Status") }}</td>
         <td>{{ __("Customer") }}</td>
@@ -53,7 +53,7 @@
                 @endif
             </td>
             <td class="align-middle">
-                <a href="{{ route('carts.show', $cart) }}" class="d-block text-decoration-none text-dark">
+                <a href="{{ route('carts.show', $cart) }}" class="d-block text-decoration-none text-dark text-nowrap">
                     <em class="fa fa-user w-1r @if($cart->user_id) text-secondary @else text-light @endif"></em>
                     <span>{{ $cart->shippingAddress->to ?? '' }}</span>
                 </a>

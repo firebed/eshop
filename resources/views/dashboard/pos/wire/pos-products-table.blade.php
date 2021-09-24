@@ -1,26 +1,28 @@
-<div class="vstack h-100">
-    <div class="vstack mb-3">
+<div class="col-12 col-lg-5 col-xxl-4 bg-white d-none d-lg-flex flex-column shadow border-start" style="height: calc(100vh - 3.5rem)">
+    <div class="d-grid">
         <div class="fw-500 fs-3">@isset($cart_id) Παραγγελία #{{ $cart_id }} @else Νέα παραγγελία @endisset</div>
-        <div class="text-secondary small d-flex justify-content-between">
-            <span>@if ($submitted_at) {{ $submitted_at->isoFormat('dddd, LL HH:mm') }} @else &nbsp; @endif</span>
-            <span><em class="fas fa-weight-hanging me-2"></em>{{ format_weight($weight) }}</span>
-        </div>
-    </div>
 
-    <div class="row gx-3 mb-3">
-        <div class="col-7">
-            @livewire('dashboard.pos.products-search')
+        <div class="d-flex justify-content-between mb-3 small gap-3 text-secondary">
+            @if ($submitted_at)
+                <div>{{ $submitted_at->isoFormat('ll HH:mm') }}</div> @endif
+            <div><em class="fas fa-weight-hanging me-2"></em>{{ format_weight($weight) }}</div>
         </div>
 
-        <div class="col">
-            <div class="input-group">
-                <input wire:model.defer="barcode" wire:keydown.enter="searchBarcode" type="text" class="form-control" placeholder="Barcode" aria-label="Barcode">
-                <button wire:click.prevent="searchBarcode" class="btn btn-outline-secondary" type="button"><em class="fas fa-barcode"></em></button>
+        <div class="row gx-3 mb-3">
+            <div class="col-7">
+                @livewire('dashboard.pos.products-search')
+            </div>
+
+            <div class="col">
+                <div class="input-group">
+                    <input wire:model.defer="barcode" wire:keydown.enter="searchBarcode" type="text" class="form-control" placeholder="Barcode" aria-label="Barcode">
+                    <button wire:click.prevent="searchBarcode" class="btn btn-outline-secondary" type="button"><em class="fas fa-barcode"></em></button>
+                </div>
             </div>
         </div>
     </div>
 
-    <div class="table-responsive" style="height: calc(100vh - 21.45rem)">
+    <div class="flex-grow-1 scrollbar overflow-auto">
         <table class="table table-striped small mb-0">
             <thead>
             <tr class="fw-500 table-light">
@@ -74,7 +76,7 @@
                     </td>
 
                     <td>
-                        <div class="hstack justify-content-end gap-2">
+                        <div class="vstack justify-content-end gap-2">
                             <button x-data x-on:click="
                                 document.getElementById('product-id').value = {{ $id }}
                                 document.getElementById('product-image').src = '{{ $src }}'
@@ -97,23 +99,21 @@
         </table>
     </div>
 
-    <hr>
-
-    <div class="v-stack gap-1">
-        <div class="d-flex justify-content-between fs-4 fw-bold mb-2">
+    <div class="v-stack gap-1 border-top p-2">
+        <div class="d-flex justify-content-between fs-4 fw-bold">
             <div>Σύνολο</div>
             <div>{{ format_currency($total) }}</div>
         </div>
 
-        <div class="d-flex justify-content-between text-secondary">
-            <div>Μεταφορικά</div>
-            <div>{{ format_currency($shipping_fee) }}</div>
-        </div>
+        {{--        <div class="d-flex justify-content-between text-secondary">--}}
+        {{--            <div>Μεταφορικά</div>--}}
+        {{--            <div>{{ format_currency($shipping_fee) }}</div>--}}
+        {{--        </div>--}}
 
-        <div class="d-flex justify-content-between text-secondary">
-            <div>Πληρωμή</div>
-            <div>{{ format_currency($payment_fee) }}</div>
-        </div>
+        {{--        <div class="d-flex justify-content-between text-secondary">--}}
+        {{--            <div>Πληρωμή</div>--}}
+        {{--            <div>{{ format_currency($payment_fee) }}</div>--}}
+        {{--        </div>--}}
     </div>
 
     @include('eshop::dashboard.pos.partials.pos-product-form')

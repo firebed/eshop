@@ -5,6 +5,7 @@ namespace Eshop\Livewire\Dashboard\Pos;
 use Eshop\Actions\Order\FindShippingMethodForOrder;
 use Eshop\Actions\Order\ShippingFeeCalculator;
 use Eshop\Models\Location\Country;
+use Eshop\Models\Location\CountryShippingMethod;
 use Eshop\Models\Location\ShippingMethod;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Support\Collection;
@@ -25,10 +26,6 @@ class PosShipping extends Component
     public float  $weight         = 0;
     public float  $products_value = 0;
 
-    public float $base_fee              = 0;
-    public float $inaccessible_area_fee = 0;
-    public float $excess_weight_fee     = 0;
-
     protected $listeners = ['updateTotals'];
 
     public function updateTotals($weight, $products_value): void
@@ -47,6 +44,12 @@ class PosShipping extends Component
         if ($key === 'country_id') {
             $this->emit('updateCountry', $val);
         }
+    }
+
+    public function updatedMethod(): void
+    {
+        $calculator = new ShippingFeeCalculator();
+        $this->fee = $calculator->handle(CountryShippingMethod::find($this->method), $this->weight, $this->shipping['postcode'] ?? null);
     }
 
     public function getProvincesProperty(): Collection
@@ -104,33 +107,31 @@ class PosShipping extends Component
         $this->validate([
             'shipping.country_id' => ['required', 'integer'],
         ]);
-
-        $csm = $finder->handle($this->country, $this->products_value, $this->method);
-        if ($csm) {
-            $this->fee = $calculator->handle($csm, $this->weight, $this->shipping['postcode'] ?? null);
-            $this->base_fee = $calculator->getBaseFee();
-            $this->inaccessible_area_fee = $calculator->getInaccessibleAreaFee();
-            $this->excess_weight_fee = $calculator->getExcessWeightFee();
-
-            if (blank($this->method)) {
-                $this->method = $csm->shipping_method_id;
-            }
-        } else {
-            $this->fee = 0;
-            $this->base_fee = 0;
-            $this->inaccessible_area_fee = 0;
-            $this->excess_weight_fee = 0;
-        }
-
-        $this->updatedFee();
+        
+        $this->method = $this->shippingOptions->first()?->id;
     }
 
-    public function render(): Renderable
+    public function render(ShippingFeeCalculator $calculator): Renderable
     {
+        $base_fee = 0;
+        $excess_weight_fee = 0;
+        $inaccessible_area_fee = 0;
+        if ($this->method) {
+            $method = CountryShippingMethod::find($this->method);
+            $calculator->handle($method, $this->weight, $this->shipping['postcode'] ?? null);
+            $base_fee = $calculator->getBaseFee();
+            $inaccessible_area_fee = $calculator->getInaccessibleAreaFee();
+            $excess_weight_fee = $calculator->getExcessWeightFee();
+        }
+        
         return view('eshop::dashboard.pos.wire.pos-shipping', [
-            'countries'       => $this->countries,
-            'provinces'       => $this->provinces,
-            'shippingOptions' => $this->shippingOptions,
+            'countries'             => $this->countries,
+            'provinces'             => $this->provinces,
+            'shippingOptions'       => $this->shippingOptions,
+            'selectedOption'        => $this->shippingOptions->firstWhere('id', $this->method),
+            'base_fee'              => $base_fee,
+            'excess_weight_fee'     => $excess_weight_fee,
+            'inaccessible_area_fee' => $inaccessible_area_fee
         ]);
     }
 

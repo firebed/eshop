@@ -32,7 +32,7 @@ class SubmitOrder
         }
 
         DB::afterCommit(function () use ($cart) {
-            session()->forget('cart-session-id');
+            session()->forget(['cart-session-id', 'countryShippingMethod', 'countryPaymentMethod']);
             cookie()->queue(cookie()->forget('cart-cookie-id'));
 
             event(new CartStatusChanged($cart, $cart->status));

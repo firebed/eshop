@@ -9,10 +9,10 @@
             <div>Υπολογισμός τελών διακίνησης για: <strong>{{ $country->name ?? '' }}</strong></div>
 
             <x-bs::input.floating-label for="payment-method" label="{{ __('Payment method') }}">
-                <x-bs::input.select wire:model.defer="method" name="payment_method_id" error="method" id="payment-method">
+                <x-bs::input.select wire:model="method" name="country_payment_method_id" error="method" id="payment-method">
                     <option value="">{{ __('Select payment method') }}</option>
-                    @foreach($paymentMethods as $method)
-                        <option value="{{ $method->id }}">{{ __('eshop::payment.' . $method->name) }}</option>
+                    @foreach($paymentOptions as $option)
+                        <option value="{{ $option->id }}">{{ __('eshop::payment.' . $option->paymentMethod->name) }}</option>
                     @endforeach
                 </x-bs::input.select>
             </x-bs::input.floating-label>

@@ -4,11 +4,12 @@ namespace Eshop\Controllers\Dashboard\Pos;
 
 use Eshop\Controllers\Controller;
 use Eshop\Controllers\Dashboard\Traits\WithNotifications;
-use Eshop\Livewire\Dashboard\Cart\ShippingAddress;
 use Eshop\Models\Cart\Cart;
 use Eshop\Models\Cart\CartStatus;
 use Eshop\Models\Invoice\Invoice;
 use Eshop\Models\Location\Address;
+use Eshop\Models\Location\CountryPaymentMethod;
+use Eshop\Models\Location\CountryShippingMethod;
 use Eshop\Models\Product\Product;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -57,10 +58,13 @@ class PosController extends Controller
 
             $hasInvoice = !empty(array_filter($request->input('invoice')));
 
+            $countryPaymentMethod = CountryPaymentMethod::find($request->input('country_payment_method_id'));
+            $countShippingMethod = CountryShippingMethod::find($request->input('country_shipping_method_id'));
+
             $cart->document_type = $hasInvoice ? 'Invoice' : 'Receipt';
             $cart->email = $request->input('email');
-            $cart->shipping_method_id = $request->input('country_shipping_method_id');
-            $cart->payment_method_id = $request->input('country_payment_method_id');
+            $cart->shipping_method_id = $countShippingMethod?->id;
+            $cart->payment_method_id = $countryPaymentMethod?->id;
             $cart->shipping_fee = $request->input('shipping_fee');
             $cart->payment_fee = $request->input('payment_fee');
             $cart->submitted_at = now();
@@ -151,10 +155,13 @@ class PosController extends Controller
 
             $hasInvoice = !empty(array_filter($request->input('invoice')));
 
+            $countryPaymentMethod = CountryPaymentMethod::find($request->input('country_payment_method_id'));
+            $countShippingMethod = CountryShippingMethod::find($request->input('country_shipping_method_id'));
+            
             $cart->document_type = $hasInvoice ? 'Invoice' : 'Receipt';
             $cart->email = $request->input('email');
-            $cart->shipping_method_id = $request->input('shipping_method_id');
-            $cart->payment_method_id = $request->input('payment_method_id');
+            $cart->shipping_method_id = $countShippingMethod?->id;
+            $cart->payment_method_id = $countryPaymentMethod?->id;
             $cart->shipping_fee = $request->input('shipping_fee');
             $cart->payment_fee = $request->input('payment_fee');
             $cart->parcel_weight = $weight;

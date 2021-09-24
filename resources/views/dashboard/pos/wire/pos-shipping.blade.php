@@ -83,13 +83,13 @@
                 </button>
             </div>
 
-            <div class="fw-500 mt-3">Μέθοδος αποστολής</div>
+            <div class="fw-500 mt-2">Μέθοδος αποστολής</div>
 
             <x-bs::input.floating-label for="shipping-method" label="{{ __('Shipping method') }}" class="col-8">
-                <x-bs::input.select wire:model.defer="method" name="shipping_method_id" error="shipping_method" id="shipping-method">
+                <x-bs::input.select wire:loading.attr="disabled" wire:target="shipping.country_id" wire:model="method" name="country_shipping_method_id" error="shipping_method" id="shipping-method">
                     <option value="">{{ __('Select shipping method') }}</option>
                     @foreach($shippingOptions as $option)
-                        <option value="{{ $option->shipping_method_id }}">{{ __('eshop::shipping.' . $option->shippingMethod->name) }} ({{ format_currency($option->total_fee) }})</option>
+                        <option value="{{ $option->id }}">{{ __('eshop::shipping.' . $option->shippingMethod->name) }} ({{ format_currency($option->total_fee) }})</option>
                     @endforeach
                 </x-bs::input.select>
             </x-bs::input.floating-label>
@@ -99,7 +99,7 @@
                 <input type="hidden" x-model="fee" name="shipping_fee"/>
             </x-bs::input.floating-label>
 
-            <div class="fw-500">Ανάλυση μεταφορικών</div>
+            <div class="fw-500 mt-3">Ανάλυση μεταφορικών</div>
 
             <div class="vstack gap-1">
                 <table class="table table-sm">

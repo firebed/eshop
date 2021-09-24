@@ -13,14 +13,15 @@ class PosModels extends Component
 {
     public ?string $categoryId  = null;
     public ?string $productId   = null;
+    public bool    $editing = false;
     protected      $queryString = ['categoryId' => ['except' => ''], 'productId' => ['except' => '']];
     private array  $data;
 
     public function mount(CategoryBreadcrumbs $breadcrumbs): void
     {
         if (isset($this->categoryId)) {
-            $cat = Category::find($this->categoryId);
-            if ($cat->isFolder()) {
+            $category = Category::find($this->categoryId);
+            if ($category->isFolder()) {
                 $this->loadCategories($this->categoryId, $breadcrumbs);
             } else {
                 $this->loadProducts($this->categoryId, $breadcrumbs);
@@ -74,7 +75,7 @@ class PosModels extends Component
 
         session()->put('pos-models-query', [
             'categoryId' => $this->categoryId,
-            'productId' => $this->productId
+            'productId'  => $this->productId
         ]);
     }
 
@@ -90,7 +91,7 @@ class PosModels extends Component
 
         session()->put('pos-models-query', [
             'categoryId' => $this->categoryId,
-            'productId' => $this->productId
+            'productId'  => $this->productId
         ]);
     }
 
@@ -108,7 +109,7 @@ class PosModels extends Component
 
         session()->put('pos-models-query', [
             'categoryId' => $this->categoryId,
-            'productId' => $this->productId
+            'productId'  => $this->productId
         ]);
     }
 
