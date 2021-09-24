@@ -70,6 +70,8 @@ class ShowCheckoutProducts extends Component
 
         $defaultShipping = $shippingMethods->last();
 
+        $this->emit('setCartItemsCount', $order->items()->count());
+        
         return view('checkout.products.wire.index', [
             'order'                => $order,
             'shippingMethods'      => $shippingMethods,
