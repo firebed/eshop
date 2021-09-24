@@ -61,7 +61,7 @@ class CartHeader extends Component
         if ($this->cart->status_id) {
             $statuses = CartStatus::orderBy('group')->get();
             $status = $statuses->find($this->cart->status_id);
-            $statuses = $statuses->except([CartStatus::SUBMITTED, $status->id])->groupBy('group');
+            $statuses = $statuses->except([CartStatus::SUBMITTED, $status?->id])->groupBy('group');
         }
 
         return view('eshop::dashboard.cart.wire.cart-header', [

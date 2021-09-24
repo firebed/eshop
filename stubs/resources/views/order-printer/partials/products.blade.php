@@ -2,7 +2,7 @@
     <table id="items">
         <thead>
         <tr>
-            <th class="text-start" style="width: 10%">{{ __('ID') }}</th>
+            <th class="text-start" style="width: 10%">#</th>
             <th class="text-start">{{ __('Description') }}</th>
             <th class="text-end" style="width: 10%">{{ __('Quantity') }}</th>
             <th class="text-end" style="width: 10%">{{ __('Price') }}</th>

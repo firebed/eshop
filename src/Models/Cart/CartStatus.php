@@ -40,6 +40,8 @@ class CartStatus extends Model
 
     public $timestamps = FALSE;
 
+    protected $casts = ['notify' => 'bool'];
+    
     public function carts(): HasMany
     {
         return $this->hasMany(Cart::class, 'status_id');

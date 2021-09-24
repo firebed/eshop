@@ -7,14 +7,14 @@
     @foreach(array_keys(config('eshop.locales')) as $locale)
         <link rel="alternate" hreflang="{{ $locale }}" href="{{ categoryRoute($category, locale: $locale) }}" />
     @endforeach
-    
+
     @if(!empty($category->seo->description))
         <meta name="description" content="{{ $description }}">
     @endif
 
     <script type="application/ld+json">{!! schema()->webPage($title, $description) !!}</script>
     <script type="application/ld+json">{!! schema()->breadcrumb($category) !!}</script>
-    
+
     <meta property="og:title" content="{{ $title }}">
     <meta property="og:site_name" content="{{ config('app.name') }}">
     @if(!empty($description))
@@ -25,7 +25,7 @@
         <meta property="og:image" content="{{ $category->image->url() }}">
     @endif
     <meta name="twitter:card" content="summary" />
-    
+
     @if($category->isFile())
         @if(!$products->hasPages() || $products->onFirstPage())
             <link rel="canonical" href="{{ categoryRoute($category) }}">
@@ -45,7 +45,7 @@
     @else
         <link rel="canonical" href="{{ categoryRoute($category) }}">
     @endif
-    
+
     <meta name='robots' content='index, follow' />
 @endpush
 
@@ -89,9 +89,11 @@
                             </div>
                         @endif
 
-                        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 g-3">
+                        @if($products->isNotEmpty())
                             @include('category.partials.products')
-                        </div>
+                        @else
+                            @include('category.partials.empty-products')
+                        @endif
 
                         @if($products->hasPages())
                             <div class="d-flex justify-content-center">

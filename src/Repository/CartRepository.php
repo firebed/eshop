@@ -322,7 +322,6 @@ class CartRepository implements CartContract
         } elseif ($this->shouldReleaseProductStocks($previous_status, $currentStatus)) {
             $this->releaseStocks($cart->id);
         }
-
         if ($notifyCustomer) {
             event(new CartStatusChanged($cart, $currentStatus, $notesToCustomer));
         }

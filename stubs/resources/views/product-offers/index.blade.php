@@ -4,7 +4,7 @@
     @foreach(array_keys(config('eshop.locales')) as $locale)
         <link rel="alternate" hreflang="{{ $locale }}" href="{{ route('products.offers.index', $locale) }}" />
     @endforeach
-    
+
     <meta name="description" content="Δες όλες τις προσφορές των προϊόντων για όλες της κατηγορίες στην καλύτερη τιμή!">
 
     <script type="application/ld+json">{!! schema()->webPage('Προσφορές - Όλες οι κατηγορίες', "Δες όλες τις προσφορές των προϊόντων για όλες της κατηγορίες στην καλύτερη τιμή!") !!}</script>
@@ -15,7 +15,7 @@
     <meta property="og:type" content="website">
     <meta property="og:image" content="{{ asset(config('eshop.logo')) }}">
     <meta name="twitter:card" content="summary" />
-    
+
     <meta name='robots' content='index, follow' />
 @endpush
 
@@ -67,10 +67,14 @@
                             {{ $products->onEachSide(1)->links('bs::pagination.paginator') }}
                         </div>
                     @endif
-
-                    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 g-3">
-                        @include('product-offers.partials.products')
-                    </div>
+                    
+                    @if($products->isNotEmpty())
+                        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 g-3">
+                            @include('product-offers.partials.products')
+                        </div>
+                    @else
+                        @include('product-offers.partials.empty-products')
+                    @endif
 
                     @if($products->hasPages())
                         <div class="d-flex justify-content-center">
