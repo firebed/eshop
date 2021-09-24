@@ -19,7 +19,7 @@ trait ControlsOrder
 
     protected function updateTotal(Order $order): void
     {
-        $refresh = new RefreshOrder();
+        $refresh = new RefreshOrder(new ShippingFeeCalculator());
         $refresh->handle($order);
 //        $countryShippingMethod = session('countryShippingMethod');
 //        $countryPaymentMethod = session('countryPaymentMethod');
