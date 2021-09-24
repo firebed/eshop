@@ -4,12 +4,12 @@
     @forelse($shippingMethods as $option)
         <x-bs::card.body class="p-4 {{ !$loop->last ? 'border-bottom' : '' }}">
             <x-bs::input.radio
-                    :value="$option->id"
-                    :checked="$country_shipping_method_id == $option->id"
-                    name="country_shipping_method_id"
-                    error="country_shipping_method_id"
-                    id="method-{{ $option->id }}"
-                    label-class="w-100 fw-500"
+                :value="$option->id"
+                :checked="$country_shipping_method_id == $option->id"
+                name="country_shipping_method_id"
+                error="country_shipping_method_id"
+                id="method-{{ $option->id }}"
+                label-class="w-100 fw-500"
             >
                 {{ __("eshop::shipping." . $option->shippingMethod->name) }}
 
@@ -19,13 +19,13 @@
 
                 @if($option->total_fee > 0)
                     <small class="text-secondary">({{ format_currency($option->total_fee) }})</small>
-                @elseif($option->area?->type === 'ΔΠ')
+                @elseif($option->shippingMethod->is_courier && $option->total_fee === .0)
                     <small class="text-secondary">(Δωρεάν αποστολή)</small>
                 @endif
             </x-bs::input.radio>
 
             @if($option->description || ($option->area?->shipping_method_id === $option->shipping_method_id && $option->area?->type !== null))
-                <div x-init="new bootstrap.Collapse($el, {toggle: false})" @class(['ms-4', 'collapse', 'show' => old('shipping_method_id', $order->shipping_method_id) === $option->id])>
+                <div x-init="new bootstrap.Collapse($el, {toggle: false})" @class(['ms-4', 'collapse', 'show' => old('shipping_method_id', $country_shipping_method_id) === $option->id])>
                     <div class="vstack gap-3 pt-3 text-secondary">
                         @if($option->area?->type === 'ΔΠ' && $option->inaccessible_area_fee === .0)
                             <div class="vstack">

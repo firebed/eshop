@@ -4,13 +4,13 @@
     @forelse($paymentMethods as $option)
         <x-bs::card.body class="p-4 {{ !$loop->last ? 'border-bottom' : '' }}">
             <x-bs::input.radio
-                    :value="$option->id"
-                    :checked="$country_payment_method_id == $option->id"
-                    name="country_payment_method_id"
-                    error="country_payment_method_id"
-                    id="p-method-{{ $option->id }}"
-                    label-class="w-100 fw-500"
-                    data-payment-method-name="{{ $option->paymentMethod->name }}"
+                :value="$option->id"
+                :checked="$country_payment_method_id == $option->id"
+                name="country_payment_method_id"
+                error="country_payment_method_id"
+                id="p-method-{{ $option->id }}"
+                label-class="w-100 fw-500"
+                data-payment-method-name="{{ $option->paymentMethod->name }}"
             >
                 {{ __('eshop::payment.' . $option->paymentMethod->name) }}
 
@@ -20,7 +20,7 @@
             </x-bs::input.radio>
 
             @if($option->paymentMethod->isCreditCard() || filled($option->description))
-                <div x-init="new bootstrap.Collapse($el, {toggle: false})" @class(['ms-4', 'collapse', 'show' => old('payment_method_id', $order->payment_method_id) === $option->id])>
+                <div x-init="new bootstrap.Collapse($el, {toggle: false})" @class(['ms-4', 'collapse', 'show' => old('payment_method_id', $country_payment_method_id) === $option->id])>
                     <div class="vstack pt-3">
                         @includeWhen($option->paymentMethod->isCreditCard(), 'checkout.payment.ext.stripe-card')
 

@@ -22,6 +22,14 @@ class ShippingMethodRequest extends FormRequest
         return [
             'name'         => ['required', 'string', Rule::unique('shipping_methods')->when($method, fn($q) => $q->ignore($method))],
             'tracking_url' => ['nullable', 'string'],
+            'is_courier'   => ['required', 'bool',],
         ];
+    }
+
+    protected function prepareForValidation(): void
+    {
+        $this->merge([
+            'is_courier' => $this->has('is_courier'),
+        ]);
     }
 }

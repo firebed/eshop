@@ -30,8 +30,10 @@ class ShippingMethod extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'tracking_url'];
+    protected $fillable = ['name', 'tracking_url', 'icon', 'is_courier'];
 
+    protected $casts = ['is_courier' => 'bool'];
+    
     protected static function newFactory(): ShippingMethodFactory
     {
         return ShippingMethodFactory::new();

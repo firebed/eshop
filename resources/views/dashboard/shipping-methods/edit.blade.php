@@ -44,6 +44,10 @@
                         </x-bs::input.textarea>
                     </x-bs::input.floating-label>
 
+                    <x-bs::input.checkbox id="is-courier" name="is_courier" :checked="old('is_courier', $shippingMethod->is_courier)">
+                        {{ __('Courier') }}
+                    </x-bs::input.checkbox>
+                    
                     <div>
                         <x-bs::button.primary x-bind:disabled="submitting" type="submit">
                             <span x-cloak x-show="submitting" class="spinner-border spinner-border-sm" role="status"></span>

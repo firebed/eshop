@@ -63,7 +63,7 @@ class ShowCheckoutProducts extends Component
         if ($order->shippingAddress && $order->shippingAddress->country && $order->shippingMethod) {
             $country = $order->shippingAddress->country;
             $shippingMethods = $country->shippingOptions
-                ->where('shipping_method_id', $order->shippingMethod->shipping_method_id)
+                ->where('shipping_method_id', $order->shipping_method_id)
                 ->where('visible', true)
                 ->sortBy('fee');
         }
