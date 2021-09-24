@@ -71,17 +71,17 @@ class StripeService
     /**
      * @throws ApiErrorException
      */
-    private function retrievePaymentIntent(string $payment_intent_id): PaymentIntent
+    public function getCardDetails(string $payment_intent_id): StripeCard
     {
-        return PaymentIntent::retrieve($payment_intent_id, Cashier::stripeOptions());
+        $intent = $this->retrievePaymentIntent($payment_intent_id);
+        return new StripeCard($intent);
     }
 
     /**
      * @throws ApiErrorException
      */
-    public function getCardDetails(string $payment_intent_id): StripeCard
+    private function retrievePaymentIntent(string $payment_intent_id): PaymentIntent
     {
-        $intent = $this->retrievePaymentIntent($payment_intent_id);
-        return new StripeCard($intent);
+        return PaymentIntent::retrieve($payment_intent_id, Cashier::stripeOptions());
     }
 }

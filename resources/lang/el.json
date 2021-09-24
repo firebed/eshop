@@ -951,6 +951,7 @@
   "Your card was declined. Please contact your card issuer for more information.": "Your card was declined. Please contact your card issuer for more information.",
   "Your cart": "Το καλάθι σου",
   "Your cart is empty": "Το καλάθι σας είναι άδειο",
+  "Your current cart was merged with the cart from your previous login.": "Το τρέχον καλάθι σας συγχωνεύτηκε με το καλάθι από την προηγούμενη σύνδεσή σας.",
   "Your current payment method is :paypal.": "Your current payment method is :paypal.",
   "Your current payment method is a credit card ending in :lastFour that expires on :expiration.": "Your current payment method is a credit card ending in :lastFour that expires on :expiration.",
   "Your order has been shipped!": "Η παραγγελία σας στάλθηκε!",
