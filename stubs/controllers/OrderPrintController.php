@@ -1,6 +1,6 @@
 <?php
 
-namespace Eshop\Controllers\Dashboard\Cart;
+namespace App\Http\Controllers;
 
 use Eshop\Models\Cart\Cart;
 use Dompdf\Dompdf;
@@ -9,7 +9,7 @@ use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Http\Response;
 
-class PrintController extends Controller
+class OrderPrintController extends Controller
 {
     public function __invoke(Cart $cart): Response|Application|ResponseFactory
     {

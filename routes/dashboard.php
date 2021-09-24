@@ -2,7 +2,7 @@
 
 use Eshop\Controllers\Dashboard\Analytics\AnalyticsController;
 use Eshop\Controllers\Dashboard\Cart\CartController;
-use Eshop\Controllers\Dashboard\Cart\PrintController;
+use Eshop\Controllers\Dashboard\Cart\OrderPrintController;
 use Eshop\Controllers\Dashboard\Category\CategoryController;
 use Eshop\Controllers\Dashboard\Category\CategoryPropertyController;
 use Eshop\Controllers\Dashboard\Intl\BulkProvinceController;
@@ -49,7 +49,7 @@ Route::middleware(['web', 'auth', 'admin'])->group(function () {
         Route::delete('collections/destroy-many', [CollectionController::class, 'destroyMany'])->name('collections.destroyMany');
         Route::resource('collections', CollectionController::class)->except('show');
 
-        Route::get('carts/{cart}/print', PrintController::class)->name('carts.print');
+        Route::get('carts/{cart}/print', OrderPrintController::class)->name('carts.print');
         Route::resource('carts', CartController::class);
 
         Route::put('categories/properties/{property}/moveUp', [CategoryPropertyController::class, 'moveUp'])->name('categories.properties.moveUp');

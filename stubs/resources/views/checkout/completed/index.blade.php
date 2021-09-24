@@ -53,7 +53,7 @@
                     @endif
 
                     <div class="d-grid text-secondary border rounded p-3">
-                        <div class="text-dark fw-500 mb-2">{{ __("Shipping address") }}</div>
+                        <div class="text-dark fw-500 mb-2">{{ __("Shipping details") }}</div>
                         <div>{{ $cart->shippingAddress->full_name }}</div>
                         <div>{{ $cart->shippingAddress->full_street }}</div>
                         <div>{{ $cart->shippingAddress->city }}, {{ $cart->shippingAddress->postcode }}</div>

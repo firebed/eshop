@@ -30,7 +30,7 @@ class OrderSubmittedNotification extends Notification
         $this->cart->products->loadMissing('parent.translation', 'image', 'translation');
 
         $mail = new MailMessage();
-        $mail->subject(__("Order Shipped Notification"));
+        $mail->subject(__("Order Submitted Notification"));
         foreach (config('eshop.cc', []) as $cc) {
             $mail->cc($cc);
         }
