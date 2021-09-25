@@ -60,6 +60,7 @@ use Illuminate\Support\Collection;
  * @property string          name
  * @property string          description
  * @property string          trademark
+ * @property int             available_stock
  *
  * @property float           discountAmount
  * @property float           netValue

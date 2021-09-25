@@ -22,7 +22,7 @@ class ProductVariants extends Component
     public function addToCart(Order $order, Product $product, $quantity = 1): void
     {
         if (!$product->canBeBought($quantity)) {
-            $this->showWarningDialog($product->trademark, __("Unfortunately there are not $quantity pieces of this product. Available stock: " . $product->available_stock));
+            $this->showWarningDialog($product->trademark, __("eshop::order.max_available_stock", ['quantity' => $quantity, 'available' => $product->available_stock]));
             $this->skipRender();
             return;
         }

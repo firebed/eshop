@@ -67,7 +67,7 @@ class ProductVariantsButtons extends Component
 
         $product = Product::find($this->variantId);
         if (!$product->canBeBought($this->quantity)) {
-            $this->showWarningDialog($product->trademark, __("Unfortunately there are not $this->quantity pieces of this product. Available stock: " . $product->available_stock));
+            $this->showWarningDialog($product->trademark, __("eshop::order.max_available_stock", ['quantity' => $this->quantity, 'available' => $product->available_stock]));
             $this->skipRender();
             return;
         }
