@@ -26,6 +26,8 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
  * @property string  street_no
  * @property string  floor
  * @property string  postcode
+ *                           
+ * @property string  full_street
  *
  * @property Country country
  *

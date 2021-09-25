@@ -8,8 +8,6 @@ use Eshop\Actions\Order\ShippingFeeCalculator;
 use Eshop\Actions\Order\SubmitOrder;
 use Eshop\Controllers\Controller;
 use Eshop\Controllers\Dashboard\Traits\WithNotifications;
-use Eshop\Models\Location\CountryPaymentMethod;
-use Eshop\Models\Location\CountryShippingMethod;
 use Eshop\Repository\Contracts\Order;
 use Eshop\Services\PayPalService;
 use Eshop\Services\Stripe\StripeService;

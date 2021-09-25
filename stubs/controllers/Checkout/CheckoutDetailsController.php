@@ -32,20 +32,22 @@ class CheckoutDetailsController extends Controller
             }
         });
 
-        $has_shipping_methods = false;
         $country_id = $request->old('shippingAddress.country_id', $order->shippingAddress->country_id ?? null);
-        $provinces = [];
-        if ($country = Country::find($country_id)) {
-            $has_shipping_methods = $country->filterShippingOptions($order->products_value)->isNotEmpty();
-            $provinces = $country->provinces()->where('shippable', true)->orderBy('name')->pluck('name');
+
+        $location = Location::get($request->ip());
+        $userCountry = $location ? Country::code($location->countryCode)->first() : Country::default();
+
+        $country = $userCountry;
+        if ($country_id && $c = Country::find($country_id)) {
+            $country = $c;
         }
+
+        $has_shipping_methods = $country->filterShippingOptions($order->products_value)->isNotEmpty();
+        $provinces = $country->provinces()->where('shippable', true)->orderBy('name')->pluck('name');
 
         $products = $order->products;
         $products->load('parent', 'options');
         $products->merge($order->products->pluck('parent')->filter())->load('translation');
-
-        $location = Location::get($request->ip());
-        $userCountry = $location ? Country::code($location->countryCode)->first() : Country::default();
 
         return view('checkout.details.edit', [
             'order'                => $order,
