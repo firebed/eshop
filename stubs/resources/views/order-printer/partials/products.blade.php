@@ -12,10 +12,10 @@
         </thead>
 
         <tbody>
-        @foreach($cart->products as $product)
+        @foreach($products as $product)
             <tr>
                 <td>{{ $product->id }}</td>
-                <td>@if ($product->isVariant()) {{ $product->parent->name }} - @endif {{ $product->sku . ' ' . $product->name }}</td>
+                <td>{{ $product->trademark }}</td>
                 <td class="text-end">{{ format_number($product->pivot->quantity) }}</td>
                 <td class="text-end">{{ format_number($product->pivot->price, 2) }}</td>
                 <td class="text-end">{{ $product->pivot->discount > 0 ? format_percent($product->pivot->discount) : '' }}</td>
