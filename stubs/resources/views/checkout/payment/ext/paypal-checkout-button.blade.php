@@ -10,32 +10,38 @@
 
             createOrder: () => {
                 buttons.disable()
+                Alpine.store('form').disable()
                 return axios.post('{{ route('checkout.payment.store', app()->getLocale()) }}')
                     .then(res => res.data)
                     .catch(error => {
                         buttons.enable()
+                        Alpine.store('form').enable()
                         $dispatch('dialog-notification', {type:'error', title: 'PayPal', content: error.response.data})
                     })
             },
 
             onApprove: (data, actions) => {
                 buttons.disable()
+                Alpine.store('form').disable()
 
                 axios.post('{{ route('checkout.payment.store', app()->getLocale()) }}', { order_id: data.orderID })
                     .then(res => location.href = res.data)
                     .catch(error => {
                         buttons.enable()
+                        Alpine.store('form').enable()
                         $dispatch('dialog-notification', {type:'error', title: 'PayPal', content: error.response.data})
                     })
             },
 
             onCancel: () => {
                 buttons.enable()
+                Alpine.store('form').enable()
             },
 
             onError: function (err) {
                 buttons.enable()
-                //$dispatch('dialog-notification', {type: 'error', title: 'PayPal Error', content: err})
+                Alpine.store('form').enable()
+                $dispatch('dialog-notification', {type:'error', title: 'PayPal', content: err})
             }
         })
         .render($refs.container)"

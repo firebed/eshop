@@ -3,7 +3,7 @@
         <div class="hstack"><em class="fas fa-lock text-alpha fs-4 me-2"></em><span>Ασφαλείς online αγορές</span></div>
     </div>
 
-    <div id="card-element" class="form-control bg-white"></div>
+    <div id="card-element" class="form-control bg-white py-3"></div>
 
     <div id="card-error" class="fw-500 text-danger" style="display: none"></div>
 
@@ -22,7 +22,6 @@
             hidePostalCode: true,
             style: {
                 base: {
-                    lineHeight: '40px',
                     fontSize: '15px',
                 },
             }
@@ -32,38 +31,39 @@
         const form = document.getElementById('checkout-form');
 
         function disableCheckoutForm() {
-            document.getElementById('pay-with-stripe').setAttribute('disabled', 'disabled');
+            Alpine.store('form').disable()
         }
 
         function enableCheckoutForm() {
-            document.getElementById('pay-with-stripe').removeAttribute('disabled');
+            Alpine.store('form').enable()
         }
 
-        function error(msg) {
+        function error(msg = "") {
             document.getElementById('card-error').textContent = msg
             document.getElementById('card-error').style.display = msg ? 'block' : 'none'
+
+            if (msg) {
+                window.dispatchEvent(new CustomEvent('show-toast', {detail: {type: 'error', body: msg}}))
+            }
         }
 
         form.addEventListener('submit', function (event) {
             const payment = document.querySelector('input[name=country_payment_method_id]:checked')
-            if (payment.getAttribute('data-payment-method-name') !== 'credit_card')
+            if (payment.getAttribute('data-payment-method-name') !== 'credit_card') {
                 return
+            }
 
             event.preventDefault();
             disableCheckoutForm()
-            error("")
+            error()
 
             stripe.createPaymentMethod({
                 type: 'card',
                 card: cardElement,
                 billing_details: {
                     name: '{{ $order->shippingAddress->full_name }}',
-                    @if(filled($order->shippingAddress->phone))
                     phone: '{{ $order->shippingAddress->phone }}',
-                    @endif
-                            @if(filled($order->email))
                     email: '{{ $order->email }}',
-                    @endif
                     address: {
                         city: '{{ $order->shippingAddress->city }}',
                         country: '{{ $order->shippingAddress->country->code }}',

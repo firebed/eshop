@@ -60,8 +60,14 @@
         @includeWhen($order->paymentMethod?->isCreditCard(), 'checkout.payment.ext.stripe-checkout-button')
 
         @if($order->paymentMethod === null || (!$order->paymentMethod->isPayPal() && !$order->paymentMethod->isCreditCard()))
-            <button type="submit" class="btn btn-green" @if($order->paymentMethod === null) disabled @endif>
-                <em class="fas fa-check me-2"></em>{{ __('Complete') }}
+            <button x-bind:disabled="$store.form.disabled" type="submit" class="btn btn-green" @if($order->paymentMethod === null) disabled @endif>
+                <div x-cloak x-show="$store.form.disabled" class="spinner-border spinner-border-sm" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+
+                <em x-show="!$store.form.disabled" class="fas fa-check me-2"></em>
+
+                {{ __('Complete') }}
             </button>
         @endif
     </div>

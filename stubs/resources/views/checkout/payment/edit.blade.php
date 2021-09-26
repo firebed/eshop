@@ -14,7 +14,7 @@
             <div class="d-grid gap-3">
                 <h1 class="fs-3 fw-normal">{{ __('Checkout') }}</h1>
 
-                <form action="{{ route('checkout.payment.store', app()->getLocale()) }}" method="post" id="checkout-form">
+                <form x-data x-on:submit="$store.form.disable()" action="{{ route('checkout.payment.store', app()->getLocale()) }}" method="post" id="checkout-form">
                     @csrf
 
                     @if(session()->has('order-total-changed'))
@@ -65,3 +65,27 @@
         </div>
     </div>
 @endsection
+
+@push('footer_scripts')
+    @include('eshop::dashboard.layouts.toasts')
+
+    <script>
+        document.addEventListener('alpine:init', () => {
+            const form = document.getElementById("checkout-form");
+
+            Alpine.store('form', {
+                disabled: false,
+
+                enable() {
+                    this.disabled = false
+                    form.querySelectorAll('input').forEach(i => i.removeAttribute('disabled'))
+                },
+
+                disable() {
+                    this.disabled = true
+                    form.querySelectorAll('input').forEach(i => i.setAttribute('disabled', 'disabled'))
+                }
+            })
+        })
+    </script>
+@endpush
