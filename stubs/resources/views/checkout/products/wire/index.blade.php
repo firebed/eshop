@@ -9,11 +9,7 @@
             </x-bs::card>
         </div>
 
-        <aside wire:loading.class="opacity-75" class="col w-lg-25r align-self-start sticky-md-top position-relative">
-            <div wire:loading class="position-absolute start-50 top-50 translate-middle">
-                <em class="fa fa-fan fa-spin text-primary fs-5"></em>
-            </div>
-
+        <aside wire:loading.class="opacity-75" class="col w-lg-25r align-self-start sticky-md-top">
             @include('checkout.products.wire.partials.checkout-products-summary')
         </aside>
 

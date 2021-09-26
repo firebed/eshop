@@ -1,6 +1,6 @@
 <div class="container-fluid py-4">
     <div class="container-xxl">
-        <div class="row row-cols-2 row-cols-sm-2 row-cols-xl-4 g-4">
+        <div class="row row-cols-2 row-cols-sm-2 row-cols-md-4 row-cols-xl-4 g-4">
             <div class="col vstack">
                 <div class="fw-500 mb-2">{{ __("Security") }}</div>
                 <a href="{{ route('pages.show', [app()->getLocale(), 'terms-of-service']) }}" class="text-dark text-hover-underline">{{ __("Terms of service") }}</a>

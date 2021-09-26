@@ -1,23 +1,19 @@
 @foreach($order->products as $product)
-    <div class="row row-cols-1 row-cols-sm-2 g-3" wire:key="{{ $product->id }}">
+    <div class="row row-cols-1 row-cols-sm-2 g-3 @unless($loop->last) border-bottom mb-4 pb-4 @endunless" wire:key="{{ $product->id }}">
         <div class="col d-flex gap-3">
-            <div class="@if($loop->last) border-0 @endif">
-                <div class="ratio ratio-1x1 w-5r">
-                    @if($product->image)
-                        <img src="{{ $product->image->url('sm') }}" alt="{{ $product->trademark }}" class="img-top rounded">
-                    @endif
-                </div>
+            <div class="ratio ratio-1x1 w-5r">
+                @if($product->image)
+                    <img src="{{ $product->image->url('sm') }}" alt="{{ $product->trademark }}" class="img-top rounded">
+                @endif
             </div>
 
-            <div @if($loop->last) class="border-0" @endif>
-                <div class="d-grid justify-content-start">
-                    @if($product->isVariant())
-                        <a class="text-secondary small text-decoration-none" href="{{ route('products.show', [app()->getLocale(), $product->category->slug, $product->parent->slug]) }}">{{ $product->parent->name }}</a>
-                        <a href="{{ route('products.show', [app()->getLocale(), $product->category->slug, $product->slug]) }}" class="text-dark text-decoration-none">{{ $product->optionValues }}</a>
-                    @else
-                        <a href="{{ route('products.show', [app()->getLocale(), $product->category->slug, $product->slug]) }}" class="text-dark text-decoration-none">{{ $product->trademark }}</a>
-                    @endif
-                </div>
+            <div class="vstack justify-content-start">
+                @if($product->isVariant())
+                    <a class="text-secondary small text-decoration-none" href="{{ route('products.show', [app()->getLocale(), $product->category->slug, $product->parent->slug]) }}">{{ $product->parent->name }}</a>
+                    <a href="{{ route('products.show', [app()->getLocale(), $product->category->slug, $product->slug]) }}" class="text-dark text-decoration-none">{{ $product->optionValues }}</a>
+                @else
+                    <a href="{{ route('products.show', [app()->getLocale(), $product->category->slug, $product->slug]) }}" class="text-dark text-decoration-none">{{ $product->trademark }}</a>
+                @endif
             </div>
         </div>
 

@@ -3,12 +3,12 @@
         @foreach($addresses as $address)
             <x-bs::card.body class="p-4 border-bottom d-flex flex-column">
                 <x-bs::input.radio
-                        value="{{ $address->id }}"
-                        :checked="old('selected_shipping_id', $selected_shipping_id) == $address->id"
-                        name="selected_shipping_id"
-                        error="selected_shipping_id"
-                        id="address-{{ $address->id }}"
-                        label-class="w-100"
+                    value="{{ $address->id }}"
+                    :checked="old('selected_shipping_id', $selected_shipping_id) == $address->id"
+                    name="selected_shipping_id"
+                    error="selected_shipping_id"
+                    id="address-{{ $address->id }}"
+                    label-class="w-100"
                 >
                 <span class="d-grid">
                     <span class="fw-500">{{ $address->street }} {{ $address->street_no }}, {{ $address->city }} {{ $address->postcode }}</span>
@@ -28,43 +28,43 @@
 
     <x-bs::card.body class="p-4">
         <x-bs::input.radio
-                value=""
-                :checked="old('selected_shipping_id', $selected_shipping_id) == null"
-                name="selected_shipping_id"
-                error="selected_shipping_id"
-                id="new-address"
-                label-class="w-100"
+            value=""
+            :checked="old('selected_shipping_id', $selected_shipping_id) == null"
+            name="selected_shipping_id"
+            error="selected_shipping_id"
+            id="new-address"
+            label-class="w-100"
         >{{ __('New address') }}</x-bs::input.radio>
 
         <div x-init="new bootstrap.Collapse($el, {toggle: false})" class="collapse @if(old('selected_shipping_id', $selected_shipping_id) === null) show @endif">
             <div class="row row-cols-2 g-3 mt-0">
-                <div class="col-6">
+                <div class="col-12 col-sm-6">
                     <x-bs::input.floating-label for="first-name" label="{{ __('Name') }}">
                         <x-bs::input.text value="{{ old('shippingAddress.first_name', $shipping?->first_name) ?? '' }}" name="shippingAddress[first_name]" error="shippingAddress.first_name" id="first-name" placeholder="{{ __('Name') }}"/>
                     </x-bs::input.floating-label>
                 </div>
 
-                <div class="col-6">
+                <div class="col-12 col-sm-6">
                     <x-bs::input.floating-label for="last-name" label="{{ __('Surname') }}">
                         <x-bs::input.text value="{{ old('shippingAddress.last_name', $shipping?->last_name) ?? '' }}" name="shippingAddress[last_name]" error="shippingAddress.last_name" id="last-name" placeholder="{{ __('Surname') }}"/>
                     </x-bs::input.floating-label>
                 </div>
 
                 @guest
-                    <div class="col-6">
+                    <div class="col-12 col-sm-6">
                         <x-bs::input.floating-label for="email" label="{{ __('Email') }}">
                             <x-bs::input.email value="{{ old('email', $order->email) ?? '' }}" name="email" error="email" id="email" placeholder="{{ __('Email') }}"/>
                         </x-bs::input.floating-label>
                     </div>
                 @endguest
 
-                <div class="@guest col-6 @else col-12 @endguest">
+                <div class="@guest col-12 col-sm-6 @else col-12 @endguest">
                     <x-bs::input.floating-label for="phone" label="{{ __('Phone') }}">
                         <x-bs::input.text value="{{ old('shippingAddress.phone', $shipping?->phone) ?? '' }}" name="shippingAddress[phone]" error="shippingAddress.phone" id="phone" placeholder="{{ __('Phone') }}"/>
                     </x-bs::input.floating-label>
                 </div>
 
-                <div class="col-6">
+                <div class="col-12 col-sm-6">
                     <x-bs::input.floating-label for="country" label="{{ __('Country') }}">
                         <x-bs::input.select name="shippingAddress[country_id]" error="shippingAddress.country_id" id="shipping-country" class="pb-2">
                             <option value="">{{ __('Select country') }}</option>
@@ -75,29 +75,29 @@
                     </x-bs::input.floating-label>
                 </div>
 
-                <div id="provinces-container" class="col-6">
+                <div id="provinces-container" class="col-12 col-sm-6">
                     @include('checkout.details.partials.provinces')
                 </div>
 
-                <div class="col-8">
+                <div class="col-12 col-sm-8">
                     <x-bs::input.floating-label for="street" label="{{ __('Street') }}">
                         <x-bs::input.text value="{{ old('shippingAddress.street', $shipping?->street) ?? '' }}" name="shippingAddress[street]" error="shippingAddress.street" id="street" placeholder="{{ __('Street') }}"/>
                     </x-bs::input.floating-label>
                 </div>
 
-                <div class="col-4">
+                <div class="col-12 col-sm-4">
                     <x-bs::input.floating-label for="street-no" label="{{ __('Street no') }}">
                         <x-bs::input.text value="{{ old('shippingAddress.street_no', $shipping?->street_no) ?? '' }}" name="shippingAddress[street_no]" error="shippingAddress.street_no" id="street-no" placeholder="{{ __('Street no') }}"/>
                     </x-bs::input.floating-label>
                 </div>
 
-                <div class="col-8">
+                <div class="col-12 col-sm-8">
                     <x-bs::input.floating-label for="city" label="{{ __('City') }}">
                         <x-bs::input.text value="{{ old('shippingAddress.city', $shipping?->city) ?? '' }}" name="shippingAddress[city]" error="shippingAddress.city" id="city" placeholder="{{ __('City') }}"/>
                     </x-bs::input.floating-label>
                 </div>
 
-                <div class="col-4">
+                <div class="col-12 col-sm-4">
                     <x-bs::input.floating-label for="shipping-postcode" label="{{ __('Postcode') }}">
                         <x-bs::input.text value="{{ old('shippingAddress.postcode', $shipping?->postcode) ?? '' }}" name="shippingAddress[postcode]" error="shippingAddress.postcode" id="shipping-postcode" placeholder="{{ __('Postcode') }}"/>
                     </x-bs::input.floating-label>
@@ -111,7 +111,7 @@
     <script>
         const container = document.getElementById('shipping-addresses')
         let prev = container.querySelector('.collapse.show')
-        console.log(prev)
+
         container.addEventListener('change', evt => {
             if (evt.target.matches('[name=selected_shipping_id]')) {
 

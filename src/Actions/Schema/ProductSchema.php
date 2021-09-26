@@ -50,7 +50,7 @@ class ProductSchema
                     $model["offers"]['url'] = variantRoute($variant, $product, $product->category);
                     $models[] = $model;
                 }
-                $sData['models'] = $models;
+                $sData['model'] = $models;
             }
         } else {
             $sData['offers'] = $this->offer($product);

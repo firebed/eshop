@@ -9,7 +9,7 @@
     <div class="col ps-lg-3">
         <nav class="navbar navbar-expand-lg navbar-light">
             <div class="container-fluid px-0">
-                <a class="navbar-brand d-lg-none" href="#">{{ __("Menu") }}</a>
+                <a class="navbar-brand d-lg-none" href="#">{{ __("Categories") }}</a>
 
                 <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#navbar" aria-controls="navbar">
                     <span class="navbar-toggler-icon"></span>
