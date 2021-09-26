@@ -1,22 +1,15 @@
-<div class="row gx-5 gy-4">
+<div class="row row-cols-1 row-cols-lg-2 gx-5 gy-4">
     @if($order->products->isNotEmpty())
-        <h1 class="col-12 fs-3 fw-normal mb-0">{{ __('Your cart') }}</h1>
 
-        <div class="col-12 col-md-7 col-lg-8">
+        <div class="col flex-grow-1">
             <x-bs::card class="shadow-none">
                 <x-bs::card.body>
-                    <div class="table-responsive bg-white">
-                        @include('checkout.products.wire.partials.checkout-products-table')
-                    </div>
+                    @include('checkout.products.wire.partials.checkout-products-table')
                 </x-bs::card.body>
             </x-bs::card>
         </div>
 
-        <aside wire:loading.class="opacity-75" class="col align-self-start sticky-md-top position-relative">
-            <div wire:loading class="position-absolute start-50 top-50 translate-middle">
-                <em class="fa fa-fan fa-spin text-primary fs-5"></em>
-            </div>
-
+        <aside wire:loading.class="opacity-75" class="col w-lg-25r align-self-start sticky-md-top position-relative">
             <div wire:loading class="position-absolute start-50 top-50 translate-middle">
                 <em class="fa fa-fan fa-spin text-primary fs-5"></em>
             </div>

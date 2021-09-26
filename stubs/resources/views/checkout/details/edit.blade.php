@@ -7,7 +7,7 @@
 
 @section('main')
     <div class="container-fluid py-5">
-        <div class="container">
+        <div class="container-xxl">
 
             @if(session()->has('guest-cart-merged-with-user-cart'))
                 <div class="alert bg-teal-400 alert-dismissible fade show" role="alert">

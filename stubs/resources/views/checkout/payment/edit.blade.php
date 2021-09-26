@@ -7,7 +7,7 @@
 
 @section('main')
     <div class="container-fluid py-5">
-        <div class="container">
+        <div class="container-xxl">
             <div class="d-grid gap-3">
                 <h1 class="fs-3 fw-normal">{{ __('Checkout') }}</h1>
 

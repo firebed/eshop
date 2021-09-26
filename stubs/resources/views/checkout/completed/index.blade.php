@@ -2,7 +2,7 @@
 
 @section('main')
     <div class="container-fluid bg-white">
-        <div class="container">
+        <div class="container-xxl">
             <div class="row">
                 <div class="col d-grid gap-4 py-4">
                     <div class="vstack border rounded p-3">
