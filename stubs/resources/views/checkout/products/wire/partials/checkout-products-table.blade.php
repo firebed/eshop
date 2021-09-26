@@ -19,12 +19,16 @@
                     @endif
                 </div>
             </td>
-            <td class="align-middle w-5r  @if($loop->last) border-0 @endif">
+            <td class="w-10r align-baseline @if($loop->last) border-0 @endif">
                 <label for="qty-{{ $product->id }}" class="visually-hidden"></label>
-                <x-bs::input.integer wire:model="quantities.{{ $product->id }}" id="qty-{{ $product->id }}" placeholder="0"/>
+                <x-bs::input.integer wire:model="quantities.{{ $product->id }}" class="{{ !$product->canBeBought($quantities[$product->id]) ? 'is-invalid' : '' }}" id="qty-{{ $product->id }}" placeholder="0"/>
+
+                @unless($product->canBeBought($quantities[$product->id]))
+                    <div class="fw-500 text-danger small mt-2">Διαθέσιμα: {{ $product->available_stock }}</div>
+                @endunless
             </td>
-            <td class="w-5r text-end fw-500 align-middle @if($loop->last) border-0 @endif">{{ format_currency($product->netValue) }}</td>
-            <td class="w-5r align-middle text-end @if($loop->last) border-0 @endif">
+            <td class="w-5r text-end fw-500 align-baseline @if($loop->last) border-0 @endif">{{ format_currency($product->netValue) }}</td>
+            <td class="w-5r text-end align-baseline @if($loop->last) border-0 @endif">
                 <x-bs::button.link wire:click="deleteProduct({{ $product->id }})" wire:loading.attr="disabled" type="button" size="sm">
                     <em class="far fa-trash-alt"></em>
                 </x-bs::button.link>

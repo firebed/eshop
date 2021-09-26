@@ -19,18 +19,20 @@ use Stevebauman\Location\Facades\Location;
 
 class CheckoutDetailsController extends Controller
 {
-    public function edit(Request $request, Order $order, RefreshOrder $refreshOrder): Renderable|RedirectResponse
+    public function edit(string $lang, Request $request, Order $order, RefreshOrder $refreshOrder): Renderable|RedirectResponse
     {
-        if ($order->isEmpty()) {
+        if ($order->isEmpty() || $order->isSubmitted()) {
             return redirect()->route('checkout.products.index', app()->getLocale());
         }
 
-        DB::transaction(function () use ($refreshOrder, $order) {
-            $refreshOrder->handle($order);
-            if ($refreshOrder->totalHasChanged()) {
-                session()->flash('products-values-changed');
-            }
-        });
+        if ($this->refreshOrder($refreshOrder, $order)) {
+            session()->flash('products-values-changed');
+            return redirect()->route('checkout.products.index', $lang);
+        }
+
+        if (!$this->checkProductStocks($order)) {
+            return redirect()->route('checkout.products.index', $lang);
+        }
 
         $country_id = $request->old('shippingAddress.country_id', $order->shippingAddress->country_id ?? null);
 
@@ -66,12 +68,18 @@ class CheckoutDetailsController extends Controller
 
     public function update(string $lang, CheckoutDetailsRequest $request, Order $order, RefreshOrder $refreshOrder): RedirectResponse
     {
-        DB::transaction(function () use ($refreshOrder, $order) {
-            $refreshOrder->handle($order);
-            if ($refreshOrder->totalHasChanged()) {
-                session()->flash('products-values-changed');
-            }
-        });
+        if ($order->isEmpty() || $order->isSubmitted()) {
+            return redirect()->route('checkout.products.index', app()->getLocale());
+        }
+
+        if ($this->refreshOrder($refreshOrder, $order)) {
+            session()->flash('products-values-changed');
+            return redirect()->route('checkout.products.index', $lang);
+        }
+
+        if (!$this->checkProductStocks($order)) {
+            return redirect()->route('checkout.products.index', $lang);
+        }
 
         $order->document_type = $request->filled('invoicing') ? DocumentType::INVOICE : DocumentType::RECEIPT;
         $order->details = $request->input('details');
@@ -105,9 +113,13 @@ class CheckoutDetailsController extends Controller
 
     public function userShipping(Request $request, Order $order, RefreshOrder $refreshOrder): JsonResponse
     {
+        if ($order->isEmpty() || $order->isSubmitted()) {
+            return response()->json();
+        }
+
         $order->shippingAddress->related_id = $request->input('selected_shipping_id');
 
-        $refreshOrder->handle($order);
+        DB::transaction(fn() => $refreshOrder->handle($order));
 
         $has_shipping_methods = false;
         $country = $order->shippingAddress->country ?? null;
@@ -129,10 +141,14 @@ class CheckoutDetailsController extends Controller
 
     public function shippingCountry(Request $request, Order $order, RefreshOrder $refreshOrder): JsonResponse
     {
+        if ($order->isEmpty() || $order->isSubmitted()) {
+            return response()->json();
+        }
+
         $order->shippingAddress->country_id = $request->input('country_id');
         $order->shippingAddress->postcode = $request->input('postcode');
 
-        $refreshOrder->handle($order);
+        DB::transaction(fn() => $refreshOrder->handle($order));
 
         $has_shipping_methods = false;
         $country = $order->shippingAddress->country ?? null;
@@ -163,5 +179,23 @@ class CheckoutDetailsController extends Controller
         ])->render();
 
         return response()->json(compact('summary', 'provinces'));
+    }
+
+    private function refreshOrder(RefreshOrder $refreshOrder, Order $order): bool
+    {
+        DB::transaction(fn() => $refreshOrder->handle($order));
+        return $refreshOrder->totalHasChanged();
+    }
+
+    private function checkProductStocks(Order $order): bool
+    {
+        $products = $order->products;
+        foreach ($products as $product) {
+            if (!$product->canBeBought($product->pivot->quantity)) {
+                return false;
+            }
+        }
+
+        return true;
     }
 }

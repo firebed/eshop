@@ -75,7 +75,7 @@
             <div><em class="fas fa-shield-alt text-alpha fs-4"></em></div>
             <div class="vstack gap-1">
                 <div>Ασφάλεια αγορών</div>
-                <div class="small text-secondary">Εγγυόμαστε ότι θα παραλάβεις την παραγγελία σου ή θα πάρεις τα χρήματά σου πίσω.</div>
+                <div class="small text-secondary">Εγγυόμαστε ότι θα παραλάβετε την παραγγελία σας ή θα πάρετε τα χρήματά σας πίσω.</div>
             </div>
         </div>
     </div>

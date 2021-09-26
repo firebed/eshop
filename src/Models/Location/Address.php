@@ -26,7 +26,7 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
  * @property string  street_no
  * @property string  floor
  * @property string  postcode
- *                           
+ *
  * @property string  full_street
  *
  * @property Country country
@@ -60,6 +60,11 @@ class Address extends Model
         'related_id' => 'integer'
     ];
 
+    protected static function newFactory(): AddressFactory
+    {
+        return AddressFactory::new();
+    }
+
     public function addressable(): MorphTo
     {
         return $this->morphTo();
@@ -68,6 +73,18 @@ class Address extends Model
     public function getFullNameAttribute(): string
     {
         return $this->first_name . ' ' . $this->last_name;
+    }
+
+    public function isFilled(): bool
+    {
+        return $this->first_name !== null &&
+            $this->last_name !== null &&
+            $this->phone !== null &&
+            $this->country_id !== null &&
+            $this->province !== null &&
+            $this->street !== null &&
+            $this->city !== null &&
+            $this->postcode !== null;
     }
 
     public function country(): BelongsTo
@@ -87,7 +104,7 @@ class Address extends Model
 
     public function isRelated(): bool
     {
-        return $this->related_id !== NULL;
+        return $this->related_id !== null;
     }
 
     public function getFullStreetAttribute(): string
@@ -98,10 +115,5 @@ class Address extends Model
     public function getCityOrCountryAttribute(): string
     {
         return filled($this->city) && filled($this->postcode) ? $this->postcode . ', ' . $this->city : ($this->country->name ?? "");
-    }
-
-    protected static function newFactory(): AddressFactory
-    {
-        return AddressFactory::new();
     }
 }

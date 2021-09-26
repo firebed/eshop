@@ -6,7 +6,9 @@ namespace App\Http\Livewire\Checkout;
 use App\Http\Livewire\Checkout\Concerns\ControlsOrder;
 use Eshop\Actions\Order\RefreshOrder;
 use Eshop\Actions\Order\ShippingFeeCalculator;
+use Eshop\Models\Product\Product;
 use Eshop\Repository\Contracts\Order;
+use Firebed\Components\Livewire\Traits\SendsNotifications;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
@@ -14,6 +16,7 @@ use Livewire\Component;
 class ShowCheckoutProducts extends Component
 {
     use ControlsOrder;
+    use SendsNotifications;
 
     public array $quantities;
 
@@ -33,8 +36,14 @@ class ShowCheckoutProducts extends Component
     {
         $quantity = is_numeric($quantity) ? $quantity : 0;
 
+        $product = Product::find($productId);
+
         $order = app(Order::class);
         $this->updateProduct($order, $productId, $quantity);
+
+//        if(!$product->canBeBought($quantity)) {
+//            $this->showWarningDialog($product->trademark, __("eshop::order.max_available_stock", ['quantity' => $quantity, 'available' => $product->available_stock]));
+//        }
     }
 
     public function deleteProduct($productId): void
@@ -71,7 +80,7 @@ class ShowCheckoutProducts extends Component
         $defaultShipping = $shippingMethods->last();
 
         $this->emit('setCartItemsCount', $order->items()->count());
-        
+
         return view('checkout.products.wire.index', [
             'order'                => $order,
             'shippingMethods'      => $shippingMethods,

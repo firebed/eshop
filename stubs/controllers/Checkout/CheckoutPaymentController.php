@@ -26,13 +26,24 @@ class CheckoutPaymentController extends Controller
 {
     use WithNotifications;
 
-    public function store(Request $request, Order $order, RefreshOrder $refreshOrder, PayPalService $paypal, StripeService $stripe, SubmitOrder $submit): RedirectResponse|JsonResponse
+    public function store(string $lang, Request $request, Order $order, RefreshOrder $refreshOrder, PayPalService $paypal, StripeService $stripe, SubmitOrder $submit): RedirectResponse|JsonResponse
     {
         if ($order->isEmpty() || $order->isSubmitted()) {
-            return redirect()->route('checkout.products.index', app()->getLocale());
+            return redirect()->route('checkout.products.index', $lang);
         }
 
-        DB::transaction(fn() => $refreshOrder->handle($order));
+        if (!$order->shippingAddress->isFilled()) {
+            return redirect()->route('checkout.details.edit', app()->getLocale());
+        }
+
+        if ($this->totalHasChanged($refreshOrder, $order)) {
+            session()->flash('products-values-changed');
+            return redirect()->route('checkout.products.index', $lang);
+        }
+
+        if (!$this->checkProductStocks($order)) {
+            return redirect()->route('checkout.products.index', $lang);
+        }
 
         if ($order->paymentMethod->isPayPal()) {
             try {
@@ -94,13 +105,24 @@ class CheckoutPaymentController extends Controller
         return redirect()->to(URL::signedRoute('checkout.completed', [app()->getLocale(), $order->id]));
     }
 
-    public function edit(Order $order, RefreshOrder $refreshOrder, ShippingFeeCalculator $calc): Renderable|RedirectResponse
+    public function edit(string $lang, Order $order, RefreshOrder $refreshOrder, ShippingFeeCalculator $calc): Renderable|RedirectResponse
     {
         if ($order->isEmpty() || $order->isSubmitted()) {
-            return redirect()->route('checkout.products.index', app()->getLocale());
+            return redirect()->route('checkout.products.index', $lang);
         }
 
-        DB::transaction(fn() => $refreshOrder->handle($order));
+        if (!$order->shippingAddress->isFilled()) {
+            return redirect()->route('checkout.details.edit', app()->getLocale());
+        }
+
+        if ($this->totalHasChanged($refreshOrder, $order)) {
+            session()->flash('products-values-changed');
+            return redirect()->route('checkout.products.index', $lang);
+        }
+
+        if (!$this->checkProductStocks($order)) {
+            return redirect()->route('checkout.products.index', $lang);
+        }
 
         $country = $order->shippingAddress->country;
         $shippingOptions = $country->filterShippingOptions($order->products_value);
@@ -135,6 +157,10 @@ class CheckoutPaymentController extends Controller
 
     public function update(CheckoutPaymentRequest $request, Order $order, RefreshOrder $refreshOrder): JsonResponse
     {
+        if ($order->isEmpty() || $order->isSubmitted()) {
+            return response()->json('', 422);
+        }
+
         if ($request->filled('country_shipping_method_id')) {
             session()->put('countryShippingMethod', $request->input('country_shipping_method_id'));
         }
@@ -143,7 +169,7 @@ class CheckoutPaymentController extends Controller
             session()->put('countryPaymentMethod', $request->input('country_payment_method_id'));
         }
 
-        $refreshOrder->handle($order);
+        DB::transaction(fn() => $refreshOrder->handle($order));
 
         $products = $order->products->load('parent', 'options');
         $products->merge($order->products->pluck('parent')->filter())->load('translation');
@@ -153,5 +179,23 @@ class CheckoutPaymentController extends Controller
                 'order'    => $order,
                 'products' => $products,
             ])->render());
+    }
+
+    private function totalHasChanged(RefreshOrder $refreshOrder, Order $order): bool
+    {
+        DB::transaction(fn() => $refreshOrder->handle($order));
+        return $refreshOrder->totalHasChanged();
+    }
+
+    private function checkProductStocks(Order $order): bool
+    {
+        $products = $order->products;
+        foreach ($products as $product) {
+            if (!$product->canBeBought($product->pivot->quantity)) {
+                return false;
+            }
+        }
+
+        return true;
     }
 }
