@@ -2,8 +2,8 @@
     <tbody>
     @foreach($order->products as $product)
         <tr wire:key="{{ $product->id }}">
-            <td class="w-6r @if($loop->last) border-0 @endif">
-                <div class="ratio ratio-1x1">
+            <td class="@if($loop->last) border-0 @endif">
+                <div class="ratio ratio-1x1 w-6r">
                     @if($product->image)
                         <img src="{{ $product->image->url('sm') }}" alt="{{ $product->trademark }}" class="img-top rounded">
                     @endif
@@ -21,7 +21,7 @@
             </td>
             <td class="w-10r align-baseline @if($loop->last) border-0 @endif">
                 <label for="qty-{{ $product->id }}" class="visually-hidden"></label>
-                <x-bs::input.integer wire:model="quantities.{{ $product->id }}" class="{{ !$product->canBeBought($quantities[$product->id]) ? 'is-invalid' : '' }}" id="qty-{{ $product->id }}" placeholder="0"/>
+                <x-bs::input.integer wire:model="quantities.{{ $product->id }}" id="qty-{{ $product->id }}" placeholder="0"/>
 
                 @unless($product->canBeBought($quantities[$product->id]))
                     <div class="fw-500 text-danger small mt-2">Διαθέσιμα: {{ $product->available_stock }}</div>

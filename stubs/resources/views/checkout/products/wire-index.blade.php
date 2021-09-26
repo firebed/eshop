@@ -10,7 +10,7 @@
 
     <meta name="description" content="">
     <meta property="og:title" content="{{ __('Cart') }}">
-{{--    <meta property="og:description" content="">--}}
+    {{--    <meta property="og:description" content="">--}}
     <meta property="og:site_name" content="{{ config('app.name') }}">
     <meta property="og:type" content="website">
     <meta property="og:image" content="{{ asset(config('eshop.logo')) }}">
@@ -23,7 +23,7 @@
 
 @section('main')
     <div class="container-fluid py-5">
-        <div class="container">
+        <div class="container-xxl">
             @if(session()->has('guest-cart-merged-with-user-cart'))
                 <div class="alert bg-teal-400 alert-dismissible fade show" role="alert">
                     <span>{{ __("Your current cart was merged with the cart from your previous login.") }}</span>
