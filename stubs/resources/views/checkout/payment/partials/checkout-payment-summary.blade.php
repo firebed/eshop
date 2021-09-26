@@ -1,27 +1,25 @@
 <aside id="checkout-payment-summary" class="vstack bg-white p-3 border rounded-3 position-relative" style="font-size: .90rem !important; border-top: 3px solid {{ $order->paymentMethod?->isPayPal() ? "#ffc439" : "#50b64a" }} !important">
     <h2 class="fs-5 mb-3">{{ __('Cart summary') }}</h2>
 
-    <div data-simplebar data-simplebar-auto-hide="false" style="max-height: 200px">
-        <div class="table-responsive">
-            <table class="table table-borderless table-sm mb-0">
-                @foreach($products as $product)
-                    <tr>
-                        <td class="ps-0">
-                            <div class="vstack">
-                                @if($product->isVariant())
-                                    <div class="fw-500">{{ $product->parent->name ?? '' }}</div>
-                                    <div class="text-secondary">{{ $product->option_values ?? '' }}</div>
-                                @else
-                                    <div>{{ $product->name ?? '' }}</div>
-                                @endif
-                            </div>
-                        </td>
-                        <td class="text-end">{{ $product->pivot->quantity }}&nbsp;x</td>
-                        <td class="text-end pe-0">{{ format_currency($product->pivot->netValue) }}</td>
-                    </tr>
-                @endforeach
-            </table>
-        </div>
+    <div class="table-responsive scrollbar" style="max-height: 200px">
+        <table class="table table-borderless table-sm mb-0">
+            @foreach($products as $product)
+                <tr>
+                    <td class="ps-0">
+                        <div class="vstack">
+                            @if($product->isVariant())
+                                <div class="fw-500">{{ $product->parent->name ?? '' }}</div>
+                                <div class="text-secondary">{{ $product->option_values ?? '' }}</div>
+                            @else
+                                <div>{{ $product->name ?? '' }}</div>
+                            @endif
+                        </div>
+                    </td>
+                    <td class="text-end">{{ $product->pivot->quantity }}&nbsp;x</td>
+                    <td class="text-end pe-0">{{ format_currency($product->pivot->netValue) }}</td>
+                </tr>
+            @endforeach
+        </table>
     </div>
 
     <hr class="text-secondary">

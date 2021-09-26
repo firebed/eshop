@@ -22,7 +22,6 @@
 
     <livewire:styles/>
     <script defer src="https://unpkg.com/alpinejs@3.2.1/dist/cdn.min.js"></script>
-    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <x-eshop::google-analytics/>
 </head>
