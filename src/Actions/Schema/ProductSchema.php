@@ -42,6 +42,7 @@ class ProductSchema
 
         if ($product->has_variants) {
             $sData['offers'] = $this->aggregateOffer($product);
+            $sData['offers']['url'] = productRoute($product);
 
             if ($product->variants->isNotEmpty()) {
                 $models = [];
