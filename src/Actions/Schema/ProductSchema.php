@@ -105,7 +105,7 @@ class ProductSchema
         return [
             "@type"           => "Offer",
             "price"           => $product->net_value,
-            "priceCurrency"   => config("app.currency"),
+            "priceCurrency"   => config("eshop.currency"),
             "availability"    => $product->canBeBought() ? "InStock" : "OutOfStock",
             "priceValidUntil" => today()->addMonth()->format('Y-m-d'),
         ];
@@ -124,7 +124,7 @@ class ProductSchema
             "@type"           => "AggregateOffer",
             "lowPrice"        => $lowPrice,
             "highPrice"       => $highPrice,
-            "priceCurrency"   => config("app.currency"),
+            "priceCurrency"   => config("eshop.currency"),
             "availability"    => $product->canBeBought() ? "InStock" : "OutOfStock",
             "url"             => productRoute($product),
             "priceValidUntil" => today()->addMonth()->format('Y-m-d'),
