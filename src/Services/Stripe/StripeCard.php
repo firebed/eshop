@@ -16,7 +16,7 @@ class StripeCard
     public ?string      $installments;
     public string       $last4;
     public string       $network;
-    public ThreeDSecure $three_d_secure;
+    public ?ThreeDSecure $three_d_secure;
 
     public function __construct(PaymentIntent $intent)
     {
@@ -32,6 +32,6 @@ class StripeCard
         $this->installments = $card->installments;
         $this->last4 = $card->last4;
         $this->network = $card->network;
-        $this->three_d_secure = new ThreeDSecure($card->three_d_secure);
+        $this->three_d_secure = $card->three_d_secure ? new ThreeDSecure($card->three_d_secure) : null;
     }
 }
