@@ -38,7 +38,7 @@ use Illuminate\Support\Collection;
  * @property string         email
  * @property string         ip
  * @property string         channel
- * @property double         total
+ * @property float          total
  * @property ?string        details
  * @property ?string        voucher
  * @property ?Carbon        submitted_at
@@ -53,8 +53,8 @@ use Illuminate\Support\Collection;
  * @property Collection     products
  * @property Invoice        invoice
  *
- * @property double         total_without_fees
- * @property double         total_fees
+ * @property float          total_without_fees
+ * @property float          total_fees
  * @property int            items_count
  * @property int            sum_quantity
  * @property int            products_value

@@ -20,7 +20,7 @@
         z-index: $zindex-offcanvas;
         display: flex;
         flex-direction: column;
-        max-width: 100%;
+        max-width: 300px;
         color: $offcanvas-color;
         visibility: hidden;
         background-clip: padding-box;
@@ -28,7 +28,7 @@
         transition: transform .3s ease-in-out, visibility .3s ease-in-out;
 
         left: 0;
-        width: auto;
+        width: 100%;
         //border-right: $offcanvas-border-width solid $offcanvas-border-color;
         transform: translateX(-100%);
 
