@@ -47,7 +47,7 @@ class ProductSchema
             if ($product->variants->isNotEmpty()) {
                 $models = [];
                 foreach ($product->variants as $variant) {
-                    $model = $this->model($variant);
+                    $model = $this->model($variant, $product);
                     $model["offers"]['url'] = variantRoute($variant, $product, $product->category);
                     $models[] = $model;
                 }
@@ -66,7 +66,7 @@ class ProductSchema
         return json_encode($this->toArray($product));
     }
 
-    private function model(Product $product): array
+    private function model(Product $product, Product $parent): array
     {
         $model = [
             "@type"  => "ProductModel",
@@ -89,7 +89,7 @@ class ProductSchema
         }
         
         if ($product->seo?->description !== null) {
-            $model["description"] = $product->seo->description;
+            $model["description"] = $product->seo->description ?? $parent->seo?->description;
         }
 
         foreach ($product->options as $option) {
