@@ -1,9 +1,7 @@
 <div class="row align-items-center g-4 py-2">
-    <h1 class="col-auto mb-0">
-        <strong>
-            <a id="logo" title="{{ config('app.name') }}" style="--bg: url({{ asset(config('eshop.logo')) }})" href="{{ route('home', app()->getLocale()) }}">{{ config('app.url') }}</a>
-        </strong>
-    </h1>
+    <div class="col-auto">
+        <a id="logo" title="{{ config('app.name') }}" style="--bg: url({{ asset(config('eshop.logo')) }})" href="{{ route('home', app()->getLocale()) }}">{{ config('app.url') }}</a>
+    </div>
 
     <div class="col-auto ms-auto hstack gap-4 order-lg-2">
         <div class="d-none d-md-flex justify-content-center ms-auto">

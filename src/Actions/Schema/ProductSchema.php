@@ -37,7 +37,7 @@ class ProductSchema
         }
 
         if (!empty($product->mpn)) {
-            $model['mpn'] = $product->mpn;
+            $sData['mpn'] = $product->mpn;
         }
 
         if ($product->has_variants) {
@@ -86,6 +86,10 @@ class ProductSchema
 
         if ($src = $product->image?->url('sm')) {
             $model['image'] = $src;
+        }
+        
+        if ($product->seo?->description !== null) {
+            $model["description"] = $product->seo->description;
         }
 
         foreach ($product->options as $option) {
