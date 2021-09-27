@@ -88,8 +88,9 @@ class ProductSchema
             $model['image'] = $src;
         }
         
-        if ($product->seo?->description !== null) {
-            $model["description"] = $product->seo->description ?? $parent->seo?->description;
+        $description = $product->seo->description ?? $parent->seo?->description;
+        if ($description !== null) {
+            $model["description"] = $description;
         }
 
         foreach ($product->options as $option) {
