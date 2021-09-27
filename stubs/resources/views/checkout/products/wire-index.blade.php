@@ -31,9 +31,9 @@
                 </div>
             @endif
 
-            <h1 class="col-12 fs-3 fw-normal mb-4">{{ __('Your cart') }}</h1>
-
-            <livewire:checkout.show-checkout-products />
+            <div class="d-grid gap-3">
+                <livewire:checkout.show-checkout-products />
+            </div>
         </div>
     </div>
 @endsection

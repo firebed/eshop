@@ -75,12 +75,12 @@
 
                 enable() {
                     this.disabled = false
-                    form.querySelectorAll('input').forEach(i => i.removeAttribute('disabled'))
+                    form.querySelectorAll('input[type=radio]').forEach(i => i.removeAttribute('disabled'))
                 },
 
                 disable() {
                     this.disabled = true
-                    form.querySelectorAll('input').forEach(i => i.setAttribute('disabled', 'disabled'))
+                    form.querySelectorAll('input[type=radio]').forEach(i => i.setAttribute('disabled', 'disabled'))
                 }
             })
         })

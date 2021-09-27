@@ -1,11 +1,11 @@
 <div class="modal fade" id="login-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
-        <div class="modal-content w-25r mx-auto shadow">
+        <div class="modal-content mx-auto shadow">
             <div class="modal-header">
                 <div class="fs-5 fw-500 modal-title" id="exampleModalLabel">{{ __('Login') }}</div>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body p-5">
+            <div class="modal-body p-3 p-sm-4 p-xl-5">
                 <form method="POST" action="{{ route('checkout.login', app()->getLocale()) }}">
                     @csrf
                     <div class="d-grid gap-3">
