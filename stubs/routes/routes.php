@@ -34,7 +34,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', HomepageController::class);
+Route::get('/', HomepageController::class)->name('landing_page');
 
 Route::get('mail', function () {
     Notification::route('mail', 'okan.giritli@gmail.com')->notify(new OrderShippedNotification(Cart::first()));

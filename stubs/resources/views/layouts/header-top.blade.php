@@ -11,13 +11,23 @@
         </x-bs::dropdown.button>
 
         <x-bs::dropdown.menu class="shadow-sm" button="languages-menu">
-            <x-bs::dropdown.item href="{{ str_replace('/' . app()->getLocale(), '/el', url()->current()) }}">
-                <img class="me-2" src="{{ asset('storage/images/flags/Greece.png') }}" alt="Flag of Greece" width="16" height="16">Ελληνικά
-            </x-bs::dropdown.item>
+            @if(Route::currentRouteName() === 'landing_page')
+                <x-bs::dropdown.item href="{{ url()->current() . '/el' }}">
+                    <img class="me-2" src="{{ asset('storage/images/flags/Greece.png') }}" alt="Flag of Greece" width="16" height="16">Ελληνικά
+                </x-bs::dropdown.item>
 
-            <x-bs::dropdown.item href="{{ str_replace('/' . app()->getLocale(), '/en', url()->current()) }}">
-                <img class="me-2" src="{{ asset('storage/images/flags/UnitedKingdom.png') }}" alt="Flag of United Kingdom" width="16" height="16">English
-            </x-bs::dropdown.item>
+                <x-bs::dropdown.item href="{{ url()->current() . '/en' }}">
+                    <img class="me-2" src="{{ asset('storage/images/flags/UnitedKingdom.png') }}" alt="Flag of United Kingdom" width="16" height="16">English
+                </x-bs::dropdown.item>
+            @else
+                <x-bs::dropdown.item href="{{ str_replace('/' . app()->getLocale(), '/el', url()->current()) }}">
+                    <img class="me-2" src="{{ asset('storage/images/flags/Greece.png') }}" alt="Flag of Greece" width="16" height="16">Ελληνικά
+                </x-bs::dropdown.item>
+
+                <x-bs::dropdown.item href="{{ str_replace('/' . app()->getLocale(), '/en', url()->current()) }}">
+                    <img class="me-2" src="{{ asset('storage/images/flags/UnitedKingdom.png') }}" alt="Flag of United Kingdom" width="16" height="16">English
+                </x-bs::dropdown.item>
+            @endif
         </x-bs::dropdown.menu>
     </x-bs::dropdown>
 

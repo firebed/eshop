@@ -1,7 +1,13 @@
 @extends('layouts.master', ['title' => __('company.seo.title')])
 
 @push('meta')
-    <link rel="canonical" href="{{ route('home', app()->getLocale()) }}">
+    @if(Route::currentRouteName() === 'landing_page')
+        <link rel="canonical" href="{{ url('/') }}">
+    @else
+        <link rel="canonical" href="{{ route('home', app()->getLocale()) }}">
+    @endif
+
+    <link rel="alternate" hreflang="{{ config('app.fallback_locale') }}" href="{{ url('/') }}" />
     @foreach(array_keys(config('eshop.locales')) as $locale)
         <link rel="alternate" hreflang="{{ $locale }}" href="{{ route('home', $locale) }}" />
     @endforeach
@@ -20,7 +26,7 @@
     <meta property="og:image:width" content="{{ config('eshop.logo_width') }}" />
     <meta property="og:image:height" content="{{ config('eshop.logo_height') }}" />
     <meta name="twitter:card" content="summary" />
-    
+
     <meta name='robots' content='index, follow' />
 @endpush
 
