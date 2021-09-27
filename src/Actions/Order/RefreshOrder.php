@@ -31,7 +31,7 @@ class RefreshOrder
         $order->total = $this->calculateTotal();
         $order->save();
 
-        $this->totalHasChanged = abs($currentTotal - $order->total) < PHP_FLOAT_EPSILON;
+        $this->totalHasChanged = abs($currentTotal - $order->total) >= PHP_FLOAT_EPSILON;
     }
 
     public function totalHasChanged(): bool
