@@ -22,6 +22,10 @@
                         <x-bs::input.text value="{{ old('tracking_url') }}" name="tracking_url" error="tracking_url" id="tracking-url" placeholder="{{ __('Tracking url') }}"/>
                     </x-bs::input.floating-label>
 
+                    <x-bs::input.checkbox id="is-courier" name="is_courier" :checked="old('is_courier', true)">
+                        {{ __('Courier') }}
+                    </x-bs::input.checkbox>
+                    
                     <div>
                         <x-bs::button.primary x-bind:disabled="submitting" type="submit">
                             <span x-cloak x-show="submitting" class="spinner-border spinner-border-sm" role="status"></span>
