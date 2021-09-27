@@ -19,7 +19,7 @@ class RefreshOrder
     public function handle(Order $order): void
     {
         $this->order = $order;
-        $currentTotal = (float) $order->total;
+        $currentTotal = $order->total;
 
         $this->refreshProducts();
 
@@ -31,7 +31,7 @@ class RefreshOrder
         $order->total = $this->calculateTotal();
         $order->save();
 
-        $this->totalHasChanged = abs($currentTotal - $order->total) >= PHP_FLOAT_EPSILON;
+        $this->totalHasChanged = abs($currentTotal - $order->total) >= 0.00001;
     }
 
     public function totalHasChanged(): bool
