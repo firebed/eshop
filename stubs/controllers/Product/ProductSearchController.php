@@ -36,7 +36,7 @@ class ProductSearchController extends Controller
             ->exceptVariants()
             ->filterByManufacturers($manufacturer_ids)
             ->filterByPrice($request->query('min_price'), $request->query('max_price'))
-            ->with('category', 'image')
+            ->with('category', 'image', 'translations')
             ->with(['variants' => fn($q) => $q->visible()->with('parent.translation', 'options', 'image')])
             ->select('products.*')
             ->joinTranslation()
