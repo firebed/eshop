@@ -18,7 +18,7 @@ class CreateShippingMethodsTable extends Migration
             $table->string('name', 50);
             $table->string('tracking_url')->nullable();
             $table->string('icon')->nullable();
-            $table->bool('is_courier')->default(true);
+            $table->boolean('is_courier')->default(true);
             $table->timestamps();
         });
     }

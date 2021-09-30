@@ -20,14 +20,14 @@
                 <div class="fw-500 mb-2">{{ __("Account") }}</div>
                 <a href="{{ route('login', app()->getLocale()) }}" class="text-dark text-hover-underline">{{ __("Login") }}</a>
                 <a href="{{ route('register', app()->getLocale()) }}" class="text-dark text-hover-underline">{{ __("Register") }}</a>
-                <a href="{{ route('register', app()->getLocale()) }}" class="text-dark text-hover-underline">{{ __("My orders") }}</a>
-                <a href="{{ route('register', app()->getLocale()) }}" class="text-dark text-hover-underline">{{ __("My addresses") }}</a>
+                <a href="{{ route('account.orders.index', app()->getLocale()) }}" class="text-dark text-hover-underline">{{ __("My orders") }}</a>
+                <a href="{{ route('account.addresses.index', app()->getLocale()) }}" class="text-dark text-hover-underline">{{ __("My addresses") }}</a>
             </div>
 
             <div class="col vstack">
                 <div class="fw-500 mb-2">{{ __("Contact") }}</div>
                 <div>{{ __("company.address") }}</div>
-                <div>{{ implode('-', __("company.phone")) }}</div>
+                <div>{!! implode('<br>', __("company.phone")) !!}</div>
                 <div>{{ __("company.email") }}</div>
             </div>
         </div>
