@@ -29,7 +29,7 @@
                 </div>
             </td>
             <td>
-                <a href="{{ route('products.edit', $product) }}" class="d-flex flex-column text-decoration-none">
+                <a href="{{ route('products.edit', $product) }}" class="d-flex flex-column text-decoration-none text-nowrap">
                     <span>{{ $product->name }}</span>
                     <small class="text-secondary">{{ $product->category->name }}</small>
                 </a>

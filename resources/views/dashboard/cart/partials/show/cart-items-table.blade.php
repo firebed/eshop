@@ -27,7 +27,7 @@
                     <td class="w-1r">
                         <x-bs::input.checkbox wire:model="selectAll" id="checkAll"/>
                     </td>
-                    <td class="w-6r">&nbsp;</td>
+                    <td class="w-5r">&nbsp;</td>
                     <td>{{ __("Description") }}</td>
                     <td class="text-end">{{ __("Quantity") }}</td>
                     <td class="text-end">{{ __("Price") }}</td>
@@ -44,7 +44,7 @@
                             <x-bs::input.checkbox wire:model="selected" id="check-{{ $product->id }}" value="{{ $product->pivot->id }}"/>
                         </td>
                         <td>
-                            <div class="ratio ratio-1x1">
+                            <div class="ratio ratio-1x1 w-5r">
                                 @if($product->image && $src = $product->image->url('sm'))
                                     <img class="img-top rounded" src="{{ $src }}" alt="{{ $product->name }}">
                                 @endif
@@ -61,7 +61,7 @@
                                 @else
                                     <div class="fw-500"><span class="text-secondary">{{ $product->sku }}</span> <span>{{ $product->name }}</span></div>
                                 @endif
-                                <div class="hstack gap-2 align-items-baseline">
+                                <div class="hstack gap-2 align-items-baseline text-nowrap">
                                     @if($product->stock > $product->available_gt)
                                         <span class="fw-500 rounded-pill small bg-teal-200 px-3"><em class="fas fa-boxes text-secondary me-2"></em>{{ format_number($product->stock) }}</span>
                                     @elseif($product->stock == $product->available_gt)

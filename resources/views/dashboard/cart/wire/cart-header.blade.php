@@ -1,5 +1,5 @@
-<div class="hstack gap-2 align-items-center">
-    <a href="#" class="btn btn-warning rounded-pill py-0 border-2 border-white" wire:click.prevent="exportToPdf">
+<div class="hstack gap-2 align-items-center overflow-auto">
+    <a href="#" class="btn btn-warning rounded-pill py-0 border-2 border-white text-nowrap" wire:click.prevent="exportToPdf">
         <em class="fa fa-print"></em> {{ __("Print") }}
     </a>
 
@@ -42,7 +42,7 @@
     @endif
 
     <x-bs::dropdown>
-        <button type="button" class="btn btn-haze p-0 rounded-pill px-3 border-2 border-white" data-bs-toggle="dropdown" aria-expanded="false">
+        <button type="button" class="btn btn-haze p-0 rounded-pill px-3 border-2 border-white text-nowrap" data-bs-toggle="dropdown" aria-expanded="false">
             {{ __('More') }} <em class="fas small text-secondary fa-chevron-down"></em>
         </button>
         <x-bs::dropdown.menu button="more">

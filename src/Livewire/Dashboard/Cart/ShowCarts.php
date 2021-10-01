@@ -65,6 +65,13 @@ class ShowCarts extends Component
         $this->per_page = session('carts_per_page', self::PER_PAGE);
     }
 
+    public function updated($key): void
+    {
+        if (in_array($key, ['filter', 'shipping_method_id', 'payment_method_id'])) {
+            $this->resetPage();
+        }
+    }
+    
     public function selectByStatus(int $status_id): void
     {
         $this->selected = $this->filterCarts('status_id', $status_id);

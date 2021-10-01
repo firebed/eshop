@@ -1,4 +1,4 @@
-<div class="col-12 p-4 d-grid gap-3">
+<div class="col-12 p-3 p-xl-4 d-grid gap-3">
     <div class="d-grid gap-2">
         <div class="d-flex">
             <div class="small text-secondary">
@@ -10,11 +10,21 @@
             </div>
         </div>
 
-        <h1 class="fs-3 mb-0">{{ __("eshop::product.products") }}</h1>
+        <div class="d-flex justify-content-between align-items-center">
+            <h1 class="fs-3 mb-0">{{ __("eshop::product.products") }}</h1>
+
+            <a href="{{ route('products.create') }}" class="btn btn-primary">
+                <em class="fa fa-plus me-2"></em>{{ __('eshop::product.new_product') }}
+            </a>
+        </div>
     </div>
 
-    <div class="row gx-2">
-        <div class="col d-flex gap-2">
+    <div class="row row-cols-1 row-cols-md-2 g-3">
+        <div class="col">
+            <x-bs::input.search wire:model="name" placeholder="{{ __('eshop::product.search')}}"/>
+        </div>
+
+        <div class="col d-flex gap-3">
             <x-bs::input.select wire:model="category">
                 <option value="" disabled>{{ __("eshop::product.category") }}</option>
                 @foreach($this->categories as $parentId => $group)
@@ -39,14 +49,9 @@
                 @endforeach
             </x-bs::input.select>
 
-            <x-bs::input.search wire:model="name" placeholder="{{ __('eshop::product.search')}}"/>
-            <x-bs::button.white wire:click="clearSelections" wire:loading.attr="disabled" wire:target="clearSelections">{{ __("Clear") }}</x-bs::button.white>
-        </div>
-
-        <div class="col d-flex justify-content-end">
-            <a href="{{ route('products.create') }}" class="btn btn-primary">
-                <em class="fa fa-plus me-2"></em>{{ __('eshop::product.new_product') }}
-            </a>
+            <x-bs::button.white wire:click="clearSelections" wire:loading.attr="disabled" wire:target="clearSelections">
+                <em class="fas fa-brush"></em>
+            </x-bs::button.white>
         </div>
     </div>
 
