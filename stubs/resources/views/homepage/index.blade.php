@@ -7,7 +7,7 @@
         <link rel="canonical" href="{{ route('home', app()->getLocale()) }}">
     @endif
 
-    <link rel="alternate" hreflang="{{ config('app.fallback_locale') }}" href="{{ url('/') }}" />
+    <link rel="alternate" hreflang="x-default" href="{{ url('/') }}" />
     @foreach(array_keys(config('eshop.locales')) as $locale)
         <link rel="alternate" hreflang="{{ $locale }}" href="{{ route('home', $locale) }}" />
     @endforeach
