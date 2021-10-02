@@ -6,18 +6,22 @@
 
 <div style="font-size: 1.25rem; margin-bottom: 1rem">{{ __("Your order has been shipped!") }}</div>
 
+@if(filled($notesToCustomer))
+<div style="margin-bottom: 1rem">{{ $notesToCustomer }}</div>
+@endif
+
 @include('emails.order.partials.shipping-address')
 
 @include('emails.order.partials.items')
 
-@component('mail::button', ['color' => 'success', 'url' => URL::signedRoute('checkout.completed', [app()->getLocale(), $cart->id])])
+@component('mail::button', ['color' => 'success', 'url' => URL::signedRoute('order-tracking.show', [app()->getLocale(), $cart])])
     {{ __('View you order') }}
 @endcomponent
 
-@if($notesToCustomer)
+@if(filled($cart->details))
 <div style="margin-bottom: 1rem">
-    <div>{{ __('eshop::lang.comments') }}</div>
-    <div>{{ $notesToCustomer }}</div>
+    <div style="font-size: 0.8rem; color: gray">{{ __('eshop::lang.comments') }}</div>
+    <div>{{ $cart->details }}</div>
 </div>
 @endif
 

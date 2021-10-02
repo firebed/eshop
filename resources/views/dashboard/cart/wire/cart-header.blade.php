@@ -1,4 +1,4 @@
-<div class="hstack gap-2 align-items-center overflow-auto">
+<div class="hstack gap-2 align-items-center flex-wrap">
     <a href="#" class="btn btn-warning rounded-pill py-0 border-2 border-white text-nowrap" wire:click.prevent="exportToPdf">
         <em class="fa fa-print"></em> {{ __("Print") }}
     </a>

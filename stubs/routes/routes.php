@@ -11,6 +11,7 @@ use App\Http\Controllers\Checkout\CheckoutDetailsController;
 use App\Http\Controllers\Checkout\CheckoutLoginController;
 use App\Http\Controllers\Checkout\CheckoutPaymentController;
 use App\Http\Controllers\Checkout\CheckoutProductController;
+use App\Http\Controllers\Checkout\OrderTrackingController;
 use App\Http\Controllers\HomepageController;
 use App\Http\Controllers\Pages\PageController;
 use App\Http\Controllers\Product\ProductController;
@@ -92,6 +93,11 @@ Route::group([
 
         Route::get('{page}', PageController::class)->where('page', '(shipping-methods|payment-methods|terms-of-service|data-protection|return-policy|cancellation-policy|secure-transactions)')->name('pages.show');
 
+        Route::post('order-tracking/voucher', [OrderTrackingController::class, 'searchByVoucher'])->name('order-tracking.search_by_voucher');
+        Route::post('order-tracking/id', [OrderTrackingController::class, 'searchById'])->name('order-tracking.search_by_id');
+        Route::get('order-tracking', [OrderTrackingController::class, 'index'])->name('order-tracking.index');
+        Route::get('order-tracking/{order}', [OrderTrackingController::class, 'show'])->name('order-tracking.show');
+        
         Route::get('search', [ProductSearchController::class, 'index'])->name('products.search.index');
         Route::post('search', [ProductSearchController::class, 'ajax'])->name('products.search.ajax');
 

@@ -9,23 +9,23 @@
                         <div class="d-grid align-items-start gap-4">
                             <h1 class="fs-4 fw-normal">{{ __('Order') . ' #' . $order->id }}</h1>
 
-                            @includeWhen(filled($order->voucher), 'account.order.partials.tracking')
+                            @includeWhen(filled($order->voucher), 'order-tracking.partials.tracking')
 
-                            @include('account.order.partials.order-details')
+                            @include('order-tracking.partials.order-details')
 
-                            @include('account.order.partials.shipping-address')
+                            @include('order-tracking.partials.shipping-address')
 
-                            @includeIf($order->billingAddress, 'account.order.partials.billing-address')
+                            @includeIf($order->billingAddress, 'order-tracking.partials.billing-address')
 
-                            @includeIf($order->invoice, 'account.order.partials.invoice')
+                            @includeIf($order->invoice, 'order-tracking.partials.invoice')
 
-                            @includeWhen($order->details, 'account.order.partials.customer-request')
+                            @includeWhen($order->details, 'order-tracking.partials.customer-request')
                         </div>
                     </div>
 
                     <div class="col p-3">
                         <div class="table-responsive">
-                            @include('account.order.partials.products')
+                            @include('order-tracking.partials.products')
                         </div>
                     </div>
                 </div>
