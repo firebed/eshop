@@ -35,17 +35,19 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', HomepageController::class)->name('landing_page');
-
-Route::get('mail', function () {
-    Notification::route('mail', 'okan.giritli@gmail.com')->notify(new OrderShippedNotification(Cart::first()));
-});
-
-Route::get('raw-mail', function () {
-    Mail::raw('Hi, welcome user!', function ($message) {
-        $message->to('okan.giritli@gmail.com')->subject('Test');
+if(app()->isLocal()) {
+    Route::get('mail', function () {
+        Notification::route('mail', 'okan.giritli@gmail.com')->notify(new OrderShippedNotification(Cart::first()));
     });
-});
+
+    Route::get('raw-mail', function () {
+        Mail::raw('Hi, welcome user!', function ($message) {
+            $message->to('okan.giritli@gmail.com')->subject('Test');
+        });
+    });
+}
+
+Route::get('/', HomepageController::class)->name('landing_page');
 
 // Global routes
 Route::group([
