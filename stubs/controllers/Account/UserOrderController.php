@@ -32,7 +32,7 @@ class UserOrderController extends Controller
             return redirect()->route('account.orders.index', $lang);
         }
 
-        $order->load(['products' => fn($q) => $q->with('translation', 'image')]);
+        $order->load(['products' => fn($q) => $q->with('translation', 'image', 'parent.translation', 'options')]);
         $products = $order->products;
 
         return view('account.order.show', compact('order', 'products'));

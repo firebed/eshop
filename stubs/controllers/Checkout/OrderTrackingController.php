@@ -22,7 +22,7 @@ class OrderTrackingController extends Controller
             return redirect()->route('order-tracking.index', $lang);
         }
 
-        $order->load(['products' => fn($q) => $q->with('translation', 'image')]);
+        $order->load(['products' => fn($q) => $q->with('translation', 'image', 'parent.translation', 'options')]);
         $products = $order->products;
 
         return view('order-tracking.show', compact('order', 'products'));
