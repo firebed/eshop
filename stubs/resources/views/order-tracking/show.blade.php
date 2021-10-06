@@ -2,7 +2,7 @@
 
 @section('main')
     <div class="container-fluid py-4">
-        <div class="container">
+        <div class="container-xxl">
             <x-bs::card class="shadow-none bg-light">
                 <div class="row row-cols-1 row-cols-lg-2 g-0">
                     <div class="col p-3 bg-white rounded-start border-end">

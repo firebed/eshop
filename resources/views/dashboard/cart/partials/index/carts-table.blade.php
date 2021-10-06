@@ -60,12 +60,22 @@
             </td>
             <td class="align-middle">
                 @if($cart->shippingMethod)
-                    <a href="{{ route('carts.show', $cart) }}" class="d-block text-decoration-none text-dark">{{ __($cart->shippingMethod->name) }}</a>
+                    <a href="{{ route('carts.show', $cart) }}" class="d-flex justify-content-between text-decoration-none align-items-center text-dark">
+                        {{ __("eshop::shipping.abbr." . $cart->shippingMethod->name) }}
+                        @if($cart->shipping_fee > 0)
+                            <span class="badge bg-orange-100 rounded-pill">{{ format_currency($cart->shipping_fee) }}</span>
+                        @endif
+                    </a>
                 @endif
             </td>
             <td class="align-middle">
                 @if($cart->paymentMethod)
-                    <a href="{{ route('carts.show', $cart) }}" class="d-block text-decoration-none text-dark">{{ __('eshop::payment.' . $cart->paymentMethod->name) }}</a>
+                    <a href="{{ route('carts.show', $cart) }}" class="d-flex justify-content-between text-decoration-none align-items-center text-dark">
+                        {{ __('eshop::payment.abbr.' . $cart->paymentMethod->name) }}
+                        @if($cart->payment_fee > 0)
+                            <span class="badge bg-orange-100 rounded-pill">{{ format_currency($cart->payment_fee) }}</span>
+                        @endif
+                    </a>
                 @endif
             </td>
             <td class="text-end align-middle">

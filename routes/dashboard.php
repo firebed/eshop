@@ -79,7 +79,7 @@ Route::middleware(['web', 'auth', 'admin'])->group(function () {
 
         Route::view('config', 'eshop::dashboard.config.index')->name('config.index');
 
-        Route::get('analytics', AnalyticsController::class)->name('analytics');
+        Route::get('analytics', AnalyticsController::class)->name('analytics.index');
 
         Route::resource('pos', PosController::class)->except('index', 'show')->parameter('pos', 'cart');
     });

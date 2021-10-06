@@ -19,9 +19,7 @@
     <meta property="og:image:height" content="{{ config('eshop.logo_height') }}" />
     <meta name="twitter:card" content="summary" />
 
-    <script type="application/ld+json">{!! schema()->webPage(__("Login"), $description) !!}</script>
-    <script type="application/ld+json">{!! schema()->webSite('login') !!}</script>
-    <script type="application/ld+json">{!! schema()->organization() !!}</script>
+    <script type="application/ld+json">{!! schema()->webPage($title, $description) !!}</script>
 @endpush
 
 @section('main')

@@ -61,7 +61,7 @@
                     @endcan
 
                     <div class="d-grid gap-2 align-self-start">
-                        <h1 class="fs-3 fw-500 mb-0">{{ $product->trademark }}</h1>
+                        <h1 class="fs-3 mb-0"><strong class="fw-500">{{ $product->trademark }}</strong></h1>
 
                         <div class="small text-secondary fw-500">{{ __("Code") }}: {{ $product->sku }}</div>
 

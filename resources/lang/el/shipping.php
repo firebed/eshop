@@ -6,5 +6,14 @@ return [
     'KTEL'                   => 'ΚΤΕΛ',
     'Elta Courier'           => 'Elta Courier',
     'Geniki Taxydromiki'     => 'Γενική ταχυδρομική',
-    'SpeedEx'                => 'SpeedEx'
+    'SpeedEx'                => 'SpeedEx',
+    
+    'abbr' => [
+        'Collect from our store' => 'Παραλαβή',
+        'ACS Courier'            => 'ACS',
+        'KTEL'                   => 'ΚΤΕΛ',
+        'Elta Courier'           => 'Elta',
+        'Geniki Taxydromiki'     => 'Γενική',
+        'SpeedEx'                => 'SpeedEx',        
+    ]
 ];

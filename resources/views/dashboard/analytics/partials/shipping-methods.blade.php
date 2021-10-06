@@ -2,12 +2,12 @@
     <x-bs::card.body>
         <div class="d-grid gap-3">
             <div class="d-flex justify-content-between">
-                <div class="fw-bold">{{ __("eshop::analytics.orders_channel") }}</div>
+                <div class="fw-bold">{{ __("eshop::analytics.shipping_methods") }}</div>
                 <a href="#" class="text-decoration-none">{{ __("eshop::analytics.view_report") }}</a>
             </div>
 
             <div class="ratio ratio-16x9">
-                <canvas id="orders-channel"></canvas>
+                <canvas id="shipping-methods"></canvas>
             </div>
 
             <div class="d-flex gap-3 justify-content-end small">
@@ -22,29 +22,29 @@
 
 @push('footer_scripts')
     <script>
-        new Chart(document.getElementById('orders-channel').getContext('2d'), {
+        new Chart(document.getElementById('shipping-methods').getContext('2d'), {
             type: 'bar',
             data: {
-                labels: ['{!! $ordersChannel->keys()->join("', '") !!}'],
+                labels: ['{!! $shippingMethods->keys()->map(fn($k) => __("eshop::shipping.abbr.$k"))->join("', '") !!}'],
                 datasets: [{
                     label: '{{ $date->isoFormat('ll') }}',
-                    data: [{!! $ordersChannel->map(fn($count, $channel) => "{channel: '$channel', count: $count}")->join(', ') !!}],
+                    data: [{!! $shippingMethods->map(fn($count, $sm) => "{shippingMethod: '" . __("eshop::shipping.abbr.$sm") . "', count: $count}")->join(', ') !!}],
                     parsing: {
                         yAxisKey: 'count',
-                        xAxisKey: 'channel'
+                        xAxisKey: 'shippingMethod'
                     },
                     fill: false,
                     borderColor: 'rgb(177, 136, 225)',
                     backgroundColor: 'rgba(177, 136, 225, 0.3)',
                     borderWidth: 1,
                 }, 
-                @if($ordersChannelComparison->isNotEmpty())
+                @if($shippingMethodsComparison->isNotEmpty())
                 {
                     label: '{{ $dateComparison->isoFormat('ll') }}',
-                    data: [{!! $ordersChannelComparison->map(fn($count, $channel) => "{channel: '$channel', count: $count}")->join(', ') !!}],
+                    data: [{!! $shippingMethodsComparison->map(fn($count, $sm) => "{shippingMethod: '" . __("eshop::shipping.abbr.$sm") . "', count: $count}")->join(', ') !!}],
                     parsing: {
                         yAxisKey: 'count',
-                        xAxisKey: 'channel'
+                        xAxisKey: 'shippingMethod'
                     },
                     fill: false,
                     borderColor: 'rgb(215,215,215)',

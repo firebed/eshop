@@ -48,7 +48,7 @@
                 </div>
                 <div class="col d-flex flex-column gap-3">
                     <div class="d-flex align-items-baseline">
-                        <h1 class="fs-4 fw-normal mb-0">{{ $search_term }}</h1>
+                        <h1 class="fs-4 mb-0"><strong class="fw-normal">{{ $search_term }}</strong></h1>
                         <div class="ms-3 text-secondary">(@choice("eshop::product.products_count", $products->total(), ['count' => $products->total()]))</div>
                     </div>
 

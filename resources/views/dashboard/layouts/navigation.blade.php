@@ -66,7 +66,7 @@
 {{--    <a href="#" @if(request()->routeIs('store')) class="bg-gray-700" @endif><i class="fas fa-store w-2r me-2 text-blue-300"></i> {{ __("Store") }}</a>--}}
 
 {{--    <a href="#" @if(request()->routeIs('marketing')) class="bg-gray-700" @endif><i class="fa fa-lightbulb w-2r me-2 text-yellow-300"></i> {{ __("Marketing") }}</a>--}}
-    <a href="{{ route('analytics') }}" @if(request()->routeIs('analytics')) class="bg-gray-700" @endif><i class="far fa-chart-bar w-2r me-2 text-pink-300"></i>{{ __("Analytics") }}</a>
+    <a href="{{ route('analytics.index') }}" @if(request()->routeIs('analytics.*')) class="bg-gray-700" @endif><i class="far fa-chart-bar w-2r me-2 text-pink-300"></i>{{ __("Analytics") }}</a>
 {{--    <a href="#" @if(request()->routeIs('welcome-messages')) class="bg-gray-700" @endif><i class="fa fa-comment-dots w-2r me-2 text-indigo-300"></i> {{ __("Welcome messages") }}</a>--}}
 
     @can('Edit configuration')

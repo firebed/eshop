@@ -1,22 +1,39 @@
 <x-bs::card class="h-100">
     <x-bs::card.body>
-        <div class="d-grid gap-2">
+        <div class="d-grid gap-3">
             <div class="d-flex justify-content-between">
-                <div class="fw-bold">{{ __("Total sales") }}</div>
-                <a href="#" class="text-decoration-none">{{ __("View report") }}</a>
+                <div class="fw-bold">{{ __("eshop::analytics.total_sales") }}</div>
+                <a href="#" class="text-decoration-none">{{ __("eshop::analytics.view_report") }}</a>
             </div>
 
-            <div class="fw-500 fs-4">{{ format_currency($totalSalesToday->sum()) }}</div>
+            <div class="d-flex gap-3 align-items-baseline">
+                <div class="d-grid">
+                    <div class="fw-500 fs-4 text-purple-500">{{ format_currency($totalSales->sum()) }}</div>
+                    @if($totalSalesComparison->isNotEmpty())
+                        @php($percent = ($totalSales->sum() - $totalSalesComparison->sum())/$totalSalesComparison->sum())
+                        @if($percent >= 0)
+                            <small class="lh-sm fw-500 text-success"><em class="fas fa-arrow-up"></em> {{ format_percent(abs($percent)) }}</small>
+                        @else
+                            <small class="lh-sm fw-500 text-danger"><em class="fas fa-arrow-down"></em> {{ format_percent(abs($percent)) }}</small>
+                        @endif
+                    @endif
+                </div>
 
-            <div class="fw-500">{{ __("Sales over time") }}</div>
+                @if($totalSalesComparison->isNotEmpty())
+                    <div>&dash;</div>
+                    <div class="fs-4 text-secondary">{{ format_currency($totalSalesComparison->sum()) }}</div>
+                @endif
+            </div>
 
             <div class="ratio ratio-16x9">
                 <canvas id="total-sales"></canvas>
             </div>
 
             <div class="d-flex gap-3 justify-content-end small">
-                <div class="text-gray-500"><em class="fas fa-square me-2"></em> {{ \Illuminate\Support\Carbon::yesterday()->isoFormat('ll') }}</div>
-                <div class="text-purple-400"><em class="fas fa-square me-2"></em> {{ today()->isoFormat('ll') }}</div>
+                @isset($dateComparison)
+                    <div class="text-gray-500"><em class="fas fa-square me-2"></em> {{ $dateComparison->isoFormat('ll') }}</div>
+                @endisset
+                <div class="text-purple-400"><em class="fas fa-square me-2"></em> {{ $date->isoFormat('ll') }}</div>
             </div>
         </div>
     </x-bs::card.body>
@@ -29,7 +46,8 @@
             data: {
                 labels: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23],
                 datasets: [{
-                    data: [{{ $totalSalesToday->map(fn($total, $hour) => "{hour: $hour, total: $total}")->join(', ') }}],
+                    label: '{{ $date->isoFormat('ll') }}',
+                    data: [{{ $totalSales->map(fn($total, $hour) => "{hour: $hour, total: $total}")->join(', ') }}],
                     parsing: {
                         yAxisKey: 'total',
                         xAxisKey: 'hour'
@@ -38,16 +56,21 @@
                     borderColor: 'rgb(177, 136, 225)',
                     backgroundColor: 'rgba(177, 136, 225, 0.3)',
                     borderWidth: 1,
-                }, {
-                    data: [{{ $totalSalesYesterday->map(fn($total, $hour) => "{hour: $hour, total: $total}")->join(', ') }}],
-                    parsing: {
-                        yAxisKey: 'total',
-                        xAxisKey: 'hour'
-                    },
-                    fill: false,
-                    borderColor: 'rgb(215,215,215)',
-                    borderWidth: 1,
-                }]
+                },
+                        @if($totalSalesComparison->isNotEmpty())
+                    {
+                        label: '{{ $dateComparison->isoFormat('ll') }}',
+                        data: [{{ $totalSalesComparison->map(fn($total, $hour) => "{hour: $hour, total: $total}")->join(', ') }}],
+                        parsing: {
+                            yAxisKey: 'total',
+                            xAxisKey: 'hour'
+                        },
+                        fill: false,
+                        borderColor: 'rgb(215,215,215)',
+                        borderWidth: 1,
+                    }
+                    @endif
+                ]
             },
             options: {
                 plugins: {
@@ -60,11 +83,14 @@
                         beginAtZero: true,
                         ticks: {
                             maxTicksLimit: 12
+                        },
+                        grid: {
+                            display: false
                         }
                     },
                     y: {
                         beginAtZero: true,
-                        grace: '5%',
+                        grace: '10%',
                     }
                 },
                 responsive: true,

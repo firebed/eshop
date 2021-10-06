@@ -61,7 +61,7 @@
                     </div>
                     <div class="col d-flex flex-column gap-3">
                         <div class="d-flex align-items-baseline">
-                            <h1 class="fs-4 fw-normal mb-0">{{ $category->name }}</h1>
+                            <h1 class="fs-4 mb-0"><strong class="fw-normal">{{ $category->name }}</strong></h1>
                             <div class="ms-3 text-secondary">(@choice("eshop::product.products_count", $products->total(), ['count' => $products->total()]))</div>
                         </div>
 
@@ -103,7 +103,7 @@
                     </div>
                 </div>
             @else
-                <h1 class="col-12 fw-500 fs-3 mb-4">{{ $category->name }}</h1>
+                <h1 class="col-12 fs-3 mb-4"><strong class="fw-500">{{ $category->name }}</strong></h1>
 
                 <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 row-cols-xxl-5 g-4">
                     @foreach($children as $child)
