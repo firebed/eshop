@@ -66,8 +66,8 @@ class SitemapGenerator
     {
         $sitemap = new Sitemap();
 
-        $sitemap->addUrl('/', today()->startOfMonth(), Url::CHANGE_FREQ_MONTHLY, 1);
-        $sitemap->addUrl(route('home', app()->getLocale()), today()->startOfMonth(), Url::CHANGE_FREQ_MONTHLY, 1);
+        $sitemap->addUrl(\url('/') . '/', today()->startOfMonth(), Url::CHANGE_FREQ_WEEKLY, 1);
+        $sitemap->addUrl(route('home', app()->getLocale()), today()->startOfMonth(), Url::CHANGE_FREQ_WEEKLY, 1);
         $sitemap->addUrl(route('pages.show', [app()->getLocale(), 'terms-of-service']), today()->startOfYear(), Url::CHANGE_FREQ_YEARLY);
         $sitemap->addUrl(route('pages.show', [app()->getLocale(), 'data-protection']), today()->startOfYear(), Url::CHANGE_FREQ_YEARLY);
         $sitemap->addUrl(route('pages.show', [app()->getLocale(), 'return-policy']), today()->startOfYear(), Url::CHANGE_FREQ_YEARLY);
