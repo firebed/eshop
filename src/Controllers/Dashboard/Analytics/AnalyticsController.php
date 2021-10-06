@@ -21,7 +21,7 @@ class AnalyticsController extends Controller
 
         $dateComparison = $request->filled('date_comparison')
             ? Carbon::createFromFormat('Y-m-d', $request->input('date_comparison'))->startOfDay()
-            : null;
+            : Carbon::yesterday();
 
         return view('eshop::dashboard.analytics.index', [
             'totalOrders'               => $this->totalOrders($date),

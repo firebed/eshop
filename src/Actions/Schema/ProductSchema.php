@@ -31,6 +31,10 @@ class ProductSchema
         if ($product->seo?->description !== null) {
             $sData["description"] = $product->seo->description;
         }
+        
+        if ($product->manufacturer) {
+            $sData['brand'] = $product->manufacturer->name;
+        }
 
         if ($src = $product->image?->url('sm')) {
             $sData["image"] = $src;
@@ -79,6 +83,10 @@ class ProductSchema
             //                "reviewCount" => 0
             //            ]
         ];
+        
+        if ($parent->manufacturer) {
+            $model['brand'] = $parent->manufacturer->name;
+        }
 
         if (!empty($product->mpn)) {
             $model['mpn'] = $product->mpn;
