@@ -31,9 +31,12 @@ class ProductSchema
         if ($product->seo?->description !== null) {
             $sData["description"] = $product->seo->description;
         }
-        
+
         if ($product->manufacturer) {
-            $sData['brand'] = $product->manufacturer->name;
+            $sData['brand'] = [
+                '@type' => 'Brand',
+                'name'  => $product->manufacturer->name
+            ];
         }
 
         if ($src = $product->image?->url('sm')) {
@@ -83,9 +86,12 @@ class ProductSchema
             //                "reviewCount" => 0
             //            ]
         ];
-        
+
         if ($parent->manufacturer) {
-            $model['brand'] = $parent->manufacturer->name;
+            $model['brand'] = [
+                '@type' => 'Brand',
+                'name'  => $parent->manufacturer->name
+            ];
         }
 
         if (!empty($product->mpn)) {
@@ -95,7 +101,7 @@ class ProductSchema
         if ($src = $product->image?->url('sm')) {
             $model['image'] = $src;
         }
-        
+
         $description = $product->seo->description ?? $parent->seo?->description;
         if ($description !== null) {
             $model["description"] = $description;
