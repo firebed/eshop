@@ -18,7 +18,7 @@ return [
     'View analytics'                  => 'Προβολή στατιστικών',
     'Manage orders'                   => 'Διαχείριση παραγγελιών',
     'Manage POS'                      => 'Διαχείριση POS',
-    'View dashboard'                  => 'Προβολή πίνακας ελέγχου',
+    'View dashboard'                  => 'Προβολή πίνακα ελέγχου',
     'Create POS order'                => 'Δημιουργία παραγγελιών μέσω POS',
     'Manage assigned orders'          => 'Διαχείριση εκχωρημένων παραγγελιών'
 ];
