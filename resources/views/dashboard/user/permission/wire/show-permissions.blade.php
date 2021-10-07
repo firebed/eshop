@@ -8,7 +8,7 @@
             <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-4">
                 @foreach($this->roles as $role)
                     <div class="col d-flex flex-column" wire:key="role-{{ $role->id }}">
-                        <div class="fw-bold border-bottom pb-2 mb-2">{{ __($role->name) }}</div>
+                        <div class="fw-bold border-bottom pb-2 mb-2">{{ __('eshop::role.' . $role->name) }}</div>
 
                         <div x-ref="permissions" class="d-grid gap-1">
                             @foreach($role->permissions as $permission)
@@ -17,7 +17,7 @@
                                         wire:model.defer="selected_permissions"
                                         value="{{ $permission->id }}"
                                         id="permission-{{ $permission->id }}">
-                                    {{ __($permission->name) }}
+                                    {{ __('eshop::permission.' . $permission->name) }}
                                 </x-bs::input.checkbox>
                             @endforeach
                         </div>
