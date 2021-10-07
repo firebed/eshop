@@ -1,11 +1,11 @@
 <div class="hstack gap-2 align-items-center flex-wrap">
-    <a href="#" class="btn btn-warning rounded-pill py-0 border-2 border-white text-nowrap" wire:click.prevent="exportToPdf">
+    <a href="#" class="btn btn-warning rounded-pill py-1 px-3 border-2 border-white text-nowrap btn-sm" wire:click.prevent="exportToPdf">
         <em class="fa fa-print"></em> {{ __("Print") }}
     </a>
 
     @if($cart->submitted_at)
         <x-bs::dropdown>
-            <x-bs::dropdown.button size="sm" id="voucher-dropdown" class="btn-secondary rounded-pill py-0 border-2 border-white">
+            <x-bs::dropdown.button id="voucher-dropdown" class="btn-secondary rounded-pill py-1 px-3 border-2 border-white btn-sm">
                 {{ $cart->voucher ?? 'Voucher' }}
             </x-bs::dropdown.button>
             <x-bs::dropdown.menu button="voucher-dropdown">
@@ -19,7 +19,7 @@
 
         <x-bs::dropdown>
             @if($status)
-                <x-bs::dropdown.button wire:loading.attr="disabled" wire:target="resetStatus, editCartStatus" id="statuses-dropdown" class="btn-{{ $status->color }} rounded-pill py-0 border-2 border-white">
+                <x-bs::dropdown.button wire:loading.attr="disabled" wire:target="resetStatus, editCartStatus" id="statuses-dropdown" class="btn-{{ $status->color }} rounded-pill py-1 px-3 btn-sm border-2 border-white">
                     {{ __("eshop::cart.status.action.$status->name") }}
                 </x-bs::dropdown.button>
             @endif
@@ -42,13 +42,19 @@
     @endif
 
     <x-bs::dropdown>
-        <button type="button" class="btn btn-haze p-0 rounded-pill px-3 border-2 border-white text-nowrap" data-bs-toggle="dropdown" aria-expanded="false">
+        <button type="button" class="btn btn-haze btn-sm py-1 px-3 rounded-pill border-2 border-white text-nowrap" data-bs-toggle="dropdown" aria-expanded="false">
             {{ __('More') }} <em class="fas small text-secondary fa-chevron-down"></em>
         </button>
         <x-bs::dropdown.menu button="more">
             <x-bs::dropdown.item wire:click.prevent="confirmDelete"><em class="far fa-trash-alt text-secondary me-2"></em>{{ __('Delete') }}</x-bs::dropdown.item>
         </x-bs::dropdown.menu>
     </x-bs::dropdown>
+    
+    @can(['Manage orders'])
+        <a href="#" class="btn btn-haze rounded-pill py-1 px-3 border-2 border-white text-nowrap btn-sm" wire:click.prevent="exportToPdf">
+            <em class="fa fa-user"></em> {{ __("Employees") }}
+        </a>
+    @endcan
 
     <form wire:submit.prevent="deleteCart">
         <x-bs::modal wire:model.defer="showConfirmDelete">

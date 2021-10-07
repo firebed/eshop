@@ -13,6 +13,11 @@ use Illuminate\Support\Facades\DB;
 
 class AnalyticsController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('can:View analytics');
+    }
+    
     public function __invoke(Request $request): Renderable
     {
         $date = $request->filled('date')

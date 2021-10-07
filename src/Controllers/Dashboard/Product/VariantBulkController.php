@@ -20,6 +20,11 @@ class VariantBulkController extends Controller
     use WithNotifications,
         WithVariantOptions;
 
+    public function __construct()
+    {
+        $this->middleware('can:Manage products');
+    }
+    
     public function create(Product $product): Renderable
     {
         return view('eshop::dashboard.variant.bulk-create', [

@@ -50,7 +50,7 @@ Route::middleware(['web', 'auth', 'admin'])->group(function () {
         Route::resource('collections', CollectionController::class)->except('show');
 
         Route::get('carts/{cart}/print', OrderPrintController::class)->name('carts.print');
-        Route::resource('carts', CartController::class);
+        Route::resource('carts', CartController::class)->only('index', 'show', 'destroy');
 
         Route::put('categories/properties/{property}/moveUp', [CategoryPropertyController::class, 'moveUp'])->name('categories.properties.moveUp');
         Route::put('categories/properties/{property}/moveDown', [CategoryPropertyController::class, 'moveDown'])->name('categories.properties.moveDown');

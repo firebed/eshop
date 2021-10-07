@@ -22,6 +22,11 @@ class VariantController extends Controller
         WithVariantOptions,
         WithImage;
 
+    public function __construct()
+    {
+        $this->middleware('can:Manage products');
+    }
+    
     public function index(Product $product): Renderable
     {
         return view('eshop::dashboard.variant.index', compact('product'));

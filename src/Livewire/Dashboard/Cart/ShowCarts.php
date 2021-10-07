@@ -158,6 +158,10 @@ class ShowCarts extends Component
             ->when($this->filter, function($q, $f) {
                 return $q->where(fn($b) => $b->where('id', 'LIKE', "$f%")->orWhereHas('shippingAddress', fn($b) => $b->matchAgainst($f)));
             })
+            ->when(user()?->cannot('Manage orders') && user()?->can('Manage assigned orders'), function($q) {
+                return $q->whereHas('assignedUsers', fn($b) => $b->where('user_id', user()->id));
+            })
+            ->with('assignedUsers')
             ->when($this->status, fn($q, $s) => $q->where('status_id', $s))
             ->when($this->shipping_method_id, fn($q, $id) => $q->where('shipping_method_id', $id))
             ->when($this->payment_method_id, fn($q, $id) => $q->where('payment_method_id', $id))

@@ -10,7 +10,7 @@
     @foreach($priceRanges as $range)
         <a href="{{ categoryRoute($category, $filters['m'], $filters['c'], $range['min'], $range['max']) }}"
            rel="nofollow"
-           class="filter-option filter-radio @if($filters['min_price'] == $range['min'] && $filters['max_price'] == $range['max']) selected @endif @if($range['products_count'] === 0) disabled @endif"
+            @class(["filter-option", "filter-radio", "selected" => ($filters['min_price'] == $range['min'] && $filters['max_price'] == $range['max']), "disabled" => $range['products_count'] === 0])
         >
             @if ($loop->first)
                 {{ __('eshop::filters.price_to') }} {{ format_currency($range['max']) }}

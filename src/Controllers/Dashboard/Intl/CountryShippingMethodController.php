@@ -7,6 +7,11 @@ use Illuminate\Contracts\Support\Renderable;
 
 class CountryShippingMethodController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('can:Manage country shipping methods');
+    }
+    
     public function __invoke(): Renderable
     {
         return view('eshop::dashboard.intl.country-shipping-methods');

@@ -2,7 +2,6 @@
 
 namespace Eshop\Controllers\Dashboard\Product;
 
-use BaconQrCode\Common\Mode;
 use Eshop\Controllers\Controller;
 use Eshop\Controllers\Dashboard\Product\Traits\WithImage;
 use Eshop\Controllers\Dashboard\Product\Traits\WithProductProperties;
@@ -16,7 +15,6 @@ use Eshop\Models\Product\Unit;
 use Eshop\Models\Product\Vat;
 use Eshop\Requests\Dashboard\Product\ProductRequest;
 use Illuminate\Contracts\Support\Renderable;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\DB;
 use Throwable;
@@ -27,6 +25,11 @@ class ProductController extends Controller
         WithProductProperties,
         WithNotifications,
         WithImage;
+
+    public function __construct()
+    {
+        $this->middleware('can:Manage products');
+    }
 
     public function index(): Renderable
     {

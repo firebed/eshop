@@ -12,6 +12,11 @@ class BulkProvinceController extends Controller
 {
     use WithNotifications;
 
+    public function __construct()
+    {
+        $this->middleware('can:Manage countries');
+    }
+    
     public function destroy(Request $request): RedirectResponse
     {
         $request->validate([

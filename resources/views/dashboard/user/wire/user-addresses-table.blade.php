@@ -18,9 +18,6 @@
     </tbody>
 
     <caption>
-        <div class="d-flex justify-content-between align-items-center">
-            <div class="small">{{ __('pagination.showing', ['first' => $addresses->firstItem() ?? 0, 'last' => $addresses->lastItem() ?? 0, 'total' => $addresses->total()]) }}</div>
-            {{ $addresses->onEachSide(0)->links() }}
-        </div>
+        <x-eshop::pagination :paginator="$addresses"/>
     </caption>
 </x-bs::table>

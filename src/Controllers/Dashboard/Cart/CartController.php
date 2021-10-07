@@ -2,93 +2,36 @@
 
 namespace Eshop\Controllers\Dashboard\Cart;
 
-use Eshop\Models\Cart\Cart;
 use Eshop\Controllers\Controller;
-use Exception;
+use Eshop\Models\Cart\Cart;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 
 class CartController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return Renderable
-     */
+    public function __construct()
+    {
+        $this->authorizeResource(Cart::class, 'cart');
+    }
+
     public function index(): Renderable
     {
         return view('eshop::dashboard.cart.index');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return Response
-     */
-    public function create()
+    public function show(Cart $cart): Renderable
     {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @return Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param int $cart
-     * @return Renderable
-     */
-    public function show(int $cart): Renderable
-    {
-        $cart = Cart::findOrFail($cart);
         if (!$cart->isViewed()) {
             $cart->viewed_at = now();
             $cart->save();
         }
+        
+        $assignment = $cart->assignedUsers()->firstWhere('user_id', auth()->id());
+        $assignment?->pivot?->update(['viewed_at' => now()]);
+        
         return view('eshop::dashboard.cart.show', compact('cart'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param Cart $cart
-     * @return Response
-     */
-    public function edit(Cart $cart)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @param Cart                     $cart
-     * @return Response
-     */
-    public function update(Request $request, Cart $cart)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param Cart $cart
-     * @return RedirectResponse
-     * @throws Exception
-     */
     public function destroy(Cart $cart): RedirectResponse
     {
         $cart->delete();

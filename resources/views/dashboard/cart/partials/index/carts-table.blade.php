@@ -35,7 +35,13 @@
 
     <tbody>
     @forelse($carts as $cart)
-        <tr @unless($cart->isViewed()) class="fw-bold" @endunless wire:key="cart-row-{{ $cart->id }}">
+        <tr wire:key="cart-row-{{ $cart->id }}" 
+            @can('Manage orders') 
+                @unless($cart->isViewed()) class="fw-bold" @endunless
+            @elsecan('Manage assigned orders')
+                @if($cart->assignedUsers->find(user()->id)->pivot->viewed_at === null) class="fw-bold" @endif
+            @endcan
+        >
             <td class="align-middle">
                 <x-bs::input.checkbox wire:model="selected" id="cart-{{ $cart->id }}" value="{{ $cart->id }}"/>
             </td>

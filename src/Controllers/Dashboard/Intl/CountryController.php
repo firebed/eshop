@@ -13,6 +13,11 @@ class CountryController extends Controller
 {
     use WithNotifications;
 
+    public function __construct()
+    {
+        $this->middleware('can:Manage countries');
+    }
+    
     public function index(): Renderable
     {
         $countries = Country::orderBy('name')->get();

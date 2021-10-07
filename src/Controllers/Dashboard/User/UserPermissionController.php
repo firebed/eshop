@@ -8,12 +8,11 @@ use Illuminate\View\View;
 
 class UserPermissionController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @param User $user
-     * @return View
-     */
+    public function __construct()
+    {
+        $this->middleware('can:Manage users');
+    }
+    
     public function __invoke(User $user): View
     {
         return view('eshop::dashboard.user.permission.index', compact('user'));

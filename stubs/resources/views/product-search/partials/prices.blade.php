@@ -10,7 +10,7 @@
     @foreach($priceRanges as $range)
         <a href="{{ route('products.search.index', [app()->getLocale(), 'search_term' => request()->query('search_term'), 'manufacturer_ids' => request()->query('manufacturer_ids'), 'min_price' => $range['min'], 'max_price' => $range['max']]) }}"
            rel="nofollow"
-           class="filter-option filter-radio @if(request()->query('min_price') == $range['min'] && request()->query('max_price') == $range['max']) selected @endif @if($range['products_count'] === 0) disabled @endif"
+            @class(["filter-option", "filter-radio", "selected" => (request()->query('min_price') == $range['min'] && request()->query('max_price') == $range['max']), "disabled" => $range['products_count'] === 0])
         >
             @if ($loop->first)
                 {{ __('eshop::filters.price_to') }} {{ format_currency($range['max']) }}

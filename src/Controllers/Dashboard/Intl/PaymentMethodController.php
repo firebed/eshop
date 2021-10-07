@@ -13,6 +13,11 @@ class PaymentMethodController extends Controller
 {
     use WithNotifications;
 
+    public function __construct()
+    {
+        $this->middleware('can:Manage payment methods');
+    }
+    
     public function index(): Renderable
     {
         $paymentMethods = PaymentMethod::all();

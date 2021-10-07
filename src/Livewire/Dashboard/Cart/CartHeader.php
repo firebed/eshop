@@ -5,6 +5,7 @@ namespace Eshop\Livewire\Dashboard\Cart;
 
 
 use Eshop\Controllers\Dashboard\Traits\WithNotifications;
+use Eshop\Livewire\Dashboard\Cart\Traits\AssignsCartToUsers;
 use Eshop\Livewire\Dashboard\Cart\Traits\ManagesVoucher;
 use Eshop\Livewire\Dashboard\Cart\Traits\UpdatesCartStatus;
 use Eshop\Livewire\Traits\TrimStrings;
@@ -24,6 +25,7 @@ class CartHeader extends Component
     use TrimStrings;
     use ManagesVoucher;
     use UpdatesCartStatus;
+    use AssignsCartToUsers;
     use WithNotifications;
 
     public Cart $cart;

@@ -90,6 +90,11 @@ class Cart extends Model implements Order
         return CartFactory::new();
     }
 
+    public function assignedUsers(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'assigned_carts')->withPivot('viewed_at');
+    }
+
     public function shippingMethod(): BelongsTo
     {
         return $this->belongsTo(ShippingMethod::class);

@@ -10,6 +10,7 @@ use Eshop\Models\Location\Address;
 use Firebed\Permission\Models\Traits\HasRoles;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
@@ -70,6 +71,11 @@ class User extends Authenticatable
     public function carts(): HasMany
     {
         return $this->hasMany(Cart::class);
+    }
+
+    public function assignedCarts(): BelongsToMany
+    {
+        return $this->belongsToMany(Cart::class, 'assigned_carts')->withPivot('viewed_at');
     }
 
     public function addresses(): MorphMany

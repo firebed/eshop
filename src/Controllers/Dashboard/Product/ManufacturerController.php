@@ -7,11 +7,12 @@ use Illuminate\Contracts\Support\Renderable;
 
 class ManufacturerController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return Renderable
-     */
+
+    public function __construct()
+    {
+        $this->middleware('can:Manage manufacturers');
+    }
+    
     public function index(): Renderable
     {
         return view('eshop::dashboard.manufacturer.index');

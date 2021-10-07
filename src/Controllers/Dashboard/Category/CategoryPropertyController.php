@@ -19,6 +19,12 @@ class CategoryPropertyController extends Controller
     use WithNotifications,
         WithCategoryBreadcrumbs;
 
+
+    public function __construct()
+    {
+        $this->middleware('can:Manage categories');
+    }
+    
     public function create(Category $category): Renderable
     {
         return view('eshop::dashboard.category-property.create', [

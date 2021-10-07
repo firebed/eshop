@@ -23,6 +23,11 @@ class CategoryController extends Controller
         WithNotifications,
         WithImage;
 
+    public function __construct()
+    {
+        $this->middleware('can:Manage categories');
+    }
+    
     public function index(): View
     {
         $categories = Category::root()

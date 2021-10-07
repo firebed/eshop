@@ -13,6 +13,11 @@ class ProvinceController extends Controller
 {
     use WithNotifications;
 
+    public function __construct()
+    {
+        $this->middleware('can:Manage countries');
+    }
+    
     public function store(ProvinceRequest $request, Country $country): RedirectResponse
     {
         $country->provinces()->save(new Province($request->validated()));

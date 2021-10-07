@@ -17,6 +17,11 @@ class CollectionController extends Controller
 {
     use WithNotifications;
 
+    public function __construct()
+    {
+        $this->middleware('can:Manage collections');
+    }
+    
     public function index(): Renderable
     {
         $collections = Collection::withCount('products')->get();

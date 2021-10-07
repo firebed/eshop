@@ -12,6 +12,11 @@ class VariantBulkImageController extends Controller
 {
     use WithNotifications;
 
+    public function __construct()
+    {
+        $this->middleware('can:Manage products');
+    }
+    
     public function __invoke(Request $request): RedirectResponse
     {
         $request->validate([

@@ -1,7 +1,7 @@
 <x-bs::table hover>
     <thead>
     <tr>
-        <td>{{ __('ID') }}</td>
+        <td>#</td>
         <td>{{ __('Status') }}</td>
         <td>{{ __('Invoice') }}</td>
         <td>{{ __('Shipping') }}</td>
@@ -18,7 +18,7 @@
             <td>
                 @isset($cart->status)
                     <a href="{{ route('carts.show', $cart) }}" class="text-decoration-none text-dark">
-                        <x-bs::badge type="{{ $cart->status->color }}" class="w-100 fw-normal">{{ $cart->status->name }}</x-bs::badge>
+                        <x-bs::badge type="{{ $cart->status->color }}" class="w-100 fw-normal">{{ __("eshop::cart.status.action." . $cart->status->name) }}</x-bs::badge>
                     </a>
                 @endisset
             </td>
@@ -29,8 +29,22 @@
                     </a>
                 @endif
             </td>
-            <td><a href="{{ route('carts.show', $cart) }}" class="text-decoration-none text-dark d-block">{{ $cart->shippingMethod->name ?? '' }}</a></td>
-            <td><a href="{{ route('carts.show', $cart) }}" class="text-decoration-none text-dark d-block">{{ $cart->paymentMethod->name ?? '' }}</a></td>
+            <td>
+                @isset($cart->shippingMethod)
+                    <a href="{{ route('carts.show', $cart) }}" class="text-decoration-none text-dark d-block">
+                        {{ __("eshop::shipping.abbr." . $cart->shippingMethod->name) }}
+                    </a>
+                @endisset
+            </td>
+            
+            <td>
+                @isset($cart->paymentMethod)
+                    <a href="{{ route('carts.show', $cart) }}" class="text-decoration-none text-dark d-block">
+                        {{ __("eshop::payment.abbr." . $cart->paymentMethod->name) }}
+                    </a>
+                @endisset
+            </td>
+            
             <td class="text-end"><a href="{{ route('carts.show', $cart) }}" class="text-decoration-none text-dark d-block">{{ format_currency($cart->total) }}</a></td>
             <td class="text-end"><a href="{{ route('carts.show', $cart) }}" class="text-decoration-none text-dark d-block">{{ $cart->created_at->format('d/m/Y') }}</a></td>
         </tr>
@@ -38,10 +52,6 @@
     </tbody>
 
     <caption>
-        <div class="d-flex justify-content-between align-items-center">
-            <div class="small">{{ __('pagination.showing', ['first' => $carts->firstItem() ?? 0, 'last' => $carts->lastItem() ?? 0, 'total' => $carts->total()]) }}</div>
-
-            {{ $carts->onEachSide(1)->links() }}
-        </div>
+        <x-eshop::pagination :paginator="$carts"/>
     </caption>
 </x-bs::table>

@@ -13,6 +13,11 @@ class ShippingMethodController extends Controller
 {
     use WithNotifications;
 
+    public function __construct()
+    {
+        $this->middleware('can:Manage shipping methods');
+    }
+    
     public function index(): Renderable
     {
         $shippingMethods = ShippingMethod::all();

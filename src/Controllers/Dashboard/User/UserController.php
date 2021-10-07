@@ -8,22 +8,16 @@ use Illuminate\View\View;
 
 class UserController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return View
-     */
+    public function __construct()
+    {
+        $this->middleware('can:Manage users');
+    }
+
     public function index(): View
     {
         return view('eshop::dashboard.user.index');
     }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param User $user
-     * @return View
-     */
+    
     public function show(User $user): View
     {
         $user->loadCount([

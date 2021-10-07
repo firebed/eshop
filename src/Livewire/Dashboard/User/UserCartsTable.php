@@ -17,9 +17,9 @@ class UserCartsTable extends Component
     {
         $carts = $this->user
             ->carts()
-            ->submitted()
             ->with('status', 'shippingMethod', 'paymentMethod')
-            ->latest()
+            ->orderByRaw('submitted_at IS NOT NULL')
+            ->latest('submitted_at')
             ->paginate();
 
         return view('eshop::dashboard.user.wire.user-carts-table', compact('carts'));

@@ -9,7 +9,8 @@
 
     @foreach($manufacturers as $manufacturer)
         <a href="{{ route('products.search.index', [app()->getLocale(), 'search_term' => request()->query('search_term'), 'manufacturer_ids' => $selectedManufacturers->toggle($manufacturer)->pluck('id')->join('-'), 'min_price' => request()->query('min_price'), 'max_price' => request()->query('max_price')]) }}"
-           class="filter-option filter-checkbox @if($selectedManufacturers->contains($manufacturer->id)) selected @endif @if($manufacturer->products_count === 0) disabled @endif"
+           @class(["filter-option", "filter-checkbox", "selected" => $selectedManufacturers->contains($manufacturer->id), "disabled" => $manufacturer->products_count === 0])
+           @if($manufacturer->products_count === 0) rel="nofollow" @endif
         >
             {{ $manufacturer->name }}
             <small>({{ $manufacturer->products_count }})</small>
