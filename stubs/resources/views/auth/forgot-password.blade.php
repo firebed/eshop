@@ -1,4 +1,26 @@
-@extends('layouts.master', ['title' => __("Rest password")])
+@php($description = "Επαναφέρετε τον κωδικός πρόσβασης στο " . config('app.name'))
+@php($title = __("Reset password"))
+
+@extends('layouts.master', ['title' => $title])
+
+@push('meta')
+    <link rel="canonical" href="{{ route('register', app()->getLocale()) }}">
+    @foreach(array_keys(config('eshop.locales')) as $locale)
+        <link rel="alternate" hreflang="{{ $locale }}" href="{{ route('login', $locale) }}" />
+    @endforeach
+
+    <meta name="description" content="{{ $description }}">
+    <meta property="og:title" content="{{ $title }}">
+    <meta property="og:description" content="{{ $description }}">
+    <meta property="og:site_name" content="{{ config('app.name') }}">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="{{ asset(config('eshop.logo')) }}">
+    <meta property="og:image:width" content="{{ config('eshop.logo_width') }}" />
+    <meta property="og:image:height" content="{{ config('eshop.logo_height') }}" />
+    <meta name="twitter:card" content="summary" />
+
+    <script type="application/ld+json">{!! schema()->webPage($title, $description) !!}</script>
+@endpush
 
 @section('main')
     <div class="container py-5">
