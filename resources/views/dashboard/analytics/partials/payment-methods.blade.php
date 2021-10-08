@@ -25,8 +25,7 @@
         new Chart(document.getElementById('payment-methods').getContext('2d'), {
             type: 'bar',
             data: {
-                labels: ['{!! $paymentMethods->keys()->map(fn($k) => __("eshop::payment.abbr.$k"))->join("', '") !!}'],
-                datasets: [{
+                datasets: [@if($paymentMethods->isNotEmpty()){
                     label: '{{ $date->isoFormat('ll') }}',
                     data: [{!! $paymentMethods->map(fn($count, $pm) => "{paymentMethod: '" . __("eshop::payment.abbr.$pm") . "', count: $count}")->join(', ') !!}],
                     parsing: {
@@ -37,7 +36,7 @@
                     borderColor: 'rgb(177, 136, 225)',
                     backgroundColor: 'rgba(177, 136, 225, 0.3)',
                     borderWidth: 1,
-                }, 
+                }, @endif
                 @if($paymentMethodsComparison->isNotEmpty())
                 {
                     label: '{{ $dateComparison->isoFormat('ll') }}',

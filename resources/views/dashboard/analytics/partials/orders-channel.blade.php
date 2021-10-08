@@ -25,7 +25,6 @@
         new Chart(document.getElementById('orders-channel').getContext('2d'), {
             type: 'bar',
             data: {
-                labels: ['{!! $ordersChannel->keys()->join("', '") !!}'],
                 datasets: [{
                     label: '{{ $date->isoFormat('ll') }}',
                     data: [{!! $ordersChannel->map(fn($count, $channel) => "{channel: '$channel', count: $count}")->join(', ') !!}],

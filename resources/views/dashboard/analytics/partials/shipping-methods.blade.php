@@ -25,7 +25,6 @@
         new Chart(document.getElementById('shipping-methods').getContext('2d'), {
             type: 'bar',
             data: {
-                labels: ['{!! $shippingMethods->keys()->map(fn($k) => __("eshop::shipping.abbr.$k"))->join("', '") !!}'],
                 datasets: [{
                     label: '{{ $date->isoFormat('ll') }}',
                     data: [{!! $shippingMethods->map(fn($count, $sm) => "{shippingMethod: '" . __("eshop::shipping.abbr.$sm") . "', count: $count}")->join(', ') !!}],
