@@ -7,7 +7,7 @@ return [
     'Manage manufacturers'            => 'Διαχείριση κατασκευαστών',
     'Manage collections'              => 'Διαχείριση συλλογών',
     'Manage countries'                => 'Διαχείριση χώρων',
-    'manage translations'             => 'Διαχείριση μεταφράσεων',
+    'Manage translations'             => 'Διαχείριση μεταφράσεων',
     'Manage shipping methods'         => 'Διαχείριση μεθόδων αποστολής',
     'Manage country shipping methods' => 'Διαχείριση επιλογών αποστολής',
     'Manage payment methods'          => 'Διαχείριση μεθόδων πληρωμής',
