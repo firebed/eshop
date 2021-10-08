@@ -17,10 +17,12 @@ class ShowUserPermissions extends Component
 
     public User $user;
 
+    public array $selected_roles       = [];
     public array $selected_permissions = [];
 
     public function mount(): void
     {
+        $this->selected_roles = $this->user->roles()->get()->pluck('id')->map(fn($p) => (string)$p)->all();
         $this->selected_permissions = $this->user->permissions()->get()->pluck('id')->map(fn($p) => (string)$p)->all();
     }
 
@@ -38,6 +40,7 @@ class ShowUserPermissions extends Component
 //            return;
 //        }
 
+        $this->user->syncRoles($this->selected_roles);
         $this->user->syncPermissions($this->selected_permissions);
         $this->showSuccessToast(__("Changes saved successfully."));
         $this->skipRender();
