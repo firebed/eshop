@@ -26,7 +26,7 @@ class CartController extends Controller
             $cart->save();
         }
         
-        $assignment = $cart->assignedUsers()->firstWhere('user_id', auth()->id());
+        $assignment = $cart->operators()->firstWhere('user_id', auth()->id());
         $assignment?->pivot?->update(['viewed_at' => now()]);
         
         return view('eshop::dashboard.cart.show', compact('cart'));

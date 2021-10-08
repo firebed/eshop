@@ -12,4 +12,8 @@
     <form wire:submit.prevent="delete">
         @include('eshop::dashboard.cart.partials.index.carts-delete-modal')
     </form>
+
+    <form wire:submit.prevent="saveOperators">
+        @include('eshop::dashboard.cart.partials.index.cart-operators-modal')
+    </form>
 </div>

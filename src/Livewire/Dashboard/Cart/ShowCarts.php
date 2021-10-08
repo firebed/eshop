@@ -3,10 +3,12 @@
 namespace Eshop\Livewire\Dashboard\Cart;
 
 use Eshop\Exports\CartsExport;
+use Eshop\Livewire\Dashboard\Cart\Traits\WithCartOperators;
 use Eshop\Models\Cart\Cart;
 use Eshop\Models\Cart\CartStatus;
 use Eshop\Models\Location\PaymentMethod;
 use Eshop\Models\Location\ShippingMethod;
+use Eshop\Models\User;
 use Eshop\Repository\Contracts\CartContract;
 use Firebed\Components\Livewire\Traits\Datatable\DeletesRows;
 use Firebed\Components\Livewire\Traits\Datatable\WithCRUD;
@@ -29,6 +31,7 @@ class ShowCarts extends Component
     use WithSelections;
     use DeletesRows;
     use WithExports;
+    use WithCartOperators;
     use WithCRUD;
 
     public const PER_PAGE = 20;
@@ -39,7 +42,7 @@ class ShowCarts extends Component
     public int    $per_page           = 0;
     public string $payment_method_id  = "";
     public string $shipping_method_id = "";
-    public bool   $showStatusModal    = FALSE;
+    public bool   $showStatusModal    = false;
 
     protected $queryString = [
         'filter'             => ['except' => ''],
@@ -71,7 +74,7 @@ class ShowCarts extends Component
             $this->resetPage();
         }
     }
-    
+
     public function selectByStatus(int $status_id): void
     {
         $this->selected = $this->filterCarts('status_id', $status_id);
@@ -93,14 +96,7 @@ class ShowCarts extends Component
         }
 
         $this->reset('status');
-        $this->showStatusModal = TRUE;
-    }
-
-    protected function deleteRows(): ?int
-    {
-        $contract = app(CartContract::class);
-        $this->emit('cartStatusUpdated');
-        return DB::transaction(fn() => $contract->deleteCarts($this->selected()));
+        $this->showStatusModal = true;
     }
 
     public function saveStatuses(CartContract $contract): void
@@ -113,7 +109,56 @@ class ShowCarts extends Component
 
         DB::transaction(fn() => $contract->setBulkCartStatus($status, $this->selected()));
 
-        $this->showStatusModal = FALSE;
+        $this->showStatusModal = false;
+    }
+
+    public function clearFilters(): void
+    {
+        $this->reset();
+    }
+
+    public function updatedPerPage($value): void
+    {
+        session()->put('carts_per_page', $value);
+    }
+
+    public function getCartsProperty(): LengthAwarePaginator
+    {
+        return Cart
+            ::submitted()
+            ->when($this->filter, function ($q, $f) {
+                return $q->where(fn($b) => $b->where('id', 'LIKE', "$f%")->orWhereHas('shippingAddress', fn($b) => $b->matchAgainst($f)));
+            })
+            ->when(user()?->cannot('Manage orders') && user()?->can('Manage assigned orders'), function ($q) {
+                return $q->whereHas('operators', fn($b) => $b->where('user_id', user()->id));
+            })
+            ->with('operators')
+            ->when($this->status, fn($q, $s) => $q->where('status_id', $s))
+            ->when($this->shipping_method_id, fn($q, $id) => $q->where('shipping_method_id', $id))
+            ->when($this->payment_method_id, fn($q, $id) => $q->where('payment_method_id', $id))
+            ->with('shippingAddress', 'status', 'paymentMethod', 'shippingMethod')
+            ->latest('submitted_at')
+            ->paginate($this->per_page);
+    }
+
+    public function render(): Renderable
+    {
+        $employees = User::whereHas('roles', fn($q) => $q->whereName('Employee'))->get();
+        
+        return view('eshop::dashboard.cart.wire.show-carts', [
+            'carts'           => $this->carts,
+            'shippingMethods' => ShippingMethod::all(),
+            'paymentMethods'  => PaymentMethod::all(),
+            'statuses'        => CartStatus::all(),
+            'employees'       => $employees,
+        ]);
+    }
+
+    protected function deleteRows(): ?int
+    {
+        $contract = app(CartContract::class);
+        $this->emit('cartStatusUpdated');
+        return DB::transaction(fn() => $contract->deleteCarts($this->selected()));
     }
 
     protected function makeEmptyModel(): Cart
@@ -128,46 +173,10 @@ class ShowCarts extends Component
         // TODO: Implement findModel() method.
     }
 
-    private function filterCarts($key = NULL, $value = NULL)
-    {
-        return $key === NULL
-            ? $this->carts->pluck('id')->map(fn($id) => (string)$id)->all()
-            : $this->carts->where($key, $value)->pluck('id')->map(fn($id) => (string)$id)->all();
-    }
-
-    public function clearFilters(): void
-    {
-        $this->reset();
-    }
-
-    public function updatedPerPage($value): void
-    {
-        session()->put('carts_per_page', $value);
-    }
-
     protected function export(): null|BinaryFileResponse
     {
         $export = new CartsExport($this->selected());
         return Excel::download($export, 'carts_' . now()->timestamp . '.xlsx');
-    }
-
-    public function getCartsProperty(): LengthAwarePaginator
-    {
-        return Cart
-            ::submitted()
-            ->when($this->filter, function($q, $f) {
-                return $q->where(fn($b) => $b->where('id', 'LIKE', "$f%")->orWhereHas('shippingAddress', fn($b) => $b->matchAgainst($f)));
-            })
-            ->when(user()?->cannot('Manage orders') && user()?->can('Manage assigned orders'), function($q) {
-                return $q->whereHas('assignedUsers', fn($b) => $b->where('user_id', user()->id));
-            })
-            ->with('assignedUsers')
-            ->when($this->status, fn($q, $s) => $q->where('status_id', $s))
-            ->when($this->shipping_method_id, fn($q, $id) => $q->where('shipping_method_id', $id))
-            ->when($this->payment_method_id, fn($q, $id) => $q->where('payment_method_id', $id))
-            ->with('shippingAddress', 'status', 'paymentMethod', 'shippingMethod')
-            ->latest('submitted_at')
-            ->paginate($this->per_page);
     }
 
     protected function getModels(): Collection
@@ -175,13 +184,10 @@ class ShowCarts extends Component
         return $this->carts->getCollection();
     }
 
-    public function render(): Renderable
+    private function filterCarts($key = null, $value = null)
     {
-        return view('eshop::dashboard.cart.wire.show-carts', [
-            'carts'           => $this->carts,
-            'shippingMethods' => ShippingMethod::all(),
-            'paymentMethods'  => PaymentMethod::all(),
-            'statuses'        => CartStatus::all()
-        ]);
+        return $key === null
+            ? $this->carts->pluck('id')->map(fn($id) => (string)$id)->all()
+            : $this->carts->where($key, $value)->pluck('id')->map(fn($id) => (string)$id)->all();
     }
 }

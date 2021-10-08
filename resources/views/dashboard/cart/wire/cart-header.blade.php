@@ -41,34 +41,30 @@
         @include('eshop::dashboard.cart.partials.show.cart-voucher-modal')
     @endif
 
-    <x-bs::dropdown>
-        <button type="button" class="btn btn-haze btn-sm py-1 px-3 rounded-pill border-2 border-white text-nowrap" data-bs-toggle="dropdown" aria-expanded="false">
-            {{ __('More') }} <em class="fas small text-secondary fa-chevron-down"></em>
-        </button>
-        <x-bs::dropdown.menu button="more">
-            <x-bs::dropdown.item wire:click.prevent="confirmDelete"><em class="far fa-trash-alt text-secondary me-2"></em>{{ __('Delete') }}</x-bs::dropdown.item>
-        </x-bs::dropdown.menu>
-    </x-bs::dropdown>
-    
-    @can(['Manage orders'])
-        <a href="#" class="btn btn-haze rounded-pill py-1 px-3 border-2 border-white text-nowrap btn-sm" wire:click.prevent="exportToPdf">
-            <em class="fa fa-user"></em> {{ __("Employees") }}
-        </a>
-    @endcan
+    @can('Manage orders')
+        <x-bs::dropdown>
+            <button type="button" class="btn btn-haze btn-sm py-1 px-3 rounded-pill border-2 border-white text-nowrap" data-bs-toggle="dropdown" aria-expanded="false">
+                {{ __('More') }} <em class="fas small text-secondary fa-chevron-down"></em>
+            </button>
+            <x-bs::dropdown.menu button="more">
+                <x-bs::dropdown.item wire:click.prevent="confirmDelete"><em class="far fa-trash-alt text-secondary me-2"></em>{{ __('Delete') }}</x-bs::dropdown.item>
+            </x-bs::dropdown.menu>
+        </x-bs::dropdown>
 
-    <form wire:submit.prevent="deleteCart">
-        <x-bs::modal wire:model.defer="showConfirmDelete">
-            <x-bs::modal.body>
-                <div class="d-grid gap-3 text-center">
-                    <div><em class="far fa-trash-alt fa-5x text-red-400"></em></div>
-                    <div class="fs-4 text-secondary">{{ __("Are you sure?") }}</div>
-                    <div class="text-secondary">{{ __("Are you sure you want to delete the this cart? This action cannot be undone.") }}</div>
-                    <div>
-                        <x-bs::modal.close-button>{{ __("Cancel") }}</x-bs::modal.close-button>
-                        <x-bs::button.danger type="submit" class="ms-2 px-3">{{ __("Delete") }}</x-bs::button.danger>
+        <form wire:submit.prevent="deleteCart">
+            <x-bs::modal wire:model.defer="showConfirmDelete">
+                <x-bs::modal.body>
+                    <div class="d-grid gap-3 text-center">
+                        <div><em class="far fa-trash-alt fa-5x text-red-400"></em></div>
+                        <div class="fs-4 text-secondary">{{ __("Are you sure?") }}</div>
+                        <div class="text-secondary">{{ __("Are you sure you want to delete the this cart? This action cannot be undone.") }}</div>
+                        <div>
+                            <x-bs::modal.close-button>{{ __("Cancel") }}</x-bs::modal.close-button>
+                            <x-bs::button.danger type="submit" class="ms-2 px-3">{{ __("Delete") }}</x-bs::button.danger>
+                        </div>
                     </div>
-                </div>
-            </x-bs::modal.body>
-        </x-bs::modal>
-    </form>
+                </x-bs::modal.body>
+            </x-bs::modal>
+        </form>
+    @endcan
 </div>

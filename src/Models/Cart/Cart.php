@@ -51,6 +51,7 @@ use Illuminate\Support\Collection;
  * @property Address        shippingAddress
  * @property Address        billingAddress
  * @property Collection     products
+ * @property Collection     operators
  * @property Invoice        invoice
  *
  * @property float          total_without_fees
@@ -90,9 +91,9 @@ class Cart extends Model implements Order
         return CartFactory::new();
     }
 
-    public function assignedUsers(): BelongsToMany
+    public function operators(): BelongsToMany
     {
-        return $this->belongsToMany(User::class, 'assigned_carts')->withPivot('viewed_at');
+        return $this->belongsToMany(User::class, 'cart_operator')->withPivot('viewed_at');
     }
 
     public function shippingMethod(): BelongsTo

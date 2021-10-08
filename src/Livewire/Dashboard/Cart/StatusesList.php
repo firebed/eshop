@@ -14,7 +14,7 @@ class StatusesList extends Component
     {
         $statuses = CartStatus::withCount(['carts' => function($q) {
             $q->when(user()?->cannot('Manage orders') && user()?->can('Manage assigned orders'), function($q) {
-                $q->whereHas('assignedUsers', fn($b) => $b->where('user_id', user()->id));
+                $q->whereHas('operators', fn($b) => $b->where('user_id', user()->id));
             });
         }])->get();
         return view('eshop::dashboard.cart.partials.statuses-list', compact('statuses'));

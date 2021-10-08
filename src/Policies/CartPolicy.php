@@ -21,7 +21,7 @@ class CartPolicy
             return true;
         }
         
-        return $user->assignedCarts()->where('cart_id', $cart->id)->exists();
+        return $user->operatingCarts()->where('cart_id', $cart->id)->exists();
     }
 
     public function delete(User $user, Cart $cart): bool

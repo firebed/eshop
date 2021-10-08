@@ -73,9 +73,9 @@ class User extends Authenticatable
         return $this->hasMany(Cart::class);
     }
 
-    public function assignedCarts(): BelongsToMany
+    public function operatingCarts(): BelongsToMany
     {
-        return $this->belongsToMany(Cart::class, 'assigned_carts')->withPivot('viewed_at');
+        return $this->belongsToMany(Cart::class, 'cart_operator')->withPivot('viewed_at');
     }
 
     public function addresses(): MorphMany

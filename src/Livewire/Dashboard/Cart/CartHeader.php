@@ -4,15 +4,14 @@
 namespace Eshop\Livewire\Dashboard\Cart;
 
 
+use Dompdf\Dompdf;
 use Eshop\Controllers\Dashboard\Traits\WithNotifications;
-use Eshop\Livewire\Dashboard\Cart\Traits\AssignsCartToUsers;
 use Eshop\Livewire\Dashboard\Cart\Traits\ManagesVoucher;
 use Eshop\Livewire\Dashboard\Cart\Traits\UpdatesCartStatus;
 use Eshop\Livewire\Traits\TrimStrings;
 use Eshop\Models\Cart\Cart;
 use Eshop\Models\Cart\CartStatus;
 use Eshop\Repository\Contracts\CartContract;
-use Dompdf\Dompdf;
 use Firebed\Components\Livewire\Traits\SendsNotifications;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Support\Facades\DB;
@@ -25,7 +24,6 @@ class CartHeader extends Component
     use TrimStrings;
     use ManagesVoucher;
     use UpdatesCartStatus;
-    use AssignsCartToUsers;
     use WithNotifications;
 
     public Cart $cart;
@@ -69,7 +67,7 @@ class CartHeader extends Component
 
         return view('eshop::dashboard.cart.wire.cart-header', [
             'statuses' => $statuses,
-            'status'   => $status ?? NULL,
+            'status'   => $status ?? null,
         ]);
     }
 }

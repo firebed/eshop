@@ -25,6 +25,7 @@
         <td class="w-3r">#</td>
         <td class="w-3r">&nbsp;</td>
         <td class="w-7r">{{ __("Status") }}</td>
+        <td>{{ __("Operators") }}</td>
         <td>{{ __("Customer") }}</td>
         <td>{{ __("Shipping") }}</td>
         <td>{{ __("Payment") }}</td>
@@ -39,7 +40,7 @@
             @can('Manage orders') 
                 @unless($cart->isViewed()) class="fw-bold" @endunless
             @elsecan('Manage assigned orders')
-                @if($cart->assignedUsers->find(user()->id)->pivot->viewed_at === null) class="fw-bold" @endif
+                @if($cart->operators->find(user()->id)->pivot->viewed_at === null) class="fw-bold" @endif
             @endcan
         >
             <td class="align-middle">
@@ -57,6 +58,11 @@
                         <x-bs::badge type="{{ $cart->status->color ?? '' }}" class="w-100 fw-normal">{{ __('eshop::account.order.' . $cart->status->name) ?: '' }}</x-bs::badge>
                     </a>
                 @endif
+            </td>
+            <td class="align-middle">
+                <a href="{{ route('carts.show', $cart) }}" class="d-block text-decoration-none text-dark text-nowrap">
+                    {{ $cart->operators->pluck('first_name')->join(', ') }}
+                </a>
             </td>
             <td class="align-middle">
                 <a href="{{ route('carts.show', $cart) }}" class="d-block text-decoration-none text-dark text-nowrap">
