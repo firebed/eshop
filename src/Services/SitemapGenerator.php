@@ -106,7 +106,7 @@ class SitemapGenerator
 
     private function generateProductsSitemap(): Sitemap|null
     {
-        $products = Product::with('category', 'images', 'translations')->visible()->latest()->get();
+        $products = Product::with('parent', 'category', 'images', 'translations')->visible()->latest()->get();
         if ($products->isEmpty()) {
             return null;
         }
@@ -118,7 +118,7 @@ class SitemapGenerator
             $url->changefreq = Url::CHANGE_FREQ_MONTHLY;
 
             $url->loc = $product->isVariant()
-                ? variantRoute($product, $products->firstWhere('parent_id', $product->parent_id), $product->category)
+                ? variantRoute($product, $products->parent, $product->category)
                 : productRoute($product, $product->category);
 
             foreach ($product->images as $image) {
