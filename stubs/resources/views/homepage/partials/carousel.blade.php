@@ -3,7 +3,7 @@
         @foreach($slides as $slide)
             <div @class(["carousel-item", "active" => $loop->first])>
                 <div class="ratio ratio-16x9">
-                    <img src="{{ $slide->image->url() }}" alt="...">
+                    <img loading="lazy" src="{{ $slide->image->url() }}" alt="...">
                 </div>
             </div>
         @endforeach

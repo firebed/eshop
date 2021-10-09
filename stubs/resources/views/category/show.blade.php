@@ -69,7 +69,7 @@
                             <div class="ms-3 text-secondary">(@choice("eshop::product.products_count", $products->total(), ['count' => $products->total()]))</div>
                         </div>
 
-                        <div class="d-flex gap-2">
+                        <div class="d-flex flex-wrap gap-2">
                             @foreach($filters['m'] as $m)
                                 <a href="{{ categoryRoute($category, $filters['m']->toggle($m), $filters['c'], $filters['min_price'], $filters['max_price']) }}" class="btn btn-smoke px-2 py-0 d-flex gap-2 align-items-center">
                                     <small class="py-1">{{ $m->name }}</small>

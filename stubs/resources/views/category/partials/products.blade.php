@@ -5,7 +5,7 @@
                 <div class="card-body vstack position-relative">
                     <a href="{{ productRoute($product, $category) }}" class="ratio ratio-1x1 mb-3">
                         @if($product->image && $src = $product->image->url('sm'))
-                            <img src="{{ $src }}" alt="{{ $product->name }}" class="rounded">
+                            <img loading="lazy" src="{{ $src }}" title="{{ $product->trademark }}" alt="{{ $product->name }}" class="rounded">
                         @endif
                     </a>
 
@@ -32,7 +32,7 @@
                     @includeWhen($product->has_variants && $product->variants->isNotEmpty(), 'category.partials.variant-thumbnails')
 
                     @if($product->recent)
-                        <img src="{{ asset('storage/images/new-ribbon.png') }}" alt="New ribbon" class="position-absolute" style="width: 100px; height: 100px; left: -13px; top: -12px">
+                        <img loading="lazy" src="{{ asset('storage/images/new-ribbon.png') }}" alt="New ribbon" class="position-absolute" style="width: 100px; height: 100px; left: -13px; top: -12px">
                     @endif
 
                     @if((!$product->has_variants && $product->discount > 0) || ($product->has_variants && $product->variants->where('discount', '>', 0)->isNotEmpty()))

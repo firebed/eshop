@@ -4,7 +4,7 @@
             <div class="col">
                 <div class="ratio ratio-1x1">
                     @if($variant->image && $src = $variant->image->url('sm'))
-                        <img class="img-middle rounded" src="{{ $src }}" alt="{{ $variant->trademark }}">
+                        <img loading="lazy" class="img-middle rounded" src="{{ $src }}" title="{{ $variant->trademark }}" alt="{{ $variant->trademark }}">
                     @endif
                 </div>
             </div>
