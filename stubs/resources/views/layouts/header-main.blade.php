@@ -25,12 +25,13 @@
     </div>
 
     <div class="col-12 col-lg order-lg-1 px-lg-5">
-        <form x-data="searchBar()" x-on:click.outside="close" action="{{ route('products.search.index', app()->getLocale()) }}" class="position-relative">
+        <form x-data="searchBar()" x-on:click.outside="close" x-on:submit="if(search_term.trim().length === 0) $event.preventDefault()" action="{{ route('products.search.index', app()->getLocale()) }}" class="position-relative">
             <label class="d-none" for="search-bar">{{ __("Search") }}</label>
             <input x-ref="input"
                    x-on:keydown.escape="reset"
                    x-on:input.debounce="search"
                    x-on:focus="show = true" id="search-bar"
+                   x-model="search_term"
                    value="{{ request()->get('search_term', '') }}"
                    name="search_term"
                    type="search"
@@ -53,6 +54,7 @@
     <script>
         document.addEventListener('alpine:init', () => {
             Alpine.data('searchBar', () => ({
+                search_term: '{{ request()->get('search_term', '') }}',
                 show: false,
                 results: [],
 

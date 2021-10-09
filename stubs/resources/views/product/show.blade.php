@@ -52,7 +52,7 @@
                 </div>
 
                 <div class="col">
-                    @can('Edit product')
+                    @can('Manage products')
                         <div class="d-flex gap-3 mb-2">
                             <a href="{{ $product->isVariant() ? route('variants.edit', $product) : route('products.edit', $product) }}" class="text-decoration-none">
                                 <em class="far fa-edit me-1"></em>{{ __('eshop::buttons.edit') }}

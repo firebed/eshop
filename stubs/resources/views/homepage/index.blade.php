@@ -3,6 +3,8 @@
 @push('meta')
     @if(Route::currentRouteName() === 'landing_page')
         <link rel="canonical" href="{{ url('/') }}">
+    @elseif(app()->getLocale() === config('app.fallback_locale'))
+        <link rel="canonical" href="{{ url('/') }}">
     @else
         <link rel="canonical" href="{{ route('home', app()->getLocale()) }}">
     @endif

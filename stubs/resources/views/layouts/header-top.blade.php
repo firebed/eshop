@@ -35,14 +35,14 @@
         <a href="tel:{{ telephone($phone) }}" class="d-none d-sm-inline-block lh-sm text-decoration-none text-light text-nowrap"><em class="fas fa-phone"></em> {{ $phone }}</a>
     @endif
 
-    <div class="d-flex">
+    <div class="d-flex gap-4 gap-sm-3">
         @guest
             @if(routeHas('register'))
-                <a href="{{ route('register', app()->getLocale()) }}" class="px-3 py-2 text-decoration-none border-end text-light"><em class="fa fa-user-plus"></em> {{ __("Register") }}</a>
+                <a href="{{ route('register', app()->getLocale()) }}" class="py-2 text-decoration-none text-light"><em class="fa fa-user-plus"></em> <span class="d-none d-sm-inline">{{ __("Register") }}</span></a>
             @endif
 
             @if(routeHas('login'))
-                <a href="{{ route('login', app()->getLocale()) }}" class="px-3 py-2 text-decoration-none border-end text-light"><em class="fa fa-lock"></em> {{ __("Login") }}</a>
+                <a href="{{ route('login', app()->getLocale()) }}" class="py-2 text-decoration-none text-light"><em class="fa fa-lock"></em> <span class="d-none d-sm-inline">{{ __("Login") }}</span></a>
             @endif
         @else
             <x-bs::dropdown>

@@ -78,6 +78,7 @@ class SitemapGenerator
         $sitemap->addUrl(route('pages.show', [app()->getLocale(), 'register']), today()->startOfYear(), Url::CHANGE_FREQ_YEARLY);
         $sitemap->addUrl(route('pages.show', [app()->getLocale(), 'cart']), today()->startOfYear(), Url::CHANGE_FREQ_YEARLY);
         $sitemap->addUrl(route('pages.show', [app()->getLocale(), 'offers']), today(), Url::CHANGE_FREQ_DAILY);
+        $sitemap->addUrl(route('pages.show', [app()->getLocale(), 'order-tracking']), today()->startOfMonth(), Url::CHANGE_FREQ_MONTHLY);
 
         return $sitemap;
     }
