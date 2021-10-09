@@ -71,6 +71,7 @@ class CategoryRequest extends FormRequest
         return Manufacturer
             ::whereIn('slug', explode('-', $this->segment(4)))
             ->whereHas('categories', fn($q) => $q->where('categories.id', $this->category->id))
+            ->orderBy('name')
             ->get();
     }
 

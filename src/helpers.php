@@ -129,15 +129,18 @@ if (!function_exists('categoryRoute')) {
             $locale ?: app()->getLocale(),
             $category->slug
         ];
-
+        
         if ($manufacturers !== null && $manufacturers->isNotEmpty()) {
+            $manufacturers = $manufacturers->sortBy('name');
             $name = 'categories.manufacturers';
             $params[] = $manufacturers->pluck('slug')->join('-');
             if ($choices !== null && $choices->isNotEmpty()) {
+                $choices = $choices->sortBy(['property.position', 'position']);
                 $name = 'categories.manufacturers.filters';
                 $params[] = $choices->pluck('slug')->join('-');
             }
         } else if ($choices !== null && $choices->isNotEmpty()) {
+            $choices = $choices->sortBy(['property.position', 'position']);
             $name = 'categories.filters';
             $params[] = $choices->pluck('slug')->join('-');
         }

@@ -35,7 +35,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-if(app()->isLocal()) {
+if (app()->isLocal()) {
     Route::get('mail', function () {
         Notification::route('mail', 'okan.giritli@gmail.com')->notify(new OrderShippedNotification(Cart::first()));
     });
@@ -99,7 +99,7 @@ Route::group([
         Route::post('order-tracking/id', [OrderTrackingController::class, 'searchById'])->name('order-tracking.search_by_id');
         Route::get('order-tracking', [OrderTrackingController::class, 'index'])->name('order-tracking.index');
         Route::get('order-tracking/{order}', [OrderTrackingController::class, 'show'])->name('order-tracking.show');
-        
+
         Route::get('search', [ProductSearchController::class, 'index'])->name('products.search.index');
         Route::post('search', [ProductSearchController::class, 'ajax'])->name('products.search.ajax');
 
