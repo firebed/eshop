@@ -1,4 +1,8 @@
-@php($title = $category->seo->title ?? $category->name ?? "")
+@php($selectedManufacturersTitle = (isset($filters['m']) && $filters['m']->isNotEmpty() ? ' ' . $filters['m']->pluck('name')->join(', ') : '' ))
+@php($selectedOptionsTitle = (isset($filters['c']) && $filters['c']->isNotEmpty() ? ' ' . $filters['c']->pluck('name')->join(', ') : '' ))
+
+@php($title = implode(' ', array_filter([$category->seo->title ?? $category->name ?? "", $selectedManufacturersTitle, $selectedOptionsTitle])))
+
 @php($description = $category?->seo->description ?? "")
 
 @extends('layouts.master', ['title' => $title])

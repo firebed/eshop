@@ -97,7 +97,7 @@ class ProductSearchController extends Controller
 
     private function groupPriceRanges(ProductsSearch $search, Collection $manufacturer_ids, $search_term): Collection
     {
-        $max_price = Product::visible()->max('price');
+        $max_price = Product::visible()->whereHas('translations', fn($c) => $c->matchAgainst($search_term)->where('cluster', 'name'))->max('price');
 
         $min_step = 2.5;
         $step = max(floor($max_price / 4.0), $min_step);

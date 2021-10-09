@@ -1,4 +1,6 @@
-@extends('layouts.master', ['title' => 'Προσφορές - Όλες οι κατηγορίες'])
+@php($selectedManufacturersTitle = $selectedManufacturers->pluck('name')->join(', '))
+
+@extends('layouts.master', ['title' => 'Προσφορές' . (filled($selectedManufacturersTitle) ? ' ' . $selectedManufacturersTitle : '') . ' - Όλες οι κατηγορίες'])
 
 @push('meta')
     @foreach(array_keys(config('eshop.locales')) as $locale)

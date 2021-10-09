@@ -33,8 +33,8 @@ use Illuminate\Support\Collection;
  *
  * @property string     name
  *
- * @method Builder promoted(Builder $builder)
- * @method Builder visible(Builder $builder)
+ * @method Builder promoted()
+ * @method Builder visible()
  * @method Builder root()
  * *
  * @mixin Builder

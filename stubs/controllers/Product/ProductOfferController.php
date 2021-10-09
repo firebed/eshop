@@ -16,12 +16,14 @@ class ProductOfferController extends Controller
     {
         $manufacturer_ids = collect(explode('-', $request->input('manufacturer_ids')))->filter();
 
-        $categories = Category::whereHas('products', fn($q) => $q->exceptVariants()->onSale()->filterByPrice($request->query('min_price'), $request->query('max_price')))
-            ->withCount(['products' => fn($q) => $q->exceptVariants()->onSale()->filterByPrice($request->query('min_price'), $request->query('max_price'))])
+        $categories = Category::visible()
+            ->whereHas('products', fn($q) => $q->visible()->exceptVariants()->onSale()->filterByPrice($request->query('min_price'), $request->query('max_price')))
+            ->withCount(['products' => fn($q) => $q->visible()->exceptVariants()->onSale()->filterByPrice($request->query('min_price'), $request->query('max_price'))])
             ->with('translation')
             ->get();
 
         $products = Product::visible()
+            ->visible()
             ->onSale()
             ->exceptVariants()
             ->filterByManufacturers($manufacturer_ids)
@@ -38,8 +40,8 @@ class ProductOfferController extends Controller
             $selectedManufacturers = Manufacturer::findMany($manufacturer_ids);
         }
 
-        $manufacturers = Manufacturer::whereHas('products', fn($q) => $q->exceptVariants()->onSale()->filterByPrice($request->query('min_price'), $request->query('max_price')))
-            ->withCount(['products' => fn($q) => $q->exceptVariants()->onSale()->filterByPrice($request->query('min_price'), $request->query('max_price'))])
+        $manufacturers = Manufacturer::whereHas('products', fn($q) => $q->visible()->exceptVariants()->onSale()->filterByPrice($request->query('min_price'), $request->query('max_price')))
+            ->withCount(['products' => fn($q) => $q->visible()->exceptVariants()->onSale()->filterByPrice($request->query('min_price'), $request->query('max_price'))])
             ->get();
 
         return view('product-offers.index', [
@@ -54,7 +56,7 @@ class ProductOfferController extends Controller
 
     private function groupPriceRanges(Collection $manufacturer_ids): Collection
     {
-        $max_price = Product::visible()->max('price');
+        $max_price = Product::visible()->onSale()->max('price');
 
         $min_step = 2.5;
         $step = max(floor($max_price / 4.0), $min_step);

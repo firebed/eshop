@@ -8,7 +8,7 @@
     </div>
 
     @foreach($manufacturers as $manufacturer)
-        <a href="{{ route('products.offers.index', [app()->getLocale(), 'manufacturer_ids' => $selectedManufacturers->toggle($manufacturer)->join('-'), 'min_price' => request()->query('min_price'), 'max_price' => request()->query('max_price')]) }}"
+        <a href="{{ route('products.offers.index', array_filter([app()->getLocale(), 'manufacturer_ids' => $selectedManufacturers->toggle($manufacturer)->pluck('id')->join('-'), 'min_price' => request()->query('min_price'), 'max_price' => request()->query('max_price')])) }}"
            @class(["filter-option", "filter-checkbox", "selected" => $selectedManufacturers->contains($manufacturer), "disabled" => $manufacturer->products_count === 0])
            @if($manufacturer->products_count === 0) rel="nofollow" @endif
         >

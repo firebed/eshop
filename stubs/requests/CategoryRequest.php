@@ -78,7 +78,7 @@ class CategoryRequest extends FormRequest
     {
         return CategoryChoice
             ::whereIn('slug', explode('-', $this->segment($segment)))
-            ->with('property')
+            ->with('property', 'translation')
             ->get()
             ->reject(fn($choice) => $choice->property->category_id !== $this->category->id)
             ->sortBy(['property.position', 'position']);
