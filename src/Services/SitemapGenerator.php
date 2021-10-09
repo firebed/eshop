@@ -118,7 +118,7 @@ class SitemapGenerator
             $url->changefreq = Url::CHANGE_FREQ_MONTHLY;
 
             $url->loc = $product->isVariant()
-                ? variantRoute($product, $products->parent, $product->category)
+                ? variantRoute($product, $product->parent, $product->category)
                 : productRoute($product, $product->category);
 
             foreach ($product->images as $image) {
