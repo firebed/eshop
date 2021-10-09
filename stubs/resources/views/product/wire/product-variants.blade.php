@@ -1,5 +1,5 @@
 <div class="container">
-    <h3 class="fs-5 border-bottom mb-3 py-3">{{ __("Variants") }}</h3>
+    <h2 class="fs-5 border-bottom mb-3 py-3">{{ __("Variants") }}</h2>
 
     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xxl-5 g-4">
         @foreach($variants as $variant)

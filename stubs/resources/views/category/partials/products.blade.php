@@ -5,7 +5,7 @@
                 <div class="card-body vstack position-relative">
                     <a href="{{ productRoute($product, $category) }}" class="ratio ratio-1x1 mb-3">
                         @if($product->image && $src = $product->image->url('sm'))
-                            <img loading="lazy" src="{{ $src }}" title="{{ $product->trademark }}" alt="{{ $product->name }}" class="rounded">
+                            <img loading="lazy" src="{{ $src }}" title="{{ $product->name }}" alt="{{ $product->name }}" class="rounded">
                         @endif
                     </a>
 
