@@ -49,5 +49,7 @@ class SitemapCommand extends Command
         foreach($sitemaps as $name => $urls) {
             $this->info($count++ . ". $name: $urls");
         }
+
+        $this->info("Total urls: " . array_sum($sitemaps));
     }
 }
