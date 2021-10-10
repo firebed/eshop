@@ -14,8 +14,7 @@ use Illuminate\Support\Facades\URL as BaseURL;
 
 class SitemapGenerator
 {
-    public int $total_sitemaps = 0;
-    public int $total_urls     = 0;
+    public array $sitemapsCount = [];
 
     public function generate(): void
     {
@@ -117,9 +116,7 @@ class SitemapGenerator
             $url->lastmod = $product->updated_at;
             $url->changefreq = Url::CHANGE_FREQ_MONTHLY;
 
-            $url->loc = $product->isVariant()
-                ? variantRoute($product, $product->parent, $product->category)
-                : productRoute($product, $product->category);
+            $url->loc = productRoute($product, $product->category);
 
             foreach ($product->images as $image) {
                 $url->addImage($image->url(), $product->name);
@@ -137,9 +134,8 @@ class SitemapGenerator
             return;
         }
 
-        $sitemap?->writeToDisk('public', $path);
-        $this->total_urls += $sitemap->totalUrls();
-        ++$this->total_sitemaps;
+        $sitemap->writeToDisk('public', $path);
+        $this->sitemapsCount[basename($path)] = $sitemap->totalUrls();
     }
 
     private function getDisk(): Filesystem

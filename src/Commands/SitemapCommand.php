@@ -28,7 +28,7 @@ class SitemapCommand extends Command
         $generator->generate();
 
         $elapsed = format_number(microtime(true) - $start, 2);
-        $this->report($elapsed, $generator->total_sitemaps, $generator->total_urls);
+        $this->report($elapsed, $generator->sitemapsCount);
 
         if ($this->option('ping')) {
             $response = Google::pingSitemap(urlencode(URL::asset("sitemap.xml")));
@@ -40,11 +40,14 @@ class SitemapCommand extends Command
         }
     }
 
-    private function report(string $seconds, int $totalSitemaps, int $totalUrls): void
+    private function report(string $seconds, array $sitemaps): void
     {
         $this->info("Sitemap generated successfully:");
-        $this->info("- Duration: $seconds seconds");
-        $this->info("- Sitemaps: $totalSitemaps");
-        $this->info("- Urls: $totalUrls");
+        $this->info("Duration: $seconds seconds");
+        
+        $count = 1;
+        foreach($sitemaps as $name => $urls) {
+            $this->info($count++ . ". $name: $urls");
+        }
     }
 }

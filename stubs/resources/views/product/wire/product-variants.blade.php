@@ -6,17 +6,17 @@
             <div class="col" wire:key="variant-{{ $variant->id }}">
                 <div class="card h-100 position-relative">
                     <div class="card-body d-grid gap-3">
-                        <a class="text-decoration-none text-dark d-grid gap-2" href="{{ variantRoute($variant, $product, $category) }}">
+                        <a class="text-decoration-none text-dark d-grid gap-2" href="{{ productRoute($variant, $category) }}">
                             @if($variant->image)
                                 <div class="ratio ratio-1x1">
-                                    <img src="{{ $variant->image->url('sm') }}" alt="{{ $variant->variant_values }}" class="img-middle">
+                                    <img src="{{ $variant->image->url('sm') }}" alt="{{ $variant->trademark }}" class="img-middle">
                                 </div>
                             @endif
 
                             <div class="d-grid">
                                 <div class="fw-500">{{ $variant->option_values }}</div>
 
-                                @if($variant->sku !== NULL && $variant->variant_values !== $variant->sku)
+                                @if($variant->sku !== null && $variant->variant_values !== $variant->sku)
                                     <small class="text-secondary">{{ __('Code') }}: {{ $variant->sku }}</small>
                                 @endif
                             </div>

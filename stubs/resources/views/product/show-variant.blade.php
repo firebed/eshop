@@ -1,15 +1,15 @@
 @php($title = $product->seo->title ?? $product->option_values ?? "")
-@php($description = $product->seo->description ?? $parent->seo->description ?? null)
+@php($description = $product->seo->description ?? $product->parent->seo->description ?? null)
 
 @extends('layouts.master', ['title' =>  $title])
 
 @push('meta')
-    <link rel="canonical" href="{{ productRoute($parent, $category) }}">
+    <link rel="canonical" href="{{ productRoute($product->parent, $category) }}">
     @foreach(array_keys(config('eshop.locales')) as $locale)
-        <link rel="alternate" hreflang="{{ $locale }}" href="{{ variantRoute($product, $parent, $category, $locale) }}"/>
+        <link rel="alternate" hreflang="{{ $locale }}" href="{{ productRoute($product, $category, $locale) }}"/>
     @endforeach
 
-    <script type="application/ld+json">{!! schema()->breadcrumb($category, $parent, $product) !!}</script>
+    <script type="application/ld+json">{!! schema()->breadcrumb($category, $product) !!}</script>
     <script type="application/ld+json">{!! schema()->product($product) !!}</script>
     <script type="application/ld+json">{!! schema()->webPage($title, $description) !!}</script>
 
@@ -42,7 +42,7 @@
 @endpush
 
 @section('main')
-    <x-eshop-category-breadcrumb :category="$category" :product="$parent" :variant="$product"/>
+    <x-eshop-category-breadcrumb :category="$category" :product="$product"/>
 
     <div class="container-fluid bg-white py-4">
         <div class="container-xxl">
@@ -54,7 +54,7 @@
                 <div class="col">
                     @can('Manage products')
                         <div class="d-flex gap-3 mb-2">
-                            <a href="{{ $product->isVariant() ? route('variants.edit', $product) : route('products.edit', $product) }}" class="text-decoration-none">
+                            <a href="{{ route('variants.edit', $product) }}" class="text-decoration-none">
                                 <em class="far fa-edit me-1"></em>{{ __('eshop::buttons.edit') }}
                             </a>
                         </div>
@@ -71,7 +71,7 @@
                             @includeWhen(isset($product->manufacturer), 'product.partials.product-manufacturer')
                         </div>
 
-                        @includeWhen($description = $product->description ?? $parent->description, 'product.partials.product-description', ['description' => $description])
+                        @includeWhen($description = $product->description ?? $product->parent->description, 'product.partials.product-description', ['description' => $description])
 
                         <div class="d-grid gap-2">
                             @if($product->canBeBought())

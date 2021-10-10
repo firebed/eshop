@@ -8,7 +8,7 @@ use Eshop\Models\Product\Product;
 
 class BreadcrumbSchema
 {
-    public function handle(Category $category, Product $product = null, Product $variant = null): string
+    public function handle(Category $category, Product $product = null): string
     {
         $category->loadMissing('translation');
         $items = [$this->item(categoryRoute($category), $category->seo->title ?? $category->name, $category->image)];
@@ -20,20 +20,22 @@ class BreadcrumbSchema
             $parent = $parent->parent;
         }
 
+        if ($product !== null) {
+            $product->loadMissing('translations');
+            
+            if ($product->isVariant()) {
+                $product->loadMissing('parent.translations');
+                $parent = $product->parent;
+                $items[] = $this->item(productRoute($parent, $category), $parent->seo->title, $parent->image);
+            }
+            
+            $items[] = $this->item(productRoute($product, $category), $product->seo->title ?? $product->name, $product->image);
+        }
+
         foreach ($items as $i => $iValue) {
             $items[$i]['position'] = $i + 1;
         }
-
-        if ($product !== null) {
-            $product->loadMissing('translations');
-            $items[] = $this->item(productRoute($product, $category), $product->seo->title ?? $product->name, $product->image, count($items) + 1);
-        }
-
-        if ($variant !== null) {
-            $variant->loadMissing('translations');
-            $items[] = $this->item(variantRoute($variant, $product, $category), $variant->seo->title ?? $variant->option_values, $variant->image, count($items) + 1);
-        }
-
+        
         return json_encode([
             "@context"        => "https://schema.org",
             "@type"           => "BreadcrumbList",
@@ -41,11 +43,10 @@ class BreadcrumbSchema
         ]);
     }
 
-    private function item(string $url, string $name, Image $image = null, int $position = 0): array
+    private function item(string $url, string $name, Image $image = null): array
     {
         $item = [
             "@type"    => "ListItem",
-            "position" => $position,
             "item"     => [
                 "@id"  => $url,
                 'name' => $name,

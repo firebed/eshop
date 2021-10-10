@@ -17,7 +17,6 @@ use App\Http\Controllers\Pages\PageController;
 use App\Http\Controllers\Product\ProductController;
 use App\Http\Controllers\Product\ProductOfferController;
 use App\Http\Controllers\Product\ProductSearchController;
-use App\Http\Controllers\Product\VariantController;
 use Eshop\Models\Cart\Cart;
 use Eshop\Notifications\OrderShippedNotification;
 use Illuminate\Support\Facades\Mail;
@@ -109,7 +108,6 @@ Route::group([
         Route::get('{category:slug}/m/{manufacturers}', CategoryController::class)->name('categories.manufacturers');
         Route::get('{category:slug}/f/{filters}', CategoryController::class)->name('categories.filters');
 
-        Route::get('{category:slug}/{product:slug}/{variant:slug}', [VariantController::class, 'show'])->name('variants.show');
         Route::get('{category:slug}/{product:slug}', [ProductController::class, 'show'])->name('products.show');
 
         Route::get('{category:slug}', CategoryController::class)->name('categories.show');

@@ -29,8 +29,6 @@
             <span>&rsaquo;</span>
             <span x-text="categorySlug">{{ $categorySlug }}</span>
             <span>&rsaquo;</span>
-            <span x-text="productSlug">{{ $productSlug }}</span>
-            <span>&rsaquo;</span>
             <span style="color: #5f6368" x-text="slug">{{ $slug }}</span>
         </div>
 

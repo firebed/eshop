@@ -16,9 +16,8 @@ class CategoryBreadcrumb extends Component
      *
      * @param Category     $category
      * @param Product|null $product
-     * @param Product|null $variant
      */
-    public function __construct(Category $category, Product $product = NULL, Product $variant = NULL)
+    public function __construct(Category $category, Product $product = null)
     {
         $parent = $category->parent;
         while ($parent) {
@@ -40,18 +39,23 @@ class CategoryBreadcrumb extends Component
             'url'  => categoryRoute($category)
         ];
 
-        if ($product !== NULL) {
-            $this->items[] = [
-                'name' => $product->name,
-                'url'  => productRoute($product, $category)
-            ];
-        }
+        if ($product !== null) {
+            if ($product->isVariant()) {
+                $this->items[] = [
+                    'name' => $product->parent->trademark,
+                    'url'  => productRoute($product->parent, $category)
+                ];
 
-        if ($variant !== NULL) {
-            $this->items[] = [
-                'name' => $variant->option_values,
-                'url'  => variantRoute($variant, $product, $category)
-            ];
+                $this->items[] = [
+                    'name' => $product->option_values,
+                    'url'  => productRoute($product, $category)
+                ];
+            } else {
+                $this->items[] = [
+                    'name' => $product->trademark,
+                    'url'  => productRoute($product, $category)
+                ];
+            }
         }
     }
 

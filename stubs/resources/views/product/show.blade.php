@@ -6,7 +6,7 @@
 @push('meta')
     <link rel="canonical" href="{{ productRoute($product, $category) }}">
     @foreach(array_keys(config('eshop.locales')) as $locale)
-        <link rel="alternate" hreflang="{{ $locale }}" href="{{ productRoute($product, $category, locale: $locale) }}"/>
+        <link rel="alternate" hreflang="{{ $locale }}" href="{{ productRoute($product, $category, $locale) }}"/>
     @endforeach
 
     <script type="application/ld+json">{!! schema()->breadcrumb($category, $product) !!}</script>
@@ -42,7 +42,7 @@
 @endpush
 
 @section('main')
-    <x-eshop-category-breadcrumb :category="$category" :product="$product" :variant="null"/>
+    <x-eshop-category-breadcrumb :category="$category" :product="$product"/>
 
     <div class="container-fluid bg-white py-4">
         <div class="container-xxl">

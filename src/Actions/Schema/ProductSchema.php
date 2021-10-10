@@ -55,7 +55,7 @@ class ProductSchema
                 $models = [];
                 foreach ($product->variants as $variant) {
                     $model = $this->model($variant, $product);
-                    $model["offers"]['url'] = variantRoute($variant, $product, $product->category);
+                    $model["offers"]['url'] = productRoute($variant, $product->category);
                     $models[] = $model;
                 }
                 $sData['model'] = $models;

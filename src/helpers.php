@@ -83,27 +83,7 @@ if (!function_exists('productRoute')) {
         $locale = $locale ?: app()->getLocale();
 
         $category = $category ?? $product->category;
-        return $product->isVariant()
-            ? route('variants.show', [$locale, $category->slug, $product->parent->slug, $product->slug], $absolute)
-            : route('products.show', [$locale, $category->slug, $product->slug], $absolute);
-    }
-}
-
-if (!function_exists('variantRouteExists')) {
-    function variantRouteExists(): bool
-    {
-        return Route::has('variants.show');
-    }
-}
-
-if (!function_exists('variantRoute')) {
-    function variantRoute(Product $variant, Product $parent = null, Category $category = null, $locale = null, $absolute = true): string
-    {
-        $locale = $locale ?: app()->getLocale();
-
-        $parent = $parent ?? $variant->parent;
-        $category = $category ?? $parent->category;
-        return route('variants.show', [$locale, $category->slug, $parent->slug, $variant->slug], $absolute);
+        return  route('products.show', [$locale, $category->slug, $product->slug], $absolute);
     }
 }
 

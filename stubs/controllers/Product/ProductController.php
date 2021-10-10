@@ -12,16 +12,14 @@ class ProductController extends Controller
 {
     public function show(string $locale, Category $category, Product $product, Order $order): Renderable
     {
-        if (!($category->visible && $product->visible)) {
+        if (!$category->visible || !$product->visible || ($product->isVariant() && !$product->parent->visible)) {
             abort(404);
         }
 
+        $quantity = 0;
         if ($product->has_variants) {
             $product->loadCount(['variants' => fn($q) => $q->visible()]);
-        }
-
-        $quantity = 0;
-        if (!$product->has_variants) {
+        } else {
             $quantity = $order->getProductQuantity($product);
         }
 
@@ -29,7 +27,7 @@ class ProductController extends Controller
             session()->flash('quantity', __('The product is already in the shopping cart.'));
         }
 
-        return view('product.show', [
+        return view(!$product->isVariant() ? 'product.show' : 'product.show-variant', [
             'category'   => $category,
             'product'    => $product,
             'images'     => $product->images('gallery')->get(),
