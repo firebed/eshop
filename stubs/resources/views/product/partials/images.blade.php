@@ -15,7 +15,7 @@
     </div>
 
     <div class="col w-sm-5r order-sm-0">
-        <div data-simplebar class="mh-3r mh-sm-20r">
+        <div class="mh-3r mh-sm-20r scrollbar overflow-auto">
             <div class="d-flex flex-nowrap d-sm-grid gap-1">
                 @if($product->image && $src = $product->image->url())
                     <div class="d-flex w-3r w-sm-auto">

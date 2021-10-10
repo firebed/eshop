@@ -31,11 +31,6 @@
     <meta name='robots' content='index, follow'/>
 @endpush
 
-@push('header_scripts')
-    <link rel="stylesheet" href="https://unpkg.com/simplebar@5.3.3/dist/simplebar.css"/>
-    <script src="https://unpkg.com/simplebar@5.3.3/dist/simplebar.min.js"></script>
-@endpush
-
 @push('footer_scripts')
     <script src="https://cdn.jsdelivr.net/npm/autonumeric@4.6.0/dist/autoNumeric.min.js"></script>
     <script src="{{ mix('js/fslightbox.js') }}"></script>

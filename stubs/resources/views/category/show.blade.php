@@ -9,7 +9,7 @@
 
 @push('meta')
     @foreach(array_keys(config('eshop.locales')) as $locale)
-        <link rel="alternate" hreflang="{{ $locale }}" href="{{ categoryRoute($category, locale: $locale) }}" />
+        <link rel="alternate" hreflang="{{ $locale }}" href="{{ categoryRoute($category, locale: $locale) }}"/>
     @endforeach
 
     @if(!empty($category->seo->description))
@@ -28,7 +28,7 @@
     @if($category->image)
         <meta property="og:image" content="{{ $category->image->url() }}">
     @endif
-    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:card" content="summary"/>
 
     @if($category->isFile())
         @if(!$products->hasPages() || $products->onFirstPage())
@@ -50,11 +50,11 @@
         <link rel="canonical" href="{{ categoryRoute($category) }}">
     @endif
 
-    <meta name='robots' content='index, follow' />
+    <meta name='robots' content='index, follow'/>
 @endpush
 
 @section('main')
-    <x-eshop-category-breadcrumb :category="$category" :product="null" :variant="null"/>
+    <x-eshop-category-breadcrumb :category="$category" :product="null"/>
 
     <div class="container-fluid my-4">
         <div class="container-xxl">
