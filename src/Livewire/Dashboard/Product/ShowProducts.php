@@ -79,6 +79,7 @@ class ShowProducts extends Component
         return Product
             ::exceptVariants()
             ->when(!empty($this->category), fn($q) => $q->where('category_id', $this->category))
+            ->when(!empty($this->manufacturer), fn($q) => $q->where('manufacturer_id', $this->manufacturer))
             ->when($this->name, function ($q, $name) {
                 $q->where(function ($b) use ($name) {
                     $b->where('slug', 'LIKE', "%$this->name%");
