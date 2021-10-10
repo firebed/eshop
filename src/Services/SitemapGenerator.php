@@ -112,6 +112,10 @@ class SitemapGenerator
 
         $sitemap = new Sitemap();
         foreach ($products as $product) {
+            if ($product->parent && !$product->parent->visible) {
+                continue;
+            }
+            
             $url = new Url();
             $url->lastmod = $product->updated_at;
             $url->changefreq = Url::CHANGE_FREQ_MONTHLY;
