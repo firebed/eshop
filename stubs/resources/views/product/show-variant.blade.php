@@ -6,7 +6,7 @@
 @push('meta')
     <link rel="canonical" href="{{ productRoute($product->parent, $category) }}">
     @foreach(array_keys(config('eshop.locales')) as $locale)
-        <link rel="alternate" hreflang="{{ $locale }}" href="{{ productRoute($product, $category, $locale) }}"/>
+        <link rel="alternate" hreflang="{{ $locale }}" href="{{ productRoute($product->parent, $category, $locale) }}"/>
     @endforeach
 
     <script type="application/ld+json">{!! schema()->breadcrumb($category, $product) !!}</script>
