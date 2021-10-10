@@ -29,10 +29,10 @@ class CategoryBreadcrumb extends Component
             $parent = $parent->parent;
         }
 
-        array_unshift($this->items, [
-            'name' => __('Home'),
-            'url'  => route('home', app()->getLocale())
-        ]);
+//        array_unshift($this->items, [
+//            'name' => __('Home'),
+//            'url'  => route('home', app()->getLocale())
+//        ]);
 
         $this->items[] = [
             'name' => $category->name,
