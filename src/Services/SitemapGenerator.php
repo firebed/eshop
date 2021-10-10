@@ -66,22 +66,27 @@ class SitemapGenerator
         $sitemap = new Sitemap();
 
         $sitemap->addUrl(\url('/') . '/', today()->startOfMonth(), Url::CHANGE_FREQ_WEEKLY, 1);
-        $sitemap->addUrl(route('home', app()->getLocale()), today()->startOfMonth(), Url::CHANGE_FREQ_WEEKLY, 1);
-        $sitemap->addUrl(route('pages.show', [app()->getLocale(), 'terms-of-service']), today()->startOfYear(), Url::CHANGE_FREQ_YEARLY);
-        $sitemap->addUrl(route('pages.show', [app()->getLocale(), 'data-protection']), today()->startOfYear(), Url::CHANGE_FREQ_YEARLY);
-        $sitemap->addUrl(route('pages.show', [app()->getLocale(), 'return-policy']), today()->startOfYear(), Url::CHANGE_FREQ_YEARLY);
-        $sitemap->addUrl(route('pages.show', [app()->getLocale(), 'secure-transactions']), today()->startOfYear(), Url::CHANGE_FREQ_YEARLY);
-        $sitemap->addUrl(route('pages.show', [app()->getLocale(), 'shipping-methods']), today()->startOfMonth(), Url::CHANGE_FREQ_MONTHLY);
-        $sitemap->addUrl(route('pages.show', [app()->getLocale(), 'payment-methods']), today()->startOfMonth(), Url::CHANGE_FREQ_MONTHLY);
-        $sitemap->addUrl(route('pages.show', [app()->getLocale(), 'login']), today()->startOfYear(), Url::CHANGE_FREQ_YEARLY);
-        $sitemap->addUrl(route('pages.show', [app()->getLocale(), 'register']), today()->startOfYear(), Url::CHANGE_FREQ_YEARLY);
-        $sitemap->addUrl(route('pages.show', [app()->getLocale(), 'cart']), today()->startOfYear(), Url::CHANGE_FREQ_YEARLY);
-        $sitemap->addUrl(route('pages.show', [app()->getLocale(), 'offers']), today(), Url::CHANGE_FREQ_DAILY);
-        $sitemap->addUrl(route('pages.show', [app()->getLocale(), 'order-tracking']), today()->startOfMonth(), Url::CHANGE_FREQ_MONTHLY);
+        $sitemap->addUrl(route('home', app()->getLocale()) . '/', today()->startOfMonth(), Url::CHANGE_FREQ_WEEKLY, 1);
+        $sitemap->addUrl($this->pageUrl('terms-of-service'), today()->startOfYear(), Url::CHANGE_FREQ_YEARLY);
+        $sitemap->addUrl($this->pageUrl('data-protection'), today()->startOfYear(), Url::CHANGE_FREQ_YEARLY);
+        $sitemap->addUrl($this->pageUrl('return-policy'), today()->startOfYear(), Url::CHANGE_FREQ_YEARLY);
+        $sitemap->addUrl($this->pageUrl('secure-transactions'), today()->startOfYear(), Url::CHANGE_FREQ_YEARLY);
+        $sitemap->addUrl($this->pageUrl('shipping-methods'), today()->startOfMonth(), Url::CHANGE_FREQ_MONTHLY);
+        $sitemap->addUrl($this->pageUrl('payment-methods'), today()->startOfMonth(), Url::CHANGE_FREQ_MONTHLY);
+        $sitemap->addUrl($this->pageUrl('login'), today()->startOfYear(), Url::CHANGE_FREQ_YEARLY);
+        $sitemap->addUrl($this->pageUrl('register'), today()->startOfYear(), Url::CHANGE_FREQ_YEARLY);
+        $sitemap->addUrl($this->pageUrl('cart'), today()->startOfYear(), Url::CHANGE_FREQ_YEARLY);
+        $sitemap->addUrl($this->pageUrl('offers') , today(), Url::CHANGE_FREQ_DAILY);
+        $sitemap->addUrl($this->pageUrl('order-tracking'), today()->startOfMonth(), Url::CHANGE_FREQ_MONTHLY);
 
         return $sitemap;
     }
 
+    private function pageUrl(string $name): string
+    {
+        return route('pages.show', [app()->getLocale(), $name]);
+    }
+    
     private function generateCategoriesSitemap(): Sitemap|null
     {
         $categories = Category::with('translation', 'image')->visible()->latest()->get();

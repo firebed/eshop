@@ -15,11 +15,13 @@
                 return text.replace(/\r?\n|\r|\s\s+/g, ' ')
             }
         }"
+             @if(request()->routeIs('products.create'))
              x-on:product-name-updated.window="
                 title = $event.detail
                 updateSlug()
              "
              x-on:product-description-updated.window='description = removeLineBreaks($event.detail).substring(0, 300)'
+             @endif
              x-on:product-category-changed.window="categorySlug = $event.detail.slug"
              class="d-grid gap-2"
         >

@@ -38,7 +38,7 @@
                                 <button wire:click="addToCart({{ $variant->id }})" wire:loading.attr="disabled" wire:target="addToCart({{ $variant->id }})" type="button" class="btn btn-green">
                                     <em wire:loading.remove wire:target="addToCart({{ $variant->id }})" class="fa fa-shopping-basket"></em>
                                     <em wire:loading wire:target="addToCart({{ $variant->id }})" class="fa fa-spinner fa-spin"></em>
-                                    <span>{{ __("Add to cart") }}</span>
+                                    <span>{{ __("Purchase") }}</span>
                                 </button>
                             @else
                                 <button class="btn btn-danger" disabled>{{ __("Out of stock") }}</button>

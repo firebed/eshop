@@ -10,10 +10,12 @@
                 this.slug = slugifyLower(this.title)
             }
         }"
+     @if(request()->routeIs('products.variants.create'))
      x-on:variant-options-updated.window="
         title = '{{ $product->name }}' + ' ' + $event.detail.join(' ')
         updateSlug()
      "
+     @endif
      class="d-grid gap-2"
 >
     <div class="d-flex justify-content-between align-items-baseline mb-3">

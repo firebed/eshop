@@ -10,10 +10,12 @@
                 this.slug = slugifyLower(this.title)
             }
         }"
-        x-on:category-name-updated.window="
+         @if(request()->routeIs('categories.create'))
+             x-on:category-name-updated.window="
             title = $event.detail
             updateSlug()
         "
+         @endif
          class="d-grid gap-2"
         >
             <div class="d-flex justify-content-between align-items-baseline mb-3">
