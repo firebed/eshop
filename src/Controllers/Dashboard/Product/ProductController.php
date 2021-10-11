@@ -113,6 +113,10 @@ class ProductController extends Controller
                     if ($product->manufacturer_id !== $request->input('manufacturer_id')) {
                         $product->variants()->update(['manufacturer_id' => $request->input('manufacturer_id')]);
                     }
+
+                    if ($product->unit_id !== $request->input('unit_id')) {
+                        $product->variants()->update(['unit_id' => $request->input('unit_id')]);
+                    }
                 }
                                 
                 $product->update($request->only($product->getFillable()));
