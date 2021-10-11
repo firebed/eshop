@@ -27,9 +27,10 @@ class BreadcrumbSchema
                 $product->loadMissing('parent.translations');
                 $parent = $product->parent;
                 $items[] = $this->item(productRoute($parent, $category), $parent->seo->title ?? $parent->name, $parent->image);
+                $items[] = $this->item(productRoute($product, $category), $product->seo->title ?? $product->trademark, $parent->image);
+            } else {
+                $items[] = $this->item(productRoute($product, $category), $product->seo->title ?? $product->name, $product->image);                
             }
-            
-            $items[] = $this->item(productRoute($product, $category), $product->seo->title ?? $product->name, $product->image);
         }
 
         foreach ($items as $i => $iValue) {
