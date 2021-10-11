@@ -110,7 +110,7 @@ class SitemapGenerator
 
     private function generateProductsSitemap(): Sitemap|null
     {
-        $products = Product::with('parent', 'category', 'images', 'translations')->visible()->latest()->get();
+        $products = Product::with('parent', 'category', 'images', 'translations')->exceptVariants()->visible()->latest()->get();
         if ($products->isEmpty()) {
             return null;
         }
