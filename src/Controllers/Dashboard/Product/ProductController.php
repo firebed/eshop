@@ -106,12 +106,12 @@ class ProductController extends Controller
         try {
             DB::transaction(function () use ($product, $request) {
                 if ($product->has_variants) {
-                    if ($product->isDirty('category_id')) {
-                        $product->variants()->update(['category_id' => $product->category_id]);
+                    if ($product->category_id !== $request->input('category_id')) {
+                        $product->variants()->update(['category_id' => $request->input('category_id')]);
                     }
                     
-                    if ($product->isDirty('manufacturer_id')) {
-                        $product->variants()->update(['manufacturer_id' => $product->manufacturer_id]);
+                    if ($product->manufacturer_id !== $request->input('manufacturer_id')) {
+                        $product->variants()->update(['manufacturer_id' => $request->input('manufacturer_id')]);
                     }
                 }
                                 
