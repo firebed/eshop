@@ -29,6 +29,8 @@
 @section('main')
     <div class="container-fluid my-4">
         <div class="container-xxl">
+            <h1 class="mb-4 fs-4">{{ $title }}</h1>
+            
             <div class="row row-cols-1 row-cols-lg-2 g-4">
                 <div class="col">
                     <x-bs::card class="h-100">

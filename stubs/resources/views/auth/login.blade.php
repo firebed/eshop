@@ -28,7 +28,7 @@
             <div class="col-md-8">
                 <div class="card h-100 shadow-sm">
                     <div class="card-body px-5">
-                        <h2 class="mb-4 fs-4 text-primary">{{ __("Login") }}</h2>
+                        <h1 class="mb-4 fs-4 text-primary">{{ __("Login") }}</h1>
 
                         <form method="POST" action="{{ route('login', app()->getLocale()) }}">
                             @csrf
