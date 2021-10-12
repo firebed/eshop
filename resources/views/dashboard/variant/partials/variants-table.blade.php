@@ -40,7 +40,7 @@
                     <em class="fas fa-eye {{ $variant->visible ? 'text-teal-500' : 'text-gray-400' }}"></em>
                     <div class="d-grid gap-1">
                         <em class="fas fa-shopping-cart {{ $variant->available ? 'text-teal-500' : 'text-gray-400' }}"></em>
-                        @if($variant->available_gt !== "" && $variant->display_stock_lt !== null) 
+                        @if($variant->available_gt !== "" && $variant->available_gt !== null) 
                             <small class="fw-500 text-center lh-sm bg-secondary rounded-pill text-light px-1" style="font-size: .7rem">{{ $variant->available_gt }}</small> 
                         @endif
                     </div>
