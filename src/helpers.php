@@ -111,7 +111,7 @@ if (!function_exists('categoryRoute')) {
         ];
         
         if ($manufacturers !== null && $manufacturers->isNotEmpty()) {
-            $manufacturers = $manufacturers->sortBy('name');
+            $manufacturers = $manufacturers->sortBy('name', SORT_NATURAL | SORT_FLAG_CASE);
             $name = 'categories.manufacturers';
             $params[] = $manufacturers->pluck('slug')->join('-');
             if ($choices !== null && $choices->isNotEmpty()) {
