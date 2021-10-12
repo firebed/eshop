@@ -9,32 +9,22 @@
 
 @push('meta')
     @foreach(array_keys(config('eshop.locales')) as $locale)
-        <link rel="alternate" hreflang="{{ $locale }}" href="{{ categoryRoute($category, locale: $locale) }}"/>
+        @if($category->isFile())
+            <link rel="alternate" hreflang="{{ $locale }}" href="{{ categoryRoute($category, $filters['m'], $filters['c'], locale: $locale) . ($products->currentPage() > 1 ? '?page=' . $products->currentPage() : '') }}"/>
+        @else
+            <link rel="alternate" hreflang="{{ $locale }}" href="{{ categoryRoute($category, locale: $locale) . ($products->currentPage() > 1 ? '?page=' . $products->currentPage() : '') }}"/>
+        @endif
     @endforeach
 
     @if(!empty($category->seo->description))
         <meta name="description" content="{{ $description }}">
     @endif
 
-    <script type="application/ld+json">{!! schema()->webPage($title, $description) !!}</script>
-    <script type="application/ld+json">{!! schema()->breadcrumb($category) !!}</script>
-
-    <meta property="og:title" content="{{ $title }}">
-    <meta property="og:site_name" content="{{ config('app.name') }}">
-    @if(!empty($description))
-        <meta property="og:description" content="{{ $description }}">
-    @endif
-    <meta property="og:type" content="website">
-    @if($category->image)
-        <meta property="og:image" content="{{ $category->image->url() }}">
-    @endif
-    <meta name="twitter:card" content="summary"/>
-
     @if($category->isFile())
         @if(!$products->hasPages() || $products->onFirstPage())
-            <link rel="canonical" href="{{ categoryRoute($category) }}">
+            <link rel="canonical" href="{{ $canonical = categoryRoute($category, $filters['m'], $filters['c']) }}">1
         @else
-            <link rel="canonical" href="{{ $products->url($products->currentPage()) }}">
+            <link rel="canonical" href="{{ $canonical = $products->url($products->currentPage()) }}">
         @endif
 
         @if($products->currentPage() == 2)
@@ -47,7 +37,7 @@
             <link rel="next" href="{{ $products->nextPageUrl() }}">
         @endif
     @else
-        <link rel="canonical" href="{{ categoryRoute($category) }}">
+        <link rel="canonical" href="{{ $canonical = categoryRoute($category) }}">
     @endif
 
     @if($category->isFile())
@@ -55,6 +45,21 @@
     @else
         <meta name='robots' content='{{ $children->isEmpty() ? 'noindex' : 'index' }}, follow'/>
     @endif
+
+    <script type="application/ld+json">{!! schema()->webPage($title, $description) !!}</script>
+    <script type="application/ld+json">{!! schema()->breadcrumb($category) !!}</script>
+
+    <meta property="og:title" content="{{ $title }}">
+    <meta property="og:site_name" content="{{ config('app.name') }}">
+    @if(!empty($description))
+        <meta property="og:description" content="{{ $description }}">
+    @endif
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ $canonical }}">
+    @if($category->image)
+        <meta property="og:image" content="{{ $category->image->url() }}">
+    @endif
+    <meta name="twitter:card" content="summary"/>
 @endpush
 
 @section('main')

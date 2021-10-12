@@ -11,11 +11,27 @@
 
     <script type="application/ld+json">{!! schema()->webPage('Προσφορές - Όλες οι κατηγορίες', "Δες όλες τις προσφορές των προϊόντων για όλες της κατηγορίες στην καλύτερη τιμή!") !!}</script>
 
+    @if($products->onFirstPage())
+        <link rel="canonical" href="{{ $canonical = route('products.offers.index', app()->getLocale()) }}">
+    @else
+        <link rel="canonical" href="{{ $canonical = $products->url($products->currentPage()) }}">
+    @endif
+
+    @if($products->currentPage() == 2)
+        <link rel="prev" href="{{ route('products.offers.index', app()->getLocale()) }}">
+    @elseif($products->currentPage() > 2)
+        <link rel="prev" href="{{ $products->previousPageUrl() }}">
+    @endif
+
+    @if($products->hasMorePages())
+        <link rel="next" href="{{ $products->nextPageUrl() }}">
+    @endif
+
     <meta property="og:title" content="Προσφορές - Όλες οι κατηγορίες">
     <meta property="og:site_name" content="{{ config('app.name') }}">
     <meta property="og:description" content="Δες όλες τις προσφορές των προϊόντων για όλες της κατηγορίες στην καλύτερη τιμή!">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="{{ $products->url($products->currentPage()) }}">
+    <meta property="og:url" content="{{ $canonical }}">
     <meta property="og:image" content="{{ asset(config('eshop.logo')) }}">
     <meta name="twitter:card" content="summary" />
 

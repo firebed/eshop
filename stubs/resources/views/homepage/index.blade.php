@@ -2,9 +2,9 @@
 
 @push('meta')
     @if(Route::currentRouteName() === 'landing_page')
-        <link rel="canonical" href="{{ url('/') }}">
+        <link rel="canonical" href="{{ $canonical = url('/') }}">
     @else
-        <link rel="canonical" href="{{ route('home', app()->getLocale()) }}">
+        <link rel="canonical" href="{{ $canonical = route('home', app()->getLocale()) }}">
     @endif
 
     <link rel="alternate" hreflang="x-default" href="{{ url('/') }}" />
@@ -22,7 +22,7 @@
     <meta property="og:site_name" content="{{ config('app.name') }}">
     <meta property="og:description" content="{{ __('company.seo.description') }}">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="{{ url('/') }}">
+    <meta property="og:url" content="{{ $canonical }}">
     <meta property="og:image" content="{{ asset(config('eshop.logo')) }}">
     <meta property="og:image:width" content="{{ config('eshop.logo_width') }}" />
     <meta property="og:image:height" content="{{ config('eshop.logo_height') }}" />
