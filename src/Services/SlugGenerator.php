@@ -19,7 +19,7 @@ class SlugGenerator
     {
         $slug = '';
         $lastCharacter = '';
-        $string = mb_strtolower(trim($string), 'utf-8');
+        $string = preg_replace('/[^a-z0-9\-]/', '', mb_strtolower(trim($string), 'utf-8'));
 
         $iMax = mb_strlen($string, 'utf-8');
         for ($i = 0; $i < $iMax; $i++) {
@@ -71,88 +71,36 @@ class SlugGenerator
             return $character;
         }
 
-        switch ($character) {
-            case ' ':
-            case ':':
-            case '-':
-            case '—':
-            case '_':
-            case '/':
-            case '\\':
-                return $separator;
-            case 'α':
-            case 'ά':
-                return 'a';
-            case 'β':
-                return 'b';
-            case 'ç':
-                return 'c';
-            case 'γ':
-            case 'ğ':
-                return 'g';
-            case 'δ':
-                return 'd';
-            case 'ε':
-            case 'έ':
-                return 'e';
-            case 'ζ':
-                return 'z';
-//            case 'η':
-//            case 'ή':
-//                return 'h';
-            case 'θ':
-                return 'th';
-            case 'ι':
-            case 'ί':
-            case 'ϊ':
-            case 'ΐ':
-            case 'η':
-            case 'ή':
-            case 'ı':
-                return 'i';
-            case 'κ':
-                return 'k';
-            case 'λ':
-                return 'l';
-            case 'μ':
-                return 'm';
-            case 'ν':
-                return 'n';
-            case 'ξ':
-                return 'ks';
-            case 'ο':
-            case 'ό':
-            case 'ö':
-                return 'o';
-            case 'π':
-                return 'p';
-            case 'ρ':
-                return 'r';
-            case 'σ':
-            case 'ς':
-                return 's';
-            case 'ş':
-                return 'sh';
-            case 'τ':
-                return 't';
-            case 'ü':
-            case 'υ':
-            case 'ύ':
-                return 'u';
-            case 'ϋ':
-            case 'ΰ':
-                return 'y';
-            case 'φ':
-                return 'f';
-            case 'χ':
-                return 'x';
-            case 'ψ':
-                return 'ps';
-            case 'ω':
-            case 'ώ':
-                return 'w';
-            default:
-                return '';
-        }
+        return match ($character) {
+            ' ', => $separator,
+            'α', 'ά' => 'a',
+            'β' => 'v',
+            'ç' => 'c',
+            'γ', 'ğ' => 'g',
+            'δ' => 'd',
+            'ε', 'έ' => 'e',
+            'ζ' => 'z',
+            'θ' => 'th',
+            'ι', 'ί', 'ϊ', 'ΐ', 'η', 'ή', 'ı' => 'i',
+            'κ' => 'k',
+            'λ' => 'l',
+            'μ' => 'm',
+            'ν' => 'n',
+//            'η', 'ή' => 'h',
+            'ξ' => 'ks',
+            'ο', 'ό', 'ö' => 'o',
+            'π' => 'p',
+            'ρ' => 'r',
+            'σ', 'ς' => 's',
+            'ş' => 'sh',
+            'τ' => 't',
+            'ü', 'υ', 'ύ' => 'u',
+            'ϋ', 'ΰ' => 'y',
+            'φ' => 'f',
+            'χ' => 'x',
+            'ψ' => 'ps',
+            'ω', 'ώ' => 'w',
+            default => '',
+        };
     }
 }
