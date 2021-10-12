@@ -15,6 +15,7 @@ window.slugify.extend({
     'ξ': 'ks',
     'Ξ': 'KS',
     'η': 'i',
+    'β': 'v',
     '&': ''
 });
 

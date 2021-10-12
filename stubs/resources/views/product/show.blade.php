@@ -71,7 +71,7 @@
                         <div class="d-grid gap-2">
                             @if($product->has_variants)
                                 @if($product->variants_display === 'grid')
-                                    <a href="#product-variants" class="btn btn-primary btn-block">{{ __("See all variants") }} ({{ $product->variants_count }})</a>
+                                    <a href="#product-variants" class="btn btn-primary btn-block">{{ __("See all variants") }} ({{ $product->variants->count() }})</a>
                                 @endif
 
                                 @if($product->variants_display === 'buttons')
@@ -99,7 +99,15 @@
 
     @if($product->has_variants && $product->variants_display === 'grid')
         <div id="product-variants" class="container-fluid mb-4 py-4 bg-light">
-            <livewire:product.product-variants :product="$product" :category="$category"/>
+            <div class="container">
+                <h2 class="fs-5 border-bottom mb-3 py-3">{{ __("Variants") }}</h2>
+
+                <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xxl-5 g-4">
+                    @foreach($variants as $variant)
+                        @livewire('product.product-variant', ['product' => $variant, 'category' => $category])
+                    @endforeach
+                </div>
+            </div>
         </div>
     @endif
 @endsection

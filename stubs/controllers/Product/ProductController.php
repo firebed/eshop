@@ -18,7 +18,8 @@ class ProductController extends Controller
 
         $quantity = 0;
         if ($product->has_variants) {
-            $product->loadCount(['variants' => fn($q) => $q->visible()]);
+            $product->load(['variants' => fn($q) => $q->visible()->with('parent', 'image', 'options')]);
+            $variants = $product->variants->sortBy(['sku', 'variant_values'], SORT_NATURAL | SORT_FLAG_CASE);
         } else {
             $quantity = $order->getProductQuantity($product);
         }
@@ -30,6 +31,7 @@ class ProductController extends Controller
         return view(!$product->isVariant() ? 'product.show' : 'product.show-variant', [
             'category'   => $category,
             'product'    => $product,
+            'variants'   => $variants ?? null,
             'images'     => $product->images('gallery')->get(),
             'quantity'   => $quantity,
             'properties' => $product->properties()->visible()->with('translation')->get()->unique(),
