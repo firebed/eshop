@@ -15,7 +15,7 @@
 
     <form wire:submit.prevent="addToCart" class="vstack gap-3">
         <div class="hstack gap-3">
-            <div class="h3 mb-0">@if($variant){{ format_currency($variant->netValue) }}@endif</div>
+            <div class="h4 mb-0">{{ format_currency($variant->netValue ?? $product->netValue) }}</div>
             <s class="text-secondary">@if($variant && $variant->discount > 0) {{ format_currency($variant->price) }}@endif</s>
         </div>
 
