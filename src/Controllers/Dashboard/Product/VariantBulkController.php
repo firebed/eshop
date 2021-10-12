@@ -77,6 +77,8 @@ class VariantBulkController extends Controller
             ? $product->variants->load('options')
             : Product::whereKey($ids)->with('options')->get();
 
+        $variants = $variants->sortBy('option_values', SORT_NATURAL | SORT_FLAG_CASE);
+        
         $request->session()->flashInput(['bulk_ids' => $ids ?? []]);
 
         return view('eshop::dashboard.variant.bulk-edit', [

@@ -19,7 +19,7 @@ class ProductController extends Controller
         $quantity = 0;
         if ($product->has_variants) {
             $product->load(['variants' => fn($q) => $q->visible()->with('parent', 'image', 'options')]);
-            $variants = $product->variants->sortBy(['sku', 'variant_values'], SORT_NATURAL | SORT_FLAG_CASE);
+            $variants = $product->variants->sortBy('option_values', SORT_NATURAL | SORT_FLAG_CASE);
         } else {
             $quantity = $order->getProductQuantity($product);
         }

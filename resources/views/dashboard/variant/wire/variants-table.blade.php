@@ -37,6 +37,17 @@
 
                 <x-bs::dropdown.divider/>
 
+                <x-bs::dropdown.item data-bs-toggle="modal" data-bs-target="#variant-bulk-edit-modal" data-property="available_gt" data-title="{{ __('eshop::variant.bulk-actions.available_gt') }}">
+                    <em class="fa fa-shopping-cart me-2 text-secondary w-1r"></em>
+                    {{ __('eshop::variant.bulk-actions.available_gt') }}
+                </x-bs::dropdown.item>
+
+                <x-bs::dropdown.item data-bs-toggle="modal" data-bs-target="#variant-bulk-edit-modal" data-property="display_stock_lt" data-title="{{ __('eshop::variant.bulk-actions.display_stock_lt') }}">
+                    <em class="fa fa-list-ol me-2 text-secondary w-1r"></em>
+                    {{ __('eshop::variant.bulk-actions.display_stock_lt') }}
+                </x-bs::dropdown.item>
+                <x-bs::dropdown.divider/>
+
                 <x-bs::dropdown.item data-bs-toggle="modal" data-bs-target="#variant-bulk-edit-modal" data-property="sku" data-title="{{ __('eshop::variant.bulk-actions.sku') }}">
                     <em class="fa fa-box-open me-2 text-secondary w-1r"></em>
                     {{ __('eshop::variant.bulk-actions.sku') }}

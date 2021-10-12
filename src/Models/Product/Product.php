@@ -190,6 +190,11 @@ class Product extends Model
         return $this->options->pluck('pivot.value')->join($glue ?? ' ');
     }
 
+    public function optionValues($glue = ' '): string
+    {
+        return $this->options->pluck('pivot.value')->join($glue ?? ' ');
+    }
+
     public function canBeBought(int $quantity = 1): bool
     {
         $amount = $this->stock - $quantity;

@@ -11,7 +11,7 @@ class VariantBulkUpdateRequest extends FormRequest
 {
     use WithRequestNotifications;
 
-    private const PROPERTIES = ['price', 'compare_price', 'discount', 'sku', 'stock', 'weight'];
+    private const PROPERTIES = ['price', 'compare_price', 'discount', 'sku', 'stock', 'weight', 'display_stock_lt', 'available_gt'];
 
     public function authorize(): bool
     {

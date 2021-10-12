@@ -62,7 +62,7 @@
                                     <tbody>
                                     @foreach($variants as $i => $variant)
                                         <tr>
-                                            <td class="align-middle">{{ $variant->options->pluck('pivot.value')->join(' / ') }}</td>
+                                            <td class="align-middle text-nowrap">{{ $variant->optionValues(' / ') }}</td>
 
                                             <td class="d-none">
                                                 <input type="text" name="bulk_ids[]" value="{{ $variant->id }}">

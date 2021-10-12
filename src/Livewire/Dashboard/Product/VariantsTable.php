@@ -34,7 +34,8 @@ class VariantsTable extends Component
                 });
             })
             ->with('options', 'category', 'image')
-            ->get();
+            ->get()
+            ->sortBy('option_values', SORT_NATURAL | SORT_FLAG_CASE);
     }
 
     public function getVariantTypesProperty(): Collection
