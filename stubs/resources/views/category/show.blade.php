@@ -50,7 +50,11 @@
         <link rel="canonical" href="{{ categoryRoute($category) }}">
     @endif
 
-    <meta name='robots' content='index, follow'/>
+    @if($category->isFile())
+        <meta name='robots' content='{{ $products->isEmpty() ? 'noindex' : 'index' }}, follow'/>
+    @else
+        <meta name='robots' content='{{ $children->isEmpty() ? 'noindex' : 'index' }}, follow'/>
+    @endif
 @endpush
 
 @section('main')
