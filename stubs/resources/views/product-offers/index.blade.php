@@ -15,6 +15,7 @@
     <meta property="og:site_name" content="{{ config('app.name') }}">
     <meta property="og:description" content="Δες όλες τις προσφορές των προϊόντων για όλες της κατηγορίες στην καλύτερη τιμή!">
     <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ $products->url($products->currentPage()) }}">
     <meta property="og:image" content="{{ asset(config('eshop.logo')) }}">
     <meta name="twitter:card" content="summary" />
 

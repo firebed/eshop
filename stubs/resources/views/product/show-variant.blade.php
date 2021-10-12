@@ -23,6 +23,7 @@
         <meta property="og:description" content="{{ $description }}">
     @endif
     <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ productRoute($product, $category) }}">
     @if($product->image)
         <meta property="og:image" content="{{ $product->image->url() }}">
     @endif

@@ -24,7 +24,7 @@ class CategoryPropertyController extends Controller
     {
         $this->middleware('can:Manage categories');
     }
-    
+
     public function create(Category $category): Renderable
     {
         return view('eshop::dashboard.category-property.create', [
@@ -122,9 +122,11 @@ class CategoryPropertyController extends Controller
 
     public function moveUp(CategoryProperty $property): RedirectResponse
     {
-        $prev = CategoryProperty::orderByDesc('position')->firstWhere('position', '<', $property->position);
+        $prev = CategoryProperty::orderByDesc('position')
+            ->where('category_id', $property->category_id)
+            ->firstWhere('position', '<', $property->position);
 
-        if ($prev === NULL) {
+        if ($prev === null) {
             return back();
         }
 
@@ -136,9 +138,11 @@ class CategoryPropertyController extends Controller
 
     public function moveDown(CategoryProperty $property): RedirectResponse
     {
-        $next = CategoryProperty::orderBy('position')->firstWhere('position', '>', $property->position);
+        $next = CategoryProperty::orderBy('position')
+            ->where('category_id', $property->category_id)
+            ->firstWhere('position', '>', $property->position);
 
-        if ($next === NULL) {
+        if ($next === null) {
             return back();
         }
 

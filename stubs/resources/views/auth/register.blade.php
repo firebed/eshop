@@ -14,6 +14,7 @@
     <meta property="og:description" content="{{ $description }}">
     <meta property="og:site_name" content="{{ config('app.name') }}">
     <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ route('register', app()->getLocale()) }}">
     <meta property="og:image" content="{{ asset(config('eshop.logo')) }}">
     <meta property="og:image:width" content="{{ config('eshop.logo_width') }}" />
     <meta property="og:image:height" content="{{ config('eshop.logo_height') }}" />
