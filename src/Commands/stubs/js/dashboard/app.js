@@ -14,9 +14,10 @@ window.slugify.extend({
     'Θ': 'TH',
     'ξ': 'ks',
     'Ξ': 'KS',
-    'η': 'i'
+    'η': 'i',
+    '&': ''
 });
 
 window.slugifyLower = function (string) {
-    return slugify(string, {lower: true})
+    return slugify(string, { lower: true }).replace(/[^a-z0-9\-]/g, '')
 }

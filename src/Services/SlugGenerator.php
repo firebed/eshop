@@ -19,8 +19,8 @@ class SlugGenerator
     {
         $slug = '';
         $lastCharacter = '';
-        $string = preg_replace('/[^a-z0-9\-]/', '', mb_strtolower(trim($string), 'utf-8'));
-
+        $string = mb_strtolower(trim($string), 'utf-8');
+        
         $iMax = mb_strlen($string, 'utf-8');
         for ($i = 0; $i < $iMax; $i++) {
             $tempCharacter = self::utf8_substr($string, $i, 1);
