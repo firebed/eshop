@@ -22,7 +22,7 @@
 
     @if($category->isFile())
         @if(!$products->hasPages() || $products->onFirstPage())
-            <link rel="canonical" href="{{ $canonical = categoryRoute($category, $filters['m'], $filters['c']) }}">1
+            <link rel="canonical" href="{{ $canonical = categoryRoute($category, $filters['m'], $filters['c']) }}">
         @else
             <link rel="canonical" href="{{ $canonical = $products->url($products->currentPage()) }}">
         @endif
