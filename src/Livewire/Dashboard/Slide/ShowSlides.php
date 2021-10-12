@@ -37,9 +37,11 @@ class ShowSlides extends Component
     {
         $rules = ['link'   => ['nullable', 'string']];
         if (!empty($this->slide_id)) {
-            $rules = array_merge($rules, ['image' => ['nullable', 'image', 'dimensions:ratio=16/9,min_width:960']]);
+            $rules = array_merge($rules, ['image' => ['nullable', 'image']]);
+//            $rules = array_merge($rules, ['image' => ['nullable', 'image', 'dimensions:ratio=16/9,min_width:960']]);
         } else {
-            $rules = array_merge($rules, ['image' => ['required', 'image', 'dimensions:ratio=16/9,min_width:960']]);
+            $rules = array_merge($rules, ['image' => ['required', 'image']]);
+//            $rules = array_merge($rules, ['image' => ['required', 'image', 'dimensions:ratio=16/9,min_width:960']]);
         }
         $this->validate($rules);
 
