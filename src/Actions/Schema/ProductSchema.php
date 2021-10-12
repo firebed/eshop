@@ -30,7 +30,7 @@ class ProductSchema
 
         if ($product->seo?->description !== null) {
             $sData["description"] = $product->seo->description;
-        } else if ($product->parent_id !== null && $product->parent->seo->description !== null) {
+        } else if ($product->parent_id !== null && $product->parent->seo?->description !== null) {
             $sData["description"] = $product->parent->seo->description;
         }
 
