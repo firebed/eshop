@@ -8,16 +8,18 @@ use Eshop\Models\Location\Country;
 use Firebed\Components\Livewire\Traits\SendsNotifications;
 use Illuminate\Contracts\Support\Renderable;
 use Livewire\Component;
+use Stevebauman\Location\Facades\Location;
 
 class ShippingAddress extends Component
 {
     use TrimStrings;
     use SendsNotifications;
 
-    public     $shippingAddress;
-    public     $email;
-    public     $showModal;
-    public int $cartId;
+    public        $shippingAddress;
+    public        $email;
+    public        $showModal;
+    public int    $cartId;
+    public string $ip;
 
     public array $provinces = [];
 
@@ -56,12 +58,6 @@ class ShippingAddress extends Component
         $this->loadProvinces();
     }
 
-    private function loadProvinces(): void
-    {
-        $country = Country::find($this->shippingAddress->country_id);
-        $this->provinces = $country?->provinces()->orderBy('name')->pluck('name')->all() ?? [];
-    }
-
     public function save(): void
     {
         $this->validate();
@@ -84,6 +80,16 @@ class ShippingAddress extends Component
         if (isset($this->shippingAddress)) {
             $country = $countries->find($this->shippingAddress->country_id);
         }
-        return view('eshop::dashboard.cart.wire.shipping-address', compact('countries', 'country'));
+        return view('eshop::dashboard.cart.wire.shipping-address', [
+            'countries' => $countries,
+            'country'   => $country,
+            'location'  => empty($this->ip) ? null : Location::get($this->ip)
+        ]);
+    }
+
+    private function loadProvinces(): void
+    {
+        $country = Country::find($this->shippingAddress->country_id);
+        $this->provinces = $country?->provinces()->orderBy('name')->pluck('name')->all() ?? [];
     }
 }

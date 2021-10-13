@@ -18,7 +18,7 @@
             <x-bs::group label="{{ __('Postcode') }}" inline>{{ $shippingAddress?->postcode }}</x-bs::group>
             <x-bs::group label="{{ __('Province') }}" inline>{{ $shippingAddress?->province ?? '' }}</x-bs::group>
             <x-bs::group label="{{ __('Country') }}" inline>{{ $country?->name }}</x-bs::group>
-            <x-bs::group label="{{ __('IP') }}" inline>{{ $ip }}</x-bs::group>
+            <x-bs::group label="{{ __('IP') }}" inline>{{ $ip }} @if($location) ({{ $location->cityName }} / {{ $location->regionName }}) @endif</x-bs::group>
         </div>
 
         @include('eshop::dashboard.cart.partials.show.shipping-address-modal')
