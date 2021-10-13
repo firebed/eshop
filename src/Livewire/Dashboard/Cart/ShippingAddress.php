@@ -37,6 +37,7 @@ class ShippingAddress extends Component
     {
         $this->cartId = $cart->id;
         $this->email = $cart->email;
+        $this->ip = $cart->ip;
         $this->shippingAddress = $cart->shippingAddress()->firstOrNew([], [
             'country_id' => 1
         ]);
