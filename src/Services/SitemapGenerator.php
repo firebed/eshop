@@ -110,17 +110,13 @@ class SitemapGenerator
 
     private function generateProductsSitemap(): Sitemap|null
     {
-        $products = Product::with('parent', 'category', 'images', 'translations')->exceptVariants()->visible()->latest()->get();
+        $products = Product::with('category', 'images', 'translations')->exceptVariants()->visible()->latest()->get();
         if ($products->isEmpty()) {
             return null;
         }
 
         $sitemap = new Sitemap();
-        foreach ($products as $product) {
-            if ($product->parent && !$product->parent->visible) {
-                continue;
-            }
-            
+        foreach ($products as $product) {            
             $url = new Url();
             $url->lastmod = $product->updated_at;
             $url->changefreq = Url::CHANGE_FREQ_MONTHLY;
