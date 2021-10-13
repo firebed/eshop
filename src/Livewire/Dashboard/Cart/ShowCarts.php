@@ -36,13 +36,16 @@ class ShowCarts extends Component
 
     public const PER_PAGE = 20;
 
-    public string $filter             = "";
-    public string $status             = "";
-    public string $editing_status     = "";
-    public int    $per_page           = 0;
-    public string $payment_method_id  = "";
-    public string $shipping_method_id = "";
-    public bool   $showStatusModal    = false;
+    public string $filter                  = "";
+    public string $status                  = "";
+    public string $editing_status          = "";
+    public string $editing_cart_voucher_id = "";
+    public string $editing_voucher         = "";
+    public int    $per_page                = 0;
+    public string $payment_method_id       = "";
+    public string $shipping_method_id      = "";
+    public bool   $showStatusModal         = false;
+    public bool   $showVoucherModal        = false;
 
     protected $queryString = [
         'filter'             => ['except' => ''],
@@ -112,6 +115,24 @@ class ShowCarts extends Component
         $this->showStatusModal = false;
     }
 
+    public function editVoucher(int $cart_id)
+    {
+        $this->editing_voucher = "";
+        $this->editing_cart_voucher_id = $cart_id;
+        $this->showVoucherModal = true;
+    }
+
+    public function saveVoucher(): void
+    {
+        $this->showVoucherModal = false;
+        
+        if (blank($this->editing_cart_voucher_id)) {
+            return;
+        }
+        
+        Cart::whereKey($this->editing_cart_voucher_id)->update(['voucher' => blank($this->editing_voucher) ? null : trim($this->editing_voucher)]);
+    }
+    
     public function clearFilters(): void
     {
         $this->reset();
@@ -144,7 +165,7 @@ class ShowCarts extends Component
     public function render(): Renderable
     {
         $employees = User::whereHas('roles', fn($q) => $q->whereName('Employee'))->get();
-        
+
         return view('eshop::dashboard.cart.wire.show-carts', [
             'carts'           => $this->carts,
             'shippingMethods' => ShippingMethod::all(),

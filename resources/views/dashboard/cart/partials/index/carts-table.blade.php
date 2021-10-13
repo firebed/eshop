@@ -73,7 +73,15 @@
             <td class="align-middle">
                 @if($cart->shippingMethod)
                     <div class="d-flex gap-2 align-items-center">
-                        <em class="fas fa-shipping-fast {{ blank($cart->voucher) ? 'text-light' : 'text-primary' }}"></em>
+                        @if(blank($cart->voucher))
+                            <a href="#" wire:click.prevent="editVoucher({{ $cart->id }})">
+                                <em class="fas fa-shipping-fast {{ blank($cart->voucher) ? 'text-light' : 'text-primary' }}"></em>
+                            </a>
+                        @else
+                            <a href="{{ $cart->shippingMethod->getVoucherUrl($cart->voucher) }}" target="_blank">
+                                <em class="fas fa-shipping-fast text-primary"></em>
+                            </a>
+                        @endif
                         <a href="{{ route('carts.show', $cart) }}" class="text-decoration-none align-items-center text-dark">
                             {{ __("eshop::shipping.abbr." . $cart->shippingMethod->name) }}
                         </a>
@@ -105,3 +113,18 @@
         <x-eshop::wire-pagination :paginator="$carts"/>
     </caption>
 </x-bs::table>
+
+<form wire:submit.prevent="saveVoucher">
+    <x-bs::modal wire:model.defer="showVoucherModal">
+        <x-bs::modal.header>{{ __("Edit voucher") }}</x-bs::modal.header>
+        <x-bs::modal.body>
+            <x-bs::input.group for="voucher" label="{{ __('Voucher') }} #{{ $editing_cart_voucher_id }}">
+                <x-bs::input.text wire:model.defer="editing_voucher" autofocus/>
+            </x-bs::input.group>
+        </x-bs::modal.body>
+        <x-bs::modal.footer>
+            <x-bs::modal.close-button>{{ __('Cancel') }}</x-bs::modal.close-button>
+            <x-bs::button.primary type="submit">{{ __("Save") }}</x-bs::button.primary>
+        </x-bs::modal.footer>
+    </x-bs::modal>
+</form>
