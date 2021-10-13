@@ -197,16 +197,16 @@ class Product extends Model
 
     public function canBeBought(int $quantity = 1): bool
     {
-        $amount = $this->stock - $quantity;
-//        dd($this->available);
-        return $this->available && ($this->available_gt === null || $amount >= $this->available_gt);
+        return $this->available && ($this->available_gt === null || ($this->stock - $quantity >= $this->available_gt));
     }
 
     public function canDisplayStock(): bool
     {
-        return $this->canBeBought()
-            && $this->display_stock >= 0
-            && ($this->display_stock_lt === null || $this->stock <= $this->display_stock_lt);
+        return $this->display_stock
+            && $this->available_gt !== null
+            && $this->stock > 0
+            && ($this->display_stock_lt === null || $this->stock <= $this->display_stock_lt)
+            && $this->canBeBought();
     }
 
     /*
