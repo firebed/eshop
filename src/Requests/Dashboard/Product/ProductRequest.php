@@ -47,7 +47,7 @@ class ProductRequest extends FormRequest
             'visible'             => ['required', 'boolean'],
             'recent'              => ['required', 'boolean'],
             'available'           => ['required', 'boolean'],
-            'available_gt'        => ['required', 'integer'],
+            'available_gt'        => ['nullable', 'integer'],
             'display_stock'       => ['required', 'boolean'],
             'display_stock_lt'    => ['nullable', 'integer'],
 

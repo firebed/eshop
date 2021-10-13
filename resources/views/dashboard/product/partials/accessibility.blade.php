@@ -12,7 +12,7 @@
                     {{ __("Customers can purchase this product") }}
                 </x-bs::input.checkbox>
 
-                <x-bs::input.group x-data="{number: '{{ old('available_gt', $product->available_gt ?? 0) ?? 0 }}' }" for="available-gt" label="{{ __('Prevent purchase when stock gets less than') }}" label-col="9" class="ps-4" inline>
+                <x-bs::input.group x-data="{number: '{{ old('available_gt', isset($product) ? $product->available_gt : 0) }}' }" for="available-gt" label="{{ __('Prevent purchase when stock gets less than') }}" label-col="9" class="ps-4" inline>
                     <x-eshop::integer x-effect="number = value" :value="'number'" id="available-gt" class="form-control-sm"/>
                     <input type="text" x-model="number" name="available_gt" hidden>
                 </x-bs::input.group>
