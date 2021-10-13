@@ -307,7 +307,7 @@ class CartRepository implements CartContract
     {
         $carts = Cart::with('status')->findMany($cart_ids);
         foreach ($carts as $cart) {
-            $this->updateCartStatus($cart, $status, $status->notify);
+            $this->updateCartStatus($cart, $status, $status->name === 'shipped');
         }
     }
 

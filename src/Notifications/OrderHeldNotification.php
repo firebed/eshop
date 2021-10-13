@@ -33,7 +33,7 @@ class OrderHeldNotification extends Notification
      */
     public function via(): array
     {
-        return ['mail'];
+        return [];
     }
 
     /**

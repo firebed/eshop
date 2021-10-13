@@ -1,9 +1,16 @@
 @php($selectedManufacturersTitle = (isset($filters['m']) && $filters['m']->isNotEmpty() ? ' ' . $filters['m']->pluck('name')->join(', ') : '' ))
 @php($selectedOptionsTitle = (isset($filters['c']) && $filters['c']->isNotEmpty() ? ' ' . $filters['c']->pluck('name')->join(', ') : '' ))
 
-@php($title = implode(' ', array_filter([$category->seo->title ?? $category->name ?? "", $selectedManufacturersTitle, $selectedOptionsTitle])))
+@php($t = implode(' ', array_filter([trim($selectedManufacturersTitle), trim($selectedOptionsTitle)])))
 
-@php($description = $category?->seo->description ?? "")
+@php($title = implode(' ', array_filter([$category->seo->title ?? $category->name ?? "", $t])))
+
+{{--@php($description = $category?->seo->description ?? "")--}}
+@if($category->isFile())
+    @php($description = "Διαλέξτε ανάμεσα σε " . $products->total() . " " . $category->name . ($t ? " $t" : "") . " το προϊόν που κάνει για σας στην καλύτερη τιμή. Αγόρασε με ασφάλεια μέσω του " . config('app.name') . "!")
+@else
+    @php($description = "Δείτε όλα τα προϊόντα της κατηγορίας $category->name, συγκρίνετε τιμές & αγοράστε το προϊόν που σας ενδιαφέρει από την κατηγορία $category->name.")
+@endif
 
 @extends('layouts.master', ['title' => $title])
 

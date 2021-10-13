@@ -2,9 +2,11 @@
     <div class="carousel-inner">
         @foreach($slides as $slide)
             <div @class(["carousel-item", "active" => $loop->first])>
-                <div class="ratio ratio-16x9">
-                    <img loading="lazy" src="{{ $slide->image->url() }}" alt="...">
-                </div>
+                @if($slide->link) <a href="{{ $slide->link }}"> @endif
+                    <div class="ratio ratio-16x9">
+                        <img loading="lazy" src="{{ $slide->image->url() }}" alt="...">
+                    </div>
+                    @if($slide->link) </a> @endif
             </div>
         @endforeach
     </div>

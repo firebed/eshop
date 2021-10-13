@@ -61,7 +61,7 @@ class ShowCarts extends Component
         'model.channel'            => [],
     ];
 
-    protected $listeners = ['cartStatusUpdated' => '$refresh'];
+//    protected $listeners = ['cartStatusUpdated' => '$refresh'];
 
     public function mount(): void
     {

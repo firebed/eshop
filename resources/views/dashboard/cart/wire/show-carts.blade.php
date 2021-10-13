@@ -16,4 +16,8 @@
     <form wire:submit.prevent="saveOperators">
         @include('eshop::dashboard.cart.partials.index.cart-operators-modal')
     </form>
+    
+    <form wire:submit.prevent="saveStatuses">
+        @include('eshop::dashboard.cart.partials.index.cart-statuses-modal')
+    </form>
 </div>

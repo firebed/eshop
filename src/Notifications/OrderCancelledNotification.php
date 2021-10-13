@@ -33,7 +33,7 @@ class OrderCancelledNotification extends Notification
      */
     public function via(): array
     {
-        return ['mail'];
+        return [];
     }
 
     /**

@@ -33,7 +33,7 @@ class OrderRejectedNotification extends Notification
      */
     public function via(): array
     {
-        return ['mail'];
+        return [];
     }
 
     /**

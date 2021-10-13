@@ -15,6 +15,7 @@ class ShippingAddress extends Component
     use SendsNotifications;
 
     public     $shippingAddress;
+    public     $email;
     public     $showModal;
     public int $cartId;
 
@@ -35,6 +36,7 @@ class ShippingAddress extends Component
     public function mount(Cart $cart): void
     {
         $this->cartId = $cart->id;
+        $this->email = $cart->email;
         $this->shippingAddress = $cart->shippingAddress()->firstOrNew([], [
             'country_id' => 1
         ]);
