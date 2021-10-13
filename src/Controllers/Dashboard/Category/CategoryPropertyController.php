@@ -91,11 +91,13 @@ class CategoryPropertyController extends Controller
                 }
 
                 foreach ($request->input('choices') as $i => $choice) {
-                    $property->choices()->updateOrCreate(['id' => $choice['id']], [
-                        'name'     => $choice['name'],
-                        'slug'     => slugify($choice['name'], '_'),
-                        'position' => $i
-                    ]);
+                    $property->choices()->updateOrCreate(
+                        ['id' => $choice['id']],
+                        [
+                            'name'     => $choice['name'],
+                            'slug'     => slugify($choice['name'], '_'),
+                            'position' => $i + 1
+                        ]);
                 }
             });
 
