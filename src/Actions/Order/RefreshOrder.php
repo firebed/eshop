@@ -21,7 +21,7 @@ class RefreshOrder
         $this->order = $order;
         $currentTotal = $order->total;
 
-        $this->refreshProducts();
+        $isDirty = $this->refreshProducts();
 
         $country = $order->shippingAddress->country ?? null;
         $this->updateShipping($country);
@@ -31,7 +31,7 @@ class RefreshOrder
         $order->total = $this->calculateTotal();
         $order->save();
 
-        $this->totalHasChanged = abs($currentTotal - $order->total) >= 0.00001;
+        $this->totalHasChanged = $isDirty;
     }
 
     public function totalHasChanged(): bool
@@ -79,7 +79,7 @@ class RefreshOrder
         $this->order->payment_fee = $option->fee;
     }
 
-    private function refreshProducts(): void
+    private function refreshProducts(): bool
     {
         $isDirty = false;
         foreach ($this->order->products as $product) {
@@ -87,6 +87,8 @@ class RefreshOrder
             $isDirty = !$isDirty && $product->pivot->isDirty();
             $product->pivot->save();
         }
+        
+        return $isDirty;
     }
 
     private function calculateTotal(): float
