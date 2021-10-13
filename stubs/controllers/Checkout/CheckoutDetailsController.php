@@ -44,8 +44,8 @@ class CheckoutDetailsController extends Controller
             $country = $c;
         }
 
-        $has_shipping_methods = $country->filterShippingOptions($order->products_value)->isNotEmpty();
-        $provinces = $country->provinces()->where('shippable', true)->orderBy('name')->pluck('name');
+        $has_shipping_methods = $country?->filterShippingOptions($order->products_value)->isNotEmpty();
+        $provinces = $country?->provinces()->where('shippable', true)->orderBy('name')->pluck('name');
 
         $products = $order->products;
         $products->load('parent', 'options');
