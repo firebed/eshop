@@ -22,6 +22,11 @@
 
             <x-bs::group label="{{ __('Payment') }}" inline>
                 @isset($paymentMethod){{ __("eshop::payment.$paymentMethod->name") ?? '' }}@endisset ({{ format_currency($cart->payment_fee) }})
+                @isset($cc)
+                    <div class="d-flex gap-2 small fw-500">
+                        {{ strtoupper($cc->network) }} * {{ $cc->last4 }} ({{ $cc->exp_month }}/{{ $cc->exp_year }})
+                    </div>
+                @endisset
             </x-bs::group>
 
             <x-bs::group label="{{ __('Weight') }}" inline>
@@ -41,7 +46,10 @@
             </x-bs::group>
 
             <x-bs::group label="{{ __('Total') }}" inline class="fw-bold">
-                <div class="col">{{ format_currency($cart->total) }}</div>
+                <div class="col d-flex justify-content-between">
+                    <span>{{ format_currency($cart->total) }}</span>
+                    <span class="text-teal-500"><em class="fas fa-check-circle"></em> {{ format_currency($profit) }}</span>
+                </div>
             </x-bs::group>
         </div>
 

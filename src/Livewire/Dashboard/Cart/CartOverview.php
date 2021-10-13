@@ -8,9 +8,11 @@ use Eshop\Models\Cart\CartChannel;
 use Eshop\Models\Location\PaymentMethod;
 use Eshop\Models\Location\ShippingMethod;
 use Eshop\Repository\Contracts\CartContract;
+use Eshop\Services\Stripe\StripeService;
 use Firebed\Components\Livewire\Traits\SendsNotifications;
 use Illuminate\Contracts\Support\Renderable;
 use Livewire\Component;
+use Throwable;
 
 class CartOverview extends Component
 {
@@ -18,21 +20,8 @@ class CartOverview extends Component
     use SendsNotifications;
 
     public Cart $cart;
-    public bool $showEditingModal = FALSE;
-
-    protected function rules(): array
-    {
-        return [
-            'cart.shipping_method_id' => 'required|integer',
-            'cart.shipping_fee'       => 'required|numeric',
-            'cart.payment_method_id'  => 'required|integer',
-            'cart.payment_fee'        => 'required|numeric',
-            'cart.document_type'      => 'required|string',
-            'cart.channel'            => 'required|string|in:' . implode(',', CartChannel::all()),
-        ];
-    }
-
-    protected $listeners = [
+    public bool $showEditingModal = false;
+    protected   $listeners        = [
         'cart-items-created'          => '$refresh',
         'cart-items-updated'          => '$refresh',
         'cart-items-discount-updated' => '$refresh',
@@ -41,16 +30,7 @@ class CartOverview extends Component
     public function edit(): void
     {
         $this->clearErrors();
-        $this->showEditingModal = TRUE;
-    }
-
-    private function clearErrors(): void
-    {
-        if ($this->getErrorBag()->isEmpty()) {
-            $this->skipRender();
-        } else {
-            $this->resetValidation();
-        }
+        $this->showEditingModal = true;
     }
 
     public function cartVoucherUpdated($voucher): void
@@ -72,10 +52,10 @@ class CartOverview extends Component
         }
 
         $this->showSuccessToast('Cart updated!');
-        $this->showEditingModal = FALSE;
+        $this->showEditingModal = false;
     }
 
-    public function render(): Renderable
+    public function render(StripeService $stripe): Renderable
     {
         $shippingMethods = ShippingMethod::all();
         $paymentMethods = PaymentMethod::all();
@@ -83,6 +63,43 @@ class CartOverview extends Component
         $shippingMethod = $shippingMethods->find($this->cart->shipping_method_id);
         $paymentMethod = $paymentMethods->find($this->cart->payment_method_id);
 
-        return view('eshop::dashboard.cart.wire.cart-overview', compact('shippingMethods', 'paymentMethods', 'shippingMethod', 'paymentMethod'));
+        if ($this->cart->payment_method_id !== null && $paymentMethod !== null && $paymentMethod->name === 'credit_card') {
+            try {
+                $cc = $stripe->getCardDetails($this->cart->payment_id);
+            } catch (Throwable) {
+            }
+        }
+
+        $profit = $this->cart->items()->selectRaw("SUM(quantity * (price * (1 - discount) / (1 + vat) - compare_price)) as profits")->first();
+        
+        return view('eshop::dashboard.cart.wire.cart-overview', [
+            'shippingMethods' => $shippingMethods,
+            'paymentMethods'  => $paymentMethods,
+            'shippingMethod'  => $shippingMethod,
+            'paymentMethod'   => $paymentMethod,
+            'profit'          => $profit->profits,
+            'cc'              => $cc ?? null
+        ]);
+    }
+
+    protected function rules(): array
+    {
+        return [
+            'cart.shipping_method_id' => 'required|integer',
+            'cart.shipping_fee'       => 'required|numeric',
+            'cart.payment_method_id'  => 'required|integer',
+            'cart.payment_fee'        => 'required|numeric',
+            'cart.document_type'      => 'required|string',
+            'cart.channel'            => 'required|string|in:' . implode(',', CartChannel::all()),
+        ];
+    }
+
+    private function clearErrors(): void
+    {
+        if ($this->getErrorBag()->isEmpty()) {
+            $this->skipRender();
+        } else {
+            $this->resetValidation();
+        }
     }
 }

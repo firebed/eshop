@@ -36,11 +36,11 @@
 
     <tbody>
     @forelse($carts as $cart)
-        <tr wire:key="cart-row-{{ $cart->id }}" 
-            @can('Manage orders') 
-                @unless($cart->isViewed()) class="fw-bold" @endunless
+        <tr wire:key="cart-row-{{ $cart->id }}"
+            @can('Manage orders')
+            @unless($cart->isViewed()) class="fw-bold" @endunless
             @elsecan('Manage assigned orders')
-                @if($cart->operators->find(user()->id)->pivot->viewed_at === null) class="fw-bold" @endif
+            @if($cart->operators->find(user()->id)->pivot->viewed_at === null) class="fw-bold" @endif
             @endcan
         >
             <td class="align-middle">
@@ -72,12 +72,15 @@
             </td>
             <td class="align-middle">
                 @if($cart->shippingMethod)
-                    <a href="{{ route('carts.show', $cart) }}" class="d-flex justify-content-between text-decoration-none align-items-center text-dark">
-                        {{ __("eshop::shipping.abbr." . $cart->shippingMethod->name) }}
-                        @if($cart->shipping_fee > 0)
-                            <span class="badge bg-orange-100 rounded-pill">{{ format_currency($cart->shipping_fee) }}</span>
-                        @endif
-                    </a>
+                    <div class="d-flex gap-2 align-items-center">
+                        <em class="fas fa-shipping-fast {{ blank($cart->voucher) ? 'text-light' : 'text-primary' }}"></em>
+                        <a href="{{ route('carts.show', $cart) }}" class="d-flex flex-grow-1 justify-content-between text-decoration-none align-items-center text-dark">
+                            {{ __("eshop::shipping.abbr." . $cart->shippingMethod->name) }}
+                            @if($cart->shipping_fee > 0)
+                                <span class="badge bg-orange-100 rounded-pill">{{ format_currency($cart->shipping_fee) }}</span>
+                            @endif
+                        </a>
+                    </div>
                 @endif
             </td>
             <td class="align-middle">

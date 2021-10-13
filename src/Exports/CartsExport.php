@@ -52,7 +52,7 @@ class CartsExport implements FromCollection, WithMapping, WithHeadings
             $this->removeAccents($row->details), #ΠΑΡΑΤΗΡΗΣΕΙΣ
             "2", #ΧΡΕΩΣΗ
             1, #ΤΕΜΑΧΙΑ
-            $row->weight / 1000, #ΒΑΡΟΣ
+            $row->parcel_weight / 1000, #ΒΑΡΟΣ
             $row->paymentMethod->show_total_on_order_form ? $row->total : 0, #ΑΝΤΙΚΑΤΑΒΟΛΗ
             'Μ', #ΤΡΟΠΟΣ ΠΛΗΡΩΜΗΣ
             '', #ΑΣΦΑΛΕΙΑ

@@ -31,6 +31,7 @@ use Illuminate\Support\Collection;
  * @property integer        payment_method_id
  * @property integer        status_id
  * @property ?string        cookie_id
+ * @property ?string        payment_id
  * @property double         shipping_fee
  * @property double         payment_fee
  * @property double         parcel_weight
