@@ -10,9 +10,9 @@ return [
 
     'abbr' => [
         'credit_card'      => 'CC',
-        'wire_transfer'    => 'Κατάθεση',
-        'pay_in_our_store' => 'Κατάστημα',
-        'paypal'           => 'PayPal',
-        'pay_on_delivery'  => 'Αντικαταβολή',        
+        'wire_transfer'    => 'ΤΚ',
+        'pay_in_our_store' => 'ΠΚ',
+        'paypal'           => 'PP',
+        'pay_on_delivery'  => 'ΑΝ',        
     ]
 ];

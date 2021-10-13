@@ -9,11 +9,11 @@ return [
     'SpeedEx'                => 'SpeedEx',
     
     'abbr' => [
-        'Collect from our store' => 'Παραλαβή',
+        'Collect from our store' => 'ΠΚ',
         'ACS Courier'            => 'ACS',
         'KTEL'                   => 'ΚΤΕΛ',
-        'Elta Courier'           => 'Elta',
-        'Geniki Taxydromiki'     => 'Γενική',
-        'SpeedEx'                => 'SpeedEx',        
+        'Elta Courier'           => 'ΕΤ',
+        'Geniki Taxydromiki'     => 'ΓΤ',
+        'SpeedEx'                => 'SE',        
     ]
 ];

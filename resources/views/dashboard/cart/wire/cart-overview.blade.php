@@ -48,7 +48,7 @@
             <x-bs::group label="{{ __('Total') }}" inline class="fw-bold">
                 <div class="col d-flex justify-content-between">
                     <span>{{ format_currency($cart->total) }}</span>
-                    <span class="text-teal-500"><em class="fas fa-check-circle"></em> {{ format_currency($profit) }}</span>
+                    @<span class="text-teal-500"><em class="fas fa-check-circle"></em> {{ format_currency($profit) }}</span>
                 </div>
             </x-bs::group>
         </div>

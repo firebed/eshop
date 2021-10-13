@@ -1,4 +1,4 @@
-<x-bs::table hover>
+<x-bs::table hover class="fs-6">
     <thead>
     <tr class="table-light">
         <td class="w-3r rounded-top">
@@ -74,22 +74,16 @@
                 @if($cart->shippingMethod)
                     <div class="d-flex gap-2 align-items-center">
                         <em class="fas fa-shipping-fast {{ blank($cart->voucher) ? 'text-light' : 'text-primary' }}"></em>
-                        <a href="{{ route('carts.show', $cart) }}" class="d-flex flex-grow-1 justify-content-between text-decoration-none align-items-center text-dark">
+                        <a href="{{ route('carts.show', $cart) }}" class="text-decoration-none align-items-center text-dark">
                             {{ __("eshop::shipping.abbr." . $cart->shippingMethod->name) }}
-                            @if($cart->shipping_fee > 0)
-                                <span class="badge bg-orange-100 rounded-pill">{{ format_currency($cart->shipping_fee) }}</span>
-                            @endif
                         </a>
                     </div>
                 @endif
             </td>
             <td class="align-middle">
                 @if($cart->paymentMethod)
-                    <a href="{{ route('carts.show', $cart) }}" class="d-flex justify-content-between text-decoration-none align-items-center text-dark">
+                    <a href="{{ route('carts.show', $cart) }}" class="text-decoration-none align-items-center text-dark">
                         {{ __('eshop::payment.abbr.' . $cart->paymentMethod->name) }}
-                        @if($cart->payment_fee > 0)
-                            <span class="badge bg-orange-100 rounded-pill">{{ format_currency($cart->payment_fee) }}</span>
-                        @endif
                     </a>
                 @endif
             </td>

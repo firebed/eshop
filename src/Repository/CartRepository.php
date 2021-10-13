@@ -305,7 +305,7 @@ class CartRepository implements CartContract
 
     public function setBulkCartStatus(CartStatus $status, array $cart_ids): void
     {
-        $carts = Cart::with('status')->findMany($cart_ids);
+        $carts = Cart::with('status', 'products', 'shippingMethod', 'paymentMethod', 'shippingAddress.country')->findMany($cart_ids);
         foreach ($carts as $cart) {
             $this->updateCartStatus($cart, $status, $status->name === 'shipped');
         }
