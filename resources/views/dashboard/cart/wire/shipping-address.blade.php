@@ -8,7 +8,13 @@
 
     <x-bs::navbar.collapse id="shipping-address">
         <div class="d-grid flex-grow-1 gap-1 mt-3">
-            <x-bs::group label="{{ __('To') }}" inline>{{ $shippingAddress?->to }}</x-bs::group>
+            <x-bs::group label="{{ __('To') }}" inline>
+                @isset($user_id)
+                    <a href="{{ route('users.show', $user_id) }}">{{ $shippingAddress?->to }}</a>
+                @else
+                    {{ $shippingAddress?->to }}
+                @endisset
+            </x-bs::group>
             <x-bs::group label="Email" inline>{{ $email }}</x-bs::group>
             <x-bs::group label="{{ __('Phone') }}" inline>
                 <a href="tel:{{ $shippingAddress?->phone}}">{{ telephone($shippingAddress?->phone) }}</a>

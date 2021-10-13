@@ -32,7 +32,7 @@ class CheckoutPaymentController extends Controller
             return redirect()->route('checkout.products.index', $lang);
         }
 
-        if (!$order->shippingAddress->isFilled()) {
+        if ($order->shippingAddress === null || !$order->shippingAddress->isFilled()) {
             return redirect()->route('checkout.details.edit', app()->getLocale());
         }
 
@@ -111,7 +111,7 @@ class CheckoutPaymentController extends Controller
             return redirect()->route('checkout.products.index', $lang);
         }
 
-        if (!$order->shippingAddress->isFilled()) {
+        if ($order->shippingAddress === null || !$order->shippingAddress->isFilled()) {
             return redirect()->route('checkout.details.edit', app()->getLocale());
         }
 

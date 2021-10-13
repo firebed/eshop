@@ -15,11 +15,12 @@ class ShippingAddress extends Component
     use TrimStrings;
     use SendsNotifications;
 
-    public        $shippingAddress;
-    public        $email;
-    public        $showModal;
-    public int    $cartId;
-    public string $ip;
+    public     $shippingAddress;
+    public     $email;
+    public     $showModal;
+    public int $cartId;
+    public     $user_id;
+    public     $ip;
 
     public array $provinces = [];
 
@@ -40,6 +41,7 @@ class ShippingAddress extends Component
         $this->cartId = $cart->id;
         $this->email = $cart->email;
         $this->ip = $cart->ip;
+        $this->user_id = $cart->user_id;
         $this->shippingAddress = $cart->shippingAddress()->firstOrNew([], [
             'country_id' => 1
         ]);
