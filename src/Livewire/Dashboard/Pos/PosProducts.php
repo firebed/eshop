@@ -92,6 +92,7 @@ class PosProducts extends Component
 
         if ($product) {
             $this->addProduct($product);
+            $this->barcode = "";
         } else {
             $this->dispatchBrowserEvent('show-toast', ['type' => 'error', 'body' => "Δεν βρέθηκε προϊόν με barcode '$barcode'"]);
         }

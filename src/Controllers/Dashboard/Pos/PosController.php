@@ -92,6 +92,7 @@ class PosController extends Controller
 
             $cart->save();
             $cart->products()->syncWithoutDetaching($pivot);
+            $cart->operators()->attach(auth()->id());
 
             $products = $cart->products;
             foreach ($products as $product) {
@@ -100,6 +101,9 @@ class PosController extends Controller
             }
 
             $shippingAddress = new Address($request->input('shipping'));
+            if (empty($shippingAddress->first_name) && empty($shippingAddress->last_name)) {
+                $shippingAddress->first_name = config('app.name');
+            }
             $shippingAddress->cluster = 'shipping';
             $cart->shippingAddress()->save($shippingAddress);
 
@@ -157,7 +161,7 @@ class PosController extends Controller
 
             $countryPaymentMethod = CountryPaymentMethod::find($request->input('country_payment_method_id'));
             $countShippingMethod = CountryShippingMethod::find($request->input('country_shipping_method_id'));
-            
+
             $cart->document_type = $hasInvoice ? 'Invoice' : 'Receipt';
             $cart->email = $request->input('email');
             $cart->shipping_method_id = $countShippingMethod?->id;

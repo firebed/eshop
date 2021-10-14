@@ -39,7 +39,7 @@ class PosModels extends Component
             ? Category::where('parent_id', $parentId)
             : Category::root();
 
-        return $categories->select('id', 'type')->with('translation', 'image')->get();
+        return $categories->select('id', 'type')->with('translation', 'image')->get()->sortBy('name', SORT_NATURAL | SORT_FLAG_CASE);
     }
 
     public function products(int $categoryId): Collection|array
@@ -51,7 +51,8 @@ class PosModels extends Component
             ->withMin('variants', 'net_value')
             ->withMax('variants', 'net_value')
             ->with('image', 'translation')
-            ->get();
+            ->get()
+            ->sortBy('name', SORT_NATURAL | SORT_FLAG_CASE);
     }
 
     public function variants(int $productId = null): Collection|array
@@ -59,9 +60,9 @@ class PosModels extends Component
         return Product::select('id', 'parent_id', 'sku', 'price', 'compare_price', 'discount', 'stock')
             ->where('parent_id', $productId)
             ->with('image', 'translation', 'options', 'parent.translation')
-            ->get('id');
+            ->get('id')
+            ->sortBy('option_values', SORT_NATURAL | SORT_FLAG_CASE);
     }
-
 
     public function loadCategories(null|int $parentId, CategoryBreadcrumbs $breadcrumbs): void
     {

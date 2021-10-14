@@ -47,7 +47,7 @@
             </div>
 
             <div class="col d-grid">
-                <button x-bind:disabled="submitting" type="submit" name="action" value="save" class="btn btn-green py-2 fw-500">
+                <button x-bind:class="{'disabled' : submitting}" type="submit" value="save" class="btn btn-green py-2 fw-500">
                     <em class="fas fa-save fs-4 text-light"></em>
                     <span class="d-none d-xxl-block text-center mt-1">
                         Αποθήκευση
@@ -57,11 +57,9 @@
 
             @if(!$editing)
                 <div class="col d-grid">
-                    <button x-bind:disabled="submitting" type="submit" name="action" value="saveAsOrder" class="btn btn-primary py-2 fw-500">
+                    <button x-bind:class="{'disabled' : submitting}" type="submit" name="action" value="saveAsOrder" class="btn btn-primary py-2 fw-500">
                         <em class="fas fa-cart-arrow-down fs-4 text-light"></em>
-                        <span class="d-none d-xxl-block text-center mt-1">
-                        Παραγγελία
-                    </span>
+                        <span class="d-none d-xxl-block text-center mt-1">Παραγγελία</span>
                     </button>
                 </div>
             @endif

@@ -17,7 +17,7 @@
             </x-bs::group>
             <x-bs::group label="Email" inline>{{ $email }}</x-bs::group>
             <x-bs::group label="{{ __('Phone') }}" inline>
-                <a href="tel:{{ $shippingAddress?->phone}}">{{ telephone($shippingAddress?->phone) }}</a>
+                @if($shippingAddress->phone)<a href="tel:{{ $shippingAddress?->phone}}">{{ telephone($shippingAddress?->phone) }}</a>@endif
             </x-bs::group>
             <x-bs::group label="{{ __('Street') }}" inline>{{ $shippingAddress?->street }} {{ $shippingAddress?->street_no }}</x-bs::group>
             <x-bs::group label="{{ __('City') }}" inline>{{ $shippingAddress?->city }}</x-bs::group>

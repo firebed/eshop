@@ -15,7 +15,7 @@
 
             <div class="col">
                 <div class="input-group">
-                    <input wire:model.defer="barcode" wire:keydown.enter="searchBarcode" type="text" class="form-control" placeholder="Barcode" aria-label="Barcode">
+                    <input wire:model.defer="barcode" wire:keydown.enter="searchBarcode" type="search" class="form-control" placeholder="Barcode" aria-label="Barcode">
                     <button wire:click.prevent="searchBarcode" class="btn btn-outline-secondary" type="button"><em class="fas fa-barcode"></em></button>
                 </div>
             </div>
