@@ -25,6 +25,15 @@ class CheckoutDetailsController extends Controller
             return redirect()->route('checkout.products.index', app()->getLocale());
         }
 
+        if ($order->shippingAddress === null && user()?->addresses->isNotEmpty()) {
+            $replicator = user()->addresses->first();
+            $address = $replicator->replicate();
+            $address->related_id = $replicator->id;
+            $address->cluster = 'shipping';
+            $order->shippingAddress()->save($address);
+            $order->setRelation('shippingAddress', $address);
+        }
+
         if ($this->refreshOrder($refreshOrder, $order)) {
             session()->flash('products-values-changed');
             return redirect()->route('checkout.products.index', $lang);
@@ -129,13 +138,33 @@ class CheckoutDetailsController extends Controller
             return response()->json();
         }
 
-        $order->shippingAddress->related_id = $request->input('selected_shipping_id');
+        $country = null;
+        $address = null;
+        if ($request->filled('selected_shipping_id')) {
+            $related = Address::find($request->input('selected_shipping_id'));
+            if ($related) {
+                $address = $related->replicate();
+                $address->cluster = 'shipping';
+                $address->related_id = $related->id;
+                $order->shippingAddress()->updateOrCreate([], $address->getAttributes());
+            }
+        }
+
+        if ($address === null) {
+            $location = Location::get($request->ip());
+            $country = $location ? Country::code($location->countryCode)->first() : Country::default();
+
+            $address = new Address();
+            $address->country()->associate($country);
+            $address->cluster = 'shipping';
+            $order->shippingAddress()->delete();
+            $order->shippingAddress()->save($address);
+        }
 
         DB::transaction(fn() => $refreshOrder->handle($order));
 
         $has_shipping_methods = false;
-        $country = $order->shippingAddress->country ?? null;
-        if ($country) {
+        if ($country !== null) {
             $has_shipping_methods = $country->filterShippingOptions($order->products_value)->isNotEmpty();
         }
 
@@ -146,7 +175,7 @@ class CheckoutDetailsController extends Controller
         return response()->json(view('checkout.details.partials.checkout-details-summary', [
             'order'                => $order,
             'products'             => $products,
-            'shipping'             => $order->shipping,
+            'shipping'             => $order->shippingAddress,
             'has_shipping_methods' => $has_shipping_methods,
         ])->render());
     }
@@ -161,6 +190,7 @@ class CheckoutDetailsController extends Controller
         $order->setRelation('shippingAddress', $address);
 
         $address->country_id = $request->input('country_id');
+        $address->related_id = null;
         $address->postcode = $request->input('postcode');
         $address->save();
 

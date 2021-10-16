@@ -18,10 +18,15 @@ class ProductVariant extends Component
 
     public Category $category;
     public Product  $product;
-    public int      $quantity = 1;
+    public null|int $quantity = 1;
 
     public function addToCart(Order $order): void
     {
+        if (!is_numeric($this->quantity) || $this->quantity < 0) {
+            $this->skipRender();
+            return;
+        }
+
         if (!$this->product->canBeBought($this->quantity)) {
             $this->showWarningDialog($this->product->trademark, __("eshop::order.max_available_stock", ['quantity' => $this->quantity, 'available' => $this->product->available_stock]));
             $this->skipRender();
@@ -33,6 +38,7 @@ class ProductVariant extends Component
         $toast = view('product.partials.product-toast', ['product' => $this->product])->render();
         $this->showSuccessToast($this->product->trademark, $toast);
         $this->emit('setCartItemsCount', $order->products->count());
+        $this->skipRender();
     }
 
     public function render(): Renderable
