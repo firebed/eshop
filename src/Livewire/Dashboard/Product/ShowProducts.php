@@ -82,7 +82,8 @@ class ShowProducts extends Component
             ->when(!empty($this->manufacturer), fn($q) => $q->where('manufacturer_id', $this->manufacturer))
             ->when($this->name, function ($q, $name) {
                 $q->where(function ($b) use ($name) {
-                    $b->where('slug', 'LIKE', "%$this->name%");
+                    $b->where('sku', 'LIKE', "$name%");
+                    $b->orWhere('slug', 'LIKE', "%$this->name%");
                     $b->orWhereHas('translations', fn($c) => $c->matchAgainst($name));
                 });
             })

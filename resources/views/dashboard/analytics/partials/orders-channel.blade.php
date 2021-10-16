@@ -61,7 +61,7 @@
                 scales: {
                     y: {
                         beginAtZero: true,
-                        grace: '5%',
+                        // grace: '5%',
                         ticks: {
                             precision:0
                         }

@@ -61,6 +61,7 @@ class PosController extends Controller
             $countryPaymentMethod = CountryPaymentMethod::find($request->input('country_payment_method_id'));
             $countShippingMethod = CountryShippingMethod::find($request->input('country_shipping_method_id'));
 
+            $cart->user()->associate(auth()->id());
             $cart->document_type = $hasInvoice ? 'Invoice' : 'Receipt';
             $cart->email = $request->input('email');
             $cart->shipping_method_id = $countShippingMethod?->id;

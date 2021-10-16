@@ -23,13 +23,15 @@ class CheckoutDetailsRequest extends FormRequest
         ];
 
         if ($this->isNotFilled('selected_shipping_id')) {
+            $country = Country::find($this->input('shippingAddress.country_id'));
+
             $rules = array_merge($rules, [
                 'shippingAddress'            => ['required', 'array'],
                 'shippingAddress.first_name' => ['required', 'string'],
                 'shippingAddress.last_name'  => ['required', 'string'],
                 'shippingAddress.phone'      => ['required', 'string'],
                 'shippingAddress.country_id' => ['required', 'integer', 'exists:countries,id'],
-                'shippingAddress.province'   => ['required', 'string', Rule::when(fn() => Country::find($this->input('shippingAddress.country_id'))?->has('provinces'), ['exists:provinces,name'])],
+                'shippingAddress.province'   => ['required', 'string', Rule::when(fn() => $country?->provinces()->exists(), ['exists:provinces,name'])],
                 'shippingAddress.city'       => ['required', 'string'],
                 'shippingAddress.street'     => ['required', 'string'],
                 'shippingAddress.street_no'  => ['nullable', 'string'],
@@ -57,5 +59,32 @@ class CheckoutDetailsRequest extends FormRequest
         }
 
         return $rules;
+    }
+
+    public function attributes(): array
+    {
+        return [
+            'shippingAddress.first_name' => trans('validation.attributes.first_name'),
+            'shippingAddress.last_name' => trans('validation.attributes.last_name'),
+            'shippingAddress.phone' => trans('validation.attributes.phone'),
+            'shippingAddress.country_id' => trans('validation.attributes.country_id'),
+            'shippingAddress.province' => trans('validation.attributes.province'),
+            'shippingAddress.city' => trans('validation.attributes.city'),
+            'shippingAddress.street' => trans('validation.attributes.street'),
+            'shippingAddress.street_no' => trans('validation.attributes.street_no'),
+            'shippingAddress.postcode' => trans('validation.attributes.postcode'),
+
+            'invoice.name'               => trans('validation.attributes.company_name'),
+            'invoice.job'                => trans('validation.attributes.job'),
+            'invoice.vat_number'         => trans('validation.attributes.vat_number'),
+            'invoice.tax_authority'      => trans('validation.attributes.tax_authority'),
+            'invoiceAddress.phone'       => trans('validation.attributes.phone'),
+            'invoiceAddress.country_id'  => trans('validation.attributes.country_id'),
+            'invoiceAddress.province'    => trans('validation.attributes.province'),
+            'invoiceAddress.street'      => trans('validation.attributes.street'),
+            'invoiceAddress.street_no'   => trans('validation.attributes.street_no'),
+            'invoiceAddress.city'        => trans('validation.attributes.city'),
+            'invoiceAddress.postcode'    => trans('validation.attributes.postcode'),
+        ];
     }
 }

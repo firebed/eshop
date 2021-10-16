@@ -66,7 +66,11 @@
             </td>
             <td class="align-middle">
                 <a href="{{ route('carts.show', $cart) }}" class="d-block text-decoration-none text-dark text-nowrap">
-                    <em class="fa fa-user w-1r @if($cart->user_id) text-secondary @else text-light @endif"></em>
+                    @if($cart->user_id !== null)
+                        <em class="fa fa-user text-secondary w-1r"></em>
+                    @else
+                        <em class="fa fa-user text-light w-1r"></em>
+                    @endif
                     <span>{{ $cart->shippingAddress->to ?? '' }}</span>
                 </a>
             </td>
@@ -82,7 +86,7 @@
                                 <em class="fas fa-shipping-fast text-primary"></em>
                             </a>
                         @endif
-                        <a href="{{ route('carts.show', $cart) }}" class="text-decoration-none align-items-center text-dark">
+                        <a href="{{ route('carts.show', $cart) }}" class="text-decoration-none align-items-center text-dark font-monospace">
                             {{ __("eshop::shipping.abbr." . $cart->shippingMethod->name) }}
                         </a>
                     </div>
@@ -90,7 +94,7 @@
             </td>
             <td class="align-middle">
                 @if($cart->paymentMethod)
-                    <a href="{{ route('carts.show', $cart) }}" class="text-decoration-none align-items-center text-dark">
+                    <a href="{{ route('carts.show', $cart) }}" class="text-decoration-none align-items-center text-dark font-monospace">
                         {{ __('eshop::payment.abbr.' . $cart->paymentMethod->name) }}
                     </a>
                 @endif

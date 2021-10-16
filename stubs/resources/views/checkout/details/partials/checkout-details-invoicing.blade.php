@@ -6,8 +6,8 @@
 
         <div id="invoice-collapse" class="collapse row row-cols-2 g-3 mt-0 @if(old('invoicing', $invoicing)) show @endif">
             <div class="col-12 col-sm-6">
-                <x-bs::input.floating-label for="invoice-name" label="{{ __('Name') }}">
-                    <x-bs::input.text value="{{ old('invoice.name', $invoice?->name) ?? '' }}" name="invoice[name]" error="invoice.name" id="invoice-name" placeholder="{{ __('Name') }}"/>
+                <x-bs::input.floating-label for="invoice-name" label="{{ __('Company name') }}">
+                    <x-bs::input.text value="{{ old('invoice.name', $invoice?->name) ?? '' }}" name="invoice[name]" error="invoice.name" id="invoice-name" placeholder="{{ __('Company name') }}"/>
                 </x-bs::input.floating-label>
             </div>
 

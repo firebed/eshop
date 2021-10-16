@@ -31,7 +31,18 @@ class CheckoutDetailsController extends Controller
         }
 
         if (!$this->checkProductStocks($order)) {
+            session()->flash('insufficient-quantity');
             return redirect()->route('checkout.products.index', $lang);
+        }
+
+        // If the order's shipping address is related to a deleted address
+        // then also delete the order's current address so that
+        // "New address" option is automatically selected
+        if (isset($order->shippingAddress->related_id)) {
+            Address::whereKey($order->shippingAddress->related_id)->existsOr(function () use ($order) {
+                $order->shippingAddress->delete();
+                $order->unsetRelation('shippingAddress');
+            });
         }
 
         $country_id = $request->old('shippingAddress.country_id', $order->shippingAddress->country_id ?? null);
@@ -78,6 +89,7 @@ class CheckoutDetailsController extends Controller
         }
 
         if (!$this->checkProductStocks($order)) {
+            session()->flash('insufficient-quantity');
             return redirect()->route('checkout.products.index', $lang);
         }
 
@@ -145,14 +157,17 @@ class CheckoutDetailsController extends Controller
             return response()->json();
         }
 
-        $order->shippingAddress->country_id = $request->input('country_id');
-        $order->shippingAddress->postcode = $request->input('postcode');
+        $address = $order->shippingAddress()->firstOrCreate([], ['cluster' => 'shipping']);
+        $order->setRelation('shippingAddress', $address);
+
+        $address->country_id = $request->input('country_id');
+        $address->postcode = $request->input('postcode');
+        $address->save();
 
         DB::transaction(fn() => $refreshOrder->handle($order));
 
         $has_shipping_methods = false;
-        $country = $order->shippingAddress->country ?? null;
-        $order->shippingAddress->province = null;
+        $country = $address->country ?? null;
         $provinces = collect();
         if ($country) {
             $has_shipping_methods = $country->filterShippingOptions($order->products_value)->isNotEmpty();
@@ -169,7 +184,7 @@ class CheckoutDetailsController extends Controller
         $summary = view('checkout.details.partials.checkout-details-summary', [
             'order'                => $order,
             'products'             => $products,
-            'shipping'             => $order->shippingAddress,
+            'shipping'             => $address,
             'has_shipping_methods' => $has_shipping_methods,
         ])->render();
 
