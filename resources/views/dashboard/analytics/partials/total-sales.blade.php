@@ -10,7 +10,7 @@
                 <div class="d-grid">
                     <div class="fw-500 fs-4 text-purple-500">{{ format_currency($totalSales->sum()) }}</div>
                     @if($totalSalesComparison->isNotEmpty())
-                        @php($percent = ($totalSales->sum() - $totalSalesComparison->sum())/$totalSalesComparison->sum())
+                        @php($percent = ($totalSales->sum() - $totalSalesComparison->sum())/($totalSalesComparison->sum() ?: 1))
                         @if($percent >= 0)
                             <small class="lh-sm fw-500 text-success"><em class="fas fa-arrow-up"></em> {{ format_percent(abs($percent)) }}</small>
                         @else

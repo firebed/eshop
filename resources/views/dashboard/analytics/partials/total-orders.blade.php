@@ -11,7 +11,7 @@
                     <div class="fw-500 fs-4 text-purple-500">{{ $totalOrders->sum() }}</div>
 
                     @if($totalOrdersComparison->isNotEmpty())
-                        @php($percent = ($totalOrders->sum() - $totalOrdersComparison->sum())/$totalOrdersComparison->sum())
+                        @php($percent = ($totalOrders->sum() - $totalOrdersComparison->sum())/($totalOrdersComparison->sum() ?: 1))
                         @if($percent >= 0)
                             <small class="lh-sm fw-500 text-success"><em class="fas fa-arrow-up"></em> {{ format_percent(abs($percent)) }}</small>
                         @else
