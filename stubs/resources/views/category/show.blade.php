@@ -72,7 +72,7 @@
 @section('main')
     <x-eshop-category-breadcrumb :category="$category" :product="null"/>
 
-    <div class="container-fluid my-4">
+    <main class="container-fluid my-4">
         <div class="container-xxl">
             @if($category->isFile())
                 <div class="row gx-0 gx-xl-3">
@@ -158,5 +158,5 @@
                 </div>
             @endif
         </div>
-    </div>
+    </main>
 @endsection
