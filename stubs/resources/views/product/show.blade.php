@@ -40,8 +40,8 @@
 @section('main')
     <x-eshop-category-breadcrumb :category="$category" :product="$product"/>
 
-    <div class="container-fluid bg-white py-4">
-        <div class="container-xxl">
+    <main class="container-fluid bg-white py-4">
+        <section class="container-xxl">
             <div class="row row-cols-1 row-cols-md-2 g-5">
                 <div class="col">
                     @include('product.partials.images')
@@ -94,20 +94,20 @@
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
+        </section>
+        
+        @if($product->has_variants && $product->variants_display === 'grid')
+            <section class="container-fluid bg-light py-4">
+                <div id="product-variants" class="container-xxl">
+                    <h2 class="fs-5 border-bottom mb-3 py-3">{{ __("Variants") }}</h2>
 
-    @if($product->has_variants && $product->variants_display === 'grid')
-        <div id="product-variants" class="container-fluid mb-4 py-4 bg-light">
-            <div class="container">
-                <h2 class="fs-5 border-bottom mb-3 py-3">{{ __("Variants") }}</h2>
-
-                <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xxl-5 g-4">
-                    @foreach($variants as $variant)
-                        @livewire('product.product-variant', ['product' => $variant, 'category' => $category])
-                    @endforeach
+                    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xxl-5 g-4">
+                        @foreach($variants as $variant)
+                            @livewire('product.product-variant', ['product' => $variant, 'category' => $category])
+                        @endforeach
+                    </div>
                 </div>
-            </div>
-        </div>
-    @endif
+            </section>
+        @endif
+    </main>
 @endsection
