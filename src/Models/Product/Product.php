@@ -5,7 +5,6 @@ namespace Eshop\Models\Product;
 use Eshop\Database\Factories\Product\ProductFactory;
 use Eshop\Models\Lang\Traits\HasTranslations;
 use Eshop\Models\Media\Traits\HasImages;
-use Eshop\Models\Product\Jsonld\Jsonld;
 use Eshop\Models\Seo\Traits\HasSeo;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -15,6 +14,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Collection;
+use Laravel\Scout\Searchable;
 
 /**
  * Class Product
@@ -82,6 +82,7 @@ class Product extends Model
     use HasTranslations;
     use HasImages;
     use HasSeo;
+    use Searchable;
 
     protected $fillable = [
         'name', 'description', 'category_id', 'manufacturer_id', 'unit_id', 'is_physical', 'vat', 'weight',
@@ -354,5 +355,16 @@ class Product extends Model
                 $constraint->upsize();
             });
         });
+    }
+
+    public function toSearchableArray(): array
+    {
+        return array_filter([
+            $this->category->name,
+            $this->manufacturer?->name,
+            $this->translate('name', 'el'),
+            $this->translate('name', 'en'),
+            $this->description,
+        ]);
     }
 }

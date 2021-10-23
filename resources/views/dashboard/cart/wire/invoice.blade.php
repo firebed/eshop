@@ -12,8 +12,8 @@
                 <x-bs::group label="{{ __('Company name') }}" inline>{{ $invoice->name }}</x-bs::group>
                 <x-bs::group label="{{ __('Company job') }}" inline>{{ $invoice->job }}</x-bs::group>
 
-                <x-bs::group label="{{ __('Vat number') }}" inline>{{ $invoice->vat }}</x-bs::group>
-                <x-bs::group label="{{ __('Tax office') }}" inline>{{ $invoice->tax_office }}</x-bs::group>
+                <x-bs::group label="{{ __('Vat number') }}" inline>{{ $invoice->vat_number }}</x-bs::group>
+                <x-bs::group label="{{ __('Tax office') }}" inline>{{ $invoice->tax_authority }}</x-bs::group>
 
                 <x-bs::group label="{{ __('Street') }}" inline>{{ $invoiceBilling->street }} {{ $invoiceBilling->street_no }}</x-bs::group>
                 <x-bs::group label="{{ __('State/Province') }}" inline>{{ $invoiceBilling->province ?? '' }}</x-bs::group>

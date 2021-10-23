@@ -99,11 +99,11 @@
 
 <hr class="mt-3">
 
-<div style="page-break-inside: avoid">
+<div style="break-inside: avoid">
     @include('order-printer.partials.products')
 </div>
 
-<div style="page-break-inside: avoid">
+<div style="break-inside: avoid">
     @include('order-printer.partials.totals')
 </div>
 

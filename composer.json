@@ -21,10 +21,13 @@
     "paypal/paypal-checkout-sdk": "1.0.1",
     "stevebauman/location": "^6.1",
     "laravel/fortify": "^1.7",
-    "firebed/sitemap": "dev-master"
+    "firebed/sitemap": "dev-master",
+    "firebed/laravel-scout-database": "dev-master"
   },
   "require-dev": {
-    "roave/security-advisories": "dev-latest"
+    "roave/security-advisories": "dev-latest",
+    "orchestra/testbench": "^6.21",
+    "phpunit/phpunit": "^9.5"
   },
   "autoload": {
     "files": [
@@ -34,6 +37,11 @@
       "Eshop\\": "src/",
       "Eshop\\Database\\Factories\\": "database/factories/",
       "Eshop\\Database\\Seeders\\": "database/seeders/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Eshop\\Tests\\": "tests/"
     }
   },
   "extra": {

@@ -14,11 +14,11 @@
 
                     <div class="row row-cols-2">
                         <x-bs::input.group for="invoice-vat" label="{{ __('Vat number') }}" class="col">
-                            <x-bs::input.text wire:model.defer="invoice.vat" id="invoice-vat" error="invoice.vat"/>
+                            <x-bs::input.text wire:model.defer="invoice.vat_number" id="invoice-vat" error="invoice.vat"/>
                         </x-bs::input.group>
 
                         <x-bs::input.group for="tax-office" label="{{ __('Tax office') }}" class="col">
-                            <x-bs::input.text wire:model.defer="invoice.tax_office" id="tax-office" error="invoice.tax_office"/>
+                            <x-bs::input.text wire:model.defer="invoice.tax_authority" id="tax-office" error="invoice.tax_office"/>
                         </x-bs::input.group>
                     </div>
 

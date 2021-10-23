@@ -27,8 +27,8 @@ class Invoice extends Component
         'invoice.billable_type' => 'required_if:isInvoice,true|string',
         'invoice.name'          => 'required_if:isInvoice,true|string',
         'invoice.job'           => 'nullable|string',
-        'invoice.vat'           => 'required_if:isInvoice,true|string',
-        'invoice.tax_office'    => 'nullable|string',
+        'invoice.vat_number'                => 'required_if:isInvoice,true|string',
+        'invoice.tax_authority'                => 'nullable|string',
 
         'invoiceBilling.country_id' => 'required_if:isInvoice,true|integer',
         'invoiceBilling.province'   => 'nullable|string',

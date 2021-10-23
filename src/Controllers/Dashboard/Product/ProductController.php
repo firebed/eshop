@@ -87,8 +87,12 @@ class ProductController extends Controller
         return redirect()->route('products.edit', $product);
     }
 
-    public function edit(Product $product): Renderable
+    public function edit(Product $product): RedirectResponse|Renderable
     {
+        if ($product->isVariant()) {
+            return redirect()->route('variants.edit', $product);
+        }
+        
         return view('eshop::dashboard.product.edit', [
             'product'       => $product,
             'properties'    => $this->prepareProperties($product),
