@@ -10,11 +10,14 @@
         </div>
 
         <div class="col-12 col-sm d-grid gap-1">
-            <div class="input-group">
-                <x-bs::button.light onclick="AutoNumeric.set('#quantity', AutoNumeric.getNumber('#quantity')-1)" class="border shadow-none" aria-label="{{ __('Decrease quantity') }}"><em class="fa fa-minus"></em></x-bs::button.light>
+            <div class="input-group" x-data="{ quantity: $wire.entangle('quantity').defer }">
+                <x-bs::button.secondary x-on:click="if(quantity > 1) quantity--" class="border shadow-none" aria-label="{{ __('Decrease quantity') }}"><em class="fa fa-minus"></em></x-bs::button.secondary>
                 <label for="quantity" class="visually-hidden">{{ __("Quantity") }}</label>
-                <x-bs::input.integer id="quantity" wire:model.defer="quantity" placeholder="0" min="0" max="999" aria-label="{{ __('Quantity') }}" class="text-center"/>
-                <x-bs::button.light onclick="AutoNumeric.set('#quantity', AutoNumeric.getNumber('#quantity')+1)" class="border shadow-none" aria-label="{{ __('Increase quantity') }}"><em class="fa fa-plus"></em></x-bs::button.light>
+                <input x-model="quantity" placeholder="0" name="quantity"
+                       type="number" min="1" step="1" class="form-control text-center"
+                       x-on:keydown="if($event.key === '.') $event.preventDefault()"
+                       title="{{ __("Quantity") }}">
+                <x-bs::button.secondary x-on:click="quantity++" class="border shadow-none" aria-label="{{ __('Increase quantity') }}"><em class="fa fa-plus"></em></x-bs::button.secondary>
             </div>
 
             <div id="errors" class="fw-500 small text-danger">

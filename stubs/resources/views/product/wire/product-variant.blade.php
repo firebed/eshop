@@ -4,12 +4,12 @@
             <a class="text-decoration-none text-dark d-grid gap-2" href="{{ productRoute($variant, $category) }}">
                 @if($variant->image)
                     <div class="ratio ratio-1x1">
-                        <img src="{{ $variant->image->url('sm') }}" alt="{{ $variant->trademark }}" class="img-middle">
+                        <img src="{{ $variant->image->url('sm') }}" alt="{{ $variant->trademark }}" class="rounded img-middle">
                     </div>
                 @endif
 
                 <div class="d-grid">
-                    <div class="fw-500">{{ $variant->option_values }}</div>
+                    <div class="fw-500">{{ $variant->option_values }}@can('Manage products') <span class="text-secondary">({{ format_number($variant->stock) }})</span> @endcan</div>
 
                     @if($variant->sku !== null && $variant->variant_values !== $variant->sku)
                         <small class="text-secondary">{{ __('Code') }}: {{ $variant->sku }}</small>
@@ -31,7 +31,12 @@
             <div class="d-grid mt-auto">
                 @if($variant->canBeBought())
                     <form wire:submit.prevent="addToCart" class="d-flex align-items-center gap-1">
-                        <x-bs::input.integer wire:model.defer="quantity" class="text-center" value="1"/>
+                        <input wire:model.defer="quantity" placeholder="0" name="quantity"
+                               type="number" min="1" step="1" class="form-control text-center"
+                               x-on:keydown="if($event.key === '.') $event.preventDefault()"
+                               value="1"
+                               title="{{ __("Quantity") }}">
+
                         <button type="submit" wire:loading.attr="disabled" class="btn btn-green text-nowrap col-8">
                             <em wire:loading.remove wire:target="addToCart({{ $variant->id }})" class="fa fa-shopping-basket"></em>
                             <em wire:loading wire:target="addToCart({{ $variant->id }})" class="fa fa-spinner fa-spin"></em>

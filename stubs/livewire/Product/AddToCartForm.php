@@ -15,8 +15,8 @@ class AddToCartForm extends Component
 {
     use ControlsOrder, SendsNotifications;
 
-    public Product $product;
-    public int     $quantity;
+    public Product         $product;
+    public null|string|int $quantity;
 
     public function mount(Order $order): void
     {
@@ -31,7 +31,12 @@ class AddToCartForm extends Component
             return;
         }
 
-        if (!$this->product->canBeBought($this->quantity)) {
+        if(!is_numeric($this->quantity)) {
+            $this->skipRender();
+            return;
+        }
+
+        if (!$this->product->canBeBought((int) $this->quantity)) {
             $this->showWarningDialog($this->product->trademark, __("eshop::order.max_available_stock", ['quantity' => $this->quantity, 'available' => $this->product->available_stock]));
             $this->skipRender();
             return;

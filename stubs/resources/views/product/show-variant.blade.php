@@ -33,15 +33,14 @@
 @endpush
 
 @push('footer_scripts')
-    <script src="https://cdn.jsdelivr.net/npm/autonumeric@4.6.0/dist/autoNumeric.min.js"></script>
     <script src="{{ mix('js/fslightbox.js') }}"></script>
 @endpush
 
 @section('main')
     <x-eshop-category-breadcrumb :category="$category" :product="$product"/>
 
-    <main class="container-fluid bg-white py-4">
-        <div class="container-xxl">
+    <main class="container-fluid bg-white">
+        <section class="container-xxl py-4">
             <div class="row row-cols-1 row-cols-md-2 g-5">
                 <div class="col">
                     @include('product.partials.images')
@@ -84,6 +83,6 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </section>
     </main>
 @endsection

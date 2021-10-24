@@ -82,7 +82,7 @@ class Product extends Model
     use HasTranslations;
     use HasImages;
     use HasSeo;
-    use Searchable;
+//    use Searchable;
 
     protected $fillable = [
         'name', 'description', 'category_id', 'manufacturer_id', 'unit_id', 'is_physical', 'vat', 'weight',
@@ -357,9 +357,16 @@ class Product extends Model
         });
     }
 
+    public function shouldBeSearchable(): bool
+    {
+        return $this->getAttribute('visible');
+    }
+
     public function toSearchableArray(): array
     {
         return array_filter([
+            $this->id,
+            $this->sku,
             $this->category->name,
             $this->manufacturer?->name,
             $this->translate('name', 'el'),
