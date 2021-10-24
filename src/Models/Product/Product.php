@@ -359,7 +359,9 @@ class Product extends Model
 
     public function shouldBeSearchable(): bool
     {
-        return $this->getAttribute('visible');
+        return $this->isVariant()
+            ? $this->getAttribute('visible') && $this->parent->getAttribute('visible')
+            : $this->getAttribute('visible');
     }
 
     public function toSearchableArray(): array
@@ -367,16 +369,17 @@ class Product extends Model
         return array_filter([
             $this->id,
             $this->sku,
+            $this->mpn,
             $this->category->name,
             $this->manufacturer?->name,
             $this->parent?->translate('name', 'el'),
             $this->parent?->translate('name', 'en'),
-            $this->parent?->translate('description', 'en'),
-            $this->parent?->translate('description', 'en'),
+//            $this->parent?->translate('description', 'en'),
+//            $this->parent?->translate('description', 'en'),
             $this->translate('name', 'el'),
             $this->translate('name', 'en'),
-            $this->translate('description', 'el'),
-            $this->translate('description', 'en'),
+//            $this->translate('description', 'el'),
+//            $this->translate('description', 'en'),
         ]);
     }
 }

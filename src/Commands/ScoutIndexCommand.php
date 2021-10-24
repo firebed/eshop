@@ -11,7 +11,7 @@ class ScoutIndexCommand extends Command
 {
     protected $signature = 'scout:refresh';
 
-    protected $description = 'Generates a sitemap';
+    protected $description = 'Inserts all models into index table';
 
     public function handle(): void
     {
