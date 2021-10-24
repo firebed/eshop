@@ -372,14 +372,15 @@ class Product extends Model
             $this->mpn,
             $this->category->name,
             $this->manufacturer?->name,
-            $this->parent?->translate('name', 'el'),
-            $this->parent?->translate('name', 'en'),
 //            $this->parent?->translate('description', 'en'),
 //            $this->parent?->translate('description', 'en'),
             $this->translate('name', 'el'),
             $this->translate('name', 'en'),
 //            $this->translate('description', 'el'),
 //            $this->translate('description', 'en'),
+            $this->isVariant() ? $this->parent?->translate('name', 'el') : null,
+            $this->isVariant() ? $this->parent?->translate('name', 'en') : null,
+            $this->isVariant() ? $this->option_values : null
         ]);
     }
 }
