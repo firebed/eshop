@@ -371,7 +371,8 @@ class Product extends Model
             $this->manufacturer?->name,
             $this->translate('name', 'el'),
             $this->translate('name', 'en'),
-            $this->description,
+            $this->translate('description', 'el'),
+            $this->translate('description', 'en'),
         ]);
     }
 }

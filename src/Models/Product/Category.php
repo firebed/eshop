@@ -165,7 +165,6 @@ class Category extends Model
     {
         return array_filter([
             $this->id,
-            $this->sku,
             $this->translate('name', 'el'),
             $this->translate('name', 'en'),
         ]);
