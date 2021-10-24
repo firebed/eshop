@@ -82,7 +82,7 @@ class Product extends Model
     use HasTranslations;
     use HasImages;
     use HasSeo;
-//    use Searchable;
+    use Searchable;
 
     protected $fillable = [
         'name', 'description', 'category_id', 'manufacturer_id', 'unit_id', 'is_physical', 'vat', 'weight',

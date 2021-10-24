@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Collection;
+use Laravel\Scout\Searchable;
 
 /**
  * Class Category
@@ -45,6 +46,7 @@ class Category extends Model
     use HasTranslations;
     use HasImages;
     use HasSeo;
+    use Searchable;
 
     public const FOLDER = 'Folder';
     public const FILE   = 'File';
@@ -152,6 +154,21 @@ class Category extends Model
         $this->load('children');
         $this->children->each->delete();
         return parent::delete();
+    }
+
+    public function shouldBeSearchable(): bool
+    {
+        return $this->getAttribute('visible');
+    }
+
+    public function toSearchableArray(): array
+    {
+        return array_filter([
+            $this->id,
+            $this->sku,
+            $this->translate('name', 'el'),
+            $this->translate('name', 'en'),
+        ]);
     }
 
     protected static function newFactory(): CategoryFactory

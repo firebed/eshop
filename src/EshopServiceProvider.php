@@ -3,6 +3,7 @@
 namespace Eshop;
 
 use Eshop\Commands\InstallCommand;
+use Eshop\Commands\ScoutIndexCommand;
 use Eshop\Commands\SitemapCommand;
 use Eshop\Middleware\Admin;
 use Eshop\Middleware\Locale;
@@ -95,7 +96,8 @@ class EshopServiceProvider extends ServiceProvider
         if ($this->app->runningInConsole()) {
             $this->commands([
                 SitemapCommand::class,
-                InstallCommand::class
+                InstallCommand::class,
+                ScoutIndexCommand::class
             ]);
         }
     }
