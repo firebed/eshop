@@ -23,7 +23,7 @@ class ScoutIndexCommand extends Command
             ->searchable();
 
         Product::visible()
-            ->with('translations', 'category.translations', 'manufacturer')
+            ->with('translations', 'parent.translations', 'category.translations', 'manufacturer')
             ->get()
             ->searchable();
     }
