@@ -15,12 +15,7 @@ class VariantBulkUpdateRequest extends FormRequest
 
     public function authorize(): bool
     {
-        return TRUE;
-    }
-
-    protected function prepareForValidation(): void
-    {
-        $this->properties = Arr::wrap($this->input('properties') ?? self::PROPERTIES);
+        return true;
     }
 
     public function rules(): array
@@ -31,7 +26,7 @@ class VariantBulkUpdateRequest extends FormRequest
             'bulk_ids'     => ['required', 'array', 'exists:products,id'],
             'bulk_ids.*'   => ['required', 'integer', 'distinct'],
         ];
-
+        
         foreach ($this->properties as $property) {
             $rules["bulk_$property"] = ['required', 'array'];
 
@@ -52,6 +47,9 @@ class VariantBulkUpdateRequest extends FormRequest
                 case 'weight':
                     $rules["bulk_weight.*"] = ['required', 'integer', 'min:0'];
                     break;
+                case 'display_stock_lt':
+                case 'available_gt':
+                    $rules["bulk_$this->property.*"] = ['nullable', 'integer'];
             }
         }
 
@@ -61,13 +59,20 @@ class VariantBulkUpdateRequest extends FormRequest
     public function attributes(): array
     {
         return array_merge(parent::attributes(), [
-            'bulk_price.*'         => 'price',
-            'bulk_compare_price.*' => 'compare_price',
-            'bulk_discount.*'      => 'discount',
-            'bulk_sku.*'           => 'sku',
-            'bulk_stock.*'         => 'stock',
-            'bulk_weight.*'        => 'weight',
+            'bulk_price.*'            => 'price',
+            'bulk_compare_price.*'    => 'compare_price',
+            'bulk_discount.*'         => 'discount',
+            'bulk_sku.*'              => 'sku',
+            'bulk_stock.*'            => 'stock',
+            'bulk_weight.*'           => 'weight',
+            'bulk_display_stock_lt.*' => 'display_stock_lt',
+            'bulk_available_gt.*'     => 'available_gt'
         ]);
+    }
+
+    protected function prepareForValidation(): void
+    {
+        $this->properties = Arr::wrap($this->input('properties') ?? self::PROPERTIES);
     }
 
     protected function getRedirectUrl(): string

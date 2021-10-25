@@ -30,7 +30,11 @@
             </td>
             <td>
                 <a href="{{ route('products.edit', $product) }}" class="d-flex flex-column text-decoration-none text-nowrap">
-                    <span>{{ $product->name }}</span>
+                    @if($product->isVariant())
+                        <span>{{ $product->trademark }}</span>
+                    @else
+                        <span>{{ $product->name }}</span>
+                    @endif
                     <small class="text-secondary">{{ $product->category->name }}</small>
                 </a>
             </td>

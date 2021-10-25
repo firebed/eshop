@@ -83,7 +83,7 @@ class VariantBulkController extends Controller
 
         return view('eshop::dashboard.variant.bulk-edit', [
             'product'      => $product,
-            'properties'   => $request->query('properties', []),
+            'properties'   => $request->query('properties', ['price', 'compare_price', 'discount', 'sku', 'stock', 'weight']),
             'variants'     => $variants,
             'variantTypes' => VariantType::where('product_id', $product->id)->pluck('name', 'id')->all()
         ]);

@@ -76,17 +76,20 @@ class ShowProducts extends Component
 
     public function getProductsProperty(): LengthAwarePaginator
     {
-        return Product
-            ::exceptVariants()
+        $query = Product::query();
+        
+        $keys = [];
+        if (!blank($this->name)) {
+            $keys = Product::search($this->name)->keys();
+            $query->with('parent.translation', 'options');
+        } else {
+            $query = $query->exceptVariants();
+        }
+        
+        return $query
             ->when(!empty($this->category), fn($q) => $q->where('category_id', $this->category))
             ->when(!empty($this->manufacturer), fn($q) => $q->where('manufacturer_id', $this->manufacturer))
-            ->when($this->name, function ($q, $name) {
-                $q->where(function ($b) use ($name) {
-                    $b->where('sku', 'LIKE', "$name%");
-                    $b->orWhere('slug', 'LIKE', "%$this->name%");
-                    $b->orWhereHas('translations', fn($c) => $c->matchAgainst($name));
-                });
-            })
+            ->when(filled($keys), fn ($q) => $q->whereKey($keys))
             ->with('manufacturer', 'image')
             ->withMin('variants', 'price')
             ->withMax('variants', 'price')
