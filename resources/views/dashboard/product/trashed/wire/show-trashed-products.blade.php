@@ -1,16 +1,14 @@
 <div class="col-12 p-4 d-grid gap-3">
-    <div class="d-grid gap-2">
-        <div class="d-flex">
-            <div class="small text-secondary">
-                <a href="{{ route('products.index') }}" class="text-decoration-none">{{ __("All") }} <span class="text-secondary">({{ $productsCount }})</span></a>
-            </div>
-            <div class="border-end me-2 ps-2"></div>
-            <div class="small text-secondary">
-                <a href="{{ route('products.trashed.index') }}" class="text-decoration-none">{{ __("Trash") }} <span class="text-secondary">({{ $trashCount }})</span></a>
-            </div>
+    <div class="d-flex gap-2">
+        <div class="small text-secondary">
+            <a href="{{ route('products.index') }}" class="text-decoration-none">{{ __("All") }} <span class="text-secondary">({{ $productsCount }})</span></a>
         </div>
-
-        <h1 class="fs-3 mb-0">{{ __("Trashed products") }}</h1>
+        
+        <div class="border-end"></div>
+        
+        <div class="small text-secondary">
+            <a href="{{ route('products.trashed.index') }}" class="text-decoration-none">{{ __("Trash") }} <span class="text-secondary">({{ $trashCount }})</span></a>
+        </div>
     </div>
 
     <div class="d-flex gap-2">

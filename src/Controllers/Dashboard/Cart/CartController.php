@@ -25,10 +25,10 @@ class CartController extends Controller
             $cart->viewed_at = now();
             $cart->save();
         }
-        
+
         $assignment = $cart->operators()->firstWhere('user_id', auth()->id());
         $assignment?->pivot?->update(['viewed_at' => now()]);
-        
+
         return view('eshop::dashboard.cart.show', compact('cart'));
     }
 

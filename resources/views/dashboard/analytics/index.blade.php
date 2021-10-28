@@ -1,5 +1,9 @@
 @extends('eshop::dashboard.layouts.master', ['title' => 'Analytics'])
 
+@push('header_scripts')
+    <link rel="dns-prefetch" href="https://cdn.jsdelivr.net/">
+@endpush
+
 @push('footer_scripts')
     <script src="https://cdn.jsdelivr.net/npm/chart.js@3.3.2/dist/chart.min.js"></script>
 @endpush

@@ -1,16 +1,12 @@
 <div class="col-12 col-xxl-8 mx-auto p-4 d-grid gap-3">
-    <div class="d-grid gap-2">
-        <a href="{{ route('products.edit', $product) }}" class="text-secondary text-decoration-none"><i class="fa fa-chevron-left"></i> {{ $product->name }}</a>
+    <div class="d-flex align-items-center justify-content-between">
+        <h1 class="fs-3 mb-0">{{ __("Images") }}</h1>
 
-        <div class="d-flex align-items-center justify-content-between">
-            <h1 class="fs-3 mb-0">{{ __("Images") }}</h1>
-
-            <button class="btn btn-primary" wire:click="save" wire:loading.attr="disabled" wire:target="uploads, save">
-                <em wire:loading.remove wire:target="save" class="fa fa-save me-2"></em>
-                <em wire:loading wire:target="save" class="fa fa-spinner fa-spin me-2"></em>
-                {{ __("Save") }}
-            </button>
-        </div>
+        <button class="btn btn-primary" wire:click="save" wire:loading.attr="disabled" wire:target="uploads, save">
+            <em wire:loading.remove wire:target="save" class="fa fa-save me-2"></em>
+            <em wire:loading wire:target="save" class="fa fa-spinner fa-spin me-2"></em>
+            {{ __("Save") }}
+        </button>
     </div>
 
     @include('eshop::dashboard.product.partials.product-navigation')

@@ -1,5 +1,9 @@
 @extends('eshop::dashboard.layouts.master')
 
+@section('header')
+    <h1 class="fs-5 mb-0">{{ __("Orders") }}</h1>
+@endsection
+
 @section('main')
     <div class="col-12 p-4">
         <div class="row g-4">

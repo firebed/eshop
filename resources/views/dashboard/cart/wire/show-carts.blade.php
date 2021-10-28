@@ -1,6 +1,4 @@
 <div class="d-grid gap-3">
-    <h1 class="fs-3 mb-0">{{ __("Orders") }}</h1>
-
     @include('eshop::dashboard.cart.partials.index.carts-toolbar')
 
     <div class="card shadow-sm">

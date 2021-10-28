@@ -82,6 +82,7 @@ class PosShipping extends Component
     {
         if (isset($this->shipping['country_id']) && $this->shipping['country_id']) {
             $country = $this->country;
+            $country->shippingOptions->load('shippingMethod');
             $options = $country->filterShippingOptions($this->products_value);
             foreach ($options as $option) {
                 $option->total_fee = $calculator->handle($option, $this->weight, $this->shipping['postcode'] ?? null);

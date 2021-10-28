@@ -1,5 +1,9 @@
 @extends('eshop::dashboard.layouts.master')
 
+@section('header')
+    <h1 class="fs-5 mb-0">POS</h1>
+@endsection
+
 @section('main')
     <form x-data="{submitting: false}" x-on:submit="submitting = true" x-on:keydown.enter.prevent="" action="{{ route('pos.store') }}" method="post">
         @csrf

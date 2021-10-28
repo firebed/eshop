@@ -1,13 +1,12 @@
 <x-bs::navbar expand="xxl" class="card shadow-sm flex-xxl-wrap">
-    <x-bs::navbar.brand class="d-xxl-flex justify-content-xxl-between w-xxl-100 py-0">
-        <span>{{ __('Shipping Address') }}</span>
-        <x-bs::button.link class="d-none d-xxl-block p-0" wire:click="edit">{{ __("Edit") }}</x-bs::button.link>
-    </x-bs::navbar.brand>
+    <x-bs::navbar.brand class="d-xxl-flex justify-content-xxl-between w-xxl-100 py-0">{{ __('Shipping Address') }}</x-bs::navbar.brand>
 
     <x-bs::navbar.toggler target="shipping-address"/>
 
-    <x-bs::navbar.collapse id="shipping-address">
+    <x-bs::navbar.collapse id="shipping-address">        
         <div class="d-grid flex-grow-1 gap-1 mt-3">
+            <a href="#" class="text-decoration-none" wire:click.prevent="edit">{{ __("Edit") }}</a>
+            
             <x-bs::group label="{{ __('To') }}" inline>
                 @isset($user_id)
                     <a href="{{ route('users.show', $user_id) }}">{{ $shippingAddress?->to }}</a>

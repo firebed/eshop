@@ -40,6 +40,7 @@ trait ImplementsOrder
         }
 
         $this->channel = 'eshop';
+        $this->ip = request()?->ip();
 
         if ($this->save()) {
             if ($this->cookie_id !== NULL) {

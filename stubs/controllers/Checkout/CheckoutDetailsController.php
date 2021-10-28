@@ -77,7 +77,7 @@ class CheckoutDetailsController extends Controller
             'userCountry'          => $userCountry,
             'addresses'            => Auth::check() ? user()->addresses : collect(),
             'countries'            => Country::visible()->orderBy('name')->get(),
-            'provinces'            => $provinces,
+            'provinces'            => $provinces ?? collect(),
             'shipping'             => $order->shippingAddress?->related_id !== null ? null : $order->shippingAddress,
             'invoice'              => $order->invoice,
             'selected_shipping_id' => $order->shippingAddress?->related_id,

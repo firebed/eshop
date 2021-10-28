@@ -72,6 +72,7 @@ class PosPayment extends Component
     {
         if (!empty($this->country_id)) {
             $country = $this->country;
+            $country->paymentOptions->load('paymentMethod');
             return $country->filterPaymentOptions($this->products_value);
         }
 

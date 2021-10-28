@@ -1,8 +1,12 @@
 @extends('eshop::dashboard.layouts.master')
 
-@push('footer_scripts')
-    <script src="https://cdn.tiny.cloud/1/gxet4f4kiajd8ppsca5dsl1ymcncx4emhut5fer2lnijr2ic/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
-@endpush
+@section('header')
+    <h1 class="fs-5 mb-0">
+        <a href="{{ route('products.edit', $product) }}" class="text-decoration-none">
+            <small class="fas fa-chevron-left me-2"></small>{{ $product->name }}
+        </a>
+    </h1>
+@endsection
 
 @section('main')
     <div class="col-12 col-xxl-10 mx-auto p-4 d-grid gap-3">

@@ -12,7 +12,7 @@
     </tr>
     <tr>
         <td class="text-secondary" style="width: 30%">{{ __("Street") }}</td>
-        <td>{{ $cart->shippingAddress?->street }}</td>
+        <td>{{ $cart->shippingAddress?->street }} {{ $cart->shippingAddress?->street_no }}</td>
     </tr>
     <tr>
         <td class="text-secondary">{{ __("City") }}</td>

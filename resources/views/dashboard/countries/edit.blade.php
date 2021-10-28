@@ -1,5 +1,9 @@
 @extends('eshop::dashboard.layouts.master')
 
+@section('header')
+    <div class="fw-500 fs-5 mb-0">{{ __("Countries") }}</div>
+@endsection
+
 @section('main')
     <div class="col-5 mx-auto py-5">
         <form x-data="{ submitting: false }" x-on:submit="submitting = true" action="{{ route('countries.update', $country) }}" method="post" class="mb-4">

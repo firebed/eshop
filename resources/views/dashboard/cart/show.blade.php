@@ -1,7 +1,11 @@
 @extends('eshop::dashboard.layouts.master')
 
+@section('header')
+    <div class="fs-5 fw-500">{{ __("Orders") }}</div>
+@endsection
+
 @section('main')
-    <div class="col-12 p-3 px-xl-4">
+    <div class="col-12 mx-auto p-3 px-xl-4">
         <div class="row g-4">
             <div class="col-12 col-xxl d-grid gap-3">
 
@@ -11,32 +15,21 @@
                     </x-bs::alert>
                 @endunless
 
-                <div class="d-grid gap-2">
-                    <div class="d-flex justify-content-between">
-                        <a class="text-secondary text-decoration-none" href="{{ route('carts.index') }}">
-                            <em class="fas fa-chevron-left me-2"></em>{{ __('Orders') }}
-                        </a>
-{{--                        <div class="d-flex gap-4 text-secondary fs-5">--}}
-{{--                            <em class="fas fa-arrow-left"></em>--}}
-{{--                            <em class="fas fa-arrow-right"></em>--}}
-{{--                        </div>--}}
-                    </div>
-
-                    <div class="d-flex gap-4 align-items-baseline">
-                        <h1 class="fs-3 mb-0">#{{ $cart->id }}</h1>
-                        <div class="text-secondary">{{ optional($cart->submitted_at)->isoFormat('llll') }}</div>
-                    </div>
-
+                <div class="d-grid">
+                    <h1 class="fs-4">#{{ $cart->id }}</h1>
+                    <div class="small text-secondary mb-3">{{ optional($cart->submitted_at)->isoFormat('dddd, ll HH:mm') }}</div>
                     <livewire:dashboard.cart.cart-header :cart="$cart"/>
                 </div>
 
                 <div class="row g-4">
-                    <div class="col-12 col-lg-5 col-xxl-auto d-flex flex-column gap-2 order-xxl-1 w-xxl-25r">
-                        <livewire:dashboard.cart.customer-notes :cart="$cart"/>
-                        <livewire:dashboard.cart.cart-overview :cart="$cart"/>
-                        <livewire:dashboard.cart.shipping-address :cart="$cart"/>
-{{--                        <livewire:dashboard.cart.billing-address :cart="$cart"/>--}}
-                        <livewire:dashboard.cart.invoice :cart="$cart"/>
+                    <div class="col-12 col-lg-5 col-xxl-4 order-xxl-1">
+                        <div class="d-flex flex-column gap-4 ">
+                            <livewire:dashboard.cart.customer-notes :cart="$cart"/>
+                            <livewire:dashboard.cart.cart-overview :cart="$cart"/>
+                            <livewire:dashboard.cart.shipping-address :cart="$cart"/>
+                            {{--                        <livewire:dashboard.cart.billing-address :cart="$cart"/>--}}
+                            <livewire:dashboard.cart.invoice :cart="$cart"/>
+                        </div>
                     </div>
 
                     <div class="col">

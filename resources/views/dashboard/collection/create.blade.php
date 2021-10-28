@@ -1,15 +1,17 @@
 @extends('eshop::dashboard.layouts.master')
 
+@section('header')
+    <div class="fw-500 fs-5 mb-0">
+        <a href="{{ route('collections.index') }}" class="text-decoration-none">
+            <em class="fas fa-chevron-left me-2"></em>
+            {{ __("eshop::collection.collections") }}
+        </a>
+    </div>
+@endsection
+
 @section('main')
     <div class="col-12 col-xxl-6 mx-auto p-4 d-grid gap-3">
-        <div class="d-grid gap-1">
-            <a href="{{ route('collections.index') }}" class="text-decoration-none">
-                <em class="fas fa-chevron-left me-2"></em>
-                {{ __('eshop::collection.collections') }}
-            </a>
-            
-            <h1 class="fs-3">{{ __('eshop::collection.add_new_collection') }}</h1>
-        </div>
+        <h1 class="fs-3">{{ __('eshop::collection.add_new_collection') }}</h1>
 
         <x-bs::card>
             <x-bs::card.body>

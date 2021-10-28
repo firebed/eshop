@@ -1,5 +1,9 @@
 @extends('eshop::dashboard.layouts.master')
 
+@section('header')
+    <div class="fw-500 fs-5 mb-0">{{ __("Payment methods") }}</div>
+@endsection
+
 @section('main')
     <div class="col-5 mx-auto py-5">
         <div class="hstack justify-content-between gap-3 mb-4">

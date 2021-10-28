@@ -46,7 +46,7 @@ class ShowProducts extends Component
         $this->setSorting('created_at', 'desc');
 
         $this->productsCount = Product::exceptVariants()->count();
-        $this->trashCount = Product::onlyTrashed()->count();
+        $this->trashCount = Product::exceptVariants()->onlyTrashed()->count();
     }
 
     public function updating($name): void

@@ -1,8 +1,15 @@
 @extends('eshop::dashboard.layouts.master')
 
-@push('footer_scripts')
-    <script src="https://cdn.tiny.cloud/1/gxet4f4kiajd8ppsca5dsl1ymcncx4emhut5fer2lnijr2ic/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+@push('header_scripts')
+    <link rel="dns-prefetch" href="https://cdn.tiny.cloud/">
+    <script defer src="https://cdn.tiny.cloud/1/gxet4f4kiajd8ppsca5dsl1ymcncx4emhut5fer2lnijr2ic/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
 @endpush
+
+@section('header')
+    <h1 class="fs-5 mb-0">
+        <a href="{{ route('products.index') }}" class="text-decoration-none"><small class="fas fa-chevron-left me-2"></small>{{ __("Products") }}</a>
+    </h1>
+@endsection
 
 @include('eshop::dashboard.product.partials.slim-select')
 

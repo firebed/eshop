@@ -51,7 +51,7 @@
                     <x-bs::input.text wire:model.defer="shippingAddress.street" id="shipping-address-street" error="shippingAddress.street"/>
                 </x-bs::input.group>
 
-                <x-bs::input.group for="shipping-address-street-no" label="{{ __('No') }}" class="col-4">
+                <x-bs::input.group for="shipping-address-street-no" label="{{ __('Street no') }}" class="col-4">
                     <x-bs::input.text wire:model.defer="shippingAddress.street_no" id="shipping-address-street-no" error="shippingAddress.street_no"/>
                 </x-bs::input.group>
             </div>

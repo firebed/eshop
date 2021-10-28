@@ -21,6 +21,7 @@ use Eshop\Controllers\Dashboard\Product\ProductTrashController;
 use Eshop\Controllers\Dashboard\Product\VariantBulkController;
 use Eshop\Controllers\Dashboard\Product\VariantBulkImageController;
 use Eshop\Controllers\Dashboard\Product\VariantController;
+use Eshop\Controllers\Dashboard\SidebarController;
 use Eshop\Controllers\Dashboard\Slide\SlideController;
 use Eshop\Controllers\Dashboard\User\UserController;
 use Eshop\Controllers\Dashboard\User\UserPermissionController;
@@ -28,6 +29,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware(['web', 'auth', 'admin'])->group(function () {
     Route::prefix('dashboard')->group(function () {
+        Route::put('sidebar', SidebarController::class);
+        
         Route::get('products/{product}/images', [ProductImageController::class, 'index'])->name('products.images.index');
         Route::get('products/trashed', ProductTrashController::class)->name('products.trashed.index');
         Route::get('products/{product}/edit', [ProductController::class, 'edit'])->name('products.edit')->withTrashed();
