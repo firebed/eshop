@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Checkout;
 
 use App\Http\Requests\CheckoutPaymentRequest;
+use Error;
 use Eshop\Actions\Order\RefreshOrder;
 use Eshop\Actions\Order\ShippingFeeCalculator;
 use Eshop\Actions\Order\SubmitOrder;
@@ -42,6 +43,7 @@ class CheckoutPaymentController extends Controller
         }
 
         if (!$this->checkProductStocks($order)) {
+            session()->flash('insufficient-quantity');
             return redirect()->route('checkout.products.index', $lang);
         }
 
@@ -86,6 +88,7 @@ class CheckoutPaymentController extends Controller
 
                     return response()->json(URL::signedRoute('checkout.completed', [app()->getLocale(), $order->id]));
                 }
+                throw new Error();
             } catch (PaymentActionRequired $e) {
                 DB::rollBack();
                 return response()->json(['requires_action' => true, 'client_secret' => $e->payment->clientSecret()]);
@@ -121,6 +124,7 @@ class CheckoutPaymentController extends Controller
         }
 
         if (!$this->checkProductStocks($order)) {
+            session()->flash('insufficient-quantity');
             return redirect()->route('checkout.products.index', $lang);
         }
 
