@@ -12,14 +12,17 @@ return [
         'el' => 'GR',
         'en' => 'US'
     ],
-    
+
     'cc' => [
-        
+
     ],
 
-    'logo'               => 'storage/images/logo.png',
-    'logo_width'         => 306,
-    'logo_height'        => 76,
+    'logo' => [
+        'path'   => 'storage/images/logo.png',
+        'width'  => 306,
+        'height' => 76
+    ],
+
     'country'            => env('COUNTRY', 'US'),
     'currency'           => env('CURRENCY', 'USD'),
     'currency_symbol'    => env('CURRENCY_SYMBOL', '$'),
@@ -38,28 +41,37 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Filtering Manufacturers
+    | Filtering Products
     |--------------------------------------------------------------------------
     |
-    | Here you may specify whether the customers can filter products by
-    | manufacturers on category, sales and search pages. This option is global
-    | and will affect the mentioned pages.
+    | Here you may specify the customer's search experience.
+    | Through these options you can choose which filters should be usable
+    | when searching for products. These options are global and will affect
+    | the all the pages that use product filtering.
     |
     */
 
-    'filter_manufacturers' => false,
+    'filter' => [
+        'manufacturers' => false
+    ],
 
     /*
     |--------------------------------------------------------------------------
     | Product Image Optimization
     |--------------------------------------------------------------------------
     |
-    | This options controls the default image appearance on all pages. When set
-    | to true, all the products' images will be stretched to cover the container's
-    | aspect ratio. If it's set to false then the images will be centered on
-    | the parent container.
+    | This options control the default image appearance on all pages.
+    | These will allow you to stretch the product images so that they cover the
+    | parent container's aspect ratio, as well as the minimum width / height
+    | values on uploading images.
     |
     */
 
-    'stretch_product_images' => true,
+    'product' => [
+        'image' => [
+            'cover'         => true,
+            'upload_width'  => 1000,
+            'upload_height' => 1000
+        ]
+    ],
 ];

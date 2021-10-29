@@ -2,7 +2,6 @@
 
 namespace Eshop\Models\Invoice;
 
-use Eshop\Database\Factories\Invoice\CompanyFactory;
 use Eshop\Models\Location\Address;
 use Eshop\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -49,10 +48,5 @@ class Company extends Model
     public function delete(): bool|null
     {
         return $this->address()->delete() && parent::delete();
-    }
-
-    protected static function newFactory(): CompanyFactory
-    {
-        return CompanyFactory::new();
     }
 }

@@ -15,7 +15,7 @@
     <meta property="og:site_name" content="{{ config('app.name') }}">
     <meta property="og:description" content="Δες τα προϊόντα της αναζήτησης '{{ $search_term }}' για όλες της κατηγορίες στην καλύτερη τιμή!">
     <meta property="og:type" content="website">
-    <meta property="og:image" content="{{ asset(config('eshop.logo')) }}">
+    @include('layouts.partials.meta-logo')
     <meta name="twitter:card" content="summary" />
 
     <meta name='robots' content='index, follow' />

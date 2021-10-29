@@ -2,7 +2,6 @@
 
 namespace Eshop\Models\Location;
 
-use Eshop\Database\Factories\Location\CountryFactory;
 use Eshop\Models\Cart\Cart;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -46,11 +45,6 @@ class Country extends Model
     public static function default(): null|Country
     {
         return self::firstWhere('code', config('eshop.country'));
-    }
-
-    protected static function newFactory(): CountryFactory
-    {
-        return CountryFactory::new();
     }
 
     public function provinces(): HasMany

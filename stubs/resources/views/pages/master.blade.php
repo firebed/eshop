@@ -14,9 +14,7 @@
     <meta property="og:site_name" content="{{ config('app.name') }}">
     <meta property="og:type" content="website">
     <meta property="og:url" content="{{ route('pages.show', [app()->getLocale(), $page]) }}">
-    <meta property="og:image" content="{{ asset(config('eshop.logo')) }}">
-    <meta property="og:image:width" content="{{ config('eshop.logo_width') }}" />
-    <meta property="og:image:height" content="{{ config('eshop.logo_height') }}" />
+    @include('layouts.partials.meta-logo')
     <meta name="twitter:card" content="summary" />
 
     <script type="application/ld+json">{!! schema()->webPage($title, $description) !!}</script>

@@ -12,7 +12,6 @@ return [
     'tax_office'      => '',
     'website'         => '',
     'email'           => '',
-    'logo'            => '',
 
     'seo' => [
         'title'       => '',

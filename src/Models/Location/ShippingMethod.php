@@ -2,7 +2,6 @@
 
 namespace Eshop\Models\Location;
 
-use Eshop\Database\Factories\Location\ShippingMethodFactory;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -34,11 +33,6 @@ class ShippingMethod extends Model
 
     protected $casts = ['is_courier' => 'bool'];
     
-    protected static function newFactory(): ShippingMethodFactory
-    {
-        return ShippingMethodFactory::new();
-    }
-
     public function countries(): BelongsToMany
     {
         return $this->belongsToMany(Country::class)

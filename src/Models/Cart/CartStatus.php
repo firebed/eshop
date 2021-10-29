@@ -2,7 +2,6 @@
 
 namespace Eshop\Models\Cart;
 
-use Eshop\Database\Factories\Cart\CartStatusFactory;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -38,18 +37,18 @@ class CartStatus extends Model
     public const CAPTURE = 'Capture';
     public const RELEASE = 'Release';
 
-    public $timestamps = FALSE;
+    public $timestamps = false;
 
     protected $casts = ['notify' => 'bool'];
-    
-    public function carts(): HasMany
-    {
-        return $this->hasMany(Cart::class, 'status_id');
-    }
 
     public static function calculable(): array
     {
         return [self::SUBMITTED, self::APPROVED, self::COMPLETED, self::SHIPPED, self::HELD];
+    }
+
+    public function carts(): HasMany
+    {
+        return $this->hasMany(Cart::class, 'status_id');
     }
 
     public function hasCapturedStocks(): bool
@@ -71,10 +70,5 @@ class CartStatus extends Model
     public function isReleasingStocks(): bool
     {
         return $this->stock_operation === self::RELEASE;
-    }
-
-    protected static function newFactory(): CartStatusFactory
-    {
-        return CartStatusFactory::new();
     }
 }

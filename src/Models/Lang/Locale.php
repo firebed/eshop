@@ -2,7 +2,6 @@
 
 namespace Eshop\Models\Lang;
 
-use Eshop\Database\Factories\Lang\LocaleFactory;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -22,9 +21,4 @@ class Locale extends Model
     use HasFactory;
 
     protected $fillable = ['name', 'lang'];
-
-    protected static function newFactory()
-    {
-        return LocaleFactory::new();
-    }
 }

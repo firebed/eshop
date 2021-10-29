@@ -42,32 +42,34 @@ class CategoryController extends Controller
 
         $category->load(['properties' => fn($q) => $q->with('translation', 'choices.translation', 'choices.property')]);
         foreach ($category->properties as $property) {
-            $property->choices->loadCount(['products' => function ($q) use ($filters, $property) {
+            $property->choices->loadCount(['products' => function ($q) use ($request, $filters, $property) {
                 $q->visible()
                     ->exceptVariants()
-                    ->filterByManufacturers($filters['m']->pluck('id'))
+                    ->when($request->isManufacturerFilteringEnabled(), fn($b) => $b->filterByManufacturers($filters['m']->pluck('id')))
                     ->filterByPropertyChoices($filters['c']->reject(fn($c) => $c->property->id === $property->id)->groupBy('property.id'))
                     ->filterByPrice($filters['min_price'], $filters['max_price']);
             }]);
         }
 
-        $manufacturers = $category
-            ->manufacturers()
-            ->distinct()
-            ->withCount(['products' => function (Builder $q) use ($filters, $category) {
-                $q->visible()
-                    ->where('category_id', $category->id)
-                    ->exceptVariants()
-                    ->filterByPropertyChoices($filters['c']->groupBy('property.id'))
-                    ->filterByPrice($filters['min_price'], $filters['max_price']);
-            }])
-            ->get();
+        if ($request->isManufacturerFilteringEnabled()) {
+            $manufacturers = $category
+                ->manufacturers()
+                ->distinct()
+                ->withCount(['products' => function (Builder $q) use ($filters, $category) {
+                    $q->visible()
+                        ->where('category_id', $category->id)
+                        ->exceptVariants()
+                        ->filterByPropertyChoices($filters['c']->groupBy('property.id'))
+                        ->filterByPrice($filters['min_price'], $filters['max_price']);
+                }])
+                ->get();
+        }
 
         $products = $category
             ->products()
             ->visible()
             ->exceptVariants()
-            ->filterByManufacturers($filters['m']->pluck('id'))
+            ->when($request->isManufacturerFilteringEnabled(), fn($b) => $b->filterByManufacturers($filters['m']->pluck('id')))
             ->filterByPropertyChoices($filters['c']->groupBy('property.id'))
             ->filterByPrice($filters['min_price'], $filters['max_price'])
             ->with('image')
@@ -82,7 +84,7 @@ class CategoryController extends Controller
 
         return view('category.show', [
             'category'      => $category,
-            'manufacturers' => $manufacturers,
+            'manufacturers' => $manufacturers ?? collect(),
             'filters'       => $filters,
             'priceRanges'   => $priceRanges,
             'products'      => $products

@@ -4,7 +4,7 @@
             <div class="card-body vstack position-relative">
                 <a href="{{ productRoute($product) }}" class="ratio ratio-1x1 mb-3">
                     @if($product->image && $src = $product->image->url('sm'))
-                        <img src="{{ $src }}" alt="{{ $product->name }}" class="rounded {{ eshop('stretch_product_images') ? '' : 'img-middle' }}">
+                        <img src="{{ $src }}" alt="{{ $product->name }}" class="rounded {{ eshop('product.image.cover') ? '' : 'img-middle' }}">
                     @endif
                 </a>
 

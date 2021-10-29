@@ -138,11 +138,6 @@ class InstallCommand extends Command
             resource_path('lang/en/company.php'),
         );
 
-        copy(
-            __DIR__ . '/../../stubs/routes/routes.php',
-            base_path('routes/web.php'),
-        );
-
         if (!is_dir($directory = public_path('storage/images/flags')) && !mkdir($directory, 0755, true) && !is_dir($directory)) {
             throw new RuntimeException(sprintf('Directory "%s" was not created', $directory));
         }

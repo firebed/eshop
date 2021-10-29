@@ -2,7 +2,6 @@
 
 namespace Eshop\Models\Cart;
 
-use Eshop\Database\Factories\Cart\CartProductFactory;
 use Eshop\Models\Product\Product;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -70,10 +69,5 @@ class CartProduct extends Pivot
     public function getVatValueAttribute(): float
     {
         return $this->total * $this->vat;
-    }
-
-    protected static function newFactory(): CartProductFactory
-    {
-        return CartProductFactory::new();
     }
 }

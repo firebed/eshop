@@ -2,7 +2,6 @@
 
 namespace Eshop\Models\Product;
 
-use Eshop\Database\Factories\Product\CategoryFactory;
 use Eshop\Models\Lang\Traits\HasTranslations;
 use Eshop\Models\Media\Traits\HasImages;
 use Eshop\Models\Seo\Traits\HasSeo;
@@ -100,12 +99,12 @@ class Category extends Model
 
     public function scopePromoted(Builder $builder): void
     {
-        $builder->where('promote', TRUE);
+        $builder->where('promote', true);
     }
 
     public function scopeVisible(Builder $builder): void
     {
-        $builder->where('visible', TRUE);
+        $builder->where('visible', true);
     }
 
     public function scopeRoot(Builder $builder): void
@@ -139,16 +138,6 @@ class Category extends Model
         return $this->type === self::FOLDER;
     }
 
-    protected function registerImageConversions(): void
-    {
-        $this->addImageConversion('sm', function ($image) {
-            $image->resize(300, 300, function ($constraint) {
-                $constraint->aspectRatio();
-                $constraint->upsize();
-            });
-        });
-    }
-
     public function delete(): ?bool
     {
         $this->load('children');
@@ -170,8 +159,13 @@ class Category extends Model
         ]);
     }
 
-    protected static function newFactory(): CategoryFactory
+    protected function registerImageConversions(): void
     {
-        return CategoryFactory::new();
+        $this->addImageConversion('sm', function ($image) {
+            $image->resize(300, 300, function ($constraint) {
+                $constraint->aspectRatio();
+                $constraint->upsize();
+            });
+        });
     }
 }

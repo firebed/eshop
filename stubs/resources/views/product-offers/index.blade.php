@@ -32,7 +32,7 @@
     <meta property="og:description" content="Δες όλες τις προσφορές των προϊόντων για όλες της κατηγορίες στην καλύτερη τιμή!">
     <meta property="og:type" content="website">
     <meta property="og:url" content="{{ $canonical }}">
-    <meta property="og:image" content="{{ asset(config('eshop.logo')) }}">
+    @include('layouts.partials.meta-logo')
     <meta name="twitter:card" content="summary" />
 
     <meta name='robots' content='index, follow' />

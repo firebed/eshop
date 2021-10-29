@@ -32,10 +32,6 @@
     <meta name='robots' content='index, follow'/>
 @endpush
 
-@push('footer_scripts')
-    <script src="{{ mix('js/fslightbox.js') }}"></script>
-@endpush
-
 @section('main')
     <x-eshop-category-breadcrumb :category="$category" :product="$product"/>
 

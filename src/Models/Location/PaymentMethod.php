@@ -2,7 +2,6 @@
 
 namespace Eshop\Models\Location;
 
-use Eshop\Database\Factories\Location\PaymentMethodFactory;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -66,10 +65,5 @@ class PaymentMethod extends Model
     public function isPaymentInStore(): bool
     {
         return $this->name === self::PAYMENT_IN_STORE;
-    }
-
-    protected static function newFactory(): PaymentMethodFactory
-    {
-        return PaymentMethodFactory::new();
     }
 }

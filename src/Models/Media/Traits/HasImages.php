@@ -19,7 +19,7 @@ use Intervention\Image\ImageManager;
  */
 trait HasImages
 {
-    protected bool $userIdAsPrefix = TRUE;
+    protected bool $userIdAsPrefix = true;
     private array  $conversions    = [];
 
     public static function bootHasImages(): void
@@ -33,7 +33,7 @@ trait HasImages
         });
     }
 
-    public function image(?string $collection = NULL): MorphOne
+    public function image(?string $collection = null): MorphOne
     {
         if (is_null($collection)) {
             return $this->morphOne(Image::class, 'imageable')->whereNull('collection');
@@ -42,12 +42,12 @@ trait HasImages
         return $this->morphOne(Image::class, 'imageable')->where('collection', $collection);
     }
 
-    public function images(?string $collection = NULL): MorphMany
+    public function images(?string $collection = null): MorphMany
     {
         return $this->morphMany(Image::class, 'imageable')->when($collection, fn($q) => $q->where('collection', $collection));
     }
 
-    public function saveImage($file, ?string $collection = NULL): Image
+    public function saveImage($file, ?string $collection = null): Image
     {
         $manager = new ImageManager();
         $image = $manager->make($file);
@@ -81,7 +81,7 @@ trait HasImages
 
     protected function resizeBaseImage($image): void
     {
-        $image->resize(800, 800, function ($constraint) {
+        $image->resize(1000, 1000, function ($constraint) {
             $constraint->aspectRatio();
             $constraint->upsize();
         });

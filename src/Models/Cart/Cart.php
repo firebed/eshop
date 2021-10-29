@@ -3,7 +3,6 @@
 namespace Eshop\Models\Cart;
 
 use Carbon\Carbon;
-use Eshop\Database\Factories\Cart\CartFactory;
 use Eshop\Models\Cart\Concerns\ImplementsOrder;
 use Eshop\Models\Invoice\Invoice;
 use Eshop\Models\Location\Address;
@@ -86,11 +85,6 @@ class Cart extends Model implements Order
     | RELATIONS
     |-----------------------------------------------------------------------------
     */
-
-    protected static function newFactory(): CartFactory
-    {
-        return CartFactory::new();
-    }
 
     public function operators(): BelongsToMany
     {

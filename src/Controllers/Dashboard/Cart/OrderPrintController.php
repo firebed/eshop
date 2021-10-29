@@ -13,11 +13,9 @@ class OrderPrintController extends Controller
 {
     public function __invoke(Cart $cart): Response|Application|ResponseFactory
     {
-//        dd(storage_path('app/public/images/company-logo.png'));
 //        if (!$cart->shippingAddress->isInland()) {
 //            app()->setLocale('en');
 //        }
-
 
         $pdf = new Dompdf(['enable_remote' => TRUE]);
         $pdf->loadHtml(view('order-printer.print', compact('cart')));

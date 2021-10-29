@@ -20,7 +20,7 @@ class CategoryRequest extends FormRequest
     {
         $this->category = $this->route('category');
 
-        return TRUE;
+        return true;
     }
 
     /**
@@ -42,7 +42,7 @@ class CategoryRequest extends FormRequest
         if ($this->segment(3) === 'm') {
             $filters['m'] = $this->getManufacturersFromQuery();
 
-            if ($this->segment(5) !== NULL) {
+            if ($this->segment(5) !== null) {
                 $filters['c'] = $this->getChoicesFromQuery(5);
             }
 
@@ -58,7 +58,11 @@ class CategoryRequest extends FormRequest
 
     public function manufacturers(): ?string
     {
-        return $this->segment(3) === 'm' ? $this->segment(4) : NULL;
+        if ($this->isManufacturerFilteringDisabled()) {
+            return '';
+        }
+
+        return $this->segment(3) === 'm' ? $this->segment(4) : null;
     }
 
     public function choices(): ?string
@@ -66,10 +70,30 @@ class CategoryRequest extends FormRequest
         return $this->segment(3) === 'f' ? $this->segment(4) : $this->segment(5);
     }
 
+    public function isManufacturerFilteringDisabled(): bool
+    {
+        return !$this->isManufacturerFilteringEnabled();
+    }
+
+    public function isManufacturerFilteringEnabled(): bool
+    {
+        return eshop('filter.manufacturers');
+    }
+
     private function getManufacturersFromQuery(): Collection
     {
+        if ($this->isManufacturerFilteringDisabled()) {
+            return collect();
+        }
+
+        $slugs = array_filter(explode('-', $this->segment(4)));
+
+        if (empty($slugs)) {
+            return collect();
+        }
+
         return Manufacturer
-            ::whereIn('slug', explode('-', $this->segment(4)))
+            ::whereIn('slug', $slugs)
             ->whereHas('categories', fn($q) => $q->where('categories.id', $this->category->id))
             ->orderBy('name')
             ->get();

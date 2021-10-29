@@ -11,7 +11,7 @@ class OrganizationSchema
             "type"         => "Organization",
             "legalName"    => __('company.name'),
             "url"          => __('company.website'),
-            "logo"         => asset(config('eshop.logo')),
+            "logo"         => asset(eshop('logo.path')),
             "founders"     => [
                 "@type" => "Person",
                 "name"  => config('company.name')

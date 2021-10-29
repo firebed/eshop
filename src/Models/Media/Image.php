@@ -2,7 +2,6 @@
 
 namespace Eshop\Models\Media;
 
-use Eshop\Database\Factories\Media\ImageFactory;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -23,7 +22,7 @@ class Image extends Model
     use HasFactory;
 
     public const TYPE_PATH = 'Path';
-    public const TYPE_URL = 'URL';
+    public const TYPE_URL  = 'URL';
 
     protected $guarded = [];
 
@@ -31,12 +30,31 @@ class Image extends Model
         'conversions' => 'array'
     ];
 
+    protected static function booted(): void
+    {
+        static::deleted(function (Image $image) {
+            if (!method_exists($image, 'isForceDeleting') || $image->isForceDeleting()) {
+                if ($image->isTypeURL()) {
+                    return;
+                }
+
+                Storage::disk($image->disk)->delete($image->src);
+
+                if ($image->conversions) {
+                    foreach ($image->conversions as $conversion) {
+                        Storage::disk($image->disk)->delete($conversion['src']);
+                    }
+                }
+            }
+        });
+    }
+
     public function imageable(): MorphTo
     {
         return $this->morphTo();
     }
 
-    public function url($conversion = NULL): string|null
+    public function url($conversion = null): string|null
     {
         $src = $this->src;
 
@@ -44,7 +62,7 @@ class Image extends Model
             return $src;
         }
 
-        if ($conversion !== NULL && $this->hasConversion($conversion)) {
+        if ($conversion !== null && $this->hasConversion($conversion)) {
             $src = $this->conversion($conversion)['src'];
         }
 
@@ -70,7 +88,7 @@ class Image extends Model
 
     public function hasConversion($key): bool
     {
-        return $this->conversions !== NULL && array_key_exists($key, $this->conversions);
+        return $this->conversions !== null && array_key_exists($key, $this->conversions);
     }
 
     public function getFileSize($src): int
@@ -94,29 +112,5 @@ class Image extends Model
     public function getSizeAttribute(): array
     {
         return getimagesize($this->url());
-    }
-
-    protected static function booted(): void
-    {
-        static::deleted(function (Image $image) {
-            if (!method_exists($image, 'isForceDeleting') || $image->isForceDeleting()) {
-                if ($image->isTypeURL()) {
-                    return;
-                }
-
-                Storage::disk($image->disk)->delete($image->src);
-
-                if ($image->conversions) {
-                    foreach ($image->conversions as $conversion) {
-                        Storage::disk($image->disk)->delete($conversion['src']);
-                    }
-                }
-            }
-        });
-    }
-
-    protected static function newFactory(): ImageFactory
-    {
-        return ImageFactory::new();
     }
 }

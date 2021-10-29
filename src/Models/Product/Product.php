@@ -2,7 +2,6 @@
 
 namespace Eshop\Models\Product;
 
-use Eshop\Database\Factories\Product\ProductFactory;
 use Eshop\Models\Lang\Traits\HasTranslations;
 use Eshop\Models\Media\Traits\HasImages;
 use Eshop\Models\Seo\Traits\HasSeo;
@@ -111,11 +110,6 @@ class Product extends Model
     | RELATIONS
     |-----------------------------------------------------------------------------
     */
-
-    protected static function newFactory(): ProductFactory
-    {
-        return ProductFactory::new();
-    }
 
     public function parent(): BelongsTo
     {
@@ -347,16 +341,6 @@ class Product extends Model
         return $this->discount > 0 || $this->price < $this->compare_price;
     }
 
-    protected function registerImageConversions(): void
-    {
-        $this->addImageConversion('sm', function ($image) {
-            $image->resize(300, 300, function ($constraint) {
-                $constraint->aspectRatio();
-                $constraint->upsize();
-            });
-        });
-    }
-
     public function shouldBeSearchable(): bool
     {
         return $this->isVariant()
@@ -372,15 +356,43 @@ class Product extends Model
             $this->mpn,
             $this->category->name,
             $this->manufacturer?->name,
-//            $this->parent?->translate('description', 'en'),
-//            $this->parent?->translate('description', 'en'),
+            //            $this->parent?->translate('description', 'en'),
+            //            $this->parent?->translate('description', 'en'),
             $this->translate('name', 'el'),
             $this->translate('name', 'en'),
-//            $this->translate('description', 'el'),
-//            $this->translate('description', 'en'),
+            //            $this->translate('description', 'el'),
+            //            $this->translate('description', 'en'),
             $this->isVariant() ? $this->parent?->translate('name', 'el') : null,
             $this->isVariant() ? $this->parent?->translate('name', 'en') : null,
             $this->isVariant() ? $this->option_values : null
         ]);
+    }
+
+    protected function resizeBaseImage($image): void
+    {
+        $width = eshop('product.image.upload_width', 1000);
+        $height = eshop('product.image.upload_height', 1000);
+
+        $image->resize($width, $height, function ($constraint) {
+            $constraint->aspectRatio();
+            $constraint->upsize();
+        });
+    }
+
+    protected function registerImageConversions(): void
+    {
+        $this->addImageConversion('sm', function ($image) {
+            $image->resize(300, 300, function ($constraint) {
+                $constraint->aspectRatio();
+                $constraint->upsize();
+            });
+        });
+
+        $this->addImageConversion('xs', function ($image) {
+            $image->resize(50, 50, function ($constraint) {
+                $constraint->aspectRatio();
+                $constraint->upsize();
+            });
+        });
     }
 }

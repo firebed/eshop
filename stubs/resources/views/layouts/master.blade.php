@@ -10,7 +10,7 @@
 
     <title>{{ $title }} - {{ config('app.name') }}</title>
 
-    <link rel="preload" href="{{ url(asset(config('eshop.logo'))) }}" as="image">
+    <link rel="preload" href="{{ asset(eshop('logo.path')) }}" as="image">
     
     @includeIf('layouts.favicon')
 

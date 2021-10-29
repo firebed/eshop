@@ -2,7 +2,6 @@
 
 namespace Eshop\Models\Product;
 
-use Eshop\Database\Factories\Product\CategoryPropertyFactory;
 use Eshop\Models\Lang\Traits\HasTranslations;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
@@ -73,13 +72,8 @@ class CategoryProperty extends Model
     |-----------------------------------------------------------------------------
     */
 
-    public function scopeVisible(Builder $builder, $visible = TRUE): void
+    public function scopeVisible(Builder $builder, $visible = true): void
     {
         $builder->where('visible', $visible);
-    }
-
-    protected static function newFactory(): CategoryPropertyFactory
-    {
-        return CategoryPropertyFactory::new();
     }
 }

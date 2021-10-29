@@ -1,15 +1,21 @@
 #logo {
+    --width: 245px;
+    --height: 61px;
+
     background: var(--bg) no-repeat 0 0/100%;
     color: transparent;
     font-size: 0;
     display: block;
-    width: 245px;
-    height: 61px;
+    width: var(--with);
+    height: var(--height);
 }
 
 @media(min-width: 576px) {
     #logo {
-        width: 306px;
-        height: 76px;
+        --width: 306;
+        --height: 76;
+
+        width: var(--width);
+        height: var(--height);
     }
 }

@@ -2,7 +2,6 @@
 
 namespace Eshop\Models\Location;
 
-use Eshop\Database\Factories\Location\AddressFactory;
 use Eshop\Models\Lang\Traits\FullTextIndex;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -59,11 +58,6 @@ class Address extends Model
         'country_id' => 'integer',
         'related_id' => 'integer'
     ];
-
-    protected static function newFactory(): AddressFactory
-    {
-        return AddressFactory::new();
-    }
 
     public function addressable(): MorphTo
     {

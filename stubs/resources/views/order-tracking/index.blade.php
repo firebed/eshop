@@ -21,7 +21,7 @@
     <meta property="og:description" content="{{ $description }}">
     <meta property="og:type" content="website">
     <meta property="og:url" content="{{ route('order-tracking.index', app()->getLocale()) }}">
-    <meta property="og:image" content="{{ asset(config('eshop.logo')) }}">
+    @include('layouts.partials.meta-logo')
     <meta name="twitter:card" content="summary"/>
 
     <meta name='robots' content='index, follow'/>

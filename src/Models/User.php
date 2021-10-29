@@ -2,7 +2,6 @@
 
 namespace Eshop\Models;
 
-use Eshop\Database\Factories\UserFactory;
 use Eshop\Models\Cart\Cart;
 use Eshop\Models\Invoice\Company;
 use Eshop\Models\Lang\Traits\FullTextIndex;
@@ -110,10 +109,5 @@ class User extends Authenticatable
         }
 
         return $this->addresses()->delete() && parent::delete();
-    }
-
-    protected static function newFactory(): UserFactory
-    {
-        return UserFactory::new();
     }
 }

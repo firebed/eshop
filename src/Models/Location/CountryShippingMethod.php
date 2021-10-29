@@ -4,7 +4,6 @@
 namespace Eshop\Models\Location;
 
 
-use Eshop\Database\Factories\Location\CountryShippingMethodFactory;
 use Eshop\Models\Lang\Traits\HasTranslations;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -42,11 +41,6 @@ class CountryShippingMethod extends Pivot
         'position'              => 'integer',
         'visible'               => 'bool',
     ];
-
-    protected static function newFactory(): CountryShippingMethodFactory
-    {
-        return CountryShippingMethodFactory::new();
-    }
 
     public function country(): BelongsTo
     {
