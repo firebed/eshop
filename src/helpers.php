@@ -186,8 +186,8 @@ if (!function_exists('schema')) {
 }
 
 if (!function_exists('eshop')) {
-    function eshop($key)
+    function eshop($key, $default = null)
     {
-        return config('eshop.' . $key);
+        return config('eshop.' . $key, $default);
     }
 }
