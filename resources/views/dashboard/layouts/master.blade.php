@@ -14,11 +14,11 @@
 
     <script src="https://cdn.jsdelivr.net/npm/autonumeric@4.6.0/dist/autoNumeric.min.js"></script>
 
-    <link href="{{ mix('css/dashboard/app.css') }}" rel="stylesheet">
+    <link href="{{ mix('dist/dashboard.css') }}" rel="stylesheet">
     @stack('header_scripts')
     @livewireStyles
 
-    <script defer src="{{ mix('js/dashboard/app.js') }}"></script>
+    <script defer src="{{ mix('dist/dashboard.js') }}"></script>
     <script defer src="https://unpkg.com/alpinejs@3.2.1/dist/cdn.min.js"></script>
 
     <x-eshop::google-analytics/>
