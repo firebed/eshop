@@ -15,109 +15,7 @@ class InstallCommand extends Command
 
     protected $description = 'Eshop action command';
 
-    public function handle(): void
-    {
-        if ($this->argument('action') !== 'install') {
-            $this->error("Invalid action");
-            return;
-        }
-
-        $this->{$this->argument('action')}();
-    }
-
-    protected function install(): void
-    {
-        copy(
-            __DIR__.'/../../stubs/migrations/2014_10_12_000000_create_users_table.php',
-            base_path('database/migrations/2014_10_12_000000_create_users_table.php')
-        );
-
-        copy(
-            __DIR__.'/../../stubs/routes/routes.php',
-            base_path('routes/web.php'),
-        );
-
-        if (!is_dir($directory = resource_path('lang/el')) && !mkdir($directory, 0755, true) && !is_dir($directory)) {
-            throw new RuntimeException(sprintf('Directory "%s" was not created', $directory));
-        }
-
-        copy(
-            __DIR__.'/../../stubs/resources/lang/el/company.php',
-            resource_path('lang/el/company.php'),
-        );
-
-        copy(
-            __DIR__.'/../../stubs/resources/lang/en/company.php',
-            resource_path('lang/en/company.php'),
-        );
-
-        copy(
-            __DIR__.'/../../stubs/routes/routes.php',
-            base_path('routes/web.php'),
-        );
-
-        if (!is_dir($directory = public_path('storage/images/flags')) && !mkdir($directory, 0755, true) && !is_dir($directory)) {
-            throw new RuntimeException(sprintf('Directory "%s" was not created', $directory));
-        }
-
-        copy(__DIR__.'/../../assets/flags/Greece.png', public_path('storage/images/flags/Greece.png'));
-        copy(__DIR__.'/../../assets/flags/UnitedKingdom.png', public_path('storage/images/flags/UnitedKingdom.png'));
-        copy(__DIR__.'/../../assets/new-ribbon.png', public_path('storage/images/new-ribbon.png'));
-
-        copy(
-            __DIR__.'/../../stubs/fortify/fortify.php',
-            config_path('fortify.php'),
-        );
-
-        copy(
-            __DIR__.'/../../stubs/fortify/FortifyServiceProvider.php',
-            app_path('Providers/FortifyServiceProvider.php'),
-        );
-
-        copy(
-            __DIR__.'/../../stubs/models/User.php',
-            app_path('Models/User.php'),
-        );
-
-        if (!is_dir($directory = app_path('Actions/Fortify')) && !mkdir($directory, 0755, true) && !is_dir($directory)) {
-            throw new RuntimeException(sprintf('Directory "%s" was not created', $directory));
-        }
-        copy(__DIR__.'/../../stubs/fortify/Actions/CreateNewUser.php', app_path('Actions/Fortify/CreateNewUser.php'));
-        copy(__DIR__.'/../../stubs/fortify/Actions/PasswordResetResponse.php', app_path('Actions/Fortify/PasswordResetResponse.php'));
-        copy(__DIR__.'/../../stubs/fortify/Actions/PasswordValidationRules.php', app_path('Actions/Fortify/PasswordValidationRules.php'));
-        copy(__DIR__.'/../../stubs/fortify/Actions/ResetUserPassword.php', app_path('Actions/Fortify/ResetUserPassword.php'));
-        copy(__DIR__.'/../../stubs/fortify/Actions/UpdateUserPassword.php', app_path('Actions/Fortify/UpdateUserPassword.php'));
-        copy(__DIR__.'/../../stubs/fortify/Actions/UpdateUserProfileInformation.php', app_path('Actions/Fortify/UpdateUserProfileInformation.php'));
-
-        if (!is_dir($directory = app_path('Http/Requests')) && !mkdir($directory, 0755, true) && !is_dir($directory)) {
-            throw new RuntimeException(sprintf('Directory "%s" was not created', $directory));
-        }
-        copy(__DIR__.'/../../stubs/requests/CategoryRequest.php', app_path('Http/Requests/CategoryRequest.php'));
-        copy(__DIR__.'/../../stubs/requests/CheckoutDetailsRequest.php', app_path('Http/Requests/CheckoutDetailsRequest.php'));
-        copy(__DIR__.'/../../stubs/requests/CheckoutPaymentRequest.php', app_path('Http/Requests/CheckoutPaymentRequest.php'));
-        copy(__DIR__.'/../../stubs/requests/ProductOfferRequest.php', app_path('Http/Requests/ProductOfferRequest.php'));
-        copy(__DIR__.'/../../stubs/requests/ProductSearchRequest.php', app_path('Http/Requests/ProductSearchRequest.php'));
-        copy(__DIR__.'/../../stubs/requests/UserAddressRequest.php', app_path('Http/Requests/UserAddressRequest.php'));
-        copy(__DIR__.'/../../stubs/requests/UserCompanyRequest.php', app_path('Http/Requests/UserCompanyRequest.php'));
-
-        copy(__DIR__.'/../../stubs/config/filesystems.php', config_path('filesystems.php'));
-
-        Artisan::call('vendor:publish', ['--tag' => 'eshop-setup', '--force' => 'default']);
-        Artisan::call('optimize:clear');
-        Artisan::call('config:clear');
-        Artisan::call('view:clear');
-
-        static::updatePackages();
-        static::updateWebpackConfiguration();
-        static::updateSass();
-        static::updateBootstrapping();
-//        static::removeNodeModules();
-
-        $this->info('Eshop installed successfully');
-        $this->comment('Please run "npm install && npm run dev" to compile your fresh scaffolding.');
-    }
-
-    protected static function updatePackages($dev = TRUE): void
+    protected static function updatePackages($dev = true): void
     {
         if (!file_exists(base_path('package.json'))) {
             return;
@@ -125,7 +23,7 @@ class InstallCommand extends Command
 
         $configurationKey = $dev ? 'devDependencies' : 'dependencies';
 
-        $packages = json_decode(file_get_contents(base_path('package.json')), TRUE);
+        $packages = json_decode(file_get_contents(base_path('package.json')), true);
 
         $packages[$configurationKey] = static::updatePackageArray(
             array_key_exists($configurationKey, $packages) ? $packages[$configurationKey] : [],
@@ -142,15 +40,17 @@ class InstallCommand extends Command
     protected static function updatePackageArray(array $packages): array
     {
         return [
-                "fslightbox"         => "^3.2.3",
-                "@popperjs/core"     => "^2.9.2",
-                "bootstrap"          => "^5.1.1",
-                "slim-select"        => "^1.27.0",
-                "slugify"            => "^1.6.0",
-                "postcss"            => "^8.1.14",
-                "resolve-url-loader" => "^3.1.2",
-                "sass"               => "^1.37.5",
-                "sass-loader"        => "^11.0.1",
+                "@popperjs/core"          => "^2.9.2",
+                "bootstrap"               => "^5.1.3",
+                "clean-webpack-plugin"    => "^4.0.0",
+                "fslightbox"              => "^3.2.3",
+                "laravel-mix-clean"       => "^0.1.0",
+                "laravel-mix-versionhash" => "^2.0.1",
+                "resolve-url-loader"      => "^3.1.2",
+                "sass"                    => "^1.37.5",
+                "sass-loader"             => "^11.0.1",
+                "slim-select"             => "^1.27.0",
+                "slugify"                 => "^1.6.0",
             ] + $packages;
     }
 
@@ -200,5 +100,107 @@ class InstallCommand extends Command
 
             $files->delete(base_path('yarn.lock'));
         });
+    }
+
+    public function handle(): void
+    {
+        if ($this->argument('action') !== 'install') {
+            $this->error("Invalid action");
+            return;
+        }
+
+        $this->{$this->argument('action')}();
+    }
+
+    protected function install(): void
+    {
+        copy(
+            __DIR__ . '/../../stubs/migrations/2014_10_12_000000_create_users_table.php',
+            base_path('database/migrations/2014_10_12_000000_create_users_table.php')
+        );
+
+        copy(
+            __DIR__ . '/../../stubs/routes/routes.php',
+            base_path('routes/web.php'),
+        );
+
+        if (!is_dir($directory = resource_path('lang/el')) && !mkdir($directory, 0755, true) && !is_dir($directory)) {
+            throw new RuntimeException(sprintf('Directory "%s" was not created', $directory));
+        }
+
+        copy(
+            __DIR__ . '/../../stubs/resources/lang/el/company.php',
+            resource_path('lang/el/company.php'),
+        );
+
+        copy(
+            __DIR__ . '/../../stubs/resources/lang/en/company.php',
+            resource_path('lang/en/company.php'),
+        );
+
+        copy(
+            __DIR__ . '/../../stubs/routes/routes.php',
+            base_path('routes/web.php'),
+        );
+
+        if (!is_dir($directory = public_path('storage/images/flags')) && !mkdir($directory, 0755, true) && !is_dir($directory)) {
+            throw new RuntimeException(sprintf('Directory "%s" was not created', $directory));
+        }
+
+        copy(__DIR__ . '/../../assets/flags/Greece.png', public_path('storage/images/flags/Greece.png'));
+        copy(__DIR__ . '/../../assets/flags/UnitedKingdom.png', public_path('storage/images/flags/UnitedKingdom.png'));
+        copy(__DIR__ . '/../../assets/new-ribbon.png', public_path('storage/images/new-ribbon.png'));
+
+        copy(
+            __DIR__ . '/../../stubs/fortify/fortify.php',
+            config_path('fortify.php'),
+        );
+
+        copy(
+            __DIR__ . '/../../stubs/fortify/FortifyServiceProvider.php',
+            app_path('Providers/FortifyServiceProvider.php'),
+        );
+
+        copy(
+            __DIR__ . '/../../stubs/models/User.php',
+            app_path('Models/User.php'),
+        );
+
+        if (!is_dir($directory = app_path('Actions/Fortify')) && !mkdir($directory, 0755, true) && !is_dir($directory)) {
+            throw new RuntimeException(sprintf('Directory "%s" was not created', $directory));
+        }
+        copy(__DIR__ . '/../../stubs/fortify/Actions/CreateNewUser.php', app_path('Actions/Fortify/CreateNewUser.php'));
+        copy(__DIR__ . '/../../stubs/fortify/Actions/PasswordResetResponse.php', app_path('Actions/Fortify/PasswordResetResponse.php'));
+        copy(__DIR__ . '/../../stubs/fortify/Actions/PasswordValidationRules.php', app_path('Actions/Fortify/PasswordValidationRules.php'));
+        copy(__DIR__ . '/../../stubs/fortify/Actions/ResetUserPassword.php', app_path('Actions/Fortify/ResetUserPassword.php'));
+        copy(__DIR__ . '/../../stubs/fortify/Actions/UpdateUserPassword.php', app_path('Actions/Fortify/UpdateUserPassword.php'));
+        copy(__DIR__ . '/../../stubs/fortify/Actions/UpdateUserProfileInformation.php', app_path('Actions/Fortify/UpdateUserProfileInformation.php'));
+
+        if (!is_dir($directory = app_path('Http/Requests')) && !mkdir($directory, 0755, true) && !is_dir($directory)) {
+            throw new RuntimeException(sprintf('Directory "%s" was not created', $directory));
+        }
+        copy(__DIR__ . '/../../stubs/requests/CategoryRequest.php', app_path('Http/Requests/CategoryRequest.php'));
+        copy(__DIR__ . '/../../stubs/requests/CheckoutDetailsRequest.php', app_path('Http/Requests/CheckoutDetailsRequest.php'));
+        copy(__DIR__ . '/../../stubs/requests/CheckoutPaymentRequest.php', app_path('Http/Requests/CheckoutPaymentRequest.php'));
+        copy(__DIR__ . '/../../stubs/requests/ProductOfferRequest.php', app_path('Http/Requests/ProductOfferRequest.php'));
+        copy(__DIR__ . '/../../stubs/requests/ProductSearchRequest.php', app_path('Http/Requests/ProductSearchRequest.php'));
+        copy(__DIR__ . '/../../stubs/requests/UserAddressRequest.php', app_path('Http/Requests/UserAddressRequest.php'));
+        copy(__DIR__ . '/../../stubs/requests/UserCompanyRequest.php', app_path('Http/Requests/UserCompanyRequest.php'));
+
+        copy(__DIR__ . '/../../stubs/config/filesystems.php', config_path('filesystems.php'));
+
+        Artisan::call('vendor:publish', ['--tag' => 'eshop-setup', '--force' => 'default']);
+        Artisan::call('optimize:clear');
+        Artisan::call('config:clear');
+        Artisan::call('view:clear');
+
+        static::updatePackages();
+        static::updateWebpackConfiguration();
+        static::updateSass();
+        static::updateBootstrapping();
+//        static::removeNodeModules();
+
+        $this->info('Eshop installed successfully');
+        $this->comment('Please run "npm install && npm run dev" to compile your fresh scaffolding.');
     }
 }

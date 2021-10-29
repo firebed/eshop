@@ -1,4 +1,6 @@
 const mix = require('laravel-mix');
+require('laravel-mix-versionhash')
+require('laravel-mix-clean');
 
 /*
  |--------------------------------------------------------------------------
@@ -12,13 +14,14 @@ const mix = require('laravel-mix');
  */
 
 mix
-    .js('resources/js/customer/app.js', 'public/js/customer/app.js')
-    .js('resources/js/dashboard/app.js', 'public/js/dashboard/app.js')
-    .js('node_modules/fslightbox/index.js', 'public/js/fslightbox.js')
-    .sass('resources/scss/customer/app.scss', 'public/css/customer/app.css')
-    .sass('resources/scss/dashboard/app.scss', 'public/css/dashboard/app.css')
-    .sourceMaps();
+    .clean({ cleanOnceBeforeBuildPatterns: ['./dist/*'], }) // Remove old files
 
-if (mix.inProduction()) {
-    // mix.version();
-}
+    .js(['resources/js/customer/app.js', 'node_modules/fslightbox/index.js'], 'public/dist/app.js')
+    .sass('resources/scss/customer/app.scss', 'public/dist/app.css')
+
+    .js('resources/js/dashboard/app.js', 'public/dist/dashboard.js')
+    .sass('resources/scss/dashboard/app.scss', 'public/dist/dashboard.css')
+
+    .sourceMaps()
+
+    .versionHash()
