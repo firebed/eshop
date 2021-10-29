@@ -35,4 +35,31 @@ return [
 
     'paypal_sandbox_client_id'     => env('PAYPAL_SANDBOX_CLIENT_ID'),
     'paypal_sandbox_client_secret' => env('PAYPAL_SANDBOX_CLIENT_SECRET'),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Filtering Manufacturers
+    |--------------------------------------------------------------------------
+    |
+    | Here you may specify whether the customers can filter products by
+    | manufacturers on category, sales and search pages. This option is global
+    | and will affect the mentioned pages.
+    |
+    */
+
+    'filter_manufacturers' => false,
+
+    /*
+    |--------------------------------------------------------------------------
+    | Product Image Optimization
+    |--------------------------------------------------------------------------
+    |
+    | This options controls the default image appearance on all pages. When set
+    | to true, all the products' images will be stretched to cover the container's
+    | aspect ratio. If it's set to false then the images will be centered on
+    | the parent container.
+    |
+    */
+
+    'stretch_product_images' => true,
 ];

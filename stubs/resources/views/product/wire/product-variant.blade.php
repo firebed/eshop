@@ -4,7 +4,7 @@
             <a class="text-decoration-none text-dark d-grid gap-2" href="{{ productRoute($variant, $category) }}">
                 @if($variant->image)
                     <div class="ratio ratio-1x1">
-                        <img src="{{ $variant->image->url('sm') }}" alt="{{ $variant->trademark }}" class="rounded img-middle">
+                        <img src="{{ $variant->image->url('sm') }}" alt="{{ $variant->trademark }}" class="rounded {{ eshop('stretch_product_images') ? '' : 'img-middle' }}">
                     </div>
                 @endif
 

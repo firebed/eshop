@@ -184,3 +184,10 @@ if (!function_exists('schema')) {
         return new Schema();
     }
 }
+
+if (!function_exists('eshop')) {
+    function eshop($key)
+    {
+        return config('eshop.' . $key);
+    }
+}

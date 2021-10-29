@@ -15,7 +15,7 @@
 
     <div class="offcanvas-body">
         @includeWhen($categories->isNotEmpty(), 'product-search.partials.categories')
-        @includeWhen($manufacturers->isNotEmpty(), 'product-search.partials.manufacturers')
+        @includeWhen(eshop('filter_manufacturers') && $manufacturers->isNotEmpty(), 'product-search.partials.manufacturers')
         @includeWhen(!empty($priceRanges), 'product-search.partials.prices')
     </div>
 

@@ -63,7 +63,7 @@
                         <div class="vstack gap-1 my-2">
                             @include('product.partials.product-category')
                             @include('product.partials.product-parent')
-                            @includeWhen(isset($product->manufacturer), 'product.partials.product-manufacturer')
+                            @includeWhen(config('eshop.product.show_manufacturer') && isset($product->manufacturer), 'product.partials.product-manufacturer')
                         </div>
 
                         @includeWhen($description = $product->description ?? $product->parent->description, 'product.partials.product-description', ['description' => $description])
