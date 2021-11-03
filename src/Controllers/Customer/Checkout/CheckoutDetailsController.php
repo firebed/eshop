@@ -172,7 +172,7 @@ class CheckoutDetailsController extends Controller
         $products->load('parent', 'options');
         $products->merge($order->products->pluck('parent')->filter())->load('translation');
 
-        return response()->json(view('checkout.details.partials.checkout-details-summary', [
+        return response()->json(view('eshop::customer.checkout.details.partials.checkout-details-summary', [
             'order'                => $order,
             'products'             => $products,
             'shipping'             => $order->shippingAddress,

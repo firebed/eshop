@@ -64,7 +64,7 @@
 @endsection
 
 @push('footer_scripts')
-    @include('eshop::customer.eshop::dashboard.layouts.toasts')
+    @include('eshop::dashboard.layouts.toasts')
 
     <script>
         document.addEventListener('alpine:init', () => {
