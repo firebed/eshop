@@ -124,6 +124,15 @@
     </li>
 @endcan
 
+@can('Manage pages')
+    <li class="nav-item">
+        <a href="{{ route('pages.index') }}" @class([$link, $active => request()->routeIs('pages.*')])>
+            <em class="far fa-file text-yellow-300"></em>
+            <span>{{ __("Pages") }}</span>
+        </a>
+    </li>
+@endcan
+
 {{--    <a href="#" @if(request()->routeIs('store')) class="bg-gray-700" @endif><em class="fas fa-store text-blue-300"></em> {{ __("Store") }}</a>--}}
 
 {{--    <a href="#" @if(request()->routeIs('marketing')) class="bg-gray-700" @endif><em class="fa fa-lightbulb text-yellow-300"><.em> {{ __("Marketing") }}</a>--}}

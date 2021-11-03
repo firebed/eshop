@@ -72,6 +72,7 @@ class CategoryController extends Controller
             ->when($request->isManufacturerFilteringEnabled(), fn($b) => $b->filterByManufacturers($filters['m']->pluck('id')))
             ->filterByPropertyChoices($filters['c']->groupBy('property.id'))
             ->filterByPrice($filters['min_price'], $filters['max_price'])
+            ->with('translations') // We need this for different languages
             ->with('image', 'category')
             ->with(['variants' => fn($q) => $q->visible()->with('translation', 'parent', 'options', 'image')])
             ->select('products.*')

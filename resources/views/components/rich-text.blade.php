@@ -2,6 +2,7 @@
     'value' => '',
     'menubar' => '',
     'plugins' => '',
+    'paste' => true,
     'pasteAsText' => true,
     'toolbar' => 'fontsizeselect | bold italic underline | forecolor | alignleft aligncenter alignright alignjustify | outdent indent',
     'error'   => null
@@ -12,7 +13,7 @@
     x-data="{ html: '', text: '' }"
     x-init="tinymce.init({
         target: $refs.input,
-        plugins: ['paste', '{{ $plugins }}'],
+        plugins: [{{ $paste ? "'paste'," : "" }} '{{ $plugins }}'],
         menubar: '{{ $menubar }}',
         toolbar: '{{ $toolbar }}',
         entity_encoding: 'raw',

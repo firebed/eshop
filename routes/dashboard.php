@@ -12,6 +12,7 @@ use Eshop\Controllers\Dashboard\Intl\CountryShippingMethodController;
 use Eshop\Controllers\Dashboard\Intl\PaymentMethodController;
 use Eshop\Controllers\Dashboard\Intl\ProvinceController;
 use Eshop\Controllers\Dashboard\Intl\ShippingMethodController;
+use Eshop\Controllers\Dashboard\Page\PageController;
 use Eshop\Controllers\Dashboard\Pos\PosController;
 use Eshop\Controllers\Dashboard\Product\CollectionController;
 use Eshop\Controllers\Dashboard\Product\ManufacturerController;
@@ -84,6 +85,8 @@ Route::middleware(['web', 'auth', 'admin'])->group(function () {
 
         Route::get('analytics', AnalyticsController::class)->name('analytics.index');
 
+        Route::resource('pages', PageController::class)->only('index', 'edit', 'update');
+        
         Route::resource('pos', PosController::class)->except('index', 'show')->parameter('pos', 'cart');
     });
 });

@@ -1,7 +1,7 @@
 @extends('eshop::customer.layouts.master', ['title' =>  __('Change password')])
 
 @push('footer_scripts')
-    @include('eshop::customer.eshop::dashboard.layouts.toasts')
+    @include('eshop::dashboard.layouts.toasts')
 @endpush
 
 @section('main')

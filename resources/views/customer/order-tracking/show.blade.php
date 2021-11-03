@@ -11,9 +11,9 @@
 
                             @includeWhen(filled($order->voucher), 'eshop::customer.order-tracking.partials.tracking')
 
-                            @include('eshop::customer.eshop::customer.order-tracking.partials.order-details')
+                            @include('eshop::customer.order-tracking.partials.order-details')
 
-                            @include('eshop::customer.eshop::customer.order-tracking.partials.shipping-address')
+                            @include('eshop::customer.order-tracking.partials.shipping-address')
 
                             @includeIf($order->billingAddress, 'eshop::customer.order-tracking.partials.billing-address')
 
