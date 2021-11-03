@@ -95,7 +95,8 @@ class CheckoutPaymentController extends Controller
             } catch (ApiErrorException $e) {
                 DB::rollBack();
                 return response()->json($e->getError()->message, 422);
-            } catch (Throwable) {
+            } catch (Throwable $e) {
+                throw $e;
                 DB::rollBack();
                 return response()->json(__("Payment was unsuccessful. Please select a different payment method and try again."), 422);
             }

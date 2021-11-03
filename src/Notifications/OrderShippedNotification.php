@@ -51,7 +51,7 @@ class OrderShippedNotification extends Notification
         foreach (eshop('notifications.shipped.cc', []) as $cc) {
             $mail->cc($cc);
         }
-        $mail->markdown('emails.order.shipped', [
+        $mail->markdown('eshop::customer.emails.order.shipped', [
             'cart'            => $this->cart,
             'notesToCustomer' => $this->notesToCustomer
         ]);
