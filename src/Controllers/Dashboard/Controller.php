@@ -16,6 +16,6 @@ class Controller extends BaseController
 
     protected function view($view = null, $data = [], $mergeData = []): Factory|View|Application
     {
-        return view('' . $view, $data, $mergeData);
+        return view('eshop::dashboard.' . $view, $data, $mergeData);
     }
 }
