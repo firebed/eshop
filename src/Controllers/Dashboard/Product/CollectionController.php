@@ -36,7 +36,7 @@ class CollectionController extends Controller
 
     public function store(CollectionRequest $request): RedirectResponse
     {
-        $collection = Collection::create($request->validated());
+        $collection = Collection::create(array_merge($request->validated(), ['slug' => slugify($request->input('name'))]));
 
         $this->showSuccessNotification(trans('eshop::collection.notifications.saved'));
         return redirect()->route('collections.edit', $collection);
@@ -54,7 +54,7 @@ class CollectionController extends Controller
 
     public function update(CollectionRequest $request, Collection $collection): RedirectResponse
     {
-        $collection->update($request->validated());
+        $collection->update(array_merge($request->validated(), ['slug' => slugify($request->input('name'))]));
 
         $this->showSuccessNotification(trans('eshop::collection.notifications.saved'));
         return back();
