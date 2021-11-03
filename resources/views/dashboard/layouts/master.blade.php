@@ -35,7 +35,7 @@
                 
                 <div class="d-none d-sm-flex gap-2 align-items-center">
                     <em class="fas fa-user text-gray-500"></em>
-                    <div class="text-nowrap">{{ auth()->user()->fullName }}</div>
+                    <div class="text-nowrap">{{ auth()->user()?->fullName }}</div>
                 </div>
             </div>
 

@@ -2,7 +2,7 @@
 
 namespace Eshop\Controllers\Dashboard\Intl;
 
-use Eshop\Controllers\Controller;
+use Eshop\Controllers\Dashboard\Controller;
 use Illuminate\Contracts\Support\Renderable;
 
 class CountryShippingMethodController extends Controller
@@ -11,9 +11,9 @@ class CountryShippingMethodController extends Controller
     {
         $this->middleware('can:Manage country shipping methods');
     }
-    
+
     public function __invoke(): Renderable
     {
-        return view('eshop::dashboard.intl.country-shipping-methods');
+        return $this->view('intl.country-shipping-methods');
     }
 }

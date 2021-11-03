@@ -2,7 +2,7 @@
 
 namespace Eshop\Controllers\Dashboard\Intl;
 
-use Eshop\Controllers\Controller;
+use Eshop\Controllers\Dashboard\Controller;
 use Eshop\Controllers\Dashboard\Traits\WithNotifications;
 use Eshop\Models\Location\Country;
 use Eshop\Models\Location\Province;
@@ -17,7 +17,7 @@ class ProvinceController extends Controller
     {
         $this->middleware('can:Manage countries');
     }
-    
+
     public function store(ProvinceRequest $request, Country $country): RedirectResponse
     {
         $country->provinces()->save(new Province($request->validated()));

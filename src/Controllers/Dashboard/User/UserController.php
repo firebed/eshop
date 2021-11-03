@@ -2,8 +2,8 @@
 
 namespace Eshop\Controllers\Dashboard\User;
 
+use Eshop\Controllers\Dashboard\Controller;
 use Eshop\Models\User;
-use Eshop\Controllers\Controller;
 use Illuminate\View\View;
 
 class UserController extends Controller
@@ -15,28 +15,28 @@ class UserController extends Controller
 
     public function index(): View
     {
-        return view('eshop::dashboard.user.index');
+        return $this->view('user.index');
     }
-    
+
     public function show(User $user): View
     {
         $user->loadCount([
-            'carts' => fn($q) => $q->submitted(),
+            'carts'                          => fn($q) => $q->submitted(),
             'carts as cancelled_carts_count' => fn($q) => $q->whereStatusId(6),
-            'carts as rejected_carts_count' => fn($q) => $q->whereStatusId(7),
-            'carts as returned_carts_count' => fn($q) => $q->whereStatusId(8)
+            'carts as rejected_carts_count'  => fn($q) => $q->whereStatusId(7),
+            'carts as returned_carts_count'  => fn($q) => $q->whereStatusId(8)
         ]);
 
         $user->loadSum([
-            'carts' => fn($q) => $q->submitted(),
+            'carts'                              => fn($q) => $q->submitted(),
             'carts as cancelled_carts_sum_total' => fn($q) => $q->whereStatusId(6),
-            'carts as rejected_carts_sum_total' => fn($q) => $q->whereStatusId(7),
-            'carts as returned_carts_sum_total' => fn($q) => $q->whereStatusId(8)
+            'carts as rejected_carts_sum_total'  => fn($q) => $q->whereStatusId(7),
+            'carts as returned_carts_sum_total'  => fn($q) => $q->whereStatusId(8)
         ], 'total');
 
         $user->a = $user->carts_count - ($user->cancelled_carts_count + $user->returned_carts_count + $user->returned_carts_count);
         $user->b = $user->carts_sum_total - ($user->cancelled_carts_sum_total + $user->rejected_carts_sum_total + $user->returned_carts_sum_total);
 
-        return view('eshop::dashboard.user.show', compact('user'));
+        return $this->view('user.show', compact('user'));
     }
 }

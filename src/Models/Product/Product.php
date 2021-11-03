@@ -368,17 +368,6 @@ class Product extends Model
         ]);
     }
 
-    protected function resizeBaseImage($image): void
-    {
-        $width = eshop('product.image.upload_width', 1000);
-        $height = eshop('product.image.upload_height', 1000);
-
-        $image->resize($width, $height, function ($constraint) {
-            $constraint->aspectRatio();
-            $constraint->upsize();
-        });
-    }
-
     protected function registerImageConversions(): void
     {
         $this->addImageConversion('sm', function ($image) {

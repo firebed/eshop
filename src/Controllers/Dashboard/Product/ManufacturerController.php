@@ -2,7 +2,7 @@
 
 namespace Eshop\Controllers\Dashboard\Product;
 
-use Eshop\Controllers\Controller;
+use Eshop\Controllers\Dashboard\Controller;
 use Illuminate\Contracts\Support\Renderable;
 
 class ManufacturerController extends Controller
@@ -12,9 +12,9 @@ class ManufacturerController extends Controller
     {
         $this->middleware('can:Manage manufacturers');
     }
-    
+
     public function index(): Renderable
     {
-        return view('eshop::dashboard.manufacturer.index');
+        return $this->view('manufacturer.index');
     }
 }

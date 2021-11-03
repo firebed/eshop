@@ -3,7 +3,6 @@
 use Eshop\Actions\Schema\Schema;
 use Eshop\Models\Product\Category;
 use Eshop\Models\Product\Product;
-use Eshop\Models\User;
 use Eshop\Services\SlugGenerator;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Route;
@@ -34,7 +33,7 @@ if (!function_exists('format_currency')) {
     {
         $formatter = new NumberFormatter(app()->getLocale(), NumberFormatter::CURRENCY);
         $formatter->setAttribute(NumberFormatter::ROUNDING_MODE, NumberFormatter::ROUND_HALFUP);
-        return $formatter->formatCurrency($number, config('eshop.currency'));
+        return $formatter->formatCurrency($number, eshop('currency'));
     }
 }
 
@@ -83,7 +82,7 @@ if (!function_exists('productRoute')) {
         $locale = $locale ?: app()->getLocale();
 
         $category = $category ?? $product->category;
-        return  route('products.show', [$locale, $category->slug, $product->slug], $absolute);
+        return route('products.show', [$locale, $category->slug, $product->slug], $absolute);
     }
 }
 
@@ -109,7 +108,7 @@ if (!function_exists('categoryRoute')) {
             $locale ?: app()->getLocale(),
             $category->slug
         ];
-        
+
         if ($manufacturers !== null && $manufacturers->isNotEmpty()) {
             $manufacturers = $manufacturers->sortBy('name', SORT_NATURAL | SORT_FLAG_CASE);
             $name = 'categories.manufacturers';
@@ -134,13 +133,6 @@ if (!function_exists('categoryRoute')) {
         }
 
         return route($name, $params);
-    }
-}
-
-if (!function_exists('user')) {
-    function user(): ?User
-    {
-        return auth()->user();
     }
 }
 

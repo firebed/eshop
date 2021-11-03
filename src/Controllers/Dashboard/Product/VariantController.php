@@ -2,7 +2,7 @@
 
 namespace Eshop\Controllers\Dashboard\Product;
 
-use Eshop\Controllers\Controller;
+use Eshop\Controllers\Dashboard\Controller;
 use Eshop\Controllers\Dashboard\Product\Traits\WithImage;
 use Eshop\Controllers\Dashboard\Product\Traits\WithVariantOptions;
 use Eshop\Controllers\Dashboard\Traits\WithNotifications;
@@ -26,15 +26,15 @@ class VariantController extends Controller
     {
         $this->middleware('can:Manage products');
     }
-    
+
     public function index(Product $product): Renderable
     {
-        return view('eshop::dashboard.variant.index', compact('product'));
+        return $this->view('variant.index', compact('product'));
     }
 
     public function create(Product $product): Renderable
     {
-        return view('eshop::dashboard.variant.create', [
+        return $this->view('variant.create', [
             'product'      => $product,
             'vats'         => Vat::all(),
             'units'        => Unit::all(),
@@ -73,7 +73,7 @@ class VariantController extends Controller
 
     public function edit(Product $variant): Renderable
     {
-        return view('eshop::dashboard.variant.edit', [
+        return $this->view('variant.edit', [
             'product'      => $variant->parent,
             'variant'      => $variant,
             'vats'         => Vat::all(),

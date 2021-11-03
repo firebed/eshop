@@ -48,7 +48,7 @@ class OrderShippedNotification extends Notification
 
         $mail = new MailMessage();
         $mail->subject(__("Order Shipped Notification"));
-        foreach (config('eshop.cc', []) as $cc) {
+        foreach (eshop('notifications.shipped.cc', []) as $cc) {
             $mail->cc($cc);
         }
         $mail->markdown('emails.order.shipped', [

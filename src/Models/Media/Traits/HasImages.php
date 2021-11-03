@@ -81,7 +81,7 @@ trait HasImages
 
     protected function resizeBaseImage($image): void
     {
-        $image->resize(1000, 1000, function ($constraint) {
+        $image->resize(3000, 3000, function ($constraint) {
             $constraint->aspectRatio();
             $constraint->upsize();
         });

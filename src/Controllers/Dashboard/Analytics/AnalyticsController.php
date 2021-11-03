@@ -2,7 +2,7 @@
 
 namespace Eshop\Controllers\Dashboard\Analytics;
 
-use Eshop\Controllers\Controller;
+use Eshop\Controllers\Dashboard\Controller;
 use Eshop\Models\Cart\CartChannel;
 use Eshop\Models\Cart\CartStatus;
 use Illuminate\Contracts\Support\Renderable;
@@ -17,7 +17,7 @@ class AnalyticsController extends Controller
     {
         $this->middleware('can:View analytics');
     }
-    
+
     public function __invoke(Request $request): Renderable
     {
         $date = $request->filled('date')
@@ -28,7 +28,7 @@ class AnalyticsController extends Controller
             ? Carbon::createFromFormat('Y-m-d', $request->input('date_comparison'))->startOfDay()
             : Carbon::yesterday();
 
-        return view('eshop::dashboard.analytics.index', [
+        return $this->view('analytics.index', [
             'totalOrders'               => $this->totalOrders($date),
             'totalOrdersComparison'     => $this->totalOrders($dateComparison),
             'totalSales'                => $this->totalSales($date),

@@ -6,17 +6,17 @@ namespace Eshop\Controllers\Dashboard\Traits;
 
 trait WithNotifications
 {
-    public function showSuccessNotification(string $notification, bool $autohide = TRUE): void
+    public function showSuccessNotification(string $notification, bool $autohide = true): void
     {
         $this->showNotification('success', $notification, $autohide);
     }
 
-    public function showWarningNotification(string $notification, bool $autohide = TRUE): void
+    public function showWarningNotification(string $notification, bool $autohide = true): void
     {
-        $this->showNotification('warning', $notification, $autohide);;
+        $this->showNotification('warning', $notification, $autohide);
     }
 
-    public function showErrorNotification(string $notification, string $error = NULL, bool $autohide = TRUE): void
+    public function showErrorNotification(string $notification, string $error = null, bool $autohide = true): void
     {
         if ($error) {
             $notification .= ' ' . $error;
@@ -24,7 +24,7 @@ trait WithNotifications
         $this->showNotification('error', $notification, $autohide);
     }
 
-    public function showNotification(string $type, string $notification, bool $autohide = TRUE): void
+    public function showNotification(string $type, string $notification, bool $autohide = true): void
     {
         session()->flash('toast', ['type' => $type, 'body' => $notification, 'autohide' => $autohide]);
     }

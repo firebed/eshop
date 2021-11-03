@@ -44,7 +44,7 @@ class Country extends Model
 
     public static function default(): null|Country
     {
-        return self::firstWhere('code', config('eshop.country'));
+        return self::firstWhere('code', eshop('country'));
     }
 
     public function provinces(): HasMany

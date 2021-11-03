@@ -13,8 +13,8 @@ class StatusesList extends Component
     public function render(): View
     {
         $statuses = CartStatus::withCount(['carts' => function($q) {
-            $q->when(user()?->cannot('Manage orders') && user()?->can('Manage assigned orders'), function($q) {
-                $q->whereHas('operators', fn($b) => $b->where('user_id', user()->id));
+            $q->when(auth()->user()?->cannot('Manage orders') && auth()->user()?->can('Manage assigned orders'), function($q) {
+                $q->whereHas('operators', fn($b) => $b->where('user_id', auth()->id()));
             });
         }])->get();
         return view('eshop::dashboard.cart.partials.statuses-list', compact('statuses'));

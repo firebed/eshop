@@ -2,7 +2,7 @@
 
 namespace Eshop\Controllers\Dashboard\Intl;
 
-use Eshop\Controllers\Controller;
+use Eshop\Controllers\Dashboard\Controller;
 use Illuminate\Contracts\Support\Renderable;
 
 class CountryPaymentMethodController extends Controller
@@ -11,9 +11,9 @@ class CountryPaymentMethodController extends Controller
     {
         $this->middleware('can:Manage country payment methods');
     }
-    
+
     public function __invoke(): Renderable
     {
-        return view('eshop::dashboard.intl.country-payment-methods');
+        return $this->view('intl.country-payment-methods');
     }
 }

@@ -2,7 +2,6 @@
 
 namespace Eshop\Controllers\Dashboard;
 
-use Eshop\Controllers\Controller;
 use Illuminate\Support\Facades\Cache;
 
 class SidebarController extends Controller
@@ -12,8 +11,8 @@ class SidebarController extends Controller
         $key = 'dashboard-sidebar-collapsed.' . auth()->id();
 
         $previous = Cache::get($key, false);
-        
-        Cache::forget($key);        
+
+        Cache::forget($key);
         Cache::rememberForever($key, fn() => !$previous);
     }
 }

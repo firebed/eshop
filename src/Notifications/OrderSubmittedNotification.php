@@ -31,7 +31,7 @@ class OrderSubmittedNotification extends Notification
 
         $mail = new MailMessage();
         $mail->subject(__("Order Submitted Notification"));
-        foreach (config('eshop.cc', []) as $cc) {
+        foreach (eshop('notifications.submitted.cc', []) as $cc) {
             $mail->cc($cc);
         }
         $mail->markdown('emails.order.submitted', [

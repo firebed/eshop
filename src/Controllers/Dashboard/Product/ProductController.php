@@ -2,7 +2,7 @@
 
 namespace Eshop\Controllers\Dashboard\Product;
 
-use Eshop\Controllers\Controller;
+use Eshop\Controllers\Dashboard\Controller;
 use Eshop\Controllers\Dashboard\Product\Traits\WithImage;
 use Eshop\Controllers\Dashboard\Product\Traits\WithProductProperties;
 use Eshop\Controllers\Dashboard\Product\Traits\WithVariantTypes;
@@ -33,12 +33,12 @@ class ProductController extends Controller
 
     public function index(): Renderable
     {
-        return view('eshop::dashboard.product.index');
+        return $this->view('product.index');
     }
 
     public function create(): Renderable
     {
-        return view('eshop::dashboard.product.create', [
+        return $this->view('product.create', [
             'vats'          => Vat::all(),
             'units'         => Unit::all(),
             'variantTypes'  => collect([]),
@@ -92,8 +92,8 @@ class ProductController extends Controller
         if ($product->isVariant()) {
             return redirect()->route('variants.edit', $product);
         }
-        
-        return view('eshop::dashboard.product.edit', [
+
+        return $this->view('product.edit', [
             'product'       => $product,
             'properties'    => $this->prepareProperties($product),
             'vats'          => Vat::all(),
@@ -113,7 +113,7 @@ class ProductController extends Controller
                     if ($product->category_id !== $request->input('category_id')) {
                         $product->variants()->update(['category_id' => $request->input('category_id')]);
                     }
-                    
+
                     if ($product->manufacturer_id !== $request->input('manufacturer_id')) {
                         $product->variants()->update(['manufacturer_id' => $request->input('manufacturer_id')]);
                     }
@@ -122,7 +122,7 @@ class ProductController extends Controller
                         $product->variants()->update(['unit_id' => $request->input('unit_id')]);
                     }
                 }
-                                
+
                 $product->update($request->only($product->getFillable()));
 
                 $product->seo()->updateOrCreate([], $request->input('seo'));

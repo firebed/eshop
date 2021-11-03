@@ -2,9 +2,9 @@
 
 namespace Eshop\Controllers\Dashboard\Cart;
 
-use Eshop\Models\Cart\Cart;
 use Dompdf\Dompdf;
-use Eshop\Controllers\Controller;
+use Eshop\Controllers\Dashboard\Controller;
+use Eshop\Models\Cart\Cart;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Http\Response;
@@ -17,14 +17,14 @@ class OrderPrintController extends Controller
 //            app()->setLocale('en');
 //        }
 
-        $pdf = new Dompdf(['enable_remote' => TRUE]);
+        $pdf = new Dompdf(['enable_remote' => true]);
         $pdf->loadHtml(view('order-printer.print', compact('cart')));
         $pdf->setHttpContext(
             stream_context_create([
                 'ssl' => [
-                    'allow_self_signed' => TRUE,
-                    'verify_peer'       => FALSE,
-                    'verify_peer_name'  => FALSE,
+                    'allow_self_signed' => true,
+                    'verify_peer'       => false,
+                    'verify_peer_name'  => false,
                 ]
             ])
         );

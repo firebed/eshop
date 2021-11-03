@@ -40,7 +40,7 @@
             @can('Manage orders')
             @unless($cart->isViewed()) class="fw-bold" @endunless
             @elsecan('Manage assigned orders')
-            @if($cart->operators->find(user()->id)->pivot->viewed_at === null) class="fw-bold" @endif
+            @if($cart->operators->find(auth()->id())->pivot->viewed_at === null) class="fw-bold" @endif
             @endcan
         >
             <td class="align-middle">

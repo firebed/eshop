@@ -2,7 +2,7 @@
 
 namespace Eshop\Controllers\Dashboard\Product;
 
-use Eshop\Controllers\Controller;
+use Eshop\Controllers\Dashboard\Controller;
 use Eshop\Controllers\Dashboard\Traits\WithNotifications;
 use Eshop\Models\Product\Product;
 use Illuminate\Http\RedirectResponse;
@@ -16,7 +16,7 @@ class VariantBulkImageController extends Controller
     {
         $this->middleware('can:Manage products');
     }
-    
+
     public function __invoke(Request $request): RedirectResponse
     {
         $request->validate([

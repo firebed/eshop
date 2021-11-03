@@ -2,7 +2,7 @@
 
 namespace Eshop\Controllers\Dashboard\Category;
 
-use Eshop\Controllers\Controller;
+use Eshop\Controllers\Dashboard\Controller;
 use Eshop\Controllers\Dashboard\Product\Traits\WithCategoryBreadcrumbs;
 use Eshop\Controllers\Dashboard\Product\Traits\WithImage;
 use Eshop\Controllers\Dashboard\Traits\WithNotifications;
@@ -27,7 +27,7 @@ class CategoryController extends Controller
     {
         $this->middleware('can:Manage categories');
     }
-    
+
     public function index(): View
     {
         $categories = Category::root()
@@ -36,7 +36,7 @@ class CategoryController extends Controller
             ->orderByDesc('type')
             ->get();
 
-        return view('eshop::dashboard.category.index', compact('categories'));
+        return $this->view('category.index', compact('categories'));
     }
 
     public function create(Request $request): RedirectResponse|Renderable
@@ -53,8 +53,8 @@ class CategoryController extends Controller
             ->orderByDesc('type')
             ->get();
 
-        return view('eshop::dashboard.category.create', [
-            'parent'      => $parent ?? NULL,
+        return $this->view('category.create', [
+            'parent'      => $parent ?? null,
             'categories'  => $categories,
             'breadcrumbs' => isset($parent) ? $this->getCategoryBreadcrumbs($parent) : []
         ]);
@@ -101,7 +101,7 @@ class CategoryController extends Controller
                 ->get();
         }
 
-        return view('eshop::dashboard.category.edit', [
+        return $this->view('category.edit', [
             'category'    => $category,
             'categories'  => $categories ?? [],
             'properties'  => $properties ?? [],
@@ -184,9 +184,9 @@ class CategoryController extends Controller
         return back();
     }
 
-    public function expand(?int $id = NULL): JsonResponse
+    public function expand(?int $id = null): JsonResponse
     {
-        $query = $id === NULL
+        $query = $id === null
             ? Category::root()
             : Category::where('parent_id', $id);
 

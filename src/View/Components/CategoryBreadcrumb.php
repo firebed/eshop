@@ -21,7 +21,7 @@ class CategoryBreadcrumb extends Component
     {
         $parent = $category->parent;
         while ($parent) {
-            $parent->load('translation');
+            $parent->loadMissing('translation');
             array_unshift($this->items, [
                 'name' => $parent->name,
                 'url'  => categoryRoute($parent)

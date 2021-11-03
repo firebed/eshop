@@ -2,7 +2,7 @@
 
 namespace Eshop\Controllers\Dashboard\Category;
 
-use Eshop\Controllers\Controller;
+use Eshop\Controllers\Dashboard\Controller;
 use Eshop\Controllers\Dashboard\Product\Traits\WithCategoryBreadcrumbs;
 use Eshop\Controllers\Dashboard\Traits\WithNotifications;
 use Eshop\Models\Product\Category;
@@ -27,7 +27,7 @@ class CategoryPropertyController extends Controller
 
     public function create(Category $category): Renderable
     {
-        return view('eshop::dashboard.category-property.create', [
+        return $this->view('category-property.create', [
             'category'    => $category,
             'breadcrumbs' => $this->getCategoryBreadcrumbs($category),
         ]);
@@ -70,7 +70,7 @@ class CategoryPropertyController extends Controller
             ->values()
             ->all();
 
-        return view('eshop::dashboard.category-property.edit', [
+        return $this->view('category-property.edit', [
             'category'    => $property->category,
             'breadcrumbs' => $this->getCategoryBreadcrumbs($property->category),
             'property'    => $property,

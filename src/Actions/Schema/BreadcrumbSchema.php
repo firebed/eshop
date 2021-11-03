@@ -15,7 +15,7 @@ class BreadcrumbSchema
 
         $parent = $category->parent;
         while ($parent) {
-            $parent->load('seo', 'translation');
+            $parent->loadMissing('seo', 'translation');
             array_unshift($items, $this->item(categoryRoute($parent), $parent->seo->title ?? $parent->name, $parent->image));
             $parent = $parent->parent;
         }

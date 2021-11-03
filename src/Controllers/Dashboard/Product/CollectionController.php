@@ -2,7 +2,7 @@
 
 namespace Eshop\Controllers\Dashboard\Product;
 
-use Eshop\Controllers\Controller;
+use Eshop\Controllers\Dashboard\Controller;
 use Eshop\Controllers\Dashboard\Traits\WithNotifications;
 use Eshop\Models\Product\Collection;
 use Eshop\Models\Product\Product;
@@ -21,17 +21,17 @@ class CollectionController extends Controller
     {
         $this->middleware('can:Manage collections');
     }
-    
+
     public function index(): Renderable
     {
         $collections = Collection::withCount('products')->get();
 
-        return view('eshop::dashboard.collection.index', compact('collections'));
+        return $this->view('collection.index', compact('collections'));
     }
 
     public function create(): Renderable
     {
-        return view('eshop::dashboard.collection.create');
+        return $this->view('collection.create');
     }
 
     public function store(CollectionRequest $request): RedirectResponse
@@ -49,7 +49,7 @@ class CollectionController extends Controller
             ->orderBy('category_id')
             ->get();
 
-        return view('eshop::dashboard.collection.edit', compact('collection', 'products'));
+        return $this->view('collection.edit', compact('collection', 'products'));
     }
 
     public function update(CollectionRequest $request, Collection $collection): RedirectResponse

@@ -2,7 +2,7 @@
 
 namespace Eshop\Controllers\Dashboard\Intl;
 
-use Eshop\Controllers\Controller;
+use Eshop\Controllers\Dashboard\Controller;
 use Eshop\Controllers\Dashboard\Traits\WithNotifications;
 use Eshop\Models\Location\Country;
 use Eshop\Requests\Dashboard\Intl\CountryRequest;
@@ -17,22 +17,22 @@ class CountryController extends Controller
     {
         $this->middleware('can:Manage countries');
     }
-    
+
     public function index(): Renderable
     {
         $countries = Country::orderBy('name')->get();
 
-        return view('eshop::dashboard.countries.index', compact('countries'));
+        return $this->view('countries.index', compact('countries'));
     }
 
     public function show(Country $country): Renderable
     {
-        return view('eshop::dashboard.countries.show', compact('country'));
+        return $this->view('countries.show', compact('country'));
     }
 
     public function create(): Renderable
     {
-        return view('eshop::dashboard.countries.create');
+        return $this->view('countries.create');
     }
 
     public function store(CountryRequest $request): RedirectResponse
@@ -46,7 +46,7 @@ class CountryController extends Controller
 
     public function edit(Country $country): Renderable
     {
-        return view('eshop::dashboard.countries.edit', compact('country'));
+        return $this->view('countries.edit', compact('country'));
     }
 
     public function update(CountryRequest $request, Country $country): RedirectResponse

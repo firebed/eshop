@@ -2,7 +2,7 @@
 
 namespace Eshop\Controllers\Dashboard\Intl;
 
-use Eshop\Controllers\Controller;
+use Eshop\Controllers\Dashboard\Controller;
 use Eshop\Controllers\Dashboard\Traits\WithNotifications;
 use Eshop\Models\Location\PaymentMethod;
 use Eshop\Requests\Dashboard\Intl\PaymentMethodRequest;
@@ -17,17 +17,17 @@ class PaymentMethodController extends Controller
     {
         $this->middleware('can:Manage payment methods');
     }
-    
+
     public function index(): Renderable
     {
         $paymentMethods = PaymentMethod::all();
 
-        return view('eshop::dashboard.payment-methods.index', compact('paymentMethods'));
+        return $this->view('payment-methods.index', compact('paymentMethods'));
     }
 
     public function create(): Renderable
     {
-        return view('eshop::dashboard.payment-methods.create');
+        return $this->view('payment-methods.create');
     }
 
     public function store(PaymentMethodRequest $request): RedirectResponse
@@ -41,7 +41,7 @@ class PaymentMethodController extends Controller
 
     public function edit(PaymentMethod $paymentMethod): Renderable
     {
-        return view('eshop::dashboard.payment-methods.edit', compact('paymentMethod'));
+        return $this->view('payment-methods.edit', compact('paymentMethod'));
     }
 
     public function update(PaymentMethodRequest $request, PaymentMethod $paymentMethod): RedirectResponse

@@ -2,7 +2,7 @@
 
 namespace Eshop\Controllers\Dashboard\Product;
 
-use Eshop\Controllers\Controller;
+use Eshop\Controllers\Dashboard\Controller;
 use Illuminate\Contracts\Support\Renderable;
 
 class ProductTrashController extends Controller
@@ -11,9 +11,9 @@ class ProductTrashController extends Controller
     {
         $this->middleware('can:Manage products');
     }
-    
+
     public function __invoke(): Renderable
     {
-        return view('eshop::dashboard.product.trashed.index');
+        return $this->view('product.trashed.index');
     }
 }

@@ -21,7 +21,15 @@ use Eshop\Models\Product\VariantType;
 use Eshop\Models\Seo\Seo;
 use Eshop\Models\Slide\Slide;
 use Eshop\Models\User;
+use Eshop\Providers\AuthServiceProvider;
+use Eshop\Providers\CartServiceProvider;
+use Eshop\Providers\EventServiceProvider;
+use Eshop\Providers\FortifyServiceProvider;
+use Eshop\Providers\LivewireServiceProvider;
+use Eshop\View\Components\Bestsellers;
 use Eshop\View\Components\CategoryBreadcrumb;
+use Eshop\View\Components\Gallery;
+use Eshop\View\Components\TrendingProducts;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Collection;
 use Illuminate\Support\ServiceProvider;
@@ -58,13 +66,13 @@ class EshopServiceProvider extends ServiceProvider
         $this->app->register(CartServiceProvider::class);
         $this->app->register(LivewireServiceProvider::class);
         $this->app->register(ImageServiceProvider::class);
+        $this->app->register(FortifyServiceProvider::class);
     }
 
     private function registerConfig(): void
     {
-        $this->mergeConfigFrom(
-            __DIR__ . '/../config/colors.php', 'colors'
-        );
+        $this->mergeConfigFrom(__DIR__ . '/../config/colors.php', 'colors');
+        $this->mergeConfigFrom(__DIR__ . '/../config/eshop.php', 'eshop');
     }
 
     private function registerTranslations(): void
@@ -83,6 +91,9 @@ class EshopServiceProvider extends ServiceProvider
 
         $this->loadViewComponentsAs('eshop', [
             CategoryBreadcrumb::class,
+            TrendingProducts::class,
+            Bestsellers::class,
+            Gallery::class,
         ]);
     }
 

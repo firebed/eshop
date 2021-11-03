@@ -2,7 +2,7 @@
 
 namespace Eshop\Controllers\Dashboard\Intl;
 
-use Eshop\Controllers\Controller;
+use Eshop\Controllers\Dashboard\Controller;
 use Eshop\Controllers\Dashboard\Traits\WithNotifications;
 use Eshop\Models\Location\Province;
 use Illuminate\Http\RedirectResponse;
@@ -16,7 +16,7 @@ class BulkProvinceController extends Controller
     {
         $this->middleware('can:Manage countries');
     }
-    
+
     public function destroy(Request $request): RedirectResponse
     {
         $request->validate([

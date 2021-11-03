@@ -2,7 +2,7 @@
 
 namespace Eshop\Controllers\Dashboard\Pos;
 
-use Eshop\Controllers\Controller;
+use Eshop\Controllers\Dashboard\Controller;
 use Eshop\Controllers\Dashboard\Traits\WithNotifications;
 use Eshop\Models\Cart\Cart;
 use Eshop\Models\Cart\CartStatus;
@@ -23,7 +23,7 @@ class PosController extends Controller
 
     public function create(): View
     {
-        return view('eshop::dashboard.pos.create');
+        return $this->view('pos.create');
     }
 
     public function store(Request $request): RedirectResponse
@@ -138,7 +138,7 @@ class PosController extends Controller
             ->keyBy('product_id')
             ->all();
 
-        return view('eshop::dashboard.pos.edit', compact('cart', 'items'));
+        return $this->view('pos.edit', compact('cart', 'items'));
     }
 
     public function update(Request $request, Cart $cart): RedirectResponse

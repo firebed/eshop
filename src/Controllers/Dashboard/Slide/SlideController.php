@@ -2,7 +2,7 @@
 
 namespace Eshop\Controllers\Dashboard\Slide;
 
-use Eshop\Controllers\Controller;
+use Eshop\Controllers\Dashboard\Controller;
 use Illuminate\Contracts\Support\Renderable;
 
 class SlideController extends Controller
@@ -11,9 +11,9 @@ class SlideController extends Controller
     {
         $this->middleware('can:Manage slides');
     }
-    
+
     public function index(): Renderable
     {
-        return view('eshop::dashboard.slide.index');
+        return $this->view('slide.index');
     }
 }

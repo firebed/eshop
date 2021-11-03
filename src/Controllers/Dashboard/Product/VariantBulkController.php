@@ -2,7 +2,7 @@
 
 namespace Eshop\Controllers\Dashboard\Product;
 
-use Eshop\Controllers\Controller;
+use Eshop\Controllers\Dashboard\Controller;
 use Eshop\Controllers\Dashboard\Product\Traits\WithVariantOptions;
 use Eshop\Controllers\Dashboard\Traits\WithNotifications;
 use Eshop\Models\Product\Product;
@@ -24,10 +24,10 @@ class VariantBulkController extends Controller
     {
         $this->middleware('can:Manage products');
     }
-    
+
     public function create(Product $product): Renderable
     {
-        return view('eshop::dashboard.variant.bulk-create', [
+        return $this->view('variant.bulk-create', [
             'product'      => $product,
             'variantTypes' => VariantType::where('product_id', $product->id)->pluck('name', 'id')->all()
         ]);
@@ -78,10 +78,10 @@ class VariantBulkController extends Controller
             : Product::whereKey($ids)->with('options')->get();
 
         $variants = $variants->sortBy('option_values', SORT_NATURAL | SORT_FLAG_CASE);
-        
+
         $request->session()->flashInput(['bulk_ids' => $ids ?? []]);
 
-        return view('eshop::dashboard.variant.bulk-edit', [
+        return $this->view('variant.bulk-edit', [
             'product'      => $product,
             'properties'   => $request->query('properties', ['price', 'compare_price', 'discount', 'sku', 'stock', 'weight']),
             'variants'     => $variants,
@@ -91,7 +91,7 @@ class VariantBulkController extends Controller
 
     public function update(VariantBulkUpdateRequest $request): RedirectResponse
     {
-        foreach($request->properties as $property) {
+        foreach ($request->properties as $property) {
             $data = array_combine($request->input('bulk_ids'), $request->input("bulk_$property"));
             $distinct = array_unique($data);
 

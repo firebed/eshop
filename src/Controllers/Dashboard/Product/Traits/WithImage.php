@@ -4,7 +4,6 @@
 namespace Eshop\Controllers\Dashboard\Product\Traits;
 
 
-use Eshop\Models\Product\Product;
 use Illuminate\Http\UploadedFile;
 
 trait WithImage

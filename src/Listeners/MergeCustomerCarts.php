@@ -19,7 +19,7 @@ class MergeCustomerCarts
     {
         cookie()->queue(cookie()->forget('cart-cookie-id'));
 
-        $previous = user()->activeCart()->first();
+        $previous = auth()->user()?->activeCart()->first();
 
         if ($previous === NULL && session()->missing('cart-session-id')) {
             return FALSE;
@@ -46,9 +46,9 @@ class MergeCustomerCarts
 
     private static function updateCart(Cart|Model $cart): void
     {
-        $cart->user()->associate(user());
-        $cart->ip = request()->ip();
-        $cart->email = user()->email;
+        $cart->user()->associate(auth()->user());
+        $cart->ip = request()?->ip();
+        $cart->email = auth()->user()->email;
         $cart->refreshProducts();
         $cart->save();
     }

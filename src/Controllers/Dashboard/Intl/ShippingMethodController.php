@@ -2,7 +2,7 @@
 
 namespace Eshop\Controllers\Dashboard\Intl;
 
-use Eshop\Controllers\Controller;
+use Eshop\Controllers\Dashboard\Controller;
 use Eshop\Controllers\Dashboard\Traits\WithNotifications;
 use Eshop\Models\Location\ShippingMethod;
 use Eshop\Requests\Dashboard\Intl\ShippingMethodRequest;
@@ -17,22 +17,22 @@ class ShippingMethodController extends Controller
     {
         $this->middleware('can:Manage shipping methods');
     }
-    
+
     public function index(): Renderable
     {
         $shippingMethods = ShippingMethod::all();
 
-        return view('eshop::dashboard.shipping-methods.index', compact('shippingMethods'));
+        return $this->view('shipping-methods.index', compact('shippingMethods'));
     }
 
     public function show(ShippingMethod $shippingMethod): Renderable
     {
-        return view('eshop::dashboard.shipping-methods.show', compact('shippingMethod'));
+        return $this->view('shipping-methods.show', compact('shippingMethod'));
     }
 
     public function create(): Renderable
     {
-        return view('eshop::dashboard.shipping-methods.create');
+        return $this->view('shipping-methods.create');
     }
 
     public function store(ShippingMethodRequest $request): RedirectResponse
@@ -46,7 +46,7 @@ class ShippingMethodController extends Controller
 
     public function edit(ShippingMethod $shippingMethod): Renderable
     {
-        return view('eshop::dashboard.shipping-methods.edit', compact('shippingMethod'));
+        return $this->view('shipping-methods.edit', compact('shippingMethod'));
     }
 
     public function update(ShippingMethodRequest $request, ShippingMethod $shippingMethod): RedirectResponse
