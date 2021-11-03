@@ -35,7 +35,7 @@ class ProductVariant extends Component
 
         $this->addProduct($order, $this->product, $this->quantity);
 
-        $toast = view('product.partials.product-toast', ['product' => $this->product])->render();
+        $toast = view('eshop::customer.product.partials.product-toast', ['product' => $this->product])->render();
         $this->showSuccessToast($this->product->trademark, $toast);
         $this->emit('setCartItemsCount', $order->products->count());
         $this->skipRender();

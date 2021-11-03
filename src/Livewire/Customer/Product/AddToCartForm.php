@@ -46,7 +46,7 @@ class AddToCartForm extends Component
             return;
         }
 
-        $toast = view('product.partials.product-toast', [
+        $toast = view('eshop::customer.product.partials.product-toast', [
             'product' => $this->product
         ])->render();
 

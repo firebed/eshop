@@ -74,7 +74,7 @@ class ProductVariantsButtons extends Component
 
         DB::transaction(fn() => $this->addProduct($order, $product, $this->quantity));
 
-        $toast = view('product.partials.product-toast', compact('product'))->render();
+        $toast = view('eshop::customer.product.partials.product-toast', compact('product'))->render();
         $this->showSuccessToast($product->trademark, $toast);
         $this->emit('setCartItemsCount', $order->products->count());
     }

@@ -16,7 +16,7 @@
     </tr>
     <tr>
         <td class="text-secondary">{{ __("City") }}</td>
-        <td>{{ $cart->shippingAddress?->city }}, {{ __("P.O") }}: {{  $cart->shippingAddress?->postcode }}</td>
+        <td>{{ $cart->shippingAddress?->city }}, {{ __("Postcode") }}: {{  $cart->shippingAddress?->postcode }}</td>
     </tr>
     <tr>
         <td class="text-secondary">{{ __("Region") }}</td>
