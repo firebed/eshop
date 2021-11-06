@@ -84,6 +84,7 @@ class InstallCommand extends Command
         copy(__DIR__ . '/stubs/scss/customer/_logo.scss', resource_path('scss/customer/_logo.scss'));
         copy(__DIR__ . '/stubs/scss/customer/_navbar.scss', resource_path('scss/customer/_navbar.scss'));
         copy(__DIR__ . '/stubs/scss/customer/_variables.scss', resource_path('scss/customer/_variables.scss'));
+        copy(__DIR__ . '/stubs/scss/customer/_theme.scss', resource_path('scss/customer/theme.scss'));
         copy(__DIR__ . '/stubs/scss/customer/app.scss', resource_path('scss/customer/app.scss'));
     }
 
@@ -147,14 +148,11 @@ class InstallCommand extends Command
         copy(__DIR__ . '/../../assets/new-ribbon.png', public_path('storage/images/new-ribbon.png'));
 
         copy(
-            __DIR__ . '/../../stubs/fortify/fortify.php',
+            __DIR__ . '/../../stubs/config/fortify.php',
             config_path('fortify.php'),
         );
 
-        copy(
-            __DIR__ . '/../../stubs/models/User.php',
-            app_path('Models/User.php'),
-        );
+        file_put_contents(app_path('Models/User.php'), $this->compileUser());
 
         copy(__DIR__ . '/../../stubs/config/filesystems.php', config_path('filesystems.php'));
 
@@ -170,5 +168,14 @@ class InstallCommand extends Command
 
         $this->info('Eshop installed successfully');
         $this->comment('Please run "npm install && npm run dev" to compile your fresh scaffolding.');
+    }
+
+    private function compileUser(): string
+    {
+        return str_replace(
+            '{{namespace}}',
+            $this->laravel->getNamespace(), 
+            file_get_contents(__DIR__ . '/../../stubs/models/User.stub')
+        );
     }
 }

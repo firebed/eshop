@@ -1,0 +1,27 @@
+body {
+    background-color: #f1f1f1 !important;
+}
+
+.h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 {
+    color: #495057;
+}
+
+.alt-bg {
+    background-color: #fafafa !important;
+}
+
+#header-top {
+    background-color: $primary !important;
+}
+
+#header-main, #header-bottom {
+    @extend .bg-light;
+}
+
+#header-categories {
+    background-color: $primary !important;
+}
+
+#gallery {
+    @extend .pt-3, .ps-lg-5, .pt-lg-4;
+}

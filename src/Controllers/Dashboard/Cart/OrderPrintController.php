@@ -18,7 +18,7 @@ class OrderPrintController extends Controller
 //        }
 
         $pdf = new Dompdf(['enable_remote' => true]);
-        $pdf->loadHtml(view('order-printer.print', compact('cart')));
+        $pdf->loadHtml(view('eshop::customer.order-printer.print', compact('cart')));
         $pdf->setHttpContext(
             stream_context_create([
                 'ssl' => [

@@ -94,7 +94,7 @@ class ShowProducts extends Component
             ->withMin('variants', 'price')
             ->withMax('variants', 'price')
             ->withSum('variants', 'stock')
-            ->withcount('variants')
+            ->withCount('variants')
             ->with('category.translations', 'translations')
             ->when($this->sortField, function ($q, $sf) {
                 switch ($sf) {

@@ -52,10 +52,12 @@ class VariantBulkController extends Controller
                         $product->variants()->save($variant);
 
                         $this->saveVariantOptions($variant, $input['options']);
-
+                        
+                        $options = implode(' ', $input['options']);
+                        
                         $variant->seo()->create([
                             'locale' => app()->getLocale(),
-                            'title'  => $variant->trademark
+                            'title'  => $product->name . ' ' . $options
                         ]);
                     });
             });

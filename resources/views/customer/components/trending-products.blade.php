@@ -1,4 +1,4 @@
-<section class="container-fluid py-3 bg-white">
+<section id="trending-products" class="container-fluid py-4">
     <div class="container-xxl" x-data="{ active: '{{ $categories->keys()->first() }}' }">
         <div class="fw-bold py-5 vstack gap-3">
             <h2 class="mx-auto">Trending</h2>
@@ -12,7 +12,7 @@
         </div>
 
         @foreach ($categories as $name => $products)
-            <div x-show="active === '{{ $name }}'" class="row row-cols-2 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5 g-4">
+            <div @if(!$loop->first) x-cloak @endif x-show="active === '{{ $name }}'" class="row row-cols-2 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5 g-4">
                 @foreach ($products as $product)
                     <div class="col">
                         <div class="vstack gap-2 h-100">

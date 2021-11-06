@@ -7,11 +7,12 @@
                 @endif
             </a>
 
-            <div class="lh-sm fw-500 mb-3">
-                <a class="text-dark text-hover-underline" href="{{ productRoute($product) }}">{{ $product->name }}</a>
+            <div class="vstack mb-3 gap-2 text-center">
+                <a class="text-secondary small text-hover-underline" href="{{ productRoute($product) }}">{{ $product->category->name }}</a>
+                <a class="fw-500 text-dark text-hover-underline" href="{{ productRoute($product) }}">{{ $product->name }}</a>
             </div>
-
-            <div class="d-flex align-items-baseline fw-bold mt-auto" style="font-size: 1.1rem">
+            
+            <div class="d-flex align-items-baseline fw-bold mt-auto justify-content-center" style="font-size: 1.1rem">
                 @if($product->has_variants && $product->relationLoaded('variants'))
                     @if(($min = $product->variants->min('netValue')) !== ($max = $product->variants->max('netValue')))
                         <div>{{ format_currency($min) }} - {{ format_currency($max) }}</div>

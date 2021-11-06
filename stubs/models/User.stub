@@ -1,6 +1,6 @@
 <?php
 
-namespace {namespace}Models;
+namespace {{namespace}}Models;
 
 use Eshop\Models\User as EshopUser;
 

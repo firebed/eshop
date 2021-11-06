@@ -38,7 +38,7 @@
 @endpush
 
 @section('main')
-    <div class="container-fluid bg-white">
+    <section id="homepage-main-section" class="container-fluid py-4">
         <div class="container-xxl">
             <div class="row g-0">
                 <div class="col-3 d-none d-lg-block">
@@ -46,12 +46,12 @@
                         @includeIf('eshop::customer.homepage.partials.categories-list')
                     </div>
                 </div>
-                <div class="col pt-3 ps-lg-5 pt-lg-4">
+                <div id="gallery" class="col">
                     <x-eshop-gallery/>
                 </div>
             </div>
         </div>
-    </div>
+    </section>
 
     <x-eshop-trending-products/>
     <x-eshop-bestsellers/>

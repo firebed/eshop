@@ -1,5 +1,6 @@
 <?php
 
+use Eshop\Controllers\Customer\ThemeController;
 use Eshop\Controllers\Dashboard\Analytics\AnalyticsController;
 use Eshop\Controllers\Dashboard\Cart\CartController;
 use Eshop\Controllers\Dashboard\Cart\OrderPrintController;
@@ -31,6 +32,7 @@ use Illuminate\Support\Facades\Route;
 Route::middleware(['web', 'auth', 'admin'])->group(function () {
     Route::prefix('dashboard')->group(function () {
         Route::put('sidebar', SidebarController::class);
+        Route::put('theme', ThemeController::class);
         
         Route::get('products/{product}/images', [ProductImageController::class, 'index'])->name('products.images.index');
         Route::get('products/trashed', ProductTrashController::class)->name('products.trashed.index');

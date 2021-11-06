@@ -116,7 +116,7 @@ class EshopServiceProvider extends ServiceProvider
     private function registerPublishing(): void
     {
         if ($this->app->runningInConsole()) {
-            $this->publishes([__DIR__ . '/../stubs/config/eshop.php' => config_path('eshop.php')], 'eshop-config');
+            $this->publishes([__DIR__ . '/../config/eshop.php' => config_path('eshop.php')], 'eshop-config');
             $this->publishes([__DIR__ . '/../resources/lang/el.json' => resource_path('lang/el.json')], 'eshop-lang-el');
             $this->publishes([__DIR__ . '/../stubs/controllers' => app_path('Http\Controllers')], 'eshop-customer-controllers');
             $this->publishes([__DIR__ . '/../stubs/resources/views' => resource_path('views')], 'eshop-customer-views');

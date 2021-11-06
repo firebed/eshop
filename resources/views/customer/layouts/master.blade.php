@@ -27,7 +27,7 @@
 
     <x-eshop::google-analytics/>
 </head>
-<body @isset($bg) class="{{ $bg }}" @else style="background-color: #f1f1f1" @endisset>
+<body>
 
 <x-bs::toast-container id="toasts"/>
 

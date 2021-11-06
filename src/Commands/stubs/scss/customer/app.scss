@@ -11,6 +11,7 @@
 @import "navbar";
 @import "cart-button";
 @import "logo";
+@import "theme";
 
 .img-middle {
   @extend .top-50, .start-50, .translate-middle, .w-auto, .h-auto, .mw-100, .mh-100;
@@ -34,10 +35,6 @@
   &:hover {
     text-decoration: underline;
   }
-}
-
-.h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 {
-  color: #495057;
 }
 
 .toast {

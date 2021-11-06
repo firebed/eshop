@@ -1,4 +1,4 @@
-<footer class="container-fluid py-4">
+<footer id="footer" class="container-fluid py-4">
     <div class="container-xxl">
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 row-cols-xl-4 g-4">
             <div class="col vstack align-items-start">
@@ -33,8 +33,5 @@
                 <div>{{ __("company.email") }}</div>
             </div>
         </div>
-
-        <hr>
-
     </div>
 </footer>

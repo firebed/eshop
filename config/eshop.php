@@ -78,4 +78,15 @@ return [
             'upload_height' => 3000
         ]
     ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Search bar
+    |--------------------------------------------------------------------------
+    |
+    | This options allows you to modify the size of the search input. Possible
+    | values are 'sm', 'lg' and null for default.
+    |
+    */
+    'search_bar_size' => null
 ];

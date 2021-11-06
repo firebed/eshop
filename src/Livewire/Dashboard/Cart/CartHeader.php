@@ -34,7 +34,7 @@ class CartHeader extends Component
         return response()->streamDownload(function () {
             $products = $this->cart->products()->with('translation', 'parent.translation', 'options')->get();
             $pdf = new Dompdf(['enable_remote' => true]);
-            $pdf->loadHtml(view('order-printer.print', ['cart' => $this->cart, 'products' => $products]));
+            $pdf->loadHtml(view('eshop::customer.order-printer.print', ['cart' => $this->cart, 'products' => $products]));
 
             $pdf->render();
             $this->showSuccessToast('Εκτύπωση επιτυχής!');

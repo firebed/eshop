@@ -1,4 +1,4 @@
-<section class="container-fluid py-3 pb-5 bg-white">
+<section id="bestsellers" class="container-fluid py-4">
     <div class="container-xxl">
         <div class="fw-bold py-5 vstack gap-3">
             <h2 class="mx-auto">Bestsellers</h2>

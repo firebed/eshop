@@ -1,5 +1,5 @@
 <div class="row g-0">
-    <div class="col-3 d-none d-lg-block py-2 bg-primary">
+    <div id="header-categories" class="col-3 d-none d-lg-block py-2">
         <div class="nav-link hstack justify-content-between text-light h-100">
             <div><em class="fas fa-bars me-3"></em>{{ __("Categories") }}</div>
             <div><em class="fas fa-chevron-down"></em></div>
