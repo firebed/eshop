@@ -20,8 +20,6 @@ class CreateImagesTable extends Migration
             $table->string('disk')->nullable();
             $table->string('collection')->nullable();
             $table->string('src');
-            $table->unsignedInteger('width')->nullable();
-            $table->unsignedInteger('height')->nullable();
             $table->json('conversions')->nullable();
             $table->timestamps();
         });

@@ -20,8 +20,9 @@ class CreateCategoryPropertiesTable extends Migration
             $table->string('slug');
             $table->boolean('visible')->default(TRUE);
             $table->unsignedTinyInteger('position')->default(0);
-            $table->unique(['category_id', 'slug']);
             $table->timestamps();
+
+            $table->unique(['category_id', 'slug']);
         });
     }
 

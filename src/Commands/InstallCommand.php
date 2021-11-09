@@ -139,6 +139,11 @@ class InstallCommand extends Command
             resource_path('lang/en/company.php'),
         );
 
+        copy(
+            __DIR__ . '/../../resources/lang/el.json',
+            resource_path('lang/el.json'),
+        );
+        
         if (!is_dir($directory = public_path('storage/images/flags')) && !mkdir($directory, 0755, true) && !is_dir($directory)) {
             throw new RuntimeException(sprintf('Directory "%s" was not created', $directory));
         }
@@ -155,6 +160,8 @@ class InstallCommand extends Command
         file_put_contents(app_path('Models/User.php'), $this->compileUser());
 
         copy(__DIR__ . '/../../stubs/config/filesystems.php', config_path('filesystems.php'));
+
+        copy(__DIR__ . '/../../config/eshop.php', config_path('eshop.php'));
 
         Artisan::call('optimize:clear');
         Artisan::call('config:clear');

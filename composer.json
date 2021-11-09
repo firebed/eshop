@@ -22,7 +22,8 @@
     "stevebauman/location": "^6.1",
     "laravel/fortify": "^1.7",
     "firebed/sitemap": "dev-master",
-    "firebed/laravel-scout-database": "dev-master"
+    "firebed/laravel-scout-database": "dev-master",
+    "hisorange/browser-detect": "^4.4"
   },
   "require-dev": {
     "roave/security-advisories": "dev-latest",

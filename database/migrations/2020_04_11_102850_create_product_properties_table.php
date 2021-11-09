@@ -18,7 +18,6 @@ class CreateProductPropertiesTable extends Migration
             $table->foreignId('product_id')->constrained()->cascadeOnDelete();
             $table->foreignId('category_property_id')->constrained()->cascadeOnDelete();
             $table->foreignId('category_choice_id')->nullable()->constrained()->cascadeOnDelete();
-            $table->string('value')->nullable();
             $table->timestamps();
         });
     }

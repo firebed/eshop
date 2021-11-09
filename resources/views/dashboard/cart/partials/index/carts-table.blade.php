@@ -55,7 +55,9 @@
             <td class="align-middle">
                 @if($cart->status)
                     <a href="{{ route('carts.show', $cart) }}" class="d-block text-decoration-none text-dark">
-                        <x-bs::badge type="{{ $cart->status->color ?? '' }}" class="w-100 fw-normal">{{ __('eshop::account.order.' . $cart->status->name) ?: '' }}</x-bs::badge>
+                        <small @class(["badge rounded-pill bg-{$cart->status->color}", "text-dark" => in_array($cart->status->color, ['warning', 'light', 'info'])])>
+                            {{ __('eshop::account.order.' . $cart->status->name) ?: '' }}
+                        </small>
                     </a>
                 @endif
             </td>

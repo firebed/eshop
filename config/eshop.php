@@ -26,6 +26,10 @@ return [
         'width'  => 306,
         'height' => 76
     ],
+    
+    'social' => [
+        
+    ],
 
     'country'            => env('COUNTRY', 'US'),
     'currency'           => env('CURRENCY', 'USD'),

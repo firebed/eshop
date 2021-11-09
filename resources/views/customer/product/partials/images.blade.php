@@ -46,8 +46,3 @@
         </div>
     </div>
 </div>
-
-<div class="small text-orange-500 mt-3">
-    <em class="fa fa-exclamation-circle"></em>
-    {{ __("eshop::product.image_color_diff") }}
-</div>

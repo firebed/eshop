@@ -85,6 +85,11 @@
 
                                 <button class="btn btn-danger" disabled>{{ __("Out of stock") }}</button>
                             @endif
+
+                            <div class="small text-gray-600 mt-3">
+                                <em class="fa fa-exclamation-circle"></em>
+                                {{ __("eshop::product.image_color_diff") }}
+                            </div>
                         </div>
                     </div>
                 </div>

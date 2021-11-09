@@ -33,5 +33,19 @@
                 <div>{{ __("company.email") }}</div>
             </div>
         </div>
+
+        <hr>
+
+        @if(is_array(eshop("social")) && eshop('social') > 0)
+            <div class="d-flex gap-2 justify-content-end">
+                @if(eshop("social.facebook"))
+                    <a href="{{ eshop("social.facebook") }}"><em class="fab fa-facebook-square fa-2x"></em></a>
+                @endif
+
+                @if(eshop("social.instagram"))
+                    <a href="{{ eshop("social.instagram") }}"><em class="fab fa-instagram-square fa-2x"></em></a>
+                @endif
+            </div>
+        @endif
     </div>
 </footer>

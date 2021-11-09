@@ -72,7 +72,6 @@ class EshopServiceProvider extends ServiceProvider
     private function registerConfig(): void
     {
         $this->mergeConfigFrom(__DIR__ . '/../config/colors.php', 'colors');
-        $this->mergeConfigFrom(__DIR__ . '/../config/eshop.php', 'eshop');
     }
 
     private function registerTranslations(): void

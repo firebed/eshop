@@ -9,13 +9,27 @@ class CartStatusSeeder extends Seeder
 {
     public function run(): void
     {
-        CartStatus::factory()->name('submitted')->notify()->color('primary')->icon('fas fa-thumbs-up')->group(0)->capture();
-        CartStatus::factory()->name('approved')->notify(FALSE)->color('info')->icon('fas fa-thumbs-up')->group(1)->capture();
-        CartStatus::factory()->name('completed')->notify(FALSE)->color('info')->icon('fas fa-check')->group(1)->capture();
-        CartStatus::factory()->name('shipped')->notify()->color('success')->icon('fas fa-truck')->group(1)->capture();
-        CartStatus::factory()->name('held')->notify(FALSE)->color('warning')->icon('fas fa-pause')->group(2)->capture();
-        CartStatus::factory()->name('cancelled')->notify(FALSE)->color('secondary')->icon('fas fa-stop')->group(3)->release();
-        CartStatus::factory()->name('rejected')->notify(FALSE)->color('secondary')->icon('fas fa-ban')->group(3)->release();
-        CartStatus::factory()->name('returned')->notify(FALSE)->color('secondary')->icon('fas fa-undo')->group(3)->release();
+        CartStatus::insert([
+            $this->make('submitted', true, 'primary', 'fas fa-thumbs-up', 0, true),
+            $this->make('approved', false, 'info', 'fas fa-thumbs-up', 1, true),
+            $this->make('completed', false, 'info', 'fas fa-check', 1, true),
+            $this->make('shipped', true, 'success', 'fas fa-truck', 1, true),
+            $this->make('held', false, 'warning', 'fas fa-pause', 2, true),
+            $this->make('cancelled', false, 'secondary', 'fas fa-stop', 3, false),
+            $this->make('rejected', false, 'secondary', 'fas fa-ban', 3, false),
+            $this->make('returned', false, 'secondary', 'fas fa-undo', 3, false),
+        ]);
+    }
+
+    private function make(string $name, bool $notify, string $color, string $icon, int $group, bool $capture): array
+    {
+        return [
+            'name'            => $name,
+            'notify'          => $notify,
+            'color'           => $color,
+            'icon'            => $icon,
+            'group'           => $group,
+            'stock_operation' => $capture ? 'Capture' : 'Release'
+        ];
     }
 }

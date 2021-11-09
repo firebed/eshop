@@ -29,7 +29,7 @@
                         </ul>
 
                         <div class="d-none d-lg-flex align-items-center">
-                            <a href="{{ route('order-tracking.index', app()->getLocale()) }}" class="btn btn-sm btn-outline-primary rounded-pill">{{ __("Track your order") }}</a>
+                            <a id="tracking-btn" href="{{ route('order-tracking.index', app()->getLocale()) }}" class="btn btn-sm rounded-pill">{{ __("Track your order") }}</a>
                         </div>
                     </div>
                 </div>

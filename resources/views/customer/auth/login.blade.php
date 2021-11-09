@@ -26,9 +26,9 @@
         <div class="row">
             <div class="col-md-8 mx-auto">
                 <div class="card h-100 shadow-sm p-4">
-                    <h1 class="mb-4 fs-4 text-primary">{{ __("Login") }}</h1>
+                    <h1 class="mb-4 fs-4">{{ __("Login") }}</h1>
 
-                    <form method="POST" action="{{ route('login', app()->getLocale()) }}">
+                    <form x-data="{ submitting: false }" x-on:submit="submitting = true" method="POST" action="{{ route('login', app()->getLocale()) }}">
                         @csrf
 
                         <div class="row mb-3">
@@ -63,11 +63,16 @@
                         </div>
 
                         <div class="form-group row mb-0">
-                            <div class="col-md-8 offset-md-4">
-                                <button type="submit" class="btn btn-primary rounded-pill px-4">{{ __("Login") }}</button>
+                            <div class="col-md-8 offset-md-4 d-flex gap-3 align-items-center">
+                                <button x-bind:disabled="submitting" type="submit" class="btn btn-primary rounded-pill px-4">
+                                    <div x-cloak x-show="submitting" class="spinner-border spinner-border-sm" role="status">
+                                        <span class="visually-hidden">Loading...</span>
+                                    </div>
+                                    {{ __("Login") }}
+                                </button>
 
                                 @if (Route::has('password.request'))
-                                    <a class="btn btn-link text-decoration-none" href="{{ route('password.request', app()->getLocale()) }}">{{ __("Forgot Your Password?") }}</a>
+                                    <a class="text-decoration-none" href="{{ route('password.request', app()->getLocale()) }}">{{ __("Forgot Your Password?") }}</a>
                                 @endif
                             </div>
                         </div>

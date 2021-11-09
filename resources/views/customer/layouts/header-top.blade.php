@@ -80,7 +80,7 @@
     </div>
 </div>
 
-@can('View dashboard')
+@can('Edit configuration')
     <div id="theme-form" class="modal" tabindex="-1">
         <form action="/dashboard/theme" method="post">
             @csrf

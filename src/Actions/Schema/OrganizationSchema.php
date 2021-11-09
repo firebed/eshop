@@ -30,7 +30,7 @@ class OrganizationSchema
             ]
         ];
 
-        if (($sameAs = config('company.social')) && is_array($sameAs)) {
+        if (($sameAs = eshop('social')) && is_array($sameAs) && count($sameAs) > 0) {
             $organization["sameAs"] = $sameAs;            
         }
 

@@ -18,8 +18,8 @@ class CreateTranslationsTable extends Migration
             $table->id();
             $table->morphs('translatable');
             $table->string('locale', 2);
-            $table->text('translation');
             $table->string('cluster', 50)->nullable();
+            $table->text('translation');
 
             $table->unique(['locale', 'translatable_id', 'translatable_type', 'cluster'], 'unique_translation');
             $table->foreign('locale')->references('name')->on('locales')->cascadeOnUpdate()->cascadeOnDelete();

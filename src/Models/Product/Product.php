@@ -134,14 +134,15 @@ class Product extends Model
     public function properties(): BelongsToMany
     {
         return $this->belongsToMany(CategoryProperty::class, 'product_properties')
-            ->withPivot('category_choice_id', 'value')
+            ->withPivot('category_choice_id')
             ->orderBy('position');
     }
 
     public function choices(): BelongsToMany
     {
         return $this->belongsToMany(CategoryChoice::class, 'product_properties')
-            ->withPivot('category_property_id', 'category_choice_id', 'value')
+            ->withPivot('category_property_id', 'category_choice_id')
+            ->withTimestamps()
             ->orderBy('position');
     }
 
