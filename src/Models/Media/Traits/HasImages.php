@@ -71,12 +71,25 @@ trait HasImages
             'disk'        => $this->getMediaDisk(),
             'collection'  => $collection,
             'src'         => $path,
-            'width'       => $image->getWidth(),
-            'height'      => $image->getHeight(),
             'conversions' => $this->prepareConversions($hashName, $manager, $file)
         ]);
         $this->images()->save($media);
         return $media;
+    }
+
+    public function getMediaDisk(): string
+    {
+        return $this->disk;
+    }
+
+    public function addImageConversion($name, callable $func): void
+    {
+        $this->conversions[$name] = $func;
+    }
+
+    public function isCollectionAttribute($key): bool
+    {
+        return in_array($key, $this->collections ?? []);
     }
 
     protected function resizeBaseImage($image): void
@@ -85,6 +98,16 @@ trait HasImages
             $constraint->aspectRatio();
             $constraint->upsize();
         });
+    }
+
+    protected function getPathPrefix(): string
+    {
+        return ($this->userIdAsPrefix ? $this->id . '/' : '');
+    }
+
+    protected function path($filename): string
+    {
+        return $this->getPathPrefix() . $filename;
     }
 
     private function saveToDisk($path, $image, $quality): void
@@ -106,36 +129,9 @@ trait HasImages
             $path = $this->path($name . '-' . $hashName);
             $this->saveToDisk($path, $image, 80);
             $conversions[$name] = [
-                'src'    => $path,
-                'width'  => $image->getWidth(),
-                'height' => $image->getHeight(),
+                'src' => $path,
             ];
         }
         return $conversions;
-    }
-
-    public function getMediaDisk(): string
-    {
-        return $this->disk;
-    }
-
-    public function addImageConversion($name, callable $func): void
-    {
-        $this->conversions[$name] = $func;
-    }
-
-    protected function getPathPrefix(): string
-    {
-        return ($this->userIdAsPrefix ? $this->id . '/' : '');
-    }
-
-    protected function path($filename): string
-    {
-        return $this->getPathPrefix() . $filename;
-    }
-
-    public function isCollectionAttribute($key): bool
-    {
-        return in_array($key, $this->collections ?? []);
     }
 }
