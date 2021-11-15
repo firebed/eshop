@@ -8,17 +8,21 @@
         <x-bs::slider slides="1" slides-sm="2" slides-lg="3" slides-xl="5" slides-xxl="6" interval="3500" class="gx-4">
             @foreach($products as $product)
                 <x-bs::slider.item class="w-md-50 w-lg-1/3 w-xl-20 pb-1">
-                    <div class="card p-3">
-                        <div class="vstack h-100 gap-2 justify-content-between">
-                            <a href="{{ productRoute($product) }}" title="{{ $product->name }}" class="ratio ratio-1x1">
-                                @if($src = $product->image?->url('sm'))
-                                    <img class="rounded {{ eshop('product.image.cover') ? '' : 'img-middle' }}" src="{{ $src }}" alt="{{ $product->name }}">
-                                @endif
-                            </a>
+                    <div class="card h-100">
+                        <a href="{{ productRoute($product) }}" title="{{ $product->name }}" class="card-body text-decoration-none text-dark">
+                            <div class="vstack gap-1 h-100">
+                                <div class="ratio ratio-1x1">
+                                    @if($src = $product->image?->url('sm'))
+                                        <img class="rounded {{ eshop('product.image.cover') ? '' : 'img-middle' }}" src="{{ $src }}" alt="{{ $product->name }}">
+                                    @endif
+                                </div>
 
-                            <div class="fs-6 fw-500"><a href="{{ productRoute($product) }}" title="{{ $product->name }}" class="fw-500 text-decoration-none text-dark">{{ $product->name }}</a></div>
-                            <a href="{{ productRoute($product) }}" title="{{ $product->name }}" class="text-decoration-none text-dark mt-auto fw-bold">{{ format_currency($product->net_value) }}</a>
-                        </div>
+                                <small class="text-secondary">{{ $product->category->name }}</small>
+                                
+                                <div class="fs-6 fw-500 mb-3">{{ $product->name }}</div>
+                                <div class="fw-bold">{{ format_currency($product->net_value) }}</div>
+                            </div>
+                        </a>
                     </div>
                 </x-bs::slider.item>
             @endforeach
