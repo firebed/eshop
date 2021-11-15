@@ -19,7 +19,7 @@
             <div class="d-flex flex-nowrap d-sm-grid gap-1">
                 @if($product->image && $src = $product->image->url())
                     <div class="d-flex w-3r w-sm-auto">
-                        <a x-show="thumbnails.length === 0" href="{{ $src }}" class="ratio ratio-1x1 rounded border" data-fslightbox="images" data-type="image">
+                        <a x-show="thumbnails.length === 0" href="{{ $src }}" class="ratio ratio-1x1 rounded" data-fslightbox="images" data-type="image">
                             <img src="{{ $product->image->url('sm') }}" alt="{{ $product->trademark }}" class="img-top rounded">
                         </a>
                     </div>
@@ -28,7 +28,7 @@
                 @isset($images)
                     @foreach($images as $image)
                         <div class="d-flex w-3r w-sm-auto">
-                            <a x-show="thumbnails.length === 0" href="{{ $image->url() }}" data-fslightbox="images" data-type="image" class="ratio ratio-1x1 rounded border">
+                            <a x-show="thumbnails.length === 0" href="{{ $image->url() }}" data-fslightbox="images" data-type="image" class="ratio ratio-1x1 rounded">
                                 <img src="{{ $image->url('sm') }}" alt="{{ $product->name }}" class="img-top rounded">
                             </a>
                         </div>
@@ -37,7 +37,7 @@
 
                 <template x-for="thumb in thumbnails" :key="thumb">
                     <div class="d-flex w-3r w-sm-auto">
-                        <a x-bind:href="thumb" data-fslightbox="images" data-type="image" class="ratio ratio-1x1 rounded border">
+                        <a x-bind:href="thumb" data-fslightbox="images" data-type="image" class="ratio ratio-1x1 rounded">
                             <img x-bind:src="thumb" alt="{{ $product->name }}" class="img-top rounded">
                         </a>
                     </div>

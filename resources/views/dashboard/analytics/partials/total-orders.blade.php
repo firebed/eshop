@@ -3,7 +3,7 @@
         <div class="d-grid gap-3">
             <div class="d-flex justify-content-between">
                 <div class="fw-bold">{{ __("eshop::analytics.total_orders") }}</div>
-                <a href="#" class="text-decoration-none">{{ __("eshop::analytics.view_report") }}</a>
+{{--                <a href="{{ route('analytics.orders.index') }}" class="text-decoration-none">{{ __("eshop::analytics.view_report") }}</a>--}}
             </div>
 
             <div class="hstack gap-3 align-items-baseline">

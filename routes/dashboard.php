@@ -2,6 +2,8 @@
 
 use Eshop\Controllers\Customer\ThemeController;
 use Eshop\Controllers\Dashboard\Analytics\AnalyticsController;
+use Eshop\Controllers\Dashboard\Analytics\OrderAnalyticsController;
+use Eshop\Controllers\Dashboard\Analytics\WarehouseAnalyticsController;
 use Eshop\Controllers\Dashboard\Cart\CartController;
 use Eshop\Controllers\Dashboard\Cart\OrderPrintController;
 use Eshop\Controllers\Dashboard\Category\CategoryController;
@@ -86,6 +88,8 @@ Route::middleware(['web', 'auth', 'admin'])->group(function () {
         Route::view('config', 'eshop::dashboard.config.index')->name('config.index');
 
         Route::get('analytics', AnalyticsController::class)->name('analytics.index');
+        Route::get('analytics/orders', OrderAnalyticsController::class)->name('analytics.orders.index');
+        Route::get('analytics/warehouse', WarehouseAnalyticsController::class)->name('analytics.warehouse.index');
 
         Route::resource('pages', PageController::class)->only('index', 'edit', 'update');
         

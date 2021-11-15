@@ -5,6 +5,7 @@ namespace Eshop\Controllers\Dashboard\Analytics;
 use Eshop\Controllers\Dashboard\Controller;
 use Eshop\Models\Cart\CartChannel;
 use Eshop\Models\Cart\CartStatus;
+use Eshop\Models\Product\Product;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -56,7 +57,7 @@ class AnalyticsController extends Controller
             ->select(DB::raw("HOUR(`submitted_at`) as `hour`"), DB::raw("COUNT(*) as `count`"))
             ->join('cart_statuses', 'cart_statuses.id', '=', 'carts.status_id')
             ->whereBetween('submitted_at', [$date, $date->copy()->endOfDay()])
-            ->whereIn('cart_statuses.name', CartStatus::calculable())
+            ->whereIn('cart_statuses.name', CartStatus::valid())
             ->groupBy('hour')
             ->get()
             ->pluck('count', 'hour');
@@ -80,7 +81,7 @@ class AnalyticsController extends Controller
             ->select(DB::raw("HOUR(`submitted_at`) as `hour`"), DB::raw("SUM(`total`) as `total`"))
             ->join('cart_statuses', 'cart_statuses.id', '=', 'carts.status_id')
             ->whereBetween('submitted_at', [$date, $date->copy()->endOfDay()])
-            ->whereIn('cart_statuses.name', CartStatus::calculable())
+            ->whereIn('cart_statuses.name', CartStatus::valid())
             ->groupBy('hour')
             ->get()
             ->pluck('total', 'hour');
@@ -106,7 +107,7 @@ class AnalyticsController extends Controller
             ->join('cart_product', 'cart_product.cart_id', '=', 'carts.id')
             ->whereNull('cart_product.deleted_at')
             ->whereBetween('submitted_at', [$date, $date->copy()->endOfDay()])
-            ->whereIn('cart_statuses.name', CartStatus::calculable())
+            ->whereIn('cart_statuses.name', CartStatus::valid())
             ->groupBy('hour')
             ->get()
             ->pluck('total', 'hour');
@@ -131,7 +132,7 @@ class AnalyticsController extends Controller
             ->join('cart_statuses', 'cart_statuses.id', '=', 'carts.status_id')
             ->join('payment_methods', 'payment_methods.id', '=', 'carts.payment_method_id')
             ->whereBetween('submitted_at', [$date, $date->copy()->endOfDay()])
-            ->whereIn('cart_statuses.name', CartStatus::calculable())
+            ->whereIn('cart_statuses.name', CartStatus::valid())
             ->groupBy('payment_method_name')
             ->get()
             ->pluck('total', 'payment_method_name');
@@ -148,7 +149,7 @@ class AnalyticsController extends Controller
             ->join('cart_statuses', 'cart_statuses.id', '=', 'carts.status_id')
             ->join('shipping_methods', 'shipping_methods.id', '=', 'carts.shipping_method_id')
             ->whereBetween('submitted_at', [$date, $date->copy()->endOfDay()])
-            ->whereIn('cart_statuses.name', CartStatus::calculable())
+            ->whereIn('cart_statuses.name', CartStatus::valid())
             ->groupBy('shipping_method_name')
             ->get()
             ->pluck('total', 'shipping_method_name');
@@ -164,7 +165,7 @@ class AnalyticsController extends Controller
             ->select('channel', DB::raw("COUNT(*) as `total`"))
             ->join('cart_statuses', 'cart_statuses.id', '=', 'carts.status_id')
             ->whereBetween('submitted_at', [$date, $date->copy()->endOfDay()])
-            ->whereIn('cart_statuses.name', CartStatus::calculable())
+            ->whereIn('cart_statuses.name', CartStatus::valid())
             ->groupBy('channel')
             ->get()
             ->pluck('total', 'channel');

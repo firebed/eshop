@@ -29,7 +29,7 @@ class CartStatus extends Model
     public const APPROVED  = 'approved';
     public const COMPLETED = 'completed';
     public const SHIPPED   = 'shipped';
-    public const HELD      = 'held';
+    public const ON_HOLD   = 'held';
     public const CANCELLED = 'cancelled';
     public const REJECTED  = 'rejected';
     public const RETURNED  = 'returned';
@@ -41,9 +41,9 @@ class CartStatus extends Model
 
     protected $casts = ['notify' => 'bool'];
 
-    public static function calculable(): array
+    public static function valid(): array
     {
-        return [self::SUBMITTED, self::APPROVED, self::COMPLETED, self::SHIPPED, self::HELD];
+        return [self::SUBMITTED, self::APPROVED, self::COMPLETED, self::SHIPPED, self::ON_HOLD];
     }
 
     public function carts(): HasMany
@@ -58,7 +58,7 @@ class CartStatus extends Model
             self::APPROVED,
             self::COMPLETED,
             self::SHIPPED,
-            self::HELD
+            self::ON_HOLD
         ]);
     }
 

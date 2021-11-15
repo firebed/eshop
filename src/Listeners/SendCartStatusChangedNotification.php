@@ -36,7 +36,7 @@ class SendCartStatusChangedNotification
             case CartStatus::SHIPPED:
                 Notification::route('mail', $cart->email)->notify(new OrderShippedNotification($cart, $notes));
                 break;
-            case CartStatus::HELD:
+            case CartStatus::ON_HOLD:
                 Notification::route('mail', $cart->email)->notify(new OrderHeldNotification($cart, $notes));
                 break;
             case CartStatus::CANCELLED:

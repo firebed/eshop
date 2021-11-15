@@ -12,25 +12,13 @@
             <div class="offcanvas-body">
                 <ul class="navbar-nav flex-grow-1">
                     <li class="nav-item">
-                        <a class="nav-link py-lg-0 ps-0" href="#">Παραγγελίες</a>
+                        <a class="nav-link py-lg-0 ps-0" href="{{ route('analytics.index') }}">Αρχική</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link py-lg-0" href="#">Έσοδα</a>
+                        <a class="nav-link py-lg-0" href="{{ route('analytics.orders.index') }}">Παραγγελίες</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link py-lg-0" href="#">Κέρδη</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link py-lg-0" href="#">Έξοδα</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link py-lg-0" href="#">Τρόποι αποστολής</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link py-lg-0" href="#">Τρόποι πληρωμής</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link py-lg-0" href="#">Προϊόντα</a>
+                        <a class="nav-link py-lg-0" href="{{ route('analytics.warehouse.index') }}">Αποθήκη</a>
                     </li>
                 </ul>
             </div>

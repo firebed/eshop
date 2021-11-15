@@ -77,7 +77,7 @@ return [
 
     'product' => [
         'image' => [
-            'cover'         => true,
+            'cover'         => false,
             'upload_width'  => 3000,
             'upload_height' => 3000
         ]

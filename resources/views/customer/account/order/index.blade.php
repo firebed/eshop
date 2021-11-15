@@ -30,8 +30,8 @@
                             <td class="align-middle fw-500">
                                 {{ __('eshop::account.order.' . $order->status->name) }}
                             </td>
-                            <td class="align-middle">{{ __('eshop::payment.' . $order->paymentMethod->name) ?? "" }}</td>
-                            <td class="align-middle">{{ $order->shippingMethod?->name }}</td>
+                            <td class="align-middle">@if($order->paymentMethod) {{ __('eshop::payment.' . $order->paymentMethod->name) }} @endif</td>
+                            <td class="align-middle">@if($order->shippingMethod) {{ $order->shippingMethod->name }} @endif</td>
                             <td class="align-middle">{{ format_currency($order->total) }}</td>
                             <td class="align-middle">{{ $order->submitted_at?->isoFormat('ll HH:mm') }}</td>
                             <td class="text-end"><a href="{{ route('account.orders.show', [app()->getLocale(), $order]) }}" class="btn btn-sm btn-primary">{{ __("eshop::account.order.details") }}</a></td>

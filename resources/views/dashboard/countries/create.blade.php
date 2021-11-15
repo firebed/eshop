@@ -5,7 +5,7 @@
 @endsection
 
 @section('main')
-    <div class="col-5 mx-auto py-5">
+    <div class="col-12 col-md-8 col-xl-6 mx-auto py-5">
         <form x-data="{ submitting: false }" x-on:submit="submitting = true" action="{{ route('countries.store') }}" method="post" class="mb-4">
             @csrf
 

@@ -50,7 +50,7 @@
         </div>
 
         @if($variant->recent)
-            <img src="{{ asset('storage/images/new-ribbon.png') }}" alt="New ribbon" class="position-absolute" style="width: 100px; height: 100px; left: -13px; top: -12px">
+            <img src="{{ asset('storage/images/new-ribbon.png') }}" alt="New ribbon" class="new-ribbon position-absolute">
         @endif
 
         @if($variant->discount > 0)

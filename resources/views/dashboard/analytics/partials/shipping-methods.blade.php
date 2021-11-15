@@ -3,7 +3,7 @@
         <div class="d-grid gap-3">
             <div class="d-flex justify-content-between">
                 <div class="fw-bold">{{ __("eshop::analytics.shipping_methods") }}</div>
-                <a href="#" class="text-decoration-none">{{ __("eshop::analytics.view_report") }}</a>
+{{--                <a href="#" class="text-decoration-none">{{ __("eshop::analytics.view_report") }}</a>--}}
             </div>
 
             <div class="ratio ratio-16x9">

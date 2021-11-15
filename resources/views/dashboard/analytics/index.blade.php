@@ -1,4 +1,8 @@
-@extends('eshop::dashboard.layouts.master', ['title' => 'Analytics'])
+@extends('eshop::dashboard.layouts.master')
+
+@section('header')
+    <h1 class="fs-5 mb-0">{{ __("Analytics") }}</h1>
+@endsection
 
 @push('header_scripts')
     <link rel="dns-prefetch" href="https://cdn.jsdelivr.net/">

@@ -54,7 +54,7 @@
             @endif
 
             @if($product->recent)
-                <img loading="lazy" src="{{ asset('storage/images/new-ribbon.png') }}" alt="New ribbon" class="position-absolute" style="width: 100px; height: 100px; left: -13px; top: -12px">
+                <img loading="lazy" src="{{ asset('storage/images/new-ribbon.png') }}" alt="New ribbon" class="new-ribbon position-absolute">
             @endif
 
             @if((!$product->has_variants && $product->discount > 0) || ($product->has_variants && $product->relationLoaded('variants') && $product->variants->where('discount', '>', 0)->isNotEmpty()))

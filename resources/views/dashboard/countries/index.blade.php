@@ -5,7 +5,7 @@
 @endsection
 
 @section('main')
-    <div class="col-5 mx-auto py-5">
+    <div class="col-12 col-md-8 col-xl-6 mx-auto py-5">
         <div class="hstack justify-content-between gap-3 mb-4">
             <h1 class="fs-3 mb-0">{{ __("Countries") }}</h1>
 

@@ -31,7 +31,10 @@
     <div class="col">
         <main class="row">
             <div class="d-flex col-12 bg-white shadow-sm sticky-xl-top justify-content-between align-items-center px-4" style="height: 3.5rem">
+                <div class="d-flex gap-2 align-items-baseline">
+{{--                <em class="fas fa-bars fs-5"></em>--}}
                 @yield('header')
+                </div>
                 
                 <div class="d-none d-sm-flex gap-2 align-items-center">
                     <em class="fas fa-user text-gray-500"></em>
