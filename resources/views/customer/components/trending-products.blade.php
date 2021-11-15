@@ -12,18 +12,20 @@
         </div>
 
         @foreach ($categories as $name => $products)
-            <div @if(!$loop->first) x-cloak @endif x-show="active === '{{ $name }}'" class="row row-cols-2 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5 g-4">
+            <div @if(!$loop->first) x-cloak @endif x-show="active === '{{ $name }}'" class="row row-cols-2 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5 row-cols-xxl-6 g-4">
                 @foreach ($products as $product)
                     <div class="col">
-                        <div class="vstack gap-2 h-100">
-                            <a href="{{ productRoute($product) }}" title="{{ $product->name }}" class="ratio ratio-1x1">
-                                @if($src = $product->image?->url('sm'))
-                                    <img src="{{ $src }}" alt="{{ $product->name }}" class="rounded {{ eshop('product.image.cover') ? '' : 'img-middle' }}">
-                                @endif
-                            </a>
+                        <div class="card p-3">
+                            <div class="vstack gap-2 h-100">
+                                <a href="{{ productRoute($product) }}" title="{{ $product->name }}" class="ratio ratio-1x1">
+                                    @if($src = $product->image?->url('sm'))
+                                        <img src="{{ $src }}" alt="{{ $product->name }}" class="rounded {{ eshop('product.image.cover') ? '' : 'img-middle' }}">
+                                    @endif
+                                </a>
 
-                            <div class="fs-6 fw-500"><a href="{{ productRoute($product) }}" class="fw-500 text-decoration-none text-dark">{{ $product->name }}</a></div>
-                            <div class="mt-sm-auto fw-bold">{{ format_currency($product->net_value) }}</div>
+                                <div class="fs-6 fw-500"><a href="{{ productRoute($product) }}" class="fw-500 text-decoration-none text-dark">{{ $product->name }}</a></div>
+                                <div class="mt-sm-auto fw-bold">{{ format_currency($product->net_value) }}</div>
+                            </div>
                         </div>
                     </div>
                 @endforeach

@@ -17,7 +17,7 @@ class ProfitAnalytics
         $group = substr($interval, strpos($interval, ' ') + 1);
 
         $data = $this->carts($from, $to)
-            ->select(array_merge($this->getSelectStatement($group), [DB::raw("ROUND(SUM(`quantity` * (`price`/(1+`vat`) * (1 - `discount`) - `compare_price`) - (shipping_fee + payment_fee)), 2) as `profits`")]))
+            ->select(array_merge($this->getSelectStatement($group), [DB::raw("ROUND(SUM(`quantity` * (`price`/(1+`vat`) * (1 - `discount`) - `compare_price`)), 2) as `profits`")]))
             ->join('cart_product', 'cart_product.cart_id', '=', 'carts.id')
             ->groupBy('grp')
             ->when($from !== null, fn($q) => $q->orderBy('submitted_at'))
