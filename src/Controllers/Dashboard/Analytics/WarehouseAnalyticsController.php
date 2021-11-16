@@ -25,6 +25,6 @@ class WarehouseAnalyticsController extends Controller
 
     private function warehouseValue(): float
     {
-        return Product::where('stock', '>', 0)->sum(DB::raw('stock * net_value'));
+        return Product::where('stock', '>', 0)->sum(DB::raw('stock * compare_price'));
     }
 }

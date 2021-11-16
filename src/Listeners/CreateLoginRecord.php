@@ -24,7 +24,7 @@ class CreateLoginRecord
         }
 
         if (Browser::isTablet()) {
-            return 'table';
+            return 'tablet';
         }
 
         if (Browser::isDesktop()) {

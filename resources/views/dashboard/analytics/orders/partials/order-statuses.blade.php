@@ -8,7 +8,7 @@
                     <canvas id="order-statuses"></canvas>
                 </div>
 
-                <div class="hstack gap-4 align-items-between flex-nowrap text-nowrap">
+                <div class="hstack gap-4 align-items-between flex-wrap text-nowrap">
                     @foreach($statuses as $status => $count)
                         <div class="vstack">
                             <div class="text-secondary small">{{ __("eshop::cart.status.$status") }}</div>
