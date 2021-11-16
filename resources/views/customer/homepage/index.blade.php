@@ -38,7 +38,7 @@
 @endpush
 
 @section('main')
-    <section id="homepage-main-section" class="container-fluid py-4">
+    <section id="homepage-main-section" class="container-fluid">
         <div class="container-xxl">
             <div class="row g-0">
                 <div class="col-3 d-none d-lg-block">

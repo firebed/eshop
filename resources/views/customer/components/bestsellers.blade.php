@@ -20,7 +20,7 @@
                                 <small class="text-secondary">{{ $product->category->name }}</small>
                                 
                                 <div class="fs-6 fw-500 mb-3">{{ $product->name }}</div>
-                                <div class="fw-bold">{{ format_currency($product->net_value) }}</div>
+                                <div class="mt-auto fw-bold">{{ format_currency($product->net_value) }}</div>
                             </div>
                         </a>
                     </div>
