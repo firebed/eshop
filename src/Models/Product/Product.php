@@ -65,12 +65,15 @@ use Laravel\Scout\Searchable;
  * @property float           netValue
  * @property float           netValueWithoutVat
  *
- * @method Builder visible($visible = true)
- * @method Builder exceptVariants()
- * @method Builder onlyVariants()
- * @method Builder filterByManufacturers($manufacturer_ids)
- * @method Builder filterByPropertyChoices($choices)
- * @method Builder filterByPrice($min_price, $max_price)
+ * @method Product visible($visible = true)
+ * @method Product recent($recent = true)
+ * @method Product exceptVariants()
+ * @method Product exceptParents()
+ * @method Product onlyVariants()
+ * @method Product onSale()
+ * @method Product filterByManufacturers($manufacturer_ids)
+ * @method Product filterByPropertyChoices($choices)
+ * @method Product filterByPrice($min_price, $max_price)
  *
  * @mixin Builder
  */
@@ -221,6 +224,11 @@ class Product extends Model
         $builder->where('visible', $visible);
     }
 
+    public function scopeRecent(Builder $builder, $recent = true): void
+    {
+        $builder->where('recent', $recent);
+    }
+    
     public function scopeExceptVariants(Builder $builder): void
     {
         $builder->whereNull('products.parent_id');
@@ -229,6 +237,11 @@ class Product extends Model
     public function scopeOnlyVariants(Builder $builder): void
     {
         $builder->whereNotNull('products.parent_id');
+    }
+
+    public function scopeExceptParents(Builder $builder): void
+    {
+        $builder->where('has_variants', false);
     }
 
     public function scopeFilterByManufacturers(Builder $query, Collection $manufacturer_ids): void
