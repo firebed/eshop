@@ -16,7 +16,7 @@
             <em class="fa fa-mobile-alt fa-2x text-primary me-2"></em>
             <div class="small fw-500 vstack">
                 @foreach(__("company.phone") as $phone)
-                    <a href="tel:{{ $phone }}" class="lh-sm text-decoration-none text-dark">{{ $phone }}</a>
+                    <a href="tel:{{ telephone($phone) }}" class="lh-sm text-decoration-none text-dark">{{ $phone }}</a>
                 @endforeach
             </div>
         </div>

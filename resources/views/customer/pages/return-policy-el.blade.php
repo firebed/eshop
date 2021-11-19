@@ -8,8 +8,7 @@
     $base = basename($url);
     $link = "<a href='$url'>$base</a>";
 
-    $phone = __("eshop::company.phone");
-    $address = __("eshop::company.address");
+    $address = __("company.address");
 @endphp
 
 @section('main')

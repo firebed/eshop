@@ -3,6 +3,7 @@
 namespace Eshop\Services;
 
 use Eshop\Models\Product\Category;
+use Eshop\Models\Product\Collection;
 use Eshop\Models\Product\Product;
 use Firebed\Sitemap\Sitemap;
 use Firebed\Sitemap\SitemapIndex;
@@ -26,6 +27,9 @@ class SitemapGenerator
         $categories = $this->generateCategoriesSitemap();
         $this->writeSitemap($categories, 'sitemaps/categories.xml');
 
+        $categories = $this->generateCollectionsSitemap();
+        $this->writeSitemap($categories, 'sitemaps/collections.xml');
+        
         $products = $this->generateProductsSitemap();
         $this->writeSitemap($products, 'sitemaps/products.xml');
 
@@ -78,6 +82,7 @@ class SitemapGenerator
         $sitemap->addUrl($this->pageUrl('cart'), today()->startOfYear(), Url::CHANGE_FREQ_YEARLY);
         $sitemap->addUrl($this->pageUrl('offers') , today(), Url::CHANGE_FREQ_DAILY);
         $sitemap->addUrl($this->pageUrl('order-tracking'), today()->startOfMonth(), Url::CHANGE_FREQ_MONTHLY);
+        $sitemap->addUrl($this->pageUrl('new-arrivals'), today()->startOfMonth(), Url::CHANGE_FREQ_DAILY);
 
         return $sitemap;
     }
@@ -108,6 +113,27 @@ class SitemapGenerator
         return $sitemap;
     }
 
+    private function generateCollectionsSitemap(): Sitemap|null
+    {
+        $collections = Collection::latest()->get();
+        if ($collections->isEmpty()) {
+            return null;
+        }
+
+        $sitemap = new Sitemap();
+        foreach ($collections as $collection) {
+            $url = new Url(route('products.collections.index', [app()->getLocale(), $collection->slug]), $collection->updated_at, Url::CHANGE_FREQ_DAILY);
+
+            if ($collection->image) {
+                $url->addImage($collection->image->url(), $collection->name);
+            }
+
+            $sitemap->addUrl($url);
+        }
+
+        return $sitemap;
+    }
+    
     private function generateProductsSitemap(): Sitemap|null
     {
         $products = Product::with('category', 'images', 'translations')->exceptVariants()->visible()->latest()->get();

@@ -8,7 +8,7 @@
     
     <meta property="og:locale" content="{{ app()->getLocale() . '_' . config('eshop.countries')[app()->getLocale()] }}" />
 
-    <title>{{ $title }} - {{ config('app.name') }}</title>
+    <title>{{ $title }} | {{ config('app.name') }}</title>
 
     <link rel="preload" href="{{ asset(eshop('logo.path')) }}" as="image">
     

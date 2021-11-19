@@ -350,7 +350,7 @@ class Product extends Model
     |-----------------------------------------------------------------------------
     */
 
-    public function getIsOnSale(): bool
+    public function isOnSale(): bool
     {
         return $this->discount > 0 || $this->price < $this->compare_price;
     }

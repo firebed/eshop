@@ -14,7 +14,9 @@ use Eshop\Controllers\Customer\Checkout\CheckoutProductController;
 use Eshop\Controllers\Customer\Checkout\OrderTrackingController;
 use Eshop\Controllers\Customer\HomepageController;
 use Eshop\Controllers\Customer\Pages\PageController;
+use Eshop\Controllers\Customer\Product\ProductCollectionController;
 use Eshop\Controllers\Customer\Product\ProductController;
+use Eshop\Controllers\Customer\Product\ProductNewArrivalsController;
 use Eshop\Controllers\Customer\Product\ProductOfferController;
 use Eshop\Controllers\Customer\Product\ProductSearchController;
 use Eshop\Models\Cart\Cart;
@@ -102,7 +104,9 @@ Route::group([
         Route::get('search', [ProductSearchController::class, 'index'])->name('products.search.index');
         Route::post('search', [ProductSearchController::class, 'ajax'])->name('products.search.ajax');
 
+        Route::get('new-arrivals', ProductNewArrivalsController::class)->name('products.new-arrivals.index');
         Route::get('offers', ProductOfferController::class)->name('products.offers.index');
+        Route::get('collections/{collection:slug}', ProductCollectionController::class)->name('products.collections.index');
 
         Route::get('{category:slug}/m/{manufacturers}/{filters}', CategoryController::class)->name('categories.manufacturers.filters');
         Route::get('{category:slug}/m/{manufacturers}', CategoryController::class)->name('categories.manufacturers');
