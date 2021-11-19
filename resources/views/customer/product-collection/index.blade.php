@@ -93,7 +93,7 @@
                         </div>
                     @else
                         <x-eshop::empty-products>
-                            <a href="{{ route('products.collections.index', [app()->getLocale(), $collection]) }}" class="btn btn-primary">{{ __("See all new arrivals") }}</a>
+                            <a href="{{ route('products.collections.index', [app()->getLocale(), $collection->slug]) }}" class="btn btn-primary">{{ __("See all products") }}</a>
                         </x-eshop::empty-products>
                     @endif
 

@@ -35,7 +35,7 @@
 @section('main')
     <x-eshop-category-breadcrumb :category="$category" :product="$product"/>
 
-    <main class="container-fluid bg-white gx-0">
+    <main class="container-fluid bg-white">
         <section class="container-xxl py-4">
             <div class="row row-cols-1 row-cols-md-2 g-5">
                 <div class="col">
