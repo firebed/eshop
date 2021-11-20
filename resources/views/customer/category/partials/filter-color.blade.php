@@ -4,7 +4,7 @@
        @if($choice->products_count === 0) rel="nofollow" @endif
     >
         @if($choice->name === 'Πολύχρωμο')
-            <div class="filter-indicator" style="background-image:url('{{ asset('storage/images/multicolor.png') }}')"></div>
+            <div class="filter-indicator" style="background-image:url('{{ mix('images/multicolor.png') }}')"></div>
         @else
             <div class="filter-indicator" style="background-color: {{ config("colors.$choice->name") }}"></div>
         @endif

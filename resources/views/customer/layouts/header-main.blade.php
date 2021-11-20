@@ -2,12 +2,12 @@
     @if(Route::currentRouteName() === 'landing_page' || Route::currentRouteName() === 'home')
         <h1 class="col-auto mb-0">
             <strong>
-                <a id="logo" title="{{ config('app.name') }}" style="--bg: url({{ asset(eshop('logo.path')) }})" href="{{ route('home', app()->getLocale()) }}">{{ config('app.name') }}</a>
+                <a id="logo" title="{{ config('app.name') }}" href="{{ route('home', app()->getLocale()) }}">{{ config('app.name') }}</a>
             </strong>
         </h1>
     @else
         <div class="col-auto">
-            <a id="logo" title="{{ config('app.name') }}" style="--bg: url({{ asset(eshop('logo.path')) }})" href="{{ route('home', app()->getLocale()) }}">{{ config('app.name') }}</a>
+            <a id="logo" title="{{ config('app.name') }}" href="{{ route('home', app()->getLocale()) }}">{{ config('app.name') }}</a>
         </div>
     @endif
 

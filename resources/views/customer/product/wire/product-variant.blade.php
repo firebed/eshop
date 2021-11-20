@@ -1,6 +1,6 @@
 <div class="col">
     <div class="card h-100 position-relative">
-        <div class="card-body d-grid gap-3">
+        <div @class(["card-body d-grid gap-3", "new-product" => $variant->recent])>
             <a class="text-decoration-none text-dark d-grid gap-2" href="{{ productRoute($variant, $category) }}">
                 @if($variant->image)
                     <div class="ratio ratio-1x1">
@@ -48,10 +48,6 @@
                 @endif
             </div>
         </div>
-
-        @if($variant->recent)
-            <img src="{{ asset('storage/images/new-ribbon.png') }}" alt="New ribbon" class="new-ribbon position-absolute">
-        @endif
 
         @if($variant->discount > 0)
             <div class="position-absolute p-2 fs-6 badge bg-yellow-500" style="z-index: 2000; top:10px; right: 10px;">{{ format_percent(-$variant->discount) }}</div>

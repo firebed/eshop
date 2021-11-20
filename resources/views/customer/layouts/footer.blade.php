@@ -49,3 +49,12 @@
         @endif
     </div>
 </footer>
+
+<div class="container-fluid bg-white border-top py-3">
+    <div class="container-xxl">
+        <div class="d-flex justify-content-between align-items-center">
+            <small class="text-secondary">&copy; {{ now()->year }} {{ config('app.name') }}</small>
+            <div><img src="{{ asset('images/credit-cards.webp') }}" alt="" class="img-fluid"></div>
+        </div>
+    </div>
+</div>

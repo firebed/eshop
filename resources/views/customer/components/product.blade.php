@@ -1,5 +1,5 @@
 <div class="col">
-    <div class="card h-100 product">
+    <div @class(["card", "h-100", "new-product" => $product->recent])>
         <div class="card-body vstack position-relative">
             <a href="{{ productRoute($product) }}" class="ratio ratio-1x1 mb-3">
                 @if($product->image && $src = $product->image->url('sm'))
@@ -51,10 +51,6 @@
                         {{ trans_choice("eshop::product.variants_count", $product->variants->count(), ['count' => $product->variants->count()]) }}
                     </div>
                 @endif
-            @endif
-
-            @if($product->recent)
-                <img loading="lazy" src="{{ asset('storage/images/new-ribbon.png') }}" alt="New ribbon" class="new-ribbon position-absolute">
             @endif
 
             @if((!$product->has_variants && $product->discount > 0) || ($product->has_variants && $product->relationLoaded('variants') && $product->variants->where('discount', '>', 0)->isNotEmpty()))

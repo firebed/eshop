@@ -20,12 +20,6 @@ return [
             ]
         ]
     ],
-
-    'logo' => [
-        'path'   => 'storage/images/logo.png',
-        'width'  => 306,
-        'height' => 76
-    ],
     
     'social' => [
         
