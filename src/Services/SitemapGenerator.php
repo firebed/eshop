@@ -27,8 +27,8 @@ class SitemapGenerator
         $categories = $this->generateCategoriesSitemap();
         $this->writeSitemap($categories, 'sitemaps/categories.xml');
 
-        $categories = $this->generateCollectionsSitemap();
-        $this->writeSitemap($categories, 'sitemaps/collections.xml');
+        $collections = $this->generateCollectionsSitemap();
+        $this->writeSitemap($collections, 'sitemaps/collections.xml');
         
         $products = $this->generateProductsSitemap();
         $this->writeSitemap($products, 'sitemaps/products.xml');
@@ -36,6 +36,7 @@ class SitemapGenerator
         $index = (new SitemapIndex())
             ->addSitemapIf($pages !== null, fn() => [BaseURL::asset('sitemaps/pages.xml'), now()])
             ->addSitemapIf($categories !== null, fn() => [BaseURL::asset('sitemaps/categories.xml'), now()])
+            ->addSitemapIf($collections !== null, fn() => [BaseURL::asset('sitemaps/collections.xml'), now()])
             ->addSitemapIf($products !== null, fn() => [BaseURL::asset('sitemaps/products.xml'), now()]);
 
         if (!$index->isEmpty()) {
