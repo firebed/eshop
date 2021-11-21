@@ -6,12 +6,12 @@
 
     @stack('meta')
     
-    <meta property="og:locale" content="{{ app()->getLocale() . '_' . config('eshop.countries')[app()->getLocale()] }}" />
+    <meta property="og:locale" content="{{ app()->getLocale() . '_' . eshop('countries')[app()->getLocale()] }}" />
 
     <title>{{ $title }} | {{ config('app.name') }}</title>
 
-    <link rel="preload" href="{{ asset('images/logo-sm.webp') }}" as="image">
-    <link rel="preload" href="{{ asset('images/logo.webp') }}" as="image">
+{{--    <link rel="preload" href="{{ mix('images/logo-sm.webp') }}" as="image">--}}
+{{--    <link rel="preload" href="{{ mix('images/logo.webp') }}" as="image">--}}
     
     @includeIf('eshop::customer.layouts.favicon')
 

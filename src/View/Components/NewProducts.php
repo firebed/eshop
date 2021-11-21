@@ -7,7 +7,7 @@ use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Support\Collection as BaseCollection;
 use Illuminate\View\Component;
 
-class TrendingProducts extends Component
+class NewProducts extends Component
 {
 
     public BaseCollection $products;
@@ -16,15 +16,16 @@ class TrendingProducts extends Component
     {
         $this->products = Product::exceptVariants()
             ->visible()
-            ->whereHas("collections", fn($q) => $q->whereSlug('trending'))
+            ->recent()
             ->with('category.translation', 'image', 'translation')
-            ->latest()
+            ->with('parent.translation', 'options')
             ->take(30)
+            ->latest()
             ->get();
     }
 
     public function render(): Renderable
     {
-        return view('eshop::customer.components.trending-products');
+        return view('eshop::customer.components.new-products');
     }
 }

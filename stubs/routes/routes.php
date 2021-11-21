@@ -54,7 +54,7 @@ Route::get('/', HomepageController::class)->name('landing_page');
 Route::group([
     'prefix'     => '{lang}',
     'middleware' => ['locale'],
-    'where'      => ['lang' => implode('|', array_keys(config('eshop.locales', [])))]
+    'where'      => ['lang' => implode('|', array_keys(eshop('locales', [])))]
 ],
     function () {
         Route::get('/', HomepageController::class)->name('home');

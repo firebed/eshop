@@ -3,10 +3,10 @@
     'error' => NULL,
     'min' => '-10000000000000',
     'max' => '10000000000000',
-    'groupsSeparator' => config('eshop.group_separator'),
-    'decimalSeparator' => config('eshop.decimal_separator'),
-    'symbolPlacement' => config('eshop.currency_placement'),
-    'signPlacement' => config('eshop.sign_placement'),
+    'groupsSeparator' => eshop('group_separator'),
+    'decimalSeparator' => eshop('decimal_separator'),
+    'symbolPlacement' => eshop('currency_placement'),
+    'signPlacement' => eshop('sign_placement'),
     'decimalPadding' => 'floats',
     'emptyInputBehavior' => 'zero'
 ])

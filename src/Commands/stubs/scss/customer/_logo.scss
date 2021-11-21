@@ -1,21 +1,20 @@
-#logo {
-    --width: 245px;
-    --height: 61px;
-
-    background: var(--bg) no-repeat 0 0/100%;
+#logo, #footer-logo {
+    background: url(../../images/logo-sm.webp) no-repeat center;
     color: transparent;
     font-size: 0;
     display: block;
-    width: var(--width);
-    height: var(--height);
+    width: 245px;
+    height: 61px;
+
+    -webkit-backface-visibility: hidden;
+    -moz-backface-visibility:    hidden;
+    -ms-backface-visibility:     hidden;
 }
 
 @media(min-width: 576px) {
-    #logo {
-        --width: 306px;
-        --height: 76px;
-
-        width: var(--width);
-        height: var(--height);
+    #logo, #footer-logo {
+        background: url(../../images/logo.webp) no-repeat center;
+        width: 306px;
+        height: 76px;
     }
 }

@@ -2,7 +2,7 @@
 
 @push('meta')
     <link rel="canonical" href="{{ route('pages.show', [app()->getLocale(), $page]) }}">
-    @foreach(array_keys(config('eshop.locales')) as $locale)
+    @foreach(array_keys(eshop('locales')) as $locale)
         <link rel="alternate" hreflang="{{ $locale }}" href="{{ route('pages.show', [$locale, $page]) }}" />
     @endforeach
 

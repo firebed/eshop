@@ -15,7 +15,7 @@
 @extends('eshop::customer.layouts.master', ['title' => $title])
 
 @push('meta')
-    @foreach(array_keys(config('eshop.locales')) as $locale)
+    @foreach(array_keys(eshop('locales')) as $locale)
         @if($category->isFile())
             <link rel="alternate" hreflang="{{ $locale }}" href="{{ categoryRoute($category, $filters['m'], $filters['c'], locale: $locale) . ($products->currentPage() > 1 ? '?page=' . $products->currentPage() : '') }}"/>
         @else

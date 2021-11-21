@@ -1,7 +1,7 @@
 @extends('eshop::customer.layouts.master', ['title' =>  __('Cart')])
 
 @push('footer_scripts')
-    <script src="https://www.paypal.com/sdk/js?client-id={{ config("eshop." . (app()->isProduction() ? "paypal_live_client_id" : "paypal_sandbox_client_id")) }}&currency={{ config('eshop.currency') }}"></script>
+    <script src="https://www.paypal.com/sdk/js?client-id={{ config("eshop." . (app()->isProduction() ? "paypal_live_client_id" : "paypal_sandbox_client_id")) }}&currency={{ eshop('currency') }}"></script>
     <script src="https://js.stripe.com/v3/"></script>
 @endpush
 

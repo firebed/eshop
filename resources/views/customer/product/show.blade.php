@@ -5,7 +5,7 @@
 
 @push('meta')
     <link rel="canonical" href="{{ productRoute($product, $category) }}">
-    @foreach(array_keys(config('eshop.locales')) as $locale)
+    @foreach(array_keys(eshop('locales')) as $locale)
         <link rel="alternate" hreflang="{{ $locale }}" href="{{ productRoute($product, $category, $locale) }}"/>
     @endforeach
 
@@ -58,7 +58,7 @@
 
                         <div class="vstack gap-1 my-2">
                             @include('eshop::customer.product.partials.product-category')
-                            @includeWhen(config('eshop.product.show_manufacturer') && isset($product->manufacturer), 'eshop::customer.product.partials.product-manufacturer')
+                            @includeWhen(eshop('product.show_manufacturer') && isset($product->manufacturer), 'eshop::customer.product.partials.product-manufacturer')
                         </div>
 
                         @includeWhen($description = $product->description, 'eshop::customer.product.partials.product-description', ['description' => $description])

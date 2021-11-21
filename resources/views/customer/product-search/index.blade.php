@@ -3,7 +3,7 @@
 @extends('eshop::customer.layouts.master', ['title' => $search_term . (filled($selectedManufacturersTitle) ? ' ' . $selectedManufacturersTitle : '') . ' - Όλες οι κατηγορίες'])
 
 @push('meta')
-    @foreach(array_keys(config('eshop.locales')) as $locale)
+    @foreach(array_keys(eshop('locales')) as $locale)
         <link rel="alternate" hreflang="{{ $locale }}" href="{{ route('products.offers.index', $locale) }}" />
     @endforeach
 

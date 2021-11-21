@@ -1,60 +1,64 @@
-<footer id="footer" class="container-fluid py-4">
+<footer id="footer" class="container-fluid">
     <div class="container-xxl">
-        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 row-cols-xl-4 g-4">
-            <div class="col vstack align-items-start">
-                <div class="fw-500 mb-2">{{ __("Security") }}</div>
-                <a href="{{ route('pages.show', [app()->getLocale(), 'terms-of-service']) }}" class="text-dark text-hover-underline">{{ __("Terms of service") }}</a>
-                <a href="{{ route('pages.show', [app()->getLocale(), 'data-protection']) }}" class="text-dark text-hover-underline">{{ __("Data protection") }}</a>
-                <a href="{{ route('pages.show', [app()->getLocale(), 'return-policy']) }}" class="text-dark text-hover-underline">{{ __("Return policy") }}</a>
-                <a href="{{ route('pages.show', [app()->getLocale(), 'cancellation-policy']) }}" class="text-dark text-hover-underline">{{ __("Cancellation policy") }}</a>
-                <a href="{{ route('pages.show', [app()->getLocale(), 'secure-transactions']) }}" class="text-dark text-hover-underline">{{ __("Secure transactions") }}</a>
+        <div class="row gy-4 gx-5">
+            <div class="col-12 col-lg-3">
+                <div class="vstack align-items-start gap-3">
+                    <div id="footer-logo"></div>
+                    <div class="text-secondary">Παιδικά Ρούχα, Βρεφικά Ρούχα, Παιδικά & Βρεφικά Αξεσουάρ</div>
+
+                    @if(is_array(eshop("social")) && eshop('social') > 0)
+                        <div class="hstack gap-2">
+
+                            @if(eshop("social.facebook"))
+                                <a href="{{ eshop("social.facebook") }}"><em class="fab fa-facebook-square fa-2x text-secondary"></em></a>
+                            @endif
+
+                            @if(eshop("social.instagram"))
+                                <a href="{{ eshop("social.instagram") }}"><em class="fab fa-instagram-square fa-2x text-secondary"></em></a>
+                            @endif
+                        </div>
+                    @endif
+                </div>
             </div>
 
-            <div class="col vstack align-items-start">
-                <div class="fw-500 mb-2">{{ __("Support") }}</div>
-                <a href="{{ route('pages.show', [app()->getLocale(), 'shipping-methods']) }}" class="text-dark text-hover-underline">{{ __("Shipping methods") }}</a>
-                <a href="{{ route('pages.show', [app()->getLocale(), 'payment-methods']) }}" class="text-dark text-hover-underline">{{ __("Payment methods") }}</a>
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                <ul class="list-unstyled vstack gap-2">
+                    <li>
+                        <h2 class="fs-6 fw-500 mb-0 border-bottom align-self-stretch pb-2">Γενικά</h2>
+                    </li>
+                    <li><a href="{{ route('pages.show', [app()->getLocale(), 'terms-of-service']) }}" class="text-dark text-hover-underline">{{ __("Terms of service") }}</a></li>
+                    <li><a href="{{ route('pages.show', [app()->getLocale(), 'data-protection']) }}" class="text-dark text-hover-underline">{{ __("Data protection") }}</a></li>
+                    <li><a href="{{ route('pages.show', [app()->getLocale(), 'return-policy']) }}" class="text-dark text-hover-underline">{{ __("Return policy") }}</a></li>
+                </ul>
             </div>
 
-            <div class="col vstack align-items-start">
-                <div class="fw-500 mb-2">{{ __("Account") }}</div>
-                <a href="{{ route('login', app()->getLocale()) }}" class="text-dark text-hover-underline">{{ __("Login") }}</a>
-                <a href="{{ route('register', app()->getLocale()) }}" class="text-dark text-hover-underline">{{ __("Register") }}</a>
-                @auth
-                    <a href="{{ route('account.orders.index', app()->getLocale()) }}" class="text-dark text-hover-underline">{{ __("My orders") }}</a>
-                    <a href="{{ route('account.addresses.index', app()->getLocale()) }}" class="text-dark text-hover-underline">{{ __("My addresses") }}</a>
-                @endauth
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                <ul class="list-unstyled vstack gap-2">
+                    <li>
+                        <h2 class="fs-6 fw-500 mb-0 border-bottom align-self-stretch pb-2">{{ __("Support") }}</h2>
+                    </li>
+                    <li><a href="{{ route('pages.show', [app()->getLocale(), 'shipping-methods']) }}" class="text-dark text-hover-underline">{{ __("Shipping methods") }}</a></li>
+                    <li><a href="{{ route('pages.show', [app()->getLocale(), 'payment-methods']) }}" class="text-dark text-hover-underline">{{ __("Payment methods") }}</a></li>
+                </ul>
             </div>
 
-            <div class="col vstack align-items-start">
-                <div class="fw-500 mb-2">{{ __("Contact") }}</div>
-                <div>{{ __("company.address") }}</div>
-                <div>{!! implode('<br>', __("company.phone")) !!}</div>
-                <div>{{ __("company.email") }}</div>
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                <h2 class="fs-6 fw-500 mb-2 border-bottom pb-2">{{ __("Contact") }}</h2>
+                <p class="vstack gap-2">
+                    <span>{{ __("company.address") }}</span>
+                    <span class="p-0">{!! implode('<br>', __("company.phone")) !!}</span>
+                    <span class="p-0">{{ __("company.email") }}</span>
+                </p>
             </div>
         </div>
-
-        <hr>
-
-        @if(is_array(eshop("social")) && eshop('social') > 0)
-            <div class="d-flex gap-2 justify-content-end">
-                @if(eshop("social.facebook"))
-                    <a href="{{ eshop("social.facebook") }}"><em class="fab fa-facebook-square fa-2x"></em></a>
-                @endif
-
-                @if(eshop("social.instagram"))
-                    <a href="{{ eshop("social.instagram") }}"><em class="fab fa-instagram-square fa-2x"></em></a>
-                @endif
-            </div>
-        @endif
     </div>
 </footer>
 
 <div class="container-fluid bg-white border-top py-3">
     <div class="container-xxl">
-        <div class="d-flex justify-content-between align-items-center">
+        <div class="d-flex flex-wrap justify-content-center justify-content-sm-between align-items-center gap-3">
             <small class="text-secondary">&copy; {{ now()->year }} {{ config('app.name') }}</small>
-            <div><img src="{{ asset('images/credit-cards.webp') }}" alt="" class="img-fluid"></div>
+            <div><img src="{{ mix('images/credit-cards.webp') }}" alt="Credit cards" class="img-fluid" width="250" height="40"></div>
         </div>
     </div>
 </div>

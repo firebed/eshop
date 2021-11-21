@@ -3,8 +3,8 @@
     'error' => NULL,
     'min' => '-10000000000000',
     'max' => '10000000000000',
-    'signPlacement' => config('eshop.sign_placement'),
-    'symbolPlacement' => config('eshop.currency_placement'),
+    'signPlacement' => eshop('sign_placement'),
+    'symbolPlacement' => eshop('currency_placement'),
     'emptyInputBehavior' => 'null',
     'currencySymbol' => ''
 ])

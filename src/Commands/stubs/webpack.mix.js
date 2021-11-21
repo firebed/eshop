@@ -14,7 +14,7 @@ require('laravel-mix-clean');
  */
 
 mix
-    .clean({ cleanOnceBeforeBuildPatterns: ['./dist/*'], }) // Remove old files
+    .clean({ cleanOnceBeforeBuildPatterns: ['./dist/*', './images/*'], }) // Remove old files
 
     .js(['resources/js/customer/app.js', 'node_modules/fslightbox/index.js'], 'public/dist/app.js')
     .sass('resources/scss/customer/app.scss', 'public/dist/app.css')
@@ -22,6 +22,8 @@ mix
     .js('resources/js/dashboard/app.js', 'public/dist/dashboard.js')
     .sass('resources/scss/dashboard/app.scss', 'public/dist/dashboard.css')
 
+    .copyDirectory('resources/images/assets/*', 'public/images/')
+    
     .sourceMaps()
 
     .versionHash()

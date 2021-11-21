@@ -29,9 +29,12 @@ use Eshop\Providers\LivewireServiceProvider;
 use Eshop\View\Components\Bestsellers;
 use Eshop\View\Components\CategoryBreadcrumb;
 use Eshop\View\Components\Gallery;
+use Eshop\View\Components\NewProducts;
+use Eshop\View\Components\Sales;
 use Eshop\View\Components\TrendingProducts;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 use Intervention\Image\ImageServiceProvider;
 
@@ -91,9 +94,11 @@ class EshopServiceProvider extends ServiceProvider
         $this->loadViewComponentsAs('eshop', [
             CategoryBreadcrumb::class,
             TrendingProducts::class,
-            Bestsellers::class,
-            Gallery::class,
         ]);
+        
+        Blade::component(Sales::class, 'sales');
+        Blade::component(NewProducts::class, 'new-arrivals');
+        Blade::component(TrendingProducts::class, 'trending-products');
     }
 
     private function registerRoutes(): void

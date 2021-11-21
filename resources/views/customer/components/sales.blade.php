@@ -1,6 +1,8 @@
 <section class="container-fluid py-4">
     <div class="container-xxl">
-        <h2 class="fw-normal fs-4 mb-2r"><a href="{{ route('products.collections.index', [app()->getLocale(), 'trending']) }}" class="text-dark text-decoration-none">{{ __("Trending") }}</a></h2>
+        <h2 class="fw-normal fs-4 mb-2r">
+            <a href="{{ route('products.offers.index', app()->getLocale()) }}" class="text-decoration-none text-dark">{{ __("Offers") }}</a>
+        </h2>
 
         <div class="slider-container">
             <x-eshop::slider autoplay="false" interval="3500" class="gx-4">

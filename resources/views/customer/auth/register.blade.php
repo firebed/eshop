@@ -5,7 +5,7 @@
 
 @push('meta')
     <link rel="canonical" href="{{ route('register', app()->getLocale()) }}">
-    @foreach(array_keys(config('eshop.locales')) as $locale)
+    @foreach(array_keys(eshop('locales')) as $locale)
         <link rel="alternate" hreflang="{{ $locale }}" href="{{ route('register', $locale) }}"/>
     @endforeach
 

@@ -3,11 +3,11 @@
     'error' => NULL,
     'min' => '0',
     'max' => '10000000000000',
-    'currencySymbol' => config('eshop.currency_symbol'),
-    'groupsSeparator' => config('eshop.group_separator'),
-    'decimalSeparator' => config('eshop.decimal_separator'),
-    'currencyPlacement' => config('eshop.currency_placement'),
-    'signPlacement' => config('eshop.sign_placement'),
+    'currencySymbol' => eshop('currency_symbol'),
+    'groupsSeparator' => eshop('group_separator'),
+    'decimalSeparator' => eshop('decimal_separator'),
+    'currencyPlacement' => eshop('currency_placement'),
+    'signPlacement' => eshop('sign_placement'),
     'emptyInputBehavior' => 'zero'
 ])
 
