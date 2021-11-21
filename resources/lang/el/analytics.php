@@ -2,6 +2,7 @@
 
 return [
     'total_orders'     => 'Σύνολο παραγγελιών',
+    'weekday_orders'   => 'Παραγγελίες ανά μέρα βδομάδας',
     'total_sales'      => 'Σύνολο πωλήσεων',
     'total_profit'     => 'Σύνολο κερδών',
     'payment_methods'  => 'Τρόποι πληρωμής',

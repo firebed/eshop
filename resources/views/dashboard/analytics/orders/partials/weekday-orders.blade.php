@@ -1,33 +1,33 @@
 <div class="vstack h-100">
-    <div class="fw-500 mb-2">{{ __("eshop::analytics.monthly_orders") }} ({{ now()->year }})</div>
+    <div class="fw-500 mb-2">{{ __("eshop::analytics.weekday_orders") }}</div>
 
     <x-bs::card class="flex-grow-1">
-        <x-bs::card.body>
-            <div class="d-grid gap-3">
-                <div class="fw-500 fs-4 text-blue-500">{{ format_number($monthly_orders->sum()) }}</div>
+        <x-bs::card.body class="vstack gap-3">
+            <div class="fw-500 fs-4 text-blue-500">{{ format_number($weekday_orders->sum()) }}</div>
 
-                <div class="ratio" style="--bs-aspect-ratio: 30%">
-                    <canvas id="monthly-orders"></canvas>
-                </div>
+            <div class="ratio ratio-16x9 my-auto">
+                <canvas id="weekday-orders"></canvas>
             </div>
         </x-bs::card.body>
     </x-bs::card>
 </div>
+
 @push('footer_scripts')
     <script>
-        new Chart(document.getElementById('monthly-orders').getContext('2d'), {
+        new Chart(document.getElementById('weekday-orders').getContext('2d'), {
             data: {
-                labels: {!! $monthly_orders->keys()->map(fn($key) => !str_contains($key, ' ') ? $key : explode(' ', $key))->toJson() !!},
+                labels: {!! $weekday_orders->keys()->map(fn($key) => !str_contains($key, ' ') ? $key : explode(' ', $key))->toJson() !!},
                 datasets: [
                     {
                         type: 'bar',
                         label: '{{ __("eshop::analytics.orders") }}',
-                        data: [{{ $monthly_orders->join(', ') }}],
-                        backgroundColor: 'rgba(26,115,232, 0.65)',
+                        data: [{{ $weekday_orders->join(', ') }}],
+                        backgroundColor: 'rgba(75, 192, 192, .7)',
                     },
                 ]
             },
             options: {
+                indexAxis: 'y',
                 plugins: {
                     legend: {
                         display: false,
@@ -48,7 +48,6 @@
                         }
                     },
                     y: {
-                        beginAtZero: true,
                         ticks: {
                             maxTicksLimit: 8
                         },

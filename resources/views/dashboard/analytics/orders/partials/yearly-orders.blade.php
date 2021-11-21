@@ -22,7 +22,7 @@
                         type: 'bar',
                         label: '{{ __("eshop::analytics.orders") }}',
                         data: [{{ $yearly_orders->join(', ') }}],
-                        backgroundColor: 'rgba(26,115,232, 0.3)',
+                        backgroundColor: 'rgba(26,115,232, 0.65)',
                     },
                 ]
             },

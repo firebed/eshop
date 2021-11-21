@@ -7,7 +7,7 @@ use Illuminate\Support\Collection;
 
 class OrderAnalytics
 {
-    public function totalOrders(Carbon|null $from, Carbon|null $to, string $interval = '1 day'): Collection
+    public function totalOrders(Carbon|null $from = null, Carbon|null $to = null, string $interval = '1 day'): Collection
     {
         return (new TotalOrders())->handle($from, $to, $interval);
     }

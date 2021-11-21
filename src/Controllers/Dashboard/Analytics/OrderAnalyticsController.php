@@ -18,6 +18,7 @@ class OrderAnalyticsController extends Controller
     {
         return $this->view('analytics.orders.index', [
             'orders' => $analytics->totalOrders(now()->startOfMonth(), now()->endOfDay()),
+            'weekday_orders' => $analytics->totalOrders(interval: 'weekday'),
             'statuses' => $analytics->orderStatuses(now()->startOfMonth(), now()->endOfDay()),
             'monthly_orders' => $analytics->totalOrders(now()->startOfYear(), now()->endOfYear(), '1 month'),
             'yearly_orders' => $analytics->totalOrders(null, null, '1 year'),

@@ -3,8 +3,8 @@
     color: transparent;
     font-size: 0;
     display: block;
-    width: 245px;
-    height: 61px;
+    width: 216px;
+    height: 70px;
 
     -webkit-backface-visibility: hidden;
     -moz-backface-visibility:    hidden;
@@ -14,7 +14,7 @@
 @media(min-width: 576px) {
     #logo, #footer-logo {
         background: url(../../images/logo.webp) no-repeat center;
-        width: 306px;
-        height: 76px;
+        width: 277px;
+        height: 90px;
     }
 }

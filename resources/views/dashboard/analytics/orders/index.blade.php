@@ -20,16 +20,20 @@
             <div class="col-12 col-xl-8">
                 @include('eshop::dashboard.analytics.orders.partials.total-orders')
             </div>
-
+            
             <div class="col-12 col-xl-4">
                 @include('eshop::dashboard.analytics.orders.partials.order-statuses')
             </div>
 
-            <div class="col-12 col-xl-8">
+            <div class="col-12 col-xl-6">
                 @include('eshop::dashboard.analytics.orders.partials.monthly-orders')
             </div>
+
+            <div class="col-12 col-xl-3">
+                @include('eshop::dashboard.analytics.orders.partials.weekday-orders')
+            </div>
             
-            <div class="col-12 col-xl-4">
+            <div class="col-12 col-xl-3">
                 @include('eshop::dashboard.analytics.orders.partials.yearly-orders')
             </div>
 
