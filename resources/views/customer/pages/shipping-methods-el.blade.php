@@ -3,33 +3,37 @@
     'description' => __("Shipping methods")
 ])
 
-@php
-    $shippingFee = 2.5;
-    $paymentFee = 1.5;
-    $excessFee = 0.0;
-    $freeOn = 35;
-@endphp
-
 @section('main')
     <div class="container-fluid py-4 bg-white">
         <div class="container">
             <h1 class="fs-3 mb-3">Τρόποι αποστολής</h1>
 
-            <h2 class="fs-4 mb-3 mt-5">Για Ελλάδα</h2>
+            <ol class="vstack gap-4">
+                <li>
+                    <h2 class="fw-500 fs-5">Εντός Ελλάδας</h2>
+                    <p class="fw-normal">Οι αποστολές ενός Ελλάδας πραγματοποιούνται με τις εταιρείες <span class="fw-500">Γενική Ταχυδρομική</span> και <span class="fw-500">ACS Courier</span>.</p>
+                    <p class="fw-normal">Το κόστος αποστολής με την Γενική Ταχυδρομική είναι {{ format_currency(2.5) }} και με την ACS Courier είναι {{ format_currency(2.5) }} έως 4 κιλά.</p>
 
-            <p>Οι παραγγελίες μας τις αποστέλλουμε με τις εταιρείες <strong>ACS courier</strong> και <strong>SpeedEx</strong> ταχυμεταφορές.</p>
+                    <div class="d-grid border shadow-sm rounded bg-light">
+                        <div class="vstack gap-2 border-start border-5 rounded-start border-primary p-3">
+                            <div>
+                                <em class="fas fa-check-circle me-3 text-green-400"></em>
+                                Σε κάθε περίπτωση για παραγγελίες άνω των {{ format_currency(50) }} η αποστολή γίνεται δωρεάν, ενώ το κόστος αντικαταβολής είναι {{ format_currency(2) }}.
+                            </div>
 
-            <p>Η αποστολή γίνεται συνήθως την ίδια μέρα ή την επόμενη εργάσιμη ημέρα της παραγγελίας σας (για ετοιμοπαράδοτα προϊόντα), και φτάνει σε σας συνήθως την επόμενη εργάσιμη, εκτός από ορισμένες απομακρυσμένες περιοχές της χώρας όπου ο χρόνος παράδοσης μπορεί να φτάσει και έως τις 5
-                εργάσιμες ημέρες.</p>
+                            <div>
+                                <em class="fas fa-exclamation-circle me-3 text-red-400"></em>
+                                Κάθε επιπλέον κιλό (πάνω από 4 κιλά) χρεώνεται επιπλέον με {{ format_currency(1) }} το κιλό.
+                            </div>
+                        </div>
+                    </div>
+                </li>
 
-            <p>Κάνοντας εγγραφή στην ιστοσελίδα μας, σας δίνετε η δυνατότητα να παρακολουθείτε οποιαδήποτε στιγμή την πορεία της παραγγελίας σας. Μπορείτε επίσης να ελέγχετε όλες τις προηγούμενες σας παραγγελίες καθώς επίσης και να βρείτε τον κωδικό παρακολούθησης (tracking number) της μεταφορικής
-                εταιρείας.</p>
-
-            <p class="fw-500">Για όλες σας τις αγορές η αντικαταβολή κοστίζει {{ format_currency($paymentFee) }} ενώ για αγορές μέχρι 2 κιλά το κόστος αποστολής ανέρχεται στα {{ format_currency($shippingFee) }}.
-                @if($excessFee > 0) Από τα 2 κιλά και πάνω για κάθε επιπλέον κιλό υπάρχει χρέωση {{ format_currency($excessFee) }}. @endif
-                Για παραγγελίες άνω των {{ format_currency($freeOn) }} το κόστος αποστολής είναι δωρεάν.</p>
-
-            <p>Σε οποιαδήποτε περίπτωση η αποστολή γίνεται μέσα σε διάστημα 10 ημερών, ενώ η παράδοση εξαρτάται από την μεταφορική εταιρεία.</p>
+                <li>
+                    <h2 class="fw-500 fs-5">Κύπρο</h2>
+                    <p class="fw-normal">Οι αποστολές για Κύπρο πραγματοποιούνται με την <span class="fw-500">ACS Courier</span>. Το κόστος αποστολής είναι {{ format_currency(14) }}.</p>
+                </li>
+            </ol>
         </div>
     </div>
 @endsection

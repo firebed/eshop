@@ -5,10 +5,11 @@
 
 @php
     $url = env('APP_URL');
+    $email = __('company.email');
     $base = basename($url);
     $link = "<a href='$url'>$base</a>";
 
-    $paymentFee = 1.5;
+    $paymentFee = 0;
     $bankAccounts = __('company.bank_accounts');
     if (!is_array($bankAccounts)) {
         $bankAccounts = [];
@@ -20,27 +21,37 @@
         <div class="container">
             <h1 class="fs-3 mb-3">Τρόποι πληρωμής</h1>
 
-            <p>Το ηλεκτρονικό κατάστημα {!! $link !!} υποστηρίζει τους εξής τρόπους πληρωμής:</p>
-
             <ol class="vstack gap-4">
-                <li class="fw-bold">
-                    <div>Αντικαταβολή</div>
-                    <div class="fw-normal">Η πληρωμή της παραγγελίας σας γίνεται κατά την παραλαβή της με καταβολή του ποσού στον διανομέα της εταιρίας courier που συνεργαζόμαστε. Το κόστος της αντικαταβολής είναι {{ format_currency($paymentFee) }}.</div>
+                <li>
+                    <h2 class="fw-500 fs-5">Αντικαταβολή</h2>
+                    <p class="fw-normal">Μπορείτε να πληρώσετε με μετρητά το courier κατά τη παραλαβή του δέματος σας.</p>
+
+                    <div class="d-grid border shadow-sm rounded bg-light">
+                        <span class="border-start border-5 rounded-start border-primary p-3">
+                            <em class="fas fa-check-circle me-3 text-green-400"></em>
+                            Το κόστος της αντικαταβολής είναι {{ format_currency($paymentFee) }} για όλες τις αποστολές εντός Ελλάδος.
+                            <br>
+                            <em class="fas fa-exclamation-circle me-3 text-red-400"></em>
+                            Για παραγγελίες σε Ευρώπη και Κύπρο η αντικαταβολή δεν υποστηρίζεται.
+                        </span>
+                    </div>
                 </li>
 
-                <li class="fw-bold">
-                    <div>PayPal</div>
-                    <div class="fw-normal">Ο PayPal είναι ο γρηγορότερος τρόπος διεκπαιρέωσης της παραγγελίας σας. Αν επιλέγετε το PayPal σαν τρόπο πληρωμής, δεν θα υπάρχει καμία επιπλέον επιβάρυνση στην αξία της παραγγελίας.</div>
+                <li>
+                    <h2 class="fw-500 fs-5">Πιστωτική κάρτα</h2>
+                    <div class="fw-normal">Πληρώστε με οποιαδήποτε κάρτα Visa, Mastercard, Maestro, μέσω των ασφαλών υπηρεσιών της Εθνικής τράπεζας / Braintree / Stripe.</div>
                 </li>
 
-                <li class="fw-bold">
-                    <div>Πιστωτική κάρτα</div>
-                    <div class="fw-normal">Μπορείτε να κάνετε online πληρωμές με την την πιστωτική κάρτα. Δεχόμαστε όλες της πιστωτικές κάρτες <strong>MasterCard</strong> και <strong>Visa</strong>.</div>
+                <li>
+                    <h2 class="fw-500 fs-5">PayPal</h2>
+                    <p class="fw-normal">Εάν έχετε λογαριασμό Paypal και επιθυμείτε να πληρώσετε το τελικό ποσό μέσω αυτής της διαδικασίας μπορείτε να επιλέξετε «πληρωμή Paypal» και η διαδικασία θα ολοκληρωθεί χωρίς να μεταφερθείτε στην ιστοσελίδα του Paypal.</p>
+                    <p class="mb-0">Από μέρους μας δεν υπάρχει επιπλέον χρέωση εάν επιλέξετε αυτό τον τρόπο πληρωμής.</p>
                 </li>
 
-                <li class="fw-bold">
-                    <div>Τραπεζικό Έμβασμα</div>
-                    <div class="fw-normal mb-3">Μπορείτε να καταθέσετε το ποσό της παραγγελίας στους παρακάτω λογαριασμούς. Στο καταθετήριο τραπέζης πρέπει οπωσδήποτε να αναγράφεται το ονοματεπώνυμο σας και ο αριθμός της παραγγελίας που σας έχει σταλεί στο email σας κατά την ολοκλήρωσή της.</div>
+                <li>
+                    <h2 class="fw-500 fs-5">Τραπεζική κατάθεση</h2>
+                    <p class="fw-normal">Η κατάθεση του ποσού προς πληρωμή μπορεί να γίνει εντός 3 ημερών στον παρακάτω τραπεζικό λογαριασμό. Έπειτα, στείλτε μας το αποδεικτικό κατάθεσης στο {{ $email }} ώστε να προχωρήσουμε στην εκτέλεση της παραγγελία σας. Πέραν των 3 ημερών και χωρίς
+                        προειδοποίηση ακυρώνεται η παραγγελία.</p>
 
                     <ol>
                         @foreach ($bankAccounts as $account)
@@ -53,11 +64,6 @@
                             </li>
                         @endforeach
                     </ol>
-
-                    <div class="vstack gap-1 fw-500">
-                        <div><em class="fas fa-chevron-right"></em> Τα προϊόντα σας θα αποσταλούν, μόλις καταχωρηθεί σε εμάς το ποσό της παραγγελίας σας και επιβεβαιωθεί από το αρμόδιο τμήμα της εταιρείας μας.</div>
-                        <div><em class="fas fa-chevron-right"></em> Τα διατραπεζικά έξοδα που τυχόν προκύπτουν σε μια κατάθεση επιβαρύνουν εξ’ολοκλήρου τον πελάτη.</div>
-                    </div>
                 </li>
             </ol>
         </div>
