@@ -8,7 +8,7 @@
     <div id="card-error" class="fw-500 text-danger" style="display: none"></div>
 
     <div>
-        <img class="img-fluid" src="{{ mix('images/credit-cards.webp') }}" alt="MasterCard, Visa, Amex, Discover" width="250" height="40">
+        <img class="img-fluid" src="{{ asset('images/credit-cards.webp') }}" alt="MasterCard, Visa, Amex, Discover" width="250" height="40">
     </div>
 </div>
 

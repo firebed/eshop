@@ -1,6 +1,7 @@
 const mix = require('laravel-mix');
+const fs = require('file-system');
 require('laravel-mix-versionhash')
-require('laravel-mix-clean');
+
 
 /*
  |--------------------------------------------------------------------------
@@ -13,17 +14,18 @@ require('laravel-mix-clean');
  |
  */
 
-mix
-    .clean({ cleanOnceBeforeBuildPatterns: ['./dist/*', './images/*'], }) // Remove old files
+fs.rmSync('./public/dist', {force: true, recursive: true})
+fs.rmSync('./public/images', {force: true, recursive: true})
 
+fs.copySync('./resources/images/assets', './public/images')
+
+mix
     .js(['resources/js/customer/app.js', 'node_modules/fslightbox/index.js'], 'public/dist/app.js')
     .sass('resources/scss/customer/app.scss', 'public/dist/app.css')
 
     .js('resources/js/dashboard/app.js', 'public/dist/dashboard.js')
     .sass('resources/scss/dashboard/app.scss', 'public/dist/dashboard.css')
 
-    .copyDirectory('resources/images/assets/*', 'public/images/')
-    
     .sourceMaps()
 
-    .versionHash()
+    .versionHash();

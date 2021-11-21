@@ -4,7 +4,7 @@
             <div class="col-12 col-lg-3">
                 <div class="vstack align-items-start gap-3">
                     <div id="footer-logo"></div>
-                    <div class="text-secondary">Παιδικά Ρούχα, Βρεφικά Ρούχα, Παιδικά & Βρεφικά Αξεσουάρ</div>
+                    <div class="text-secondary">{{ __("company.seo.title") }}</div>
 
                     @if(is_array(eshop("social")) && eshop('social') > 0)
                         <div class="hstack gap-2">
@@ -58,7 +58,7 @@
     <div class="container-xxl">
         <div class="d-flex flex-wrap justify-content-center justify-content-sm-between align-items-center gap-3">
             <small class="text-secondary">&copy; {{ now()->year }} {{ config('app.name') }}</small>
-            <div><img src="{{ mix('images/credit-cards.webp') }}" alt="Credit cards" class="img-fluid" width="250" height="40"></div>
+            <div><img loading="lazy" src="{{ asset('images/credit-cards.webp') }}" alt="Credit cards" class="img-fluid" width="250" height="40"></div>
         </div>
     </div>
 </div>
