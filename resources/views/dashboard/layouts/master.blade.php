@@ -25,7 +25,7 @@
 </head>
 <body class="container-fluid bg-light">
 
-<div class="row">
+<div class="row flex-xl-nowrap">
     @include('eshop::dashboard.layouts.navigation')
 
     <div class="col">

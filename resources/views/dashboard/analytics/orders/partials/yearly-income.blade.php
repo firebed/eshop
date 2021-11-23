@@ -5,7 +5,7 @@
         <x-bs::card.body class="d-grid gap-3">
             <div class="fw-500 fs-4 text-blue-500">{{ format_currency( $yearly_income->sum() ) }}</div>
 
-            <div class="ratio ratio-16x9 my-auto">
+            <div class="graph">
                 <canvas id="yearly-income"></canvas>
             </div>
         </x-bs::card.body>
@@ -49,9 +49,6 @@
             },
             options: {
                 plugins: {
-                    legend: {
-                        display: false,
-                    },
                     tooltip: {
                         callbacks: {
                             title: function (context) {

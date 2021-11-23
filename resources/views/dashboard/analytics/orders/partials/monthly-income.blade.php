@@ -3,11 +3,11 @@
 
     <x-bs::card class="flex-grow-1">
         <x-bs::card.body class="vstack gap-3">
-                <div class="fw-500 fs-4 text-blue-500">{{ format_currency( $monthly_income->sum() ) }}</div>
+            <div class="fw-500 fs-4 text-blue-500">{{ format_currency( $monthly_income->sum() ) }}</div>
 
-                <div class="ratio" style="--bs-aspect-ratio: 30%">
-                    <canvas id="monthly-income"></canvas>
-                </div>
+            <div class="graph">
+                <canvas id="monthly-income"></canvas>
+            </div>
         </x-bs::card.body>
     </x-bs::card>
 </div>
@@ -49,9 +49,6 @@
             },
             options: {
                 plugins: {
-                    legend: {
-                        display: false,
-                    },
                     tooltip: {
                         callbacks: {
                             title: function (context) {

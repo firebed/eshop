@@ -13,15 +13,15 @@
 @endpush
 
 @section('main')
-    <div class="col-12 p-4 d-grid gap-3">
+    <div class="col-12 p-4">
         @include('eshop::dashboard.analytics.partials.navbar')
         
-        <div class="row row-cols-1 row-cols-xl-2 g-4">
-            <div class="col-12 col-xl-8">
+        <div class="row g-4">
+            <div class="col-lg-8">
                 @include('eshop::dashboard.analytics.orders.partials.total-orders')
             </div>
             
-            <div class="col-12 col-xl-4">
+            <div class="col-lg-4">
                 @include('eshop::dashboard.analytics.orders.partials.order-statuses')
             </div>
 
@@ -29,19 +29,19 @@
                 @include('eshop::dashboard.analytics.orders.partials.monthly-orders')
             </div>
 
-            <div class="col-12 col-xl-3">
+            <div class="col-12 col-sm-6 col-xxl-3">
                 @include('eshop::dashboard.analytics.orders.partials.weekday-orders')
             </div>
             
-            <div class="col-12 col-xl-3">
+            <div class="col-12 col-sm-6 col-xxl-3">
                 @include('eshop::dashboard.analytics.orders.partials.yearly-orders')
             </div>
 
-            <div class="col-12 col-xl-8">
+            <div class="col-12 col-md-7">
                 @include('eshop::dashboard.analytics.orders.partials.monthly-income')
             </div>
 
-            <div class="col-12 col-xl-4">
+            <div class="col-12 col-md-5">
                 @include('eshop::dashboard.analytics.orders.partials.yearly-income')
             </div>
         </div>

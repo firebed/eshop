@@ -4,11 +4,11 @@
     <x-bs::card class="flex-grow-1">
         <x-bs::card.body>
             <div class="h-100 vstack gap-3">
-                <div class="ratio my-auto ratio-16x9">
+                <div class="graph">
                     <canvas id="order-statuses"></canvas>
                 </div>
 
-                <div class="hstack gap-4 align-items-between flex-wrap text-nowrap">
+                <div class="d-flex gap-4 text-nowrap table-responsive">
                     @foreach($statuses as $status => $count)
                         <div class="vstack">
                             <div class="text-secondary small">{{ __("eshop::cart.status.$status") }}</div>

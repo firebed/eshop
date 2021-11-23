@@ -6,7 +6,7 @@
             <div class="d-grid gap-3">
                 <div class="fw-500 fs-4 text-blue-500">{{ format_number($monthly_orders->sum()) }}</div>
 
-                <div class="ratio" style="--bs-aspect-ratio: 30%">
+                <div class="graph">
                     <canvas id="monthly-orders"></canvas>
                 </div>
             </div>
@@ -28,6 +28,11 @@
                 ]
             },
             options: {
+                "horizontalLine": [{
+                    "y": {{ $monthly_orders->avg() }},
+                    "style": "#ff6384",
+                    "text": "ΜΟ"
+                }],
                 plugins: {
                     legend: {
                         display: false,

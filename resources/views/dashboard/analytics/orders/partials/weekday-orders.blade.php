@@ -5,7 +5,7 @@
         <x-bs::card.body class="vstack gap-3">
             <div class="fw-500 fs-4 text-blue-500">{{ format_number($weekday_orders->sum()) }}</div>
 
-            <div class="ratio ratio-16x9 my-auto">
+            <div class="graph">
                 <canvas id="weekday-orders"></canvas>
             </div>
         </x-bs::card.body>
@@ -19,15 +19,21 @@
                 labels: {!! $weekday_orders->keys()->map(fn($key) => !str_contains($key, ' ') ? $key : explode(' ', $key))->toJson() !!},
                 datasets: [
                     {
-                        type: 'bar',
+                        type: 'line',
                         label: '{{ __("eshop::analytics.orders") }}',
                         data: [{{ $weekday_orders->join(', ') }}],
-                        backgroundColor: 'rgba(75, 192, 192, .7)',
+                        pointHoverRadius: 6,
+                        pointRadius: 5,
+                        fill: false,
+                        pointBackgroundColor: 'white',
+                        pointHoverBorderColor: '#ff6384',
+                        pointHoverBorderWidth: 2,
+                        borderColor: 'rgb(26,115,232)',
+                        borderWidth: 2,
                     },
                 ]
             },
             options: {
-                indexAxis: 'y',
                 plugins: {
                     legend: {
                         display: false,

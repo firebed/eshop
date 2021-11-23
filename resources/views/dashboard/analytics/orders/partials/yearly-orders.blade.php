@@ -5,7 +5,7 @@
         <x-bs::card.body class="vstack gap-3">
             <div class="fw-500 fs-4 text-blue-500">{{ format_number($yearly_orders->sum()) }}</div>
 
-            <div class="ratio ratio-16x9 my-auto">
+            <div class="graph">
                 <canvas id="yearly-orders"></canvas>
             </div>
         </x-bs::card.body>
