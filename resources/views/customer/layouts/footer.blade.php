@@ -1,4 +1,4 @@
-<footer id="footer" class="container-fluid">
+<footer id="footer" class="container-fluid py-4">
     <div class="container-xxl">
         <div class="row gy-4 gx-5">
             <div class="col-12 col-lg-3">

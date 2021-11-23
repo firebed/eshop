@@ -1,4 +1,4 @@
-<section class="container-fluid py-4 mb-4">
+<section class="container-fluid py-4">
     <div class="container-xxl">
         <h2 class="fw-normal fs-4 mb-2r">
             <a href="{{ route('products.new-arrivals.index', app()->getLocale()) }}" class="text-decoration-none text-dark">{{ __("New arrivals") }}</a>

@@ -124,7 +124,7 @@ class ProductVariantsButtons extends Component
             ->pluck('options')
             ->collapse()
             ->groupBy('pivot.variant_type_id')
-            ->map(fn($g) => $g->unique('pivot.value')->sort());
+            ->map(fn($g) => $g->unique('pivot.value')->sortBy('pivot.value', SORT_NATURAL));
     }
 
     public function render(): Renderable

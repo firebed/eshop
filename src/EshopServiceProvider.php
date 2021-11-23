@@ -26,10 +26,8 @@ use Eshop\Providers\CartServiceProvider;
 use Eshop\Providers\EventServiceProvider;
 use Eshop\Providers\FortifyServiceProvider;
 use Eshop\Providers\LivewireServiceProvider;
-use Eshop\View\Components\Bestsellers;
 use Eshop\View\Components\CategoryBreadcrumb;
-use Eshop\View\Components\Gallery;
-use Eshop\View\Components\NewProducts;
+use Eshop\View\Components\NewArrivals;
 use Eshop\View\Components\Sales;
 use Eshop\View\Components\TrendingProducts;
 use Illuminate\Database\Eloquent\Relations\Relation;
@@ -97,7 +95,7 @@ class EshopServiceProvider extends ServiceProvider
         ]);
         
         Blade::component(Sales::class, 'sales');
-        Blade::component(NewProducts::class, 'new-arrivals');
+        Blade::component(NewArrivals::class, 'new-arrivals');
         Blade::component(TrendingProducts::class, 'trending-products');
     }
 

@@ -7,7 +7,7 @@ use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Support\Collection as BaseCollection;
 use Illuminate\View\Component;
 
-class NewProducts extends Component
+class NewArrivals extends Component
 {
 
     public BaseCollection $products;
@@ -26,6 +26,6 @@ class NewProducts extends Component
 
     public function render(): Renderable
     {
-        return view('eshop::customer.components.new-products');
+        return view('eshop::customer.components.new-arrivals');
     }
 }

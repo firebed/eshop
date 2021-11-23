@@ -94,7 +94,7 @@
      "
     x-on:mouseenter="pause()"
     x-on:mouseleave="play()"
-    {{ $attributes->class('keen-slider row flex-nowrap p-0') }}
+    {{ $attributes->class('keen-slider row flex-nowrap list-unstyled') }}
 >
     {{ $slot }}
 </ul>
