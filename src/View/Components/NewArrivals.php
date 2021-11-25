@@ -16,7 +16,7 @@ class NewArrivals extends Component
     {
         $this->products = Product::exceptVariants()
             ->visible()
-            ->recent()
+            ->where(fn($q) => $q->recent()->orWhereHas('variants', fn($b) => $b->recent()))
             ->with('category.translation', 'image', 'translation')
             ->with('parent.translation', 'options')
             ->take(30)

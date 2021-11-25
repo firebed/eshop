@@ -47,3 +47,56 @@
         </div>
     </div>
 @endsection
+
+@push('footer_scripts')
+    <script>
+        const horizontalLinePlugin = {
+            id: 'horizontalLine',
+            beforeDraw: function (chartInstance) {
+                const context = chartInstance.ctx
+                const yScale = chartInstance.scales["y"];
+
+                let index;
+                let line;
+                let style;
+                let yValue;
+
+                if (chartInstance.options.horizontalLine) {
+                    for (index = 0; index < chartInstance.options.horizontalLine.length; index++) {
+                        line = chartInstance.options.horizontalLine[index];
+
+                        if (!line.style) {
+                            style = "#6aa4f0";
+                        } else {
+                            style = line.style;
+                        }
+
+                        if (line.y) {
+                            yValue = yScale.getPixelForValue(line.y);
+                        } else {
+                            yValue = 0;
+                        }
+
+                        context.lineWidth = 1;
+
+                        if (yValue) {
+                            context.beginPath();
+                            context.moveTo(0, yValue);
+                            context.lineTo(chartInstance.width, yValue);
+                            context.strokeStyle = style;
+                            context.stroke();
+
+                            context.fillText(line.y, 0, yValue + context.lineWidth + 10);
+                        }
+
+                        if (line.text) {
+                            context.fillStyle = style;
+                        }
+                    }
+                }
+            }
+        }
+        
+        Chart.register(horizontalLinePlugin)
+    </script>
+@endpush

@@ -29,11 +29,14 @@
                 </div>
             </td>
             <td>
-                <a href="{{ route('products.edit', $product) }}" class="d-flex flex-column text-decoration-none text-nowrap">
-                    @if($product->isVariant())
-                        <span>{{ $product->trademark }}</span>
+                <a href="{{ route('products.edit', $product) }}" class="vstack text-decoration-none text-nowrap">
+                    @if($product->recent)
+                        <span class="d-flex align-items-center gap-2">
+                            <span>{{ $product->isVariant() ? $product->trademark : $product->name }}</span>
+                            <span class="badge bg-danger">New</span>
+                        </span>
                     @else
-                        <span>{{ $product->name }}</span>
+                        {{ $product->isVariant() ? $product->trademark : $product->name }}
                     @endif
                     <small class="text-secondary">{{ $product->category->name }}</small>
                 </a>

@@ -74,7 +74,7 @@
                     y: {
                         beginAtZero: true,
                         ticks: {
-                            maxTicksLimit: 5
+                            maxTicksLimit: 6
                         },
                     }
                 },

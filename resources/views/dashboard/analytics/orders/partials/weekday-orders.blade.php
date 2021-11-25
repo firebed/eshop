@@ -55,7 +55,7 @@
                     },
                     y: {
                         ticks: {
-                            maxTicksLimit: 8
+                            maxTicksLimit: 6
                         },
                     }
                 },

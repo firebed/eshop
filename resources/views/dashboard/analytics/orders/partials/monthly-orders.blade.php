@@ -13,6 +13,7 @@
         </x-bs::card.body>
     </x-bs::card>
 </div>
+
 @push('footer_scripts')
     <script>
         new Chart(document.getElementById('monthly-orders').getContext('2d'), {
@@ -29,8 +30,7 @@
             },
             options: {
                 "horizontalLine": [{
-                    "y": {{ $monthly_orders->avg() }},
-                    "style": "#ff6384",
+                    "y": {{ round($monthly_orders->avg()) }},
                     "text": "ΜΟ"
                 }],
                 plugins: {
@@ -55,7 +55,7 @@
                     y: {
                         beginAtZero: true,
                         ticks: {
-                            maxTicksLimit: 8
+                            maxTicksLimit: 6
                         },
                     }
                 },

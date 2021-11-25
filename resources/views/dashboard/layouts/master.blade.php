@@ -50,6 +50,8 @@
 <x-bs::notification.toast/>
 <x-bs::notification.dialog/>
 
+<a href="{{ route('home', app()->getLocale()) }}" class="btn btn-primary rounded-circle shadow d-flex justify-content-center align-items-center" style="position:fixed; bottom: 10px; width: 48px; height: 48px; left: 10px; z-index: 10000"><em class="fas fa-store"></em></a>
+
 @include('eshop::dashboard.layouts.toasts')
 
 @stack('footer_scripts')
