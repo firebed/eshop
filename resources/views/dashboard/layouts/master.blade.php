@@ -32,10 +32,13 @@
         <main class="row">
             <div class="d-flex col-12 bg-white shadow-sm sticky-xl-top justify-content-between align-items-center px-4" style="height: 3.5rem">
                 <div class="d-flex gap-2 align-items-baseline">
-{{--                <em class="fas fa-bars fs-5"></em>--}}
-                @yield('header')
+                    <a x-data x-on:click.prevent="$dispatch('toggle-collapse')" class="text-gray-600" href="#">
+                        <em class="fa fa-bars" style="font-size: 1.1rem"></em>
+                    </a>
+                    
+                    @yield('header')
                 </div>
-                
+
                 <div class="d-none d-sm-flex gap-2 align-items-center">
                     <em class="fas fa-user text-gray-500"></em>
                     <div class="text-nowrap">{{ auth()->user()?->fullName }}</div>

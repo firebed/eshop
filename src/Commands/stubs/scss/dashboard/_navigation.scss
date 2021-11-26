@@ -1,10 +1,33 @@
 #dashboard-nav {
+    transition: width 300ms ease-in-out;
+    white-space: nowrap;
+
+    .offcanvas-body {
+        height: calc(100vh - 3.5rem);
+
+        &, > .navbar-nav {
+            overflow-y: auto;
+            overflow-x: hidden;
+            -ms-overflow-style: none; /* IE and Edge */
+            scrollbar-width: none;
+
+            &::-webkit-scrollbar {
+                display: none;
+            }
+        }
+    }
+
     em {
         width: 2rem;
     }
 
+    .brand span, .nav-link span {
+        transition: opacity 300ms ease-in-out;
+        opacity: 1;
+    }
+
     .nav-link {
-        white-space: nowrap;
+        overflow-x: hidden;
 
         &:hover {
             background-color: hsl(0, 0%, 10%);
@@ -18,9 +41,6 @@
 
 @media(min-width: 1200px) {
     #dashboard-nav {
-        overflow: hidden;
-        transition: width 300ms ease-in-out;
-
         .trigger em:before {
             content: "\f03b";
         }
@@ -30,7 +50,7 @@
         }
 
         &.collapsed {
-            width: 5rem !important;
+            width: 4rem !important;
 
             .trigger {
                 flex-grow: 1 !important;
@@ -41,18 +61,8 @@
                 content: "\f03c" !important;
             }
 
-            .navbar-nav {
-                align-items: center !important;
-            }
-
-            .nav-link {
-                em {
-                    width: 1.1rem !important;
-                }
-            }
-
-            .brand, .nav-link span {
-                display: none !important;
+            .brand span, .nav-link span {
+                opacity: 0 !important;
             }
         }
     }
