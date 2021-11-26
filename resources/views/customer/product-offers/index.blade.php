@@ -62,10 +62,7 @@
     <div class="container-fluid my-4">
         <div class="container-xxl">
             <div class="row gx-0 gx-xl-3">
-                <div class="col-auto">
-                    @include('eshop::customer.product-offers.partials.filters')
-                </div>
-                <div class="col d-flex flex-column gap-3">
+                <div class="col d-flex flex-column gap-3 order-1">
                     <div class="d-flex align-items-baseline">
                         <h1 class="fs-4 mb-0"><strong class="fw-normal">{{ __("Offers") }}</strong></h1>
                         <div class="ms-3 text-secondary">(@choice("eshop::product.products_count", $products->total(), ['count' => $products->total()]))</div>
@@ -88,9 +85,9 @@
                     @endif
                     
                     @if($products->isNotEmpty())
-                        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 g-3">
+                        <ul class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 g-3 list-unstyled">
                             @each('eshop::customer.components.product', $products, 'product')
-                        </div>
+                        </ul>
                     @else
                         <x-eshop::empty-products>
                             <a href="{{ route('products.offers.index', app()->getLocale()) }}" class="btn btn-primary">{{ __("See all offers") }}</a>
@@ -102,6 +99,10 @@
                             {{ $products->onEachSide(1)->links('bs::pagination.paginator') }}
                         </div>
                     @endif
+                </div>
+                
+                <div class="col-auto order-0">
+                    @include('eshop::customer.product-offers.partials.filters')
                 </div>
             </div>
         </div>

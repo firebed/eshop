@@ -1,12 +1,14 @@
-<div class='d-grid gap-2 mb-5'>
-    <div class='mb-3 fs-5'>{{ __("eshop::filters.categories") }}</div>
+<div class='d-grid gap-1 mb-4 border-bottom'>
+    <h3 class="fw-normal mb-3" style="font-size: 17px">{{ __("eshop::filters.categories") }}</h3>
 
-    <div class="vstack overflow-auto scrollbar gap-2" style="max-height: 15rem">
+    <ul class="vstack overflow-auto scrollbar gap-2 list-unstyled" style="max-height: 15rem; font-size: 15px">
         @foreach($categories as $category)
-            <a href="{{ categoryRoute($category) }}" class="text-hover-underline text-gray-700 small">
-                {{ $category->name }}
-                <small>({{ $category->products_count }})</small>
-            </a>
+            <li>
+                <a href="{{ categoryRoute($category) }}" class="d-block text-hover-underline text-gray-700 text-truncate">
+                    {{ $category->name }}
+                    <small>({{ $category->products_count }})</small>
+                </a>
+            </li>
         @endforeach
-    </div>
+    </ul>
 </div>

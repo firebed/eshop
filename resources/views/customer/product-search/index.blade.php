@@ -45,10 +45,7 @@
     <div class="container-fluid my-4">
         <div class="container-xxl">
             <div class="row gx-0 gx-xl-3">
-                <div class="col-auto">
-                    @include('eshop::customer.product-search.partials.filters')
-                </div>
-                <div class="col d-flex flex-column gap-3">
+                <div class="col d-flex flex-column gap-3 order-1">
                     <div class="d-flex align-items-baseline">
                         <h1 class="fs-4 mb-0"><strong class="fw-normal">{{ $search_term }}</strong></h1>
                         <div class="ms-3 text-secondary">(@choice("eshop::product.products_count", $products->total(), ['count' => $products->total()]))</div>
@@ -71,9 +68,9 @@
                     @endif
 
                     @if($products->isNotEmpty())
-                        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 g-3">
+                        <ul class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 g-3 list-unstyled">
                             @each('eshop::customer.components.product', $products, 'product')
-                        </div>
+                        </ul>
                     @else
                         <x-eshop::empty-products>
                             <a href="{{ route('products.search.index', array_filter([app()->getLocale(), 'search_term' => request()->query('search_term')])) }}" class="btn btn-primary">{{ __("See all search products") }}</a>
@@ -86,6 +83,10 @@
                         </div>
                     @endif
                 </div>
+
+                <div class="col-auto order-0">
+                    @include('eshop::customer.product-search.partials.filters')
+                </div>                
             </div>
         </div>
     </div>
