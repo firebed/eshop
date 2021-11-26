@@ -34,7 +34,7 @@
 @endpush
 
 @push('header_scripts')
-    <script src="{{ asset('keen/keen-slider.js') }}"></script>
+    <script src="{{ mix('dist/keen-slider.js') }}"></script>
 @endpush
 
 @section('main')
