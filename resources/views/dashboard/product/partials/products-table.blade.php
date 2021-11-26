@@ -40,9 +40,9 @@
                         {{ $product->isVariant() ? $product->trademark : $product->name }}
                     @endif
                     <small class="text-secondary">{{ $product->category->name }}</small>
-                    @unless($product->canBeBought())
-                        <span class="badge bg-danger fw-500 align-self-start">{{ __("Out of stock") }}</span>
-                    @endunless
+{{--                    @unless($product->canBeBought())--}}
+{{--                        <span class="badge bg-danger fw-500 align-self-start">{{ __("Out of stock") }}</span>--}}
+{{--                    @endunless--}}
                 </a>
             </td>
             <td>{{ $product->sku }}</td>
