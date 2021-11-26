@@ -30,11 +30,11 @@
 @endpush
 
 @push('header_scripts')
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/keen-slider@latest/keen-slider.min.css"/>
+    <link rel="stylesheet" href="{{ mix('dist/keen-slider.css') }}"/>
 @endpush
 
 @push('footer_scripts')
-    <script src="https://cdn.jsdelivr.net/npm/keen-slider@latest/keen-slider.js"></script>
+    <script src="{{ mix('dist/keen-slider.js') }}"></script>
 @endpush
 
 @section('main')
