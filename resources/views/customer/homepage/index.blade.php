@@ -33,8 +33,8 @@
     <link rel="stylesheet" href="{{ mix('dist/keen-slider.css') }}"/>
 @endpush
 
-@push('footer_scripts')
-    <script src="{{ mix('dist/keen-slider.js') }}"></script>
+@push('header_scripts')
+    <script src="{{ asset('keen/keen-slider.js') }}"></script>
 @endpush
 
 @section('main')
