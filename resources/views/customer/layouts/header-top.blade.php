@@ -54,7 +54,7 @@
                 <x-bs::dropdown.menu class="shadow-sm" button="user-menu" alignment="right" style="z-index: 1500">
                     @can('View dashboard')
                         <x-bs::dropdown.item href="{{ route('products.index') }}">Διαχείριση</x-bs::dropdown.item>
-                        @can('View orders')
+                        @canany(['Manage orders', 'Manage assigned orders'])
                             <x-bs::dropdown.item href="{{ route('carts.index') }}">Παραγγελίες</x-bs::dropdown.item>
                         @endcan
                         @can('Edit configuration')
