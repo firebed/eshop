@@ -24,6 +24,8 @@ class CreateCartProductTable extends Migration
             $table->unsignedDecimal('discount', 3)->default(0);
             $table->unsignedDecimal('vat', 2);
 
+            $table->boolean('pinned')->default(false);
+
             $table->timestamps();
             $table->softDeletes()->index();
 

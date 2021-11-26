@@ -14,12 +14,13 @@ class Sales extends Component
 
     public function __construct()
     {
-        $this->products = Product::visible()
-            ->exceptVariants()
-            ->whereHas('variants', fn($q) => $q->onSale())
-            ->with( 'category.translation', 'image', 'translation')
+        $this->products = Product::exceptVariants()
+            ->visible()
+            ->where(fn($q) => $q->onSale()->orWhereHas('variants', fn($q) => $q->onSale()))
+            ->with('category.translation', 'image', 'translation')
             ->with('parent.translation', 'options')
-            ->orderBy('parent_id')
+            ->with(['variants' => fn($q) => $q->select('id', 'parent_id', 'discount', 'price')])
+            ->latest('updated_at')
             ->take(30)
             ->get();
     }

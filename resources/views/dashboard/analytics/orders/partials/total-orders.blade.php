@@ -2,13 +2,33 @@
     <div class="fw-500 mb-2">{{ __("eshop::analytics.total_orders") }} ({{ now()->isoFormat('MMMM') }})</div>
 
     <x-bs::card class="flex-grow-1">
-        <x-bs::card.body>
-            <div class="d-grid gap-3">
-                <div class="fw-500 fs-4 text-blue-500">{{ $orders->sum() }}</div>
-
-                <div class="graph">
-                    <canvas id="total-orders"></canvas>
+        <x-bs::card.body class="vstack gap-3">
+            <div class="d-flex table-responsive scrollbar">
+                <div class="d-flex gap-5 text-nowrap">
+                    <div class="vstack">
+                        <div class="small text-secondary">Σύνολο</div>
+                        <div class="fs-4">{{ $orders->sum() }}</div>
+                    </div>
+    
+                    <div class="vstack">
+                        <div class="small text-secondary">Μ. Ο.</div>
+                        <div class="fs-4">{{ round($orders->avg()) }}</div>
+                    </div>
+    
+                    <div class="vstack">
+                        <div class="small text-secondary">Ελάχιστο</div>
+                        <div class="fs-4">{{ $orders->min() }}</div>
+                    </div>
+    
+                    <div class="vstack">
+                        <div class="small text-secondary">Μέγιστο</div>
+                        <div class="fs-4">{{ $orders->max() }}</div>
+                    </div>
                 </div>
+            </div>
+
+            <div class="graph">
+                <canvas id="total-orders"></canvas>
             </div>
         </x-bs::card.body>
     </x-bs::card>
@@ -38,10 +58,10 @@
             },
             options: {
                 "horizontalLine": [{
-                    "y": {{ $orders->avg() }},
+                    "y": {{ round($orders->avg()) }},
                     "text": "ΜΟ"
                 }],
-                
+
                 plugins: {
                     legend: {
                         display: false,
@@ -79,6 +99,6 @@
                 maintainAspectRatio: false,
             }
         });
-        
+
     </script>
 @endpush

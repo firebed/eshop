@@ -65,6 +65,15 @@ class CategoryController extends Controller
                 ->get();
         }
 
+        $order = 'name';
+        $direction = 'asc';
+        if ($request->query('sort') === 'price') {
+            $order = 'price';
+        } elseif ($request->query('sort') === 'price-desc') {
+            $order = 'price';
+            $direction = 'desc';
+        }
+
         $products = $category
             ->products()
             ->visible()
@@ -74,10 +83,11 @@ class CategoryController extends Controller
             ->filterByPrice($filters['min_price'], $filters['max_price'])
             ->with('translations') // We need this for different languages
             ->with('image', 'category')
+//            ->with(['choices' => fn($q) => $q->with('property.translation', 'translation')])
             ->with(['variants' => fn($q) => $q->visible()->with('translation', 'parent', 'options', 'image')])
             ->select('products.*')
             ->joinTranslation()
-            ->orderBy('name')
+            ->orderBy($order, $direction)
             ->paginate(48);
 
         $priceRanges = $this->groupPriceRanges($category, $filters);

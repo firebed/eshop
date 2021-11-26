@@ -2,10 +2,8 @@
     <div class="fw-500 mb-2">{{ __("eshop::analytics.weekday_orders") }}</div>
 
     <x-bs::card class="flex-grow-1">
-        <x-bs::card.body class="vstack gap-3">
-            <div class="fw-500 fs-4 text-blue-500">{{ format_number($weekday_orders->sum()) }}</div>
-
-            <div class="graph">
+        <x-bs::card.body class="d-grid">
+            <div class="graph my-auto">
                 <canvas id="weekday-orders"></canvas>
             </div>
         </x-bs::card.body>

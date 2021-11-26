@@ -10,16 +10,34 @@
             <div class="text-secondary text-truncate" style="font-size:13px">{{ $product->category->name }}</div>
             <h3 class="small fw-500 text-2l lh-base">{{ $product->trademark }}</h3>
 
-            @if($product->isOnSale())
-                <del class="text-danger small mt-auto">{{ format_currency($product->price) }}</del>
-            @endif
+            @if($product->has_variants && $product->relationLoaded('variants'))
+                @if($product->variants->contains->isOnSale())
+                    <div class="product-discount">
+                        {{ format_percent(-$product->variants->max('discount')) }}
+                    </div>
 
-            <div class="product-price">{{ format_currency($product->net_value) }}</div>
+                    @if($product->variants->min('netValue') !== $product->variants->min('price'))
+                        <del class="text-danger small">{{ format_currency($product->variants->min('price')) }}</del>
+                    @endif
+                @endif
 
-            @if($product->isOnSale())
-                <div class="position-absolute fs-6 badge fw-normal bg-yellow-200 text-orange-600" style="top: 1rem; right: 1rem">
-                    {{ format_percent(-$product->discount) }}
+                <div class="product-price">
+                    @if(($min = $product->variants->min('netValue')) !== ($max = $product->variants->max('netValue')))
+                        <span class="fw-normal small text-secondary">από</span>
+                    @endif
+
+                    {{ format_currency($min) }}
                 </div>
+            @else
+                @if($product->isOnSale())
+                    <div class="product-discount">
+                        {{ format_percent(-$product->discount) }}
+                    </div>
+                
+                    <del class="text-danger small mt-auto">{{ format_currency($product->price) }}</del>
+                @endif
+            
+                <div class="product-price">{{ format_currency($product->netValue) }}</div>
             @endif
         </div>
     </a>

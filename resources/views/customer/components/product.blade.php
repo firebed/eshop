@@ -1,4 +1,4 @@
-<div class="col">
+<li class="col">
     <div @class(["card", "h-100", "new-product" => $product->recent])>
         <div class="card-body vstack position-relative">
             <a href="{{ productRoute($product) }}" class="ratio ratio-1x1 mb-3">
@@ -7,54 +7,47 @@
                 @endif
             </a>
 
-            <div class="lh-sm fw-500 mb-3">
-                <a class="text-dark text-hover-underline" href="{{ productRoute($product) }}">{{ $product->name }}</a>
-            </div>
+            <h2 class="fs-6 fw-500 mb-4"><a class="text-dark text-hover-underline" href="{{ productRoute($product) }}">{{ $product->name }}</a></h2>
 
-            <div class="d-flex align-items-baseline fw-bold mt-auto" style="font-size: 1.1rem">
+{{--            @if($product->relationLoaded('choices') && $product->choices->isNotEmpty())--}}
+{{--                <div class="text-secondary small mt-2 mb-3">--}}
+{{--                    {{ $product->choices->map(fn($choice) => ($choice->property->name . ': ' . $choice->name))->join(', ') }}--}}
+{{--                </div>--}}
+{{--            @endif--}}
+
+            <div class="d-flex align-items-baseline mt-auto" style="font-size: 1.1rem">
                 @if($product->has_variants && $product->relationLoaded('variants'))
-                    @if(($min = $product->variants->min('netValue')) !== ($max = $product->variants->max('netValue')))
-                        <div>{{ format_currency($min) }} - {{ format_currency($max) }}</div>
-                    @else
-                        <div>{{ format_currency($min) }}</div>
-                    @endif
+                    <a href="{{ productRoute($product) }}" class="text-decoration-none">
+                        @if(($min = $product->variants->min('netValue')) !== $product->variants->max('netValue'))
+                            <span class="text-secondary small">από</span>&nbsp;
+                        @endif
+                        <span class="fw-bold">{{ format_currency($min) }}</span>
+                    </a>
                 @else
-                    <div>{{ format_currency($product->netValue) }}</div>
+                    <a href="{{ productRoute($product) }}" class="text-decoration-none">{{ format_currency($product->netValue) }}</a>
                 @endif
 
                 @if($product->discount > 0)
-                    <s class="text-secondary fw-normal small ms-3">{{ format_currency($product->price) }}</s>
+                    <del class="text-danger small ms-3">{{ format_currency($product->price) }}</del>
                 @endif
             </div>
 
-            @if($product->has_variants && $product->relationLoaded('variants'))
-                @if($product->preview_variants && $product->variants->isNotEmpty())
-                    <div class="row row-cols-4 gx-1 mt-2 overflow-hidden">
-                        @foreach($product->variants->take(4) as $variant)
-                            <div class="col">
-                                <div class="ratio ratio-1x1">
-                                    @if($variant->image && $src = $variant->image->url('sm'))
-                                        <img loading="lazy" class="img-middle rounded" src="{{ $src }}" title="{{ $variant->option_values }}" alt="{{ $variant->option_values }}">
-                                    @endif
-                                </div>
+            @if($product->has_variants && $product->preview_variants && $product->relationLoaded('variants') && $product->variants->isNotEmpty())
+                <ul class="row row-cols-4 gx-1 mt-2 overflow-hidden list-unstyled">
+                    @foreach($product->variants->take(4) as $variant)
+                        <li class="col">
+                            <div class="ratio ratio-1x1">
+                                @if($variant->image && $src = $variant->image->url('sm'))
+                                    <img loading="lazy" class="img-middle rounded" src="{{ $src }}" title="{{ $variant->option_values }}" alt="{{ $variant->option_values }}">
+                                @endif
                             </div>
-                        @endforeach
-
-                        @if($product->variants->count() - 4 > 0)
-                            <div class="col-12 small mt-1 text-secondary">
-                                + {{ trans_choice("eshop::product.variants_count", $product->variants->count() - 4, ['count' => $product->variants->count() - 4]) }}
-                            </div>
-                        @endif
-                    </div>
-                @else
-                    <div class="col-12 small text-secondary">
-                        {{ trans_choice("eshop::product.variants_count", $product->variants->count(), ['count' => $product->variants->count()]) }}
-                    </div>
-                @endif
+                        </li>
+                    @endforeach
+                </ul>
             @endif
 
             @if((!$product->has_variants && $product->discount > 0) || ($product->has_variants && $product->relationLoaded('variants') && $product->variants->where('discount', '>', 0)->isNotEmpty()))
-                <div class="position-absolute fs-6 badge fw-normal bg-yellow-200 text-orange-600" style="right: 1rem">
+                <div class="product-discount">
                     @if($product->has_variants)
                         {{ format_percent(-$product->variants->max('discount')) }}
                     @else
@@ -62,6 +55,14 @@
                     @endif
                 </div>
             @endif
+
+            @if($product->has_variants && $product->variants->count() > 0)
+                <div class="position-absolute bg-gray-100 rounded px-2 py-1" style="bottom: 1rem; right: 1rem">
+                    <div class="color-wheel text-secondary" style="font-size: 12px">
+                        &nbsp;{{ $product->variants->count() }}
+                    </div>
+                </div>
+            @endif
         </div>
     </div>
-</div>
+</li>

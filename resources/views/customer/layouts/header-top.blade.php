@@ -53,7 +53,10 @@
 
                 <x-bs::dropdown.menu class="shadow-sm" button="user-menu" alignment="right" style="z-index: 1500">
                     @can('View dashboard')
-                        <x-bs::dropdown.item target="_blank" href="{{ route('products.index') }}">Διαχείριση</x-bs::dropdown.item>
+                        <x-bs::dropdown.item href="{{ route('products.index') }}">Διαχείριση</x-bs::dropdown.item>
+                        @can('View orders')
+                            <x-bs::dropdown.item href="{{ route('carts.index') }}">Παραγγελίες</x-bs::dropdown.item>
+                        @endcan
                         @can('Edit configuration')
                             <x-bs::dropdown.item href="#theme-form" data-bs-toggle="modal">Θέμα</x-bs::dropdown.item>
                         @endcan

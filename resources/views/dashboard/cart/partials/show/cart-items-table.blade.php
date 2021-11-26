@@ -39,7 +39,7 @@
 
                 <tbody>
                 @foreach($products as $product)
-                    <tr wire:key="row-{{ $product->pivot->id }}">
+                    <tr wire:key="row-{{ $product->pivot->id }}" @class(['table-primary' => $product->pivot->pinned])>
                         <td>
                             <x-bs::input.checkbox wire:model="selected" id="check-{{ $product->id }}" value="{{ $product->pivot->id }}"/>
                         </td>
@@ -79,9 +79,15 @@
                         <td class="text-end">{{ format_percent($product->pivot->discount) }}</td>
                         <td class="text-end">{{ format_currency($product->pivot->total) }}</td>
                         <td class="text-end">
-                            <x-bs::button.white wire:loading.attr="disabled" wire:click="edit({{ $product->pivot->id }})" wire:target="edit({{ $product->pivot->id }})" size="sm">
-                                <em class="far fa-edit"></em>
-                            </x-bs::button.white>
+                            <div class="d-grid gap-1">
+                                <x-bs::button.white wire:loading.attr="disabled" wire:click="edit({{ $product->pivot->id }})" wire:target="edit({{ $product->pivot->id }})" size="sm">
+                                    <em class="far fa-edit"></em>
+                                </x-bs::button.white>
+
+                                <x-bs::button.white wire:loading.attr="disabled" wire:click="togglePinned({{ $product->pivot->id }})" wire:target="togglePinned({{ $product->pivot->id }})" size="sm">
+                                    <em class="fas fa-map-pin"></em>
+                                </x-bs::button.white>
+                            </div>
                         </td>
                     </tr>
                 @endforeach

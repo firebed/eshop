@@ -36,25 +36,26 @@
     <x-eshop-category-breadcrumb :category="$category" :product="$product"/>
 
     <main class="container-fluid bg-white">
-        <section class="container-xxl py-4">
+        <div class="container-xxl py-4">
             <div class="row row-cols-1 row-cols-md-2 g-5">
                 <div class="col">
                     @include('eshop::customer.product.partials.images')
                 </div>
 
                 <div class="col">
-                    @can('Manage products')
-                        <div class="d-flex gap-3 mb-2">
-                            <a href="{{ $product->isVariant() ? route('variants.edit', $product) : route('products.edit', $product) }}" class="text-decoration-none">
-                                <em class="far fa-edit me-1"></em>{{ __('eshop::buttons.edit') }}
-                            </a>
-                        </div>
-                    @endcan
-
                     <div class="d-grid gap-2 align-self-start">
-                        <h1 class="fs-3 mb-0"><strong class="fw-500">{{ $product->trademark }}</strong></h1>
-
-                        <div class="small text-secondary fw-500">{{ __("Code") }}: {{ $product->sku }}</div>
+                        <h1 class="fs-3 mb-0 d-grid gap-1">
+                            {{ $product->trademark }}
+                            <span class="product-sku">{{ __("Code") }}: {{ $product->sku }}</span>
+                        </h1>
+                        
+                        @can('Manage products')
+                            <div class="d-flex gap-3 mb-2 small text-secondary">
+                                <a href="{{ $product->isVariant() ? route('variants.edit', $product) : route('products.edit', $product) }}" class="text-decoration-none">
+                                    <em class="far fa-edit me-1"></em>{{ __('eshop::buttons.edit') }}
+                                </a>
+                            </div>
+                        @endcan
 
                         <div class="vstack gap-1 my-2">
                             @include('eshop::customer.product.partials.product-category')
@@ -65,11 +66,14 @@
 
                         <div class="d-grid gap-2">
                             @if($product->has_variants)
-                                @if($product->variants->min('net_value') !== $product->variants->max('net_value'))
-                                    <div class="fs-3 fw-500">{{ format_currency($product->variants->min('net_value')) }} - {{ format_currency($product->variants->max('net_value')) }}</div>
-                                @else
-                                    <div class="fs-3 fw-500">{{ format_currency($product->variants->min('net_value')) }}</div>
-                                @endif
+                                <div class="fs-3 fw-500">
+                                    {{ format_currency($min = $product->variants->min('net_value')) }}
+                                    
+                                    @if($min !== ($max = $product->variants->max('net_value')))
+                                        - {{ format_currency($max) }}
+                                    @endif
+                                </div>
+                            
                                 @if($product->variants_display === 'grid')
                                     <a href="#product-variants" class="btn btn-primary btn-block">{{ __("See all variants") }} ({{ $product->variants->count() }})</a>
                                 @endif
@@ -99,20 +103,20 @@
                     </div>
                 </div>
             </div>
-        </section>
-
-        @if($product->has_variants && $product->variants_display === 'grid')
-            <section class="container-fluid bg-light py-3">
-                <div id="product-variants" class="container-xxl">
-                    <h2 class="fs-5 border-bottom mb-3 py-3">{{ __("Variants") }}</h2>
-
-                    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xxl-5 g-4">
-                        @foreach($variants as $variant)
-                            @livewire('product.product-variant', ['product' => $variant, 'category' => $category])
-                        @endforeach
-                    </div>
-                </div>
-            </section>
-        @endif
+        </div>
     </main>
+    
+    @if($product->has_variants && $product->variants_display === 'grid')
+        <section class="container-fluid bg-light py-3">
+            <div id="product-variants" class="container-xxl">
+                <h2 class="fs-5 border-bottom mb-3 py-3">{{ __("Variants") }}</h2>
+
+                <ul class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xxl-5 g-4 list-unstyled">
+                    @foreach($variants as $variant)
+                        @livewire('product.product-variant', ['product' => $variant, 'category' => $category])
+                    @endforeach
+                </ul>
+            </div>
+        </section>
+    @endif
 @endsection

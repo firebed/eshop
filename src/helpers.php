@@ -101,7 +101,7 @@ if (!function_exists('title')) {
 }
 
 if (!function_exists('categoryRoute')) {
-    function categoryRoute(Category $category, ?Collection $manufacturers = null, ?Collection $choices = null, $min_price = 0, $max_price = 0, $locale = null): ?string
+    function categoryRoute(Category $category, ?Collection $manufacturers = null, ?Collection $choices = null, $min_price = 0, $max_price = 0, $locale = null, $sort = null): ?string
     {
         $name = 'categories.show';
         $params = [
@@ -130,6 +130,10 @@ if (!function_exists('categoryRoute')) {
 
         if (!empty($max_price)) {
             $params['max_price'] = $max_price;
+        }
+        
+        if (!empty($sort)) {
+            $params['sort'] = $sort;
         }
 
         return route($name, $params);

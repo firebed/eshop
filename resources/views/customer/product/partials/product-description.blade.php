@@ -1,7 +1,5 @@
-<div class="text-secondary mb-2">
-    <div class="fw-500 mb-1">{{ __('eshop::product.primary_details') }}</div>
+<section class="product-description mb-2">
+    <h2 class="visually-hidden">{{ __('eshop::product.primary_details') }}</h2>
 
-    <div class="product-description">
-        {!! $description !!}
-    </div>
-</div>
+    {!! $description !!}
+</section>

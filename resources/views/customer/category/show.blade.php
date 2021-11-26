@@ -17,7 +17,7 @@
 @push('meta')
     @foreach(array_keys(eshop('locales')) as $locale)
         @if($category->isFile())
-            <link rel="alternate" hreflang="{{ $locale }}" href="{{ categoryRoute($category, $filters['m'], $filters['c'], locale: $locale) . ($products->currentPage() > 1 ? '?page=' . $products->currentPage() : '') }}"/>
+            <link rel="alternate" hreflang="{{ $locale }}" href="{{ categoryRoute($category, $filters['m'], $filters['c'], locale: $locale, sort: $filters['sort']) . ($products->currentPage() > 1 ? '?page=' . $products->currentPage() : '') }}"/>
         @else
             <link rel="alternate" hreflang="{{ $locale }}" href="{{ categoryRoute($category, locale: $locale) }}"/>
         @endif
@@ -29,19 +29,28 @@
 
     @if($category->isFile())
         @if(!$products->hasPages() || $products->onFirstPage())
-            <link rel="canonical" href="{{ $canonical = categoryRoute($category, $filters['m'], $filters['c']) }}">
+            <link rel="canonical" href="{{ $canonical = categoryRoute($category, $filters['m'], $filters['c'], sort: $filters['sort']) }}">
         @else
             <link rel="canonical" href="{{ $canonical = $products->url($products->currentPage()) }}">
         @endif
 
-        @if($products->currentPage() == 2)
-            <link rel="prev" href="{{ categoryRoute($category) }}">
-        @elseif($products->currentPage() > 2)
-            <link rel="prev" href="{{ $products->previousPageUrl() }}">
+        @if($products->currentPage() > 1)
+            @push('preload')
+                <link rel="prefetch" href="{{ $products->withQueryString()->previousPageUrl() }}">
+            @endpush
+
+            @if($products->currentPage() == 2)
+                <link rel="prev" href="{{ categoryRoute($category, sort: $filters['sort']) }}">
+            @elseif($products->currentPage() > 2)
+                <link rel="prev" href="{{ $products->withQueryString()->previousPageUrl() }}">
+            @endif
         @endif
 
         @if($products->hasMorePages())
-            <link rel="next" href="{{ $products->nextPageUrl() }}">
+            @push('preload')
+                <link rel="prefetch" href="{{ $products->withQueryString()->nextPageUrl() }}">
+            @endpush
+            <link rel="next" href="{{ $products->withQueryString()->nextPageUrl() }}">
         @endif
     @else
         <link rel="canonical" href="{{ $canonical = categoryRoute($category) }}">
@@ -76,12 +85,9 @@
         <div class="container-xxl">
             @if($category->isFile())
                 <div class="row gx-0 gx-xl-3">
-                    <div class="col-auto">
-                        @include('eshop::customer.category.partials.filters')
-                    </div>
-                    <div class="col d-flex flex-column gap-3">
+                    <section class="col d-flex flex-column gap-3 order-1">
                         <div class="d-flex flex-wrap align-items-baseline gap-3">
-                            <h1 class="fs-4 mb-0"><strong class="fw-normal">{{ $category->name }}</strong></h1>
+                            <h1 class="fs-4 mb-0 fw-normal">{{ $category->name }}</h1>
                             <div class="text-secondary">(@choice("eshop::product.products_count", $products->total(), ['count' => $products->total()]))</div>
                             @can('Manage categories')
                                 <a href="{{ route('categories.edit', $category) }}" class="text-decoration-none ms-auto"><em class="fas fa-edit"></em> {{ __("Edit") }}</a>
@@ -90,7 +96,7 @@
 
                         <div class="d-flex flex-wrap gap-2">
                             @foreach($filters['m'] as $m)
-                                <a href="{{ categoryRoute($category, $filters['m']->toggle($m), $filters['c'], $filters['min_price'], $filters['max_price']) }}" class="btn btn-smoke px-2 py-0 d-flex gap-2 align-items-center">
+                                <a href="{{ categoryRoute($category, $filters['m']->toggle($m), $filters['c'], $filters['min_price'], $filters['max_price'], sort: $filters['sort']) }}" class="btn btn-smoke px-2 py-0 d-flex gap-2 align-items-center">
                                     <small class="py-1">{{ $m->name }}</small>
                                     <span class="h-100" style="border-left: 1px solid #c5c5c5"></span>
                                     <span class="py-1 btn-close" style="width: .25rem; height: .25rem"></span>
@@ -98,7 +104,7 @@
                             @endforeach
 
                             @foreach($filters['c'] as $c)
-                                <a href="{{ categoryRoute($category, $filters['m'], $filters['c']->toggle($c), $filters['min_price'], $filters['max_price']) }}" class="btn btn-smoke px-2 py-0 d-flex gap-2 align-items-center">
+                                <a href="{{ categoryRoute($category, $filters['m'], $filters['c']->toggle($c), $filters['min_price'], $filters['max_price'], sort: $filters['sort']) }}" class="btn btn-smoke px-2 py-0 d-flex gap-2 align-items-center">
                                     <small class="py-1">{{ $category->properties->find($c->category_property_id)->choices->find($c->id)->name }}</small>
                                     <span class="h-100" style="border-left: 1px solid #c5c5c5"></span>
                                     <span class="py-1 btn-close" style="width: .25rem; height: .25rem"></span>
@@ -106,40 +112,57 @@
                             @endforeach
                         </div>
 
-                        @if($products->hasPages())
-                            <div class="d-flex justify-content-end">
-                                {{ $products->onEachSide(1)->links('bs::pagination.paginator') }}
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="dropdown">
+                                <a class="btn btn-white dropdown-toggle" href="#" role="button" id="sort-dropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                    {{ match($filters['sort']) {'price' => 'Αύξουσα τιμή', 'price-desc' => 'Φθίνουσα τιμή', default => 'Περιγραφή'} }}
+                                </a>
+
+                                <ul class="dropdown-menu" aria-labelledby="sort-dropdown">
+                                    <li><a class="dropdown-item" href="{{ categoryRoute($category, $filters['m'], $filters['c'], $filters['min_price'], $filters['max_price'], sort: 'name') }}">Περιγραφή</a></li>
+                                    <li><a class="dropdown-item" href="{{ categoryRoute($category, $filters['m'], $filters['c'], $filters['min_price'], $filters['max_price'], sort: 'price') }}">Αύξουσα τιμή</a></li>
+                                    <li><a class="dropdown-item" href="{{ categoryRoute($category, $filters['m'], $filters['c'], $filters['min_price'], $filters['max_price'], sort: 'price-desc') }}">Φθίνουσα τιμής</a></li>
+                                </ul>
                             </div>
-                        @endif
+
+                            @if($products->hasPages())
+                                {{ $products->withQueryString()->onEachSide(1)->links('bs::pagination.paginator') }}
+                            @endif
+                        </div>
 
                         @if($products->isNotEmpty())
-                            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 g-3">
+                            <ul class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 g-3 list-unstyled">
                                 @each('eshop::customer.components.product', $products, 'product')
-                            </div>
+                            </ul>
                         @else
                             <x-eshop::empty-products>
-                                <a href="{{ categoryRoute($category) }}" class="btn btn-primary">{{ __("See all products in the category") }}</a>
+                                <a href="{{ categoryRoute($category, sort: $filters['sort']) }}" class="btn btn-primary">{{ __("See all products in the category") }}</a>
                             </x-eshop::empty-products>
                         @endif
 
                         @if($products->hasPages())
                             <div class="d-flex justify-content-center">
-                                {{ $products->onEachSide(1)->links('bs::pagination.paginator') }}
+                                {{ $products->withQueryString()->onEachSide(1)->links('bs::pagination.paginator') }}
                             </div>
                         @endif
-                    </div>
+                    </section>
+
+                    <section class="col-auto order-0">
+                        @include('eshop::customer.category.partials.filters')
+                    </section>
                 </div>
             @else
                 <div class="d-flex mb-4 align-items-center">
-                    <h1 class="fs-3"><strong class="fw-500">{{ $category->name }}</strong></h1>
+                    <h1 class="fs-4 fw-normal">{{ $category->name }}</h1>
+
                     @can('Manage categories')
                         <a href="{{ route('categories.edit', $category) }}" class="text-decoration-none ms-auto"><em class="fas fa-edit"></em> {{ __("Edit") }}</a>
                     @endcan
                 </div>
 
-                <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 row-cols-xxl-5 g-4">
+                <ul class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 row-cols-xxl-5 g-4 list-unstyled">
                     @foreach($children as $child)
-                        <div class="col">
+                        <li class="col">
                             <div class="p-3 h-100 bg-white d-flex flex-column gap-3 rounded border">
                                 <a href="{{ categoryRoute($child) }}" class="ratio ratio-4x3">
                                     @if($child->image && $src = $child->image->url('sm'))
@@ -147,19 +170,21 @@
                                     @endif
                                 </a>
 
-                                <a href="{{ categoryRoute($child) }}" class="text-dark text-hover-underline fw-500">{{ $child->name }}</a>
+                                <h3 class="fs-6 fw-500">
+                                    <a href="{{ categoryRoute($child) }}" class="text-dark text-hover-underline fw-500">{{ $child->name }}</a>
+                                </h3>
 
                                 @if($child->children->isNotEmpty())
-                                    <div class="mt-auto">
+                                    <p class="mt-auto mb-0">
                                         @foreach($child->children as $promoted)
                                             <a href="{{ categoryRoute($promoted) }}" class="text-secondary text-hover-underline">{{ $promoted->name }}</a>@unless($loop->last), @endif
                                         @endforeach
-                                    </div>
+                                    </p>
                                 @endif
                             </div>
-                        </div>
+                        </li>
                     @endforeach
-                </div>
+                </ul>
             @endif
         </div>
     </main>

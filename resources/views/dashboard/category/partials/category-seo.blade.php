@@ -42,7 +42,7 @@
                     <input type="text" value="{{ app()->getLocale() }}" name="seo[locale]" hidden>
 
                     <x-bs::input.group for="seo-title" label="{{ __('eshop::seo.title') }}">
-                        <x-bs::input.text x-model="title" x-on:input="updateSlug()" name="seo[title]" id="seo-title" error="seo.title" required/>
+                        <input type="text" class="form-control" x-model="title" @if(request()->routeIs('categories.create')) x-on:input="updateSlug()" @endif name="seo[title]" id="seo-title" error="seo.title" required/>
                         <small class="text-secondary"><span x-text="title.length"></span>, {{ __('eshop::seo.suggested') }}: 55-60</small>
                     </x-bs::input.group>
 

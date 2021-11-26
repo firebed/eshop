@@ -3,7 +3,23 @@
 
     <x-bs::card class="flex-grow-1">
         <x-bs::card.body class="vstack gap-3">
-            <div class="fw-500 fs-4 text-blue-500">{{ format_number($yearly_orders->sum()) }}</div>
+            <div class="table-responsive scrollbar">
+                <div class="d-flex gap-5 text-nowrap">
+                    <div class="vstack">
+                        <div class="small text-secondary">Σύνολο</div>
+                        <div class="fs-4">
+                            {{ $yearly_orders->sum() }}
+                        </div>
+                    </div>
+
+                    <div class="vstack">
+                        <div class="small text-secondary">Μ.Ο.</div>
+                        <div class="fs-4">
+                            {{ round($yearly_orders->avg()) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
 
             <div class="graph">
                 <canvas id="yearly-orders"></canvas>
@@ -19,10 +35,17 @@
                 labels: {!! $yearly_orders->keys()->map(fn($key) => !str_contains($key, ' ') ? $key : explode(' ', $key))->toJson() !!},
                 datasets: [
                     {
-                        type: 'bar',
+                        type: 'line',
                         label: '{{ __("eshop::analytics.orders") }}',
                         data: [{{ $yearly_orders->join(', ') }}],
-                        backgroundColor: 'rgba(26,115,232, 0.65)',
+                        pointHoverRadius: 6,
+                        pointRadius: 5,
+                        fill: false,
+                        pointBackgroundColor: 'white',
+                        pointHoverBorderColor: '#ff6384',
+                        pointHoverBorderWidth: 2,
+                        borderColor: 'rgb(26,115,232)',
+                        borderWidth: 2,
                     },
                 ]
             },

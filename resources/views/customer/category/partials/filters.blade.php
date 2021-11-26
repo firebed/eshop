@@ -1,10 +1,10 @@
 <div class="filters offcanvas offcanvas-start" tabindex="-1" id="filters" aria-labelledby="filters">
     <div class="offcanvas-header">
         <div class="d-flex align-items-baseline gap-3">
-            <div class="h5 mb-0 offcanvas-title">{{ __('eshop::product.filters') }}</div>
+            <h2 class="fs-5 fw-500 mb-0 offcanvas-title">{{ __('eshop::product.filters') }}</h2>
 
             @if (!empty($filters['min_price']) || !empty($filters['max_price']) || $filters['m']->isNotEmpty() || $filters['c']->isNotEmpty())
-                <a href="{{ categoryRoute($category) }}" class="text-hover-underline">
+                <a href="{{ categoryRoute($category, sort: $filters['sort']) }}" class="text-hover-underline">
                     {{ __('eshop::filters.cancel_all') }}
                 </a>
             @endif

@@ -130,7 +130,7 @@ class Cart extends Model implements Order
     {
         return $this->belongsToMany(Product::class)
             ->using(CartProduct::class)
-            ->withPivot('id', 'quantity', 'price', 'compare_price', 'discount', 'vat')
+            ->withPivot('id', 'quantity', 'price', 'compare_price', 'discount', 'vat', 'pinned')
             ->whereNull('cart_product.deleted_at')
             ->orderByPivot('created_at')
             ->withTimestamps();

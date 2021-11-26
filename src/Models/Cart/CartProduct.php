@@ -21,6 +21,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property double  discount
  * @property double  vat
  * @property int     injector_id
+ * @property int     pinned
  *
  * @property double  total
  *
@@ -39,6 +40,7 @@ class CartProduct extends Pivot
         'compare_price' => 'float',
         'discount'      => 'float',
         'vat'           => 'float',
+        'pinned'        => 'boolean',
     ];
 
     public function cart(): BelongsTo

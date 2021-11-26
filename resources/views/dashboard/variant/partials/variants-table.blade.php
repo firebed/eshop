@@ -29,7 +29,7 @@
 
             <td>
                 <a href="{{ route('variants.edit', array_filter([$variant, 'search' => $search])) }}" class="d-grid gap-1 text-decoration-none">
-                    <div class="text-dark d-flex gap-3 align-items-center">{{ $variant->optionValues(' / ') }}@if($variant->recent) <span class=" badge bg-danger">New</span> @endif</div>
+                    <div class="text-dark d-flex gap-3 align-items-center">{{ $variant->optionValues(' / ') }}@if($variant->recent) <em class="fas fa-star text-warning"></em>@endif</div>
                     <small class="text-secondary lh-sm">{{ $variant->sku }}</small>
                     <small class="text-secondary lh-sm">{{ __('eshop::product.in_stock', ['stock' => format_number($variant->stock)]) }}</small>
                 </a>

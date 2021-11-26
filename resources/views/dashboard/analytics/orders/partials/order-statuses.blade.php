@@ -2,20 +2,18 @@
     <div class="fw-500 mb-2">{{ __("eshop::analytics.order_statuses") }} ({{ now()->isoFormat('MMMM') }})</div>
 
     <x-bs::card class="flex-grow-1">
-        <x-bs::card.body>
-            <div class="h-100 vstack gap-3">
-                <div class="graph">
-                    <canvas id="order-statuses"></canvas>
-                </div>
+        <x-bs::card.body class="h-100 vstack gap-3">
+            <div class="d-flex gap-4 text-nowrap table-responsive text-secondary scrollbar">
+                @foreach($statuses as $status => $count)
+                    <div class="vstack">
+                        <div class="small">{{ __("eshop::cart.status.$status") }}</div>
+                        <div class="fw-500 fs-4">{{ $count }}</div>
+                    </div>
+                @endforeach
+            </div>
 
-                <div class="d-flex gap-4 text-nowrap table-responsive">
-                    @foreach($statuses as $status => $count)
-                        <div class="vstack">
-                            <div class="text-secondary small">{{ __("eshop::cart.status.$status") }}</div>
-                            <div class="fw-500 fs-4">{{ $count }}</div>
-                        </div>
-                    @endforeach
-                </div>
+            <div class="graph">
+                <canvas id="order-statuses"></canvas>
             </div>
         </x-bs::card.body>
     </x-bs::card>

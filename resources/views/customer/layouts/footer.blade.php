@@ -44,11 +44,19 @@
 
             <div class="col-12 col-sm-6 col-md-4 col-lg-3">
                 <h2 class="fs-6 fw-500 mb-2 border-bottom pb-2">{{ __("Contact") }}</h2>
-                <p class="vstack gap-2">
-                    <span>{{ __("company.address") }}</span>
-                    <span class="p-0">{!! implode('<br>', __("company.phone")) !!}</span>
-                    <span class="p-0">{{ __("company.email") }}</span>
-                </p>
+                <address class="vstack gap-2">
+                    @if(__("company.address"))
+                        <div><em class="fas fa-map-marker-alt me-2 text-secondary"></em>{{ __("company.address") }}</div>
+                    @endif
+
+                    @foreach(__("company.phone") as $phone)
+                        <a href="tel:{{ telephone($phone) }}" class="text-decoration-none"><em class="fas fa-phone-alt me-2 text-secondary"></em>{{ $phone }}</a>
+                    @endforeach
+
+                    @if(__("company.email"))
+                        <a href="mailto:{{ __("company.email") }}" class="text-decoration-none"><em class="fas fa-envelope me-2 text-secondary"></em>{{ __("company.email") }}</a>
+                    @endif
+                </address>
             </div>
         </div>
     </div>
@@ -58,7 +66,14 @@
     <div class="container-xxl">
         <div class="d-flex flex-wrap justify-content-center justify-content-sm-between align-items-center gap-3">
             <small class="text-secondary">&copy; {{ now()->year }} {{ config('app.name') }}</small>
-            <div><img loading="lazy" src="{{ asset('images/credit-cards.webp') }}" alt="Credit cards" class="img-fluid" width="250" height="40"></div>
+            <div class="d-flex gap-1 fs-2 text-secondary">
+                <em class="fab fa-cc-visa" title="VISA"></em>
+                <em class="fab fa-cc-mastercard" title="MasterCard"></em>
+                <em class="fab fa-cc-paypal" title="PayPal"></em>
+                <em class="fas fa-university" title="Τραπεζική Κατάθεση"></em>
+                <em class="fas fa-hand-holding-usd" title="Αντικαταβολή"></em>
+{{--                <img loading="lazy" src="{{ asset('images/credit-cards.webp') }}" alt="Credit cards" class="img-fluid" width="250" height="40">--}}
+            </div>
         </div>
     </div>
 </div>

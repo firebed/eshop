@@ -1,4 +1,4 @@
-<div class="col">
+<li class="col">
     <div class="card h-100 position-relative">
         <div @class(["card-body d-grid gap-3", "new-product" => $variant->recent])>
             <a class="text-decoration-none text-dark d-grid gap-2" href="{{ productRoute($variant, $category) }}">
@@ -9,7 +9,7 @@
                 @endif
 
                 <div class="d-grid">
-                    <div class="fw-500">{{ $variant->option_values }}@can('Manage products') <span class="text-secondary">({{ format_number($variant->stock) }})</span> @endcan</div>
+                    <h3 class="fs-6 fw-500">{{ $variant->option_values }}@can('Manage products') <span class="text-secondary">({{ format_number($variant->stock) }})</span> @endcan</h3>
 
                     @if($variant->sku !== null && $variant->variant_values !== $variant->sku)
                         <small class="text-secondary">{{ __('Code') }}: {{ $variant->sku }}</small>
@@ -23,7 +23,7 @@
                 <div class="d-flex align-items-baseline mt-auto">
                     <div class="fs-5 fw-500">{{ format_currency($variant->netValue) }}</div>
                     @if($variant->discount > 0)
-                        <span class="text-secondary ms-3 text-decoration-line-through">{{ format_currency($variant->price) }}</span>
+                        <del class="text-danger ms-3 small">{{ format_currency($variant->price) }}</del>
                     @endif
                 </div>
             </a>
@@ -49,8 +49,8 @@
             </div>
         </div>
 
-        @if($variant->discount > 0)
-            <div class="position-absolute p-2 fs-6 badge bg-yellow-500" style="z-index: 2000; top:10px; right: 10px;">{{ format_percent(-$variant->discount) }}</div>
+        @if($variant->isOnSale())
+            <div class="product-discount">{{ format_percent(-$variant->discount) }}</div>
         @endif
     </div>
-</div>
+</li>

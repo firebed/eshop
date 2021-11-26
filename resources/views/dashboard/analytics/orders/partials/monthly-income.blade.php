@@ -3,7 +3,37 @@
 
     <x-bs::card class="flex-grow-1">
         <x-bs::card.body class="vstack gap-3">
-            <div class="fw-500 fs-4 text-blue-500">{{ format_currency( $monthly_income->sum() ) }}</div>
+            <div class="table-responsive scrollbar">
+                <div class="d-flex gap-5 text-nowrap">
+                    <div class="vstack">
+                        <div class="small text-secondary">Σύνολο</div>
+                        <div class="fs-4">
+                            {{ format_currency($monthly_income->sum()) }}
+                        </div>
+                    </div>
+    
+                    <div class="vstack">
+                        <div class="small text-secondary">Μ.Ο.</div>
+                        <div class="fs-4">
+                            {{ format_currency(round($monthly_income->avg())) }}
+                        </div>
+                    </div>
+    
+                    <div class="vstack">
+                        <div class="small text-secondary">Ελάχιστο</div>
+                        <div class="fs-4">
+                            {{ format_currency($monthly_income->min()) }}
+                        </div>
+                    </div>
+    
+                    <div class="vstack">
+                        <div class="small text-secondary">Μέγιστο</div>
+                        <div class="fs-4">
+                            {{ format_currency($monthly_income->max()) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
 
             <div class="graph">
                 <canvas id="monthly-income"></canvas>

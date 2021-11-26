@@ -1,23 +1,25 @@
 <div>
+    <h2 class="visually-hidden">{{ __("Variants") }}</h2>
+    
     @foreach($product->variantTypes as $type)
         <div class="fw-500 mb-2">{{ __("Select") }} {{ __($type->name) }}</div>
 
-        <div class="row row-cols-2 row-cols-sm-3 row-cols-xl-4 g-2 mb-3">
+        <ul class="row row-cols-2 row-cols-sm-3 row-cols-xl-4 g-2 mb-3 list-unstyled">
             @isset($uniqueOptions[$type->id])
                 @foreach($uniqueOptions[$type->id] as $option)
-                    <div class="col d-grid">
+                    <li class="col d-grid">
                         <button type="button" wire:click="select({{ $type->id }}, '{{ $option->pivot->slug }}')" class="btn @if(in_array($option->pivot->slug, $filters, true)) btn-primary @else btn-outline-primary @endif">{{ $option->pivot->value }}</button>
-                    </div>
+                    </li>
                 @endforeach
             @endisset
-        </div>
+        </ul>
     @endforeach
 
     <form wire:submit.prevent="addToCart" class="vstack gap-3">
-        <div class="hstack gap-3">
-            <div class="h4 mb-0">{{ format_currency($variant->netValue ?? $product->netValue) }}</div>
-            <s class="text-secondary">@if($variant && $variant->discount > 0) {{ format_currency($variant->price) }}@endif</s>
-        </div>
+{{--        <div class="hstack gap-3">--}}
+{{--            <div class="h4 mb-0">{{ format_currency($variant->netValue ?? $product->netValue) }}</div>--}}
+{{--            <s class="text-secondary">@if($variant && $variant->discount > 0) {{ format_currency($variant->price) }}@endif</s>--}}
+{{--        </div>--}}
 
         @if($variant && $variant->canDisplayStock())
             <div class="fw-500 text-success">@choice("eshop::product.availability", $variant->available_stock, ['count' => format_number($variant->available_stock)])</div>

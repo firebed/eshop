@@ -38,6 +38,10 @@ class TotalOrders
             
             return $d;
         }
+        
+        if ($group === 'hour') {
+            return $data->sortKeys();
+        }
 
         if ($from === null) {
             $from = now()->setYear($data->keys()->first())->startOfYear();
@@ -80,6 +84,7 @@ class TotalOrders
     private function getSelectStatement($group): array
     {
         return match ($group) {
+            'hour' => [DB::raw("DATE_FORMAT(`submitted_at`, '%H') as `grp`")],
             'weekday' => [DB::raw('WEEKDAY(`submitted_at`) as `grp`')],
             "day" => [DB::raw("DATE(`submitted_at`) as `grp`")],
             "month" => [DB::raw("DATE_FORMAT(`submitted_at`, '%Y-%m') as `grp`")],

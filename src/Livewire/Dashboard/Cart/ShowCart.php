@@ -80,6 +80,11 @@ class ShowCart extends Component
         });
     }
 
+    public function togglePinned(CartProduct $cp): void
+    {
+        $cp->update(['pinned' => !$cp->pinned]);
+    }
+    
     public function save(): void
     {
         $this->validate();

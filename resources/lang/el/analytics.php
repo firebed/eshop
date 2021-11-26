@@ -3,6 +3,7 @@
 return [
     'total_orders'     => 'Σύνολο παραγγελιών',
     'weekday_orders'   => 'Παραγγελίες ανά μέρα βδομάδας',
+    'hourly_orders'   => 'Παραγγελίες ανά ώρα',
     'total_sales'      => 'Σύνολο πωλήσεων',
     'total_profit'     => 'Σύνολο κερδών',
     'payment_methods'  => 'Τρόποι πληρωμής',

@@ -33,6 +33,7 @@ class CategoryRequest extends FormRequest
         return [
             'min_price' => 'nullable|numeric|min:0',
             'max_price' => 'nullable|numeric|min:0',
+            'sort'      => 'nullable|string'
         ];
     }
 
@@ -52,6 +53,7 @@ class CategoryRequest extends FormRequest
 
         $filters['min_price'] = $this->input('min_price');
         $filters['max_price'] = $this->input('max_price');
+        $filters['sort'] = $this->input('sort');
 
         return $filters;
     }

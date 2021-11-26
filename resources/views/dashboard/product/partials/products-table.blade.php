@@ -17,7 +17,8 @@
 
     <tbody>
     @forelse($products as $product)
-        <tr wire:key="row-{{ $product->id }}" wire:loading.class.delay="opacity-50" wire:target="sortBy, category, manufacturer, name">
+        <tr wire:key="row-{{ $product->id }}" wire:loading.class.delay="opacity-50" wire:target="sortBy, category, manufacturer, name"
+        @class(['table-danger' => !$product->visible])>
             <td>
                 <x-bs::input.checkbox wire:model="selected" id="product-{{ $product->id}}" value="{{ $product->id }}"/>
             </td>
@@ -29,16 +30,19 @@
                 </div>
             </td>
             <td>
-                <a href="{{ route('products.edit', $product) }}" class="vstack text-decoration-none text-nowrap">
+                <a href="{{ route('products.edit', $product) }}" class="vstack text-decoration-none text-nowrap gap-1">
                     @if($product->recent)
                         <span class="d-flex align-items-center gap-2">
                             <span>{{ $product->isVariant() ? $product->trademark : $product->name }}</span>
-                            <span class="badge bg-danger">New</span>
+                            <em class="fas fa-star text-warning"></em>
                         </span>
                     @else
                         {{ $product->isVariant() ? $product->trademark : $product->name }}
                     @endif
                     <small class="text-secondary">{{ $product->category->name }}</small>
+                    @unless($product->canBeBought())
+                        <span class="badge bg-danger fw-500 align-self-start">{{ __("Out of stock") }}</span>
+                    @endunless
                 </a>
             </td>
             <td>{{ $product->sku }}</td>
