@@ -1,7 +1,7 @@
 @extends('eshop::dashboard.layouts.master')
 
 @section('header')
-    <h1 class="fs-5 mb-0">{{ __("Orders") }}</h1>
+    <div class="fs-5 fw-500">{{ __("Orders") }}</div>
 @endsection
 
 @section('main')

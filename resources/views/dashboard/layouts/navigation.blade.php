@@ -1,8 +1,8 @@
 @php($bg = "rgb(49, 58, 70)")
 @php($collapsed = Cache::get('dashboard-sidebar-collapsed.' . auth()->id(), false))
 
-<div x-data="{ collapsed: {{ $collapsed ? 'true' : 'false' }} }" x-bind:class="{ 'collapsed': collapsed }"\
-     x-on:toggle-collapse.window="collapsed = !collapsed"
+<div x-data="{ collapsed: {{ $collapsed ? 'true' : 'false' }} }" x-bind:class="{ 'collapsed': collapsed }"
+     x-on:toggle-collapse.window="collapsed = !collapsed; axios.put('/dashboard/sidebar')"
      id="dashboard-nav" 
      class="col-12 col-xl-auto w-xl-17r p-0 m-0 vh-xl-100 sticky-top shadow {{ $collapsed ? 'collapsed' : '' }}">
     
