@@ -51,7 +51,7 @@
                     </x-bs::input.group>
 
                     <x-bs::input.group for="seo-description" label="{{ __('eshop::seo.description') }}">
-                        <x-bs::input.textarea x-model="description" name="seo[description]" error="seo.description" id="seo-description" rows="5"/>
+                        <x-bs::input.textarea x-model="description" x-on:keydown.enter.prevent="" name="seo[description]" error="seo.description" id="seo-description" rows="5"/>
                         <small class="text-secondary"><span x-text="description.length"></span>, {{ __('eshop::seo.suggested') }}: 50-160</small>
                     </x-bs::input.group>
                 </div>
