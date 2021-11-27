@@ -48,10 +48,10 @@
                         </x-bs::input.group>
 
                         <x-bs::input.group for="invoice-billing-country" label="{{ __('Country') }}" class="col">
-                            <x-bs::input.select wire:model.defer="invoiceBilling.country_code" id="invoice-billing-country" error="invoiceBilling.country_code">
-                                <option value="" disabled>{{ __("Select country") }}</option>
+                            <x-bs::input.select wire:model.defer="invoiceBilling.country_id" id="invoice-billing-country" error="invoiceBilling.country_id">
+                                <option value="">{{ __("Select country") }}</option>
                                 @foreach($countries as $country)
-                                    <option value="{{ $country->code }}">{{ $country->name }}</option>
+                                    <option value="{{ $country->id }}">{{ $country->name }}</option>
                                 @endforeach
                             </x-bs::input.select>
                         </x-bs::input.group>

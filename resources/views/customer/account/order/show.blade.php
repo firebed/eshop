@@ -15,9 +15,9 @@
 
                             @include('eshop::customer.account.order.partials.shipping-address')
 
-                            @includeIf($order->billingAddress, 'eshop::customer.account.order.partials.billing-address')
+                            @includeWhen($order->billingAddress, 'eshop::customer.account.order.partials.billing-address')
 
-                            @includeIf($order->invoice, 'eshop::customer.account.order.partials.invoice')
+                            @includeWhen($order->invoice, 'eshop::customer.account.order.partials.invoice')
 
                             @includeWhen($order->details, 'eshop::customer.account.order.partials.customer-request')
                         </div>

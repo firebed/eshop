@@ -26,6 +26,6 @@
             </div>
         </x-bs::navbar.collapse>
     </x-bs::navbar>
-
+    
     @include('eshop::dashboard.cart.partials.show.cart-invoice-modal')
 </div>
