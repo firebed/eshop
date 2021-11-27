@@ -10,8 +10,8 @@
             <div class="text-secondary text-truncate" style="font-size:13px">{{ $product->category->name }}</div>
             <h3 class="small fw-500 text-2l lh-base">{{ $product->trademark }}</h3>
 
-            @if($product->has_variants && $product->relationLoaded('variants'))
-                <div class="product-price">
+            <div class="product-price">
+                @if($product->has_variants && $product->relationLoaded('variants'))
                     @if($product->variants->contains->isOnSale())
                         <div class="product-discount">
                             {{ format_percent(-$product->variants->max('discount')) }}
@@ -21,24 +21,24 @@
                             <del>{{ format_currency($product->variants->min('price')) }}</del>
                         @endif
                     @endif
-                    
+
                     @if(($min = $product->variants->min('netValue')) !== ($max = $product->variants->max('netValue')))
                         <span class="fw-normal small text-secondary">από</span>
                     @endif
 
                     {{ format_currency($min) }}
-                </div>
-            @else
-                @if($product->isOnSale())
-                    <div class="product-discount">
-                        {{ format_percent(-$product->discount) }}
-                    </div>
-                
-                    <del class="text-danger small mt-auto">{{ format_currency($product->price) }}</del>
+                @else
+                    @if($product->isOnSale())
+                        <div class="product-discount">
+                            {{ format_percent(-$product->discount) }}
+                        </div>
+
+                        <del class="text-danger small mt-auto">{{ format_currency($product->price) }}</del>
+                    @endif
+
+                    {{ format_currency($product->netValue) }}
                 @endif
-            
-                <div class="product-price">{{ format_currency($product->netValue) }}</div>
-            @endif
+            </div>
         </div>
     </a>
 </div>
