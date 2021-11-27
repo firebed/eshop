@@ -1,7 +1,7 @@
 <div class="filters offcanvas offcanvas-start" tabindex="-1" id="filters" aria-labelledby="filters">
     <div class="offcanvas-header">
         <div class="d-flex align-items-baseline gap-3">
-            <div class="h5 mb-0 offcanvas-title">{{ __('eshop::product.filters') }}</div>
+            <h2 class="fs-5 fw-500 mb-0 offcanvas-title">{{ __('eshop::product.filters') }}</h2>
 
             @if ($selectedManufacturers->isNotEmpty() || request()->filled('min_price') || request()->filled('max_price'))
                 <a href="{{ route('products.collections.index', [app()->getLocale(), $collection->slug]) }}" class="text-hover-underline">
