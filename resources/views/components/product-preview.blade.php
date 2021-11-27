@@ -11,17 +11,17 @@
             <h3 class="small fw-500 text-2l lh-base">{{ $product->trademark }}</h3>
 
             @if($product->has_variants && $product->relationLoaded('variants'))
-                @if($product->variants->contains->isOnSale())
-                    <div class="product-discount">
-                        {{ format_percent(-$product->variants->max('discount')) }}
-                    </div>
-
-                    @if($product->variants->min('netValue') !== $product->variants->min('price'))
-                        <del class="text-danger small">{{ format_currency($product->variants->min('price')) }}</del>
-                    @endif
-                @endif
-
                 <div class="product-price">
+                    @if($product->variants->contains->isOnSale())
+                        <div class="product-discount">
+                            {{ format_percent(-$product->variants->max('discount')) }}
+                        </div>
+
+                        @if($product->variants->min('netValue') !== $product->variants->min('price'))
+                            <del>{{ format_currency($product->variants->min('price')) }}</del>
+                        @endif
+                    @endif
+                    
                     @if(($min = $product->variants->min('netValue')) !== ($max = $product->variants->max('netValue')))
                         <span class="fw-normal small text-secondary">από</span>
                     @endif
