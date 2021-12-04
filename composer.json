@@ -8,10 +8,6 @@
       "email": "okan.giritli@gmail.com"
     }
   ],
-  "repositories": [{
-    "type": "path", "url": "../laravel-scout-database"
-  }
-  ],
   "require": {
     "php": "^8.0",
     "laravel/framework": "^8.0",
