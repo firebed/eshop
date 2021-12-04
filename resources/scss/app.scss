@@ -64,3 +64,14 @@
     display: none;
   }
 }
+
+.graph {
+  @extend .ratio;
+  height: 190px !important;
+}
+
+@media (min-width: 768px) {
+  .graph {
+    height: 300px !important;
+  }
+}
