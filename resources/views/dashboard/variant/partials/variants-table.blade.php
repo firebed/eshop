@@ -18,9 +18,9 @@
             </td>
 
             <td>
-                <div class="ratio ratio-1x1 border rounded bg-gray-100">
+                <div class="ratio ratio-1x1 border rounded">
                     @if($src = $variant->image?->url('sm'))
-                        <img class="w-auto h-auto mw-100 mh-100 rounded" src="{{ $src }}" alt="{{ $variant->sku }}">
+                        <img class="rounded img-middle" src="{{ $src }}" alt="{{ $variant->sku }}">
                     @else
                         <em class="fas fa-image fa-3x text-gray-300 img-middle"></em>
                     @endif
@@ -31,7 +31,13 @@
                 <a href="{{ route('variants.edit', array_filter([$variant, 'search' => $search])) }}" class="d-grid gap-1 text-decoration-none">
                     <div class="text-dark d-flex gap-3 align-items-center">{{ $variant->optionValues(' / ') }}@if($variant->recent) <em class="fas fa-star text-warning"></em>@endif</div>
                     <small class="text-secondary lh-sm">{{ $variant->sku }}</small>
-                    <small class="text-secondary lh-sm">{{ __('eshop::product.in_stock', ['stock' => format_number($variant->stock)]) }}</small>
+                    @if($variant->stock === 0)
+                        <span class="badge bg-warning text-dark me-auto">{{ __("Sold out") }} (0)</span>
+                    @elseif($variant->stock < 0)
+                        <span class="badge bg-danger me-auto">{{ __('eshop::product.in_stock', ['stock' => format_number($variant->stock)]) }}</span>
+                    @else
+                        <small class="text-secondary lh-sm">{{ __('eshop::product.in_stock', ['stock' => format_number($variant->stock)]) }}</small>
+                    @endif
                 </a>
             </td>
 
@@ -42,15 +48,15 @@
                         <em class="fas fa-shopping-cart {{ $variant->available ? 'text-teal-500' : 'text-gray-400' }}"></em>
                         @if($variant->available_gt !== "" && $variant->available_gt !== null)
                             <span class="border-top"></span>
-                            <small class="fw-500 text-center lh-sm" style="font-size: .7rem">{{ $variant->available_gt }}</small> 
+                            <small class="fw-500 text-center lh-sm" style="font-size: .7rem">{{ $variant->available_gt }}</small>
                         @endif
                     </div>
 
                     <div class="d-grid gap-1">
                         <em class="fas fa-list-ol {{ $variant->display_stock ? 'text-teal-500' : 'text-gray-400' }}"></em>
-                        @if($variant->display_stock_lt !== "" && $variant->display_stock_lt !== null) 
+                        @if($variant->display_stock_lt !== "" && $variant->display_stock_lt !== null)
                             <span class="border-top"></span>
-                            <small class="fw-500 text-center lh-sm" style="font-size: .7rem">{{ $variant->display_stock_lt }}</small> 
+                            <small class="fw-500 text-center lh-sm" style="font-size: .7rem">{{ $variant->display_stock_lt }}</small>
                         @endif
                     </div>
                 </div>

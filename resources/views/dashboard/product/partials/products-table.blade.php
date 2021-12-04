@@ -17,8 +17,7 @@
 
     <tbody>
     @forelse($products as $product)
-        <tr wire:key="row-{{ $product->id }}" wire:loading.class.delay="opacity-50" wire:target="sortBy, category, manufacturer, name"
-        @class(['table-danger' => !$product->visible])>
+        <tr wire:key="row-{{ $product->id }}" wire:loading.class.delay="opacity-50" wire:target="sortBy, category, manufacturer, name">
             <td>
                 <x-bs::input.checkbox wire:model="selected" id="product-{{ $product->id}}" value="{{ $product->id }}"/>
             </td>
@@ -40,9 +39,9 @@
                         {{ $product->isVariant() ? $product->trademark : $product->name }}
                     @endif
                     <small class="text-secondary">{{ $product->category->name }}</small>
-{{--                    @unless($product->canBeBought())--}}
-{{--                        <span class="badge bg-danger fw-500 align-self-start">{{ __("Out of stock") }}</span>--}}
-{{--                    @endunless--}}
+                    @unless($product->visible)
+                        <span class="badge bg-danger fw-500 align-self-start">{{ __("Invisible") }}</span>
+                    @endunless
                 </a>
             </td>
             <td>{{ $product->sku }}</td>

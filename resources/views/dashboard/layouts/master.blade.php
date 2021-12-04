@@ -30,9 +30,9 @@
 
     <div class="col">
         <main class="row">
-            <div class="d-flex col-12 bg-white shadow-sm sticky-xl-top justify-content-between align-items-center px-4" style="height: 3.5rem">
-                <div class="d-flex gap-2 align-items-baseline">
-                    <a x-data x-on:click.prevent="$dispatch('toggle-collapse')" class="text-gray-600" href="#">
+            <aside class="d-flex col-12 bg-white shadow-sm sticky-xl-top justify-content-between align-items-center px-4" style="height: 3.5rem">
+                <div class="d-flex gap-2 align-items-baseline fs-5 fw-500">
+                    <a x-data x-on:click.prevent="$dispatch('toggle-collapse')" class="d-none d-xl-inline text-gray-600" href="#">
                         <em class="fa fa-bars" style="font-size: 1.1rem"></em>
                     </a>
                     
@@ -43,7 +43,7 @@
                     <em class="fas fa-user text-gray-500"></em>
                     <div class="text-nowrap">{{ auth()->user()?->fullName }}</div>
                 </div>
-            </div>
+            </aside>
 
             @yield('main')
         </main>

@@ -29,10 +29,9 @@ class CreateAddressesTable extends Migration
             $table->string('street_no')->nullable();
             $table->string('floor')->nullable();
             $table->string('postcode', 50)->nullable();
+            $table->fulltext(['first_name', 'last_name', 'phone', 'postcode']);
             $table->timestamps();
         });
-
-        DB::statement("ALTER TABLE addresses ADD FULLTEXT search(first_name, last_name, phone, postcode)");
     }
 
     /**

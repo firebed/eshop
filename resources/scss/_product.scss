@@ -1,0 +1,13 @@
+#product-nav {
+  a {
+    color: $dark;
+    text-decoration: none;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 3px solid transparent;
+    
+    &.active {
+      border-bottom-color: $primary !important;
+    }
+  }
+}

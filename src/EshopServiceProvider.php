@@ -27,6 +27,7 @@ use Eshop\Providers\EventServiceProvider;
 use Eshop\Providers\FortifyServiceProvider;
 use Eshop\Providers\LivewireServiceProvider;
 use Eshop\View\Components\CategoryBreadcrumb;
+use Eshop\View\Components\LabelPrinterDialog;
 use Eshop\View\Components\NewArrivals;
 use Eshop\View\Components\Sales;
 use Eshop\View\Components\TrendingProducts;
@@ -97,6 +98,7 @@ class EshopServiceProvider extends ServiceProvider
         Blade::component(Sales::class, 'sales');
         Blade::component(NewArrivals::class, 'new-arrivals');
         Blade::component(TrendingProducts::class, 'trending-products');
+        Blade::component(LabelPrinterDialog::class, 'label-printer-dialog');
     }
 
     private function registerRoutes(): void

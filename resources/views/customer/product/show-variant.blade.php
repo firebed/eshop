@@ -22,14 +22,20 @@
     @if(!empty($description))
         <meta property="og:description" content="{{ $description }}">
     @endif
-    <meta property="og:type" content="website">
+    <meta property="og:type" content="product">
     <meta property="og:url" content="{{ productRoute($product, $category) }}">
     @if($product->image)
         <meta property="og:image" content="{{ $product->image->url() }}">
     @endif
-    <meta name="twitter:card" content="summary"/>
-
-    <meta name='robots' content='index, follow'/>
+    
+    <meta name="twitter:card" content="product"/>
+    <meta name="twitter:title" content="{{ $title }}">
+    <meta name="twitter:image" content="{{ $product->image->url() }}">
+    @if(!empty($description))
+        <meta name="twitter:description" content="{{ $description }}">
+    @endif
+    
+    <meta name="robots" content="index, follow"/>
 @endpush
 
 @section('main')

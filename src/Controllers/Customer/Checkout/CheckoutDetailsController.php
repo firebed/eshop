@@ -172,7 +172,7 @@ class CheckoutDetailsController extends Controller
         $products->load('parent', 'options');
         $products->merge($order->products->pluck('parent')->filter())->load('translation');
 
-        return response()->json(view('eshop::customer.checkout.details.partials.checkout-details-summary', [
+        return response()->json($this->view('checkout.details.partials.checkout-details-summary', [
             'order'                => $order,
             'products'             => $products,
             'shipping'             => $order->shippingAddress,
@@ -211,14 +211,14 @@ class CheckoutDetailsController extends Controller
         $products->load('parent', 'options');
         $products->merge($order->products->pluck('parent')->filter())->load('translation');
 
-        $summary = view('checkout.details.partials.checkout-details-summary', [
+        $summary = $this->view('checkout.details.partials.checkout-details-summary', [
             'order'                => $order,
             'products'             => $products,
             'shipping'             => $address,
             'has_shipping_methods' => $has_shipping_methods,
         ])->render();
 
-        $provinces = view('checkout.details.partials.provinces', [
+        $provinces = $this->view('checkout.details.partials.provinces', [
             'shipping'  => $order->shippingAddress,
             'provinces' => $provinces,
         ])->render();

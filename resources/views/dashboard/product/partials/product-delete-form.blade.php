@@ -1,4 +1,4 @@
-<form action="{{ route('products.destroy', $product) }}" method="post" x-data="{ submitting: false }" x-on:submit="submitting = true">
+<form action="{{ route('products.destroy', $product) }}" method="post" x-data="{ submitting: false }" x-on:submit="submitting = true" class="mt-4">
     @csrf
     @method('delete')
 

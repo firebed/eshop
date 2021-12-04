@@ -10,7 +10,26 @@
         </x-bs::input.group>
 
         <x-bs::input.group for="barcode" label="{{ __('Barcode') }}" class="col">
-            <x-bs::input.text value="{{ old('barcode', $variant->barcode ?? '') }}" name="barcode" id="barcode" error="barcode"/>
+            <div x-data="{
+                        product_id: {{ $product->id }},
+                        variant_id: {{ $variant->id ?? 'null' }},
+                        generate: function() {
+                            const params = {
+                                category_id: this.category_id,
+                                product_id: this.product_id
+                            }
+        
+                            axios.post('{{ route('products.barcode.create') }}', params)
+                                .then(r => this.$refs.barcode.value = r.data)
+                        }
+                    }"
+                 class="input-group mb-3">
+                <input x-ref="barcode" value="{{ old('barcode', $variant->barcode ?? '') }}" type="text" class="form-control" name="barcode" id="barcode" placeholder="{{ __('Barcode') }}">
+                <button x-on:click.prevent="generate()" class="btn btn-outline-secondary" type="button" id="button-addon2"><em class="fas fa-key"></em></button>
+                @error('barcode')
+                <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+            </div>
         </x-bs::input.group>
 
         <x-bs::input.group for="mpn" label="{{ __('MPN') }}" class="col">

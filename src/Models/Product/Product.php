@@ -2,6 +2,7 @@
 
 namespace Eshop\Models\Product;
 
+use Eshop\Models\Cart\CartProduct;
 use Eshop\Models\Lang\Traits\HasTranslations;
 use Eshop\Models\Media\Traits\HasImages;
 use Eshop\Models\Seo\Traits\HasSeo;
@@ -104,6 +105,7 @@ class Product extends Model
         'visible'          => 'bool',
         'recent'           => 'bool',
         'available'        => 'bool',
+        'stock'            => 'int',
         'display_stock'    => 'bool',
         'preview_variants' => 'bool',
     ];
@@ -172,6 +174,11 @@ class Product extends Model
         return $this->belongsToMany(\Eshop\Models\Product\Collection::class);
     }
 
+    public function movements(): HasMany
+    {
+        return $this->hasMany(CartProduct::class);
+    }
+
     public function getTrademark(string $glue = ' '): ?string
     {
         return $this->isVariant()
@@ -228,7 +235,7 @@ class Product extends Model
     {
         $builder->where('recent', $recent);
     }
-    
+
     public function scopeExceptVariants(Builder $builder): void
     {
         $builder->whereNull('products.parent_id');

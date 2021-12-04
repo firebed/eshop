@@ -1,13 +1,14 @@
 @import "variables";
-@import "../utilities";
+@import "utilities";
 
 @import "~bootstrap/scss/bootstrap";
-@import "../colors";
-@import "../color-wheel";
-@import "../buttons";
-@import "../scrollbar";
+@import "colors";
+@import "color-wheel";
+@import "buttons";
+@import "scrollbar";
 @import "navigation";
 @import "tree";
+@import "product";
 
 .img-middle {
   @extend .top-50, .start-50, .translate-middle, .w-auto, .h-auto, .mw-100, .mh-100;
@@ -51,8 +52,15 @@
   display: inline-block !important;
 }
 
-
-
 .group:hover .group-hover-opacity-100 {
   opacity: 1 !important;
+}
+
+.hide-scrollbar {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }

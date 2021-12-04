@@ -11,6 +11,7 @@ use Eshop\Models\Product\Unit;
 use Eshop\Models\Product\VariantType;
 use Eshop\Models\Product\Vat;
 use Eshop\Requests\Dashboard\Product\VariantRequest;
+use Eshop\Services\BarcodeService;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\DB;
@@ -42,13 +43,17 @@ class VariantController extends Controller
         ]);
     }
 
-    public function store(VariantRequest $request, Product $product): RedirectResponse
+    public function store(VariantRequest $request, Product $product, BarcodeService $barcodeService): RedirectResponse
     {
         try {
             $variant = $product->replicate(['slug', 'has_variants', 'variants_display', 'preview_variants', 'net_value']);
 
-            DB::transaction(function () use ($request, $product, $variant) {
+            DB::transaction(function () use ($request, $product, $variant, $barcodeService) {
                 $variant->fill($request->only($variant->getFillable()));
+
+                if (blank($variant->barcode) && $barcodeService->shouldFill()) {
+                    $variant->barcode = $barcodeService->generateForVariant($product);
+                }
 
                 $product->variants()->save($variant);
 
@@ -79,7 +84,7 @@ class VariantController extends Controller
             'vats'         => Vat::all(),
             'units'        => Unit::all(),
             'variantTypes' => VariantType::where('product_id', $variant->parent_id)->orderBy('id')->pluck('name', 'id'),
-            'options'      => $variant->options->pluck('pivot.value', 'id')
+            'options'      => $variant->options->pluck('pivot.value', 'id'),
         ]);
     }
 

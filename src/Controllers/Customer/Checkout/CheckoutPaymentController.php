@@ -179,7 +179,7 @@ class CheckoutPaymentController extends Controller
         $products->merge($order->products->pluck('parent')->filter())->load('translation');
 
         return response()
-            ->json(view('eshop::customer.checkout.payment.partials.checkout-payment-summary', [
+            ->json($this->view('checkout.payment.partials.checkout-payment-summary', [
                 'order'    => $order,
                 'products' => $products,
             ])->render());

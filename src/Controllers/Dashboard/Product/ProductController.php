@@ -14,6 +14,7 @@ use Eshop\Models\Product\Product;
 use Eshop\Models\Product\Unit;
 use Eshop\Models\Product\Vat;
 use Eshop\Requests\Dashboard\Product\ProductRequest;
+use Eshop\Services\BarcodeService;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\DB;
@@ -51,11 +52,15 @@ class ProductController extends Controller
         ]);
     }
 
-    public function store(ProductRequest $request): RedirectResponse
+    public function store(ProductRequest $request, BarcodeService $barcodeService): RedirectResponse
     {
         try {
             $product = new Product();
             $product->fill($request->only($product->getFillable()));
+            
+            if (blank($product->barcode) && $barcodeService->shouldFill()) {
+                $product->barcode = $barcodeService->generateForProduct($product->category_id);
+            } 
 
             DB::transaction(function () use ($product, $request) {
                 $product->save();

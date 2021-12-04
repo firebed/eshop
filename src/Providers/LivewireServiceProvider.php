@@ -26,6 +26,7 @@ use Eshop\Livewire\Dashboard\Config\ShowVats;
 use Eshop\Livewire\Dashboard\Intl\CountryPaymentMethods;
 use Eshop\Livewire\Dashboard\Intl\CountryShippingMethods;
 use Eshop\Livewire\Dashboard\Intl\InaccessibleAreas;
+use Eshop\Livewire\Dashboard\Label\LabelsTable;
 use Eshop\Livewire\Dashboard\Pos\PosInvoice;
 use Eshop\Livewire\Dashboard\Pos\PosModels;
 use Eshop\Livewire\Dashboard\Pos\PosPayment;
@@ -112,6 +113,9 @@ class LivewireServiceProvider extends ServiceProvider
         Livewire::component('dashboard.pos.payment', PosPayment::class);
         Livewire::component('dashboard.pos.invoice', PosInvoice::class);
         Livewire::component('dashboard.pos.products-search', PosProductsSearch::class);
+
+        // Label
+        Livewire::component('dashboard.label.labels-table', LabelsTable::class);
 
         // Slides
         Livewire::component('dashboard.slide.show-slides', ShowSlides::class);

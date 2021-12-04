@@ -23,7 +23,7 @@
         @endif
     @endforeach
 
-    @if(!empty($category->seo->description))
+    @if(filled($description))
         <meta name="description" content="{{ $description }}">
     @endif
 
@@ -67,7 +67,7 @@
 
     <meta property="og:title" content="{{ $title }}">
     <meta property="og:site_name" content="{{ config('app.name') }}">
-    @if(!empty($description))
+    @if(filled($description))
         <meta property="og:description" content="{{ $description }}">
     @endif
     <meta property="og:type" content="website">

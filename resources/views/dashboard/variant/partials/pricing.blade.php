@@ -7,7 +7,7 @@
             <input x-model="price" name="price" hidden/>
         </x-bs::input.group>
 
-        <x-bs::input.group x-data="{price:{{ old('compare_price', $variant->compare_price ?? $product->compare_price ?? 0) }} }" for="compare-price" label="{{ __('eshop::product.compare_price') }}" class="col">
+        <x-bs::input.group x-data="{price:{{ old('compare_price', $variant->compare_price ?? $product->compare_price ?? 0) }} }" for="compare-price" label="{{ __('eshop::product.purchase_price') }}" class="col">
             <x-eshop::money x-effect="price = value" value="price" id="compare-price" error="compare_price"/>
             <input x-model="price" name="compare_price" hidden/>
         </x-bs::input.group>

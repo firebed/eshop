@@ -1,5 +1,6 @@
 <?php
 
+use Eshop\Controllers\Customer\Product\LabelPrintController;
 use Eshop\Controllers\Customer\ThemeController;
 use Eshop\Controllers\Dashboard\Analytics\AnalyticsController;
 use Eshop\Controllers\Dashboard\Analytics\OrderAnalyticsController;
@@ -19,8 +20,10 @@ use Eshop\Controllers\Dashboard\Page\PageController;
 use Eshop\Controllers\Dashboard\Pos\PosController;
 use Eshop\Controllers\Dashboard\Product\CollectionController;
 use Eshop\Controllers\Dashboard\Product\ManufacturerController;
+use Eshop\Controllers\Dashboard\Product\ProductBarcodeController;
 use Eshop\Controllers\Dashboard\Product\ProductController;
 use Eshop\Controllers\Dashboard\Product\ProductImageController;
+use Eshop\Controllers\Dashboard\Product\ProductMovementController;
 use Eshop\Controllers\Dashboard\Product\ProductTrashController;
 use Eshop\Controllers\Dashboard\Product\VariantBulkController;
 use Eshop\Controllers\Dashboard\Product\VariantBulkImageController;
@@ -35,10 +38,12 @@ Route::middleware(['web', 'auth', 'admin'])->group(function () {
     Route::prefix('dashboard')->group(function () {
         Route::put('sidebar', SidebarController::class);
         Route::put('theme', ThemeController::class);
-        
+
+        Route::get('products/{product}/movements', ProductMovementController::class)->name('products.movements.index');
         Route::get('products/{product}/images', [ProductImageController::class, 'index'])->name('products.images.index');
-        Route::get('products/trashed', ProductTrashController::class)->name('products.trashed.index');
         Route::get('products/{product}/edit', [ProductController::class, 'edit'])->name('products.edit')->withTrashed();
+        Route::post('products/barcode', ProductBarcodeController::class)->name('products.barcode.create');
+        Route::get('products/trashed', ProductTrashController::class)->name('products.trashed.index');
         Route::resource('products', ProductController::class)->except('show', 'edit');
 
         Route::put('variants/images', VariantBulkImageController::class)->name('variants.bulk-images.update');
@@ -50,9 +55,12 @@ Route::middleware(['web', 'auth', 'admin'])->group(function () {
             Route::put('bulk-edit', [VariantBulkController::class, 'update'])->name('bulk-update');
             Route::delete('bulk-destroy', [VariantBulkController::class, 'destroy'])->name('bulk-destroy');
         });
-
+        
         Route::resource('products.variants', VariantController::class)->shallow()->except('show');
 
+        Route::get('labels', [LabelPrintController::class, 'index'])->name('labels.index');
+        Route::post('labels', [LabelPrintController::class, 'export'])->name('labels.export');
+        
         Route::delete('collections/{collection}/detach-product/{product}', [CollectionController::class, 'detachProduct'])->name('collections.detachProduct');
         Route::delete('collections/destroy-many', [CollectionController::class, 'destroyMany'])->name('collections.destroyMany');
         Route::resource('collections', CollectionController::class)->except('show');

@@ -75,7 +75,7 @@ class ProductSearchController extends Controller
 
         $results = [];
         foreach ($products as $product) {
-            $text = $highlight->handle($product->name, $q);
+            $text = $highlight->handle($q, $product->name);
 
             $results[] = [
                 'text' => $text,

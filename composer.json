@@ -8,6 +8,10 @@
       "email": "okan.giritli@gmail.com"
     }
   ],
+  "repositories": [{
+    "type": "path", "url": "../laravel-scout-database"
+  }
+  ],
   "require": {
     "php": "^8.0",
     "laravel/framework": "^8.0",
@@ -23,7 +27,8 @@
     "laravel/fortify": "^1.7",
     "firebed/sitemap": "dev-master",
     "firebed/laravel-scout-database": "dev-master",
-    "hisorange/browser-detect": "^4.4"
+    "hisorange/browser-detect": "^4.4",
+    "picqer/php-barcode-generator": "^2.2"
   },
   "require-dev": {
     "roave/security-advisories": "dev-latest",

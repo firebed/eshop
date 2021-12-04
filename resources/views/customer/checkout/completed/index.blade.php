@@ -1,5 +1,19 @@
 @extends('eshop::customer.layouts.master', ['title' =>  __('Cart')])
 
+@if(eshop('google_conversion_id') && eshop('google_conversion_tracking'))
+    @push('header_scripts')
+        <!-- Event snippet for Purchase conversion page -->
+        <script>
+            gtag('event', 'conversion', {
+                'send_to': '{{ eshop('google_conversion_if') }}/{{ eshop('google_conversion_tracking') }}', 
+                'value': {{ $cart->total }},
+                'currency': '{{ eshop('currency') }}',
+                'transaction_id': '{{ $cart->id }}'
+            });
+        </script>
+    @endpush
+@endif
+
 @section('main')
     <div class="container-fluid bg-white">
         <div class="container-xxl">

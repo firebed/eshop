@@ -65,6 +65,14 @@
                     </x-bs::input.group>
                 </div>
             </div>
+
+            @isset($product)
+                <div class="d-flex">
+                    <a href="{{ url()->to("https://www.google.com/search?") . Arr::query(['q' => productRoute($product)]) }}" target="_blank" class="btn btn-outline-dark">
+                        Προβολή στη Google
+                    </a>
+                </div>
+            @endisset
         </div>
     </x-bs::card.body>
 </x-bs::card>

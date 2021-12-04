@@ -1,41 +1,51 @@
 @extends('eshop::dashboard.layouts.master')
 
+@section('header')
+    <a href="{{ route('products.index') }}" class="text-dark text-decoration-none">{{ __("Products") }}</a>
+@endsection
+
 @push('header_scripts')
     <link rel="dns-prefetch" href="https://cdn.tiny.cloud/">
     <script defer src="https://cdn.tiny.cloud/1/gxet4f4kiajd8ppsca5dsl1ymcncx4emhut5fer2lnijr2ic/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/slim-select/1.27.0/slimselect.min.css" rel="stylesheet"/>
 @endpush
 
-@section('header')
-    <h1 class="fs-5 mb-0">
-        <a href="{{ route('products.index') }}" class="text-decoration-none"><small class="fas fa-chevron-left me-2"></small>{{ __("Products") }}</a>
-    </h1>
-@endsection
-
-@include('eshop::dashboard.product.partials.slim-select')
+@push('footer_scripts')
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/slim-select/1.27.0/slimselect.min.js"></script>
+@endpush
 
 @section('main')
-    <div class="col-12 col-xxl-8 mx-auto p-4 d-grid gap-3">
-        <form method="post" action="{{ route('products.update', $product->id) }}" enctype="multipart/form-data" class="d-grid gap-3"
-              x-data="{ submitting: false }"
-              x-on:submit="submitting = true"
-        >
-            @csrf
-            @method('put')
+    <form method="post" action="{{ route('products.update', $product->id) }}"
+          enctype="multipart/form-data"
+          x-data="{ submitting: false }"
+          x-on:submit="submitting = true"
+          class="col-12 p-4"
+    >
+        @csrf
+        @method('put')
 
-            <div class="d-flex align-items-center justify-content-between">
-                <h1 class="fs-3 mb-0">{{ $product->name }}</h1>
+        <div class="col-12 col-xxl-9 mx-auto mb-4">
+            <div class="d-flex justify-content-between align-items-start flex-wrap gap-3">
+                @includeWhen(isset($product), 'eshop::dashboard.product.partials.product-header')
 
-                <x-bs::button.primary type="submit" x-bind:disabled="submitting">
-                    <em x-show="!submitting" class="fa fa-save me-2"></em>
-                    <em x-cloak x-show="submitting" class="fa fa-spinner fa-spin me-2"></em>
-                    {{ __("eshop::product.actions.save") }}
-                </x-bs::button.primary>
+                <div class="d-flex justify-content-end gap-1 flex-grow-1">
+                    <div class="btn-group align-self-start" role="group">
+                        <button class="btn btn-outline-secondary" data-bs-toggle="offcanvas" data-bs-target="#label-print-dialog" type="button">
+                            <em class="fas fa-print"></em> {{ __("Labels") }}
+                        </button>
+                    </div>
+                    <x-bs::button.primary x-bind:disabled="submitting" type="submit">
+                        <em x-show="!submitting" class="fa fa-save me-2"></em>
+                        <em x-cloak x-show="submitting" class="fa fa-spinner fa-spin me-2"></em>
+                        {{ __("eshop::product.actions.save") }}
+                    </x-bs::button.primary>
+                </div>
             </div>
+        </div>
 
-            @include('eshop::dashboard.product.partials.product-navigation')
-
+        <div class="col-12 col-xxl-9 mx-auto">
             <div class="row g-4">
-                <div class="col-12 col-md-7 d-flex flex-column gap-4">
+                <div class="col-12 col-lg-7 d-flex flex-column gap-4">
                     @include('eshop::dashboard.product.partials.primary')
                     @include('eshop::dashboard.product.partials.pricing')
                     @include('eshop::dashboard.product.partials.inventory')
@@ -56,19 +66,26 @@
                     @include('eshop::dashboard.product.partials.product-seo')
                 </div>
 
-                <div class="col-12 col-md-5 d-flex flex-column gap-4">
+                <div class="col-12 col-lg-5 d-flex flex-column gap-4">
                     @include('eshop::dashboard.product.partials.image')
                     @include('eshop::dashboard.product.partials.organization')
 
                     <livewire:dashboard.product.product-properties
-                            :categoryId="old('category_id', $product->category_id ?? null)"
-                            :properties="old('properties', $properties ?? [])"/>
+                        :categoryId="old('category_id', $product->category_id ?? null)"
+                        :properties="old('properties', $properties ?? [])"/>
 
                     @include('eshop::dashboard.product.partials.accessibility')
                 </div>
             </div>
-        </form>
+        </div>
+    </form>
+    
+    @include('eshop::dashboard.product.partials.product-delete-form')
 
-        @include('eshop::dashboard.product.partials.product-delete-form')
-    </div>
+    <form action="{{ route('labels.export') }}" method="POST" target="_blank">
+        @csrf
+        <input type="hidden" name="labels[0][product_id]" value="{{ $product->id }}">
+        <input type="hidden" name="labels[0][quantity]" value="1">
+        <x-label-printer-dialog id="label-print-dialog"/>
+    </form>
 @endsection

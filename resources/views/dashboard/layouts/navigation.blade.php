@@ -26,7 +26,7 @@
                 </div>
 
                 <div class="offcanvas-body p-0">
-                    <ul class="navbar-nav flex-column flex-grow-1 px-2">
+                    <ul class="navbar-nav flex-column flex-grow-1 px-2 hide-scrollbar">
                         @include('eshop::dashboard.layouts.menu-items')
                     </ul>
                 </div>

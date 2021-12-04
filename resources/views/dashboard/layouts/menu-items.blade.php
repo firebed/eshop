@@ -48,6 +48,15 @@
     </li>
 @endcan
 
+@can('Manage products')
+    <li class="nav-item">
+        <a href="{{ route('labels.index') }}" @class([$link, $active => request()->routeIs('labels.*')])>
+            <em class="fas fa-tags text-pink-500"></em>
+            <span>{{ __("Labels") }}</span>
+        </a>
+    </li>
+@endcan
+
 @can('Manage collections')
     <li class="nav-item">
         <a href="{{ route('collections.index') }}" @class([$link, $active => request()->routeIs('collections.*')])>
