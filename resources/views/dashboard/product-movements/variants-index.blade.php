@@ -45,7 +45,9 @@
         @foreach($variants as $variant)
             <div class="d-grid d-sm-flex border rounded bg-white p-4 gap-2 gap-sm-4">
                 <div class="w-7r ratio ratio-1x1 mx-auto mx-sm-0" style="max-height: 7rem">
-                    <img src="{{ $variant->image->url('sm') }}" alt="" class="img-middle rounded">
+                    @if($src = $variant->image?->url('sm'))
+                        <img src="{{ $src }}" alt="" class="img-middle rounded">
+                    @endif
                 </div>
 
                 <div class="d-grid gap-3 flex-grow-1">

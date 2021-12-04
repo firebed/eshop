@@ -391,6 +391,13 @@ class Product extends Model
 
     protected function registerImageConversions(): void
     {
+        $this->addImageConversion('md', function ($image) {
+            $image->resize(400, 400, function ($constraint) {
+                $constraint->aspectRatio();
+                $constraint->upsize();
+            });
+        });
+        
         $this->addImageConversion('sm', function ($image) {
             $image->resize(300, 300, function ($constraint) {
                 $constraint->aspectRatio();

@@ -49,7 +49,7 @@ class BarcodeGenerator
         $next = $product->variants()->max('id') + 1;
 
         return $this->isNested()
-            ? $this->generate($product->category_id, $product_id, $next)
+            ? $this->generate($product->category_id, $product->id, $next)
             : $this->generate($product->category_id, $next);
     }
 

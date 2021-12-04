@@ -5,10 +5,10 @@
                    x-on:focus="show = true"
                    x-on:keydown.escape="show = false"
                    x-on:click.outside="show = false"
-                   type="search" 
-                   class="form-control" 
+                   type="search"
+                   class="form-control"
                    placeholder="{{ __("Search products") }}">
-            
+
             @if($search_results->isNotEmpty())
                 <div x-show="show" wire:key="search-results" class="rounded border shadow position-absolute bg-white vstack overflow-auto scrollbar w-100" style="height: 350px; z-index: 5000">
                     @foreach($search_results as $result)
@@ -26,14 +26,14 @@
                 </div>
             @endif
         </div>
-        
+
         <div class="ms-auto">
             <button class="btn btn-primary" data-bs-toggle="offcanvas" data-bs-target="#label-print-dialog" type="button">
                 <em class="fas fa-print"></em> {{ __("Print") }}
             </button>
         </div>
     </div>
-    
+
     <div class="table-responsive bg-white border rounded shadow-sm">
         <table class="table table-hover mb-0">
             <thead>
@@ -51,14 +51,16 @@
                 <tr wire:key="product-{{ $product->id }}">
                     <td>
                         <div class="ratio ratio-1x1 rounded border">
-                            <img src="{{ $product->image->url('sm') }}" alt="{{ $product->trademark }}" class="img-top rounded">
+                            @if($src = $product->image?->url('sm'))
+                                <img src="{{ $src }}" alt="{{ $product->trademark }}" class="img-top rounded">
+                            @endif
                         </div>
                     </td>
                     <td class="align-baseline">{{ $product->trademark }}</td>
                     <td class="text-end align-baseline">{{ format_currency($product->price) }}</td>
                     <td class="text-end align-baseline">
                         <input type="hidden" name="labels[{{ $loop->index }}][product_id]" value="{{ $product->id }}">
-                        
+
                         <input x-on:keydown="if($event.key === '.') $event.preventDefault()"
                                wire:model.defer="labels.{{ $product->id }}"
                                type="number"
