@@ -8,6 +8,7 @@ use Eshop\Models\Cart\Cart;
 use Eshop\Models\Cart\CartStatus;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Support\Facades\DB;
+use Throwable;
 
 class SubmitOrder
 {
@@ -35,7 +36,10 @@ class SubmitOrder
             session()->forget(['cart-session-id', 'countryShippingMethod', 'countryPaymentMethod']);
             cookie()->queue(cookie()->forget('cart-cookie-id'));
 
-            event(new CartStatusChanged($cart, $cart->status));
+            try {
+                event(new CartStatusChanged($cart, $cart->status));
+            } catch (Throwable) {
+            }
         });
     }
 

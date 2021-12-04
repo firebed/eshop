@@ -31,14 +31,21 @@ class OrderSubmittedNotification extends Notification
 
         $mail = new MailMessage();
         $mail->subject(__("Order Submitted Notification"));
-        foreach (eshop('notifications.submitted.cc', []) as $cc) {
-            $mail->cc($cc);
-        }
+        $this->addCC($mail);        
+        
         $mail->markdown('eshop::customer.emails.order.submitted', [
             'cart'            => $this->cart,
             'notesToCustomer' => $this->notesToCustomer
         ]);
         
         return $mail;
+    }
+
+    private function addCC(MailMessage $mail): void
+    {
+        $recipients = array_filter(eshop('notifications.submitted.cc', []));
+        foreach ($recipients as $recipient) {
+            $mail->cc($recipient);
+        }
     }
 }

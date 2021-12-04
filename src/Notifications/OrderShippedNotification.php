@@ -48,14 +48,22 @@ class OrderShippedNotification extends Notification
 
         $mail = new MailMessage();
         $mail->subject(__("Order Shipped Notification"));
-        foreach (eshop('notifications.shipped.cc', []) as $cc) {
-            $mail->cc($cc);
-        }
+        $this->addCC($mail);
+        
         $mail->markdown('eshop::customer.emails.order.shipped', [
             'cart'            => $this->cart,
             'notesToCustomer' => $this->notesToCustomer
         ]);
         
         return $mail;
+    }
+
+
+    private function addCC(MailMessage $mail): void
+    {
+        $recipients = array_filter(eshop('notifications.shipped.cc', []));
+        foreach ($recipients as $recipient) {
+            $mail->cc($recipient);
+        }
     }
 }

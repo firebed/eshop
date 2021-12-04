@@ -5,7 +5,7 @@
         <!-- Event snippet for Purchase conversion page -->
         <script>
             gtag('event', 'conversion', {
-                'send_to': '{{ eshop('google_conversion_if') }}/{{ eshop('google_conversion_tracking') }}', 
+                'send_to': '{{ eshop('google_conversion_if') }}/{{ eshop('google_conversion_tracking') }}',
                 'value': {{ $cart->total }},
                 'currency': '{{ eshop('currency') }}',
                 'transaction_id': '{{ $cart->id }}'
@@ -86,14 +86,16 @@
                         </div>
                     @endif
 
-                    @if($cart->invoice)
+                    @if($cart->invoice && $cart->invoice->billingAddress)
                         <div class="d-grid text-secondary border rounded p-3">
-                            <div class="text-dark fw-500 mb-2">{{ __("Invoice information") }}</div>
-                            <div>{{ $cart->shippingAddress->full_name }}</div>
-                            <div>{{ $cart->shippingAddress->full_street }}</div>
-                            <div>{{ $cart->shippingAddress->city }}, {{ $cart->shippingAddress->postcode }}</div>
-                            <div>{{ __("Province") }}: {{ $cart->shippingAddress->province }}</div>
-                            <div>{{ $cart->shippingAddress->country->name }}</div>
+                            <div class="text-dark fw-500 mb-2">{{ __("Invoice") }}</div>
+                            <div>{{ $cart->invoice->name }}</div>
+                            <div>{{ $cart->invoice->job }}</div>
+                            <div>{{ $cart->invoice->vat_number }} {{ $cart->invoice->tax_authority }}</div>
+                            <div>{{ $cart->invoice->billingAddress->full_street }}</div>
+                            <div>{{ $cart->invoice->billingAddress->city }}, {{ $cart->invoice->billingAddress->postcode }}</div>
+                            <div>{{ __("Province") }}: {{ $cart->invoice->billingAddress->province }}</div>
+                            <div>{{ $cart->invoice->billingAddress->country->name }}</div>
                         </div>
                     @endif
                 </div>

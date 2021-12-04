@@ -56,7 +56,7 @@ return [
     */
 
     'filter' => [
-        'manufacturers' => false
+        'manufacturers' => true
     ],
 
     /*
