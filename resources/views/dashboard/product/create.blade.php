@@ -15,7 +15,7 @@
 @endpush
 
 @section('main')
-    <form method="post" action="{{ route('products.create') }}"
+    <form method="post" action="{{ route('products.store') }}"
           enctype="multipart/form-data"
           x-data="{ submitting: false }"
           x-on:submit="submitting = true"

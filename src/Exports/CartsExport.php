@@ -53,7 +53,7 @@ class CartsExport implements FromCollection, WithMapping, WithHeadings
             "2", #ΧΡΕΩΣΗ
             1, #ΤΕΜΑΧΙΑ
             $row->parcel_weight / 1000, #ΒΑΡΟΣ
-            $row->paymentMethod->show_total_on_order_form ? $row->total : 0, #ΑΝΤΙΚΑΤΑΒΟΛΗ
+            ($row->paymentMethod && $row->paymentMethod->show_total_on_order_form) ? $row->total : 0, #ΑΝΤΙΚΑΤΑΒΟΛΗ
             'Μ', #ΤΡΟΠΟΣ ΠΛΗΡΩΜΗΣ
             '', #ΑΣΦΑΛΕΙΑ
             '', #ΚΕΝΤΡΟ ΚΟΣΤΟΥΣ
@@ -93,7 +93,7 @@ class CartsExport implements FromCollection, WithMapping, WithHeadings
         ];
     }
 
-    private function removeAccents($string)
+    private function removeAccents($string): array|bool|string|null
     {
         return str_replace(array_keys(self::ACCENTS), array_values(self::ACCENTS), mb_strtoupper($string));
     }

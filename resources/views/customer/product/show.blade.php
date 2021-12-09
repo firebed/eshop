@@ -30,7 +30,9 @@
 
     <meta name="twitter:card" content="product"/>
     <meta name="twitter:title" content="{{ $title }}">
+    @if($product->image)
     <meta name="twitter:image" content="{{ $product->image->url() }}">
+    @endif
     @if(!empty($description))
         <meta name="twitter:description" content="{{ $description }}">
     @endif
