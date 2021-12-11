@@ -18,7 +18,7 @@ class ProductMovementController extends Controller
 
     public function __construct(ProductMovements $productMovementsAction, ProductMovementsSummary $productSummary, VariantMovementSummary $variantMovementSummary)
     {
-        $this->middleware('can:Manage products');
+        $this->middleware('can:View movements');
 
         $this->productMovements = $productMovementsAction;
         $this->productSummary = $productSummary;

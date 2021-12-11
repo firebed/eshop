@@ -46,7 +46,7 @@
             </td>
             
             <td class="text-end"><a href="{{ route('carts.show', $cart) }}" class="text-decoration-none text-dark d-block">{{ format_currency($cart->total) }}</a></td>
-            <td class="text-end"><a href="{{ route('carts.show', $cart) }}" class="text-decoration-none text-dark d-block">{{ $cart->created_at->format('d/m/Y') }}</a></td>
+            <td class="text-end"><a href="{{ route('carts.show', $cart) }}" class="text-decoration-none text-dark d-block">{{ $cart->submitted_at ? $cart->submitted_at->format('d/m/Y') : $cart->created_at->format('d/m/Y') }}</a></td>
         </tr>
     @endforeach
     </tbody>

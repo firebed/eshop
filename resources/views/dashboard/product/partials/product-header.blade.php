@@ -16,7 +16,7 @@
 
         <a href="{{ route('products.images.index', $product) }}" @class(["active" => request()->routeIs('products.images.*')])>{{ __("Images") }}</a>
 
-        @can('View carts')
+        @can('View movements')
             <a href="{{ route('products.movements.index', $product) }}" @class(["active" => request()->routeIs('products.movements.*')])>{{ __("Movements") }}</a>
         @endcan
     </div>

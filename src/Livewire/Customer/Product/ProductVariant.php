@@ -18,11 +18,12 @@ class ProductVariant extends Component
 
     public Category $category;
     public Product  $product;
-    public null|int $quantity = 1;
+    public null|string $quantity = "1";
 
     public function addToCart(Order $order): void
     {
         if (!is_numeric($this->quantity) || $this->quantity < 0) {
+            $this->showWarningDialog($this->product->trademark, __("Παρακαλώ εισάγετε ποσότητα."));
             $this->skipRender();
             return;
         }
