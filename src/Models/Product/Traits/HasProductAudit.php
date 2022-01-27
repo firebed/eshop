@@ -45,7 +45,7 @@ trait HasProductAudit
             $translations[] = [
                 'locale'      => $translation->locale,
                 'cluster'     => $translation->cluster,
-                'translation' => $translation->translationcompo
+                'translation' => $translation->translation
             ];
         }
         $auditable['translations'] = $translations;
