@@ -2,7 +2,7 @@
 
 namespace Eshop\Actions\Fortify;
 
-use Eshop\Models\User;
+use Eshop\Models\User\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;

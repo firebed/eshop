@@ -2,7 +2,7 @@
 
 namespace Eshop\Exports;
 
-use Eshop\Models\User;
+use Eshop\Models\User\User;
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;

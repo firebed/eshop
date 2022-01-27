@@ -1,3 +1,5 @@
+@php($phones = Lang::has("company.phone") ? __('company.phone') : [])
+
 <div class="row align-items-center g-4 py-2">
     @if(Route::currentRouteName() === 'landing_page' || Route::currentRouteName() === 'home')
         <h1 class="col-auto mb-0">
@@ -15,7 +17,7 @@
         <div class="d-none d-md-flex justify-content-center ms-auto">
             <em class="fa fa-mobile-alt fa-2x text-primary me-2"></em>
             <div class="small fw-500 vstack">
-                @foreach(__("company.phone") as $phone)
+                @foreach($phones as $phone)
                     <a href="tel:{{ telephone($phone) }}" class="lh-sm text-decoration-none text-dark">{{ $phone }}</a>
                 @endforeach
             </div>

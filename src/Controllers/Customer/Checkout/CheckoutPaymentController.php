@@ -188,13 +188,14 @@ class CheckoutPaymentController extends Controller
 
     private function totalHasChanged(RefreshOrder $refreshOrder, Order $order): bool
     {
-        DB::transaction(fn() => $refreshOrder->handle($order));
+        DB::transaction(static fn() => $refreshOrder->handle($order));
         return $refreshOrder->totalHasChanged();
     }
 
     private function checkProductStocks(Order $order): bool
     {
         $products = $order->products;
+        $products->load('parent');
         foreach ($products as $product) {
             if (!$product->canBeBought($product->pivot->quantity)) {
                 return false;

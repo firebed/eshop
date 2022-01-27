@@ -1,24 +1,12 @@
 <?php
 
-
-namespace Eshop\Controllers\Dashboard\Product\Traits;
-
+namespace Eshop\Actions\Product\Traits;
 
 use Eshop\Models\Product\Product;
 
-trait WithProductProperties
+trait SavesProductProperties
 {
-    protected function prepareProperties(Product $product): array
-    {
-        $choices = $product->properties
-            ->groupBy('id')
-            ->map(fn($g) => $g->pluck('pivot.category_choice_id')->all())
-            ->all();
-
-        return compact('choices');
-    }
-
-    protected function saveProperties(Product $product, ?array $data): void
+    public function saveProperties(Product $product, ?array $data): void
     {
         $product->properties()->sync([]);
 

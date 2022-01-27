@@ -19,6 +19,6 @@ class EventServiceProvider extends ServiceProvider
         Login::class => [
             MergeCustomerCarts::class,
             CreateLoginRecord::class
-        ]
+        ],
     ];
 }

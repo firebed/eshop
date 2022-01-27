@@ -3,7 +3,7 @@
 namespace Eshop\Controllers\Dashboard\User;
 
 use Eshop\Controllers\Dashboard\Controller;
-use Eshop\Models\User;
+use Eshop\Models\User\User;
 use Illuminate\View\View;
 
 class UserController extends Controller

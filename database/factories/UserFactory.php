@@ -2,7 +2,7 @@
 
 namespace Eshop\Database\Factories;
 
-use Eshop\Models\User;
+use Eshop\Models\User\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 

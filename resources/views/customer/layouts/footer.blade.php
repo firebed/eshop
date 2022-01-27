@@ -1,3 +1,5 @@
+@php($phones = Lang::has("company.phone") ? __('company.phone') : [])
+
 <footer id="footer" class="container-fluid py-4">
     <div class="container-xxl">
         <div class="row gy-4 gx-5">
@@ -49,7 +51,7 @@
                         <div><em class="fas fa-map-marker-alt me-2 text-secondary"></em>{{ __("company.address") }}</div>
                     @endif
 
-                    @foreach(__("company.phone") as $phone)
+                    @foreach($phones as $phone)
                         <a href="tel:{{ telephone($phone) }}" class="text-decoration-none"><em class="fas fa-phone-alt me-2 text-secondary"></em>{{ $phone }}</a>
                     @endforeach
 

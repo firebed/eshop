@@ -2,17 +2,17 @@
 
 namespace Eshop\Livewire\Dashboard\Product;
 
+use Eshop\Actions\Audit\AuditModel;
 use Eshop\Models\Product\Product;
 use Eshop\Models\Product\VariantType;
-use Firebed\Components\Livewire\Traits\Datatable\WithSelections;
 use Firebed\Components\Livewire\Traits\SendsNotifications;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 
 class VariantsTable extends Component
 {
-    use WithSelections;
     use SendsNotifications;
 
     public $product;
@@ -43,6 +43,23 @@ class VariantsTable extends Component
         return VariantType::where('product_id', $this->product->id)->get();
     }
 
+    public function toggleVisible(array $ids, bool $visible, AuditModel $audit): void
+    {
+        DB::transaction(function() use ($ids, $visible, $audit) {
+            Product::whereKey($ids)->update([
+                'visible' => $visible
+            ]);
+            
+            $variants = $this->variants;
+            $variants->load('manufacturer', 'translations', 'seos', 'unit', 'parent.translations');
+            foreach ($this->variants as $variant) {
+                $audit->handle($variant);
+            }
+            
+            $this->showSuccessToast("Οι αλλαγές αποθηκεύτηκαν!");
+        });
+    }
+
     protected function getModels(): Collection
     {
         return $this->variants;
@@ -55,7 +72,7 @@ class VariantsTable extends Component
             ->collapse()
             ->groupBy('pivot.variant_type_id')
             ->map(fn($g) => $g->pluck('pivot.value')->unique()->sort());
-        ;
+        
         return view('eshop::dashboard.variant.wire.variants-table', [
             'variants'     => $this->variants,
             'variantTypes' => $this->variantTypes,

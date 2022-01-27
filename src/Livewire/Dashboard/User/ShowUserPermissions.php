@@ -2,7 +2,7 @@
 
 namespace Eshop\Livewire\Dashboard\User;
 
-use Eshop\Models\User;
+use Eshop\Models\User\User;
 use Firebed\Components\Livewire\Traits\SendsNotifications;
 use Firebed\Permission\Models\Role;
 use Illuminate\Database\Eloquent\Collection;

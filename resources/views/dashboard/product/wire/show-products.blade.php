@@ -17,14 +17,14 @@
         </a>
     </div>
 
-    <div class="row row-cols-1 row-cols-md-2 g-3">
-        <div class="col">
+    <div class="row g-3">
+        <div class="col-12 col-md-4 col-lg-4 col-xl-3">
             <x-bs::input.search wire:model="name" placeholder="{{ __('eshop::product.search')}}"/>
         </div>
 
-        <div class="col d-flex gap-3">
+        <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-2">
             <x-bs::input.select wire:model="category">
-                <option value="" disabled>{{ __("eshop::product.category") }}</option>
+                <option value="">{{ __("eshop::product.category") }}</option>
                 @foreach($this->categories as $parentId => $group)
                     @if($parentId)
                         <optgroup label="{{ $group->first()->parent->name }}">
@@ -39,18 +39,42 @@
                     @endif
                 @endforeach
             </x-bs::input.select>
+        </div>
 
+        <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-2">
             <x-bs::input.select wire:model="manufacturer">
-                <option value="" disabled>{{ __("eshop::product.manufacturer") }}</option>
+                <option value="">{{ __("eshop::product.manufacturer") }}</option>
                 @foreach($this->manufacturers as $manufacturer)
                     <option value="{{ $manufacturer->id }}">{{ $manufacturer->name }}</option>
                 @endforeach
             </x-bs::input.select>
-
-            <x-bs::button.white wire:click="clearSelections" wire:loading.attr="disabled" wire:target="clearSelections">
-                <em class="fas fa-brush"></em>
-            </x-bs::button.white>
         </div>
+
+        <div class="col d-flex justify-content-end gap-1 flex-wrap flex-xl-nowrap col-xl-5">
+            <x-bs::input.select wire:model="perPage" class="w-auto">
+                @for($i=10; $i <= 50; $i += 10)
+                    <option value="{{ $i }}">{{ $i }}</option>
+                @endfor
+            </x-bs::input.select>
+            
+            <x-bs::input.select wire:model="visible" class="w-auto">
+                <option value="">Ορατά + Κρυφά</option>
+                <option value="1">Μόνο ορατά</option>
+                <option value="0">Μόνο κρυφά</option>
+            </x-bs::input.select>
+            
+            <x-bs::dropdown class="dropdown-menu-end">
+                <x-bs::dropdown.button id="product-options" class="bg-white border">Επιλογές</x-bs::dropdown.button>
+                <x-bs::dropdown.menu button="product-options">
+                    <x-bs::dropdown.item wire:click="makeVisible(true)"><em class="fas fa-eye w-2r text-muted"></em>Αλλαγή σε ορατό</x-bs::dropdown.item>
+                    <x-bs::dropdown.item wire:click="makeVisible(false)"><em class="fas fa-eye-slash w-2r text-muted"></em>Αλλαγή σε μη ορατό</x-bs::dropdown.item>
+                </x-bs::dropdown.menu>
+            </x-bs::dropdown>
+        </div>
+
+        {{--            <x-bs::button.white wire:click="clearSelections" wire:loading.attr="disabled" wire:target="clearSelections">--}}
+        {{--                <em class="fas fa-brush"></em>--}}
+        {{--            </x-bs::button.white>--}}
     </div>
 
     <x-bs::card>

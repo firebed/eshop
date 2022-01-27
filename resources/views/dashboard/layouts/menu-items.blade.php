@@ -30,6 +30,15 @@
     </li>
 @endcanany
 
+@can('Manage invoices')
+    <li class="nav-item">
+        <a href="{{ route('invoices.index') }}" @class([$link, $active => request()->routeIs('invoices.*')])>
+            <em class="fas fa-file-invoice text-yellow-500"></em>
+            <span>{{ __("Invoices") }}</span>
+        </a>
+    </li>
+@endcan
+
 @can('Manage categories')
     <li class="nav-item">
         <a href="{{ route('categories.index') }}" @class([$link, $active => request()->routeIs('categories.*')])>

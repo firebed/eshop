@@ -25,18 +25,13 @@ class ProductVariantsButtons extends Component
     use ControlsOrder,
         SendsNotifications;
 
-    public ?Product $product  = NULL;
+    public ?Product $product  = null;
     public int      $quantity = 1;
     public string   $options  = '';
     public array    $filters  = [];
     public int      $variantId;
 
-    protected function queryString(): array
-    {
-        return [
-            'options' => ['except' => '']
-        ];
-    }
+    public array $available = [];
 
     public function mount(): void
     {
@@ -46,7 +41,7 @@ class ProductVariantsButtons extends Component
             $userSelected = explode('-', $this->options);
             foreach ($userSelected as $f) {
                 $option = $uniqueOptions->firstWhere('pivot.slug', $f);
-                if ($option !== NULL) {
+                if ($option !== null) {
                     $this->filters[$option->pivot->variant_type_id] = $f;
                 }
             }
@@ -54,7 +49,10 @@ class ProductVariantsButtons extends Component
             $this->options = implode('-', $this->filters);
         }
 
+        $this->updateAvailableOptions();
+
         $this->findVariant();
+
     }
 
     public function addToCart(Order $order): void
@@ -85,7 +83,65 @@ class ProductVariantsButtons extends Component
 
         $this->options = implode('-', $this->filters);
 
+        $this->updateAvailableOptions();
         $this->findVariant();
+    }
+
+    public function getVariantsProperty(): Collection
+    {
+        return $this->product
+            ->variants()
+            ->with('options', 'parent')
+            ->visible()
+            ->get()
+            ->sortBy(['sku', 'variant_values'], SORT_NATURAL | SORT_FLAG_CASE);
+    }
+
+    public function getUniqueVariantOptionsProperty(): Collection
+    {
+        return $this->variants
+            ->pluck('options')
+            ->collapse()
+            ->groupBy('pivot.variant_type_id')
+            ->map(fn($g) => $g->unique('pivot.value')->sortBy('pivot.value', SORT_NATURAL));
+    }
+
+    public function render(): Renderable
+    {
+        return view('eshop::customer.product.wire.product-variants-buttons', [
+            'variant'       => $this->variantId ? Product::find($this->variantId) : null,
+            'variants'      => $this->variants,
+            'uniqueOptions' => $this->uniqueVariantOptions
+        ]);
+    }
+
+    protected function queryString(): array
+    {
+        return [
+            'options' => ['except' => '']
+        ];
+    }
+
+    private function updateAvailableOptions(): void
+    {
+        $filters = collect($this->filters);
+
+        $this->available = $this->variants
+            ->filter(fn($v) => $v->canBeBought() && $filters->diff($v->options->pluck('pivot.slug'))->isEmpty())
+            ->pluck('options')
+            ->collapse()
+            ->groupBy('id')
+            ->map(fn($g) => $g->pluck('pivot.slug')->unique())
+            ->all();
+    }
+
+    public function isAvailable(int $variant_type_id, string $option_slug): bool
+    {
+        $filters = collect($this->filters)->put($variant_type_id, $option_slug);
+
+        return $this->variants
+            ->filter(fn($v) => $v->canBeBought() && $filters->diff($v->options->pluck('pivot.slug'))->isEmpty())
+            ->isNotEmpty();
     }
 
     private function findVariant(): void
@@ -106,33 +162,5 @@ class ProductVariantsButtons extends Component
             $images = $variant->images('gallery')->get()->map(fn($i) => $i->url('sm'))->all();
             $this->dispatchBrowserEvent('variant-selected', compact('image', 'images'));
         }
-    }
-
-    public function getVariantsProperty(): Collection
-    {
-        return $this->product
-            ->variants()
-            ->with('options')
-            ->visible()
-            ->get()
-            ->sortBy(['sku', 'variant_values'], SORT_NATURAL | SORT_FLAG_CASE);
-    }
-
-    public function getUniqueVariantOptionsProperty(): Collection
-    {
-        return $this->variants
-            ->pluck('options')
-            ->collapse()
-            ->groupBy('pivot.variant_type_id')
-            ->map(fn($g) => $g->unique('pivot.value')->sortBy('pivot.value', SORT_NATURAL));
-    }
-
-    public function render(): Renderable
-    {
-        return view('eshop::customer.product.wire.product-variants-buttons', [
-            'variant'       => $this->variantId ? Product::find($this->variantId) : NULL,
-            'variants'      => $this->variants,
-            'uniqueOptions' => $this->uniqueVariantOptions
-        ]);
     }
 }

@@ -12,6 +12,7 @@ use Eshop\Controllers\Customer\Checkout\CheckoutLoginController;
 use Eshop\Controllers\Customer\Checkout\CheckoutPaymentController;
 use Eshop\Controllers\Customer\Checkout\CheckoutProductController;
 use Eshop\Controllers\Customer\Checkout\OrderTrackingController;
+use Eshop\Controllers\Customer\Feed\FacebookCatalogueController;
 use Eshop\Controllers\Customer\HomepageController;
 use Eshop\Controllers\Customer\Pages\PageController;
 use Eshop\Controllers\Customer\Product\ProductCollectionController;
@@ -19,10 +20,6 @@ use Eshop\Controllers\Customer\Product\ProductController;
 use Eshop\Controllers\Customer\Product\ProductNewArrivalsController;
 use Eshop\Controllers\Customer\Product\ProductOfferController;
 use Eshop\Controllers\Customer\Product\ProductSearchController;
-use Eshop\Models\Cart\Cart;
-use Eshop\Notifications\OrderShippedNotification;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -36,24 +33,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-if (app()->isLocal()) {
-    Route::get('mail', function () {
-        Notification::route('mail', 'okan.giritli@gmail.com')->notify(new OrderShippedNotification(Cart::first()));
-    });
+Route::middleware('web')->group(function () {
+    Route::get('/', HomepageController::class)->name('landing_page');
 
-    Route::get('raw-mail', function () {
-        Mail::raw('Hi, welcome user!', function ($message) {
-            $message->to('okan.giritli@gmail.com')->subject('Test');
-        });
-    });
-}
-
-Route::get('/', HomepageController::class)->name('landing_page');
+    Route::get('/facebook-catalogue', FacebookCatalogueController::class)->name('facebook-catalogue');
+});
 
 // Global routes
 Route::group([
     'prefix'     => '{lang}',
-    'middleware' => ['locale'],
+    'middleware' => ['web', 'locale'],
     'where'      => ['lang' => implode('|', array_keys(eshop('locales', [])))]
 ],
     function () {

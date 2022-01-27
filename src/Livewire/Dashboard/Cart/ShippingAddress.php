@@ -7,6 +7,7 @@ use Eshop\Models\Cart\Cart;
 use Eshop\Models\Location\Country;
 use Firebed\Components\Livewire\Traits\SendsNotifications;
 use Illuminate\Contracts\Support\Renderable;
+use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use Stevebauman\Location\Facades\Location;
 
@@ -63,16 +64,22 @@ class ShippingAddress extends Component
     public function save(): void
     {
         $this->validate();
+        $this->validate(['email' => ['required', 'email:dns,rfc']]);
+        
         $this->shippingAddress->province = $this->trim($this->shippingAddress->province);
 
-        $this->shippingAddress->cluster = 'shipping';
-        $cart = Cart::find($this->cartId);
-        $cart->shippingAddress()->save($this->shippingAddress);
-        $this->shippingAddress->save();
-        $this->shippingAddress->load('country');
-
-        $this->showSuccessToast('Shipping address saved!');
-        $this->showModal = false;
+        DB::transaction(function () {
+            $this->shippingAddress->cluster = 'shipping';
+            $cart = Cart::find($this->cartId);
+            $cart->shippingAddress()->save($this->shippingAddress);
+            $this->shippingAddress->save();
+            $this->shippingAddress->load('country');
+            
+            Cart::whereKey($this->cartId)->update(['email' => trim($this->email)]);
+            
+            $this->showSuccessToast('Shipping address saved!');
+            $this->showModal = false;
+        });
     }
 
     public function render(): Renderable

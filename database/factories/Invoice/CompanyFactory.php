@@ -2,7 +2,7 @@
 
 namespace Eshop\Database\Factories\Invoice;
 
-use Eshop\Models\Invoice\Company;
+use Eshop\Models\User\Company;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class CompanyFactory extends Factory

@@ -12,7 +12,7 @@
             <li>
                 <a href="{{ categoryRoute($category, $filters['m']->toggle($manufacturer), $filters['c'], $filters['min_price'], $filters['max_price'], sort: $filters['sort']) }}"
                    @class(["filter-option", "filter-checkbox", "selected" => $filters['m']->contains($manufacturer->id), "disabled" => $manufacturer->products_count === 0])
-                   @if($manufacturer->products_count === 0) rel="nofollow" @endif
+                   @if($manufacturer->products_count === 0 || (count($filters['m']) + count($filters['c']) >= 4)) rel="nofollow" @endif
                 >
                     {{ $manufacturer->name }}
                     <small>({{ $manufacturer->products_count }})</small>

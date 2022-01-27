@@ -13,11 +13,12 @@ class CreateVariantTypesTable extends Migration
      */
     public function up(): void
     {
-        Schema::create('variant_types', function (Blueprint $table) {
+        Schema::create('variant_types', static function (Blueprint $table) {
             $table->id();
             $table->foreignId('product_id')->constrained()->cascadeOnDelete();
             $table->string('name');
             $table->string('slug');
+            $table->unsignedInteger('position')->default(0);
 
             $table->unique(['product_id', 'name']);
             $table->unique(['product_id', 'slug']);

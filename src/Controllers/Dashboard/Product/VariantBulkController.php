@@ -2,6 +2,7 @@
 
 namespace Eshop\Controllers\Dashboard\Product;
 
+use Eshop\Actions\Audit\AuditModel;
 use Eshop\Controllers\Dashboard\Controller;
 use Eshop\Controllers\Dashboard\Product\Traits\WithVariantOptions;
 use Eshop\Controllers\Dashboard\Traits\WithNotifications;
@@ -20,9 +21,13 @@ class VariantBulkController extends Controller
     use WithNotifications,
         WithVariantOptions;
 
-    public function __construct()
+    private AuditModel $audit;
+
+    public function __construct(AuditModel $audit)
     {
         $this->middleware('can:Manage products');
+
+        $this->audit = $audit;
     }
 
     public function create(Product $product): Renderable
@@ -52,13 +57,15 @@ class VariantBulkController extends Controller
                         $product->variants()->save($variant);
 
                         $this->saveVariantOptions($variant, $input['options']);
-                        
+
                         $options = implode(' ', $input['options']);
-                        
+
                         $variant->seo()->create([
                             'locale' => app()->getLocale(),
                             'title'  => $product->name . ' ' . $options
                         ]);
+
+                        $this->audit->handle($variant);
                     });
             });
         } catch (Throwable $e) {
@@ -98,9 +105,11 @@ class VariantBulkController extends Controller
             $distinct = array_unique($data);
 
             try {
-                DB::transaction(function () use ($property, $data, $distinct) {
+                DB::transaction(static function () use ($property, $data, $distinct) {
                     foreach ($distinct as $value) {
-                        Product::whereKey(array_keys($data, $value))->update([
+                        $keys = array_keys($data, $value);
+               
+                        Product::whereKey($keys)->update([
                             $property => $value
                         ]);
                     }
@@ -117,6 +126,13 @@ class VariantBulkController extends Controller
                 $this->showErrorNotification(trans('eshop::variant.notifications.error'));
             }
         }
+        
+        DB::transaction(function() use ($request) {
+            $models = Product::findMany($request->input('bulk_ids'));
+            foreach ($models as $model) {
+                $this->audit->handle($model);
+            }
+        });
 
         $request->flashOnly('bulk_ids');
         return back();
@@ -129,7 +145,13 @@ class VariantBulkController extends Controller
             'ids.*' => ['required', 'integer']
         ]);
 
-        $variants = Product::findMany($request->input('ids'))->each->delete();
+        $variants = Product::findMany($request->input('ids'));
+        DB::transaction(function () use ($variants) {
+            foreach ($variants as $variant) {
+                $variant->delete();
+                $this->audit->handle($variant, true);
+            }
+        });
 
         $count = $variants->count();
         $this->showSuccessNotification(trans_choice('eshop::variant.notifications.deleted_many', $count, ["number" => $count]));

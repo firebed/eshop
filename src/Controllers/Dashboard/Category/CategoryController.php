@@ -4,7 +4,6 @@ namespace Eshop\Controllers\Dashboard\Category;
 
 use Eshop\Controllers\Dashboard\Controller;
 use Eshop\Controllers\Dashboard\Product\Traits\WithCategoryBreadcrumbs;
-use Eshop\Controllers\Dashboard\Product\Traits\WithImage;
 use Eshop\Controllers\Dashboard\Traits\WithNotifications;
 use Eshop\Models\Product\Category;
 use Eshop\Requests\Dashboard\Category\CategoryMoveRequest;
@@ -13,15 +12,14 @@ use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
 use Throwable;
 
 class CategoryController extends Controller
 {
-    use WithCategoryBreadcrumbs,
-        WithNotifications,
-        WithImage;
+    use WithCategoryBreadcrumbs, WithNotifications;
 
     public function __construct()
     {
@@ -137,7 +135,7 @@ class CategoryController extends Controller
         ]);
 
         try {
-            DB::transaction(fn() => $category->delete());
+            DB::transaction(static fn() => $category->delete());
 
             $this->showSuccessNotification(trans('eshop::notifications.deleted'));
             return $category->parent_id
@@ -158,7 +156,7 @@ class CategoryController extends Controller
 
         $categories = Category::whereKey($request->input('ids'))->get();
         try {
-            DB::transaction(fn() => $categories->each->delete());
+            DB::transaction(static fn() => $categories->each->delete());
 
             $count = $categories->count();
             $this->showSuccessNotification(trans_choice('eshop::category.notifications.deleted_many', $count, ['number' => $count]));
@@ -174,7 +172,7 @@ class CategoryController extends Controller
         $sources = $request->input('source_ids');
         $targetId = $request->input('target_id');
         try {
-            DB::transaction(fn() => Category::whereKey($sources)->update(['parent_id' => $targetId]));
+            DB::transaction(static fn() => Category::whereKey($sources)->update(['parent_id' => $targetId]));
             $this->showSuccessNotification(trans('eshop::category.notifications.moved'));
         } catch (Throwable $e) {
             $request->flashOnly('source_ids');
@@ -192,5 +190,13 @@ class CategoryController extends Controller
 
         return response()->json($query->with('translation')->get()->pluck('name', 'id'));
 //        return response()->json($query->folders()->with('translation')->get()->pluck('name', 'id'));
+    }
+
+    private function replaceImage($imageable, UploadedFile $image): void
+    {
+        $oldImage = $imageable->image;
+        $oldImage?->delete();
+
+        $imageable->saveImage($image);
     }
 }

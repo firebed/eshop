@@ -3,7 +3,7 @@
 namespace Eshop\Policies;
 
 use Eshop\Models\Cart\Cart;
-use Eshop\Models\User;
+use Eshop\Models\User\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class CartPolicy

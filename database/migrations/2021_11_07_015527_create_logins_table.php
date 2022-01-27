@@ -13,7 +13,7 @@ class CreateLoginsTable extends Migration
      */
     public function up(): void
     {
-        Schema::create('logins', function (Blueprint $table) {
+        Schema::create('logins', static function (Blueprint $table) {
             $table->foreignId('user_id')->constrained();
             $table->string('device');
             $table->string('ip')->nullable();
@@ -28,6 +28,6 @@ class CreateLoginsTable extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('pages');
+        Schema::dropIfExists('logins');
     }
 }

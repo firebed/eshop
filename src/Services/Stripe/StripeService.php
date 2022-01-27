@@ -3,7 +3,7 @@
 namespace Eshop\Services\Stripe;
 
 use Eshop\Models\Cart\Cart;
-use Eshop\Models\User;
+use Eshop\Models\User\User;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Laravel\Cashier\Cashier;
 use Laravel\Cashier\Exceptions\PaymentActionRequired;

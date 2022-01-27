@@ -39,7 +39,7 @@
                         @endif
 
                         <x-bs::group :label="__('Shipping')" inline>
-                            <span class="text-dark">{{ __("eshop::shipping.{$cart->shippingMethod->name}") ?? '' }}</span>
+                            <span class="text-dark">@isset($cart->shippingMethod) {{ __("eshop::shipping.{$cart->shippingMethod->name}") }} @else {{ "-" }} @endisset</span>
                         </x-bs::group>
 
                         <x-bs::group :label="__('Shipping fee')" inline>
@@ -47,7 +47,7 @@
                         </x-bs::group>
 
                         <x-bs::group :label="__('Payment')" inline>
-                            <span class="text-dark">{{ __("eshop::payment.{$cart->paymentMethod->name}") ?? '' }}</span>
+                            <span class="text-dark">@isset($cart->paymentMethod) {{ __("eshop::payment.{$cart->paymentMethod->name}") }} @else {{ "-" }} @endisset</span>
                         </x-bs::group>
 
                         <x-bs::group :label="__('Payment fee')" inline>

@@ -9,14 +9,14 @@ class BarcodeGenerator
 {
     public function handle(Category|int|null $category_id = null, Product|int|null $product_id = null, Product|int|null $variant_id = null): string
     {
-        // When creating new variant
-        if ($category_id === null && $product_id !== null) {
-            return $this->forNewVariant($product_id);
-        }
-
         // When editing existing variant
         if ($variant_id !== null) {
             return $this->forExistingVariant($variant_id);
+        }
+        
+        // When creating new variant
+        if ($category_id === null && $product_id !== null) {
+            return $this->forNewVariant($product_id);
         }
 
         // When creating new product

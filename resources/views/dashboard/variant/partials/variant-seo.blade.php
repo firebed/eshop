@@ -34,7 +34,7 @@
             <span style="color: #5f6368" x-text="slug">{{ $slug }}</span>
         </div>
 
-        <div class="fs-4 mb-1" style="color: #1A0DAB"><span x-text="title">{{ $title }}</span> - {{ config('app.name') }}</div>
+        <div class="fs-4 mb-1" style="color: #1A0DAB"><span x-text="title">{{ $title }}</span> | {{ config('app.name') }}</div>
 
         <div style="color: #4D5156" x-text="description">{{ $description }}</div>
     </div>

@@ -18,7 +18,6 @@
     @stack('header_scripts')
     @livewireStyles
 
-    <script defer src="{{ mix('dist/dashboard.js') }}"></script>
     <script defer src="https://unpkg.com/alpinejs@3.2.1/dist/cdn.min.js"></script>
 
     <x-eshop::google-analytics/>
@@ -56,6 +55,8 @@
 <a href="{{ route('home', app()->getLocale()) }}" class="btn btn-primary rounded-circle shadow d-flex justify-content-center align-items-center" style="position:fixed; bottom: 10px; width: 48px; height: 48px; left: 10px; z-index: 10000"><em class="fas fa-store"></em></a>
 
 @include('eshop::dashboard.layouts.toasts')
+
+<script src="{{ mix('dist/dashboard.js') }}"></script>
 
 @stack('footer_scripts')
 @livewireScripts

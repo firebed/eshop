@@ -1,9 +1,9 @@
 <?php
 
-namespace Eshop\Tests;
+namespace Eshop\Tests\Feature;
+
 
 use Eshop\Tests\TestCase;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ExampleTest extends TestCase
 {
@@ -14,8 +14,10 @@ class ExampleTest extends TestCase
      */
     public function test_example_from_eshop()
     {
+//        $this->app->instance('path.public', __DIR__ . '../dist');
+        $this->withoutMix();
         $response = $this->get('/');
-
+        
         $response->assertStatus(200);
     }
 }

@@ -40,7 +40,7 @@
                     <x-bs::input.select name="invoiceAddress[country_id]" error="invoiceAddress.country_id" id="invoice-country">
                         <option value="">{{ __('Select country') }}</option>
                         @foreach($countries as $country)
-                            <option value="{{ $country->id }}" @if(old('invoiceAddress.country_id', $invoice?->billingAddress?->id) == $country->id) selected @endif>{{ $country->name }}</option>
+                            <option value="{{ $country->id }}" @if(old('invoiceAddress.country_id', $invoice?->billingAddress?->country_id) == $country->id) selected @endif>{{ $country->name }}</option>
                         @endforeach
                     </x-bs::input.select>
                 </x-bs::input.floating-label>

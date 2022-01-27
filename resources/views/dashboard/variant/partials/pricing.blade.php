@@ -1,7 +1,7 @@
 <div class="d-grid gap-2">
     <div class="fw-500 mb-3">{{ __("Pricing") }}</div>
 
-    <div class="row row-cols-4 g-3">
+    <div class="row row-cols-2 row-cols-sm-4 g-3">
         <x-bs::input.group x-data="{price:{{ old('price', $variant->price ?? $product->price ?? 0) }} }" for="selling-price" label="{{ __('eshop::product.price') }}" class="col">
             <x-eshop::money x-effect="price = value" value="price" id="selling-price" error="price"/>
             <input x-model="price" name="price" hidden/>

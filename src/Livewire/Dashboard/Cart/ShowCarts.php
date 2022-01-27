@@ -8,7 +8,7 @@ use Eshop\Models\Cart\Cart;
 use Eshop\Models\Cart\CartStatus;
 use Eshop\Models\Location\PaymentMethod;
 use Eshop\Models\Location\ShippingMethod;
-use Eshop\Models\User;
+use Eshop\Models\User\User;
 use Eshop\Repository\Contracts\CartContract;
 use Firebed\Components\Livewire\Traits\Datatable\DeletesRows;
 use Firebed\Components\Livewire\Traits\Datatable\WithCRUD;
@@ -148,7 +148,7 @@ class ShowCarts extends Component
         return Cart
             ::submitted()
             ->when($this->filter, function ($q, $f) {
-                return $q->where(fn($b) => $b->where('id', 'LIKE', "$f%")->orWhereHas('shippingAddress', fn($b) => $b->matchAgainst($f)));
+                return $q->where(fn($b) => $b->where('id', 'LIKE', "$f%")->orWhere('voucher', 'LIKE', "$f%")->orWhereHas('shippingAddress', fn($b) => $b->matchAgainst($f)));
             })
             ->when(auth()->user()?->cannot('Manage orders') && auth()->user()?->can('Manage assigned orders'), function ($q) {
                 return $q->whereHas('operators', fn($b) => $b->where('user_id', auth()->id()));

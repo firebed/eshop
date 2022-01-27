@@ -32,7 +32,7 @@ class Image extends Model
 
     protected static function booted(): void
     {
-        static::deleted(function (Image $image) {
+        static::deleted(static function (Image $image) {
             if (!method_exists($image, 'isForceDeleting') || $image->isForceDeleting()) {
                 if ($image->isTypeURL()) {
                     return;

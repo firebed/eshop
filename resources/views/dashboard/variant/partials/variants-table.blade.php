@@ -1,4 +1,4 @@
-<x-bs::table class="table-hover" x-data="">
+<x-bs::table id="variants-table" class="table-hover" x-data="">
     <thead>
     <tr class="table-light">
         <td class="w-2r rounded-top">
@@ -32,7 +32,7 @@
                     <div class="text-dark d-flex gap-3 align-items-center">{{ $variant->optionValues(' / ') }}@if($variant->recent) <em class="fas fa-star text-warning"></em>@endif</div>
                     <small class="text-secondary lh-sm">{{ $variant->sku }}</small>
                     @if($variant->stock === 0)
-                        <span class="badge bg-warning text-dark me-auto">{{ __("Sold out") }} (0)</span>
+                        <span class="badge bg-warning text-dark me-auto">{{ __("Sold out") }}</span>
                     @elseif($variant->stock < 0)
                         <span class="badge bg-danger me-auto">{{ __('eshop::product.in_stock', ['stock' => format_number($variant->stock)]) }}</span>
                     @else

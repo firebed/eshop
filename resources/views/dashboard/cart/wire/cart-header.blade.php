@@ -42,6 +42,12 @@
     @endif
 
     @can('Manage orders')
+        @if($cart->isDocumentInvoice())
+        <a href="{{ route('carts.invoice', $cart) }}" target="_blank" class="btn btn-alt rounded-pill py-1 px-3 border-2 border-white text-nowrap btn-sm">
+            <em class="fa fa-file"></em> Τιμολόγιο
+        </a>
+        @endif
+    
         <x-bs::dropdown>
             <button type="button" class="btn btn-haze btn-sm py-1 px-3 rounded-pill border-2 border-white text-nowrap" data-bs-toggle="dropdown" aria-expanded="false">
                 {{ __('More') }} <em class="fas small text-secondary fa-chevron-down"></em>

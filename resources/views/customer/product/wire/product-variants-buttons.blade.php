@@ -1,6 +1,6 @@
 <div>
     <h2 class="visually-hidden">{{ __("Variants") }}</h2>
-    
+
     @foreach($product->variantTypes as $type)
         <div class="fw-500 mb-2">{{ __("Select") }} {{ __($type->name) }}</div>
 
@@ -8,7 +8,29 @@
             @isset($uniqueOptions[$type->id])
                 @foreach($uniqueOptions[$type->id] as $option)
                     <li class="col d-grid">
-                        <button type="button" wire:click="select({{ $type->id }}, '{{ $option->pivot->slug }}')" class="btn @if(in_array($option->pivot->slug, $filters, true)) btn-primary @else btn-outline-primary @endif">{{ $option->pivot->value }}</button>
+                        @if(!$this->isAvailable($type->id, $option->pivot->slug))
+                            @if(in_array($option->pivot->slug, $filters, true))
+                                <button type="button"
+                                        wire:click="select({{ $type->id }}, '{{ $option->pivot->slug }}')"
+                                        class="w-100 btn btn-primary">
+                                    {{ $option->pivot->value }}
+                                </button>
+                            @else
+                                <button type="button"
+                                        wire:click="select({{ $type->id }}, '{{ $option->pivot->slug }}')"
+                                        class="w-100 btn btn-outline-light text-gray-500"
+                                        style="border-color: lightgray"
+                                >
+                                    {{ $option->pivot->value }}
+                                </button>
+                            @endif
+                        @else
+                            <button type="button"
+                                    wire:click="select({{ $type->id }}, '{{ $option->pivot->slug }}')"
+                                    class="btn @if(in_array($option->pivot->slug, $filters, true)) btn-primary @else btn-outline-primary @endif">
+                                {{ $option->pivot->value }}
+                            </button>
+                        @endif
                     </li>
                 @endforeach
             @endisset
@@ -16,11 +38,6 @@
     @endforeach
 
     <form wire:submit.prevent="addToCart" class="vstack gap-3">
-{{--        <div class="hstack gap-3">--}}
-{{--            <div class="h4 mb-0">{{ format_currency($variant->netValue ?? $product->netValue) }}</div>--}}
-{{--            <s class="text-secondary">@if($variant && $variant->discount > 0) {{ format_currency($variant->price) }}@endif</s>--}}
-{{--        </div>--}}
-
         @if($variant && $variant->canDisplayStock())
             <div class="fw-500 text-success">@choice("eshop::product.availability", $variant->available_stock, ['count' => format_number($variant->available_stock)])</div>
         @endif
@@ -43,16 +60,13 @@
             </div>
 
             <div class="col">
-                @if($variant === null || $variant->canBeBought())
+                @if($variant !== null && $variant->canBeBought())
                     <button type="submit" class="btn btn-green w-100">
                         <em class="fa fa-shopping-cart"></em>
                         <span class="ms-3">{{ __("Add to cart") }}</span>
                     </button>
                 @else
-                    <button disabled class="btn btn-danger w-100">
-                        <em class="fa fa-shopping-cart"></em>
-                        <span class="ms-3">{{ __("Out of stock") }}</span>
-                    </button>
+                    <button disabled class="btn btn-danger w-100">{{ __("Out of stock") }}</button>
                 @endif
             </div>
         </div>

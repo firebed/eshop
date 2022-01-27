@@ -57,7 +57,7 @@
     @endif
 
     @if($category->isFile())
-        <meta name='robots' content='{{ $products->isEmpty() ? 'noindex' : 'index' }}, follow'/>
+        <meta name='robots' content='{{ $products->isEmpty() || (count($filters['m']) + count($filters['c']) >= 4) ? 'noindex' : 'index' }}, follow'/>
     @else
         <meta name='robots' content='{{ $children->isEmpty() ? 'noindex' : 'index' }}, follow'/>
     @endif

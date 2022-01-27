@@ -30,10 +30,8 @@ trait ManagesVoucher
     {
         if ($this->voucher) {
             $countryShippingMethod = $this->cart->shippingMethod()->first();
-            $shippingMethod = $countryShippingMethod->shippingMethod;
-            $this->voucherUrl = $shippingMethod
-                ? $shippingMethod->getVoucherUrl($this->voucher)
-                : NULL;
+            $shippingMethod = $countryShippingMethod?->shippingMethod;
+            $this->voucherUrl = $shippingMethod?->getVoucherUrl($this->voucher);
         } else {
             $this->voucherUrl = null;
         }

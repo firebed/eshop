@@ -5,26 +5,17 @@ namespace Eshop\Database\Seeders;
 use Eshop\Models\Cart\Cart;
 use Eshop\Models\Cart\CartProduct;
 use Eshop\Models\Cart\CartStatus;
-use Eshop\Models\Lang\Locale;
 use Eshop\Models\Location\Address;
 use Eshop\Models\Location\Country;
 use Eshop\Models\Location\CountryPaymentMethod;
 use Eshop\Models\Location\CountryShippingMethod;
 use Eshop\Models\Location\PaymentMethod;
 use Eshop\Models\Location\ShippingMethod;
-use Eshop\Models\Product\Category;
-use Eshop\Models\Product\CategoryChoice;
-use Eshop\Models\Product\CategoryProperty;
-use Eshop\Models\Product\Product;
-use Eshop\Models\Product\Unit;
-use Eshop\Models\Product\Vat;
-use Eshop\Models\User;
+use Eshop\Models\User\User;
 use Exception;
 use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Schema;
 
 class EshopDatabaseSeeder extends Seeder
 {

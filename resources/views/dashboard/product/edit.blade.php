@@ -28,17 +28,26 @@
             <div class="d-flex justify-content-between align-items-start flex-wrap gap-3">
                 @includeWhen(isset($product), 'eshop::dashboard.product.partials.product-header')
 
-                <div class="d-flex justify-content-end gap-1 flex-grow-1">
-                    <div class="btn-group align-self-start" role="group">
-                        <button class="btn btn-outline-secondary" data-bs-toggle="offcanvas" data-bs-target="#label-print-dialog" type="button">
-                            <em class="fas fa-print"></em> {{ __("Labels") }}
-                        </button>
+                <div class="btn-toolbar gap-2" role="toolbar">
+                    <div class="btn-group">
+                        <x-bs::button.primary x-bind:disabled="submitting" type="submit">
+                            <em x-show="!submitting" class="fa fa-save me-2"></em>
+                            <em x-cloak x-show="submitting" class="fa fa-spinner fa-spin me-2"></em>
+                            {{ __("eshop::product.actions.save") }}
+                        </x-bs::button.primary>
                     </div>
-                    <x-bs::button.primary x-bind:disabled="submitting" type="submit">
-                        <em x-show="!submitting" class="fa fa-save me-2"></em>
-                        <em x-cloak x-show="submitting" class="fa fa-spinner fa-spin me-2"></em>
-                        {{ __("eshop::product.actions.save") }}
-                    </x-bs::button.primary>
+
+                    <div class="btn-group">
+                        <button class="btn btn-white w-3r text-secondary" data-bs-toggle="offcanvas" data-bs-target="#label-print-dialog" type="button">
+                            <em class="fas fa-receipt"></em>
+                        </button>
+                        
+                        @if(productRouteExists())
+                            <a class="btn btn-white w-3r text-secondary" href="{{ productRoute($product) }}">
+                                <em class="fas fa-eye"></em>
+                            </a>
+                        @endif
+                    </div>
                 </div>
             </div>
         </div>
@@ -79,7 +88,7 @@
             </div>
         </div>
     </form>
-    
+
     @include('eshop::dashboard.product.partials.product-delete-form')
 
     <form action="{{ route('labels.export') }}" method="POST" target="_blank">

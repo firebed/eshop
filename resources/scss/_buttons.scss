@@ -37,3 +37,11 @@
 .btn-smoke {
     @include button-variant(#e8e8e8, #e8e8e8)
 }
+
+.btn-alt {
+    @include button-variant(#6f42c1, #6f42c1)
+}
+
+.btn-outline-alt {
+    @include button-outline-variant(#6f42c1)
+}

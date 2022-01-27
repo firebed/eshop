@@ -2,7 +2,7 @@
 
 namespace Eshop\Livewire\Dashboard\User;
 
-use Eshop\Models\User;
+use Eshop\Models\User\User;
 use Illuminate\View\View;
 use Livewire\Component;
 use Livewire\WithPagination;

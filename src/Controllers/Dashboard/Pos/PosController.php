@@ -5,8 +5,8 @@ namespace Eshop\Controllers\Dashboard\Pos;
 use Eshop\Controllers\Dashboard\Controller;
 use Eshop\Controllers\Dashboard\Traits\WithNotifications;
 use Eshop\Models\Cart\Cart;
+use Eshop\Models\Cart\CartInvoice;
 use Eshop\Models\Cart\CartStatus;
-use Eshop\Models\Invoice\Invoice;
 use Eshop\Models\Location\Address;
 use Eshop\Models\Location\CountryPaymentMethod;
 use Eshop\Models\Location\CountryShippingMethod;
@@ -109,7 +109,7 @@ class PosController extends Controller
             $cart->shippingAddress()->save($shippingAddress);
 
             if ($hasInvoice) {
-                $invoice = new Invoice($request->input('invoice'));
+                $invoice = new CartInvoice($request->input('invoice'));
                 $cart->invoice()->save($invoice);
 
                 $invoiceAddress = new Address($request->input('invoiceAddress'));

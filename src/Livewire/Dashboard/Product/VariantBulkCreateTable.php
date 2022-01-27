@@ -3,6 +3,7 @@
 namespace Eshop\Livewire\Dashboard\Product;
 
 use Illuminate\Contracts\Support\Renderable;
+use Illuminate\Support\Arr;
 use Livewire\Component;
 
 class VariantBulkCreateTable extends Component
@@ -45,21 +46,6 @@ class VariantBulkCreateTable extends Component
         ];
     }
 
-    private function getCombinations($arrays): array
-    {
-        $result = [[]];
-        foreach ($arrays as $property => $property_values) {
-            $tmp = array();
-            foreach ($result as $result_item) {
-                foreach ($property_values as $property_value) {
-                    $tmp[] = array_merge($result_item, [$property => $property_value]);
-                }
-            }
-            $result = $tmp;
-        }
-        return $result;
-    }
-
     public function showCombinationsModal(): void
     {
         $this->showCombinationsModal = TRUE;
@@ -72,8 +58,9 @@ class VariantBulkCreateTable extends Component
         foreach ($this->combinations as $id => $combination) {
             $arrays[$id] = array_map('trim', explode(',', $combination));
         }
+
         $this->variants = [];
-        $combinations = $this->getCombinations($arrays);
+        $combinations = Arr::crossJoin(...$arrays);
         foreach ($combinations as $combination) {
             $this->add(collect($combination)->mapWithKeys(fn($c, $k) => [array_search($k, $this->variantTypes) => $c])->all());
         }

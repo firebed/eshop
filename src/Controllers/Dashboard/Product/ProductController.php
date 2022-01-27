@@ -2,11 +2,12 @@
 
 namespace Eshop\Controllers\Dashboard\Product;
 
+use Eshop\Actions\Audit\AuditModel;
+use Eshop\Actions\Product\StoreProduct;
+use Eshop\Actions\Product\UpdateProduct;
 use Eshop\Controllers\Dashboard\Controller;
-use Eshop\Controllers\Dashboard\Product\Traits\WithImage;
-use Eshop\Controllers\Dashboard\Product\Traits\WithProductProperties;
-use Eshop\Controllers\Dashboard\Product\Traits\WithVariantTypes;
 use Eshop\Controllers\Dashboard\Traits\WithNotifications;
+use Eshop\Models\Audit\ModelAudit;
 use Eshop\Models\Product\Category;
 use Eshop\Models\Product\Collection;
 use Eshop\Models\Product\Manufacturer;
@@ -14,7 +15,6 @@ use Eshop\Models\Product\Product;
 use Eshop\Models\Product\Unit;
 use Eshop\Models\Product\Vat;
 use Eshop\Requests\Dashboard\Product\ProductRequest;
-use Eshop\Services\BarcodeService;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\DB;
@@ -22,10 +22,7 @@ use Throwable;
 
 class ProductController extends Controller
 {
-    use WithVariantTypes,
-        WithProductProperties,
-        WithNotifications,
-        WithImage;
+    use WithNotifications;
 
     public function __construct()
     {
@@ -52,44 +49,23 @@ class ProductController extends Controller
         ]);
     }
 
-    public function store(ProductRequest $request, BarcodeService $barcodeService): RedirectResponse
+    public function store(ProductRequest $request, StoreProduct $store, ModelAudit $audit): RedirectResponse
     {
+        DB::beginTransaction();
+        
         try {
-            $product = new Product();
-            $product->fill($request->only($product->getFillable()));
-            
-            if (blank($product->barcode) && $barcodeService->shouldFill()) {
-                $product->barcode = $barcodeService->generateForProduct($product->category_id);
-            } 
-
-            DB::transaction(function () use ($product, $request) {
-                $product->save();
-
-                $product->seo()->create($request->input('seo'));
-
-                if ($request->filled('variantTypes')) {
-                    $this->saveVariantTypes($product, $request->input('variantTypes'));
-                }
-
-                if ($request->filled('properties')) {
-                    $this->saveProperties($product, $request->input('properties'));
-                }
-
-                $product->collections()->sync($request->input('collections', []));
-
-                if ($request->hasFile('image')) {
-                    $product->saveImage($request->file('image'));
-                }
-            });
+            $product = $store->handle($request);
+            $audit->handle($product);
+            DB::commit();
 
             $this->showSuccessNotification(trans('eshop::notifications.created'));
+            return redirect()->route('products.edit', $product);
         } catch (Throwable) {
+            DB::rollBack();
             $request->flash();
             $this->showErrorNotification(trans('eshop::notifications.error'));
             return back();
         }
-
-        return redirect()->route('products.edit', $product);
     }
 
     public function edit(Product $product): RedirectResponse|Renderable
@@ -103,48 +79,25 @@ class ProductController extends Controller
             'properties'    => $this->prepareProperties($product),
             'vats'          => Vat::all(),
             'units'         => Unit::all(),
-            'variantTypes'  => $product->variantTypes()->orderBy('id')->pluck('name', 'id')->map(fn($v, $k) => ['id' => $k, 'name' => $v])->values()->all(),
+            'variantTypes'  => $product->variantTypes()->orderBy('position')->pluck('name', 'id')->map(fn($v, $k) => ['id' => $k, 'name' => $v])->values()->all(),
             'categories'    => Category::files()->with('translations', 'parent.translation')->get()->groupBy('parent_id'),
             'manufacturers' => Manufacturer::all(),
             'collections'   => Collection::all(),
         ]);
     }
 
-    public function update(ProductRequest $request, Product $product): RedirectResponse
+    public function update(ProductRequest $request, Product $product, UpdateProduct $update, AuditModel $audit): RedirectResponse
     {
+        DB::beginTransaction();
+        
         try {
-            DB::transaction(function () use ($product, $request) {
-                if ($product->has_variants) {
-                    if ($product->category_id !== $request->input('category_id')) {
-                        $product->variants()->update(['category_id' => $request->input('category_id')]);
-                    }
-
-                    if ($product->manufacturer_id !== $request->input('manufacturer_id')) {
-                        $product->variants()->update(['manufacturer_id' => $request->input('manufacturer_id')]);
-                    }
-
-                    if ($product->unit_id !== $request->input('unit_id')) {
-                        $product->variants()->update(['unit_id' => $request->input('unit_id')]);
-                    }
-                }
-
-                $product->update($request->only($product->getFillable()));
-
-                $product->seo()->updateOrCreate([], $request->input('seo'));
-
-                $this->syncVariantTypes($product, $request->input('variantTypes', []));
-
-                $this->saveProperties($product, $request->input('properties', []));
-
-                $product->collections()->sync($request->input('collections', []));
-
-                if ($request->hasFile('image')) {
-                    $this->replaceImage($product, $request->file('image'));
-                }
-            });
+            $update->handle($product, $request);
+            $audit->handle($product);
+            DB::commit();
 
             $this->showSuccessNotification(trans('eshop::notifications.saved'));
         } catch (Throwable $e) {
+            DB::rollBack();
             $request->flash();
             $this->showErrorNotification(trans('eshop::notifications.error') . ': ' . $e->getMessage());
         }
@@ -152,19 +105,31 @@ class ProductController extends Controller
         return back();
     }
 
-    public function destroy(Product $product): RedirectResponse
+    public function destroy(Product $product, AuditModel $audit): RedirectResponse
     {
+        DB::beginTransaction();
+        
         try {
-            DB::transaction(function () use ($product) {
-                $product->variants->each->delete();
-                $product->delete();
-            });
+            $product->delete();
+            $audit->handle($product, true);
+            DB::commit();
 
             $this->showSuccessNotification(trans('eshop::notifications.deleted'));
             return redirect()->route('products.index');
         } catch (Throwable $e) {
+            DB::rollBack();
             $this->showErrorNotification(trans('eshop::notifications.error'), $e->getMessage());
             return back();
         }
+    }
+
+    private function prepareProperties(Product $product): array
+    {
+        $choices = $product->properties
+            ->groupBy('id')
+            ->map(fn($g) => $g->pluck('pivot.category_choice_id')->all())
+            ->all();
+
+        return compact('choices');
     }
 }

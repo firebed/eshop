@@ -1,9 +1,9 @@
 <div class="d-grid gap-3">
-    <div class="d-flex gap-2">
+    <div class="d-flex gap-2" x-data>
         <x-bs::input.search wire:model="search" placeholder="{{ __('Search') }}"/>
 
         <x-bs::dropdown wire:ignore>
-            <x-bs::dropdown.button class="btn-white" id="bulk-actions">{{ __("Actions") }}</x-bs::dropdown.button>
+            <x-bs::dropdown.button class="btn-white" id="bulk-actions"><em class="fas fa-bars"></em></x-bs::dropdown.button>
             <x-bs::dropdown.menu button="bulk-actions" alignment="right">
                 <li class="p-0">
                     <div class="dropdown-item p-0">
@@ -37,15 +37,26 @@
 
                 <x-bs::dropdown.divider/>
 
+                <x-bs::dropdown.item x-on:click.prevent="$wire.toggleVisible([...document.querySelectorAll('#variants-table tbody input')].map(i => i.value), true)">
+                    <em class="fa fa-eye me-2 text-secondary w-1r"></em>
+                    {{ __('eshop::variant.bulk-actions.make_visible') }}
+                </x-bs::dropdown.item>
+
+                <x-bs::dropdown.item x-on:click.prevent="$wire.toggleVisible([...document.querySelectorAll('#variants-table tbody input')].map(i => i.value), false)">
+                    <em class="fa fa-eye-slash me-2 text-secondary w-1r"></em>
+                    {{ __('eshop::variant.bulk-actions.make_hidden') }}
+                </x-bs::dropdown.item>
+
                 <x-bs::dropdown.item data-bs-toggle="modal" data-bs-target="#variant-bulk-edit-modal" data-property="available_gt" data-title="{{ __('eshop::variant.bulk-actions.available_gt') }}">
-                    <em class="fa fa-shopping-cart me-2 text-secondary w-1r"></em>
+                    <em class="fa fa-boxes me-2 text-secondary w-1r"></em>
                     {{ __('eshop::variant.bulk-actions.available_gt') }}
                 </x-bs::dropdown.item>
 
                 <x-bs::dropdown.item data-bs-toggle="modal" data-bs-target="#variant-bulk-edit-modal" data-property="display_stock_lt" data-title="{{ __('eshop::variant.bulk-actions.display_stock_lt') }}">
-                    <em class="fa fa-list-ol me-2 text-secondary w-1r"></em>
+                    <em class="fa fa-eye-slash me-2 text-secondary w-1r"></em>
                     {{ __('eshop::variant.bulk-actions.display_stock_lt') }}
                 </x-bs::dropdown.item>
+
                 <x-bs::dropdown.divider/>
 
                 <x-bs::dropdown.item data-bs-toggle="modal" data-bs-target="#variant-bulk-edit-modal" data-property="sku" data-title="{{ __('eshop::variant.bulk-actions.sku') }}">
@@ -71,17 +82,29 @@
                 </x-bs::dropdown.item>
             </x-bs::dropdown.menu>
         </x-bs::dropdown>
+
+        <div class="btn-group">
+            <a href="{{ route('products.variants.create', $product) }}" class="btn btn-primary align-items-center"><em class="fa fa-plus"></em></a>
+
+            <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+                <span class="visually-hidden">Toggle Dropdown</span>
+            </button>
+
+            <ul class="dropdown-menu dropdown-menu-end">
+                <li><a class="dropdown-item" href="{{ route('variants.bulk-create', $product) }}"><em class="fa fa-folder-plus me-2"></em> {{ __("eshop::variant.buttons.add_many") }}</a></li>
+            </ul>
+        </div>
     </div>
 
     <x-bs::card>
         <div class="table-responsive">
-{{--            @foreach($options as $group)--}}
-{{--                <div class="d-flex gap-1">--}}
-{{--                    @foreach($group as $option)--}}
-{{--                        <a href="#">{{ $option }}</a>--}}
-{{--                    @endforeach--}}
-{{--                </div>--}}
-{{--            @endforeach--}}
+            {{--            @foreach($options as $group)--}}
+            {{--                <div class="d-flex gap-1">--}}
+            {{--                    @foreach($group as $option)--}}
+            {{--                        <a href="#">{{ $option }}</a>--}}
+            {{--                    @endforeach--}}
+            {{--                </div>--}}
+            {{--            @endforeach--}}
 
             @include('eshop::dashboard.variant.partials.variants-table')
         </div>

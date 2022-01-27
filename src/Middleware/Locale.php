@@ -17,7 +17,9 @@ class Locale
      */
     public function handle(Request $request, Closure $next): mixed
     {
-        if (!in_array($request->lang, ['el', 'en'])) {
+        $available_locales = array_keys(eshop('locales', []));
+        
+        if (!empty($available_locales) && !in_array($request->lang, $available_locales)) {
             abort(404);
         }
 

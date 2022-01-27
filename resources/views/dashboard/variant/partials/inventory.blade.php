@@ -4,19 +4,23 @@
      }">
     <div class="fw-500">{{ __("Inventory") }}</div>
 
-    <div class="row g-3">
+    <div class="row row-cols-2 row-cols-sm-3 g-3">
         <x-bs::input.group for="sku" label="{{ __('SKU') }}" class="col">
             <x-bs::input.text x-on:variant-options-updated.window="$el.value = '{{ $product->sku }}' + '-' + slugify($event.detail.join('-'))" value="{{ old('sku', $variant->sku ?? ($product->sku . '-') ?? '') }}" name="sku" id="sku" error="sku" required/>
         </x-bs::input.group>
 
-        <x-bs::input.group for="barcode" label="{{ __('Barcode') }}" class="col">
+        <x-bs::input.group for="mpn" label="{{ __('MPN') }}" class="col">
+            <x-bs::input.text name="mpn" value="{{ old('mpn', $variant->mpn ?? '') }}" error="mpn" id="mpn"/>
+        </x-bs::input.group>
+
+        <x-bs::input.group for="barcode" label="{{ __('Barcode') }}" class="col flex-grow-1">
             <div x-data="{
                         product_id: {{ $product->id }},
                         variant_id: {{ $variant->id ?? 'null' }},
                         generate: function() {
                             const params = {
-                                category_id: this.category_id,
-                                product_id: this.product_id
+                                product_id: this.product_id,
+                                variant_id: this.variant_id,
                             }
         
                             axios.post('{{ route('products.barcode.create') }}', params)
@@ -30,10 +34,6 @@
                 <div class="invalid-feedback">{{ $message }}</div>
                 @enderror
             </div>
-        </x-bs::input.group>
-
-        <x-bs::input.group for="mpn" label="{{ __('MPN') }}" class="col">
-            <x-bs::input.text name="mpn" value="{{ old('mpn', $variant->mpn ?? '') }}" error="mpn" id="mpn"/>
         </x-bs::input.group>
     </div>
 

@@ -12,9 +12,16 @@ class ProductController extends Controller
 {
     public function show(string $locale, Category $category, Product $product, Order $order): Renderable
     {
-        if (!$category->visible || !$product->visible || ($product->isVariant() && !$product->parent->visible)) {
-            abort(404);
+        // Return 404 if the category or the variant's parent is hidden
+        abort_unless($category->visible || ($product->isVariant() && $product->parent->visible), 404);
+
+        // Early return if the product is hidden and the auth user can manage the product
+        // This way the user will have a special option to make the product visible again
+        if (!$product->visible && auth()->user()?->can('Manage products')) {
+            return $this->view('product.show-hidden', compact('category', 'product'));
         }
+
+        abort_unless($product->visible, 404);
 
         $quantity = 0;
         if ($product->has_variants) {

@@ -4,9 +4,9 @@ namespace Eshop\Controllers\Customer\Account;
 
 use Eshop\Controllers\Customer\Controller;
 use Eshop\Controllers\Dashboard\Traits\WithNotifications;
-use Eshop\Models\Invoice\Company;
 use Eshop\Models\Location\Address;
 use Eshop\Models\Location\Country;
+use Eshop\Models\User\Company;
 use Eshop\Requests\Customer\UserCompanyRequest;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\RedirectResponse;

@@ -1,37 +1,47 @@
 <div class="card shadow-sm">
-    <div class="card-body">
+    <div x-data="{ has_variants: {{ $product->has_variants ? 'true' : 'false' }} }" x-on:updated-variant-types.window="has_variants = ($event.detail > 0)" class="card-body">
         <div class="fw-500 mb-3">{{ __("Accessibility") }}</div>
 
-        <div class="d-grid gap-2">
-            <x-bs::input.checkbox name="visible" :checked="old('visible', $product->visible ?? true)" id="visible">
+        <div class="d-grid">
+            <x-bs::input.switch name="visible" :checked="old('visible', $product->visible ?? true)" id="visible">
                 {{ __("Customers can view this product") }}
-            </x-bs::input.checkbox>
+            </x-bs::input.switch>
 
-            <div>
-                <x-bs::input.checkbox name="available" :checked="old('available', $product->available ?? true)" id="available">
-                    {{ __("Customers can purchase this product") }}
-                </x-bs::input.checkbox>
+            <x-bs::input.switch name="available" :checked="old('available', $product->available ?? true)" id="available">
+                {{ __("Customers can purchase this product") }}
+            </x-bs::input.switch>
 
-                <x-bs::input.group x-data="{number: '{{ old('available_gt', isset($product) ? $product->available_gt : 0) }}' }" for="available-gt" label="{{ __('Prevent purchase when stock gets less than') }}" label-col="9" class="ps-4" inline>
-                    <x-eshop::integer x-effect="number = value" :value="'number'" id="available-gt" class="form-control-sm"/>
-                    <input type="text" x-model="number" name="available_gt" hidden>
-                </x-bs::input.group>
+            <x-bs::input.switch name="display_stock" :checked="old('display_stock', $product->display_stock ?? true)" id="display-stock">
+                {{ __("Customers can see the available stock") }}
+            </x-bs::input.switch>
+
+            <div x-show="!has_variants" x-transition>
+                <x-bs::input.switch name="recent" :checked="old('recent', $product->recent ?? false)" id="recent">
+                    {{ __("Display new label") }}
+                </x-bs::input.switch>
+
+                <div class="row mt-3">
+                    <div x-data="{ number: '{{ old('available_gt', isset($product) ? $product->available_gt : 0) }}' }" class="col">
+                        <label for="available-gt" class="form-label">Διαθέσιμο</label>
+                        <div class="input-group input-group-sm">
+                            <span class="input-group-text fw-500">&#8805;</span>
+                            <x-eshop::integer x-effect="number = value" :value="'number'" id="available-gt"/>
+                        </div>
+
+                        <input type="hidden" x-model="number" name="available_gt">
+                    </div>
+
+                    <div x-data="{ number: '{{ old('display_stock_lt', $product->display_stock_lt ?? '') }}' }" class="col">
+                        <label for="display-stock-lt" class="form-label">Απόκρυψη αποθέματος</label>
+                        <div class="input-group input-group-sm">
+                            <span class="input-group-text fw-500">&#8805;</span>
+                            <x-eshop::integer x-effect="number = value" :value="'number'" id="display-stock-lt"/>
+                        </div>
+
+                        <input type="hidden" x-model="number" name="display_stock_lt">
+                    </div>
+                </div>
             </div>
-
-            <div>
-                <x-bs::input.checkbox name="display_stock" :checked="old('display_stock', $product->display_stock ?? true)" id="display-stock">
-                    {{ __("Customers can see the available stock") }}
-                </x-bs::input.checkbox>
-
-                <x-bs::input.group x-data="{number: '{{ old('display_stock_lt', $product->display_stock_lt ?? '') }}' }" for="display-stock-lt" label="{{ __('Hide availability when stock is greater than') }}" label-col="9" class="ps-4" inline>
-                    <x-eshop::integer x-effect="number = value" :value="'number'" id="display-stock-gt" class="form-control-sm"/>
-                    <input type="text" x-model="number" name="display_stock_lt" hidden>
-                </x-bs::input.group>
-            </div>
-
-            <x-bs::input.checkbox name="recent" :checked="old('recent', $product->recent ?? false)" id="recent">
-                {{ __("Display new label") }}
-            </x-bs::input.checkbox>
         </div>
     </div>
 </div>

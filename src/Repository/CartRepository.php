@@ -255,7 +255,8 @@ class CartRepository implements CartContract
 
     public function getProductsTotal(Cart $cart): float
     {
-        return $cart->products()->sum(DB::raw('ROUND(cart_product.quantity * cart_product.price * (1 - cart_product.discount), 2)'));
+//        return $cart->products()->sum(DB::raw('ROUND(cart_product.quantity * cart_product.price * (1 - cart_product.discount), 2)'));
+        return $cart->products()->sum(DB::raw('cart_product.quantity * ROUND(cart_product.price * (1 - cart_product.discount), 2)'));
     }
 
     public function calculateParcelWeight(Cart $cart): float

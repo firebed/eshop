@@ -11,6 +11,10 @@
                     <x-bs::input.text wire:model.defer="shippingAddress.last_name" id="contact-last-name" error="shippingAddress.last_name"/>
                 </x-bs::input.group>
 
+                <x-bs::input.group for="cart-email" label="{{ __('Email') }}" class="col-12">
+                    <x-bs::input.text wire:model.defer="email" id="cart-email" error="email"/>
+                </x-bs::input.group>
+
                 <x-bs::input.group for="contact-phone" label="{{ __('Phone number') }}" class="col-12">
                     <x-bs::input.text wire:model.defer="shippingAddress.phone" id="contact-phone" error="shippingAddress.phone"/>
                 </x-bs::input.group>

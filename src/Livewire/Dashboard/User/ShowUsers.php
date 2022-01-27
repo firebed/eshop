@@ -3,7 +3,7 @@
 namespace Eshop\Livewire\Dashboard\User;
 
 use Eshop\Exports\UsersExport;
-use Eshop\Models\User;
+use Eshop\Models\User\User;
 use Firebed\Components\Livewire\Traits\Datatable\DeletesRows;
 use Firebed\Components\Livewire\Traits\Datatable\WithCRUD;
 use Firebed\Components\Livewire\Traits\Datatable\WithExports;

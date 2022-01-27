@@ -22,9 +22,13 @@
                 <label for="qty-{{ $product->id }}" class="visually-hidden"></label>
                 <x-bs::input.integer wire:model="quantities.{{ $product->id }}" id="qty-{{ $product->id }}" placeholder="0"/>
 
-                @unless($product->canBeBought($quantities[$product->id]))
-                    <div class="fw-500 text-danger small mt-2">Διαθέσιμα: {{ $product->available_stock }}</div>
-                @endunless
+                @if($product->isAccessible())
+                    @unless($product->canBeBought($quantities[$product->id]))
+                        <div class="fw-500 text-danger small mt-2">Διαθέσιμα: {{ max(0, $product->available_stock) }}</div>
+                    @endunless
+                @else
+                    <div class="fw-500 text-danger small mt-2">{{ __("Out of stock") }}</div>
+                @endif
             </div>
 
             <div class="col text-end fw-500">{{ format_currency($product->netValue) }}</div>

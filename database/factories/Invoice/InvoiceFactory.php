@@ -2,7 +2,7 @@
 
 namespace Eshop\Database\Factories\Invoice;
 
-use Eshop\Models\Invoice\Invoice;
+use Eshop\Models\Cart\CartInvoice;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class InvoiceFactory extends Factory
@@ -12,7 +12,7 @@ class InvoiceFactory extends Factory
      *
      * @var string
      */
-    protected $model = Invoice::class;
+    protected $model = CartInvoice::class;
 
     /**
      * Define the model's default state.

@@ -4,12 +4,12 @@ namespace Eshop\Models\Cart;
 
 use Carbon\Carbon;
 use Eshop\Models\Cart\Concerns\ImplementsOrder;
-use Eshop\Models\Invoice\Invoice;
 use Eshop\Models\Location\Address;
+use Eshop\Models\Location\Addressable;
 use Eshop\Models\Location\PaymentMethod;
 use Eshop\Models\Location\ShippingMethod;
 use Eshop\Models\Product\Product;
-use Eshop\Models\User;
+use Eshop\Models\User\User;
 use Eshop\Repository\Contracts\Order;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -17,7 +17,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Support\Collection;
 
@@ -52,7 +52,7 @@ use Illuminate\Support\Collection;
  * @property Address        billingAddress
  * @property Collection     products
  * @property Collection     operators
- * @property Invoice        invoice
+ * @property CartInvoice    invoice
  *
  * @property float          total_without_fees
  * @property float          total_fees
@@ -67,7 +67,7 @@ use Illuminate\Support\Collection;
  */
 class Cart extends Model implements Order
 {
-    use HasFactory, ImplementsOrder;
+    use HasFactory, Addressable, ImplementsOrder;
 
     protected $guarded = [];
 
@@ -106,24 +106,19 @@ class Cart extends Model implements Order
         return $this->belongsTo(CartStatus::class);
     }
 
-    public function addresses(): MorphMany
-    {
-        return $this->morphMany(Address::class, 'addressable');
-    }
-
     public function shippingAddress(): MorphOne
     {
-        return $this->morphOne(Address::class, 'addressable')->where('cluster', 'shipping');
+        return $this->address('shipping');
     }
 
     public function billingAddress(): MorphOne
     {
-        return $this->morphOne(Address::class, 'addressable')->where('cluster', 'billing');
+        return $this->address('billing');
     }
 
-    public function invoice(): MorphOne
+    public function invoice(): HasOne
     {
-        return $this->morphOne(Invoice::class, 'billable');
+        return $this->hasOne(CartInvoice::class);
     }
 
     public function products(): BelongsToMany
@@ -200,7 +195,6 @@ class Cart extends Model implements Order
 
     public function delete(): bool|null
     {
-        $this->invoice?->delete();
         $this->addresses()->delete();
         return parent::delete();
     }

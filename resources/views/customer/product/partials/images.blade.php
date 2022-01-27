@@ -15,11 +15,11 @@
     </div>
 
     <div class="col w-sm-5r order-sm-0">
-        <div class="mh-3r mh-sm-20r scrollbar overflow-auto">
-            <ul class="d-flex flex-nowrap d-sm-grid gap-1 list-unstyled">
+        <div class="mh-sm-20r scrollbar overflow-auto">
+            <ul class="d-flex flex-nowrap d-sm-grid gap-1 list-unstyled mb-0">
                 @if($product->image && $src = $product->image->url())
-                    <li class="d-flex w-3r w-sm-auto">
-                        <a x-show="thumbnails.length === 0" href="{{ $src }}" class="ratio ratio-1x1 rounded" data-fslightbox="images" data-type="image">
+                    <li class="d-flex w-4r w-sm-auto">
+                        <a x-show="thumbnails.length === 0" href="{{ $src }}" class="ratio ratio-1x1 rounded">
                             <img src="{{ $product->image->url('sm') }}" alt="{{ $product->trademark }}" class="img-top rounded">
                         </a>
                     </li>
@@ -27,7 +27,7 @@
 
                 @isset($images)
                     @foreach($images as $image)
-                        <li class="d-flex w-3r w-sm-auto">
+                        <li class="d-flex w-4r w-sm-auto">
                             <a x-show="thumbnails.length === 0" href="{{ $image->url() }}" data-fslightbox="images" data-type="image" class="ratio ratio-1x1 rounded">
                                 <img src="{{ $image->url('sm') }}" alt="{{ $product->name }}" class="img-top rounded">
                             </a>
@@ -36,7 +36,7 @@
                 @endisset
 
                 <template x-for="thumb in thumbnails" :key="thumb">
-                    <li class="d-flex w-3r w-sm-auto">
+                    <li class="d-flex w-4r w-sm-auto">
                         <a x-bind:href="thumb" data-fslightbox="images" data-type="image" class="ratio ratio-1x1 rounded">
                             <img x-bind:src="thumb" alt="{{ $product->name }}" class="img-top rounded">
                         </a>

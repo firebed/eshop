@@ -28,7 +28,7 @@
             @if ($cart->shipping_charge > 0)
                 <tr class="font-weight-bold">
                     <td>&nbsp;</td>
-                    <td colspan="3">{{ __($cart->shippingMethod->name) }}</td>
+                    <td colspan="3">@isset($cart->shippingMethod) {{ __("eshop::shipping" . $cart->shippingMethod->name) }} @else {{ "-" }} @endisset</td>
                     <td class="text-right">{{ format_number($cart->shipping_charge/(1 + $vat->regime), 2) }}</td>
                     <td colspan="2" class="text-center">&nbsp;</td>
                     <td class="text-right">{{ format_percent($vat->regime) }}</td>
@@ -37,7 +37,7 @@
             @if ($cart->payment_charge > 0)
                 <tr class="font-weight-bold">
                     <td>&nbsp;</td>
-                    <td colspan="3">{{ __($cart->paymentMethod->name) }}</td>
+                    <td colspan="3">@isset($cart->paymentMethod) {{ __("eshop::payment." . $cart->paymentMethod->name) }} @else {{ "-" }} @endisset</td>
                     <td class="text-right">{{ format_number($cart->payment_charge/(1 + $vat->regime)) }}</td>
                     <td colspan="2" class="text-center">&nbsp;</td>
                     <td class="text-right">{{ format_percent($vat->regime) }}</td>

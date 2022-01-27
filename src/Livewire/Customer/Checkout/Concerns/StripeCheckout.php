@@ -3,7 +3,7 @@
 namespace Eshop\Livewire\Customer\Checkout\Concerns;
 
 
-use Eshop\Models\User;
+use Eshop\Models\User\User;
 use Eshop\Repository\Contracts\Order;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Support\Facades\Auth;

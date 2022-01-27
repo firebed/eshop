@@ -2,9 +2,13 @@
 
 namespace Eshop\Models\Product;
 
+use Eshop\Models\Audit\Auditable;
 use Eshop\Models\Cart\CartProduct;
 use Eshop\Models\Lang\Traits\HasTranslations;
 use Eshop\Models\Media\Traits\HasImages;
+use Eshop\Models\Product\Collection as ProductCollection;
+use Eshop\Models\Product\Traits\HasProductAudit;
+use Eshop\Models\Seo\Seo;
 use Eshop\Models\Seo\Traits\HasSeo;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -25,19 +29,19 @@ use Laravel\Scout\Searchable;
  * @property integer         category_id
  * @property integer         manufacturer_id
  * @property integer         unit_id
- * @property boolean         is_physical
- * @property boolean         has_variants
- * @property double          vat
+ * @property bool            is_physical
+ * @property bool            has_variants
+ * @property float           vat
  * @property int             stock
- * @property double          weight
- * @property double          price
- * @property double          compare_price
- * @property double          discount
- * @property boolean         visible
- * @property boolean         recent
- * @property boolean         available
+ * @property float           weight
+ * @property float           price
+ * @property float           compare_price
+ * @property float           discount
+ * @property bool            visible
+ * @property bool            recent
+ * @property bool            available
  * @property ?integer|string available_gt
- * @property boolean         display_stock
+ * @property bool            display_stock
  * @property ?integer|string display_stock_lt
  * @property string          location
  * @property string          sku
@@ -46,13 +50,14 @@ use Laravel\Scout\Searchable;
  * @property string          slug
  * @property string          variants_display
  * @property bool            preview_variants
- * @property Collection      options Returns a collection of variant options
+ * @property Collection      options
  *
  * @property Product         parent
  * @property Collection      variants
  * @property Category        category
  * @property Manufacturer    manufacturer
  * @property Unit            unit
+ * @property Seo             seo
  * @property Collection      properties
  * @property Collection      choices
  * @property Collection      variantTypes
@@ -78,7 +83,7 @@ use Laravel\Scout\Searchable;
  *
  * @mixin Builder
  */
-class Product extends Model
+class Product extends Model implements Auditable
 {
     use HasFactory;
     use SoftDeletes;
@@ -86,6 +91,7 @@ class Product extends Model
     use HasImages;
     use HasSeo;
     use Searchable;
+    use HasProductAudit;
 
     protected $fillable = [
         'name', 'description', 'category_id', 'manufacturer_id', 'unit_id', 'is_physical', 'vat', 'weight',
@@ -166,12 +172,12 @@ class Product extends Model
         return $this->belongsToMany(VariantType::class)
             ->using(ProductVariantOption::class)
             ->orderBy('variant_types.id')
-            ->withPivot('value', 'slug');
+            ->withPivot('id', 'value', 'slug');
     }
 
     public function collections(): BelongsToMany
     {
-        return $this->belongsToMany(\Eshop\Models\Product\Collection::class);
+        return $this->belongsToMany(ProductCollection::class);
     }
 
     public function movements(): HasMany
@@ -186,33 +192,9 @@ class Product extends Model
             : $this->name;
     }
 
-    public function getTrademarkAttribute(): ?string
-    {
-        return $this->getTrademark();
-    }
-
-    public function getOptionValuesAttribute($glue = ' '): string
-    {
-        return $this->options->pluck('pivot.value')->join($glue ?? ' ');
-    }
-
     public function optionValues($glue = ' '): string
     {
         return $this->options->pluck('pivot.value')->join($glue ?? ' ');
-    }
-
-    public function canBeBought(int $quantity = 1): bool
-    {
-        return $this->available && ($this->available_gt === null || ($this->stock - $quantity >= $this->available_gt));
-    }
-
-    public function canDisplayStock(): bool
-    {
-        return $this->display_stock
-            && $this->available_gt !== null
-            && $this->stock > 0
-            && ($this->display_stock_lt === null || $this->stock <= $this->display_stock_lt)
-            && $this->canBeBought();
     }
 
     /*
@@ -221,9 +203,43 @@ class Product extends Model
     |-----------------------------------------------------------------------------
     */
 
-    public function getAvailableStockAttribute(): int
+    public function scopeFilterByPrice(Builder $query, $min_price, $max_price): void
     {
-        return $this->stock - ($this->available_gt ?: 0);
+        $query->when(!empty($min_price) || !empty($max_price), function (Builder $q) use ($min_price, $max_price) {
+            $q->where('visible', true);
+            $q->where(function (Builder $b) use ($min_price, $max_price) {
+                $b->where('has_variants', false);
+                if (!empty($min_price) && !empty($max_price)) {
+                    $b->whereBetween('net_value', [$min_price, $max_price]);
+                    return;
+                }
+
+                if (empty($max_price)) {
+                    $b->where('net_value', '>=', $min_price);
+                    return;
+                }
+
+                $b->where('net_value', '<=', $max_price);
+            });
+
+            $q->orWhere(function (Builder $b) use ($min_price, $max_price) {
+                $b->where('has_variants', true);
+                $b->whereHas('variants', function (Builder $b) use ($min_price, $max_price) {
+                    $b->where('visible', true);
+                    if (!empty($min_price) && !empty($max_price)) {
+                        $b->whereBetween('net_value', [$min_price, $max_price]);
+                        return;
+                    }
+
+                    if (empty($max_price)) {
+                        $b->where('net_value', '>=', $min_price);
+                        return;
+                    }
+
+                    $b->where('net_value', '<=', $max_price);
+                });
+            });
+        });
     }
 
     public function scopeVisible(Builder $builder, $visible = true): void
@@ -281,63 +297,29 @@ class Product extends Model
     |-----------------------------------------------------------------------------
     */
 
-    public function scopeFilterByPrice(Builder $query, $min_price, $max_price): void
+    public function getTrademarkAttribute(): ?string
     {
-        $query->when(!empty($min_price) || !empty($max_price), function (Builder $q) use ($min_price, $max_price) {
-            $q->where('visible', true);
-            $q->where(function (Builder $b) use ($min_price, $max_price) {
-                $b->where('has_variants', false);
-                if (!empty($min_price) && !empty($max_price)) {
-                    $b->whereBetween('net_value', [$min_price, $max_price]);
-                    return;
-                }
-
-                if (empty($max_price)) {
-                    $b->where('net_value', '>=', $min_price);
-                    return;
-                }
-
-                $b->where('net_value', '<=', $max_price);
-            });
-
-            $q->orWhere(function (Builder $b) use ($min_price, $max_price) {
-                $b->where('has_variants', true);
-                $b->whereHas('variants', function (Builder $b) use ($min_price, $max_price) {
-                    $b->where('visible', true);
-                    if (!empty($min_price) && !empty($max_price)) {
-                        $b->whereBetween('net_value', [$min_price, $max_price]);
-                        return;
-                    }
-
-                    if (empty($max_price)) {
-                        $b->where('net_value', '>=', $min_price);
-                        return;
-                    }
-
-                    $b->where('net_value', '<=', $max_price);
-                });
-            });
-        });
+        return $this->getTrademark();
     }
 
-    public function getDiscountAmountAttribute(): float
+    public function getOptionValuesAttribute($glue = ' '): string
     {
-        return round($this->price * $this->discount, 2);
+        return $this->options->pluck('pivot.value')->join($glue ?? ' ');
+    }
+
+    public function getAvailableStockAttribute(): int
+    {
+        return $this->stock - ($this->available_gt ?: 0);
     }
 
     public function getNetValueAttribute(): float
     {
-        return round($this->price - $this->discountAmount, 2);
+        return round($this->price * (1 - $this->discount), 2);
     }
 
     public function getNetValueWithoutVatAttribute(): float
     {
         return round($this->netValue / (1 + $this->vat), 2);
-    }
-
-    public function isVariant(): bool
-    {
-        return $this->parent_id !== null;
     }
 
     public function setAvailableGtAttribute($value): void
@@ -356,6 +338,41 @@ class Product extends Model
     | OTHER
     |-----------------------------------------------------------------------------
     */
+
+    public function isVariant(): bool
+    {
+        return $this->parent_id !== null;
+    }
+
+    public function isAccessible(): bool
+    {
+        if ($this->isVariant()) {
+            return $this->parent->getAttribute('visible') && $this->parent->getAttribute('available');
+        }
+
+        return $this->getAttribute('visible') || $this->getAttribute('available');
+    }
+
+    public function canBeBought(int $quantity = 1): bool
+    {
+        if (!$this->isAccessible()) {
+            return false;
+        }
+
+        return $this->available_gt === null || ($this->stock - $quantity >= $this->available_gt);
+    }
+
+    public function canDisplayStock(): bool
+    {
+        if ($this->parent_id !== null && !$this->parent->display_stock) {
+            return false;
+        }
+
+        return $this->canBeBought()
+            && $this->display_stock
+            && $this->stock > 0
+            && ($this->display_stock_lt === null || $this->stock <= $this->display_stock_lt);
+    }
 
     public function isOnSale(): bool
     {
@@ -389,6 +406,15 @@ class Product extends Model
         ]);
     }
 
+    public function delete(): ?bool
+    {
+        if ($this->has_variants) {
+            $this->variants()->delete(); // Updates deleted_at timestamp
+        }
+
+        return parent::delete();
+    }
+
     protected function registerImageConversions(): void
     {
         $this->addImageConversion('md', function ($image) {
@@ -397,7 +423,7 @@ class Product extends Model
                 $constraint->upsize();
             });
         });
-        
+
         $this->addImageConversion('sm', function ($image) {
             $image->resize(300, 300, function ($constraint) {
                 $constraint->aspectRatio();

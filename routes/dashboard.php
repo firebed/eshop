@@ -6,6 +6,7 @@ use Eshop\Controllers\Dashboard\Analytics\AnalyticsController;
 use Eshop\Controllers\Dashboard\Analytics\OrderAnalyticsController;
 use Eshop\Controllers\Dashboard\Analytics\WarehouseAnalyticsController;
 use Eshop\Controllers\Dashboard\Cart\CartController;
+use Eshop\Controllers\Dashboard\Cart\CartInvoiceController;
 use Eshop\Controllers\Dashboard\Cart\OrderPrintController;
 use Eshop\Controllers\Dashboard\Category\CategoryController;
 use Eshop\Controllers\Dashboard\Category\CategoryPropertyController;
@@ -16,15 +17,20 @@ use Eshop\Controllers\Dashboard\Intl\CountryShippingMethodController;
 use Eshop\Controllers\Dashboard\Intl\PaymentMethodController;
 use Eshop\Controllers\Dashboard\Intl\ProvinceController;
 use Eshop\Controllers\Dashboard\Intl\ShippingMethodController;
+use Eshop\Controllers\Dashboard\Invoice\ClientController;
+use Eshop\Controllers\Dashboard\Invoice\InvoiceController;
+use Eshop\Controllers\Dashboard\Invoice\InvoiceTransmissionController;
 use Eshop\Controllers\Dashboard\Page\PageController;
 use Eshop\Controllers\Dashboard\Pos\PosController;
 use Eshop\Controllers\Dashboard\Product\CollectionController;
 use Eshop\Controllers\Dashboard\Product\ManufacturerController;
+use Eshop\Controllers\Dashboard\Product\ProductAuditController;
 use Eshop\Controllers\Dashboard\Product\ProductBarcodeController;
 use Eshop\Controllers\Dashboard\Product\ProductController;
 use Eshop\Controllers\Dashboard\Product\ProductImageController;
 use Eshop\Controllers\Dashboard\Product\ProductMovementController;
 use Eshop\Controllers\Dashboard\Product\ProductTrashController;
+use Eshop\Controllers\Dashboard\Product\ProductVisibilityController;
 use Eshop\Controllers\Dashboard\Product\VariantBulkController;
 use Eshop\Controllers\Dashboard\Product\VariantBulkImageController;
 use Eshop\Controllers\Dashboard\Product\VariantController;
@@ -42,8 +48,10 @@ Route::middleware(['web', 'auth', 'admin'])->group(function () {
         Route::get('products/{product}/movements', ProductMovementController::class)->name('products.movements.index');
         Route::get('products/{product}/images', [ProductImageController::class, 'index'])->name('products.images.index');
         Route::get('products/{product}/edit', [ProductController::class, 'edit'])->name('products.edit')->withTrashed();
+        Route::post('products/{product}/visibility', ProductVisibilityController::class)->name('products.toggle-visibility');
         Route::post('products/barcode', ProductBarcodeController::class)->name('products.barcode.create');
         Route::get('products/trashed', ProductTrashController::class)->name('products.trashed.index');
+        Route::resource('products.audits', ProductAuditController::class)->shallow()->only('index', 'show');
         Route::resource('products', ProductController::class)->except('show', 'edit');
 
         Route::put('variants/images', VariantBulkImageController::class)->name('variants.bulk-images.update');
@@ -65,6 +73,7 @@ Route::middleware(['web', 'auth', 'admin'])->group(function () {
         Route::delete('collections/destroy-many', [CollectionController::class, 'destroyMany'])->name('collections.destroyMany');
         Route::resource('collections', CollectionController::class)->except('show');
 
+        Route::get('carts/{cart}/invoice', CartInvoiceController::class)->name('carts.invoice');
         Route::get('carts/{cart}/print', OrderPrintController::class)->name('carts.print');
         Route::resource('carts', CartController::class)->only('index', 'show', 'destroy');
 
@@ -102,5 +111,12 @@ Route::middleware(['web', 'auth', 'admin'])->group(function () {
         Route::resource('pages', PageController::class)->only('index', 'edit', 'update');
         
         Route::resource('pos', PosController::class)->except('index', 'show')->parameter('pos', 'cart');
+        
+        Route::post('invoices/search-clients', [InvoiceController::class, 'searchClients'])->name('invoices.search_clients');
+        Route::get('invoices/{invoice}/print', [InvoiceController::class, 'print'])->name('invoices.print');
+        Route::post('invoices/send', [InvoiceTransmissionController::class, 'send'])->name('invoices.send');
+        Route::post('invoices/cancel', [InvoiceTransmissionController::class, 'cancel'])->name('invoices.cancel');
+        Route::resource('invoices', InvoiceController::class);
+        Route::resource('clients', ClientController::class)->only('index', 'create', 'store');
     });
 });

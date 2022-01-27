@@ -1,26 +1,12 @@
-@extends('eshop::dashboard.layouts.product', ['product' => $variant->parent])
-
-@section('actions')
-    <div class="btn-group">
-        <a href="{{ route('products.variants.create', $product) }}" class="btn btn-primary"><em class="fa fa-plus me-2"></em> {{ __("eshop::variant.buttons.add_new") }}</a>
-
-        <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
-            <span class="visually-hidden">Toggle Dropdown</span>
-        </button>
-
-        <ul class="dropdown-menu dropdown-menu-end">
-            <li><a class="dropdown-item" href="{{ route('variants.bulk-create', $product) }}"><em class="fa fa-folder-plus me-2"></em> {{ __("eshop::variant.buttons.add_many") }}</a></li>
-        </ul>
-    </div>
-@endsection
+@extends('eshop::dashboard.layouts.product', ['product' => $variant->parent, 'col' => 'col-xxl-10'])
 
 @section('content')
     <div class="row justify-content-between">
-        <div class="col-12 col-lg-4 d-block">
+        <div class="col-12 col-lg-5 d-block">
             <livewire:dashboard.product.variants-table :product="$product"/>
         </div>
 
-        <div class="col-12 col-lg-8">
+        <div class="col-12 col-lg-7">
             <form action="{{ route('variants.update', $variant) }}" enctype="multipart/form-data" method="post" class="vstack gap-4"
                   x-data='{ submitting: false }'
                   x-on:submit="submitting = true"
@@ -31,18 +17,37 @@
                 <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
                     <h1 class="fs-4 mb-0">{{ $variant->option_values }}</h1>
 
-                    <div class="d-flex justify-content-end gap-1 flex-grow-1">
-                        <div class="btn-group align-self-start" role="group">
-                            <button class="btn btn-outline-secondary btn-sm" data-bs-toggle="offcanvas" data-bs-target="#label-print-dialog" type="button">
-                                <em class="fas fa-print"></em> {{ __("Labels") }}
+                    <div class="btn-toolbar gap-2 ms-auto" role="toolbar">
+                        <div class="btn-group">
+                            <button class="btn btn-primary w-3r" type="submit" x-bind:disabled="submitting">
+                                <em x-cloak x-show="submitting" class="spinner-border spinner-border-sm" role="status"></em>
+                                <em x-show="!submitting" class="fa fa-save"></em>
                             </button>
                         </div>
 
-                        <button class="btn btn-outline-primary btn-sm" type="submit" x-bind:disabled="submitting">
-                            <em x-cloak x-show="submitting" class="spinner-border spinner-border-sm" role="status"></em>
-                            <em x-show="!submitting" class="fa fa-save"></em>
-                            {{ __("Save") }}
-                        </button>
+                        <div class="btn-group align-self-start" role="group">
+                            @can('View product movements')
+                                <a class="btn btn-white w-3r text-secondary" href="{{ route('products.movements.index', $variant) }}" title="Κινήσεις">
+                                    <em class="fas fa-exchange-alt"></em>
+                                </a>
+                            @endcan
+
+                            @can('View product audits')
+                                <a class="btn btn-white w-3r text-secondary" href="{{ route('products.audits.index', $variant) }}" title="Ιστορικό αλλαγών">
+                                    <em class="fas fa-history"></em>
+                                </a>
+                            @endcan
+
+                            <button class="btn btn-white w-3r text-secondary" data-bs-toggle="offcanvas" data-bs-target="#label-print-dialog" type="button" title="Ετικέτες">
+                                <em class="fas fa-receipt"></em>
+                            </button>
+                                
+                            @if(productRouteExists())
+                                <a class="btn btn-white w-3r text-secondary" href="{{ productRoute($variant) }}" title="Προβολή">
+                                    <em class="fas fa-eye"></em>
+                                </a>
+                            @endif
+                        </div>
                     </div>
                 </div>
 

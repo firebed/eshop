@@ -3,7 +3,7 @@
         <thead>
         <tr>
             <td>{{ __("eshop::product.variant_type.name") }}</td>
-            <td class="w-2r">&nbsp;</td>
+            <td>&nbsp;</td>
         </tr>
         </thead>
 
@@ -19,10 +19,20 @@
                         <option value="{{ __('eshop::product.variant_type.material') }}"></option>
                     </datalist>
                 </td>
-                <td class="text-end">
-                    <button wire:click.prevent="remove({{ $index }})" wire:loading.attr="disabled" class="btn btn-sm btn-link shadow-none">
-                        <em class="far fa-trash-alt"></em>
-                    </button>
+                <td class="align-middle text-end">
+                    <div class="d-flex justify-content-end gap-1">
+                        <button wire:click.prevent="moveUp({{ $index }})" wire:target="moveUp({{ $index }})" wire:loading.attr="disabled" class="btn btn-sm btn-link shadow-none" @if($loop->first) disabled @endif>
+                            <em class="fas fa-chevron-up"></em>
+                        </button>
+
+                        <button wire:click.prevent="moveDown({{ $index }})" wire:target="moveDown({{ $index }})" wire:loading.attr="disabled" class="btn btn-sm btn-link shadow-none" @if($loop->last) disabled @endif>
+                            <em class="fas fa-chevron-down"></em>
+                        </button>
+
+                        <button wire:click.prevent="remove({{ $index }})" wire:loading.attr="disabled" class="btn btn-sm btn-link shadow-none">
+                            <em class="far fa-trash-alt"></em>
+                        </button>
+                    </div>
                 </td>
             </tr>
         @endforeach

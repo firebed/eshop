@@ -1,13 +1,12 @@
 <?php
 
-namespace Eshop\Models\Invoice;
+namespace Eshop\Models\User;
 
-use Eshop\Models\Location\Address;
-use Eshop\Models\User;
+use Eshop\Models\Invoice\Billable;
+use Eshop\Models\Location\Addressable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Query\Builder;
 
 /**
@@ -26,7 +25,7 @@ use Illuminate\Database\Query\Builder;
  */
 class Company extends Model
 {
-    use HasFactory;
+    use HasFactory, Addressable, Billable;
 
     protected $fillable = [
         'name',
@@ -40,13 +39,10 @@ class Company extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function address(): MorphOne
-    {
-        return $this->morphOne(Address::class, 'addressable');
-    }
-
     public function delete(): bool|null
     {
-        return $this->address()->delete() && parent::delete();
+        return $this->address()->delete()
+            && $this->invoices()->delete()
+            && parent::delete();
     }
 }

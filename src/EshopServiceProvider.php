@@ -8,8 +8,7 @@ use Eshop\Commands\SitemapCommand;
 use Eshop\Middleware\Admin;
 use Eshop\Middleware\Locale;
 use Eshop\Models\Cart\Cart;
-use Eshop\Models\Invoice\Company;
-use Eshop\Models\Invoice\Invoice;
+use Eshop\Models\Cart\CartInvoice;
 use Eshop\Models\Location\CountryPaymentMethod;
 use Eshop\Models\Location\CountryShippingMethod;
 use Eshop\Models\Product\Category;
@@ -20,7 +19,8 @@ use Eshop\Models\Product\Product;
 use Eshop\Models\Product\VariantType;
 use Eshop\Models\Seo\Seo;
 use Eshop\Models\Slide\Slide;
-use Eshop\Models\User;
+use Eshop\Models\User\Company;
+use Eshop\Models\User\User;
 use Eshop\Providers\AuthServiceProvider;
 use Eshop\Providers\CartServiceProvider;
 use Eshop\Providers\EventServiceProvider;
@@ -74,6 +74,7 @@ class EshopServiceProvider extends ServiceProvider
     private function registerConfig(): void
     {
         $this->mergeConfigFrom(__DIR__ . '/../config/colors.php', 'colors');
+        $this->mergeConfigFrom(__DIR__ . '/../config/eshop.php', 'eshop');
     }
 
     private function registerTranslations(): void
@@ -94,7 +95,7 @@ class EshopServiceProvider extends ServiceProvider
             CategoryBreadcrumb::class,
             TrendingProducts::class,
         ]);
-        
+
         Blade::component(Sales::class, 'sales');
         Blade::component(NewArrivals::class, 'new-arrivals');
         Blade::component(TrendingProducts::class, 'trending-products');
@@ -103,6 +104,7 @@ class EshopServiceProvider extends ServiceProvider
 
     private function registerRoutes(): void
     {
+        $this->loadRoutesFrom(__DIR__ . '/../stubs/routes/routes.php');
         $this->loadRoutesFrom(__DIR__ . '/../routes/dashboard.php');
     }
 
@@ -156,7 +158,7 @@ class EshopServiceProvider extends ServiceProvider
             'manufacturer'            => Manufacturer::class,
             //
             'cart'                    => Cart::class,
-            'invoice'                 => Invoice::class,
+            'cart_invoice'            => CartInvoice::class,
             'company'                 => Company::class,
             //
             'seo'                     => Seo::class,

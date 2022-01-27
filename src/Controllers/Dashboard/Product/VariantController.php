@@ -2,8 +2,9 @@
 
 namespace Eshop\Controllers\Dashboard\Product;
 
+use Eshop\Actions\Audit\AuditModel;
+use Eshop\Actions\Product\UpdateProduct;
 use Eshop\Controllers\Dashboard\Controller;
-use Eshop\Controllers\Dashboard\Product\Traits\WithImage;
 use Eshop\Controllers\Dashboard\Product\Traits\WithVariantOptions;
 use Eshop\Controllers\Dashboard\Traits\WithNotifications;
 use Eshop\Models\Product\Product;
@@ -19,9 +20,7 @@ use Throwable;
 
 class VariantController extends Controller
 {
-    use WithNotifications,
-        WithVariantOptions,
-        WithImage;
+    use WithNotifications, WithVariantOptions;
 
     public function __construct()
     {
@@ -43,16 +42,17 @@ class VariantController extends Controller
         ]);
     }
 
-    public function store(VariantRequest $request, Product $product, BarcodeService $barcodeService): RedirectResponse
+    public function store(VariantRequest $request, Product $product, AuditModel $audit): RedirectResponse
     {
         try {
             $variant = $product->replicate(['slug', 'has_variants', 'variants_display', 'preview_variants', 'net_value']);
 
-            DB::transaction(function () use ($request, $product, $variant, $barcodeService) {
+            DB::transaction(function () use ($request, $product, $variant, $audit) {
                 $variant->fill($request->only($variant->getFillable()));
 
-                if (blank($variant->barcode) && $barcodeService->shouldFill()) {
-                    $variant->barcode = $barcodeService->generateForVariant($product);
+                if (blank($variant->barcode)) {
+                    $barcode = app()->make(BarcodeService::class);
+                    $variant->barcode = $barcode->shouldFill() ? $barcode->generateForVariant($product) : null;
                 }
 
                 $product->variants()->save($variant);
@@ -64,6 +64,8 @@ class VariantController extends Controller
                 if ($request->hasFile('image')) {
                     $variant->saveImage($request->file('image'));
                 }
+
+                $audit->handle($variant);
             });
 
             $this->showSuccessNotification(trans('eshop::variant.notifications.created'));
@@ -88,36 +90,34 @@ class VariantController extends Controller
         ]);
     }
 
-    public function update(VariantRequest $request, Product $variant): RedirectResponse
+    public function update(VariantRequest $request, Product $variant, UpdateProduct $update, AuditModel $audit): RedirectResponse
     {
+        DB::beginTransaction();
+        
         try {
-            DB::transaction(function () use ($request, $variant) {
-                $variant->update($request->only($variant->getFillable()));
+            $update->handle($variant, $request);
+            $audit->handle($variant);
+            DB::commit();
 
-                $variant->seo()->updateOrCreate([], $request->input('seo'));
-
-                $variant->options()->sync([]);
-                $this->saveVariantOptions($variant, $request->input('options'));
-
-                if ($request->hasFile('image')) {
-                    $this->replaceImage($variant, $request->file('image'));
-                }
-
-                $this->showSuccessNotification(trans('eshop::variant.notifications.saved'));
-            });
-        } catch (Throwable) {
+            $this->showSuccessNotification(trans('eshop::notifications.saved'));
+        } catch (Throwable $e) {
+            throw $e;
+            DB::rollBack();
             $request->flash();
             $this->showErrorNotification(trans('eshop::variant.notifications.error'));
         }
-
+        
         return back();
     }
 
-    public function destroy(Product $variant): RedirectResponse
+    public function destroy(Product $variant, AuditModel $audit): RedirectResponse
     {
-        $variant->delete();
-
-        $this->showSuccessNotification(trans('eshop::variant.notifications.deleted'));
+        DB::transaction(function () use ($variant, $audit) {
+            $variant->delete();
+            $audit->handle($variant, true);
+            
+            $this->showSuccessNotification(trans('eshop::variant.notifications.deleted'));
+        });
 
         return redirect()->route('products.variants.index', $variant->parent_id);
     }
