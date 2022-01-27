@@ -76,7 +76,7 @@
 @push('footer_scripts')
     <script>
         const cancellationModal = bootstrap.Modal.getInstance(document.getElementById('confirm-cancellation'));
-        document.getElementById('confirm-cancellation').addEventListener('show.bs.modal', function(event) {
+        document.getElementById('confirm-cancellation').addEventListener('show.bs.modal', function() {
             const cont = document.getElementById('cancel-invoice-ids');
             cont.innerHTML = "";
             

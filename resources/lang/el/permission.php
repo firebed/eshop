@@ -20,5 +20,7 @@ return [
     'Manage POS'                      => 'Διαχείριση POS',
     'View dashboard'                  => 'Προβολή πίνακα ελέγχου',
     'Create POS order'                => 'Δημιουργία παραγγελιών μέσω POS',
-    'Manage assigned orders'          => 'Διαχείριση εκχωρημένων παραγγελιών'
+    'Manage assigned orders'          => 'Διαχείριση εκχωρημένων παραγγελιών',
+    'View product movements'          => 'Κινήσεις προϊόντων',
+    'Manage invoices'                 => 'Διαχείριση τιμολογίων',
 ];
