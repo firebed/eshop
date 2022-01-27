@@ -23,4 +23,5 @@ return [
     'Manage assigned orders'          => 'Διαχείριση εκχωρημένων παραγγελιών',
     'View product movements'          => 'Κινήσεις προϊόντων',
     'Manage invoices'                 => 'Διαχείριση τιμολογίων',
+    'View product audits'             => 'Ιστορικό αλλαγών προϊόντων',
 ];
