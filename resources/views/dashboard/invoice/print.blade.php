@@ -120,7 +120,7 @@
         </thead>
         <tbody>
         <tr>
-            <td class="text-center">{{ $invoice->type->name }}</td>
+            <td class="text-center">{{ $invoice->type->label() }}</td>
             <td class="text-center">{{ $invoice->row }}</td>
             <td class="text-center">{{ $invoice->number }}</td>
             <td class="text-center">{{ $invoice->published_at->format('d/m/Y') }}</td>

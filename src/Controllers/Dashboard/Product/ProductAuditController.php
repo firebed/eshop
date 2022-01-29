@@ -13,7 +13,7 @@ class ProductAuditController extends Controller
     public function index(Product $product): Renderable
     {
         $audits = $product->audits()->with('user')->latest()->paginate();
-        
+
         return $this->view('product-audits.index', compact('product', 'audits'));
     }
 

@@ -15,7 +15,7 @@ class CreateInvoiceTransmissionsTable extends Migration
     {
         Schema::create('invoice_transmissions', static function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('invoice_id');
+            $table->foreignId('invoice_id')->constrained()->cascadeOnDelete();
             $table->string('uid');
             $table->string('mark');
             $table->string('cancelled_by_mark')->nullable();

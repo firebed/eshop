@@ -60,6 +60,32 @@ class CartInvoiceController extends Controller
                 'vat_percent' => $client->country === 'GR' ? $product->pivot->vat : 0,
             ];
         }
+        
+        if ($cart->shipping_fee > 0) {
+            $rows[] = [
+                'id'          => '',
+                'code'        => 'SHP',
+                'description' => 'Μεταφορικά έξοδα (' . __("eshop::shipping." . $cart->shippingMethod->name) . ')',
+                'unit'        => UnitMeasurement::Pieces->value,
+                'quantity'    => 1,
+                'price'       => round($cart->shipping_fee / (1 + 0.24), 4),
+                'discount'    => 0,
+                'vat_percent' => $client->country === 'GR' ? 0.24 : 0,
+            ];            
+        }
+
+        if ($cart->payment_fee > 0) {
+            $rows[] = [
+                'id'          => '',
+                'code'        => 'PYM',
+                'description' => 'Έξοδα πληρωμής (' . __("eshop::payment." . $cart->paymentMethod->name) . ')',
+                'unit'        => UnitMeasurement::Pieces->value,
+                'quantity'    => 1,
+                'price'       => round($cart->payment_fee / (1 + 0.24), 4),
+                'discount'    => 0,
+                'vat_percent' => $client->country === 'GR' ? 0.24 : 0,
+            ];
+        }
 
         session()->flashInput([
             'type'                => InvoiceType::TPA->value,

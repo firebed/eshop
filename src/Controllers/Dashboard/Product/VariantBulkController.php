@@ -128,7 +128,10 @@ class VariantBulkController extends Controller
         }
         
         DB::transaction(function() use ($request) {
-            $models = Product::findMany($request->input('bulk_ids'));
+            $models = Product::with('category', 'translations', 'parent.translations', 'options', 'manufacturer', 'unit', 'seos')
+                ->whereKey($request->input('bulk_ids'))
+                ->get();
+            
             foreach ($models as $model) {
                 $this->audit->handle($model);
             }
