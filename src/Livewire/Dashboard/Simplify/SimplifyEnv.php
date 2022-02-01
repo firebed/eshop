@@ -9,13 +9,13 @@ use Livewire\Component;
 
 class SimplifyEnv extends Component
 {
-    public string $environment = "";
+    public ?string $environment = "";
 
-    public string $sandboxPublicKey  = "";
-    public string $sandboxPrivateKey = "";
+    public ?string $sandboxPublicKey  = "";
+    public ?string $sandboxPrivateKey = "";
 
-    public string $livePublicKey  = "";
-    public string $livePrivateKey = "";
+    public ?string $livePublicKey  = "";
+    public ?string $livePrivateKey = "";
 
     public function mount(): void
     {
