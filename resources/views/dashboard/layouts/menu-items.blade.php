@@ -173,3 +173,12 @@
         </a>
     </li>
 @endcan
+
+@can('Configure simplify')
+    <li class="nav-item">
+        <a href="{{ route('simplify.index') }}" @class([$link, $active => request()->routeIs('simplify.*')])>
+            <em class="fa fa-credit-card"></em>
+            <span>{{ __("Simplify") }}</span>
+        </a>
+    </li>
+@endcan

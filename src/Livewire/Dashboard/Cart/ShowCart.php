@@ -5,6 +5,7 @@ namespace Eshop\Livewire\Dashboard\Cart;
 
 
 use Eshop\Livewire\Dashboard\Cart\Traits\AppliesBulkDiscount;
+use Eshop\Livewire\Dashboard\Cart\Traits\AppliesBulkVat;
 use Eshop\Livewire\Traits\TrimStrings;
 use Eshop\Models\Cart\Cart;
 use Eshop\Models\Cart\CartProduct;
@@ -23,6 +24,7 @@ class ShowCart extends Component
     use SendsNotifications;
     use TrimStrings;
     use AppliesBulkDiscount;
+    use AppliesBulkVat;
     use WithSelections;
     use DeletesRows;
     use WithCRUD;

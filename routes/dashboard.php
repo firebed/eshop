@@ -35,13 +35,20 @@ use Eshop\Controllers\Dashboard\Product\VariantBulkController;
 use Eshop\Controllers\Dashboard\Product\VariantBulkImageController;
 use Eshop\Controllers\Dashboard\Product\VariantController;
 use Eshop\Controllers\Dashboard\SidebarController;
+use Eshop\Controllers\Dashboard\Simplify\SimplifyController;
+use Eshop\Controllers\Dashboard\Simplify\SimplifyWebhookController;
 use Eshop\Controllers\Dashboard\Slide\SlideController;
 use Eshop\Controllers\Dashboard\User\UserController;
 use Eshop\Controllers\Dashboard\User\UserPermissionController;
 use Illuminate\Support\Facades\Route;
 
+Route::post('simplify/webhook', SimplifyWebhookController::class)->middleware('web');
+
 Route::middleware(['web', 'auth', 'admin'])->group(function () {
     Route::prefix('dashboard')->group(function () {
+        Route::post('simplify/checkout', [SimplifyController::class, 'checkout'])->name('simplify.checkout');
+        Route::get('simplify', [SimplifyController::class, 'index'])->name('simplify.index');
+        
         Route::put('sidebar', SidebarController::class);
         Route::put('theme', ThemeController::class);
 
@@ -111,11 +118,12 @@ Route::middleware(['web', 'auth', 'admin'])->group(function () {
         Route::resource('pages', PageController::class)->only('index', 'edit', 'update');
         
         Route::resource('pos', PosController::class)->except('index', 'show')->parameter('pos', 'cart');
+
+        Route::post('invoices/send', [InvoiceTransmissionController::class, 'send'])->name('invoices.send');
+        Route::post('invoices/cancel', [InvoiceTransmissionController::class, 'cancel'])->name('invoices.cancel');
         
         Route::post('invoices/search-clients', [InvoiceController::class, 'searchClients'])->name('invoices.search_clients');
         Route::get('invoices/{invoice}/print', [InvoiceController::class, 'print'])->name('invoices.print');
-        Route::post('invoices/send', [InvoiceTransmissionController::class, 'send'])->name('invoices.send');
-        Route::post('invoices/cancel', [InvoiceTransmissionController::class, 'cancel'])->name('invoices.cancel');
         Route::resource('invoices', InvoiceController::class);
         Route::resource('clients', ClientController::class)->only('index', 'create', 'store');
     });

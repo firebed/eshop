@@ -5,7 +5,6 @@ namespace Eshop\Livewire\Dashboard\Cart;
 use Eshop\Livewire\Traits\TrimStrings;
 use Eshop\Models\Cart\Cart;
 use Eshop\Models\Cart\DocumentType;
-use Eshop\Models\Location\Address;
 use Firebed\Components\Livewire\Traits\SendsNotifications;
 use Illuminate\Contracts\Support\Renderable;
 use Livewire\Component;
@@ -24,8 +23,7 @@ class Invoice extends Component
     protected $listeners = ['cartDocumentUpdated'];
 
     protected $rules = [
-        'invoice.billable_id'   => 'required_if:isInvoice,true|integer',
-        'invoice.billable_type' => 'required_if:isInvoice,true|string',
+        'invoice.cart_id'       => 'required_if:isInvoice,true|integer',
         'invoice.name'          => 'required_if:isInvoice,true|string',
         'invoice.job'           => 'nullable|string',
         'invoice.vat_number'    => 'required_if:isInvoice,true|string',
@@ -61,7 +59,7 @@ class Invoice extends Component
     public function save(): void
     {
         $this->validate();
-        
+
         if ($this->isInvoice) {
             $this->invoice->save();
             $this->invoice->billingAddress()->save($this->invoiceBilling);

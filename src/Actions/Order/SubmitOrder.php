@@ -32,7 +32,7 @@ class SubmitOrder
             $user->addresses()->save($cart->shippingAddress->replicate(['cluster']));
         }
 
-        DB::afterCommit(function () use ($cart) {
+        DB::afterCommit(static function () use ($cart) {
             session()->forget(['cart-session-id', 'countryShippingMethod', 'countryPaymentMethod']);
             cookie()->queue(cookie()->forget('cart-cookie-id'));
 

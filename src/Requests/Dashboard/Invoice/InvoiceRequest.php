@@ -29,6 +29,7 @@ class InvoiceRequest extends FormRequest
             'payment_method'      => ['required', new Enum(PaymentMethod::class)],
             'relative_document'   => ['nullable', 'string'],
             'transaction_purpose' => ['nullable', 'string'],
+            'published_at'        => ['nullable', 'date'],
             'row'                 => ['nullable', 'string'],
             'number'              => ['nullable', 'integer'],
             'rows'                => ['required', 'array'],

@@ -25,6 +25,7 @@ class CartOverview extends Component
         'cart-items-created'          => '$refresh',
         'cart-items-updated'          => '$refresh',
         'cart-items-discount-updated' => '$refresh',
+        'cart-items-vat-updated'      => '$refresh',
     ];
 
     public function edit(): void
@@ -71,7 +72,7 @@ class CartOverview extends Component
         }
 
         $profit = $this->cart->items()->selectRaw("SUM(quantity * (price * (1 - discount) / (1 + vat) - compare_price)) as profits")->first();
-        
+
         return view('eshop::dashboard.cart.wire.cart-overview', [
             'shippingMethods' => $shippingMethods,
             'paymentMethods'  => $paymentMethods,

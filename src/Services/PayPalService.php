@@ -90,8 +90,7 @@ class PayPalService
             ]
         ];
 
-        $client = self::client();
-        return $client->execute($request);
+        return self::client()->execute($request);
     }
 
     public function capture(string $orderId): HttpResponse

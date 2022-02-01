@@ -44,6 +44,7 @@ use Eshop\Livewire\Dashboard\Product\ShowTrashedProducts;
 use Eshop\Livewire\Dashboard\Product\VariantBulkCreateTable;
 use Eshop\Livewire\Dashboard\Product\VariantsTable;
 use Eshop\Livewire\Dashboard\Product\VariantTypes;
+use Eshop\Livewire\Dashboard\Simplify\SimplifyEnv;
 use Eshop\Livewire\Dashboard\Slide\ShowSlides;
 use Eshop\Livewire\Dashboard\User\ShowUserPermissions;
 use Eshop\Livewire\Dashboard\User\ShowUsers;
@@ -133,5 +134,8 @@ class LivewireServiceProvider extends ServiceProvider
         Livewire::component('dashboard.invoice.rows', InvoiceRows::class);
         Livewire::component('dashboard.invoice.search-products', InvoiceSearchProduct::class);
         Livewire::component('dashboard.client.show-clients', ShowClients::class);
+        
+        // Simplify
+        Livewire::component('dashboard.simplify.env', SimplifyEnv::class);
     }
 }

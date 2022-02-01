@@ -11,6 +11,11 @@
                         <em class="fa fa-percentage me-2 text-gray-600"></em> {{ __("Set discount") }}
                     </x-bs::dropdown.item>
 
+
+                    <x-bs::dropdown.item wire:click.prevent="openVatModal">
+                        <em class="fa fa-percentage me-2 text-gray-600"></em> Αλλαγή ΦΠΑ
+                    </x-bs::dropdown.item>
+                    
                     <x-bs::dropdown.divider/>
 
                     <x-bs::dropdown.item wire:click.prevent="confirmDelete">

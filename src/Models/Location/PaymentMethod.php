@@ -22,11 +22,12 @@ class PaymentMethod extends Model
 {
     use HasFactory;
 
-    public const PAYPAL           = 'paypal';
-    public const CREDIT_CARD      = 'credit_card';
-    public const WIRE_TRANSFER    = 'wire_transfer';
-    public const PAY_ON_DELIVERY  = 'pay_on_delivery';
-    public const PAYMENT_IN_STORE = 'pay_in_out_store';
+    public const PAYPAL               = 'paypal';
+    public const CREDIT_CARD          = 'credit_card';
+    public const CREDIT_CARD_SIMPLIFY = 'credit_card_simplify';
+    public const WIRE_TRANSFER        = 'wire_transfer';
+    public const PAY_ON_DELIVERY      = 'pay_on_delivery';
+    public const PAYMENT_IN_STORE     = 'pay_in_our_store';
 
     protected $fillable = ['name', 'show_total_on_order_form'];
 
@@ -50,6 +51,11 @@ class PaymentMethod extends Model
     public function isCreditCard(): bool
     {
         return $this->name === self::CREDIT_CARD;
+    }
+
+    public function isCreditCardSimplify(): bool
+    {
+        return $this->name === self::CREDIT_CARD_SIMPLIFY;
     }
 
     public function isWireTransfer(): bool
