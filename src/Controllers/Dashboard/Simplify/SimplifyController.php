@@ -16,19 +16,21 @@ class SimplifyController extends Controller
 
     public function checkout(Request $request)
     {
+        $total = 50; // 50 cents
+
         $simplify = new SimplifyService();
-        
+
         if ($request->missing('token')) {
             $request->validate([
                 'cc_number' => ['required', 'int', 'digits:16'],
                 'cc_expiry' => ['required', 'string', 'regex:/^\d{2}\/\d{2}$/'],
                 'cc_cvc'    => ['required', 'string']
             ]);
-            
+
             [$month, $year] = explode("/", $request->input('cc_expiry'));
 
-            $result = $simplify->createCardToken(
-//                50,
+            $response = $simplify->createCardTokenUsing3dSecure(
+                $total,
                 $request->input('cc_number'),
                 $month,
                 $year,
@@ -37,14 +39,20 @@ class SimplifyController extends Controller
             );
 
             return response()->json([
-                'card' => $result->card,
-                '3dsecure' => $result->card->secure3DData,
-                'id'   => $result->id,
+                'total'       => $total,
+                'currency'    => 'EUR',
+                'description' => 'Purchase',
+                'token'       => $response->id,
+                'secure3D'    => $response->card->secure3DData,
             ]);
         }
 
-        $response = $simplify->createPayment(50, $request->input('token'));
+        $response = $simplify->createPayment($total, $request->input('token'));
 
-        return response()->json($response);
+        if ($response->paymentStatus === "APPROVED") {
+            return response()->json($response);
+        }
+        
+        dd($response);
     }
 }

@@ -65,6 +65,7 @@ class ProductRequest extends FormRequest
             'image'               => ['nullable', 'image'],
             'images'              => ['nullable', 'array'],
             'images.*'            => ['nullable', 'image'],
+            'watermark'           => ['nullable'],
 
             # Properties / Attributes / Choices
             'properties.values'   => ['nullable', 'array'],

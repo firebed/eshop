@@ -18,6 +18,11 @@
                     {{ __('eshop::variant.bulk-actions.image') }}
                 </x-bs::dropdown.item>
 
+                <x-bs::dropdown.item x-on:click.prevent="$wire.addWatermark([...document.querySelectorAll('#variants-table tbody input:checked')].map(i => i.value))">
+                    <em class="far fa-copyright  me-2 text-secondary w-1r"></em>
+                    Watermark
+                </x-bs::dropdown.item>
+                
                 <x-bs::dropdown.divider/>
 
                 <x-bs::dropdown.item data-bs-toggle="modal" data-bs-target="#variant-bulk-edit-modal" data-property="price" data-title="{{ __('eshop::variant.bulk-actions.price') }}">
@@ -37,12 +42,12 @@
 
                 <x-bs::dropdown.divider/>
 
-                <x-bs::dropdown.item x-on:click.prevent="$wire.toggleVisible([...document.querySelectorAll('#variants-table tbody input')].map(i => i.value), true)">
+                <x-bs::dropdown.item x-on:click.prevent="$wire.toggleVisible([...document.querySelectorAll('#variants-table tbody input:checked')].map(i => i.value), true)">
                     <em class="fa fa-eye me-2 text-secondary w-1r"></em>
                     {{ __('eshop::variant.bulk-actions.make_visible') }}
                 </x-bs::dropdown.item>
 
-                <x-bs::dropdown.item x-on:click.prevent="$wire.toggleVisible([...document.querySelectorAll('#variants-table tbody input')].map(i => i.value), false)">
+                <x-bs::dropdown.item x-on:click.prevent="$wire.toggleVisible([...document.querySelectorAll('#variants-table tbody input:checked')].map(i => i.value), false)">
                     <em class="fa fa-eye-slash me-2 text-secondary w-1r"></em>
                     {{ __('eshop::variant.bulk-actions.make_hidden') }}
                 </x-bs::dropdown.item>

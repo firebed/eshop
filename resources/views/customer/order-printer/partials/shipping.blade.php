@@ -24,6 +24,6 @@
     </tr>
     <tr>
         <td class="text-secondary">{{ __("Country") }}</td>
-        <td>{{ $cart->shippingAddress?->country->name }}</td>
+        <td>{{ $cart->shippingAddress?->country?->name }}</td>
     </tr>
 </table>

@@ -1,4 +1,4 @@
-<x-bs::card>
+<x-bs::card class="h-100">
     <x-bs::card.body>
         <div class="fs-5 fw-500 mb-3">{{ __('Primary details') }}</div>
 

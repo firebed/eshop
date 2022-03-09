@@ -1,11 +1,13 @@
 <div class="col-12 col-lg-7 col-xxl-8 bg-light d-flex flex-column px-0" style="height: calc(100vh - 3.5rem)">
-    <div class="d-grid p-2 border-bottom shadow-sm bg-white">
+    <div class="d-grid gap-2 p-2 border-bottom shadow-sm bg-white">
+        <input wire:model="search" type="search" placeholder="Αναζήτηση" class="form-control">
+        
         <div class="d-flex flex-nowrap table-responsive scrollbar gap-2">
             @include("eshop::dashboard.pos.partials.pos-navigation")
         </div>
     </div>
 
-    <div class="p-3 flex-grow-1 overflow-auto scrollbar">
+    <div class="p-2 flex-grow-1 overflow-auto scrollbar">
         <div class="row row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-lg-3 row-cols-xxl-5 g-2">
             @if(isset($categories))
                 @include("eshop::dashboard.pos.partials.pos-categories")

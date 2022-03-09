@@ -15,7 +15,7 @@
                     <x-bs::dropdown.item wire:click.prevent="openVatModal">
                         <em class="fa fa-percentage me-2 text-gray-600"></em> Αλλαγή ΦΠΑ
                     </x-bs::dropdown.item>
-                    
+
                     <x-bs::dropdown.divider/>
 
                     <x-bs::dropdown.item wire:click.prevent="confirmDelete">
@@ -64,7 +64,10 @@
                                     </a>
                                     <div class="text-secondary">{{ $product->parent->name }}</div>
                                 @else
-                                    <div class="fw-500"><span class="text-secondary">{{ $product->sku }}</span> <span>{{ $product->name }}</span></div>
+                                    <a href="{{ route('products.edit', $product->id) }}" class="text-hover-underline">
+                                        <span class="fw-500">{{ $product->name }}</span>
+                                        <small class="text-secondary">(SKU: {{ $product->sku }})</small>
+                                    </a>
                                 @endif
                                 <div class="hstack gap-2 align-items-baseline text-nowrap">
                                     @if($product->stock > $product->available_gt)
@@ -75,7 +78,7 @@
                                         <span class="fw-500 rounded-pill small bg-red-400 px-3"><em class="fas fa-boxes me-2"></em>{{ format_number($product->stock) }}</span>
                                     @endif
                                     <span class="fw-500 rounded-pill small bg-gray-200 px-3"><em class="fas fa-weight-hanging text-secondary me-2"></em>{{ format_weight($product->weight) }}</span>
-{{--                                    <small class="text-secondary">{{ $product->pivot->created_at->format('d/m/y H:i:s') }}</small>--}}
+                                    {{--                                    <small class="text-secondary">{{ $product->pivot->created_at->format('d/m/y H:i:s') }}</small>--}}
                                 </div>
                             </div>
                         </td>

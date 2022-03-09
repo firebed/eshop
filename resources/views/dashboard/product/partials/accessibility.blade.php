@@ -1,5 +1,5 @@
 <div class="card shadow-sm">
-    <div x-data="{ has_variants: {{ $product->has_variants ? 'true' : 'false' }} }" x-on:updated-variant-types.window="has_variants = ($event.detail > 0)" class="card-body">
+    <div x-data="{ has_variants: {{ isset($product) && $product->has_variants ? 'true' : 'false' }} }" x-on:updated-variant-types.window="has_variants = ($event.detail > 0)" class="card-body">
         <div class="fw-500 mb-3">{{ __("Accessibility") }}</div>
 
         <div class="d-grid">
@@ -15,10 +15,11 @@
                 {{ __("Customers can see the available stock") }}
             </x-bs::input.switch>
 
+            <x-bs::input.switch name="recent" :checked="old('recent', $product->recent ?? false)" id="recent">
+                {{ __("Display new label") }}
+            </x-bs::input.switch>
+            
             <div x-show="!has_variants" x-transition>
-                <x-bs::input.switch name="recent" :checked="old('recent', $product->recent ?? false)" id="recent">
-                    {{ __("Display new label") }}
-                </x-bs::input.switch>
 
                 <div class="row mt-3">
                     <div x-data="{ number: '{{ old('available_gt', isset($product) ? $product->available_gt : 0) }}' }" class="col">

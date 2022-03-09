@@ -107,40 +107,42 @@ class InvoiceController extends Controller
 
     public function print(Invoice $invoice): StreamedResponse
     {
-        return response()->stream(function () use ($invoice) {
+        $vats = $invoice->rows
+            ->groupBy(fn(InvoiceRow $row) => (string)$row->vat_percent)
+            ->map(function ($g, $vat) {
+                $total_net_value = round($g->sum(fn($r) => $r['quantity'] * round($r['price'] * (1 - $r['discount']), 4)), 2);
+                return [
+                    'total_net_value'  => $total_net_value,
+                    'total_vat_amount' => round($total_net_value * $vat, 2)
+                ];
+            });
+
+        $total_value = round($invoice->rows->sum(fn($r) => $r->quantity * $r->price), 2);
+        $total_net_value = $vats->sum('total_net_value');
+        $discount_amount = $total_value - $total_net_value;
+        $total_vat_amount = $vats->sum('total_vat_amount');
+        
+        $html = $this->view('invoice.print', [
+            'invoice'          => $invoice,
+            'units'            => $invoice->rows->groupBy(fn(InvoiceRow $row) => $row->unit->value),
+            'vats'             => $vats,
+            'total_value'      => $total_value,
+            'discount_amount'  => $discount_amount,
+            'total_net_value'  => $total_net_value,
+            'total_vat_amount' => $total_vat_amount
+        ]);
+
+        return response()->stream(function () use ($invoice, $html) {
             $pdf = new Dompdf(['enable_remote' => true]);
 
-            $vats = $invoice->rows
-                ->groupBy(fn(InvoiceRow $row) => (string)$row->vat_percent)
-                ->map(function ($g, $vat) {
-                    $total_net_value = round($g->sum(fn($r) => $r['quantity'] * round($r['price'] * (1 - $r['discount']), 4)), 2);
-                    return [
-                        'total_net_value'  => $total_net_value,
-                        'total_vat_amount' => round($total_net_value * $vat, 2)
-                    ];
-                });
-
-            $total_value = round($invoice->rows->sum(fn($r) => $r->quantity * $r->price), 2);
-            $total_net_value = $vats->sum('total_net_value');
-            $discount_amount = $total_value - $total_net_value;
-            $total_vat_amount = $vats->sum('total_vat_amount');
-
-            $pdf->loadHtml($this->view('invoice.print', [
-                'invoice'          => $invoice,
-                'units'            => $invoice->rows->groupBy(fn(InvoiceRow $row) => $row->unit->value),
-                'vats'             => $vats,
-                'total_value'      => $total_value,
-                'discount_amount'  => $discount_amount,
-                'total_net_value'  => $total_net_value,
-                'total_vat_amount' => $total_vat_amount
-            ]));
+            $pdf->loadHtml($html);
 
             $pdf->render();
             $pdf->stream('invoice-' . $invoice->number . '.pdf', ['Attachment' => 0]);
         });
     }
 
-    private function updateTotals(Invoice $invoice, Collection $rows)
+    private function updateTotals(Invoice $invoice, Collection $rows): void
     {
         $values = $rows->groupBy('vat_percent')
             ->map(fn($g) => round($g->sum(fn($r) => $r['quantity'] * $r['price'] * (1 - $r['discount'])), 2));

@@ -6,6 +6,7 @@ require_once(__DIR__ . '/../../../lib/simplify/Simplify.php');
 
 use Error;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Simplify;
 use Simplify_CardToken;
 use Simplify_Event;
@@ -19,8 +20,13 @@ class SimplifyService
 {
     public function __construct()
     {
-        Simplify::$publicKey = config('simplify.public_key');
-        Simplify::$privateKey = config('simplify.private_key');
+        if (Cache::get('SIMPLIFY_ENVIRONMENT') === 'sandbox') {
+            Simplify::$publicKey = Cache::get('SIMPLIFY_SANDBOX_PUBLIC_KEY');
+            Simplify::$privateKey = Cache::get('SIMPLIFY_SANDBOX_PRIVATE_KEY');
+        } else {
+            Simplify::$publicKey = Cache::get('SIMPLIFY_LIVE_PUBLIC_KEY');
+            Simplify::$privateKey = Cache::get('SIMPLIFY_LIVE_PRIVATE_KEY');
+        }
     }
 
     public function createCardToken(string $number, string $expMonth, string $expYear, string $cvc, string $addressCity)
@@ -37,7 +43,7 @@ class SimplifyService
     }
 
     public function createCardTokenUsing3dSecure(float $total, string $number, string $expMonth, string $expYear, string $cvc, string $addressCity)
-    {
+    {        
         $amount = $this->getTotal($total);
 
         return Simplify_CardToken::createCardToken([
@@ -64,7 +70,7 @@ class SimplifyService
             'amount'      => $amount,
             'token'       => $token,
             'description' => 'Purchase from ' . config('app.name'),
-            'reference'   => '',
+            'reference'   => 'Test payment',
             'currency'    => 'EUR'
         ]);
     }
@@ -109,9 +115,9 @@ class SimplifyService
         )));
     }
 
-    private function getTotal(float $total): int
+    public function getTotal(float $total): int
     {
-        $amount = (int)round($total, 2) * 100;
+        $amount = (int)(round($total, 2) * 100);
 
         if ($amount < 50 || $amount > 9999900) {
             throw new Error("Amount must be between 50 and 9999900");

@@ -13,6 +13,11 @@ class UserAddressesTable extends Component
 
     public User $user;
 
+    public function deleteAll(): void
+    {
+        $this->user->addresses()->delete();
+    }
+
     public function render(): View
     {
         $addresses = $this->user

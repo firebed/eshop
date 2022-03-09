@@ -25,9 +25,7 @@
                     <x-bs::card.body>
                         <div class="fs-5 fw-500 mb-3">{{ __('Addresses') }}</div>
 
-                        <div class="table-responsive">
-                            <livewire:dashboard.user.user-addresses-table :user="$user"/>
-                        </div>
+                        <livewire:dashboard.user.user-addresses-table :user="$user"/>
                     </x-bs::card.body>
                 </x-bs::card>
             </div>

@@ -2,6 +2,7 @@
 
 namespace Eshop\Livewire\Dashboard\Pos;
 
+use Eshop\Actions\HighlightText;
 use Eshop\Actions\Utils\CategoryBreadcrumbs;
 use Eshop\Models\Product\Category;
 use Eshop\Models\Product\Product;
@@ -13,7 +14,8 @@ class PosModels extends Component
 {
     public ?string $categoryId  = null;
     public ?string $productId   = null;
-    public bool    $editing = false;
+    public string  $search      = '';
+    public bool    $editing     = false;
     protected      $queryString = ['categoryId' => ['except' => ''], 'productId' => ['except' => '']];
     private array  $data;
 
@@ -45,6 +47,7 @@ class PosModels extends Component
     public function products(int $categoryId): Collection|array
     {
         return Product::select('id', 'sku', 'has_variants', 'price', 'compare_price', 'discount', 'stock')
+            ->visible()
             ->where('category_id', '=', $categoryId)
             ->exceptVariants()
             ->withCount('variants')
@@ -58,6 +61,7 @@ class PosModels extends Component
     public function variants(int $productId = null): Collection|array
     {
         return Product::select('id', 'parent_id', 'sku', 'price', 'compare_price', 'discount', 'stock')
+            ->visible()
             ->where('parent_id', $productId)
             ->with('image', 'translation', 'options', 'parent.translation')
             ->get('id')
@@ -68,6 +72,7 @@ class PosModels extends Component
     {
         $this->categoryId = $parentId ?? '';
         $this->productId = "";
+        $this->search = "";
 
         $this->data = [
             'categories'  => $this->categories($parentId),
@@ -84,6 +89,7 @@ class PosModels extends Component
     {
         $this->categoryId = $categoryId;
         $this->productId = "";
+        $this->search = "";
 
         $this->data = [
             'products'    => $this->products($categoryId),
@@ -100,12 +106,46 @@ class PosModels extends Component
     {
         $this->categoryId = "";
         $this->productId = $productId;
+        $this->search = "";
 
         $product = Product::find($productId);
         $this->data = [
             'product'     => $product,
             'variants'    => $this->variants($productId),
             'breadcrumbs' => $breadcrumbs->handle($product->category)
+        ];
+
+        session()->put('pos-models-query', [
+            'categoryId' => $this->categoryId,
+            'productId'  => $this->productId
+        ]);
+    }
+
+    public function updatedSearch($search): void
+    {
+        if (blank($search)) {
+            $this->loadCategories(null, new CategoryBreadcrumbs());
+            return;
+        }
+
+        $products = Product::select('id', 'sku', 'has_variants', 'price', 'compare_price', 'discount', 'stock')
+            ->visible()
+            ->exceptVariants()
+            ->whereHas('translations', fn($c) => $c->matchAgainst(trim($search))->where('cluster', 'name'))
+            ->withCount('variants')
+            ->withMin('variants', 'net_value')
+            ->withMax('variants', 'net_value')
+            ->with('image', 'translation')
+            ->get()
+            ->sortBy('name', SORT_NATURAL | SORT_FLAG_CASE);
+
+        $highlighter = new HighlightText();
+        foreach ($products as $product) {
+            $product->name = $highlighter->handle($search, $product->name, true);
+        }
+        
+        $this->data = [
+            'products'    => $products
         ];
 
         session()->put('pos-models-query', [

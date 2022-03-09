@@ -3,7 +3,7 @@
 
     <div x-cloak x-show="show" class="position-absolute bg-white border shadow-sm start-0 w-100 top-100 rounded vstack overflow-auto scrollbar" style="min-height: 100px; max-height: 300px; z-index: 2000">
         @foreach($products as $product)
-            <a wire:key="result-{{ $product->id }}" href="#" x-on:click.prevent="Livewire.emit('addProduct', {{ $product->id }}); show = false" class="text-decoration-none list-group-item-action text-dark px-3 py-2 d-flex justify-content-between gap-3">
+            <a wire:key="result-{{ $product->id }}" href="#" x-on:click.prevent="Livewire.emit('addProduct', {{ $product->id }}); show = false" class="small text-decoration-none list-group-item-action text-dark px-3 py-2 d-flex justify-content-between gap-3">
                 <div class="d-flex gap-3">
                     <div class="ratio ratio-1x1 w-3r">
                         @if($src = $product->image?->url('sm'))
@@ -13,8 +13,8 @@
 
                     <div class="vstack">
                         @if($product->isVariant())
-                            <div class="fw-500">{{ $product->parent->name }}</div>
-                            <div class="small text-secondary lh-sm">{{ $product->option_values }}</div>
+                            <div class="fw-500 lh-sm">{{ $product->parent->name }}</div>
+                            <div class="text-secondary lh-sm">{{ $product->option_values }}</div>
                         @else
                             <div class="fw-500">{{ $product->name }}</div>
                         @endif

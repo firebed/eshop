@@ -31,6 +31,7 @@ use Eshop\Controllers\Dashboard\Product\ProductImageController;
 use Eshop\Controllers\Dashboard\Product\ProductMovementController;
 use Eshop\Controllers\Dashboard\Product\ProductTrashController;
 use Eshop\Controllers\Dashboard\Product\ProductVisibilityController;
+use Eshop\Controllers\Dashboard\Product\ProductWatermarkController;
 use Eshop\Controllers\Dashboard\Product\VariantBulkController;
 use Eshop\Controllers\Dashboard\Product\VariantBulkImageController;
 use Eshop\Controllers\Dashboard\Product\VariantController;

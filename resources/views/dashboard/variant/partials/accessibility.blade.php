@@ -14,7 +14,7 @@
             {{ __("Customers can see the available stock") }}
         </x-bs::input.switch>
 
-        <x-bs::input.switch name="recent" :checked="old('recent', $product->recent ?? false)" id="recent">
+        <x-bs::input.switch name="recent" :checked="old('recent', $variant->recent ?? false)" id="recent">
             {{ __("Display new label") }}
         </x-bs::input.switch>
 

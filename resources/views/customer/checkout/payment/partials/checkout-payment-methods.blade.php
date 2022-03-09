@@ -19,10 +19,12 @@
                 @endif
             </x-bs::input.radio>
 
-            @if($option->paymentMethod->isCreditCard() || filled($option->description))
+            @if($option->paymentMethod->isCreditCard() || $option->paymentMethod->isCreditCardSimplify() || filled($option->description))
                 <div x-init="new bootstrap.Collapse($el, {toggle: false})" @class(['ms-4', 'collapse', 'show' => old('payment_method_id', $country_payment_method_id) === $option->id])>
                     <div class="vstack pt-3">
                         @includeWhen($option->paymentMethod->isCreditCard(), 'eshop::customer.checkout.payment.ext.stripe-card')
+                        
+                        @includeWhen($option->paymentMethod->isCreditCardSimplify(), 'eshop::customer.checkout.payment.ext.simplify')
 
                         @if(filled($option->description))
                             {!! $option->description !!}

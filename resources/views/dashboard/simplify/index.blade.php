@@ -7,7 +7,17 @@
 @section('main')
     <div class="col-6 p-4">
         @livewire('dashboard.simplify.env')
-        
+
+        <script type="text/javascript" src="https://www.simplify.com/commerce/simplify.pay.js"></script>
+        <button data-sc-key="{{ Cache::get('SIMPLIFY_HOSTED_PUBLIC_KEY') }}"
+                data-name="Sandbox tester"
+                data-description="Test purchase"
+                data-reference="dec"
+                data-amount="50"
+                data-color="#12B830">
+            Buy Now
+        </button>
+                
         <div class="mt-4">
             <form id="checkout-form" method="POST" action="{{ route('simplify.checkout') }}">
                 @csrf
@@ -31,10 +41,10 @@
     </div>
 @endsection
 
-@push('footer_scripts')
-    <script>
-        document.getElementById('cc-number').value = '2222405343248877'
-        document.getElementById('cc-expiry').value = '12/24'
-        document.getElementById('cc-cvc').value = '124'
-    </script>
-@endpush
+{{--@push('footer_scripts')--}}
+{{--    <script>--}}
+{{--        document.getElementById('cc-number').value = '2222405343248877'--}}
+{{--        document.getElementById('cc-expiry').value = '12/24'--}}
+{{--        document.getElementById('cc-cvc').value = '124'--}}
+{{--    </script>--}}
+{{--@endpush--}}

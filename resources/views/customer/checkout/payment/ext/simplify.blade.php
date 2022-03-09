@@ -57,32 +57,31 @@
             </div>
         </div>
     </div>
-    
+
     <script type="text/javascript" src="https://www.simplify.com/commerce/v1/simplify.js"></script>
 
     <script>
-        document.getElementById('cc-number').addEventListener('input', function (e) {
-            if (e.inputType === 'deleteContentBackward') {
-                return
-            }
-            
-            const cursor = e.target.value.length;
-            
-            e.target.value = e.target.value.replace(/[^\d]/g, '').replace(/(.{4})/g, '$1 ');
-            if (e.target.value.length >= 18) {
-                e.target.value = e.target.value.trim();
-            }
-        });
+        // document.getElementById('cc-number').addEventListener('input', function (e) {
+        //     if (e.inputType === 'deleteContentBackward') {
+        //         return
+        //     }
+        //    
+        //     const cursor = e.target.value.length;
+        //    
+        //     e.target.value = e.target.value.replace(/[^\d]/g, '').replace(/(.{4})/g, '$1 ');
+        //     if (e.target.value.length >= 18) {
+        //         e.target.value = e.target.value.trim();
+        //     }
+        // });
+        //
+        // document.getElementById('cc-expiry').addEventListener('input', function (e) {
+        //     e.target.value = e.target.value.replace(/[^\d]/g, '').replace(/(.{2})/g, '$1/');
+        // });
 
-        document.getElementById('cc-expiry').addEventListener('input', function (e) {
-            e.target.value = e.target.value.replace(/[^\d]/g, '').replace(/(.{2})/g, '$1/');
-        });
-        
         const payment = document.querySelector('input[name=country_payment_method_id]:checked')
         const form = document.getElementById('checkout-form');
 
-        function createSecure3dForm(data) {
-            const secure3dData = data['3dsecure'];
+        function createSecure3dForm(secure3dData) {
             const secure3dForm = document.getElementById('3dsecure-form');
             secure3dForm.action = secure3dData.acsUrl;
             secure3dForm.querySelector('input[name=PaReq]').value = secure3dData.paReq;
@@ -99,43 +98,53 @@
                 cc_cvc: document.getElementById('cc-cvc').value.trim(),
             };
 
-            axios.post(form.action, payload, function (response) {
-                console.log(response)
-                if (response['3dsecure'].enrolled) { // Step 1
-                    const secure3dForm = createSecure3dForm(response); // Step 2
-                    const iframeNode = document.getElementById('secure3d-frame');
+            axios.post(form.action, payload)
+                .then(response => {
+                    response = response.data;
+                    console.log(response)
+                    if (response.secure3D.isEnrolled) { // Step 1
+                        const secure3dForm = createSecure3dForm(response.secure3D); // Step 2
+                        const iframeNode = document.getElementById('secure3d-frame');
 
-                    iframeNode.style.display = 'block';
+                        iframeNode.style.display = 'block';
 
-                    const process3dSecureCallback = function (threeDsResponse) {
-                        window.removeEventListener('message', process3dSecureCallback);
-                        const simplifyDomain = 'https://simplify.com';
-                        // Step 4
-                        if (threeDsResponse.origin === simplifyDomain && JSON.parse(threeDsResponse.data)['secure3d']['authenticated']) {
-                            const completePayload = {
-                                amount: response.total,
-                                currency: currency,
-                                description: response.description,
-                                token: response.token
-                            };
+                        const process3dSecureCallback = function (threeDsResponse) {
+                            const simplifyDomain = 'https://www.simplify.com';
+console.log(threeDsResponse.origin === simplifyDomain);
+console.log(JSON.parse(threeDsResponse.data)['secure3d']['authenticated']);
+                            window.removeEventListener('message', process3dSecureCallback);
+                            // Step 4
+                            if (threeDsResponse.origin === simplifyDomain && JSON.parse(threeDsResponse.data)['secure3d']['authenticated']) {
+                                console.log("3DS authenticated")
+                                const completePayload = {
+                                    amount: response.total,
+                                    currency: response.currency,
+                                    description: response.description,
+                                    token: response.token
+                                };
 
-                            axios.post(form.action, completePayload, function (completeResponse) {
-                                if (completeResponse.success) {
-                                    $('#simplify-payment-form').hide();
-                                    $('#simplify-success').show();
-                                }
-                                iframeNode.hide();
-                            });
-                        }
-                    };
+                                axios.post(form.action, completePayload)
+                                    .then(completeResponse => {
+                                        if (completeResponse.success) {
+                                            console.log("Charge successfull")
+                                            // $('#simplify-payment-form').hide();
+                                            // $('#simplify-success').show();
+                                        }
+                                        iframeNode.hide();
+                                    });
+                            } else {
+                                console.log("Something went wrong.")
+                                console.log(threeDsResponse);
+                            }
+                        };
 
-                    iframeNode.on('load', function () {
-                        window.addEventListener('message', process3dSecureCallback); // Step 3
-                    });
+                        iframeNode.addEventListener('load', function () {
+                            window.addEventListener('message', process3dSecureCallback); // Step 3
+                        });
 
-                    secure3dForm.submit();
-                }
-            });
+                        secure3dForm.submit();
+                    }
+                });
         }
 
         form.addEventListener('submit', function (event) {

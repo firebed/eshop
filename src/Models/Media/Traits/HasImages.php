@@ -24,7 +24,7 @@ trait HasImages
 
     public static function bootHasImages(): void
     {
-        static::deleting(function ($model) {
+        static::deleting(static function ($model) {
             $isSoftDelete = in_array(SoftDeletes::class, class_uses($model), false);
             if (!$isSoftDelete || $model->isForceDeleting()) {
                 $model->images()->delete();
@@ -75,6 +75,38 @@ trait HasImages
         ]);
         $this->images()->save($media);
         return $media;
+    }
+
+    public function addWatermark(): void
+    {
+        $baseImage = $this->image;
+        
+        if ($baseImage === null || blank(eshop('watermark'))) {
+            return;
+        }
+
+        $manager = new ImageManager();
+        $watermark = $manager->make(public_path(eshop('watermark')));
+        
+        $image = $manager->make($baseImage->path());
+        $wmarkWidth = $watermark->width();
+        $wmarkHeight = $watermark->height();
+
+        $imgWidth = $image->width();
+        $imgHeight = $image->height();
+
+        $x = 0;
+        $y = 0;
+        while ($y <= $imgHeight) {
+            $image->insert($watermark, 'top-left', $x, $y);
+            $x += $wmarkWidth;
+            if ($x >= $imgWidth) {
+                $x = 0;
+                $y += $wmarkHeight;
+            }
+        }
+
+        $image->save();
     }
 
     public function getMediaDisk(): string

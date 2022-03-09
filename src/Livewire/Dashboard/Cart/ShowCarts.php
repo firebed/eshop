@@ -2,6 +2,7 @@
 
 namespace Eshop\Livewire\Dashboard\Cart;
 
+use Dompdf\Dompdf;
 use Eshop\Exports\CartsExport;
 use Eshop\Livewire\Dashboard\Cart\Traits\WithCartOperators;
 use Eshop\Models\Cart\Cart;
@@ -23,6 +24,7 @@ use Livewire\Component;
 use Livewire\WithPagination;
 use Maatwebsite\Excel\Facades\Excel;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class ShowCarts extends Component
 {
@@ -90,6 +92,29 @@ class ShowCarts extends Component
         $this->skipRender();
     }
 
+    public function print(): ?StreamedResponse
+    {
+        if ($this->doesntHaveSelections()) {
+            $this->skipRender();
+            $this->showWarningToast('No rows selected!');
+            return null;
+        }
+
+        return response()->streamDownload(function () {
+            $carts = Cart::whereKey($this->selected())
+                ->with('shippingMethod', 'paymentMethod', 'shippingAddress.country')
+                ->with(['products' => fn($q) => $q->with('translation', 'parent.translation', 'options')])
+                ->get();
+            
+            $pdf = new Dompdf(['enable_remote' => true]);
+            $pdf->loadHtml(view('eshop::customer.order-printer.print-many', compact('carts')));
+
+            $pdf->render();
+            $this->showSuccessToast('Εκτύπωση επιτυχής!');
+            echo $pdf->output();
+        }, 'order-' . now()->timestamp . '.pdf');
+    }
+
     public function editStatuses(): void
     {
         if ($this->doesntHaveSelections()) {
@@ -125,14 +150,14 @@ class ShowCarts extends Component
     public function saveVoucher(): void
     {
         $this->showVoucherModal = false;
-        
+
         if (blank($this->editing_cart_voucher_id)) {
             return;
         }
-        
+
         Cart::whereKey($this->editing_cart_voucher_id)->update(['voucher' => blank($this->editing_voucher) ? null : trim($this->editing_voucher)]);
     }
-    
+
     public function clearFilters(): void
     {
         $this->reset();

@@ -42,6 +42,9 @@ class StoreProduct
 
         if ($request->hasFile('image')) {
             $product->saveImage($request->file('image'));
+            if ($request->boolean('watermark')) {
+                $product->addWatermark();
+            }
         }
 
         return $product;

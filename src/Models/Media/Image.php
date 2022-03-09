@@ -71,6 +71,11 @@ class Image extends Model
         return $disk->url($src);
     }
 
+    public function path(): string
+    {
+        return Storage::disk($this->disk)->path($this->src);
+    }
+
     public function isTypeURL(): bool
     {
         return $this->type === self::TYPE_URL;

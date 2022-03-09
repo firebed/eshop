@@ -37,6 +37,9 @@ class UpdateProduct
 
         if ($request->hasFile('image')) {
             $this->replaceImage($product, $request->file('image'));
+            if ($request->boolean('watermark')) {
+                $product->addWatermark();
+            }
         }
     }
 
@@ -94,6 +97,7 @@ class UpdateProduct
     {
         $oldImage = $imageable->image;
         $oldImage?->delete();
+        $imageable->unsetRelation('image');
 
         $imageable->saveImage($image);
     }

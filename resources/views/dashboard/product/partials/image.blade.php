@@ -1,6 +1,6 @@
 <x-bs::card>
     <x-bs::card.body>
-        <div x-data="{image: null}" class="row">
+        <div x-data="{image: null}">
             <label for="product-image-input" class="ratio ratio-4x3 rounded" style="cursor: pointer">
                 @if(isset($product) && $product->image && $src = $product->image->url())
                     <img x-ref="image" src="{{ $src }}" class="img-middle rounded" alt=""/>
@@ -14,6 +14,10 @@
             </label>
 
             <input x-on:change="image = true; $nextTick(() => $refs.image.src = URL.createObjectURL($el.files[0]))" type='file' name="image" id="product-image-input" accept="image/*" hidden/>
+        </div>
+        
+        <div>
+            <x-bs::input.checkbox name="watermark" id="watermark">Add watermark</x-bs::input.checkbox>
         </div>
     </x-bs::card.body>
 </x-bs::card>

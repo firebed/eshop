@@ -7,7 +7,7 @@ return [
         'el' => 'Ελληνικά',
         'en' => 'English'
     ],
-
+    
     'countries' => [
         'el' => 'GR',
         'en' => 'US'
@@ -20,7 +20,15 @@ return [
             ]
         ]
     ],
-
+    
+    'logo' => [
+        'path'   => '',
+        'width'  => 0,
+        'height' => 0
+    ],
+    
+    'watermark' => '',
+    
     'social' => [
 
     ],

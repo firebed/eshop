@@ -7,7 +7,6 @@ use Eshop\Actions\Product\StoreProduct;
 use Eshop\Actions\Product\UpdateProduct;
 use Eshop\Controllers\Dashboard\Controller;
 use Eshop\Controllers\Dashboard\Traits\WithNotifications;
-use Eshop\Models\Audit\ModelAudit;
 use Eshop\Models\Product\Category;
 use Eshop\Models\Product\Collection;
 use Eshop\Models\Product\Manufacturer;
@@ -49,10 +48,10 @@ class ProductController extends Controller
         ]);
     }
 
-    public function store(ProductRequest $request, StoreProduct $store, ModelAudit $audit): RedirectResponse
+    public function store(ProductRequest $request, StoreProduct $store, AuditModel $audit): RedirectResponse
     {
         DB::beginTransaction();
-        
+
         try {
             $product = $store->handle($request);
             $audit->handle($product);
@@ -89,7 +88,7 @@ class ProductController extends Controller
     public function update(ProductRequest $request, Product $product, UpdateProduct $update, AuditModel $audit): RedirectResponse
     {
         DB::beginTransaction();
-        
+
         try {
             $update->handle($product, $request);
             $audit->handle($product);
@@ -108,7 +107,7 @@ class ProductController extends Controller
     public function destroy(Product $product, AuditModel $audit): RedirectResponse
     {
         DB::beginTransaction();
-        
+
         try {
             $product->delete();
             $audit->handle($product, true);

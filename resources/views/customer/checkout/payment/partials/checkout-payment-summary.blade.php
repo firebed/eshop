@@ -56,8 +56,10 @@
         @includeWhen($order->paymentMethod?->isPayPal(), 'eshop::customer.checkout.payment.ext.paypal-checkout-button')
 
         @includeWhen($order->paymentMethod?->isCreditCard(), 'eshop::customer.checkout.payment.ext.stripe-checkout-button')
+        
+        @includeWhen($order->paymentMethod?->isCreditCardSimplify(), 'eshop::customer.checkout.payment.ext.simplify-checkout-button')
 
-        @if($order->paymentMethod === null || (!$order->paymentMethod->isPayPal() && !$order->paymentMethod->isCreditCard()))
+        @if($order->paymentMethod === null || (!$order->paymentMethod->isPayPal() && !$order->paymentMethod->isCreditCard() && !$order->paymentMethod->isCreditCardSimplify()))
             <button x-bind:disabled="$store.form.disabled" type="submit" class="btn btn-green" @if($order->paymentMethod === null) disabled @endif>
                 <div x-cloak x-show="$store.form.disabled" class="spinner-border spinner-border-sm" role="status">
                     <span class="visually-hidden">Loading...</span>

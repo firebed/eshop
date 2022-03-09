@@ -10,7 +10,7 @@
                     @endif
                 </div>
 
-                <small class="fw-500">{{ $product->name }}</small>
+                <small class="fw-500">{!! $product->name !!}</small>
 
                 <div class="vstack gap-1 small justify-content-end">
                     <span class="text-secondary">{{ $product->sku }}</span>

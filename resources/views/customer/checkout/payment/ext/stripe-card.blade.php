@@ -13,6 +13,8 @@
 </div>
 
 @push('footer_scripts')
+    <script src="https://js.stripe.com/v3/"></script>
+    
     <script>
         (function() {
             const stripe = Stripe('{{ config('cashier.key') }}', {locale: '{{ app()->getLocale() }}'});

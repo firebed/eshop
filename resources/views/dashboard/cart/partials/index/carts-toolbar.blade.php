@@ -35,6 +35,7 @@
                 <x-bs::dropdown.button id="bulk-actions" class="btn-white shadow-sm">{{ __("Actions") }}</x-bs::dropdown.button>
                 <x-bs::dropdown.menu button="bulk-actions">
                     <x-bs::dropdown.item wire:click.prevent="editStatuses"><em class="fas fa-tasks me-2 text-secondary"></em>{{ __("Change status") }}</x-bs::dropdown.item>
+                    <x-bs::dropdown.item wire:click.prevent="print"><em class="fas fa-print me-2 text-secondary"></em>{{ __("Print") }}</x-bs::dropdown.item>
                     @can("Manage orders")
                         <x-bs::dropdown.item wire:click.prevent="showOperators"><em class="fas fa-users me-2 text-secondary"></em>{{ __("Change operators") }}</x-bs::dropdown.item>
                         <x-bs::dropdown.divider/>

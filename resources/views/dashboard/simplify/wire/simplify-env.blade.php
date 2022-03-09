@@ -42,6 +42,23 @@
             </div>
         </div>
     </div>
+
+    <div class="vstack gap-1">
+        <div class="fw-500 mb-1">Hosted Payments</div>
+        <div class="row align-items-baseline">
+            <label for="simplify-hosted-public-key" class="col">Public key</label>
+            <div class="col-9">
+                <input wire:model.defer="hostedPublicKey" class="form-control form-control-sm font-monospace" type="text" id="simplify-hosted-public-key">
+            </div>
+        </div>
+
+        <div class="row align-items-baseline">
+            <label for="simplify-hosted-private-key" class="col">Private key</label>
+            <div class="col-9">
+                <input wire:model.defer="hostedPrivateKey" class="form-control form-control-sm" type="password" id="simplify-hosted-private-key" autocomplete="new-password">
+            </div>
+        </div>
+    </div>
     
     <div class="d-flex justify-content-end">
         <button type="submit" class="btn btn-alt">{{ __("Save") }}</button>

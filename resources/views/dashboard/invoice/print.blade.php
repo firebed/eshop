@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 
     <style>
         @page {
@@ -93,7 +93,7 @@
     <table>
         <tr>
             <td>
-                <img src="https://www.plexoudes.gr/images/logo.png" width="200px" alt="">
+                <img src="{{ eshop('logo.path') }}" height="{{ eshop('logo.height') }}" alt="">
             </td>
 
             <td class="text-end">

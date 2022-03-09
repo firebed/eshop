@@ -3,6 +3,7 @@
 namespace Eshop\Controllers\Customer\Checkout;
 
 use Eshop\Actions\Order\RefreshOrder;
+use Eshop\Controllers\Customer\Checkout\Traits\ValidatesCheckout;
 use Eshop\Controllers\Customer\Controller;
 use Eshop\Models\Cart\DocumentType;
 use Eshop\Models\Location\Address;
@@ -19,9 +20,11 @@ use Stevebauman\Location\Facades\Location;
 
 class CheckoutDetailsController extends Controller
 {
-    public function edit(string $lang, Request $request, Order $order, RefreshOrder $refreshOrder): Renderable|RedirectResponse
+    use ValidatesCheckout;
+
+    public function edit(string $lang, Request $request, Order $order): Renderable|RedirectResponse
     {
-        if ($order->isEmpty() || $order->isSubmitted()) {
+        if (!$this->validateCheckout($order)) {
             return redirect()->route('checkout.products.index', app()->getLocale());
         }
 
@@ -32,16 +35,6 @@ class CheckoutDetailsController extends Controller
             $address->cluster = 'shipping';
             $order->shippingAddress()->save($address);
             $order->setRelation('shippingAddress', $address);
-        }
-
-        if ($this->refreshOrder($refreshOrder, $order)) {
-            session()->flash('products-values-changed');
-            return redirect()->route('checkout.products.index', $lang);
-        }
-
-        if (!$this->checkProductStocks($order)) {
-            session()->flash('insufficient-quantity');
-            return redirect()->route('checkout.products.index', $lang);
         }
 
         // If the order's shipping address is related to a deleted address
@@ -86,20 +79,10 @@ class CheckoutDetailsController extends Controller
         ]);
     }
 
-    public function update(string $lang, CheckoutDetailsRequest $request, Order $order, RefreshOrder $refreshOrder): RedirectResponse
+    public function update(string $lang, CheckoutDetailsRequest $request, Order $order): RedirectResponse
     {
-        if ($order->isEmpty() || $order->isSubmitted()) {
+        if (!$this->validateCheckout($order)) {
             return redirect()->route('checkout.products.index', app()->getLocale());
-        }
-
-        if ($this->refreshOrder($refreshOrder, $order)) {
-            session()->flash('products-values-changed');
-            return redirect()->route('checkout.products.index', $lang);
-        }
-
-        if (!$this->checkProductStocks($order)) {
-            session()->flash('insufficient-quantity');
-            return redirect()->route('checkout.products.index', $lang);
         }
 
         $order->document_type = $request->filled('invoicing') ? DocumentType::INVOICE : DocumentType::RECEIPT;
@@ -161,7 +144,7 @@ class CheckoutDetailsController extends Controller
             $order->shippingAddress()->save($address);
         }
 
-        DB::transaction(fn() => $refreshOrder->handle($order));
+        DB::transaction(static fn() => $refreshOrder->handle($order));
 
         $has_shipping_methods = false;
         if ($country !== null) {
@@ -194,7 +177,7 @@ class CheckoutDetailsController extends Controller
         $address->postcode = $request->input('postcode');
         $address->save();
 
-        DB::transaction(fn() => $refreshOrder->handle($order));
+        DB::transaction(static fn() => $refreshOrder->handle($order));
 
         $has_shipping_methods = false;
         $country = $address->country ?? null;
@@ -224,24 +207,5 @@ class CheckoutDetailsController extends Controller
         ])->render();
 
         return response()->json(compact('summary', 'provinces'));
-    }
-
-    private function refreshOrder(RefreshOrder $refreshOrder, Order $order): bool
-    {
-        DB::transaction(static fn() => $refreshOrder->handle($order));
-        return $refreshOrder->totalHasChanged();
-    }
-
-    private function checkProductStocks(Order $order): bool
-    {
-        $products = $order->products;
-        $products->load('parent');
-        foreach ($products as $product) {
-            if (!$product->canBeBought($product->pivot->quantity)) {
-                return false;
-            }
-        }
-
-        return true;
     }
 }

@@ -60,6 +60,18 @@ class VariantsTable extends Component
         });
     }
 
+    public function addWatermark(array $ids): void
+    {
+        if (empty($ids)) {
+            return;
+        }
+        
+        $products = Product::whereKey($ids)->with('image')->get();
+        foreach ($products as $product) {
+            $product->addWatermark();
+        }
+    }
+
     protected function getModels(): Collection
     {
         return $this->variants;
