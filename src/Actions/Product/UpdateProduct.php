@@ -37,9 +37,10 @@ class UpdateProduct
 
         if ($request->hasFile('image')) {
             $this->replaceImage($product, $request->file('image'));
-            if ($request->boolean('watermark')) {
-                $product->addWatermark();
-            }
+        }
+
+        if ($request->boolean('watermark')) {
+            $product->addWatermark();
         }
     }
 

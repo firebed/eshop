@@ -80,7 +80,7 @@ trait HasImages
     public function addWatermark(): void
     {
         $baseImage = $this->image;
-        
+
         if ($baseImage === null || blank(eshop('watermark'))) {
             return;
         }
@@ -89,6 +89,7 @@ trait HasImages
         $watermark = $manager->make(public_path(eshop('watermark')));
         
         $image = $manager->make($baseImage->path());
+        
         $wmarkWidth = $watermark->width();
         $wmarkHeight = $watermark->height();
 
@@ -106,7 +107,13 @@ trait HasImages
             }
         }
 
-        $image->save();
+        Storage::disk($this->getMediaDisk())->delete($baseImage->src);
+        
+        $mime = $image->mime();
+        $hashName = Str::random(40) . '.' . substr($mime, strrpos($mime, '/') + 1);
+        $path = $this->path($hashName);
+        $this->saveToDisk($path, $image, 90);
+        $baseImage->update(['src' => $path]);
     }
 
     public function getMediaDisk(): string
