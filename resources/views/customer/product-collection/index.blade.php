@@ -18,7 +18,7 @@
     @endif
 
     @if($products->currentPage() == 2)
-        <link rel="prev" href="{{ route('products.collections.index', app()->getLocale()) }}">
+        <link rel="prev" href="{{ route('products.collections.index', [app()->getLocale(), $collection->slug]) }}">
     @elseif($products->currentPage() > 2)
         <link rel="prev" href="{{ $products->previousPageUrl() }}">
     @endif
@@ -47,7 +47,7 @@
         @endif
 
         @if($products->currentPage() == 2)
-            <link rel="prev" href="{{ route('products.collections.index', [app()->getLocale(), $collection]) }}">
+            <link rel="prev" href="{{ route('products.collections.index', [app()->getLocale(), $collection->slug]) }}">
         @elseif($products->currentPage() > 2)
             <link rel="prev" href="{{ $products->previousPageUrl() }}">
         @endif
