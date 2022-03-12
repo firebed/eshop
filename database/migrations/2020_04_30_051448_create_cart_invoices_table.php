@@ -15,7 +15,7 @@ class CreateCartInvoicesTable extends Migration
     {
         Schema::create('cart_invoices', static function (Blueprint $table) {
             $table->id();
-            $table->foreignId('cart_id');
+            $table->foreignId('cart_id')->constrained()->cascadeOnDelete();
             $table->string('name')->nullable();
             $table->string('job')->nullable();
             $table->string('vat_number', 20)->nullable();
