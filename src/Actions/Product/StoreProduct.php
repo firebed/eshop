@@ -43,7 +43,9 @@ class StoreProduct
             $product->saveImage($request->file('image'));
             if ($product->has_watermark) {
                 $image = $this->watermark->handle($request->file('image'));
-                $product->image->addConversion('wm', $image);
+                if ($image) {
+                    $product->image->addConversion('wm', $image);
+                }
             }
         }
 
