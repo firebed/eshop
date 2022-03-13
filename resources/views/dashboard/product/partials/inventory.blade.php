@@ -51,7 +51,7 @@
                 <div class="input-group">
                     <input type="number" step="1" class="form-control" x-model="stock" id="stock" name="stock">
                     <button @click.prevent="stock -= (parseInt(prompt('Αφαίρεση ποσότητας:')) || 0)" class="btn btn-outline-secondary"><em class="fas fa-minus"></em></button>
-                    <button @click.prevent="stock += (parseInt(prompt('Αφαίρεση ποσότητας:')) || 0)" class="btn btn-outline-secondary"><em class="fas fa-plus"></em></button>
+                    <button @click.prevent="stock += (parseInt(prompt('Προσθήκη ποσότητας:')) || 0)" class="btn btn-outline-secondary"><em class="fas fa-plus"></em></button>
                 </div>
             </x-bs::input.group>
 
