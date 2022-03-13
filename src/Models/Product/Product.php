@@ -347,10 +347,10 @@ class Product extends Model implements Auditable
     public function isAccessible(): bool
     {
         if ($this->isVariant()) {
-            return $this->parent->getAttribute('visible') && $this->parent->getAttribute('available');
+            return $this->parent->getAttribute('visible') && $this->parent->getAttribute('available') && $this->getAttribute('visible') && $this->getAttribute('available');
         }
 
-        return $this->getAttribute('visible') || $this->getAttribute('available');
+        return $this->getAttribute('visible') && $this->getAttribute('available');
     }
 
     public function canBeBought(int $quantity = 1): bool
