@@ -44,7 +44,7 @@ class UpdateProduct
             $this->replaceImage($product, $request->file('image'));
         }
 
-        if (!$product->has_watermark && $product->image->hasConversion('wm')) {
+        if (!$product->has_watermark && $product->image?->hasConversion('wm')) {
             $product->image->deleteConversion('wm');
         } elseif ($product->has_watermark) {
             if ($request->hasFile('image')) {
