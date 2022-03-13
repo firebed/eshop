@@ -103,4 +103,10 @@ class User extends Authenticatable
 
         return $this->addresses()->delete() && parent::delete();
     }
+
+    // This is necessary in order to show addresses in the user's addresses table (admin)
+    public function getMorphClass(): string
+    {
+        return 'user';
+    }
 }
