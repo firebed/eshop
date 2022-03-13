@@ -20,7 +20,12 @@
 
                 <x-bs::dropdown.item x-on:click.prevent="$wire.addWatermark([...document.querySelectorAll('#variants-table tbody input:checked')].map(i => i.value))">
                     <em class="far fa-copyright  me-2 text-secondary w-1r"></em>
-                    Watermark
+                    Προσθήκη Watermark
+                </x-bs::dropdown.item>
+
+                <x-bs::dropdown.item x-on:click.prevent="$wire.removeWatermark([...document.querySelectorAll('#variants-table tbody input:checked')].map(i => i.value))">
+                    <em class="far fa-copyright  me-2 text-secondary w-1r"></em>
+                    Αφαίρεση Watermark
                 </x-bs::dropdown.item>
                 
                 <x-bs::dropdown.divider/>

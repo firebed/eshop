@@ -2,6 +2,7 @@
 
 namespace Eshop\Actions\Product;
 
+use Eshop\Actions\InsertWatermark;
 use Eshop\Actions\Product\Traits\SavesProductProperties;
 use Eshop\Models\Product\Product;
 use Eshop\Models\Product\VariantType;
@@ -12,11 +13,9 @@ class StoreProduct
 {
     use SavesProductProperties;
 
-    private BarcodeService $barcodeService;
-
-    public function __construct(BarcodeService $barcodeService)
+    public function __construct(private InsertWatermark $watermark,
+                                private BarcodeService  $barcodeService)
     {
-        $this->barcodeService = $barcodeService;
     }
 
     public function handle(ProductRequest $request): Product
@@ -42,8 +41,9 @@ class StoreProduct
 
         if ($request->hasFile('image')) {
             $product->saveImage($request->file('image'));
-            if ($request->boolean('watermark')) {
-                $product->addWatermark();
+            if ($product->has_watermark) {
+                $image = $this->watermark->handle($request->file('image'));
+                $product->image->addConversion('wm', $image);
             }
         }
 

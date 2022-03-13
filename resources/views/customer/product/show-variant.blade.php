@@ -25,13 +25,13 @@
     <meta property="og:type" content="product">
     <meta property="og:url" content="{{ productRoute($product, $category) }}">
     @if($product->image)
-        <meta property="og:image" content="{{ $product->image->url() }}">
+        <meta property="og:image" content="{{ $product->image->url($product->has_watermark ? 'wm' : null) }}">
     @endif
 
     <meta name="twitter:card" content="product"/>
     <meta name="twitter:title" content="{{ $title }}">
     @if($product->image)
-        <meta name="twitter:image" content="{{ $product->image->url() }}">
+        <meta name="twitter:image" content="{{ $product->image->url($product->has_watermark ? 'wm' : null) }}">
     @endif
     @if(!empty($description))
         <meta name="twitter:description" content="{{ $description }}">

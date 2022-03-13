@@ -77,45 +77,6 @@ trait HasImages
         return $media;
     }
 
-    public function addWatermark(): void
-    {
-        $baseImage = $this->image;
-
-        if ($baseImage === null || blank(eshop('watermark'))) {
-            return;
-        }
-
-        $manager = new ImageManager();
-        $watermark = $manager->make(public_path(eshop('watermark')));
-        
-        $image = $manager->make($baseImage->path());
-        
-        $wmarkWidth = $watermark->width();
-        $wmarkHeight = $watermark->height();
-
-        $imgWidth = $image->width();
-        $imgHeight = $image->height();
-
-        $x = 0;
-        $y = 0;
-        while ($y <= $imgHeight) {
-            $image->insert($watermark, 'top-left', $x, $y);
-            $x += $wmarkWidth;
-            if ($x >= $imgWidth) {
-                $x = 0;
-                $y += $wmarkHeight;
-            }
-        }
-
-        Storage::disk($this->getMediaDisk())->delete($baseImage->src);
-        
-        $mime = $image->mime();
-        $hashName = Str::random(40) . '.' . substr($mime, strrpos($mime, '/') + 1);
-        $path = $this->path($hashName);
-        $this->saveToDisk($path, $image, 90);
-        $baseImage->update(['src' => $path]);
-    }
-
     public function getMediaDisk(): string
     {
         return $this->disk;

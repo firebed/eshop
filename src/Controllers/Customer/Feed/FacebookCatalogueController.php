@@ -51,7 +51,7 @@ class FacebookCatalogueController
             $item->addChild("g:condition", 'new', "http://base.google.com/ns/1.0");
             $item->addChild("g:price", $product->price . ' EUR', "http://base.google.com/ns/1.0");
             $item->addChild("g:link", productRoute($product), "http://base.google.com/ns/1.0");
-            $item->addChild("g:image_link", e($product->image->url()), "http://base.google.com/ns/1.0");
+            $item->addChild("g:image_link", e($product->image->url($product->has_watermark ? 'wm' : null)), "http://base.google.com/ns/1.0");
             $item->addChild("g:brand", e($product->mpn ?: $product->sku), "http://base.google.com/ns/1.0");
             $item->addChild("g:google_product_category", 1604, "http://base.google.com/ns/1.0"); // Apparel & Accessories > Clothing
         }

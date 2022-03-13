@@ -41,6 +41,7 @@ use Laravel\Scout\Searchable;
  * @property bool            recent
  * @property bool            available
  * @property ?integer|string available_gt
+ * @property bool            has_watermark
  * @property bool            display_stock
  * @property ?integer|string display_stock_lt
  * @property string          location
@@ -96,7 +97,7 @@ class Product extends Model implements Auditable
     protected $fillable = [
         'name', 'description', 'category_id', 'manufacturer_id', 'unit_id', 'is_physical', 'vat', 'weight',
         'price', 'compare_price', 'discount', 'stock', 'visible', 'recent', 'display_stock', 'display_stock_lt', 'available', 'available_gt',
-        'location', 'sku', 'mpn', 'barcode', 'slug', 'has_variants', 'variants_display', 'preview_variants'
+        'has_watermark', 'location', 'sku', 'mpn', 'barcode', 'slug', 'has_variants', 'variants_display', 'preview_variants'
     ];
 
     protected array  $translatable = ['name', 'description'];
@@ -111,6 +112,7 @@ class Product extends Model implements Auditable
         'visible'          => 'bool',
         'recent'           => 'bool',
         'available'        => 'bool',
+        'has_watermark'    => 'bool',
         'stock'            => 'int',
         'display_stock'    => 'bool',
         'preview_variants' => 'bool',
@@ -414,6 +416,8 @@ class Product extends Model implements Auditable
 
         return parent::delete();
     }
+
+    
 
     protected function registerImageConversions(): void
     {

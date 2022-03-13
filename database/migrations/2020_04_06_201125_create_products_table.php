@@ -38,6 +38,7 @@ class CreateProductsTable extends Migration
             $table->boolean('available')->default(true);
             $table->integer('available_gt')->nullable();
 
+            $table->boolean('has_watermark')->default(false);
             $table->string('location', 50)->nullable();
             $table->string('sku', 100)->unique();
             $table->string('mpn', 100)->nullable()->index();

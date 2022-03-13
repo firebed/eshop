@@ -18,9 +18,12 @@
             <x-bs::input.switch name="recent" :checked="old('recent', $product->recent ?? false)" id="recent">
                 {{ __("Display new label") }}
             </x-bs::input.switch>
+
+            <x-bs::input.switch name="has_watermark" :checked="old('has_watermark', $product->has_watermark ?? false)" id="has-watermark">
+                {{ __("Εμφάνιση αρχικής εικόνας με watermark") }}
+            </x-bs::input.switch>
             
             <div x-show="!has_variants" x-transition>
-
                 <div class="row mt-3">
                     <div x-data="{ number: '{{ old('available_gt', isset($product) ? $product->available_gt : 0) }}' }" class="col">
                         <label for="available-gt" class="form-label">Διαθέσιμο</label>

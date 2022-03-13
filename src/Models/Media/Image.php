@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
+use Intervention\Image\ImageManager;
 
 /**
  * @property string type
@@ -54,6 +56,33 @@ class Image extends Model
         return $this->morphTo();
     }
 
+    public function addConversion($conversion, $file): void
+    {
+        $manager = new ImageManager();
+        $image = $manager->make($file);
+
+        $mime = $image->mime();
+        $hashName = Str::random(40) . '.' . substr($mime, strrpos($mime, '/') + 1);
+        $path = $this->imageable_id . '/' . $hashName;
+
+        Storage::disk($this->disk)->put($path, $file->encode(null, 80));
+        $conversions = $this->conversions ?? [];
+        $conversions[$conversion]['src'] = $path;
+        $this->update(['conversions' => $conversions]);
+    }
+
+    public function deleteConversion($conversion): void
+    {
+        $conversions = $this->conversions ?? [];
+        
+        if (array_key_exists($conversion, $conversions)) {
+            Storage::disk($this->disk)->delete($conversions[$conversion]['src']);
+
+            unset($conversions[$conversion]);
+            $this->update(['conversions' => $conversions]);
+        }
+    }
+
     public function url($conversion = null): string|null
     {
         $src = $this->src;
@@ -65,7 +94,7 @@ class Image extends Model
         if ($conversion !== null && $this->hasConversion($conversion)) {
             $src = $this->conversion($conversion)['src'];
         }
-
+        
         $disk = Storage::disk($this->disk);
 //        return $disk->exists($src) ? $disk->url($src) : NULL;
         return $disk->url($src);
@@ -116,6 +145,7 @@ class Image extends Model
 
     public function getSizeAttribute(): array
     {
-        return getimagesize($this->url());
+        $disk = Storage::disk($this->disk);
+        return $disk->exists($this->src) ? getimagesize($this->url()) : [0, 0];
     }
 }

@@ -2,6 +2,7 @@
 
 namespace Eshop\Actions\Product;
 
+use Eshop\Actions\InsertWatermark;
 use Eshop\Actions\Product\Traits\SavesProductProperties;
 use Eshop\Models\Product\Product;
 use Eshop\Models\Product\VariantType;
@@ -11,6 +12,10 @@ use Illuminate\Http\UploadedFile;
 class UpdateProduct
 {
     use SavesProductProperties;
+
+    public function __construct(private InsertWatermark $watermark)
+    {
+    }
 
     public function handle(Product $product, FormRequest $request): void
     {
@@ -39,8 +44,16 @@ class UpdateProduct
             $this->replaceImage($product, $request->file('image'));
         }
 
-        if ($request->boolean('watermark')) {
-            $product->addWatermark();
+        if (!$product->has_watermark && $product->image->hasConversion('wm')) {
+            $product->image->deleteConversion('wm');
+        } elseif ($product->has_watermark) {
+            if ($request->hasFile('image')) {
+                $image = $this->watermark->handle($request->file('image'));
+                $product->image->addConversion('wm', $image);
+            } elseif ($product->image) {
+                $image = $this->watermark->handle($product->image->path());
+                $product->image->addConversion('wm', $image);
+            }
         }
     }
 

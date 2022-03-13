@@ -151,7 +151,7 @@ class SitemapGenerator
             $url->loc = productRoute($product, $product->category);
 
             foreach ($product->images as $image) {
-                $url->addImage($image->url(), $product->name);
+                $url->addImage($image->url($product->has_watermark ? 'wm' : null), $product->name);
             }
 
             $sitemap->addUrl($url);

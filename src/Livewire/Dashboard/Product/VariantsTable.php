@@ -3,6 +3,7 @@
 namespace Eshop\Livewire\Dashboard\Product;
 
 use Eshop\Actions\Audit\AuditModel;
+use Eshop\Actions\InsertWatermark;
 use Eshop\Models\Product\Product;
 use Eshop\Models\Product\VariantType;
 use Firebed\Components\Livewire\Traits\SendsNotifications;
@@ -60,7 +61,7 @@ class VariantsTable extends Component
         });
     }
 
-    public function addWatermark(array $ids): void
+    public function addWatermark(array $ids, InsertWatermark $watermark): void
     {
         if (empty($ids)) {
             return;
@@ -68,8 +69,25 @@ class VariantsTable extends Component
         
         $products = Product::whereKey($ids)->with('image')->get();
         foreach ($products as $product) {
-            $product->addWatermark();
+            $image = $watermark->handle($product->image->path());
+            $product->image->addConversion('wm', $image);
         }
+        
+        Product::whereKey($ids)->update(['has_watermark' => true]);
+    }
+
+    public function removeWatermark(array $ids): void
+    {
+        if (empty($ids)) {
+            return;
+        }
+
+        $products = Product::whereKey($ids)->with('image')->get();
+        foreach ($products as $product) {
+            $product->image->deleteConversion('wm');
+        }
+
+        Product::whereKey($ids)->update(['has_watermark' => false]);
     }
 
     protected function getModels(): Collection

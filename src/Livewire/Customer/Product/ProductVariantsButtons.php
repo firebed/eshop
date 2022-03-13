@@ -158,7 +158,7 @@ class ProductVariantsButtons extends Component
         $this->variantId = $variantId ?? 0;
 
         if ($variant = Product::find($this->variantId)) {
-            $image = $variant->image ? $variant->image->url() : "";
+            $image = $variant->image ? $variant->image->url($variant->has_watermark ? 'wm' : null) : "";
             $images = $variant->images('gallery')->get()->map(fn($i) => $i->url('sm'))->all();
             $this->dispatchBrowserEvent('variant-selected', compact('image', 'images'));
         }

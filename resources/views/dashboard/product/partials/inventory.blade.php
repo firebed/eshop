@@ -48,8 +48,11 @@
             </x-bs::input.group>
 
             <x-bs::input.group x-data="{stock: {{ old('stock', $product->stock ?? 0) ?? 0 }}}" for="stock" label="{{ __('Stock') }}" class="col">
-                <x-eshop::integer x-effect="stock = value" value="stock" id="stock" error="stock"/>
-                <input type="text" x-model="stock" name="stock" hidden>
+                <div class="input-group">
+                    <input type="number" step="1" class="form-control" x-model="stock" id="stock" name="stock">
+                    <button @click.prevent="stock -= (parseInt(prompt('Αφαίρεση ποσότητας:')) || 0)" class="btn btn-outline-secondary"><em class="fas fa-minus"></em></button>
+                    <button @click.prevent="stock += (parseInt(prompt('Αφαίρεση ποσότητας:')) || 0)" class="btn btn-outline-secondary"><em class="fas fa-plus"></em></button>
+                </div>
             </x-bs::input.group>
 
             <x-bs::input.group x-data="{weight: {{ old('weight', $product->weight ?? 0) ?? 0 }}}" for="weight" label="{{ __('Weight') }}" class="col">

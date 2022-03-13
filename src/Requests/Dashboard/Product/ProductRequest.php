@@ -65,7 +65,7 @@ class ProductRequest extends FormRequest
             'image'               => ['nullable', 'image'],
             'images'              => ['nullable', 'array'],
             'images.*'            => ['nullable', 'image'],
-            'watermark'           => ['nullable'],
+            'has_watermark'       => ['required', 'bool'],
 
             # Properties / Attributes / Choices
             'properties.values'   => ['nullable', 'array'],
@@ -100,6 +100,7 @@ class ProductRequest extends FormRequest
             'display_stock'    => $this->has('display_stock'),
             'preview_variants' => $this->has('preview_variants'),
             'has_variants'     => $this->filled('variantTypes'),
+            'has_watermark'    => $this->filled('has_watermark'),
         ]);
     }
 }

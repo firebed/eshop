@@ -1,6 +1,6 @@
 <div x-data="{image: null}">
     <label for="variant-image-input" class="border ratio ratio-4x3 rounded" style="cursor: pointer">
-        @if(isset($variant) && $variant->image && $src = $variant->image->url())
+        @if(isset($variant) && $variant->image && $src = $variant->image->url($product->has_watermark ? 'wm' : null))
             <img x-ref="image" src="{{ $src }}" class="img-middle rounded" alt=""/>
         @else
             <template x-if="image">

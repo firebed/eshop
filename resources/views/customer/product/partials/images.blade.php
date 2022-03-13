@@ -7,7 +7,7 @@
         refreshFsLightbox()
     ">
     <div class="col flex-grow-1 d-grid order-sm-1">
-        @if($product->image && $src = $product->image->url())
+        @if($product->image && $src = $product->image->url($product->has_watermark ? 'wm' : null))
             <a href="{{ $src }}" class="ratio ratio-4x3" data-fslightbox="images" data-type="image">
                 <img x-ref="preview" src="{{ $src }}" alt="{{ $product->trademark }}" class="start-0 top-0 w-auto h-auto mw-100 mh-100 rounded">
             </a>
@@ -17,9 +17,9 @@
     <div class="col w-sm-5r order-sm-0">
         <div class="mh-sm-20r scrollbar overflow-auto">
             <ul class="d-flex flex-nowrap d-sm-grid gap-1 list-unstyled mb-0">
-                @if($product->image && $src = $product->image->url())
+                @if($product->image && $src = $product->image->url($product->has_watermark ? 'wm' : null))
                     <li class="d-flex w-4r w-sm-auto">
-                        <a x-show="thumbnails.length === 0" href="{{ $src }}" class="ratio ratio-1x1 rounded">
+                        <a x-show="thumbnails.length === 0" href="{{ $src }}" data-fslightbox="images" class="ratio ratio-1x1 rounded">
                             <img src="{{ $product->image->url('sm') }}" alt="{{ $product->trademark }}" class="img-top rounded">
                         </a>
                     </li>
@@ -28,7 +28,7 @@
                 @isset($images)
                     @foreach($images as $image)
                         <li class="d-flex w-4r w-sm-auto">
-                            <a x-show="thumbnails.length === 0" href="{{ $image->url() }}" data-fslightbox="images" data-type="image" class="ratio ratio-1x1 rounded">
+                            <a x-show="thumbnails.length === 0" href="{{ $image->url($product->has_watermark ? 'wm' : null) }}" data-fslightbox="images" data-type="image" class="ratio ratio-1x1 rounded">
                                 <img src="{{ $image->url('sm') }}" alt="{{ $product->name }}" class="img-top rounded">
                             </a>
                         </li>
