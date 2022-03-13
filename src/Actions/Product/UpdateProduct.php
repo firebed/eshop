@@ -49,10 +49,14 @@ class UpdateProduct
         } elseif ($product->has_watermark) {
             if ($request->hasFile('image')) {
                 $image = $this->watermark->handle($request->file('image'));
-                $product->image->addConversion('wm', $image);
+                if ($image) {
+                    $product->image->addConversion('wm', $image);
+                }
             } elseif ($product->image) {
                 $image = $this->watermark->handle($product->image->path());
-                $product->image->addConversion('wm', $image);
+                if ($image) {
+                    $product->image->addConversion('wm', $image);
+                }
             }
         }
     }
