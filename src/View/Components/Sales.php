@@ -16,9 +16,8 @@ class Sales extends Component
     {
         $this->products = Product::exceptVariants()
             ->visible()
-            ->where(fn($q) => $q->onSale()->orWhereHas('variants', fn($q) => $q->onSale()))
+            ->where(fn($q) => $q->onSale()->orWhereHas('variants', fn($q) => $q->visible()->onSale()))
             ->with('category.translation', 'image', 'translation')
-            ->with('parent.translation', 'options')
             ->with(['variants' => fn($q) => $q->select('id', 'parent_id', 'discount', 'price')])
             ->latest('updated_at')
             ->take(30)

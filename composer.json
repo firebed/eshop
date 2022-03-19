@@ -14,7 +14,7 @@
     "livewire/livewire": "^2.3",
     "barryvdh/laravel-dompdf": "^0.9.0",
     "firebed/bootstrap-components": "dev-master",
-    "firebed/permission": "dev-master",
+    "firebed/permission": "^1.0",
     "intervention/image": "^2.5",
     "laravel/cashier": "^12.13",
     "maatwebsite/excel": "^3.1",

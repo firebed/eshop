@@ -417,8 +417,6 @@ class Product extends Model implements Auditable
         return parent::delete();
     }
 
-    
-
     protected function registerImageConversions(): void
     {
         $this->addImageConversion('md', function ($image) {

@@ -18,6 +18,7 @@ class TrendingProducts extends Component
             ->visible()
             ->whereHas("collections", fn($q) => $q->whereSlug('trending'))
             ->with('category.translation', 'image', 'translation')
+            ->with(['variants' => fn($q) => $q->visible()->select('id', 'parent_id', 'discount', 'price')])
             ->latest()
             ->take(30)
             ->get();
