@@ -15,6 +15,15 @@
                     <x-bs::badge type="{{ $status->color }}">{{ format_number($status->carts_count) }}</x-bs::badge>
                 </x-bs::list.link>
             @endforeach
+
+            @if(eshop('show_incomplete_carts'))
+                @can('Manage orders')
+                    <x-bs::list.link href="{{ route('carts.index', ['incomplete' => true]) }}" class="d-flex justify-content-between align-items-center">
+                        <span>Ανολοκλήρωτες</span>
+                        <x-bs::badge class="bg-gray-200">{{ format_number($incomplete_carts_count) }}</x-bs::badge>
+                    </x-bs::list.link>
+                @endcan
+            @endif
         </x-bs::list>
     </x-bs::navbar.collapse>
 </x-bs::navbar>

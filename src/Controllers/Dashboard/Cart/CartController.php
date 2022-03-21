@@ -21,14 +21,16 @@ class CartController extends Controller
 
     public function show(Cart $cart): Renderable
     {
-        if (!$cart->isViewed()) {
-            $cart->viewed_at = now();
-            $cart->save();
+        if ($cart->isSubmitted()) {
+            if (!$cart->isViewed()) {
+                $cart->viewed_at = now();
+                $cart->save();
+            }
+
+            $assignment = $cart->operators()->firstWhere('user_id', auth()->id());
+            $assignment?->pivot?->update(['viewed_at' => now()]);
         }
-
-        $assignment = $cart->operators()->firstWhere('user_id', auth()->id());
-        $assignment?->pivot?->update(['viewed_at' => now()]);
-
+        
         return $this->view('cart.show', compact('cart'));
     }
 

@@ -105,7 +105,7 @@
                 <a href="{{ route('carts.show', $cart) }}" class="d-block text-decoration-none text-dark">{{ format_currency($cart->total) }}</a>
             </td>
             <td class="text-end align-middle">
-                <a href="{{ route('carts.show', $cart) }}" class="d-block text-decoration-none text-dark">{{ $cart->submitted_at->isToday() ? $cart->submitted_at->format('H:i') : $cart->submitted_at->format('d/m/y')}}</a>
+                <a href="{{ route('carts.show', $cart) }}" class="d-block text-decoration-none text-dark">{{ $cart->submitted_at?->isToday() ? $cart->submitted_at?->format('H:i') : $cart->submitted_at?->format('d/m/y')}}</a>
             </td>
         </tr>
     @empty

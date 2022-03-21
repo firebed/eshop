@@ -48,6 +48,7 @@ class ShowCarts extends Component
     public string $shipping_method_id      = "";
     public bool   $showStatusModal         = false;
     public bool   $showVoucherModal        = false;
+    public $incomplete;
 
     protected $queryString = [
         'filter'             => ['except' => ''],
@@ -55,6 +56,7 @@ class ShowCarts extends Component
         'payment_method_id'  => ['except' => ''],
         'status'             => ['except' => ''],
         'per_page'           => ['except' => self::PER_PAGE],
+        'incomplete'
     ];
 
     protected array $rules = [
@@ -71,6 +73,7 @@ class ShowCarts extends Component
     public function mount(): void
     {
         $this->per_page = session('carts_per_page', self::PER_PAGE);
+        $this->incomplete = request('incomplete');
     }
 
     public function updated($key): void
@@ -170,8 +173,9 @@ class ShowCarts extends Component
 
     public function getCartsProperty(): LengthAwarePaginator
     {
-        return Cart
-            ::submitted()
+        return Cart::query()
+            ->when($this->incomplete, static fn($q) => $q->whereNull('submitted_at')->latest())
+            ->when(!$this->incomplete, static fn($q) => $q->submitted()->latest('submitted_at'))
             ->when($this->filter, function ($q, $f) {
                 return $q->where(fn($b) => $b->where('id', 'LIKE', "$f%")->orWhere('voucher', 'LIKE', "$f%")->orWhereHas('shippingAddress', fn($b) => $b->matchAgainst($f)));
             })
@@ -182,7 +186,6 @@ class ShowCarts extends Component
             ->when($this->status, fn($q, $s) => $q->where('status_id', $s))
             ->when($this->shipping_method_id, fn($q, $id) => $q->where('shipping_method_id', $id))
             ->when($this->payment_method_id, fn($q, $id) => $q->where('payment_method_id', $id))
-            ->latest('submitted_at')
             ->paginate($this->per_page);
     }
 

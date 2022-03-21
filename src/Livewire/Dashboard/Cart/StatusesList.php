@@ -2,6 +2,7 @@
 
 namespace Eshop\Livewire\Dashboard\Cart;
 
+use Eshop\Models\Cart\Cart;
 use Eshop\Models\Cart\CartStatus;
 use Illuminate\View\View;
 use Livewire\Component;
@@ -17,6 +18,9 @@ class StatusesList extends Component
                 $q->whereHas('operators', fn($b) => $b->where('user_id', auth()->id()));
             });
         }])->get();
-        return view('eshop::dashboard.cart.partials.statuses-list', compact('statuses'));
+        
+        $incomplete_carts_count = Cart::whereNull('submitted_at')->count();
+        
+        return view('eshop::dashboard.cart.partials.statuses-list', compact('statuses', 'incomplete_carts_count'));
     }
 }

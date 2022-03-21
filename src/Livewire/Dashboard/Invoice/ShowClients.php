@@ -2,6 +2,7 @@
 
 namespace Eshop\Livewire\Dashboard\Invoice;
 
+use Eshop\Actions\VatSearch;
 use Eshop\Livewire\Traits\TrimStrings;
 use Eshop\Models\Invoice\Client;
 use Firebed\Components\Livewire\Traits\Datatable\DeletesRows;
@@ -12,6 +13,7 @@ use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Support\Collection;
 use Livewire\Component;
+use Throwable;
 
 class ShowClients extends Component
 {
@@ -29,6 +31,29 @@ class ShowClients extends Component
             ::when($this->search !== '', fn($q) => $q->where('name', 'LIKE', "%$this->search%")->orWhere('vat_number', 'LIKE', "$this->search%"))
             ->orderBy('name')
             ->paginate(30);
+    }
+
+    public function searchVat(VatSearch $vatSearch): void
+    {
+        $vat = $this->model->vat_number;
+        if (blank($vat)) {
+            $this->showWarningToast("Παρακαλώ εισάγετε ΑΦΜ");
+            return;
+        }
+
+        try {
+            $client = $vatSearch->handle($this->model->vat_number);
+
+            $this->model->name = $client['name'];
+            $this->model->tax_authority = $client['tax_authority'];
+            $this->model->city = $client['city'];
+            $this->model->postcode = $client['postcode'];
+            $this->model->job = $client['job'];
+            $this->model->street = $client['street'];
+            $this->model->street_number = $client['street_number'];
+        } catch (Throwable $t) {
+            $this->showErrorToast("Προσοχή!", $t->getMessage());
+        }
     }
 
     public function render(): Renderable

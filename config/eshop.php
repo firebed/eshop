@@ -32,6 +32,10 @@ return [
     'social' => [
 
     ],
+    
+    // Αναζήτηση Βάση ΑΦΜ Γ.Γ.Π.Σ.
+    'ggps_username' => env('GGPS_USERNAME'),
+    'ggps_password' => env('GGPS_PASSWORD'),
 
     'country'            => env('COUNTRY', 'US'),
     'currency'           => env('CURRENCY', 'USD'),
@@ -50,6 +54,8 @@ return [
 
     'paypal_sandbox_client_id'     => env('PAYPAL_SANDBOX_CLIENT_ID'),
     'paypal_sandbox_client_secret' => env('PAYPAL_SANDBOX_CLIENT_SECRET'),
+    
+    'show_incomplete_carts' => false,
     
     /*
     |--------------------------------------------------------------------------

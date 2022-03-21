@@ -53,7 +53,10 @@
                 <div class="row">
                     <div class="col">
                         <label for="vat-number" class="form-label">ΑΦΜ <span class="text-danger">*</span></label>
-                        <x-bs::input.text wire:model.defer="model.vat_number" id="vat-number" error="model.vat_number"/>
+                        <div class="input-group mb-3">
+                            <x-bs::input.text wire:model.defer="model.vat_number" id="vat-number" error="model.vat_number"/>
+                            <button wire:click="searchVat()" class="btn btn-outline-secondary" type="button" id="taxis"><em class="fas fa-building"></em></button>
+                        </div>
                     </div>
 
                     <div class="col">
