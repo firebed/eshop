@@ -82,11 +82,11 @@
                             <div>{{ $cart->billingAddress->full_street }}</div>
                             <div>{{ $cart->billingAddress->city }}, {{ $cart->billingAddress->postcode }}</div>
                             <div>{{ __("Province") }}: {{ $cart->shippingAddress->province }}</div>
-                            <div>{{ $cart->billingAddress->country->name }}</div>
+                            <div>{{ $cart->billingAddress->country?->name }}</div>
                         </div>
                     @endif
 
-                    @if($cart->invoice && $cart->invoice->billingAddress)
+                    @if($order->isDocumentInvoice() && $cart->invoice && $cart->invoice->billingAddress)
                         <div class="d-grid text-secondary border rounded p-3">
                             <div class="text-dark fw-500 mb-2">{{ __("Invoice") }}</div>
                             <div>{{ $cart->invoice->name }}</div>
@@ -95,7 +95,7 @@
                             <div>{{ $cart->invoice->billingAddress->full_street }}</div>
                             <div>{{ $cart->invoice->billingAddress->city }}, {{ $cart->invoice->billingAddress->postcode }}</div>
                             <div>{{ __("Province") }}: {{ $cart->invoice->billingAddress->province }}</div>
-                            <div>{{ $cart->invoice->billingAddress->country->name }}</div>
+                            <div>{{ $cart->invoice->billingAddress->country?->name }}</div>
                         </div>
                     @endif
                 </div>
