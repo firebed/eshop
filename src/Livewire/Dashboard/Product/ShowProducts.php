@@ -3,7 +3,6 @@
 namespace Eshop\Livewire\Dashboard\Product;
 
 use Eshop\Actions\Audit\AuditModel;
-use Eshop\Models\Audit\ModelAudit;
 use Eshop\Models\Product\Category;
 use Eshop\Models\Product\Manufacturer;
 use Eshop\Models\Product\Product;
@@ -31,6 +30,7 @@ class ShowProducts extends Component
     public int         $perPage      = 10;
     public string|bool $visible      = '';
     public             $name;
+    public string      $sku          = '';
 
     public $productsCount;
     public $trashCount;
@@ -39,6 +39,7 @@ class ShowProducts extends Component
     {
         return [
             'name'          => ['except' => ''],
+            'sku'           => ['except' => ''],
             'category'      => ['except' => ''],
             'manufacturer'  => ['except' => ''],
             'sortField'     => ['except' => 'created_at'],
@@ -87,10 +88,10 @@ class ShowProducts extends Component
             ]);
 
             $models = Product::with('category', 'manufacturer', 'unit', 'translations', 'seos')->whereKey($this->selected)->get();
-            foreach($models as $model) {
+            foreach ($models as $model) {
                 $audit->handle($model);
             }
-            
+
             $this->clearSelections();
         });
     }
@@ -100,7 +101,8 @@ class ShowProducts extends Component
         $query = Product::query();
 
         return $query
-            ->exceptVariants()
+            ->when(filled($this->sku), fn($q) => $q->where('sku', 'LIKE', $this->sku . '%')->with('parent.translation', 'options'))
+            ->when(blank($this->sku), fn($q) => $q->exceptVariants())
             ->when(filled($this->name), function ($q) {
                 $keys = Product::search($this->name)->keys();
                 return $q->when(filled($keys), fn($q) => $q->whereKey($keys));

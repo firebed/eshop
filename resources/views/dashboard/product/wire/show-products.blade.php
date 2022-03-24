@@ -18,11 +18,12 @@
     </div>
 
     <div class="row g-3">
-        <div class="col-12 col-md-4 col-lg-4 col-xl-3">
+        <div class="col-12 col-md-4 col-lg-4 col-xl-3 d-flex gap-2">
             <x-bs::input.search wire:model="name" placeholder="{{ __('eshop::product.search')}}"/>
+            <x-bs::input.search wire:model="sku" placeholder="SKU"/>
         </div>
 
-        <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-2">
+        <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-2">            
             <x-bs::input.select wire:model="category">
                 <option value="">{{ __("eshop::product.category") }}</option>
                 @foreach($this->categories as $parentId => $group)
