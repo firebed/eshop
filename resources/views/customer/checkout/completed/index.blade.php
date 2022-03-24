@@ -86,7 +86,7 @@
                         </div>
                     @endif
 
-                    @if($order->isDocumentInvoice() && $cart->invoice && $cart->invoice->billingAddress)
+                    @if($cart->isDocumentInvoice() && $cart->invoice && $cart->invoice->billingAddress)
                         <div class="d-grid text-secondary border rounded p-3">
                             <div class="text-dark fw-500 mb-2">{{ __("Invoice") }}</div>
                             <div>{{ $cart->invoice->name }}</div>
