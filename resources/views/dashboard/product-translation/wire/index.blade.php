@@ -16,8 +16,11 @@
     <div class="vstack gap-4">
         @include('eshop::dashboard.product-translation.wire.partials.product-translations')
         @include('eshop::dashboard.product-translation.wire.partials.product-seo-translations')
-        @include('eshop::dashboard.product-translation.wire.partials.variants-types-translations')
-        @include('eshop::dashboard.product-translation.wire.partials.variants-options-translations')
-        @include('eshop::dashboard.product-translation.wire.partials.variants-seo-translations')
+        
+        @if($has_variants)
+            @include('eshop::dashboard.product-translation.wire.partials.variants-types-translations')
+            @include('eshop::dashboard.product-translation.wire.partials.variants-options-translations')
+            @include('eshop::dashboard.product-translation.wire.partials.variants-seo-translations')
+        @endif
     </div>
 </div>

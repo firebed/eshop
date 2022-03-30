@@ -24,4 +24,6 @@ return [
     'View product movements'          => 'Κινήσεις προϊόντων',
     'Manage invoices'                 => 'Διαχείριση τιμολογίων',
     'View product audits'             => 'Ιστορικό αλλαγών προϊόντων',
+    'Can manage translations'         => 'Διαχείριση μεταφράσεων',
+    'Manage API keys'                 => 'Διαχείριση κλειδιών API'
 ];

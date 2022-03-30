@@ -6,10 +6,9 @@ use Eshop\Models\Product\Product;
 use Eshop\Models\Product\ProductVariantOption;
 use Firebed\Components\Livewire\Traits\SendsNotifications;
 use Illuminate\Contracts\Support\Renderable;
+use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
-use \Illuminate\Database\Eloquent\Collection as EloquentCollection;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Livewire\Component;
 
@@ -17,17 +16,19 @@ class ProductTranslations extends Component
 {
     use SendsNotifications;
 
-    public array   $locales;
-    public string  $default_locale;
-    public string  $default_locale_name;
+    public array  $locales;
+    public string $default_locale;
+    public string $default_locale_name;
+    public bool   $has_variants = false;
 
-    public int $product_id;
+    public int   $product_id;
     public array $translations = [];
 
     public function mount(Product $product): void
     {
         $this->product_id = $product->id;
-        
+        $this->has_variants = $product->has_variants;
+
         $locales = collect(eshop('locales', []));
         $this->default_locale = config('app.locale', '');
         $this->default_locale_name = $locales->get($this->default_locale);
@@ -167,7 +168,7 @@ class ProductTranslations extends Component
     public function save(): void
     {
         $product = Product::findOrFail($this->product_id);
-        
+
         foreach (array_keys($this->locales) as $locale) {
             // Save product
             $product->setTranslation('name', $this->getTranslation('product.name', $locale), $locale);
@@ -192,7 +193,7 @@ class ProductTranslations extends Component
                     $variant_type->save();
                 }
             }
-            
+
             // Save variant seo
             $variants_seo = collect($this->getTranslation('variants_seo', $locale, []))->map(fn($i) => blank($i) ? null : trim($i));
             $variants = $product->variants()->with('seos')->get();
@@ -201,14 +202,14 @@ class ProductTranslations extends Component
                 if ($variant === null) {
                     continue;
                 }
-                
+
                 if (is_null($seo)) {
                     $variant->seo($locale)->delete();
                 } else {
                     $variant->seos()->updateOrCreate(['locale' => $locale], ['title' => $seo]);
                 }
             }
-            
+
             // Save variant options (colours, sizes, etc)
             $options = collect($this->getTranslation('options', $locale, []))->map(fn($i) => blank($i) ? null : trim($i));
             $collection = ProductVariantOption::whereKey(array_keys($this->getDefault('options')))->get();

@@ -61,8 +61,7 @@ Route::middleware(['web', 'auth', 'admin'])->group(function () {
         Route::post('products/barcode', ProductBarcodeController::class)->name('products.barcode.create');
         Route::get('products/trashed', ProductTrashController::class)->name('products.trashed.index');
         Route::resource('products.audits', ProductAuditController::class)->shallow()->only('index', 'show');
-        Route::get('products/{product}/translations', [ProductTranslationController::class, 'edit'])->name('products.translations.edit');
-        Route::put('products/{product}/translations', [ProductTranslationController::class, 'update'])->name('products.translations.update');
+        Route::get('products/{product}/translations', ProductTranslationController::class)->name('products.translations.edit');
         Route::resource('products', ProductController::class)->except('show', 'edit');
 
         Route::put('variants/images', VariantBulkImageController::class)->name('variants.bulk-images.update');
