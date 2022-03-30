@@ -3,14 +3,16 @@
 namespace Eshop\Controllers\Dashboard\Product;
 
 use Eshop\Actions\Audit\AuditModel;
+use Eshop\Actions\Product\Traits\SavesVariantOptions;
 use Eshop\Controllers\Dashboard\Controller;
-use Eshop\Controllers\Dashboard\Product\Traits\WithVariantOptions;
 use Eshop\Controllers\Dashboard\Traits\WithNotifications;
 use Eshop\Models\Product\Product;
 use Eshop\Models\Product\VariantType;
 use Eshop\Requests\Dashboard\Product\VariantBulkCreateRequest;
 use Eshop\Requests\Dashboard\Product\VariantBulkUpdateRequest;
+use Eshop\Services\BarcodeService;
 use Illuminate\Contracts\Support\Renderable;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -18,8 +20,7 @@ use Throwable;
 
 class VariantBulkController extends Controller
 {
-    use WithNotifications,
-        WithVariantOptions;
+    use WithNotifications, SavesVariantOptions;
 
     private AuditModel $audit;
 
@@ -34,41 +35,48 @@ class VariantBulkController extends Controller
     {
         return $this->view('variant.bulk-create', [
             'product'      => $product,
-            'variantTypes' => VariantType::where('product_id', $product->id)->pluck('name', 'id')->all()
+            'variantTypes' => VariantType::where('product_id', $product->id)->with('translation')->get()->pluck('name', 'id')->all()
         ]);
     }
 
-    public function store(VariantBulkCreateRequest $request, Product $product): RedirectResponse
+    public function store(VariantBulkCreateRequest $request, Product $product, BarcodeService $barcode): RedirectResponse
     {
+        DB::beginTransaction();
+
         try {
-            DB::transaction(function () use ($request, $product) {
-                collect($request->input('variants', []))
-                    ->each(function ($input) use ($product) {
-                        $variant = $product->replicate(['slug', 'has_variants', 'variants_display', 'preview_variants', 'net_value']);
+            $variants = collect($request->input('variants', []));
+            foreach ($variants as $input) {
+                $variant = $product->replicate(['discount', 'slug', 'mpn', 'has_variants', 'variants_display', 'preview_variants', 'net_value', 'recent']);
 
-                        $variant->fill([
-                            'price'   => $input['price'],
-                            'stock'   => $input['stock'],
-                            'sku'     => $input['sku'],
-                            'barcode' => $input['barcode'],
-                            'slug'    => $product->slug . '-' . slugify($input['options'])
-                        ]);
+                $variant->fill([
+                    'price'   => $input['price'],
+                    'stock'   => $input['stock'],
+                    'sku'     => $input['sku'],
+                    'barcode' => $input['barcode'],
+                    'slug'    => $product->slug . "-" . slugify($input['options'])
+                ]);
 
-                        $product->variants()->save($variant);
+                if (blank($variant->barcode) && $barcode->shouldFill()) {
+                    $variant->barcode = $barcode->generateForVariant($product);
+                }
 
-                        $this->saveVariantOptions($variant, $input['options']);
+                $product->variants()->save($variant);
 
-                        $options = implode(' ', $input['options']);
+                $this->saveVariantOptions($variant, $input['options']);
 
-                        $variant->seo()->create([
-                            'locale' => app()->getLocale(),
-                            'title'  => $product->name . ' ' . $options
-                        ]);
+                $options = implode(' ', $input['options']);
 
-                        $this->audit->handle($variant);
-                    });
-            });
+                $variant->seo()->create([
+                    'locale' => app()->getLocale(),
+                    'title'  => $product->name . ' ' . $options
+                ]);
+
+                $this->audit->handle($variant);
+            }
+
+            DB::commit();
         } catch (Throwable $e) {
+            DB::rollBack();
             $this->showErrorNotification(trans('eshop::variant.notifications.error') . ': ' . $e->getMessage());
             $request->flash();
             return back();
@@ -104,16 +112,16 @@ class VariantBulkController extends Controller
             $data = array_combine($request->input('bulk_ids'), $request->input("bulk_$property"));
             $distinct = array_unique($data);
 
+            DB::beginTransaction();
             try {
-                DB::transaction(static function () use ($property, $data, $distinct) {
-                    foreach ($distinct as $value) {
-                        $keys = array_keys($data, $value);
-               
-                        Product::whereKey($keys)->update([
-                            $property => $value
-                        ]);
-                    }
-                });
+                foreach ($distinct as $value) {
+                    $keys = array_keys($data, $value);
+
+                    Product::whereKey($keys)->update([
+                        $property => $value
+                    ]);
+                }
+                DB::commit();
 
                 $count = count($data);
                 if (count($request->input('properties', [])) === 1) {
@@ -123,14 +131,17 @@ class VariantBulkController extends Controller
                     $this->showSuccessNotification(trans("eshop::variant.notifications.saved_many"));
                 }
             } catch (Throwable) {
+                DB::rollBack();
                 $this->showErrorNotification(trans('eshop::variant.notifications.error'));
             }
         }
-        
-        DB::transaction(function() use ($request) {
-            $models = Product::with('category', 'translations', 'parent.translations', 'options', 'manufacturer', 'unit', 'seos')
+
+        DB::transaction(function () use ($request) {
+            $models = Product::with('category', 'translations', 'parent.translations', 'options.translation', 'manufacturer', 'unit', 'seos')
                 ->whereKey($request->input('bulk_ids'))
                 ->get();
+
+            (new Collection($models->pluck('options')->flatten()->pluck('pivot')))->load('translation');
             
             foreach ($models as $model) {
                 $this->audit->handle($model);

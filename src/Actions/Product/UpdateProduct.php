@@ -4,14 +4,15 @@ namespace Eshop\Actions\Product;
 
 use Eshop\Actions\InsertWatermark;
 use Eshop\Actions\Product\Traits\SavesProductProperties;
+use Eshop\Actions\Product\Traits\SavesVariantOptions;
+use Eshop\Actions\Product\Traits\SavesVariantTypes;
 use Eshop\Models\Product\Product;
-use Eshop\Models\Product\VariantType;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\UploadedFile;
 
 class UpdateProduct
 {
-    use SavesProductProperties;
+    use SavesProductProperties, SavesVariantOptions, SavesVariantTypes;
 
     public function __construct(private InsertWatermark $watermark)
     {
@@ -30,10 +31,9 @@ class UpdateProduct
         $product->seo()->updateOrCreate([], $request->input('seo'));
 
         if ($product->isVariant()) {
-            $product->options()->sync([]);
             $this->saveVariantOptions($product, $request->input('options'));
         } else {
-            $this->syncVariantTypes($product, $request->input('variantTypes', []));
+            $this->saveVariantTypes($product, $request->input('variantTypes', []));
 
             $this->saveProperties($product, $request->input('properties', []));
 
@@ -82,31 +82,6 @@ class UpdateProduct
         if ($product->isDirty('unit_id')) {
             $product->variants()->update([
                 'unit_id' => $request->input('unit_id')
-            ]);
-        }
-    }
-
-    private function saveVariantOptions(Product $variant, array $options): void
-    {
-        foreach ($options as $variantTypeId => $option) {
-            $variant->options()->attach($variantTypeId, [
-                'value' => $option,
-                'slug'  => slugify($option, '_')
-            ]);
-        }
-    }
-
-    private function syncVariantTypes(Product $product, array $data): void
-    {
-        $variantTypes = $product->variantTypes()->pluck('name', 'id');
-        $deleteIds = $variantTypes->keys()->diff(array_column($data, 'id'));
-        VariantType::whereKey($deleteIds)->delete();
-
-        foreach ($data as $i => $variantType) {
-            $product->variantTypes()->updateOrCreate(['id' => $variantType['id']], [
-                'name'     => $variantType['name'],
-                'slug'     => slugify($variantType['name']),
-                'position' => $i
             ]);
         }
     }

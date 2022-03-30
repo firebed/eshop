@@ -26,7 +26,7 @@ class VariantsTable extends Component
 
     public function getVariantsProperty(): Collection
     {
-        return Product::query()
+        $variants = Product::query()
             ->where('parent_id', $this->product->id)
             ->when($this->search, function ($q, $v) {
                 $q->where(function ($b) use ($v) {
@@ -34,9 +34,14 @@ class VariantsTable extends Component
                     $b->orWhereHas('options', fn($b) => $b->where('value', 'LIKE', "%$v%"));
                 });
             })
-            ->with('options', 'category', 'image')
+            ->with(['options.translation', 'category', 'image'])
             ->get()
-            ->sortBy('option_values', SORT_NATURAL | SORT_FLAG_CASE);
+            ->each(fn($v) => $v->options = $v->options->sortBy('position'));
+
+        (new \Illuminate\Database\Eloquent\Collection($variants->pluck('options')->flatten()->pluck('pivot')))->load('translation');
+        
+        return $variants
+            ->sortBy(fn($v) => $v->options->pluck('pivot.name')->join(' / '), SORT_NATURAL | SORT_FLAG_CASE);
     }
 
     public function getVariantTypesProperty(): Collection
@@ -96,17 +101,10 @@ class VariantsTable extends Component
     }
 
     public function render(): Renderable
-    {
-        $options = $this->variants
-            ->pluck('options')
-            ->collapse()
-            ->groupBy('pivot.variant_type_id')
-            ->map(fn($g) => $g->pluck('pivot.value')->unique()->sort());
-        
+    {        
         return view('eshop::dashboard.variant.wire.variants-table', [
             'variants'     => $this->variants,
-            'variantTypes' => $this->variantTypes,
-            'options'      => $options
+            'variantTypes' => $this->variantTypes
         ]);
     }
 }

@@ -32,10 +32,6 @@ return [
     'social' => [
 
     ],
-    
-    // Αναζήτηση Βάση ΑΦΜ Γ.Γ.Π.Σ.
-    'ggps_username' => env('GGPS_USERNAME'),
-    'ggps_password' => env('GGPS_PASSWORD'),
 
     'country'            => env('COUNTRY', 'US'),
     'currency'           => env('CURRENCY', 'USD'),

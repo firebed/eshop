@@ -4,14 +4,15 @@ namespace Eshop\Actions\Product;
 
 use Eshop\Actions\InsertWatermark;
 use Eshop\Actions\Product\Traits\SavesProductProperties;
+use Eshop\Actions\Product\Traits\SavesVariantOptions;
+use Eshop\Actions\Product\Traits\SavesVariantTypes;
 use Eshop\Models\Product\Product;
-use Eshop\Models\Product\VariantType;
 use Eshop\Requests\Dashboard\Product\ProductRequest;
 use Eshop\Services\BarcodeService;
 
 class StoreProduct
 {
-    use SavesProductProperties;
+    use SavesProductProperties, SavesVariantOptions, SavesVariantTypes;
 
     public function __construct(private InsertWatermark $watermark,
                                 private BarcodeService  $barcodeService)
@@ -29,13 +30,9 @@ class StoreProduct
 
         $product->seo()->create($request->input('seo'));
 
-        if ($request->filled('variantTypes')) {
-            $this->saveVariantTypes($product, $request->input('variantTypes'));
-        }
+        $this->storeVariantTypes($product, $request->input('variantTypes'));
 
-        if ($request->filled('properties')) {
-            $this->saveProperties($product, $request->input('properties'));
-        }
+        $this->saveProperties($product, $request->input('properties'));
 
         $product->collections()->sync($request->input('collections', []));
 
@@ -50,17 +47,6 @@ class StoreProduct
         }
 
         return $product;
-    }
-
-    private function saveVariantTypes(Product $product, array $data): void
-    {
-        $variantTypes = collect($data)->transform(fn($v, $i) => new VariantType([
-            'name'     => $v['name'],
-            'slug'     => slugify($v['name']),
-            'position' => $i
-        ]));
-
-        $product->variantTypes()->saveMany($variantTypes);
     }
 
     private function fillBarcode(Product $product): void

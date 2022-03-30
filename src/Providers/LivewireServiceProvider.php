@@ -37,6 +37,7 @@ use Eshop\Livewire\Dashboard\Pos\PosProducts;
 use Eshop\Livewire\Dashboard\Pos\PosProductsSearch;
 use Eshop\Livewire\Dashboard\Pos\PosShipping;
 use Eshop\Livewire\Dashboard\Product\ProductProperties;
+use Eshop\Livewire\Dashboard\Product\ProductTranslations;
 use Eshop\Livewire\Dashboard\Product\ShowManufacturers;
 use Eshop\Livewire\Dashboard\Product\ShowProductImages;
 use Eshop\Livewire\Dashboard\Product\ShowProducts;
@@ -100,6 +101,7 @@ class LivewireServiceProvider extends ServiceProvider
         Livewire::component('dashboard.product.variants-table', VariantsTable::class);
         Livewire::component('dashboard.product.product-properties', ProductProperties::class);
         Livewire::component('dashboard.product.variant-types', VariantTypes::class);
+        Livewire::component('dashboard.product.translations', ProductTranslations::class);
         Livewire::component('dashboard.variant.variant-bulk-create', VariantBulkCreateTable::class);
 
         // User

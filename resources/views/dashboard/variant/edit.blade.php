@@ -15,7 +15,7 @@
                 @method('put')
 
                 <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
-                    <h1 class="fs-4 mb-0">{{ $variant->option_values }}</h1>
+                    <h1 class="fs-4 mb-0">{{ $variant->options->pluck('pivot.name')->join('/') }}</h1>
 
                     <div class="btn-toolbar gap-2 ms-auto" role="toolbar">
                         <div class="btn-group">

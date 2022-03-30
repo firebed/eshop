@@ -16,6 +16,7 @@ use Eshop\Models\Product\CategoryChoice;
 use Eshop\Models\Product\CategoryProperty;
 use Eshop\Models\Product\Manufacturer;
 use Eshop\Models\Product\Product;
+use Eshop\Models\Product\ProductVariantOption;
 use Eshop\Models\Product\VariantType;
 use Eshop\Models\Seo\Seo;
 use Eshop\Models\Slide\Slide;
@@ -151,6 +152,7 @@ class EshopServiceProvider extends ServiceProvider
             //
             'product'                 => Product::class,
             'variant_type'            => VariantType::class,
+            'product_variant_type'    => ProductVariantOption::class,
             //
             'country_payment_method'  => CountryPaymentMethod::class,
             'country_shipping_method' => CountryShippingMethod::class,

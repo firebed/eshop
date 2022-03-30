@@ -62,8 +62,9 @@ class ShowCart extends Component
     public function getProductsProperty(): Collection
     {
         return $this->cart->products()
+            ->withTrashed()
             ->oldest('cart_product.created_at')
-            ->with('options', 'translation', 'image', 'parent.translation')
+            ->with('variantOptions.translation', 'translation', 'image', 'parent.translation')
             ->get();
     }
 

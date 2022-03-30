@@ -26,6 +26,7 @@ class CategoryController extends Controller
                 ->visible()
                 ->with('translation', 'image')
                 ->with(['children' => fn($q) => $q->promoted()->visible()->with('translation')])
+                ->withCount(['products' => fn($q) => $q->visible()->exceptVariants()])
                 ->get();
 
             return $this->view('category.show', [
@@ -84,7 +85,7 @@ class CategoryController extends Controller
             ->with('translations') // We need this for different languages
             ->with('image', 'category')
 //            ->with(['choices' => fn($q) => $q->with('property.translation', 'translation')])
-            ->with(['variants' => fn($q) => $q->visible()->with('translation', 'parent', 'options', 'image')])
+            ->with(['variants' => fn($q) => $q->visible()->with('translation', 'parent', 'variantOptions.translation', 'image')])
             ->select('products.*')
             ->joinTranslation()
             ->orderBy($order, $direction)

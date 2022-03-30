@@ -182,3 +182,12 @@
         </a>
     </li>
 @endcan
+
+@can('Manage API keys')
+    <li class="nav-item">
+        <a href="{{ route('user-variables.index') }}" @class([$link, $active => request()->routeIs('user-variables.*')])>
+            <em class="fa fa-key"></em>
+            <span>{{ __("API Keys") }}</span>
+        </a>
+    </li>
+@endcan

@@ -71,9 +71,9 @@ trait HasTranslations
 
     public function translate(string $cluster, ?string $locale = null, bool $useFallbackLocale = true): ?string
     {
-        if ($val = parent::getAttribute($cluster)) {
-            return $val;
-        }
+//        if ($val = parent::getAttribute($cluster)) {
+//            return $val;
+//        }
 
         $locale = $locale ?? $this->getLocale();
 

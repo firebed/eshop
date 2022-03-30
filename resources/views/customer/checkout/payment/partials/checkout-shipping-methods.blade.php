@@ -29,7 +29,7 @@
                     <div class="vstack gap-3 pt-3 text-secondary">
                         @if($option->area?->type === 'ΔΠ' && $option->inaccessible_area_fee === .0)
                             <div class="vstack">
-                                <div>Η διεύθυνση σας ανήκει σε δυσπρόσιτη περιοχή και θα παραλάβετε το δέμα σας στην μεταφορική της περιοχής σας.</div>
+                                <div>Η διεύθυνση σας ανήκει σε δυσπρόσιτη περιοχή και θα παραλάβετε το δέμα σας στη μεταφορική της περιοχής σας.</div>
                                 @if($option->area)
                                     @if($option->area->courier_address)
                                         <div>Διεύθυνση: {{ $option->area->courier_address }}</div>

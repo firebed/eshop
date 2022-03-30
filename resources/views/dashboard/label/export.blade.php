@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
@@ -13,7 +13,7 @@
             position: relative;
             font-family: DejaVu Sans, sans-serif;
             font-size: {{ $options['fontSize'] ?? 9 }}px !important;
-            line-height: .95rem;
+            line-height: .5rem;
             page-break-inside: avoid;
         }
 

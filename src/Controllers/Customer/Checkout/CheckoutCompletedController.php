@@ -16,7 +16,7 @@ class CheckoutCompletedController extends Controller
             return redirect()->route('checkout.products.index', $locale);
         }
 
-        $cart->load('products.image', 'products.translation', 'products.parent.translation', 'products.options');
+        $cart->load('products.image', 'products.translation', 'products.parent.translation', 'products.variantOptions.translation');
 
         return $this->view('checkout.completed.index', compact('cart'));
     }

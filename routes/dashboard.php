@@ -29,9 +29,9 @@ use Eshop\Controllers\Dashboard\Product\ProductBarcodeController;
 use Eshop\Controllers\Dashboard\Product\ProductController;
 use Eshop\Controllers\Dashboard\Product\ProductImageController;
 use Eshop\Controllers\Dashboard\Product\ProductMovementController;
+use Eshop\Controllers\Dashboard\Product\ProductTranslationController;
 use Eshop\Controllers\Dashboard\Product\ProductTrashController;
 use Eshop\Controllers\Dashboard\Product\ProductVisibilityController;
-use Eshop\Controllers\Dashboard\Product\ProductWatermarkController;
 use Eshop\Controllers\Dashboard\Product\VariantBulkController;
 use Eshop\Controllers\Dashboard\Product\VariantBulkImageController;
 use Eshop\Controllers\Dashboard\Product\VariantController;
@@ -41,6 +41,7 @@ use Eshop\Controllers\Dashboard\Simplify\SimplifyWebhookController;
 use Eshop\Controllers\Dashboard\Slide\SlideController;
 use Eshop\Controllers\Dashboard\User\UserController;
 use Eshop\Controllers\Dashboard\User\UserPermissionController;
+use Eshop\Controllers\Dashboard\User\UserVariableController;
 use Illuminate\Support\Facades\Route;
 
 Route::post('simplify/webhook', SimplifyWebhookController::class)->middleware('web');
@@ -60,6 +61,8 @@ Route::middleware(['web', 'auth', 'admin'])->group(function () {
         Route::post('products/barcode', ProductBarcodeController::class)->name('products.barcode.create');
         Route::get('products/trashed', ProductTrashController::class)->name('products.trashed.index');
         Route::resource('products.audits', ProductAuditController::class)->shallow()->only('index', 'show');
+        Route::get('products/{product}/translations', [ProductTranslationController::class, 'edit'])->name('products.translations.edit');
+        Route::put('products/{product}/translations', [ProductTranslationController::class, 'update'])->name('products.translations.update');
         Route::resource('products', ProductController::class)->except('show', 'edit');
 
         Route::put('variants/images', VariantBulkImageController::class)->name('variants.bulk-images.update');
@@ -127,5 +130,7 @@ Route::middleware(['web', 'auth', 'admin'])->group(function () {
         Route::get('invoices/{invoice}/print', [InvoiceController::class, 'print'])->name('invoices.print');
         Route::resource('invoices', InvoiceController::class);
         Route::resource('clients', ClientController::class)->only('index', 'create', 'store');
+        
+        Route::resource('user-variables', UserVariableController::class)->only('index', 'store');
     });
 });

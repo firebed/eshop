@@ -2,6 +2,7 @@
 
 namespace Eshop\Models\Product;
 
+use Eshop\Models\Lang\Traits\HasTranslations;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\Pivot;
@@ -17,5 +18,13 @@ use Illuminate\Database\Eloquent\Relations\Pivot;
  */
 class ProductVariantOption extends Pivot
 {
-    use HasFactory;
+    use HasFactory, HasTranslations;
+        
+    public $timestamps = FALSE;
+    
+    public $incrementing = true;
+    
+    protected $table = 'product_variant_type';
+    
+    public $translatable = ['name'];
 }

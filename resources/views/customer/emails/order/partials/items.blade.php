@@ -13,8 +13,14 @@
         <tr>
             <td style="text-align: left">@if($src = $product->image?->url('sm')) <img alt="{{ $product->name }}" src="{{ asset($src) }}" style="max-width: 60px"> @endif</td>
             <td style="text-align: left">
-                <div class="mb-1 font-weight-bold"><strong>{{ $product->parent->name ?? '' }}</strong></div>
-                <div>{{ $product->sku . ' ' . $product->name }}</div>
+                @if($product->isVariant())
+                    <div class="vstack">
+                        <div class="fw-500">{{ $product->parent->name }}</div>
+                        <small class="text-secondary">{{ $product->option_values }}</small>
+                    </div>
+                @else
+                    <div class="fw-500">{{ $product->trademark }}</div>
+                @endif
             </td>
             <td style="text-align: center">{{ format_number($product->pivot->quantity) }}</td>
             <td style="text-align: right">{{ format_currency($product->pivot->netValue) }}</td>
@@ -31,7 +37,7 @@
         <td colspan="4" style="text-align: right;">@isset($cart->paymentMethod) {{ __("eshop::payment.{$cart->paymentMethod->name}") }} @else {{ "-" }} @endisset</td>
         <td style="text-align: right">{{ format_currency($cart->payment_fee) }}</td>
     </tr>
-        <tr>
+    <tr>
         <td colspan="4" style="text-align: right;"><strong>{{ __("Total") }}</strong></td>
         <td style="text-align: right"><strong>{{ format_currency($cart->total) }}</strong></td>
     </tr>

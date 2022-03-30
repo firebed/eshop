@@ -93,14 +93,14 @@ class ProductRequest extends FormRequest
     protected function prepareForValidation(): void
     {
         $this->merge([
-            'is_physical'      => $this->has('is_physical'),
-            'visible'          => $this->has('visible'),
-            'recent'           => $this->has('recent'),
-            'available'        => $this->has('available'),
-            'display_stock'    => $this->has('display_stock'),
-            'preview_variants' => $this->has('preview_variants'),
+            'is_physical'      => $this->boolean('is_physical'),
+            'visible'          => $this->boolean('visible'),
+            'recent'           => $this->boolean('recent'),
+            'available'        => $this->boolean('available'),
+            'display_stock'    => $this->boolean('display_stock'),
+            'preview_variants' => $this->boolean('preview_variants'),
             'has_variants'     => $this->filled('variantTypes'),
-            'has_watermark'    => $this->filled('has_watermark'),
+            'has_watermark'    => $this->boolean('has_watermark'),
         ]);
     }
 }

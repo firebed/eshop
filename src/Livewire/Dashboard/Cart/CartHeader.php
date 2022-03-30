@@ -32,7 +32,7 @@ class CartHeader extends Component
     public function exportToPdf(): StreamedResponse
     {
         return response()->streamDownload(function () {
-            $products = $this->cart->products()->with('translation', 'parent.translation', 'options')->get();
+            $products = $this->cart->products()->with('translation', 'parent.translation', 'variantOptions.translation')->get();
             $pdf = new Dompdf(['enable_remote' => true]);
             $pdf->loadHtml(view('eshop::customer.order-printer.print', ['cart' => $this->cart, 'products' => $products]));
 

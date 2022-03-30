@@ -64,7 +64,7 @@ class ShowCheckoutProducts extends Component
 
         $products = $order->products;
         if ($products->isNotEmpty()) {
-            $products->load('image', 'parent', 'category', 'options');
+            $products->load('image', 'parent', 'category', 'variantOptions.translation');
             $products->merge($products->pluck('parent')->filter())->load('translation');
         }
 

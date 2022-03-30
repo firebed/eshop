@@ -19,7 +19,7 @@ class ProductCollectionController extends Controller
 
         $categories = Category::visible()
             ->whereHas('products', fn($q) => $this->applyConstraints($q, $collection, $request))
-            ->withCount(['products' => fn($q) =>    $this->applyConstraints($q, $collection, $request)])
+            ->withCount(['products' => fn($q) => $this->applyConstraints($q, $collection, $request)])
             ->with('translation')
             ->get();
 
@@ -35,6 +35,8 @@ class ProductCollectionController extends Controller
             ->joinTranslation()
             ->latest()
             ->paginate(48);
+ 
+        (new \Illuminate\Database\Eloquent\Collection($products->pluck('variants')->collapse()->pluck('options')->collapse()->pluck('pivot')))->load('translation');
 
         $selectedManufacturers = collect();
         if (count($manufacturer_ids) > 0) {
@@ -61,7 +63,7 @@ class ProductCollectionController extends Controller
         return $query->visible()
             ->exceptVariants()
             ->whereHas('collections', fn($b) => $b->where('collection_id', $collection->id))
-            ->filterByPrice($request->query('min_price'), $request->query('max_price')); 
+            ->filterByPrice($request->query('min_price'), $request->query('max_price'));
     }
 
     private function groupPriceRanges(Collection $manufacturer_ids, $collection): Collection

@@ -3,6 +3,7 @@
 namespace Eshop\Models\Product\Traits;
 
 use Eshop\Models\Audit\Traits\HasAudits;
+use Illuminate\Database\Eloquent\Collection;
 
 trait HasProductAudit
 {
@@ -58,8 +59,8 @@ trait HasProductAudit
         $auditable['seo'] = $seos;
 
         if ($this->has_variants) {
-            $auditable['variant_types'] = $this->variantTypes->sortBy('position')->pluck('name');
-            
+            $auditable['variant_types'] = $this->variantTypes->loadMissing('translation')->sortBy('position')->pluck('name');
+
             $this->load('properties.translation', 'choices.translation');
 
             $properties = [];
@@ -74,7 +75,9 @@ trait HasProductAudit
         }
 
         if ($this->isVariant()) {
-            $auditable['option_values'] = $this->options()->pluck('value', 'name')->all();
+            $this->options->loadMissing('translation');
+            (new Collection($this->options->flatten()->pluck('pivot')))->loadMissing('translation');
+            $auditable['option_values'] = $this->options->pluck('pivot.name', 'name')->all();
         }
 
         return $auditable;

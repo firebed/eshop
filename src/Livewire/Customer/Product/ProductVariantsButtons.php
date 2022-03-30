@@ -52,7 +52,6 @@ class ProductVariantsButtons extends Component
         $this->updateAvailableOptions();
 
         $this->findVariant();
-
     }
 
     public function addToCart(Order $order): void
@@ -86,31 +85,26 @@ class ProductVariantsButtons extends Component
         $this->updateAvailableOptions();
         $this->findVariant();
     }
-
-    public function getVariantsProperty(): Collection
+    
+    public function getVariantTypesProperty(): Collection
     {
-        return $this->product
-            ->variants()
-            ->with('options', 'parent')
-            ->visible()
-            ->get()
-            ->sortBy(['sku', 'variant_values'], SORT_NATURAL | SORT_FLAG_CASE);
+        return $this->product->variants->pluck('options')->collapse()->unique('id');
     }
 
     public function getUniqueVariantOptionsProperty(): Collection
     {
-        return $this->variants
+        return $this->product->variants
             ->pluck('options')
             ->collapse()
             ->groupBy('pivot.variant_type_id')
-            ->map(fn($g) => $g->unique('pivot.value')->sortBy('pivot.value', SORT_NATURAL));
+            ->map(fn($g) => $g->unique('pivot.name')->sortBy('pivot.name', SORT_NATURAL));
     }
 
     public function render(): Renderable
     {
         return view('eshop::customer.product.wire.product-variants-buttons', [
             'variant'       => $this->variantId ? Product::find($this->variantId) : null,
-            'variants'      => $this->variants,
+            'variants'      => $this->product->variants,
             'uniqueOptions' => $this->uniqueVariantOptions
         ]);
     }
@@ -126,7 +120,7 @@ class ProductVariantsButtons extends Component
     {
         $filters = collect($this->filters);
 
-        $this->available = $this->variants
+        $this->available = $this->product->variants
             ->filter(fn($v) => $v->canBeBought() && $filters->diff($v->options->pluck('pivot.slug'))->isEmpty())
             ->pluck('options')
             ->collapse()
@@ -139,14 +133,14 @@ class ProductVariantsButtons extends Component
     {
         $filters = collect($this->filters)->put($variant_type_id, $option_slug);
 
-        return $this->variants
+        return $this->product->variants
             ->filter(fn($v) => $v->canBeBought() && $filters->diff($v->options->pluck('pivot.slug'))->isEmpty())
             ->isNotEmpty();
     }
 
     private function findVariant(): void
     {
-        $variantId = $this->variants
+        $variantId = $this->product->variants
             ->pluck('options')
             ->collapse()
             ->whereIn('pivot.slug', $this->filters)

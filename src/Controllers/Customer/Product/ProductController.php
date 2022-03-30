@@ -7,6 +7,7 @@ use Eshop\Models\Product\Category;
 use Eshop\Models\Product\Product;
 use Eshop\Repository\Contracts\Order;
 use Illuminate\Contracts\Support\Renderable;
+use Illuminate\Database\Eloquent\Collection;
 
 class ProductController extends Controller
 {
@@ -25,8 +26,9 @@ class ProductController extends Controller
 
         $quantity = 0;
         if ($product->has_variants) {
-            $product->load(['variants' => fn($q) => $q->visible()->with('parent', 'image', 'options')]);
-            $variants = $product->variants->sortBy('option_values', SORT_NATURAL | SORT_FLAG_CASE);
+            $product->load(['variants' => fn($q) => $q->visible()->with('parent', 'image', 'options.translation')]);
+            (new Collection($product->variants->pluck('options')->collapse()->pluck('pivot')))->load('translation');
+            $variants = $product->variants->sortBy('variant_values', SORT_NATURAL | SORT_FLAG_CASE);
         } else {
             $quantity = $order->getProductQuantity($product);
         }
@@ -35,7 +37,7 @@ class ProductController extends Controller
             session()->flash('quantity', __('The product is already in the shopping cart.'));
         }
 
-        return $this->view(!$product->isVariant() ? 'product.show' : 'product.show-variant', [
+        return $this->view($product->isVariant() ? 'product.show-variant' : 'product.show', [
             'category'   => $category,
             'product'    => $product,
             'variants'   => $variants ?? null,

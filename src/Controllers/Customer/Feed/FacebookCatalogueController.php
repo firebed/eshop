@@ -3,6 +3,7 @@
 namespace Eshop\Controllers\Customer\Feed;
 
 use Eshop\Models\Product\Product;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Response;
 use SimpleXMLElement;
 
@@ -17,7 +18,8 @@ class FacebookCatalogueController
         $channel->addChild("title", config('app.name'));
         $channel->addChild("description", "Facebook catalogue xml feed");
 
-        $products = Product::visible()->exceptParents()->with('category', 'seo', 'image', 'options', 'parent.seo')->get();
+        $products = Product::visible()->exceptParents()->with('category', 'seo', 'image', 'options.translation', 'parent.seo')->get();
+        (new Collection($products->pluck('options')->collapse()->pluck('pivot')))->load('translation');
 
         foreach ($products as $product) {
             if (!$product->image) {
@@ -40,7 +42,7 @@ class FacebookCatalogueController
                     };
 
                     if ($name !== null) {
-                        $item->addChild("g:$name", e($option->pivot->value), "http://base.google.com/ns/1.0");
+                        $item->addChild("g:$name", e($option->pivot->name), "http://base.google.com/ns/1.0");
                     }
                 }
             }

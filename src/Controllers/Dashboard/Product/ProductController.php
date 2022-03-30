@@ -78,7 +78,7 @@ class ProductController extends Controller
             'properties'    => $this->prepareProperties($product),
             'vats'          => Vat::all(),
             'units'         => Unit::all(),
-            'variantTypes'  => $product->variantTypes()->orderBy('position')->pluck('name', 'id')->map(fn($v, $k) => ['id' => $k, 'name' => $v])->values()->all(),
+            'variantTypes'  => $product->variantTypes()->with('translation')->orderBy('position')->get()->pluck('name', 'id')->map(fn($v, $k) => ['id' => $k, 'name' => $v])->values()->all(),
             'categories'    => Category::files()->with('translations', 'parent.translation')->get()->groupBy('parent_id'),
             'manufacturers' => Manufacturer::all(),
             'collections'   => Collection::all(),

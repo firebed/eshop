@@ -2,6 +2,7 @@
 
 namespace Eshop\Models\Product;
 
+use Eshop\Models\Lang\Traits\HasTranslations;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -18,10 +19,11 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  */
 class VariantType extends Model
 {
-    use HasFactory;
+    use HasFactory, HasTranslations;
 
-    public    $timestamps = FALSE;
-    protected $guarded    = [];
+    public    $timestamps   = false;
+    public    $translatable = ['name'];
+    protected $guarded      = [];
 
     public function product(): BelongsTo
     {

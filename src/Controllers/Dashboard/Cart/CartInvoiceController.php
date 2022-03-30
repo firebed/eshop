@@ -45,7 +45,7 @@ class CartInvoiceController extends Controller
             return redirect()->route('clients.create', ['cart_id' => $cart->id]);
         }
 
-        $cart->products->load('translation', 'parent.translation', 'unit', 'options');
+        $cart->products->load('translation', 'parent.translation', 'unit', 'variantOptions.translation');
 
         $rows = [];
         foreach ($cart->products as $product) {
@@ -83,7 +83,7 @@ class CartInvoiceController extends Controller
                 'quantity'    => 1,
                 'price'       => round($cart->payment_fee / (1 + 0.24), 4),
                 'discount'    => 0,
-                'vat_percent' => $client->country === 'GR' ? 0.24 : 0,
+                'vat_percent' => $client->country === 'GR' ? 0.24 : 0
             ];
         }
 

@@ -4,6 +4,7 @@ use Eshop\Actions\Schema\Schema;
 use Eshop\Models\Product\Category;
 use Eshop\Models\Product\Product;
 use Eshop\Services\SlugGenerator;
+use Eshop\Services\VarCache;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
@@ -185,5 +186,12 @@ if (!function_exists('eshop')) {
     function eshop($key, $default = null)
     {
         return config('eshop.' . $key, $default);
+    }
+}
+
+if (!function_exists('api_key')) {
+    function api_key($key, $default = null): ?string
+    {
+        return VarCache::get($key, $default);
     }
 }

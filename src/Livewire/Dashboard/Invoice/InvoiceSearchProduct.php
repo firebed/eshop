@@ -11,7 +11,7 @@ class InvoiceSearchProduct extends Component
     public bool $showModal = false;
 
     public string $search = "";
-    
+
     protected $listeners = ['addRow'];
 
     public function addRow(): void
@@ -31,14 +31,16 @@ class InvoiceSearchProduct extends Component
         if (filled($this->search)) {
             $keys = Product::search($this->search)->keys();
         }
-        
-        $products = Product::exceptParents()
-            ->where('visible', true)
-            ->where('available', true)
-            ->when(filled($keys), fn($q) => $q->whereKey($keys))
-            ->with('image', 'parent.translation', 'translation', 'options')
-            ->paginate();
-        
+
+        $products = filled($this->search)
+            ? Product::exceptParents()
+                ->where('visible', true)
+                ->where('available', true)
+                ->when(filled($keys), fn($q) => $q->whereKey($keys))
+                ->with('image', 'parent.translation', 'translation', 'variantOptions.translation')
+                ->paginate()
+            : collect();
+
         return view('eshop::dashboard.invoice.wire.invoice-search-product', [
             'products' => $products,
         ]);

@@ -39,9 +39,9 @@ trait TransformsInvoice
     private function getIssuer(): Issuer
     {
         $issuer = new Issuer();
-        $issuer->setVatNumber(config('mydata.issuer_vat'));
-        $issuer->setCountry('GR');
-        $issuer->setBranch(0);
+        $issuer->setVatNumber(api_key('MYDATA_ISSUER_VAT', ''));
+        $issuer->setCountry(api_key('MYDATA_ISSUER_COUNTRY', 'GR'));
+        $issuer->setBranch(api_key('MYDATA_ISSUER_BRANCH', 0));
         return $issuer;
     }
 

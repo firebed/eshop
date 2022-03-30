@@ -48,7 +48,7 @@
                             <tbody>
                             @foreach($variants as $variant)
                                 <tr x-show="selectedVariants.includes({{ $variant->id }})">
-                                    <td class="align-middle">{{ $variant->optionValues(' / ') }}</td>
+                                    <td class="align-middle">{{ $variant->options->pluck('pivot.name')->join(' / ') }}</td>
 
                                     <td class="d-none">
                                         <input x-bind:disabled="!selectedVariants.includes({{ $variant->id }})" type="text" name="bulk_ids[]" value="{{ $variant->id }}">

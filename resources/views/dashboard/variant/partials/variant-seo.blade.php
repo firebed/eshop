@@ -4,7 +4,7 @@
             slug: '{{ $slug = old('slug', $variant->slug ?? '') }}',
             description: '{{ $description = addslashes(old('seo.description', $variant->seo->description ?? '')) }}',
             productSlug: '{{ $productSlug = $product->slug ?? '' }}',
-            categorySlug: '{{ $categorySlug = $product->category->slug ?? '' }}',
+            categorySlug: '{{ $categorySlug = $variant->category->slug ?? '' }}',
 
             updateSlug() {
                 this.slug = slugifyLower(this.title)

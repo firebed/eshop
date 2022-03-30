@@ -174,7 +174,26 @@ class Product extends Model implements Auditable
         return $this->belongsToMany(VariantType::class)
             ->using(ProductVariantOption::class)
             ->orderBy('variant_types.id')
-            ->withPivot('id', 'value', 'slug');
+            ->withPivot('id', 'slug');
+    }
+
+    public function variantOptions(): HasMany
+    {
+        return $this->hasMany(ProductVariantOption::class);
+    }
+
+    public function optionValues($glue = ' '): string
+    {
+        if ($this->relationLoaded('variantOptions')) {
+            return $this->variantOptions->pluck('name')->join($glue ?? ' ');
+        }
+        
+        return $this->options->pluck('pivot.name')->join($glue ?? ' ');
+    }
+
+    public function getOptionValuesAttribute(): string
+    {
+        return $this->optionValues();
     }
 
     public function collections(): BelongsToMany
@@ -190,13 +209,8 @@ class Product extends Model implements Auditable
     public function getTrademark(string $glue = ' '): ?string
     {
         return $this->isVariant()
-            ? implode(' ', array_filter([$this->parent->name, $this->getOptionValuesAttribute($glue)]))
+            ? implode(' ', array_filter([$this->parent->name, $this->optionValues($glue)]))
             : $this->name;
-    }
-
-    public function optionValues($glue = ' '): string
-    {
-        return $this->options->pluck('pivot.value')->join($glue ?? ' ');
     }
 
     /*
@@ -304,11 +318,6 @@ class Product extends Model implements Auditable
         return $this->getTrademark();
     }
 
-    public function getOptionValuesAttribute($glue = ' '): string
-    {
-        return $this->options->pluck('pivot.value')->join($glue ?? ' ');
-    }
-
     public function getAvailableStockAttribute(): int
     {
         return $this->stock - ($this->available_gt ?: 0);
@@ -390,6 +399,10 @@ class Product extends Model implements Auditable
 
     public function toSearchableArray(): array
     {
+        if ($this->isVariant()) {
+            $this->loadMissing('variantOptions.translation');
+        }
+        
         return array_filter([
             $this->id,
             $this->sku,

@@ -16,7 +16,7 @@ class CreateEnvTable extends Migration
         Schema::create('env', static function (Blueprint $table) {
             $table->id();
             $table->string('key')->unique();
-            $table->string('value');
+            $table->string('value')->nullable();
         });
     }
 

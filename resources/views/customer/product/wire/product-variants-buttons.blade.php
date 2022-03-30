@@ -1,7 +1,7 @@
 <div>
     <h2 class="visually-hidden">{{ __("Variants") }}</h2>
 
-    @foreach($product->variantTypes as $type)
+    @foreach($this->variantTypes as $type)
         <div class="fw-500 mb-2">{{ __("Select") }} {{ __($type->name) }}</div>
 
         <ul class="row row-cols-2 row-cols-sm-3 row-cols-xl-4 g-2 mb-3 list-unstyled">
@@ -13,7 +13,7 @@
                                 <button type="button"
                                         wire:click="select({{ $type->id }}, '{{ $option->pivot->slug }}')"
                                         class="w-100 btn btn-primary">
-                                    {{ $option->pivot->value }}
+                                    {{ $option->pivot->name }}
                                 </button>
                             @else
                                 <button type="button"
@@ -21,14 +21,14 @@
                                         class="w-100 btn btn-outline-light text-gray-500"
                                         style="border-color: lightgray"
                                 >
-                                    {{ $option->pivot->value }}
+                                    {{ $option->pivot->name }}
                                 </button>
                             @endif
                         @else
                             <button type="button"
                                     wire:click="select({{ $type->id }}, '{{ $option->pivot->slug }}')"
                                     class="btn @if(in_array($option->pivot->slug, $filters, true)) btn-primary @else btn-outline-primary @endif">
-                                {{ $option->pivot->value }}
+                                {{ $option->pivot->name }}
                             </button>
                         @endif
                     </li>

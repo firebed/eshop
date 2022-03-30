@@ -23,7 +23,7 @@ class VariantMovementSummary
                     ->whereHas('cart', fn($b) => $b->whereNotNull('submitted_at')->where('status_id', '<', 6))
                     ->groupBy('product_id');
             }])
-            ->with('image', 'options')
+            ->with('image', 'variantOptions.translation')
             ->get()
             ->sortBy('option_values', SORT_NATURAL | SORT_FLAG_CASE)
             ->map(function (Product $product) {

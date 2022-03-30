@@ -26,7 +26,9 @@
     "hisorange/browser-detect": "^4.4",
     "picqer/php-barcode-generator": "^2.2",
     "ext-simplexml": "*",
-    "firebed/aade-mydata": "^1.0"
+    "firebed/aade-mydata": "^1.0",
+    "ext-intl": "*",
+    "ext-soap": "*"
   },
   "require-dev": {
     "roave/security-advisories": "dev-latest",

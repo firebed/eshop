@@ -84,7 +84,7 @@ class CheckoutPaymentController extends Controller
         $shippingOptions = $shippingOptions->reject(fn($method) => $method->area === null && $method->inaccessible_area_fee > 0);
 
         $products = $order->products;
-        $products->load('parent', 'options');
+        $products->load('parent', 'variantOptions.translation');
         $products->merge($order->products->pluck('parent')->filter())->load('translation');
 
         return $this->view('checkout.payment.edit', [

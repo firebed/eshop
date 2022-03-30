@@ -104,7 +104,7 @@ class PosProducts extends Component
             ->with(['translation' => fn($q) => $q->select('translatable_id', 'translation'),
                     'parent'      => fn($q) => $q->select('id')->with(['translation' => fn($q) => $q->select('translatable_id', 'translation')]),
                     'image',
-                    'options'
+                    'variantOptions.translation'
             ])
             ->findMany(array_keys($this->items));
     }

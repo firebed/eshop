@@ -14,7 +14,7 @@
                     @foreach($search_results as $result)
                         <a wire:key="result-{{ $result->id }}" wire:click.prevent="addProduct({{ $result->id }})" href="#" class="d-flex gap-3 border-bottom p-2 list-group-item-action text-decoration-none">
                             <div class="ratio ratio-4x3 rounded w-4r">
-                                <img src="{{ $result->image->url('sm') }}" alt="" class="img-top">
+                                <img src="{{ $result->image?->url('sm') }}" alt="" class="img-top">
                             </div>
                             <div class="vstack">
                                 <div>{{ $result->trademark }}</div>

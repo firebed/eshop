@@ -6,6 +6,7 @@
         </td>
         <td class="w-5r rounded-top">{{ __('eshop::product.image') }}</td>
         <td>{{ __('eshop::product.variant_options') }}</td>
+        <td>{{ __("Price") }}</td>
         <td class="rounded-top">&nbsp;</td>
     </tr>
     </thead>
@@ -29,7 +30,7 @@
 
             <td>
                 <a href="{{ route('variants.edit', array_filter([$variant, 'search' => $search])) }}" class="d-grid gap-1 text-decoration-none">
-                    <div class="text-dark d-flex gap-3 align-items-center">{{ $variant->optionValues(' / ') }}@if($variant->recent) <em class="fas fa-star text-warning"></em>@endif</div>
+                    <div class="text-dark d-flex gap-3 align-items-center">{{ $variant->options->pluck('pivot.name')->join(' / ') }}@if($variant->recent) <em class="fas fa-star text-warning"></em>@endif</div>
                     <small class="text-secondary lh-sm">{{ $variant->sku }}</small>
                     @if($variant->stock === 0)
                         <span class="badge bg-warning text-dark me-auto">{{ __("Sold out") }}</span>
@@ -39,6 +40,13 @@
                         <small class="text-secondary lh-sm">{{ __('eshop::product.in_stock', ['stock' => format_number($variant->stock)]) }}</small>
                     @endif
                 </a>
+            </td>
+
+            <td>
+                <div>
+                    <div>{{ format_currency($variant->net_value) }}</div>
+                    @if($variant->isOnSale()) <div class="fw-bold text-danger">-{{ format_percent($variant->discount) }}</div> @endif
+                </div>
             </td>
 
             <td>

@@ -50,9 +50,9 @@ class CartItemCreateModal extends Component
             ->select('products.id', 'has_variants', 'price', 'discount')
             ->where('category_id', $id)
             ->exceptVariants()
-            ->joinTranslation()
-            ->orderBy('name')
+            ->with('translation')
             ->get()
+            ->sortBy('name', SORT_NATURAL | SORT_FLAG_CASE)
             ->map(fn($p) => ['id' => $p->id, 'name' => $p->name])
             ->all();
 
@@ -66,10 +66,10 @@ class CartItemCreateModal extends Component
         $this->variants = $product
             ->variants()
             ->select('id', 'sku', 'price', 'discount')
-            ->with('options')
+            ->with('variantOptions.translation')
             ->get()
-            ->sortBy('options.pivot.value', SORT_NATURAL | SORT_FLAG_CASE)
-            ->map(fn($p) => ['id' => $p->id, 'name' => $p->sku . ' ' . $p->options->pluck('pivot.value')->join(' - ')])
+            ->sortBy('option_values', SORT_NATURAL | SORT_FLAG_CASE)
+            ->map(fn($p) => ['id' => $p->id, 'name' => $p->sku . ' ' . $p->optionValues(' - ')])
             ->all();
 
         if (!$product->has_variants) {

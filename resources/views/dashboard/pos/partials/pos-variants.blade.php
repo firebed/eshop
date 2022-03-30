@@ -1,10 +1,10 @@
 @foreach($variants as $variant)
     <div class="col" wire:key="variant-{{ $variant->id }}" x-data>
-        <x-bs::card class="h-100">
+        <x-bs::card class="h-100 {{ !$variant->canBeBought() ? 'opacity-25 shadow-none' : '' }}">
             <a href="#" wire:click.prevent="$emit('addProduct', {{ $variant->id }})" class="vstack gap-2 p-2 text-decoration-none text-dark list-group-item-action h-100 rounded">
                 <div class="ratio ratio-16x9">
                     @if($variant->image && $src = $variant->image->url('sm'))
-                        <img src="{{ $src }}" alt="{{ $variant->name }}" class="img-middle rounded">
+                        <img src="{{ $src }}" alt="{{ $variant->option_values }}" class="img-middle rounded">
                     @else
                         <em class="fas fa-image fa-4x img-middle text-gray-500"></em>
                     @endif

@@ -53,19 +53,21 @@ class PosModels extends Component
             ->withCount('variants')
             ->withMin('variants', 'net_value')
             ->withMax('variants', 'net_value')
-            ->with('image', 'translation')
             ->get()
             ->sortBy('name', SORT_NATURAL | SORT_FLAG_CASE);
     }
 
     public function variants(int $productId = null): Collection|array
     {
-        return Product::select('id', 'parent_id', 'sku', 'price', 'compare_price', 'discount', 'stock')
+        $variants = Product::select('id', 'parent_id', 'sku', 'price', 'compare_price', 'discount', 'visible', 'stock', 'available_gt', 'available')
             ->visible()
             ->where('parent_id', $productId)
             ->with('image', 'translation', 'options', 'parent.translation')
-            ->get('id')
-            ->sortBy('option_values', SORT_NATURAL | SORT_FLAG_CASE);
+            ->get('id');
+
+        (new Collection($variants->pluck('options')->collapse()->pluck('pivot')))->load('translation');
+
+        return $variants->sortBy('option_values', SORT_NATURAL | SORT_FLAG_CASE);
     }
 
     public function loadCategories(null|int $parentId, CategoryBreadcrumbs $breadcrumbs): void

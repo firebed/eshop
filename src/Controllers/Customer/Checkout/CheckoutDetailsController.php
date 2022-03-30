@@ -61,7 +61,7 @@ class CheckoutDetailsController extends Controller
         $provinces = $country?->provinces()->where('shippable', true)->orderBy('name')->pluck('name');
 
         $products = $order->products;
-        $products->load('parent', 'options');
+        $products->load('parent', 'variantOptions.translation');
         $products->merge($order->products->pluck('parent')->filter())->load('translation');
 
         return $this->view('checkout.details.edit', [

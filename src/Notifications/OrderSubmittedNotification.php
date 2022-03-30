@@ -27,7 +27,7 @@ class OrderSubmittedNotification extends Notification
 
     public function toMail(): MailMessage
     {
-        $this->cart->products->loadMissing('parent.translation', 'image', 'translation');
+        $this->cart->products->loadMissing('parent.translation', 'image', 'translation', 'variantOptions.translation');
 
         $mail = new MailMessage();
         $mail->subject(__("Order Submitted Notification"));

@@ -18,6 +18,8 @@
     {{ __('View you order') }}
 @endcomponent
 
+@includeIf('eshop::customer.emails.order.partials.payment-options')
+
 @if(filled($cart->details))
 <div style="margin-bottom: 1rem">
     <div style="font-size: 0.8rem; color: gray">{{ __('eshop::lang.comments') }}</div>

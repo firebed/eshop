@@ -25,8 +25,12 @@ class InvoiceTransmissionController extends Controller
 
     private static function initMyData(): void
     {
-        MyDataRequest::setEnvironment(config('mydata.env'));
-        MyDataRequest::setCredentials(config('mydata.user_id'), config('mydata.subscription_key'));
+        $env = api_key('MYDATA_ENVIRONMENT');
+        $user_id = api_key('MYDATA_USER_ID');
+        $subscription_key = api_key('MYDATA_SUBSCRIPTION_KEY');
+        
+        MyDataRequest::setEnvironment($env);
+        MyDataRequest::setCredentials($user_id, $subscription_key);
     }
 
     public function send(Request $request): RedirectResponse

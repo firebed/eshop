@@ -11,6 +11,7 @@ use Eshop\Models\Location\Address;
 use Eshop\Models\Location\CountryPaymentMethod;
 use Eshop\Models\Location\CountryShippingMethod;
 use Eshop\Models\Product\Product;
+use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -21,7 +22,7 @@ class PosController extends Controller
 {
     use WithNotifications;
 
-    public function create(): View
+    public function create(): Renderable
     {
         return $this->view('pos.create');
     }
@@ -128,7 +129,7 @@ class PosController extends Controller
         }
     }
 
-    public function edit(Cart $cart): View
+    public function edit(Cart $cart): Renderable
     {
         $items = $cart
             ->items()

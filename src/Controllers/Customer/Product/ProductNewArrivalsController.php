@@ -35,6 +35,8 @@ class ProductNewArrivalsController extends Controller
             ->orderBy('name')
             ->paginate(48);
 
+        (new \Illuminate\Database\Eloquent\Collection($products->pluck('variants')->collapse()->pluck('options')->collapse()->pluck('pivot')))->load('translation');
+
         $selectedManufacturers = collect();
         if (count($manufacturer_ids) > 0) {
             $selectedManufacturers = Manufacturer::findMany($manufacturer_ids);

@@ -58,6 +58,7 @@ class VariantRequest extends FormRequest
 
             # Media
             'image'            => ['nullable', 'image'],
+            'has_watermark'    => ['required', 'bool'],
         ];
     }
 
@@ -72,11 +73,12 @@ class VariantRequest extends FormRequest
     protected function prepareForValidation(): void
     {
         $this->merge([
-            'is_physical'   => $this->has('is_physical'),
-            'visible'       => $this->has('visible'),
-            'recent'        => $this->has('recent'),
-            'available'     => $this->has('available'),
-            'display_stock' => $this->has('display_stock'),
+            'is_physical'   => $this->boolean('is_physical'),
+            'visible'       => $this->boolean('visible'),
+            'recent'        => $this->boolean('recent'),
+            'available'     => $this->boolean('available'),
+            'display_stock' => $this->boolean('display_stock'),
+            'has_watermark' => $this->boolean('has_watermark'),
         ]);
     }
 }

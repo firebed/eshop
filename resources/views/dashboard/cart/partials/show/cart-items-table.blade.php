@@ -59,7 +59,7 @@
                             <div class="vstack gap-1">
                                 @if($product->isVariant())
                                     <a href="{{ route('variants.edit', $product->id) }}" class="text-hover-underline">
-                                        <span class="fw-500">{{ $product->options->pluck('pivot.value')->join(' - ') }}</span>
+                                        <span class="fw-500">{{ $product->optionValues(' - ') }}</span>
                                         <small class="text-secondary">(SKU: {{ $product->sku }})</small>
                                     </a>
                                     <div class="text-secondary">{{ $product->parent->name }}</div>
