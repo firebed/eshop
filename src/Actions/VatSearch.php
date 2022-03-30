@@ -23,6 +23,7 @@ class VatSearch
 
         $rec = $response->basic_rec;
         $firms = $response->firm_act_tab->item;
+        $firms = is_array($firms) ? $firms : [$firms];
 
         return [
             'vat'           => trim($rec->afm),
