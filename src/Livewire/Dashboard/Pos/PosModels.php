@@ -53,6 +53,7 @@ class PosModels extends Component
             ->withCount('variants')
             ->withMin('variants', 'net_value')
             ->withMax('variants', 'net_value')
+            ->with('translation', 'image')
             ->get()
             ->sortBy('name', SORT_NATURAL | SORT_FLAG_CASE);
     }

@@ -30,9 +30,9 @@ class StoreProduct
 
         $product->seo()->create($request->input('seo'));
 
-        $this->storeVariantTypes($product, $request->input('variantTypes'));
+        $this->storeVariantTypes($product, $request->input('variantTypes', []));
 
-        $this->saveProperties($product, $request->input('properties'));
+        $this->saveProperties($product, $request->input('properties', []));
 
         $product->collections()->sync($request->input('collections', []));
 
