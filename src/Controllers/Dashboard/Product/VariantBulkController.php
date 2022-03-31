@@ -102,7 +102,7 @@ class VariantBulkController extends Controller
             'product'      => $product,
             'properties'   => $request->query('properties', ['price', 'compare_price', 'discount', 'sku', 'stock', 'weight']),
             'variants'     => $variants,
-            'variantTypes' => VariantType::where('product_id', $product->id)->pluck('name', 'id')->all()
+            'variantTypes' => VariantType::where('product_id', $product->id)->with('translation')->get()->pluck('name', 'id')->all()
         ]);
     }
 
