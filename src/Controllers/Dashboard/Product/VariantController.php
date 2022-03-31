@@ -38,7 +38,7 @@ class VariantController extends Controller
             'product'      => $product,
             'vats'         => Vat::all(),
             'units'        => Unit::all(),
-            'variantTypes' => VariantType::where('product_id', $product->id)->pluck('name', 'id')
+            'variantTypes' => VariantType::where('product_id', $product->id)->with('translation')->get()->pluck('name', 'id')
         ]);
     }
 
@@ -85,8 +85,7 @@ class VariantController extends Controller
             DB::commit();
 
             $this->showSuccessNotification(trans('eshop::notifications.saved'));
-        } catch (Throwable $e) {
-            throw $e;
+        } catch (Throwable) {
             DB::rollBack();
             $request->flash();
             $this->showErrorNotification(trans('eshop::variant.notifications.error'));
