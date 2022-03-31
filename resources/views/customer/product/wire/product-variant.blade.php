@@ -11,7 +11,7 @@
                 <div class="d-grid">
                     <h3 class="fs-6 fw-500">{{ $variant->option_values }}@can('Manage products') <span class="text-secondary">({{ format_number($variant->stock) }})</span> @endcan</h3>
 
-                    @if($variant->sku !== null && $variant->variant_values !== $variant->sku)
+                    @if($variant->sku !== null && $variant->option_values !== $variant->sku)
                         <small class="text-secondary">{{ __('Code') }}: {{ $variant->sku }}</small>
                     @endif
                 </div>

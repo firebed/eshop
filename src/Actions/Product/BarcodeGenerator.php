@@ -56,7 +56,7 @@ class BarcodeGenerator
     private function forNewProduct(Category|int $category_id): string
     {
         $category = is_int($category_id) ? Category::find($category_id) : $category_id;
-        $next = $category->products()->max('id') + 1;
+        $next = Product::max('id') + 1;
         return $this->generate($category->id, $next);
     }
 
