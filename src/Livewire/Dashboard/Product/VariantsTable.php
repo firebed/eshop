@@ -31,7 +31,7 @@ class VariantsTable extends Component
             ->when($this->search, function ($q, $v) {
                 $q->where(function ($b) use ($v) {
                     $b->where('sku', 'LIKE', "%$v%");
-                    $b->orWhereHas('options', fn($b) => $b->where('value', 'LIKE', "%$v%"));
+                    $b->orWhereHas('variantOptions.translation', fn($b) => $b->where('translation', 'LIKE', "%$v%"));
                 });
             })
             ->with(['options.translation', 'category', 'image'])
