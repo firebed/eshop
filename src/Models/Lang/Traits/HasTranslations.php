@@ -61,20 +61,16 @@ trait HasTranslations
         });
     }
 
-    public function translation(?string $cluster = null, ?string $locale = null)
+    public function translation(?string $cluster = 'name', ?string $locale = null): MorphOne
     {
         return $this
             ->morphOne(Translation::class, 'translatable')
-            ->when(!is_null($cluster), fn($q) => $q->where('cluster', $cluster))
-            ->when(!is_null($locale), fn($q) => $q->where('locale', $locale));
+            ->where('cluster', $cluster)
+            ->where('locale', $locale ?? $this->getLocale());
     }
 
     public function translate(string $cluster, ?string $locale = null, bool $useFallbackLocale = true): ?string
     {
-//        if ($val = parent::getAttribute($cluster)) {
-//            return $val;
-//        }
-
         $locale = $locale ?? $this->getLocale();
 
         if (isset($this->translationAttributes[$cluster][$locale])) {
