@@ -22,8 +22,7 @@ class NewArrivals extends Component
             ->with(['variants' => fn($q) => $q->visible()->select('id', 'parent_id', 'discount', 'price')])
             ->take(30)
             ->latest('updated_at')
-            ->get()
-        ->load();
+            ->get();
     }
 
     public function render(): Renderable
