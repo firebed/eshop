@@ -9,14 +9,14 @@ class HighlightText
         if (blank($searchTerm) || blank($subject)) {
             return $subject;
         }
-        
-        $searchTerm = preg_quote($searchTerm, '/');
-        
+
+        $keywords = array_filter(explode(' ', $searchTerm));
+        array_walk($keywords, static fn(&$k) => $k = "/\b(" . preg_quote($k, '/') . ")/iu");
+
         $markup = $mark
-            ? '<span class="bg-yellow-400">$1</span>'
+            ? '<span class="bg-amber-400">$1</span>'
             : '<strong>$1</strong>';
-        
-        $regex = "/\b($searchTerm)/iu"; // All the words starting with the given query, case-insensitive, utf-8
-        return preg_replace($regex, $markup, $subject);
+
+        return preg_replace($keywords, $markup, $subject);
     }
 }
