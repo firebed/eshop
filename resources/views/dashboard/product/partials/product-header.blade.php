@@ -24,7 +24,7 @@
             <a href="{{ route('products.audits.index', $product) }}" @class(["active" => request()->routeIs('products.audits.*')])>{{ __("Audits") }}</a>
         @endcan
 
-        @can('Can manage translations')
+        @can('Manage translations')
             <a href="{{ route('products.translations.edit', $product) }}" @class(["active" => request()->routeIs('products.translations.*')])>{{ __("Translations") }}</a>
         @endcan
     </div>

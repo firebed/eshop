@@ -84,10 +84,6 @@
     </li>
 @endcan
 
-@can('Manage translations')
-    {{--        <a href="#" @if(request()->routeIs('localization')) class="bg-gray-700" @endif><em class="fa fa-language text-pink-400"></em> {{ __("Translations") }}</a>--}}
-@endcan
-
 @can('Manage shipping methods')
     <li class="nav-item">
         <a href="{{ route('shipping-methods.index') }}" @class([$link, $active => request()->routeIs('shipping-methods.*')])>
