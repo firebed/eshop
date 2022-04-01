@@ -28,7 +28,7 @@ class ProductSearchController extends Controller
 
         $categories = Category::whereHas('products', fn($q) => $q->visible()->exceptVariants()->filterByPrice($request->query('min_price'), $request->query('max_price'))->whereHas('translations', fn($c) => $c->matchAgainst($search_term)->where('cluster', 'name')))
             ->withCount(['products' => fn($q) => $q->visible()->exceptVariants()->filterByPrice($request->query('min_price'), $request->query('max_price'))->whereHas('translations', fn($c) => $c->matchAgainst($search_term)->where('cluster', 'name'))])
-            ->with('translation')
+            ->with('translations')
             ->get();
 
         $products = $search
@@ -37,14 +37,14 @@ class ProductSearchController extends Controller
             ->filterByManufacturers($manufacturer_ids)
             ->filterByPrice($request->query('min_price'), $request->query('max_price'))
             ->with('category', 'image', 'translations')
-            ->with(['variants' => fn($q) => $q->visible()->with('parent.translation', 'options', 'image')])
+            ->with(['variants' => fn($q) => $q->visible()->with('translations', 'parent.translations', 'options', 'image')])
             ->select('products.*')
             ->joinTranslation()
             ->orderBy('name')
             ->paginate(48);
 
-        (new \Illuminate\Database\Eloquent\Collection($products->pluck('variants')->collapse()->pluck('options')->collapse()->pluck('pivot')))->load('translation');
-        
+        (new \Illuminate\Database\Eloquent\Collection($products->pluck('variants')->collapse()->pluck('options')->collapse()->pluck('pivot')))->load('translations');
+
         $selectedManufacturers = collect();
         if (count($manufacturer_ids) > 0) {
             $selectedManufacturers = Manufacturer::findMany($manufacturer_ids);

@@ -5,6 +5,6 @@
         <div>{{ $order->shippingAddress->full_street }}</div>
         <div>{{ $order->shippingAddress->city }}, {{ $order->shippingAddress->postcode }}</div>
         <div>{{ __("Province") }}: {{ $order->shippingAddress->province }}</div>
-        <div>{{ $order->shippingAddress->country->name }}</div>
+        <div>{{ $order->shippingAddress->country?->name }}</div>
     @endif
 </div>

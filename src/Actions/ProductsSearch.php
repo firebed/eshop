@@ -11,7 +11,8 @@ class ProductsSearch
     {
         return Product::select($columns)
             ->visible()
-            ->with(['category' => fn($q) => $q->select('id', 'slug'), 'translation' => fn($q) => $q->select('translatable_id', 'translatable_type', 'translation')])
+            ->with(['translations' => fn($q) => $q->where('cluster', 'name')])
+            ->with(['category' => fn($q) => $q->select('id', 'slug'), 'translations' => fn($q) => $q->where('cluster', 'name')])
             ->whereHas('translations', fn($c) => $c->matchAgainst($searchTerms)->where('cluster', 'name'));
     }
 }

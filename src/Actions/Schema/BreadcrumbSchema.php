@@ -10,12 +10,12 @@ class BreadcrumbSchema
 {
     public function handle(Category $category, Product $product = null): string
     {
-        $category->loadMissing('translation');
+        $category->loadMissing('translations');
         $items = [$this->item(categoryRoute($category), $category->seo->title ?? $category->name, $category->image)];
 
         $parent = $category->parent;
         while ($parent) {
-            $parent->loadMissing('seo', 'translation');
+            $parent->loadMissing('seo', 'translations');
             array_unshift($items, $this->item(categoryRoute($parent), $parent->seo->title ?? $parent->name, $parent->image));
             $parent = $parent->parent;
         }

@@ -24,8 +24,8 @@ class CategoryController extends Controller
         if ($category->isFolder()) {
             $children = $category->children()
                 ->visible()
-                ->with('translation', 'image')
-                ->with(['children' => fn($q) => $q->promoted()->visible()->with('translation')])
+                ->with('translations', 'image')
+                ->with(['children' => fn($q) => $q->promoted()->visible()->with('translations')])
                 ->withCount(['products' => fn($q) => $q->visible()->exceptVariants()])
                 ->get();
 
@@ -41,7 +41,7 @@ class CategoryController extends Controller
             return redirect(categoryRoute($category, $filters['m'], $filters['c'], $filters['min_price'], $filters['max_price']));
         }
 
-        $category->load(['properties' => fn($q) => $q->with('translation', 'choices.translation', 'choices.property')]);
+        $category->load(['translations', 'properties' => fn($q) => $q->with('translations', 'choices.translations', 'choices.property')]);
         foreach ($category->properties as $property) {
             $property->choices->loadCount(['products' => function ($q) use ($request, $filters, $property) {
                 $q->visible()
@@ -85,7 +85,7 @@ class CategoryController extends Controller
             ->with('translations') // We need this for different languages
             ->with('image', 'category')
 //            ->with(['choices' => fn($q) => $q->with('property.translation', 'translation')])
-            ->with(['variants' => fn($q) => $q->visible()->with('translation', 'parent', 'variantOptions.translation', 'image')])
+            ->with(['variants' => fn($q) => $q->visible()->with('translations', 'parent', 'variantOptions.translations', 'image')])
             ->select('products.*')
             ->joinTranslation()
             ->orderBy($order, $direction)

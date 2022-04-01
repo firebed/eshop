@@ -19,7 +19,7 @@ class ProductOfferController extends Controller
         $categories = Category::visible()
             ->whereHas('products', fn($q) => $q->visible()->exceptVariants()->onSale()->filterByPrice($request->query('min_price'), $request->query('max_price')))
             ->withCount(['products' => fn($q) => $q->visible()->exceptVariants()->onSale()->filterByPrice($request->query('min_price'), $request->query('max_price'))])
-            ->with('translation')
+            ->with('translations')
             ->get();
 
         $products = Product::visible()
@@ -29,7 +29,7 @@ class ProductOfferController extends Controller
             ->filterByManufacturers($manufacturer_ids)
             ->filterByPrice($request->query('min_price'), $request->query('max_price'))
             ->with('category', 'image', 'translations')
-            ->with(['variants' => fn($q) => $q->visible()->with('parent.translation', 'options', 'image')])
+            ->with(['variants' => fn($q) => $q->visible()->with('translations', 'parent.translations', 'options', 'image')])
             ->select('products.*')
             ->joinTranslation()
             ->orderBy('name')

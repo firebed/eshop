@@ -26,8 +26,8 @@ class ProductController extends Controller
 
         $quantity = 0;
         if ($product->has_variants) {
-            $product->load(['variants' => fn($q) => $q->visible()->with('parent', 'image', 'options.translation')]);
-            (new Collection($product->variants->pluck('options')->collapse()->pluck('pivot')))->load('translation');
+            $product->load(['variants' => fn($q) => $q->visible()->with('parent', 'image', 'options.translations')]);
+            (new Collection($product->variants->pluck('options')->collapse()->pluck('pivot')))->load('translations');
             $variants = $product->variants->sortBy('option_values', SORT_NATURAL | SORT_FLAG_CASE);
         } else {
             $quantity = $order->getProductQuantity($product);
@@ -43,8 +43,8 @@ class ProductController extends Controller
             'variants'   => $variants ?? null,
             'images'     => $product->images('gallery')->get(),
             'quantity'   => $quantity,
-            'properties' => $product->properties()->visible()->with('translation')->get()->unique(),
-            'choices'    => $product->choices()->with('translation')->get(),
+            'properties' => $product->properties()->visible()->with('translations')->get()->unique(),
+            'choices'    => $product->choices()->with('translations')->get(),
         ]);
     }
 }
