@@ -117,7 +117,7 @@ class PayPalService
 
     private function items(Order $order, $currency): array
     {
-        $order->loadMissing('products.parent.translation', 'products.translation', 'products.options');
+        $order->loadMissing('products.parent.translations', 'products.translations', 'products.options');
         $items = [];
         foreach ($order->products as $product) {
             $items[] = [

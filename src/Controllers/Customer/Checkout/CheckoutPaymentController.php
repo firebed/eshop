@@ -70,8 +70,8 @@ class CheckoutPaymentController extends Controller
         $shippingOptions = $country->filterShippingOptions($order->products_value);
         $paymentOptions = $country->filterPaymentOptions($order->products_value);
 
-        Collection::make($shippingOptions)->load('translation', 'shippingMethod');
-        Collection::make($paymentOptions)->load('translation', 'paymentMethod');
+        Collection::make($shippingOptions)->load('translations', 'shippingMethod');
+        Collection::make($paymentOptions)->load('translations', 'paymentMethod');
 
         foreach ($shippingOptions as $shippingMethod) {
             $shippingMethod->total_fee = $calc->handle($shippingMethod, $order->parcel_weight, $order->shippingAddress->postcode);
@@ -84,8 +84,8 @@ class CheckoutPaymentController extends Controller
         $shippingOptions = $shippingOptions->reject(fn($method) => $method->area === null && $method->inaccessible_area_fee > 0);
 
         $products = $order->products;
-        $products->load('parent', 'variantOptions.translation');
-        $products->merge($order->products->pluck('parent')->filter())->load('translation');
+        $products->load('parent', 'variantOptions.translations');
+        $products->merge($order->products->pluck('parent')->filter())->load('translations');
 
         return $this->view('checkout.payment.edit', [
             'order'                      => $order,
@@ -114,7 +114,7 @@ class CheckoutPaymentController extends Controller
         DB::transaction(fn() => $refreshOrder->handle($order));
 
         $products = $order->products->load('parent', 'options');
-        $products->merge($order->products->pluck('parent')->filter())->load('translation');
+        $products->merge($order->products->pluck('parent')->filter())->load('translations');
 
         return response()
             ->json($this->view('checkout.payment.partials.checkout-payment-summary', [

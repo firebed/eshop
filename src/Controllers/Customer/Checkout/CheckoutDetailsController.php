@@ -61,8 +61,8 @@ class CheckoutDetailsController extends Controller
         $provinces = $country?->provinces()->where('shippable', true)->orderBy('name')->pluck('name');
 
         $products = $order->products;
-        $products->load('parent', 'variantOptions.translation');
-        $products->merge($order->products->pluck('parent')->filter())->load('translation');
+        $products->load('parent', 'variantOptions.translations');
+        $products->merge($order->products->pluck('parent')->filter())->load('translations');
 
         return $this->view('checkout.details.edit', [
             'order'                => $order,
@@ -153,7 +153,7 @@ class CheckoutDetailsController extends Controller
 
         $products = $order->products;
         $products->load('parent', 'options');
-        $products->merge($order->products->pluck('parent')->filter())->load('translation');
+        $products->merge($order->products->pluck('parent')->filter())->load('translations');
 
         return response()->json($this->view('checkout.details.partials.checkout-details-summary', [
             'order'                => $order,
@@ -192,7 +192,7 @@ class CheckoutDetailsController extends Controller
 
         $products = $order->products;
         $products->load('parent', 'options');
-        $products->merge($order->products->pluck('parent')->filter())->load('translation');
+        $products->merge($order->products->pluck('parent')->filter())->load('translations');
 
         $summary = $this->view('checkout.details.partials.checkout-details-summary', [
             'order'                => $order,
