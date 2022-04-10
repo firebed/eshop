@@ -89,7 +89,7 @@ class InvoiceTransmissionController extends Controller
             'ids.*' => ['required', 'integer']
         ]);
 
-        $invoices = Invoice::with('transmission')->findMany($request->input('ids'));
+        $invoices = Invoice::with('transmission')->whereHas('transmission')->findMany($request->input('ids'));
 
         $errors = collect();
         

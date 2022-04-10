@@ -59,6 +59,9 @@ class VariantRequest extends FormRequest
             # Media
             'image'            => ['nullable', 'image'],
             'has_watermark'    => ['required', 'bool'],
+
+            'channels'   => ['nullable', 'array'],
+            'channels.*' => ['required', 'integer', 'exists:channels,id'],
         ];
     }
 

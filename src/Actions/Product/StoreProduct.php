@@ -4,6 +4,7 @@ namespace Eshop\Actions\Product;
 
 use Eshop\Actions\InsertWatermark;
 use Eshop\Actions\Product\Traits\SavesProductProperties;
+use Eshop\Actions\Product\Traits\SavesSaleChannels;
 use Eshop\Actions\Product\Traits\SavesVariantOptions;
 use Eshop\Actions\Product\Traits\SavesVariantTypes;
 use Eshop\Models\Product\Product;
@@ -12,7 +13,7 @@ use Eshop\Services\BarcodeService;
 
 class StoreProduct
 {
-    use SavesProductProperties, SavesVariantOptions, SavesVariantTypes;
+    use SavesProductProperties, SavesVariantOptions, SavesVariantTypes, SavesSaleChannels;
 
     public function __construct(private InsertWatermark $watermark,
                                 private BarcodeService  $barcodeService)
@@ -34,6 +35,8 @@ class StoreProduct
 
         $this->saveProperties($product, $request->input('properties', []));
 
+        $this->saveSaleChannels($product, $request->input('channel_ids'));
+        
         $product->collections()->sync($request->input('collections', []));
 
         if ($request->hasFile('image')) {

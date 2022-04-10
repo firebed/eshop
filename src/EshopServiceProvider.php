@@ -5,6 +5,7 @@ namespace Eshop;
 use Eshop\Commands\InstallCommand;
 use Eshop\Commands\ScoutIndexCommand;
 use Eshop\Commands\SitemapCommand;
+use Eshop\Commands\SkroutzFeedCommand;
 use Eshop\Middleware\Admin;
 use Eshop\Middleware\Locale;
 use Eshop\Models\Cart\Cart;
@@ -115,7 +116,8 @@ class EshopServiceProvider extends ServiceProvider
             $this->commands([
                 SitemapCommand::class,
                 InstallCommand::class,
-                ScoutIndexCommand::class
+                ScoutIndexCommand::class,
+                SkroutzFeedCommand::class,
             ]);
         }
     }

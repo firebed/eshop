@@ -7,6 +7,7 @@ use Eshop\Actions\Product\StoreVariant;
 use Eshop\Actions\Product\UpdateProduct;
 use Eshop\Controllers\Dashboard\Controller;
 use Eshop\Controllers\Dashboard\Traits\WithNotifications;
+use Eshop\Models\Product\Channel;
 use Eshop\Models\Product\Product;
 use Eshop\Models\Product\Unit;
 use Eshop\Models\Product\VariantType;
@@ -38,6 +39,7 @@ class VariantController extends Controller
             'product'      => $product,
             'vats'         => Vat::all(),
             'units'        => Unit::all(),
+            'channels'     => Channel::all(),
             'variantTypes' => VariantType::where('product_id', $product->id)->with('translation')->get()->pluck('name', 'id')
         ]);
     }
@@ -70,6 +72,7 @@ class VariantController extends Controller
             'variant'      => $variant,
             'vats'         => Vat::all(),
             'units'        => Unit::all(),
+            'channels'     => Channel::all(),
             'variantTypes' => VariantType::where('product_id', $variant->parent->id)->with('translation')->orderBy('position')->get()->pluck('name', 'id'),
             'options'      => $variant->options->pluck('pivot.name', 'id')
         ]);

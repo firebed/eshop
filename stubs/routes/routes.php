@@ -13,6 +13,7 @@ use Eshop\Controllers\Customer\Checkout\CheckoutPaymentController;
 use Eshop\Controllers\Customer\Checkout\CheckoutProductController;
 use Eshop\Controllers\Customer\Checkout\OrderTrackingController;
 use Eshop\Controllers\Customer\Feed\FacebookCatalogueController;
+use Eshop\Controllers\Customer\Feed\SkroutzFeedController;
 use Eshop\Controllers\Customer\HomepageController;
 use Eshop\Controllers\Customer\Pages\PageController;
 use Eshop\Controllers\Customer\Product\ProductCollectionController;
@@ -37,6 +38,7 @@ Route::middleware('web')->group(function () {
     Route::get('/', HomepageController::class)->name('landing_page');
 
     Route::get('/facebook-catalogue', FacebookCatalogueController::class)->name('facebook-catalogue');
+    Route::get('/skroutz-feed', SkroutzFeedController::class)->name('skroutz.feed');
 });
 
 // Global routes

@@ -6,6 +6,7 @@ use Eshop\Actions\Audit\AuditModel;
 use Eshop\Actions\Product\Traits\SavesVariantOptions;
 use Eshop\Controllers\Dashboard\Controller;
 use Eshop\Controllers\Dashboard\Traits\WithNotifications;
+use Eshop\Models\Product\Channel;
 use Eshop\Models\Product\Product;
 use Eshop\Models\Product\VariantType;
 use Eshop\Requests\Dashboard\Product\VariantBulkCreateRequest;
@@ -44,6 +45,7 @@ class VariantBulkController extends Controller
         DB::beginTransaction();
 
         try {
+            $channels = Channel::all();
             $variants = collect($request->input('variants', []));
             foreach ($variants as $input) {
                 $variant = $product->replicate(['discount', 'slug', 'mpn', 'has_variants', 'variants_display', 'preview_variants', 'net_value', 'recent']);
@@ -62,6 +64,7 @@ class VariantBulkController extends Controller
 
                 $product->variants()->save($variant);
 
+                $variant->channels()->attach($channels);
                 $this->saveVariantOptions($variant, $input['options']);
 
                 $options = implode(' ', $input['options']);

@@ -7,6 +7,10 @@
         <button type="button" wire:click.prevent="$emit('addRow')" class="btn btn-sm btn-outline-alt">
             <em class="fas fa-plus"></em> Προσθήκη προϊόντος
         </button>
+
+        <button type="button" wire:click.prevent="$emit('editVat')" class="btn btn-sm btn-outline-alt ms-auto">
+            <em class="fas fa-edit"></em> Αλλαγή ΦΠΑ
+        </button>
     </div>
 
     <div class="table-responsive overflow-auto scrollbar mb-3" style="height: calc(100vh - 30.5rem)">
@@ -88,6 +92,21 @@
         <div><span class="text-secondary">Σύνολο ΦΠΑ: </span> <strong>{{ format_currency($total_vat_amount) }}</strong></div>
         <div><span class="text-secondary">Τελικό σύνολο: </span> <strong>{{ format_currency($total) }}</strong></div>
     </div>
+
+    <x-bs::modal wire:model.defer="showVatModal">
+        <x-bs::modal.body>
+            <div class="row align-items-baseline mb-3">
+                <label for="edit-vat" class="col-3 text-secondary">ΦΠΑ %</label>
+                <div class="col">
+                    <input wire:model.defer="vat" type="number" id="edit-vat" class="form-control" @keydown.enter.prevent="">
+                </div>
+            </div>
+        </x-bs::modal.body>
+        <x-bs::modal.footer>
+            <x-bs::modal.close-button>{{ __('Cancel') }}</x-bs::modal.close-button>
+            <x-bs::button.primary wire:click.prevent="updateVat()" wire:loading.attr="disabled">{{ __("Save") }}</x-bs::button.primary>
+        </x-bs::modal.footer>
+    </x-bs::modal>
 
     <x-bs::modal wire:model.defer="showEditingModal" x-data>
         <x-bs::modal.body>

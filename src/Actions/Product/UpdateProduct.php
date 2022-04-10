@@ -4,6 +4,7 @@ namespace Eshop\Actions\Product;
 
 use Eshop\Actions\InsertWatermark;
 use Eshop\Actions\Product\Traits\SavesProductProperties;
+use Eshop\Actions\Product\Traits\SavesSaleChannels;
 use Eshop\Actions\Product\Traits\SavesVariantOptions;
 use Eshop\Actions\Product\Traits\SavesVariantTypes;
 use Eshop\Models\Product\Product;
@@ -12,7 +13,7 @@ use Illuminate\Http\UploadedFile;
 
 class UpdateProduct
 {
-    use SavesProductProperties, SavesVariantOptions, SavesVariantTypes;
+    use SavesProductProperties, SavesVariantOptions, SavesVariantTypes, SavesSaleChannels;
 
     public function __construct(private InsertWatermark $watermark)
     {
@@ -30,6 +31,8 @@ class UpdateProduct
 
         $product->seo()->updateOrCreate([], $request->input('seo'));
 
+        $this->saveSaleChannels($product, $request->input('channels'));
+        
         if ($product->isVariant()) {
             $this->saveVariantOptions($product, $request->input('options'));
         } else {

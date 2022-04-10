@@ -33,7 +33,7 @@ class OrderCancelledNotification extends Notification
      */
     public function via(): array
     {
-        return [];
+        return ['mail'];
     }
 
     /**
@@ -43,8 +43,16 @@ class OrderCancelledNotification extends Notification
      */
     public function toMail(): MailMessage
     {
-//        return (new MailMessage)
-//        ->cc(eshop('mail_cc'))
-//            ->view('emails.order-cancelled', ['cart' => $this->cart, 'notesToCustomer' => $this->notesToCustomer]);
+        $this->cart->products->loadMissing('parent.translations', 'image', 'translations', 'variantOptions.translations');
+
+        $mail = new MailMessage();
+        $mail->subject(__("Order Cancelled Notification"));
+
+        $mail->markdown('eshop::customer.emails.order.cancelled', [
+            'cart'            => $this->cart,
+            'notesToCustomer' => $this->notesToCustomer
+        ]);
+
+        return $mail;
     }
 }

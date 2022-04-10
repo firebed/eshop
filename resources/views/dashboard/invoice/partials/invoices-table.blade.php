@@ -16,21 +16,31 @@
         <tbody>
         @foreach($invoices as $invoice)
             <tr>
-                <td><x-bs::input.checkbox name="ids[]" value="{{ $invoice->id }}"/></td>
-                
-                <td class="text-nowrap">
-                    <a href="{{ route('invoices.edit', $invoice) }}" class="text-decoration-none d-block">
-                        @isset($invoice->transmission)
-                            @if($invoice->transmission->isCancelled())
-                                <span class="badge rounded-pill bg-gray-300">{{ $invoice->transmission->cancelled_by_mark }}</span>
+                @if($invoice->type === \Eshop\Models\Invoice\InvoiceType::PRO)
+                    <td></td>
+                @else
+                    <td>
+                        <x-bs::input.checkbox name="ids[]" value="{{ $invoice->id }}"/>
+                    </td>
+                @endif
+
+                @if($invoice->type === \Eshop\Models\Invoice\InvoiceType::PRO)
+                    <td></td>
+                @else
+                    <td class="text-nowrap">
+                        <a href="{{ route('invoices.edit', $invoice) }}" class="text-decoration-none d-block">
+                            @isset($invoice->transmission)
+                                @if($invoice->transmission->isCancelled())
+                                    <span class="badge rounded-pill bg-gray-300">{{ $invoice->transmission->cancelled_by_mark }}</span>
+                                @else
+                                    <span class="badge rounded-pill bg-teal-300">{{ $invoice->transmission->mark }}</span>
+                                @endif
                             @else
-                                <span class="badge rounded-pill bg-teal-300">{{ $invoice->transmission->mark }}</span>
-                            @endif
-                        @else
-                            <span class="badge rounded-pill bg-yellow-300">Εκκρεμεί</span>
-                        @endisset
-                    </a>
-                </td>
+                                <span class="badge rounded-pill bg-yellow-300">Εκκρεμεί</span>
+                            @endisset
+                        </a>
+                    </td>
+                @endif
 
                 <td class="text-nowrap"><a href="{{ route('invoices.edit', $invoice) }}" class="text-decoration-none d-block">{{ $invoice->published_at->format('d/m/y H:i') }}</a></td>
                 <td class="text-nowrap"><a href="{{ route('invoices.edit', $invoice) }}" class="text-decoration-none d-block">{{ $invoice->type->label() }}</a></td>

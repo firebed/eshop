@@ -30,7 +30,7 @@ class VariantBulkCreateTable extends Component
         if ($column !== 'options') {
             return;
         }
-        $this->variants[$index]['sku'] = implode('-', [$this->productSku] + $this->variants[$index]['options']);
+        $this->variants[$index]['sku'] = $this->productSku . '-' . slugify($this->variants[$index]['options']);
 
         $this->skipRender();
     }

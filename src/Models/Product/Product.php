@@ -33,7 +33,7 @@ use Laravel\Scout\Searchable;
  * @property bool            has_variants
  * @property float           vat
  * @property int             stock
- * @property float           weight
+ * @property int             weight
  * @property float           price
  * @property float           compare_price
  * @property float           discount
@@ -114,6 +114,7 @@ class Product extends Model implements Auditable
         'available'        => 'bool',
         'has_watermark'    => 'bool',
         'stock'            => 'int',
+        'weight'           => 'int',
         'display_stock'    => 'bool',
         'preview_variants' => 'bool',
     ];
@@ -187,7 +188,7 @@ class Product extends Model implements Auditable
         if ($this->relationLoaded('variantOptions')) {
             return $this->variantOptions->pluck('name')->join($glue ?? ' ');
         }
-        
+
         return $this->options->pluck('pivot.name')->join($glue ?? ' ');
     }
 
@@ -204,6 +205,11 @@ class Product extends Model implements Auditable
     public function movements(): HasMany
     {
         return $this->hasMany(CartProduct::class);
+    }
+
+    public function channels(): BelongsToMany
+    {
+        return $this->belongsToMany(Channel::class)->withTimestamps();
     }
 
     public function getTrademark(string $glue = ' '): ?string
@@ -402,7 +408,7 @@ class Product extends Model implements Auditable
         if ($this->isVariant()) {
             $this->loadMissing('variantOptions.translation');
         }
-        
+
         return array_filter([
             $this->id,
             $this->sku,

@@ -60,7 +60,7 @@
             </div>
 
             <div class="col">
-                @if($variant !== null && $variant->canBeBought())
+                @if($variant === null || $variant->canBeBought())
                     <button type="submit" class="btn btn-green w-100">
                         <em class="fa fa-shopping-cart"></em>
                         <span class="ms-3">{{ __("Add to cart") }}</span>

@@ -8,6 +8,7 @@ use Eshop\Actions\Product\UpdateProduct;
 use Eshop\Controllers\Dashboard\Controller;
 use Eshop\Controllers\Dashboard\Traits\WithNotifications;
 use Eshop\Models\Product\Category;
+use Eshop\Models\Product\Channel;
 use Eshop\Models\Product\Collection;
 use Eshop\Models\Product\Manufacturer;
 use Eshop\Models\Product\Product;
@@ -39,6 +40,7 @@ class ProductController extends Controller
             'vats'          => Vat::all(),
             'units'         => Unit::all(),
             'variantTypes'  => collect([]),
+            'channels'      => Channel::all(),
             'categories'    => Category::files()->with('translations', 'parent.translation')->get()->groupBy('parent_id'),
             'manufacturers' => Manufacturer::all(),
             'collections'   => Collection::all(),
@@ -78,6 +80,7 @@ class ProductController extends Controller
             'properties'    => $this->prepareProperties($product),
             'vats'          => Vat::all(),
             'units'         => Unit::all(),
+            'channels'      => Channel::all(),
             'variantTypes'  => $product->variantTypes()->with('translation')->orderBy('position')->get()->pluck('name', 'id')->map(fn($v, $k) => ['id' => $k, 'name' => $v])->values()->all(),
             'categories'    => Category::files()->with('translations', 'parent.translation')->get()->groupBy('parent_id'),
             'manufacturers' => Manufacturer::all(),

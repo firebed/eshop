@@ -1,10 +1,12 @@
 <?php
 
+use Eshop\Models\Product\Channel;
+use Eshop\Models\Product\Product;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateVariantTypesTable extends Migration
+class CreateChannelProductTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +15,11 @@ class CreateVariantTypesTable extends Migration
      */
     public function up(): void
     {
-        Schema::create('variant_types', static function (Blueprint $table) {
+        Schema::create('channel_product', static function (Blueprint $table) {
             $table->id();
-            $table->foreignId('product_id')->constrained()->cascadeOnDelete();
-            $table->string('slug');
-            $table->unsignedInteger('position')->default(0);
-
-            $table->unique(['product_id', 'slug']);
+            $table->foreignIdFor(Product::class);
+            $table->foreignIdFor(Channel::class);
+            $table->timestamps();
         });
     }
 
@@ -30,6 +30,6 @@ class CreateVariantTypesTable extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('variant_types');
+        Schema::dropIfExists('channel_product');
     }
 }

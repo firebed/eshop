@@ -11,6 +11,7 @@ use Livewire\Component;
 class InvoiceRows extends Component
 {
     public bool $showEditingModal = false;
+    public bool $showVatModal     = false;
 
     public array $rows = [];
 
@@ -21,8 +22,9 @@ class InvoiceRows extends Component
     public float  $total_net_value  = 0;
     public float  $total_vat_amount = 0;
     public float  $total            = 0;
+    public float  $vat              = 0;
 
-    protected $listeners = ['addProduct', 'setVatPercent'];
+    protected $listeners = ['addProduct', 'setVatPercent', 'editVat'];
 
     public function mount(Invoice $invoice): void
     {
@@ -42,11 +44,11 @@ class InvoiceRows extends Component
             'code'        => $product->sku,
             'description' => $product->trademark,
             'unit'        => match ($product->unit->name) {
-                'piece' => UnitMeasurement::Pieces,
-                'meter' => UnitMeasurement::Meters,
-                'liter' => UnitMeasurement::Liters,
+                'piece'    => UnitMeasurement::Pieces,
+                'meter'    => UnitMeasurement::Meters,
+                'liter'    => UnitMeasurement::Liters,
                 'kilogram' => UnitMeasurement::Kilos,
-                'set' => UnitMeasurement::Set
+                'set'      => UnitMeasurement::Set
             },
             'quantity'    => 1,
             'price'       => round($product->price / (1 + $product->vat), 4),
@@ -55,7 +57,7 @@ class InvoiceRows extends Component
         ];
 
         $this->updateTotals();
-        
+
         $this->editRow(count($this->rows) - 1);
     }
 
@@ -82,7 +84,7 @@ class InvoiceRows extends Component
         } else {
             $this->resetEditingRow();
         }
-        
+
         $this->skipRender();
     }
 
@@ -112,6 +114,19 @@ class InvoiceRows extends Component
         $this->updateTotals();
     }
 
+    public function editVat(): void
+    {
+        $this->showVatModal = true;
+        $this->vat = 0;
+    }
+
+    public function updateVat(): void
+    {
+        $this->showVatModal = false;
+        array_walk($this->rows, fn(&$r) => $r['vat_percent'] = round($this->vat / 100, 2));
+        $this->updateTotals();
+    }
+
     public function render(): Renderable
     {
         return view('eshop::dashboard.invoice.wire.invoice-rows');
@@ -134,7 +149,7 @@ class InvoiceRows extends Component
     {
         $rows = collect($this->rows);
 
-        $values = $rows->groupBy(fn($r) => (string) $r['vat_percent'])
+        $values = $rows->groupBy(fn($r) => (string)$r['vat_percent'])
             ->map(fn($g) => round($g->sum(fn($r) => $r['quantity'] * round($r['price'] * (1 - $r['discount']), 4)), 2));
 
         $this->total_net_value = $values->sum();

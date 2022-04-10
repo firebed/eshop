@@ -46,7 +46,7 @@ class BarcodeGenerator
     private function forNewVariant(Product|int $product_id): string
     {
         $product = is_int($product_id) ? Product::find($product_id) : $product_id;
-        $next = $product->variants()->max('id') + 1;
+        $next = Product::max('id') + 1;
 
         return $this->isNested()
             ? $this->generate($product->category_id, $product->id, $next)

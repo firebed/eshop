@@ -22,7 +22,7 @@
             <x-bs::input.switch name="has_watermark" :checked="old('has_watermark', $product->has_watermark ?? false)" id="has-watermark">
                 {{ __("Εμφάνιση αρχικής εικόνας με watermark") }}
             </x-bs::input.switch>
-            
+
             <div x-show="!has_variants" x-transition>
                 <div class="row mt-3">
                     <div x-data="{ number: '{{ old('available_gt', isset($product) ? $product->available_gt : 0) }}' }" class="col">
@@ -44,6 +44,15 @@
 
                         <input type="hidden" x-model="number" name="display_stock_lt">
                     </div>
+                </div>
+
+                <div class="mt-3">
+                    <div class="fw-bold py-1 small">Κανάλια πώλησης</div>
+                    @foreach($channels as $channel)
+                        <x-bs::input.switch name="channels[]" value="{{ $channel->id }}" :checked="old('channels.'.$channel->id, isset($product) ? $product->channels->contains($channel) : true)" id="channel-{{ $channel->id }}">
+                            {{ $channel->name }}
+                        </x-bs::input.switch>
+                    @endforeach
                 </div>
             </div>
         </div>

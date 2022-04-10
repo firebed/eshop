@@ -39,5 +39,14 @@
                 <input type="hidden" x-model="number" name="display_stock_lt">
             </div>
         </div>
+        
+        <div class="mt-3">
+            <div class="fw-bold py-1 small">Κανάλια πώλησης</div>
+            @foreach($channels as $channel)
+                <x-bs::input.switch name="channels[]" value="{{ $channel->id }}" :checked="old('channels.'.$channel->id, isset($variant) ? $variant->channels->contains($channel) : true)" id="channel-{{ $channel->id }}">
+                    {{ $channel->name }}
+                </x-bs::input.switch>
+            @endforeach
+        </div>
     </div>
 </div>

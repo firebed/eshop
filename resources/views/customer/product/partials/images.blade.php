@@ -19,7 +19,7 @@
             <ul class="d-flex flex-nowrap d-sm-grid gap-1 list-unstyled mb-0">
                 @if($product->image && $src = $product->image->url($product->has_watermark ? 'wm' : null))
                     <li class="d-flex w-4r w-sm-auto">
-                        <a x-show="thumbnails.length === 0" href="{{ $src }}" data-fslightbox="images" class="ratio ratio-1x1 rounded">
+                        <a x-show="thumbnails.length === 0" href="{{ $src }}" data-fslightbox="images" data-type="image" class="ratio ratio-1x1 rounded">
                             <img src="{{ $product->image->url('sm') }}" alt="{{ $product->trademark }}" class="img-top rounded">
                         </a>
                     </li>

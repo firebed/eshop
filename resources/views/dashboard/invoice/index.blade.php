@@ -55,11 +55,11 @@
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title">Ακύρωση τιμολογίων</h5>
+                            <h5 class="modal-title">Ακύρωση τιμολογίων myDATA</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            Αποστολή επιλεγμένων τιμολογίων;
+                            Ακύρωση επιλεγμένων τιμολογίων myDATA;
                             <div class="d-none" id="cancel-invoice-ids"></div>
                         </div>
                         <div class="modal-footer">

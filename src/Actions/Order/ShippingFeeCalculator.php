@@ -12,6 +12,7 @@ class ShippingFeeCalculator
     private float                  $base_fee              = 0;
     private float                  $inaccessible_area_fee = 0;
     private float                  $excess_weight_fee     = 0;
+    
     private float                  $total_fee             = 0;
 
     public function handle(CountryShippingMethod $countryShippingMethod, ?int $weight, ?string $postcode): float

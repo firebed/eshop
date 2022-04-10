@@ -80,6 +80,9 @@ class ProductRequest extends FormRequest
             # Collections
             'collections'         => ['nullable', 'array'],
             'collections.*'       => ['required', 'integer', 'exists:collections,id'],
+
+            'channels'   => ['nullable', 'array'],
+            'channels.*' => ['required', 'integer', 'exists:channels,id'],
         ];
     }
 

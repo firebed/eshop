@@ -2,7 +2,6 @@
 
 namespace Eshop\Notifications;
 
-use Eshop\Mail\OrderShippedMail;
 use Eshop\Models\Cart\Cart;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -21,7 +20,7 @@ class OrderShippedNotification extends Notification
      * @param Cart        $cart
      * @param string|null $notesToCustomer
      */
-    public function __construct(Cart $cart, ?string $notesToCustomer = NULL)
+    public function __construct(Cart $cart, ?string $notesToCustomer = null)
     {
         $this->cart = $cart;
         $this->notesToCustomer = $notesToCustomer;
@@ -48,22 +47,12 @@ class OrderShippedNotification extends Notification
 
         $mail = new MailMessage();
         $mail->subject(__("Order Shipped Notification"));
-        $this->addCC($mail);
-        
+
         $mail->markdown('eshop::customer.emails.order.shipped', [
             'cart'            => $this->cart,
             'notesToCustomer' => $this->notesToCustomer
         ]);
-        
+
         return $mail;
-    }
-
-
-    private function addCC(MailMessage $mail): void
-    {
-        $recipients = array_filter(eshop('notifications.shipped.cc', []));
-        foreach ($recipients as $recipient) {
-            $mail->cc($recipient);
-        }
     }
 }
