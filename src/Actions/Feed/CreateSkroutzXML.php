@@ -2,6 +2,7 @@
 
 namespace Eshop\Actions\Feed;
 
+use Eshop\Models\Product\Channel;
 use Illuminate\Database\Query\JoinClause;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -9,7 +10,7 @@ use SimpleXMLElement;
 
 class CreateSkroutzXML
 {
-    public function handle(): SimpleXMLElement
+    public function handle(): ?SimpleXMLElement
     {
         $locale = config('app.locale');
 
@@ -30,15 +31,19 @@ class CreateSkroutzXML
 //            ->orderBy('position')
 //            ->fist();
 
-        $xml = new SimpleXMLElement("<?xml version='1.0' encoding='utf-8'?><products standalone='yes' version='1.0' />");
-        $xml->addChild('datetime', now()->format('Y-m-d H:i:s'));
-        $xml->addChild('title', config('app.name') . ' product feed');
-        $xml->addChild('link', config('app.url'));
-
         $categories = DB::table('categories')
             ->where('visible', true)
             ->get(['id', 'parent_id', 'slug'])
             ->keyBy('id');
+
+        $skroutz = Channel::firstWhere('name', 'Skroutz');
+        if (!$skroutz) {
+            return null;
+        }
+
+        $inSkroutz = DB::table('channel_product')
+            ->where('channel_id', $skroutz->id)
+            ->pluck('channel_id', 'product_id');
 
         $products = DB::table('products')
             ->where('visible', true)
@@ -86,8 +91,13 @@ class CreateSkroutzXML
             ->groupBy('product_id')
             ->map(fn($g) => $g->keyBy('variant_type_id'));
 
+        $xml = new SimpleXMLElement("<?xml version='1.0' encoding='utf-8'?><products standalone='yes' version='1.0' />");
+        $xml->addChild('datetime', now()->format('Y-m-d H:i:s'));
+        $xml->addChild('title', config('app.name') . ' product feed');
+        $xml->addChild('link', config('app.url'));
+
         foreach ($products as $product) {
-            if ($product->has_variants || !isset($images[$product->id])) {
+            if ($product->has_variants || !isset($inSkroutz[$product->id], $images[$product->id])) {
                 continue;
             }
 
