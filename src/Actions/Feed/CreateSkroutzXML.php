@@ -52,21 +52,21 @@ class CreateSkroutzXML
         $categoriesSeo = DB::table('seo')
             ->where('locale', $locale)
             ->where('seo_type', 'category')
-            ->whereIn('seo_id', $categories->keys())
+            ->whereIntegerInRaw('seo_id', $categories->keys())
             ->get(['seo_id', 'title'])
             ->keyBy('seo_id');
 
         $productsSeo = DB::table('seo')
             ->where('locale', $locale)
             ->where('seo_type', 'product')
-            ->whereIn('seo_id', $products->keys())
+            ->whereIntegerInRaw('seo_id', $products->keys())
             ->get(['seo_id', 'title', 'description'])
             ->keyBy('seo_id');
 
         $images = DB::table('images')
             ->where('imageable_type', 'product')
             ->whereNull('collection')
-            ->whereIn('imageable_id', $products->keys())
+            ->whereIntegerInRaw('imageable_id', $products->keys())
             ->get(['imageable_id', 'disk', 'src', 'conversions'])
             ->keyBy('imageable_id');
 
@@ -81,7 +81,7 @@ class CreateSkroutzXML
                 $q->where('translations.translatable_type', 'product_variant_type');
                 $q->where('translations.cluster', 'name');
             })
-            ->whereIn('product_id', $products->keys())
+            ->whereIntegerInRaw('product_id', $products->keys())
             ->get(['product_id', 'variant_type_id', 'translation'])
             ->groupBy('product_id')
             ->map(fn($g) => $g->keyBy('variant_type_id'));
@@ -117,7 +117,7 @@ class CreateSkroutzXML
 
             if ($product->has_watermark) {
                 $conversions = json_decode($image->conversions, false);
-                $url = Storage::disk($image->disk)->url($conversions->md ?? $image->src);
+                $url = Storage::disk($image->disk)->url($conversions->md->src ?? $image->src);
             } else {
                 $url = Storage::disk($image->disk)->url($image->src);
             }
