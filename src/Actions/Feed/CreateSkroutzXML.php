@@ -47,7 +47,6 @@ class CreateSkroutzXML
 
         $products = DB::table('products')
             ->where('visible', true)
-            ->where('net_value', '>', 0)
             ->whereNull('deleted_at')
             ->get(['id', 'parent_id', 'category_id', 'manufacturer_id', 'vat', 'weight', 'net_value', 'stock', 'available', 'available_gt', 'has_watermark', 'sku', 'slug', 'has_variants'])
             ->keyBy('id');
@@ -97,7 +96,7 @@ class CreateSkroutzXML
         $xml->addChild('link', config('app.url'));
 
         foreach ($products as $product) {
-            if ($product->has_variants || !isset($inSkroutz[$product->id], $images[$product->id])) {
+            if (!isset($inSkroutz[$product->id], $images[$product->id]) || $product->has_variants || round($product->net_value, 2) <= .0) {
                 continue;
             }
 
