@@ -95,11 +95,21 @@
                 @endif
             </td>
             <td class="align-middle">
-                @if($cart->paymentMethod)
-                    <a href="{{ route('carts.show', $cart) }}" class="text-decoration-none align-items-center text-dark font-monospace">
-                        {{ __('eshop::payment.abbr.' . $cart->paymentMethod->name) }}
-                    </a>
-                @endif
+                <div class="d-flex gap-1 align-items-center">
+                    @if(eshop('auto_payments'))
+                        @if($cart->payment)
+                            <em class="fas fa-check-circle text-success"></em>
+                        @else
+                            <em class="fas fa-check-circle text-light"></em>
+                        @endif
+                    @endif
+
+                    @if($cart->paymentMethod)
+                        <a href="{{ route('carts.show', $cart) }}" class="text-decoration-none align-items-center text-dark font-monospace">
+                            {{ __('eshop::payment.abbr.' . $cart->paymentMethod->name) }}
+                        </a>
+                    @endif
+                </div>
             </td>
             <td class="text-end align-middle">
                 <a href="{{ route('carts.show', $cart) }}" class="d-block text-decoration-none text-dark">{{ format_currency($cart->total) }}</a>

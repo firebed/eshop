@@ -9,8 +9,8 @@ use Livewire\Component;
 
 class UserAddressCountry extends Component
 {
-    public string $country_id = "";
-    public string $province = "";
+    public ?string $country_id = "";
+    public ?string $province = "";
 
     public function render(): Renderable
     {

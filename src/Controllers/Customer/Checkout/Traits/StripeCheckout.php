@@ -4,6 +4,7 @@ namespace Eshop\Controllers\Customer\Checkout\Traits;
 
 use Error;
 use Eshop\Actions\Order\SubmitOrder;
+use Eshop\Models\Cart\Payment;
 use Eshop\Repository\Contracts\Order;
 use Eshop\Services\Stripe\StripeService;
 use Illuminate\Http\JsonResponse;
@@ -34,6 +35,7 @@ trait StripeCheckout
             if (isset($intent)) {
                 DB::beginTransaction();
                 (new SubmitOrder())->handle($order, auth()->user(), $intent->id, $request->ip());
+                $order->payment()->save(new Payment());
                 DB::commit();
 
                 return response()->json(URL::signedRoute('checkout.completed', [app()->getLocale(), $order->id]));

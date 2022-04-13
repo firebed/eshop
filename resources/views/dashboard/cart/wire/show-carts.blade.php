@@ -18,4 +18,8 @@
     <form wire:submit.prevent="saveStatuses">
         @include('eshop::dashboard.cart.partials.index.cart-statuses-modal')
     </form>
+
+    <form wire:submit.prevent="confirmMarkAsPaid">
+        @include('eshop::dashboard.cart.partials.index.cart-payment-modal')
+    </form>
 </div>

@@ -7,6 +7,7 @@ use Eshop\Controllers\Dashboard\Traits\WithNotifications;
 use Eshop\Models\Cart\Cart;
 use Eshop\Models\Cart\CartInvoice;
 use Eshop\Models\Cart\CartStatus;
+use Eshop\Models\Cart\Payment;
 use Eshop\Models\Location\Address;
 use Eshop\Models\Location\CountryPaymentMethod;
 use Eshop\Models\Location\CountryShippingMethod;
@@ -95,6 +96,9 @@ class PosController extends Controller
             $cart->save();
             $cart->products()->syncWithoutDetaching($pivot);
             $cart->operators()->attach(auth()->id());
+            if ($action !== 'saveAsOrder') {
+                $cart->payment()->save(new Payment());
+            }
 
             $products = $cart->products;
             foreach ($products as $product) {

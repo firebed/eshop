@@ -106,6 +106,11 @@ class Cart extends Model implements Order
         return $this->belongsTo(CartStatus::class);
     }
 
+    public function payment(): HasOne
+    {
+        return $this->hasOne(Payment::class);
+    }
+
     public function shippingAddress(): MorphOne
     {
         return $this->address('shipping');

@@ -7,6 +7,7 @@ use Eshop\Exports\CartsExport;
 use Eshop\Livewire\Dashboard\Cart\Traits\WithCartOperators;
 use Eshop\Models\Cart\Cart;
 use Eshop\Models\Cart\CartStatus;
+use Eshop\Models\Cart\Payment;
 use Eshop\Models\Location\PaymentMethod;
 use Eshop\Models\Location\ShippingMethod;
 use Eshop\Models\User\User;
@@ -48,7 +49,9 @@ class ShowCarts extends Component
     public string $shipping_method_id      = "";
     public bool   $showStatusModal         = false;
     public bool   $showVoucherModal        = false;
+    public bool   $showMarkAsPaidModal     = false;
     public $incomplete;
+    public $unpaid;
 
     protected $queryString = [
         'filter'             => ['except' => ''],
@@ -56,7 +59,8 @@ class ShowCarts extends Component
         'payment_method_id'  => ['except' => ''],
         'status'             => ['except' => ''],
         'per_page'           => ['except' => self::PER_PAGE],
-        'incomplete'
+        'incomplete',
+        'unpaid'
     ];
 
     protected array $rules = [
@@ -161,6 +165,34 @@ class ShowCarts extends Component
         Cart::whereKey($this->editing_cart_voucher_id)->update(['voucher' => blank($this->editing_voucher) ? null : trim($this->editing_voucher)]);
     }
 
+    public function markAsPaid(): void
+    {
+        if ($this->doesntHaveSelections()) {
+            $this->skipRender();
+            $this->showWarningToast('No rows selected!');
+            return;
+        }
+        
+        $this->showMarkAsPaidModal = true;
+    }
+
+    public function confirmMarkAsPaid(): void
+    {
+        if ($this->doesntHaveSelections()) {
+            $this->skipRender();
+            $this->showWarningToast('No rows selected!');
+            return;
+        }
+        
+        $carts = Cart::whereDoesntHave('payment')->findMany($this->selected());
+        foreach($carts as $cart) {
+            $cart->payment()->save(new Payment());
+        }
+        
+        $this->showMarkAsPaidModal = false;
+        $this->emit('paymentsUpdated');
+    }
+    
     public function clearFilters(): void
     {
         $this->reset();
@@ -175,6 +207,7 @@ class ShowCarts extends Component
     {
         return Cart::query()
             ->when($this->incomplete, static fn($q) => $q->whereNull('submitted_at')->latest())
+            ->when($this->unpaid, static fn($q) => $q->where('status_id', '<', 6)->whereDoesntHave('payment'))
             ->when(!$this->incomplete, static fn($q) => $q->submitted()->latest('submitted_at'))
             ->when($this->filter, function ($q, $f) {
                 return $q->where(fn($b) => $b->where('id', 'LIKE', "$f%")->orWhere('voucher', 'LIKE', "$f%")->orWhereHas('shippingAddress', fn($b) => $b->matchAgainst($f)));
@@ -182,7 +215,7 @@ class ShowCarts extends Component
             ->when(auth()->user()?->cannot('Manage orders') && auth()->user()?->can('Manage assigned orders'), function ($q) {
                 return $q->whereHas('operators', fn($b) => $b->where('user_id', auth()->id()));
             })
-            ->with('shippingAddress', 'status', 'paymentMethod', 'shippingMethod', 'operators')
+            ->with('shippingAddress', 'status', 'paymentMethod', 'shippingMethod', 'operators', 'payment')
             ->when($this->status, fn($q, $s) => $q->where('status_id', $s))
             ->when($this->shipping_method_id, fn($q, $id) => $q->where('shipping_method_id', $id))
             ->when($this->payment_method_id, fn($q, $id) => $q->where('payment_method_id', $id))

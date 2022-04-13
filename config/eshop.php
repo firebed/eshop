@@ -7,7 +7,7 @@ return [
         'el' => 'Ελληνικά',
         'en' => 'English'
     ],
-    
+
     'countries' => [
         'el' => 'GR',
         'en' => 'US'
@@ -20,15 +20,15 @@ return [
             ]
         ]
     ],
-    
+
     'logo' => [
         'path'   => '',
         'width'  => 0,
         'height' => 0
     ],
-    
+
     'watermark' => '',
-    
+
     'social' => [
 
     ],
@@ -50,9 +50,10 @@ return [
 
     'paypal_sandbox_client_id'     => env('PAYPAL_SANDBOX_CLIENT_ID'),
     'paypal_sandbox_client_secret' => env('PAYPAL_SANDBOX_CLIENT_SECRET'),
-    
+
     'show_incomplete_carts' => false,
-    
+    'auto_payments'         => false,
+
     /*
     |--------------------------------------------------------------------------
     | Filtering Products

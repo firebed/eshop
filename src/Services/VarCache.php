@@ -29,6 +29,16 @@ class VarCache
                 'GGPS_PASSWORD' => '',
             ],
 
+            'ACS' => [
+                'AcsApiKey'        => '',
+                'Company_ID'       => '',
+                'Company_Password' => '',
+                'User_ID'          => '',
+                'User_Password'    => '',
+                'Billing_Code'     => '',
+                'User_locals'      => ''
+            ],
+
             'SIMPLIFY' => [
                 'SIMPLIFY_ENVIRONMENT'         => '',
                 'SIMPLIFY_SANDBOX_PUBLIC_KEY'  => '',
@@ -64,8 +74,8 @@ class VarCache
         return Cache::get(self::KEY)[$key] ?? $default;
     }
 
-    public static function all(): array
+    public static function all($default = null): ?array
     {
-        return Cache::get(self::KEY, []);
+        return Cache::get(self::KEY, $default);
     }
 }

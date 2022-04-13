@@ -3,6 +3,7 @@
 namespace Eshop\Controllers\Customer\Checkout\Traits;
 
 use Eshop\Actions\Order\SubmitOrder;
+use Eshop\Models\Cart\Payment;
 use Eshop\Repository\Contracts\Order;
 use Eshop\Services\PayPalService;
 use Illuminate\Http\JsonResponse;
@@ -27,6 +28,8 @@ trait PayPalCheckout
             DB::beginTransaction();
             $paypal->capture($orderId);
             (new SubmitOrder())->handle($order, auth()->user(), $orderId, $request->ip());
+            $order->payment()->save(new Payment());
+            
             DB::commit();
             return response()->json(URL::signedRoute('checkout.completed', [app()->getLocale(), $order->id]));
         } catch (Throwable) {

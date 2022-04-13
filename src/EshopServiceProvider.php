@@ -2,6 +2,8 @@
 
 namespace Eshop;
 
+use Eshop\Actions\Feed\CreateSkroutzXML;
+use Eshop\Commands\AcsPaymentsCommand;
 use Eshop\Commands\InstallCommand;
 use Eshop\Commands\ScoutIndexCommand;
 use Eshop\Commands\SitemapCommand;
@@ -57,6 +59,8 @@ class EshopServiceProvider extends ServiceProvider
         $this->registerCommands();
         $this->registerPublishing();
 
+        $this->app->bindIf('skroutz', CreateSkroutzXML::class);
+        
         app('router')->aliasMiddleware('locale', Locale::class);
         app('router')->aliasMiddleware('admin', Admin::class);
 
@@ -118,6 +122,7 @@ class EshopServiceProvider extends ServiceProvider
                 InstallCommand::class,
                 ScoutIndexCommand::class,
                 SkroutzFeedCommand::class,
+                AcsPaymentsCommand::class
             ]);
         }
     }

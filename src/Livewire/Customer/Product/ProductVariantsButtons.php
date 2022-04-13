@@ -26,7 +26,7 @@ class ProductVariantsButtons extends Component
         SendsNotifications;
 
     public ?Product $product  = null;
-    public int      $quantity = 1;
+    public string   $quantity = "1";
     public string   $options  = '';
     public array    $filters  = [];
     public int      $variantId;
@@ -62,14 +62,22 @@ class ProductVariantsButtons extends Component
             return;
         }
 
+        $quantity = (int) $this->quantity;
+
+        if ($quantity === 0) {
+            $this->showWarningDialog("Παρακαλώ εισάγετε ποσότητα");
+            $this->skipRender();
+            return;
+        }
+        
         $product = Product::find($this->variantId);
-        if (!$product->canBeBought($this->quantity)) {
-            $this->showWarningDialog($product->trademark, __("eshop::order.max_available_stock", ['quantity' => $this->quantity, 'available' => $product->available_stock]));
+        if (!$product->canBeBought($quantity)) {
+            $this->showWarningDialog($product->trademark, __("eshop::order.max_available_stock", ['quantity' => $quantity, 'available' => $product->available_stock]));
             $this->skipRender();
             return;
         }
 
-        DB::transaction(fn() => $this->addProduct($order, $product, $this->quantity));
+        DB::transaction(fn() => $this->addProduct($order, $product, $quantity));
 
         $toast = view('eshop::customer.product.partials.product-toast', compact('product'))->render();
         $this->showSuccessToast($product->trademark, $toast);
@@ -85,7 +93,7 @@ class ProductVariantsButtons extends Component
         $this->updateAvailableOptions();
         $this->findVariant();
     }
-    
+
     public function getVariantTypesProperty(): Collection
     {
         return $this->product->variants->pluck('options')->collapse()->unique('id');
@@ -109,6 +117,15 @@ class ProductVariantsButtons extends Component
         ]);
     }
 
+    public function isAvailable(int $variant_type_id, string $option_slug): bool
+    {
+        $filters = collect($this->filters)->put($variant_type_id, $option_slug);
+
+        return $this->product->variants
+            ->filter(fn($v) => $v->canBeBought() && $filters->diff($v->options->pluck('pivot.slug'))->isEmpty())
+            ->isNotEmpty();
+    }
+
     protected function queryString(): array
     {
         return [
@@ -127,15 +144,6 @@ class ProductVariantsButtons extends Component
             ->groupBy('id')
             ->map(fn($g) => $g->pluck('pivot.slug')->unique())
             ->all();
-    }
-
-    public function isAvailable(int $variant_type_id, string $option_slug): bool
-    {
-        $filters = collect($this->filters)->put($variant_type_id, $option_slug);
-
-        return $this->product->variants
-            ->filter(fn($v) => $v->canBeBought() && $filters->diff($v->options->pluck('pivot.slug'))->isEmpty())
-            ->isNotEmpty();
     }
 
     private function findVariant(): void

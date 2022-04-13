@@ -14,8 +14,10 @@ class SkroutzFeedCommand extends Command
 
     protected $description = 'Create xml feed for Skroutz';
 
-    public function handle(CreateSkroutzXML $skroutz, ReportError $report): void
+    public function handle(ReportError $report): void
     {
+        $skroutz = app()->make('skroutz');
+        
         try {
             $xml = $skroutz->handle();
             Storage::disk('public')->put('feeds/skroutz.xml', $xml->asXML());

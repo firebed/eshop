@@ -13,8 +13,15 @@ class UserVariableController extends Controller
 {
     public function index(): Renderable
     {
-        $variables = VarCache::fill(VarCache::all());
+        $cached = VarCache::all();
+
+        if ($cached === null) {
+            $variables = DB::table('env')->pluck('value', 'key');
+
+            VarCache::remember($variables->all());
+        }
         
+        $variables = VarCache::fill(VarCache::all());
         return $this->view('user-variables.index', compact('variables'));
     }
 

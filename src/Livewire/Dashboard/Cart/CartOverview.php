@@ -40,6 +40,16 @@ class CartOverview extends Component
         $this->skipRender();
     }
 
+    public function markAsPaid(): void
+    {
+        $this->cart->payment()->updateOrCreate([]);
+    }
+
+    public function markAsUnpaid(): void
+    {
+        $this->cart->payment()->delete();
+    }
+
     public function save(CartContract $contract): void
     {
         $this->validate();
@@ -79,7 +89,8 @@ class CartOverview extends Component
             'shippingMethod'  => $shippingMethod,
             'paymentMethod'   => $paymentMethod,
             'profit'          => $profit->profits,
-            'cc'              => $cc ?? null
+            'cc'              => $cc ?? null,
+            'payment'         => $this->cart->payment()->first()
         ]);
     }
 

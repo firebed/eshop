@@ -11,6 +11,7 @@ use Eshop\Controllers\Customer\Checkout\Traits\StripeCheckout;
 use Eshop\Controllers\Customer\Checkout\Traits\ValidatesCheckout;
 use Eshop\Controllers\Customer\Controller;
 use Eshop\Controllers\Dashboard\Traits\WithNotifications;
+use Eshop\Models\Cart\Payment;
 use Eshop\Repository\Contracts\Order;
 use Eshop\Requests\Customer\CheckoutPaymentRequest;
 use Illuminate\Contracts\Support\Renderable;
@@ -51,6 +52,9 @@ class CheckoutPaymentController extends Controller
 
         DB::beginTransaction();
         (new SubmitOrder())->handle($order, auth()->user(), ip: $request->ip());
+        if (!$order->paymentMethod->isPayOnDelivery()) {
+            $order->payment()->save(new Payment());
+        }
         DB::commit();
 
         return redirect()->to(URL::signedRoute('checkout.completed', [app()->getLocale(), $order->id]));

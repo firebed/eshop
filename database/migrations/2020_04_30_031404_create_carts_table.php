@@ -27,7 +27,7 @@ class CreateCartsTable extends Migration
             $table->enum('document_type', ['Invoice', 'Receipt'])->nullable();
             $table->unsignedDecimal('total', 10)->default(0);
             $table->text('details')->nullable();
-            $table->string('voucher')->nullable();
+            $table->string('voucher')->nullable()->index();
             $table->string('email')->nullable();
             $table->string('ip')->nullable();
             $table->enum('channel', ['eshop', 'phone', 'pos', 'facebook', 'instagram', 'other'])->default('eshop');

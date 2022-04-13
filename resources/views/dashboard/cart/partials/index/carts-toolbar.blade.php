@@ -35,6 +35,9 @@
                 <x-bs::dropdown.button id="bulk-actions" class="btn-white shadow-sm">{{ __("Actions") }}</x-bs::dropdown.button>
                 <x-bs::dropdown.menu button="bulk-actions">
                     <x-bs::dropdown.item wire:click.prevent="editStatuses"><em class="fas fa-tasks me-2 text-secondary"></em>{{ __("Change status") }}</x-bs::dropdown.item>
+                    @if(eshop('auto_payments'))
+                        <x-bs::dropdown.item wire:click.prevent="markAsPaid"><em class="fas fa-hand-holding-usd me-2 text-secondary"></em>{{ __("Mark as paid") }}</x-bs::dropdown.item>
+                    @endif
                     <x-bs::dropdown.item wire:click.prevent="print"><em class="fas fa-print me-2 text-secondary"></em>{{ __("Print") }}</x-bs::dropdown.item>
                     @can("Manage orders")
                         <x-bs::dropdown.item wire:click.prevent="showOperators"><em class="fas fa-users me-2 text-secondary"></em>{{ __("Change operators") }}</x-bs::dropdown.item>

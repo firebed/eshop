@@ -24,6 +24,13 @@
                     </x-bs::list.link>
                 @endcan
             @endif
+
+            @if(eshop('auto_payments'))
+                <x-bs::list.link href="{{ route('carts.index', ['unpaid' => true]) }}" class="d-flex justify-content-between align-items-center">
+                    <span>Απλήρωτες παραγγελίες</span>
+                    <x-bs::badge class="bg-gray-200">{{ format_number($unpaid_carts) }}</x-bs::badge>
+                </x-bs::list.link>
+            @endif
         </x-bs::list>
     </x-bs::navbar.collapse>
 </x-bs::navbar>
