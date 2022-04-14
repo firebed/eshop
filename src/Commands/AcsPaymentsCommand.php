@@ -82,7 +82,7 @@ class AcsPaymentsCommand extends Command
             ]));
 
             $cart->notifications()->save(new Notification([
-                'text'     => "Η παραγγελία με κωδικό #$cart->id και voucher $voucher πληρώθηκε από την ACS Courier.",
+                'text'     => "Το ποσό " . format_currency($payment['Parcel_COD_Amount']) . " της παραγγελίας με κωδικό #$cart->id και voucher $voucher καταβλήθηκε από την ACS Courier.",
                 'metadata' => $payment
             ]));
 

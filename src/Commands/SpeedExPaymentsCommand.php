@@ -89,7 +89,7 @@ class SpeedExPaymentsCommand extends Command
             ]));
 
             $cart->notifications()->save(new Notification([
-                'text'     => "Η παραγγελία με κωδικό #$cart->id και voucher $voucher πληρώθηκε από την ACS Courier.",
+                'text'     => "Το ποσό " . format_currency($payment->Amount) . " της παραγγελίας με κωδικό #$cart->id και voucher $voucher καταβλήθηκε από την SpeedEx Courier.",
                 'metadata' => $payment
             ]));
 
