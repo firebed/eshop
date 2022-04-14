@@ -24,5 +24,6 @@ return [
     'View product movements'          => 'Κινήσεις προϊόντων',
     'Manage invoices'                 => 'Διαχείριση τιμολογίων',
     'View product audits'             => 'Ιστορικό αλλαγών προϊόντων',
-    'Manage API keys'                 => 'Διαχείριση κλειδιών API'
+    'Manage API keys'                 => 'Διαχείριση κλειδιών API',
+    'View notifications'              => 'Προβολή ειδοποιήσεων',
 ];
