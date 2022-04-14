@@ -8,6 +8,7 @@ use Eshop\Models\Location\Address;
 use Eshop\Models\Location\Addressable;
 use Eshop\Models\Location\PaymentMethod;
 use Eshop\Models\Location\ShippingMethod;
+use Eshop\Models\Notification;
 use Eshop\Models\Product\Product;
 use Eshop\Models\User\User;
 use Eshop\Repository\Contracts\Order;
@@ -18,6 +19,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Support\Collection;
 
@@ -89,6 +91,11 @@ class Cart extends Model implements Order
     public function operators(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'cart_operator')->withPivot('viewed_at');
+    }
+
+    public function notifications(): MorphMany
+    {
+        return $this->morphMany(Notification::class, 'notifiable');
     }
 
     public function shippingMethod(): BelongsTo

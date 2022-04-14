@@ -89,7 +89,7 @@ class VariantsTable extends Component
 
         $products = Product::whereKey($ids)->with('image')->get();
         foreach ($products as $product) {
-            $product->image->deleteConversion('wm');
+            $product->image?->deleteConversion('wm');
         }
 
         Product::whereKey($ids)->update(['has_watermark' => false]);

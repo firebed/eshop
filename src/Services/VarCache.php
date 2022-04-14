@@ -38,6 +38,11 @@ class VarCache
                 'Billing_Code'     => '',
                 'User_locals'      => ''
             ],
+            
+            'SpeedEx' => [
+                'SpeedEx_Username' => '',
+                'SpeedEx_Password' => '',
+            ],
 
             'SIMPLIFY' => [
                 'SIMPLIFY_ENVIRONMENT'         => '',

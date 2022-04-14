@@ -8,6 +8,7 @@ use Eshop\Commands\InstallCommand;
 use Eshop\Commands\ScoutIndexCommand;
 use Eshop\Commands\SitemapCommand;
 use Eshop\Commands\SkroutzFeedCommand;
+use Eshop\Commands\SpeedExPaymentsCommand;
 use Eshop\Middleware\Admin;
 use Eshop\Middleware\Locale;
 use Eshop\Models\Cart\Cart;
@@ -122,7 +123,8 @@ class EshopServiceProvider extends ServiceProvider
                 InstallCommand::class,
                 ScoutIndexCommand::class,
                 SkroutzFeedCommand::class,
-                AcsPaymentsCommand::class
+                AcsPaymentsCommand::class,
+                SpeedExPaymentsCommand::class,
             ]);
         }
     }

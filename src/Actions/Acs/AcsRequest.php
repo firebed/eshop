@@ -2,7 +2,6 @@
 
 namespace Eshop\Actions\Acs;
 
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 
 class AcsRequest
@@ -11,8 +10,10 @@ class AcsRequest
 
     protected string $action = "";
 
-    public function request(array $params)
+    public function request(array $params): array|int
     {
+        $this->checkCredentials();
+
         $params = [
             "ACSAlias"           => $this->action,
             "ACSInputParameters" => array_merge([
@@ -30,15 +31,28 @@ class AcsRequest
         }
 
         $response = $response->json();
-        
+
         $hasErrors = $response['ACSExecution_HasError'];
         $errorMessage = $response['ACSExecutionErrorMessage'];
 
         $results = $response['ACSOutputResponce'];
-        
+
         $valueOutput = $results['ACSValueOutput'];
         $tableOutput = $results['ACSTableOutput']['Table_Data'] ?? [];
-        
+
         return [$valueOutput, $tableOutput];
+    }
+
+    private function checkCredentials(): void
+    {
+        if (
+            blank(api_key('Company_ID')) ||
+            blank(api_key('Company_Password')) ||
+            blank(api_key('User_ID')) ||
+            blank(api_key('User_Password')) ||
+            blank(api_key('User_locals'))
+        ) {
+            throw new \Error("Missing ACS credentials.");
+        }
     }
 }

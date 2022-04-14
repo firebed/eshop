@@ -53,6 +53,7 @@ return [
 
     'show_incomplete_carts' => false,
     'auto_payments'         => false,
+    'skroutz'               => false,
 
     /*
     |--------------------------------------------------------------------------
