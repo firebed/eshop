@@ -20,6 +20,7 @@ use Eshop\Controllers\Dashboard\Intl\ShippingMethodController;
 use Eshop\Controllers\Dashboard\Invoice\ClientController;
 use Eshop\Controllers\Dashboard\Invoice\InvoiceController;
 use Eshop\Controllers\Dashboard\Invoice\InvoiceTransmissionController;
+use Eshop\Controllers\Dashboard\NotificationController;
 use Eshop\Controllers\Dashboard\Page\PageController;
 use Eshop\Controllers\Dashboard\Pos\PosController;
 use Eshop\Controllers\Dashboard\Product\CollectionController;
@@ -107,6 +108,8 @@ Route::middleware(['web', 'auth', 'admin'])->group(function () {
 
         Route::resource('manufacturers', ManufacturerController::class)->only('index');
 
+        Route::get('notifications', NotificationController::class)->name('notifications.index');
+        
         Route::get('users/{user}/permissions', UserPermissionController::class)->name('users.permissions.index');
         Route::resource('users', UserController::class)->only('index', 'show');
 

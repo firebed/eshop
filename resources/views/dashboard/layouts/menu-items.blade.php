@@ -75,6 +75,15 @@
     </li>
 @endcan
 
+@can('View notifications')
+    <li class="nav-item">
+        <a href="{{ route('notifications.index') }}" @class([$link, $active => request()->routeIs('notifications.*')])>
+            <em class="fas fa-bell text-yellow-300"></em>
+            <span>Ειδοποιήσεις</span>
+        </a>
+    </li>
+@endcan
+
 @can('Manage countries')
     <li class="nav-item">
         <a href="{{ route('countries.index') }}" @class([$link, $active => request()->routeIs('countries.*')])>

@@ -81,10 +81,12 @@ class AcsPaymentsCommand extends Command
                 'created_at' => $date
             ]));
 
-            $cart->notifications()->save(new Notification([
-                'text'     => "Το ποσό " . format_currency($payment['Parcel_COD_Amount']) . " της παραγγελίας με κωδικό #$cart->id και voucher $voucher καταβλήθηκε από την ACS Courier.",
+            $text = sprintf("Λάβατε μια πληρωμή αξίας <strong>%s</strong> από την <strong style='color: #E3001C'>ACS</strong> για την παραγγελία με κωδικό <strong>#%d</strong> και voucher %s.", format_currency($payment['Parcel_COD_Amount']), $cart->id, $voucher);
+
+            Notification::create([
+                'text'     => $text,
                 'metadata' => $payment
-            ]));
+            ]);
 
             $this->info(sprintf("%d. %s (%.2f)", $index + 1, $voucher, $payment['Parcel_COD_Amount']));
             return;

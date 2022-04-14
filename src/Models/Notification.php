@@ -2,14 +2,16 @@
 
 namespace Eshop\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 /**
- * @property string title
- * @property string description
+ * @property string $text
+ * @property array  $metadata
+ * @property Carbon $viewed_at
+ * @property Carbon $created_at
  *
  * @mixin Builder
  */
@@ -17,14 +19,9 @@ class Notification extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['text', 'metadata', 'viewed_at', 'created_at'];
-
     public const UPDATED_AT = null;
     
+    protected $fillable = ['text', 'metadata', 'viewed_at', 'created_at'];
+    
     protected $casts = ['metadata' => 'json'];
-
-    public function notifiable(): MorphTo
-    {
-        return $this->morphTo();
-    }
 }

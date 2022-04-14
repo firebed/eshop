@@ -93,11 +93,6 @@ class Cart extends Model implements Order
         return $this->belongsToMany(User::class, 'cart_operator')->withPivot('viewed_at');
     }
 
-    public function notifications(): MorphMany
-    {
-        return $this->morphMany(Notification::class, 'notifiable');
-    }
-
     public function shippingMethod(): BelongsTo
     {
         return $this->belongsTo(ShippingMethod::class);

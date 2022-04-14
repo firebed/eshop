@@ -88,10 +88,12 @@ class SpeedExPaymentsCommand extends Command
                 'created_at' => $payment->Date
             ]));
 
-            $cart->notifications()->save(new Notification([
-                'text'     => "Το ποσό " . format_currency($payment->Amount) . " της παραγγελίας με κωδικό #$cart->id και voucher $voucher καταβλήθηκε από την SpeedEx Courier.",
+            $text = sprintf("Λάβατε μια πληρωμή αξίας <strong>%s</strong> από τη <strong style='color: #00b23b'>SpeedEx</strong> για την παραγγελία με κωδικό <strong>#%d</strong> και voucher %s.", format_currency($payment->Amount), $cart->id, $voucher);
+
+            Notification::create([
+                'text'     => $text,
                 'metadata' => $payment
-            ]));
+            ]);
 
             $this->info(sprintf("%d. %s (%.2f)", $index + 1, $voucher, $payment->Amount));
             return;
