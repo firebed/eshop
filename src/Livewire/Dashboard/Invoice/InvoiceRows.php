@@ -24,6 +24,16 @@ class InvoiceRows extends Component
     public float  $total            = 0;
     public float  $vat              = 0;
 
+    protected array $rules = [
+        'editing_row.code'        => ['required', 'string'],
+        'editing_row.description' => ['required', 'string'],
+        'editing_row.unit'        => ['required', 'integer'],
+        'editing_row.quantity'    => ['required', 'numeric', 'min:1'],
+        'editing_row.price'       => ['required', 'numeric', 'min:0'],
+        'editing_row.discount'    => ['required', 'numeric', 'min:0', 'max:1'],
+        'editing_row.vat_percent' => ['required', 'numeric', 'min:0', 'max:1']
+    ];
+
     protected $listeners = ['addProduct', 'setVatPercent', 'editVat'];
 
     public function mount(Invoice $invoice): void
@@ -79,8 +89,6 @@ class InvoiceRows extends Component
         $this->editing_index = $index;
         if ($index !== null) {
             $this->editing_row = $this->rows[$index];
-            $this->editing_row['discount'] *= 100;
-            $this->editing_row['vat_percent'] *= 100;
         } else {
             $this->resetEditingRow();
         }
@@ -90,8 +98,7 @@ class InvoiceRows extends Component
 
     public function updateRow(): void
     {
-        $this->editing_row['discount'] /= 100;
-        $this->editing_row['vat_percent'] /= 100;
+        $this->validate();
 
         if ($this->editing_index === null) {
             $this->rows [] = $this->editing_row;
@@ -117,13 +124,12 @@ class InvoiceRows extends Component
     public function editVat(): void
     {
         $this->showVatModal = true;
-        $this->vat = 0;
     }
 
     public function updateVat(): void
     {
         $this->showVatModal = false;
-        array_walk($this->rows, fn(&$r) => $r['vat_percent'] = round($this->vat / 100, 2));
+        array_walk($this->rows, fn(&$r) => $r['vat_percent'] = round($this->vat, 2));
         $this->updateTotals();
     }
 
@@ -137,11 +143,11 @@ class InvoiceRows extends Component
         $this->editing_row = [
             'id'          => '',
             'code'        => '',
-            'unit'        => 'Pieces',
-            'quantity'    => 0,
+            'unit'        => 1,
+            'quantity'    => 1,
             'price'       => 0,
             'discount'    => 0,
-            'vat_percent' => 0
+            'vat_percent' => 0.24
         ];
     }
 

@@ -2,9 +2,12 @@
 
 namespace Eshop\Controllers\Dashboard\Invoice\Traits;
 
+use Error;
 use Eshop\Models\Invoice\Invoice;
+use Eshop\Models\Invoice\InvoiceRow;
 use Eshop\Models\Invoice\InvoiceType;
 use Eshop\Models\Invoice\PaymentMethod;
+use Exception;
 use Firebed\AadeMyData\Models\AddressType;
 use Firebed\AadeMyData\Models\Counterpart;
 use Firebed\AadeMyData\Models\Enums\IncomeClassificationCategory;
@@ -30,10 +33,48 @@ trait TransformsInvoice
         $type->setCounterpart($this->getCounterpart($invoice));
         $type->setInvoiceHeader($this->getInvoiceHeader($invoice));
         $type->addPaymentMethod($this->getPaymentMethod($invoice));
-        $type->addInvoiceRow($this->getInvoiceRow($invoice));
+        
+        $vats = $invoice->rows
+            ->groupBy(fn(InvoiceRow $row) => (string)$row->vat_percent)
+            ->map(function ($g, $vat) {
+                $total_net_value = round($g->sum(fn($r) => $r['quantity'] * round($r['price'] * (1 - $r['discount']), 4)), 2);
+                return [
+                    'total_net_value'  => $total_net_value,
+                    'total_vat_amount' => round($total_net_value * $vat, 2)
+                ];
+            });
+
+        $lineNumber = 1;
+        foreach ($vats as $vat => $totals) {
+            $type->addInvoiceRow(
+                $this->getInvoiceRow($lineNumber++,
+                    $this->parseVatType($vat),
+                    $totals['total_net_value'],
+                    $totals['total_vat_amount'],
+                    $this->isGreekVat($invoice) ? IncomeClassificationCode::E3_561_001 : IncomeClassificationCode::E3_561_005,
+                    $invoice->type === InvoiceType::TPY ? IncomeClassificationCategory::CATEGORY_1_3 : IncomeClassificationCategory::CATEGORY_1_1,
+                    $vat === 0 && !$this->isGreekVat($invoice) ? VatExemption::TYPE_4 : null
+                )
+            );
+        }
+
         $type->setInvoiceSummary($this->getInvoiceSummary($invoice));
 
         return $type;
+    }
+
+    private function parseVatType(string $vat): string
+    {
+        return match (round($vat, 2)) {
+            0.24 => VatType::VAT_1,
+            0.13 => VatType::VAT_2,
+            0.06 => VatType::VAT_3,
+            0.17 => VatType::VAT_4,
+            0.09 => VatType::VAT_5,
+            0.04 => VatType::VAT_6,
+            0.00 => VatType::VAT_7,
+            default => throw new Error("Μη αποδεκτή τιμή Φ.Π.Α $vat")
+        };
     }
 
     private function getIssuer(): Issuer
@@ -81,12 +122,16 @@ trait TransformsInvoice
         return $header;
     }
 
+    /**
+     * @throws Exception
+     */
     private function getInvoiceType(Invoice $invoice): string
     {
         return match ($invoice->type) {
             InvoiceType::TPA => $this->isGreekVat($invoice) ? MyDataInvoiceTypes::TYPE_1_1 : MyDataInvoiceTypes::TYPE_1_2,
             InvoiceType::TPY => $this->isGreekVat($invoice) ? MyDataInvoiceTypes::TYPE_2_1 : MyDataInvoiceTypes::TYPE_2_2,
-            InvoiceType::PT => MyDataInvoiceTypes::TYPE_5_2,
+            InvoiceType::PT  => MyDataInvoiceTypes::TYPE_5_2,
+            InvoiceType::PRO => throw new Error('Το προτιμολόγιο δεν μπορεί να σταλεί στο myDATA.'),
         };
     }
 
@@ -98,38 +143,31 @@ trait TransformsInvoice
             PaymentMethod::WireTransfer,
             PaymentMethod::CreditCard,
             PaymentMethod::POD,
-            PaymentMethod::Cash => MyDataPaymentMethod::METHOD_3,
+            PaymentMethod::Cash   => MyDataPaymentMethod::METHOD_3,
 
             PaymentMethod::Credit => MyDataPaymentMethod::METHOD_5,
-            PaymentMethod::Check => MyDataPaymentMethod::METHOD_4,
+            PaymentMethod::Check  => MyDataPaymentMethod::METHOD_4,
         });
         $paymentMethod->setAmount($invoice->total);
         return $paymentMethod;
     }
 
-    private function getInvoiceRow(Invoice $invoice): InvoiceRowType
+    private function getInvoiceRow(int $lineNumber, string $vatType, $total_net_value, $total_vat_amount, string $classificationType, string $classificationCategory, ?string $vatException = null): InvoiceRowType
     {
         $invoiceRow = new InvoiceRowType();
-        $invoiceRow->setLineNumber(1);
-        $invoiceRow->setNetValue($invoice->total_net_value);
-        $invoiceRow->setVatCategory($this->isGreekVat($invoice) ? VatType::VAT_1 : VatType::VAT_7);
-        $invoiceRow->setVatAmount($invoice->total_vat_amount);
+        $invoiceRow->setLineNumber($lineNumber);
+        $invoiceRow->setNetValue($total_net_value);
+        $invoiceRow->setVatCategory($vatType);
+        $invoiceRow->setVatAmount($total_vat_amount);
 
-        if (!$this->isGreekVat($invoice)) {
-            $invoiceRow->setVatExemptionCategory(VatExemption::TYPE_4);
+        if (filled($vatException)) {
+            $invoiceRow->setVatExemptionCategory($vatException);
         }
 
         $icls = new IncomeClassificationType();
-        $icls->setClassificationType($this->isGreekVat($invoice)
-            ? IncomeClassificationCode::E3_561_001
-            : IncomeClassificationCode::E3_561_005
-        );
-
-        $icls->setClassificationCategory($invoice->type === InvoiceType::TPY
-            ? IncomeClassificationCategory::CATEGORY_1_3
-            : IncomeClassificationCategory::CATEGORY_1_1
-        );
-        $icls->setAmount($invoice->total_net_value);
+        $icls->setClassificationType($classificationType);
+        $icls->setClassificationCategory($classificationCategory);
+        $icls->setAmount($total_net_value);
         $invoiceRow->addIncomeClassification($icls);
         return $invoiceRow;
     }

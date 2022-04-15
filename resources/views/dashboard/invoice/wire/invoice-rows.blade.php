@@ -98,7 +98,11 @@
             <div class="row align-items-baseline mb-3">
                 <label for="edit-vat" class="col-3 text-secondary">ΦΠΑ %</label>
                 <div class="col">
-                    <input wire:model.defer="vat" type="number" id="edit-vat" class="form-control" @keydown.enter.prevent="">
+                    <x-bs::input.select wire:model.defer="vat">
+                        @foreach(['0.24', '0.13', '0.06', '0.17', '0.09', '0.04', '0.00'] as $vat)
+                            <option value="{{ $vat }}">{{ format_percent($vat) }}</option>
+                        @endforeach
+                    </x-bs::input.select>
                 </div>
             </div>
         </x-bs::modal.body>
@@ -113,14 +117,14 @@
             <div class="row align-items-baseline mb-3">
                 <label for="edit-code" class="col-3 text-secondary">Κωδικός</label>
                 <div class="col">
-                    <input wire:model.defer="editing_row.code" type="text" id="edit-code" class="form-control" @keydown.enter.prevent="">
+                    <x-bs::input.text wire:model.defer="editing_row.code" error="editing_row.code" type="text" id="edit-code" class="form-control" @keydown.enter.prevent=""/>
                 </div>
             </div>
 
             <div class="row align-items-baseline mb-3">
                 <label for="edit-description" class="col-3 text-secondary">Περιγραφή</label>
                 <div class="col">
-                    <input wire:model.defer="editing_row.description" type="text" id="edit-description" class="form-control" @keydown.enter.prevent="">
+                    <x-bs::input.text wire:model.defer="editing_row.description" error="editing_row.description" type="text" id="edit-description" class="form-control" @keydown.enter.prevent=""/>
                 </div>
             </div>
 
@@ -138,34 +142,38 @@
             <div class="row align-items-baseline mb-3">
                 <label for="edit-quantity" class="col-3 text-secondary">Ποσότητα</label>
                 <div class="col">
-                    <input wire:model.defer="editing_row.quantity" type="number" id="edit-quantity" class="form-control" @keydown.enter.prevent="">
+                    <x-bs::input.integer wire:model.defer="editing_row.quantity" error="editing_row.quantity" @keydown.enter.prevent=""/>
                 </div>
             </div>
 
             <div class="row align-items-baseline mb-3">
                 <label for="edit-price" class="col-3 text-secondary">Τιμή</label>
                 <div class="col">
-                    <input wire:model.defer="editing_row.price" type="number" step="0.0001" id="edit-price" class="form-control" @keydown.enter.prevent="">
+                    <x-bs::input.money wire:model.defer="editing_row.price" error="editing_row.price" type="number" @keydown.enter.prevent=""/>
                 </div>
             </div>
 
             <div class="row align-items-baseline mb-3">
                 <label for="edit-discount" class="col-3 text-secondary">Έκπτωση</label>
                 <div class="col">
-                    <input wire:model.defer="editing_row.discount" type="number" id="edit-discount" class="form-control" @keydown.enter.prevent="">
+                    <x-bs::input.percentage wire:model.defer="editing_row.discount" error="editing_row.discount" @keydown.enter.prevent=""/>
                 </div>
             </div>
 
             <div class="row align-items-baseline">
                 <label for="edit-vat-percent" class="col-3 text-secondary">ΦΠΑ</label>
                 <div class="col">
-                    <input wire:model.defer="editing_row.vat_percent" type="number" id="edit-vat-percent" class="form-control" @keydown.enter.prevent="">
+                    <x-bs::input.select wire:model.defer="editing_row.vat_percent">
+                        @foreach(['0.24', '0.13', '0.06', '0.17', '0.09', '0.04', '0.00'] as $vat)
+                            <option value="{{ $vat }}">{{ format_percent($vat) }}</option>
+                        @endforeach
+                    </x-bs::input.select>
                 </div>
             </div>
         </x-bs::modal.body>
         <x-bs::modal.footer>
             <x-bs::modal.close-button>{{ __('Cancel') }}</x-bs::modal.close-button>
-            <x-bs::button.primary wire:click.prevent="updateRow()">{{ __("Save") }}</x-bs::button.primary>
+            <x-bs::button.primary wire:click.prevent="updateRow()" wire:loading.attr="disabled">{{ __("Save") }}</x-bs::button.primary>
         </x-bs::modal.footer>
     </x-bs::modal>
 </div>

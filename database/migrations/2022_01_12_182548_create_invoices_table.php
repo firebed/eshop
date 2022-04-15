@@ -29,7 +29,7 @@ class CreateInvoicesTable extends Migration
 
             $table->text('details')->nullable();
 
-            $table->timestamp('published_at')->index();
+            $table->timestamp('published_at')->nullable()->index();
             $table->timestamps();
 
             $table->index(['row', 'number']);

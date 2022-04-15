@@ -29,7 +29,7 @@ class InvoiceRequest extends FormRequest
             'payment_method'      => ['required', new Enum(PaymentMethod::class)],
             'relative_document'   => ['nullable', 'string'],
             'transaction_purpose' => ['nullable', 'string'],
-            'published_at'        => ['nullable', 'date'],
+            'published_at'        => ['required', 'date'],
             'row'                 => ['nullable', 'string'],
             'number'              => ['nullable', 'integer'],
             'rows'                => ['required', 'array'],
@@ -52,7 +52,15 @@ class InvoiceRequest extends FormRequest
             'row'            => 'σειρά',
             'number'         => 'αριθμός',
             'rows'           => 'γραμμές',
+            'published_at'   => 'ημερομηνία έκδοσης'
         ]);
+    }
+
+    protected function prepareForValidation(): void
+    {
+        if ($this->isNotFilled('published_at')) {
+            $this->merge(['published_at' => now()]);
+        }
     }
 
     protected function failedValidation(Validator $validator): void

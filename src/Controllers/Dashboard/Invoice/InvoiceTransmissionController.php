@@ -13,11 +13,12 @@ use Firebed\AadeMyData\Models\InvoicesDoc;
 use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Throwable;
 
 class InvoiceTransmissionController extends Controller
 {
     use TransformsInvoice;
-    
+
     public function __construct()
     {
         self::initMyData();
@@ -28,7 +29,7 @@ class InvoiceTransmissionController extends Controller
         $env = api_key('MYDATA_ENVIRONMENT');
         $user_id = api_key('MYDATA_USER_ID');
         $subscription_key = api_key('MYDATA_SUBSCRIPTION_KEY');
-        
+
         MyDataRequest::setEnvironment($env);
         MyDataRequest::setCredentials($user_id, $subscription_key);
     }
@@ -42,14 +43,19 @@ class InvoiceTransmissionController extends Controller
 
         $invoices = Invoice::with('client')->findMany($request->input('ids'));
 
-        $invoicesDoc = new InvoicesDoc();
-        foreach ($invoices as $invoice) {
-            $invoicesDoc->addInvoice($this->transform($invoice));
-        }
-
         $errors = collect();
 
+        $invoicesDoc = new InvoicesDoc();
         try {
+            foreach ($invoices as $invoice) {
+                $invoicesDoc->addInvoice($this->transform($invoice));
+            }
+//            $dom = new DOMDocument("1.0");
+//            $dom->preserveWhiteSpace = false;
+//            $dom->formatOutput = true;
+//            $dom->loadXML((new InvoicesDocXML())->asXML($invoicesDoc));
+//            dd($dom->saveXML());
+            
             $sendInvoices = new SendInvoices();
             $response = $sendInvoices->handle($invoicesDoc);
 
@@ -73,6 +79,8 @@ class InvoiceTransmissionController extends Controller
             }
         } catch (GuzzleException) {
             $errors->put('connection', "Αποτυχία σύνδεσης");
+        } catch (Throwable $e) {
+            $errors->put('default', $e->getMessage());
         }
 
         if (filled($errors)) {
@@ -92,10 +100,10 @@ class InvoiceTransmissionController extends Controller
         $invoices = Invoice::with('transmission')->whereHas('transmission')->findMany($request->input('ids'));
 
         $errors = collect();
-        
+
         try {
             $cancelInvoice = new CancelInvoice();
-            foreach($invoices as $invoice) {
+            foreach ($invoices as $invoice) {
                 $response = $cancelInvoice->handle($invoice->transmission->mark);
                 foreach ($response->getResponseTypes() as $responseType) {
                     if ($responseType->getStatusCode() === 'Success') {
@@ -109,7 +117,7 @@ class InvoiceTransmissionController extends Controller
                         }
 
                         $errors->put($invoice->row . ' - ' . $invoice->number, $invoiceErrors);
-                    }                    
+                    }
                 }
             }
         } catch (GuzzleException) {
@@ -119,7 +127,7 @@ class InvoiceTransmissionController extends Controller
         if (filled($errors)) {
             return back()->withErrors($errors->all());
         }
-        
+
         return back();
     }
 }

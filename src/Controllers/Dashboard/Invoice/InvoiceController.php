@@ -16,6 +16,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpFoundation\StreamedResponse;
+use Throwable;
 
 
 class InvoiceController extends Controller
@@ -66,11 +67,13 @@ class InvoiceController extends Controller
 
     public function update(InvoiceRequest $request, Invoice $invoice): RedirectResponse
     {
-        DB::transaction(function () use ($request, $invoice) {
+        DB::beginTransaction();
+        try {
             $invoice->fill($request->validated());
 
             $rows = collect($request->input('rows'));
             $this->updateTotals($invoice, $rows);
+
             $invoice->save();
 
             $diff = $invoice->rows->pluck('id')->diff($rows->pluck('id'));
@@ -78,9 +81,13 @@ class InvoiceController extends Controller
             foreach ($rows as $row) {
                 $invoice->rows()->updateOrCreate(['id' => $row['id']], $row);
             }
+            DB::commit();
 
             $this->showSuccessNotification("Αποθηκεύτηκε");
-        });
+        } catch (Throwable) {
+            DB::rollBack();
+            $this->showErrorNotification("Παρουσιάστηκε κάποιο σφάλμα");
+        }
 
         return back();
     }
