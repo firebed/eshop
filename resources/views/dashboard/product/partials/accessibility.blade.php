@@ -46,14 +46,16 @@
                     </div>
                 </div>
 
-                <div class="mt-3">
-                    <div class="fw-bold py-1 small">Κανάλια πώλησης</div>
-                    @foreach($channels as $channel)
-                        <x-bs::input.switch name="channels[]" value="{{ $channel->id }}" :checked="old('channels.'.$channel->id, isset($product) ? $product->channels->contains($channel) : true)" id="channel-{{ $channel->id }}">
-                            {{ $channel->name }}
-                        </x-bs::input.switch>
-                    @endforeach
-                </div>
+                @if(eshop('skroutz'))
+                    <div class="mt-3">
+                        <div class="fw-bold py-1 small">Κανάλια πώλησης</div>
+                        @foreach($channels as $channel)
+                            <x-bs::input.switch name="channels[]" value="{{ $channel->id }}" :checked="old('channels.'.$channel->id, isset($product) ? $product->channels->contains($channel) : true)" id="channel-{{ $channel->id }}">
+                                {{ $channel->name }}
+                            </x-bs::input.switch>
+                        @endforeach
+                    </div>
+                @endif
             </div>
         </div>
     </div>

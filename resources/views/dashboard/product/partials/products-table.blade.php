@@ -30,14 +30,16 @@
             </td>
             <td>
                 <a href="{{ route('products.edit', $product) }}" class="vstack text-decoration-none text-nowrap gap-1">
-                    @if($product->recent)
-                        <span class="d-flex align-items-center gap-2">
-                            <span>{{ $product->isVariant() ? $product->trademark : $product->name }}</span>
+                    <span class="d-flex align-items-center gap-2">
+                        <span>{{ $product->isVariant() ? $product->trademark : $product->name }}</span>
+                        @if($product->recent)
                             <em class="fas fa-star text-warning"></em>
-                        </span>
-                    @else
-                        {{ $product->isVariant() ? $product->trademark : $product->name }}
-                    @endif
+                        @endif
+                        
+                        @if($product->channels->contains(1))
+                            <em class="fab fa-redhat text-orange-400"></em>
+                        @endif
+                    </span>
                     <small class="text-secondary">{{ $product->category->name }}</small>
                     @unless($product->visible)
                         <span class="badge bg-danger fw-500 align-self-start">{{ __("Invisible") }}</span>

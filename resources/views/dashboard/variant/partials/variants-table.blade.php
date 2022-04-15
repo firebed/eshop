@@ -30,7 +30,9 @@
 
             <td>
                 <a href="{{ route('variants.edit', array_filter([$variant, 'search' => $search])) }}" class="d-grid gap-1 text-decoration-none">
-                    <div class="text-dark d-flex gap-3 align-items-center">{{ $variant->options->pluck('pivot.name')->join(' / ') }}@if($variant->recent) <em class="fas fa-star text-warning"></em>@endif</div>
+                    <div class="text-dark d-flex gap-3 align-items-center">{{ $variant->options->pluck('pivot.name')->join(' / ') }}@if($variant->recent)
+                            <em class="fas fa-star text-warning"></em>
+                        @endif</div>
                     <small class="text-secondary lh-sm">{{ $variant->sku }}</small>
                     @if($variant->stock === 0)
                         <span class="badge bg-warning text-dark me-auto">{{ __("Sold out") }}</span>
@@ -45,13 +47,16 @@
             <td>
                 <div>
                     <div>{{ format_currency($variant->net_value) }}</div>
-                    @if($variant->isOnSale()) <div class="fw-bold text-danger">-{{ format_percent($variant->discount) }}</div> @endif
+                    @if($variant->isOnSale())
+                        <div class="fw-bold text-danger">-{{ format_percent($variant->discount) }}</div>
+                    @endif
                 </div>
             </td>
 
             <td>
                 <div class="d-flex gap-2 justify-content-end">
                     <em class="fas fa-eye {{ $variant->visible ? 'text-teal-500' : 'text-gray-400' }}"></em>
+
                     <div class="d-grid gap-1">
                         <em class="fas fa-shopping-cart {{ $variant->available ? 'text-teal-500' : 'text-gray-400' }}"></em>
                         @if($variant->available_gt !== "" && $variant->available_gt !== null)
@@ -67,6 +72,10 @@
                             <small class="fw-500 text-center lh-sm" style="font-size: .7rem">{{ $variant->display_stock_lt }}</small>
                         @endif
                     </div>
+                    
+                    @if(eshop('skroutz'))
+                        <em class="fab fa-redhat {{ $variant->channels->contains(1) ? 'text-orange-400' : 'text-gray-400' }}"></em>
+                    @endif
                 </div>
             </td>
         </tr>

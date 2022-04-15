@@ -4,7 +4,7 @@
 
         <x-bs::dropdown wire:ignore>
             <x-bs::dropdown.button class="btn-white" id="bulk-actions"><em class="fas fa-bars"></em></x-bs::dropdown.button>
-            <x-bs::dropdown.menu button="bulk-actions" alignment="right">
+            <x-bs::dropdown.menu class="shadow" button="bulk-actions" alignment="right" style="max-height: 350px; overflow-y: auto; overflow-x: hidden">
                 <li class="p-0">
                     <div class="dropdown-item p-0">
                         @include('eshop::dashboard.variant.partials.variant-bulk-edit-menu-item')
@@ -27,7 +27,7 @@
                     <em class="far fa-copyright  me-2 text-secondary w-1r"></em>
                     Αφαίρεση Watermark
                 </x-bs::dropdown.item>
-                
+
                 <x-bs::dropdown.divider/>
 
                 <x-bs::dropdown.item data-bs-toggle="modal" data-bs-target="#variant-bulk-edit-modal" data-property="price" data-title="{{ __('eshop::variant.bulk-actions.price') }}">
@@ -85,6 +85,20 @@
                 </x-bs::dropdown.item>
 
                 <x-bs::dropdown.divider/>
+
+                @if(eshop('skroutz'))
+                    <x-bs::dropdown.item x-on:click.prevent="$wire.toggleSkroutz([...document.querySelectorAll('#variants-table tbody input:checked')].map(i => i.value), true)">
+                        <em class="fab fa-redhat me-2 text-orange-500 w-1r"></em>
+                        Προσθήκη στο Skroutz
+                    </x-bs::dropdown.item>
+
+                    <x-bs::dropdown.item x-on:click.prevent="$wire.toggleSkroutz([...document.querySelectorAll('#variants-table tbody input:checked')].map(i => i.value), false)">
+                        <em class="fab fa-redhat me-2 text-secondary w-1r"></em>
+                        Αφαίρεση από το Skroutz
+                    </x-bs::dropdown.item>
+
+                    <x-bs::dropdown.divider/>
+                @endif
 
                 <x-bs::dropdown.item data-bs-toggle="modal" data-bs-target="#variant-bulk-delete-modal">
                     <em class="far fa-trash-alt me-2 text-secondary w-1r"></em>

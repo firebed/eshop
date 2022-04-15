@@ -66,9 +66,24 @@
             
             <x-bs::dropdown class="dropdown-menu-end">
                 <x-bs::dropdown.button id="product-options" class="bg-white border">Επιλογές</x-bs::dropdown.button>
-                <x-bs::dropdown.menu button="product-options">
+                <x-bs::dropdown.menu class="shadow" button="product-options">
                     <x-bs::dropdown.item wire:click="makeVisible(true)"><em class="fas fa-eye w-2r text-muted"></em>Αλλαγή σε ορατό</x-bs::dropdown.item>
                     <x-bs::dropdown.item wire:click="makeVisible(false)"><em class="fas fa-eye-slash w-2r text-muted"></em>Αλλαγή σε μη ορατό</x-bs::dropdown.item>
+
+                    @if(eshop('skroutz'))
+                        <x-bs::dropdown.divider/>
+                    
+                        <x-bs::dropdown.item wire:click="toggleSkroutz(true)">
+                            <em class="fab fa-redhat me-2 text-orange-500 w-1r"></em>
+                            Προσθήκη στο Skroutz
+                        </x-bs::dropdown.item>
+
+                        <x-bs::dropdown.item wire:click="toggleSkroutz(false)">
+                            <em class="fab fa-redhat me-2 text-secondary w-1r"></em>
+                            Αφαίρεση από το Skroutz
+                        </x-bs::dropdown.item>
+                    @endif
+                    
                 </x-bs::dropdown.menu>
             </x-bs::dropdown>
         </div>

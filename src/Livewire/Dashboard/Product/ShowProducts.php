@@ -4,6 +4,7 @@ namespace Eshop\Livewire\Dashboard\Product;
 
 use Eshop\Actions\Audit\AuditModel;
 use Eshop\Models\Product\Category;
+use Eshop\Models\Product\Channel;
 use Eshop\Models\Product\Manufacturer;
 use Eshop\Models\Product\Product;
 use Firebed\Components\Livewire\Traits\Datatable\WithSelections;
@@ -96,6 +97,21 @@ class ShowProducts extends Component
         });
     }
 
+    public function toggleSkroutz(bool $enabled): void
+    {
+        DB::transaction(function () use ($enabled) {
+            $skroutz = Channel::firstWhere('name', 'Skroutz');
+            $products = Product::exceptParents()->findMany($this->selected);
+            foreach ($products as $product) {
+                if ($enabled) {
+                    $product->channels()->syncWithoutDetaching($skroutz);
+                } else {
+                    $product->channels()->detach($skroutz);
+                }
+            }
+        });
+    }
+
     public function getProductsProperty(): LengthAwarePaginator
     {
         $query = Product::query();
@@ -115,7 +131,7 @@ class ShowProducts extends Component
             ->withMax('variants', 'price')
             ->withSum('variants', 'stock')
             ->withCount('variants')
-            ->with('category.translations', 'translations')
+            ->with('category.translations', 'translations', 'channels')
             ->when($this->visible !== '', fn($q) => $q->where('visible', $this->visible))
             ->when($this->sortField, function ($q, $sf) {
                 switch ($sf) {

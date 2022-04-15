@@ -4,6 +4,7 @@ namespace Eshop\Livewire\Dashboard\Product;
 
 use Eshop\Actions\Audit\AuditModel;
 use Eshop\Actions\InsertWatermark;
+use Eshop\Models\Product\Channel;
 use Eshop\Models\Product\Product;
 use Eshop\Models\Product\VariantType;
 use Firebed\Components\Livewire\Traits\SendsNotifications;
@@ -34,12 +35,12 @@ class VariantsTable extends Component
                     $b->orWhereHas('variantOptions.translation', fn($b) => $b->where('translation', 'LIKE', "%$v%"));
                 });
             })
-            ->with(['options.translation', 'category', 'image'])
+            ->with(['options.translation', 'category', 'image', 'channels'])
             ->get()
             ->each(fn($v) => $v->options = $v->options->sortBy('position'));
 
         (new \Illuminate\Database\Eloquent\Collection($variants->pluck('options')->flatten()->pluck('pivot')))->load('translation');
-        
+
         return $variants
             ->sortBy(fn($v) => $v->options->pluck('pivot.name')->join(' / '), SORT_NATURAL | SORT_FLAG_CASE);
     }
@@ -51,17 +52,17 @@ class VariantsTable extends Component
 
     public function toggleVisible(array $ids, bool $visible, AuditModel $audit): void
     {
-        DB::transaction(function() use ($ids, $visible, $audit) {
+        DB::transaction(function () use ($ids, $visible, $audit) {
             Product::whereKey($ids)->update([
                 'visible' => $visible
             ]);
-            
+
             $variants = $this->variants;
             $variants->load('manufacturer', 'translations', 'seos', 'unit', 'parent.translations');
             foreach ($this->variants as $variant) {
                 $audit->handle($variant);
             }
-            
+
             $this->showSuccessToast("Οι αλλαγές αποθηκεύτηκαν!");
         });
     }
@@ -71,13 +72,13 @@ class VariantsTable extends Component
         if (empty($ids)) {
             return;
         }
-        
+
         $products = Product::whereKey($ids)->with('image')->get();
         foreach ($products as $product) {
             $image = $watermark->handle($product->image->path());
             $product->image->addConversion('wm', $image);
         }
-        
+
         Product::whereKey($ids)->update(['has_watermark' => true]);
     }
 
@@ -95,16 +96,33 @@ class VariantsTable extends Component
         Product::whereKey($ids)->update(['has_watermark' => false]);
     }
 
-    protected function getModels(): Collection
-    {
-        return $this->variants;
-    }
-
     public function render(): Renderable
-    {        
+    {
         return view('eshop::dashboard.variant.wire.variants-table', [
             'variants'     => $this->variants,
             'variantTypes' => $this->variantTypes
         ]);
+    }
+
+    public function toggleSkroutz(array $ids, bool $visible): void
+    {
+        DB::transaction(function () use ($ids, $visible) {
+            $skroutz = Channel::firstWhere('name', 'Skroutz');
+            $products = Product::findMany($ids);
+            foreach ($products as $product) {
+                if ($visible) {
+                    $product->channels()->syncWithoutDetaching($skroutz);
+                } else {
+                    $product->channels()->detach($skroutz);
+                }
+            }
+
+            $this->showSuccessToast("Οι αλλαγές αποθηκεύτηκαν!");
+        });
+    }
+
+    protected function getModels(): Collection
+    {
+        return $this->variants;
     }
 }
