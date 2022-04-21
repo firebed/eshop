@@ -42,8 +42,8 @@ class SpeedExPaymentsCommand extends Command
             return;
         }
 
-        DB::beginTransaction();
         try {
+            DB::beginTransaction();
             $this->processPayments($payments);
             DB::commit();
         } catch (Throwable $t) {
@@ -51,7 +51,7 @@ class SpeedExPaymentsCommand extends Command
             $report->handle($t->getMessage(), $t->getTraceAsString());
         }
     }
-
+    
     private function processPayments(Collection $payments): void
     {
         $speedEx = ShippingMethod::firstWhere('name', 'SpeedEx');

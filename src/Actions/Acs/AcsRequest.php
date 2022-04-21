@@ -2,7 +2,10 @@
 
 namespace Eshop\Actions\Acs;
 
+use Error;
 use Illuminate\Support\Facades\Http;
+use Exception;
+use Throwable;
 
 class AcsRequest
 {
@@ -12,8 +15,6 @@ class AcsRequest
 
     public function request(array $params): array|int
     {
-        $this->checkCredentials();
-
         $params = [
             "ACSAlias"           => $this->action,
             "ACSInputParameters" => array_merge([
@@ -25,22 +26,29 @@ class AcsRequest
             ], $params)
         ];
 
-        $response = Http::withHeaders(['AcsApiKey' => api_key('AcsApiKey')])->post(self::ENDPOINT, $params);
-        if (!$response->ok()) {
-            return $response->status();
+        try {
+            $this->checkCredentials();
+
+            $response = Http::withHeaders(['AcsApiKey' => api_key('AcsApiKey')])->post(self::ENDPOINT, $params);
+
+            if (!$response->ok()) {
+                return $response->status();
+            }
+
+            $response = $response->json();
+
+            $hasErrors = $response['ACSExecution_HasError'];
+            $errorMessage = $response['ACSExecutionErrorMessage'];
+
+            $results = $response['ACSOutputResponce'];
+
+            $valueOutput = $results['ACSValueOutput'];
+            $tableOutput = $results['ACSTableOutput']['Table_Data'] ?? [];
+
+            return [$valueOutput, $tableOutput];
+        } catch (Throwable) {
+            return [[], []];
         }
-
-        $response = $response->json();
-
-        $hasErrors = $response['ACSExecution_HasError'];
-        $errorMessage = $response['ACSExecutionErrorMessage'];
-
-        $results = $response['ACSOutputResponce'];
-
-        $valueOutput = $results['ACSValueOutput'];
-        $tableOutput = $results['ACSTableOutput']['Table_Data'] ?? [];
-
-        return [$valueOutput, $tableOutput];
     }
 
     private function checkCredentials(): void
@@ -52,7 +60,7 @@ class AcsRequest
             blank(api_key('User_Password')) ||
             blank(api_key('User_locals'))
         ) {
-            throw new \Error("Missing ACS credentials.");
+            throw new Error("Missing ACS credentials.");
         }
     }
 }

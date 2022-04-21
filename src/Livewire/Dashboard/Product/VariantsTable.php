@@ -75,8 +75,10 @@ class VariantsTable extends Component
 
         $products = Product::whereKey($ids)->with('image')->get();
         foreach ($products as $product) {
-            $image = $watermark->handle($product->image->path());
-            $product->image->addConversion('wm', $image);
+            if ($product->image) {
+                $image = $watermark->handle($product->image->path());
+                $product->image->addConversion('wm', $image);
+            }
         }
 
         Product::whereKey($ids)->update(['has_watermark' => true]);
