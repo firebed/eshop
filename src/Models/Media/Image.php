@@ -131,6 +131,11 @@ class Image extends Model
         return $disk->exists($src) ? $disk->size($src) : 0;
     }
 
+    public function fileExists(): bool
+    {
+        return Storage::disk($this->disk)->exists($this->src);
+    }
+
     public function getConversionsTotalSizeAttribute(): string
     {
         $initial = $this->getFileSize($this->src);

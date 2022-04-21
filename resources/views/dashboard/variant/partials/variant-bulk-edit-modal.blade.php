@@ -7,7 +7,18 @@
         global: '',
 
         apply() {
-            $el.querySelectorAll('input.' + this.property).forEach(input => input.value = this.global)
+            const pad = this.global.indexOf('##');
+            let len = ($el.querySelectorAll('input.' + this.property).length).toString().length;
+            $el.querySelectorAll('input.' + this.property).forEach((input, i) => {
+                let replacement = (i + 1).toString();
+                if (pad !== -1) {
+                    len = Math.max(2, len)
+                    replacement = this.global.replace('##', replacement.padStart(len, '0'))                    
+                } else {
+                    replacement = this.global.replace('#', replacement)                    
+                }
+                input.value = replacement
+            })
         }
       }"
       x-on:submit="submitting = true"
@@ -24,7 +35,7 @@
             selectedVariants = [...document.querySelectorAll('.variant:checked')].map(i => parseInt(i.value))
         })"
     >
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-dialog-scrollable">
             <div class="modal-content shadow">
                 <div class="modal-header">
                     <h5 class="modal-title" x-text="title"></h5>
@@ -39,7 +50,7 @@
                         <x-eshop::money x-show="property === 'price' || property === 'compare_price'" x-effect="global = value" value="0" class="rounded-start"/>
                         <x-eshop::percentage x-show="property === 'discount'" x-effect="global = value" value="0" class="rounded-start"/>
                         <x-eshop::integer x-show="property === 'stock' || property === 'weight'" x-effect="global = value" value="0" class="rounded-start"/>
-                        <x-bs::input.text x-show="property === 'sku' || property === 'display_stock_lt' || property === 'available_gt'" x-on:input="global = $el.value.trim()" class="rounded-start"/>
+                        <x-bs::input.text x-show="property === 'sku' || property === 'mpn' || property === 'display_stock_lt' || property === 'available_gt'" x-on:input="global = $el.value.trim()" class="rounded-start"/>
                         <button class="btn btn-outline-secondary" type="button" x-on:click.prevent="apply()">{{ __('eshop::variant.buttons.apply_all') }}</button>
                     </div>
 
@@ -55,40 +66,44 @@
                                     </td>
 
                                     <td x-data="{ v: {{ $variant->price }} }" x-show="property === 'price'" class="text-end w-7r">
-                                        <x-eshop::money x-bind:class="property" x-effect="v = value" value="v" class="text-end"/>
+                                        <x-eshop::money x-effect="v = value" value="v" class="price text-end"/>
                                         <input x-model="v" x-bind:disabled="property !== 'price' || !selectedVariants.includes({{ $variant->id }})" type="text" name="bulk_price[]" hidden>
                                     </td>
 
                                     <td x-data="{ v: {{ $variant->compare_price }} }" x-show="property === 'compare_price'" class="text-end w-7r">
-                                        <x-eshop::money x-bind:class="property" x-effect="v = value" value="v" class="text-end"/>
+                                        <x-eshop::money x-effect="v = value" value="v" class="compare_price text-end"/>
                                         <input x-model="v" x-bind:disabled="property !== 'compare_price' || !selectedVariants.includes({{ $variant->id }})" type="text" name="bulk_compare_price[]" hidden>
                                     </td>
 
                                     <td x-data="{ v: {{ $variant->discount }} }" x-show="property === 'discount'" class="text-end w-7r">
-                                        <x-eshop::percentage x-bind:class="property" x-effect="v = value" value="v" class="text-end"/>
+                                        <x-eshop::percentage x-effect="v = value" value="v" class="discount text-end"/>
                                         <input x-model="v" x-bind:disabled="property !== 'discount' || !selectedVariants.includes({{ $variant->id }})" type="text" name="bulk_discount[]" hidden>
                                     </td>
 
                                     <td x-show="property === 'sku'" class="text-end w-10r">
-                                        <x-bs::input.text x-bind:class="property" x-bind:disabled="property !== 'sku' || !selectedVariants.includes({{ $variant->id }})" name="bulk_sku[]" value="{{ $variant->sku }}"/>
+                                        <x-bs::input.text class="sku" x-bind:disabled="property !== 'sku' || !selectedVariants.includes({{ $variant->id }})" name="bulk_sku[]" value="{{ $variant->sku }}"/>
+                                    </td>
+
+                                    <td x-show="property === 'mpn'" class="text-end w-10r">
+                                        <x-bs::input.text class="mpn" x-bind:disabled="property !== 'mpn' || !selectedVariants.includes({{ $variant->id }})" name="bulk_mpn[]" value="{{ $variant->mpn }}"/>
                                     </td>
 
                                     <td x-data="{ v: {{ $variant->stock }} }" x-show="property === 'stock'" class="text-end w-7r">
-                                        <x-eshop::integer x-bind:class="property" x-effect="v = value" value="v" class="text-end"/>
+                                        <x-eshop::integer x-effect="v = value" value="v" class="stock text-end"/>
                                         <input x-model="v" x-bind:disabled="property !== 'stock' || !selectedVariants.includes({{ $variant->id }})" type="text" name="bulk_stock[]" hidden>
                                     </td>
 
                                     <td x-data="{ v: {{ $variant->weight }} }" x-show="property === 'weight'" class="text-end w-7r">
-                                        <x-eshop::integer x-bind:class="property" x-effect="v = value" value="v" class="text-end"/>
+                                        <x-eshop::integer x-effect="v = value" value="v" class="weight text-end"/>
                                         <input x-model="v" x-bind:disabled="property !== 'weight' || !selectedVariants.includes({{ $variant->id }})" type="text" name="bulk_weight[]" hidden>
                                     </td>
 
                                     <td x-show="property === 'display_stock_lt'" class="text-end w-7r">
-                                        <x-bs::input.text x-bind:class="property" x-bind:disabled="property !== 'display_stock_lt' || !selectedVariants.includes({{ $variant->id }})" name="bulk_display_stock_lt[]" value="{{ $variant->display_stock_lt }}"/>
+                                        <x-bs::input.text class="display_stock_lt" x-bind:disabled="property !== 'display_stock_lt' || !selectedVariants.includes({{ $variant->id }})" name="bulk_display_stock_lt[]" value="{{ $variant->display_stock_lt }}"/>
                                     </td>
 
                                     <td x-show="property === 'available_gt'" class="text-end w-7r">
-                                        <x-bs::input.text x-bind:class="property" x-bind:disabled="property !== 'available_gt' || !selectedVariants.includes({{ $variant->id }})" name="bulk_available_gt[]" value="{{ $variant->available_gt }}"/>
+                                        <x-bs::input.text class="available_gt" x-bind:disabled="property !== 'available_gt' || !selectedVariants.includes({{ $variant->id }})" name="bulk_available_gt[]" value="{{ $variant->available_gt }}"/>
                                     </td>
                                 </tr>
                             @endforeach

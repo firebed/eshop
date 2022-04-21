@@ -41,7 +41,7 @@ class InvoiceTransmissionController extends Controller
             'ids.*' => ['required', 'integer']
         ]);
 
-        $invoices = Invoice::with('client')->findMany($request->input('ids'));
+        $invoices = Invoice::with('client', 'rows')->findMany($request->input('ids'));
 
         $errors = collect();
 

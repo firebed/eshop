@@ -5,7 +5,7 @@
         </x-bs::input.group>
 
         <x-bs::input.group for="description" label="{{ __('Description') }}">
-            <x-eshop::rich-text x-effect="$dispatch('product-description-updated', text.trim())" :value="old('description', $product->description ?? '')" name="description" error="description" id="description" rows="10" plugins="lists code" toolbar="fontselect | bold italic underline | forecolor | bullist numlist | removeformat | code"/>
+            <x-eshop::rich-text x-effect="$dispatch('product-description-updated', text.trim())" :value="old('description', $product->description ?? '')" name="description" error="description" id="description" rows="10" plugins="lists code link" toolbar="fontselect | bold italic underline | forecolor | link | bullist numlist | removeformat | code"/>
         </x-bs::input.group>
     </x-bs::card.body>
 </x-bs::card>

@@ -74,6 +74,11 @@
                     {{ __('eshop::variant.bulk-actions.sku') }}
                 </x-bs::dropdown.item>
 
+                <x-bs::dropdown.item data-bs-toggle="modal" data-bs-target="#variant-bulk-edit-modal" data-property="mpn" data-title="{{ __('eshop::variant.bulk-actions.mpn') }}">
+                    <em class="fa fa-box-open me-2 text-secondary w-1r"></em>
+                    {{ __('eshop::variant.bulk-actions.mpn') }}
+                </x-bs::dropdown.item>
+                
                 <x-bs::dropdown.item data-bs-toggle="modal" data-bs-target="#variant-bulk-edit-modal" data-property="stock" data-title="{{ __('eshop::variant.bulk-actions.stock') }}">
                     <em class="fa fa-battery-half me-2 text-secondary w-1r"></em>
                     {{ __('eshop::variant.bulk-actions.stock') }}

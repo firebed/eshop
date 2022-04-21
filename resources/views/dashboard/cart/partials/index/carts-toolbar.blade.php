@@ -41,8 +41,11 @@
                     <x-bs::dropdown.item wire:click.prevent="print"><em class="fas fa-print me-2 text-secondary"></em>{{ __("Print") }}</x-bs::dropdown.item>
                     @can("Manage orders")
                         <x-bs::dropdown.item wire:click.prevent="showOperators"><em class="fas fa-users me-2 text-secondary"></em>{{ __("Change operators") }}</x-bs::dropdown.item>
-                        <x-bs::dropdown.divider/>
-                        <x-bs::dropdown.item wire:click.prevent="confirmDelete()"><em class="far fa-trash-alt me-2 text-secondary"></em>{{ __("Delete") }}</x-bs::dropdown.item>
+
+                        @can('Delete order')
+                            <x-bs::dropdown.divider/>
+                            <x-bs::dropdown.item wire:click.prevent="confirmDelete()"><em class="far fa-trash-alt me-2 text-secondary"></em>{{ __("Delete") }}</x-bs::dropdown.item>
+                        @endcan
                     @endcan
                 </x-bs::dropdown.menu>
             </x-bs::dropdown>

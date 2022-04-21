@@ -11,7 +11,7 @@ class VariantBulkUpdateRequest extends FormRequest
 {
     use WithRequestNotifications;
 
-    private const PROPERTIES = ['price', 'compare_price', 'discount', 'sku', 'stock', 'weight', 'display_stock_lt', 'available_gt'];
+    private const PROPERTIES = ['price', 'compare_price', 'discount', 'sku', 'mpn', 'stock', 'weight', 'display_stock_lt', 'available_gt'];
 
     public function authorize(): bool
     {
@@ -41,6 +41,12 @@ class VariantBulkUpdateRequest extends FormRequest
                         $rules["bulk_sku.$i"] = ['required', 'distinct', "unique:products,sku,$id"];
                     }
                     break;
+                case 'mpn':
+                    $rules["bulk_mpn.*"] = ['required', 'distinct'];
+                    foreach ($this->input('bulk_ids', []) as $i => $id) {
+                        $rules["bulk_mpn.$i"] = ['nullable', 'distinct', "unique:products,mpn,$id"];
+                    }
+                    break;
                 case 'stock':
                     $rules["bulk_stock.*"] = ['required', 'integer'];
                     break;
@@ -63,6 +69,7 @@ class VariantBulkUpdateRequest extends FormRequest
             'bulk_compare_price.*'    => 'compare_price',
             'bulk_discount.*'         => 'discount',
             'bulk_sku.*'              => 'sku',
+            'bulk_mpn.*'              => 'mpn',
             'bulk_stock.*'            => 'stock',
             'bulk_weight.*'           => 'weight',
             'bulk_display_stock_lt.*' => 'display_stock_lt',

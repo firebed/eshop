@@ -28,6 +28,7 @@ use Eshop\Controllers\Dashboard\Product\ManufacturerController;
 use Eshop\Controllers\Dashboard\Product\ProductAuditController;
 use Eshop\Controllers\Dashboard\Product\ProductBarcodeController;
 use Eshop\Controllers\Dashboard\Product\ProductController;
+use Eshop\Controllers\Dashboard\Product\ProductCopyController;
 use Eshop\Controllers\Dashboard\Product\ProductImageController;
 use Eshop\Controllers\Dashboard\Product\ProductMovementController;
 use Eshop\Controllers\Dashboard\Product\ProductTranslationController;
@@ -63,6 +64,7 @@ Route::middleware(['web', 'auth', 'admin'])->group(function () {
         Route::get('products/trashed', ProductTrashController::class)->name('products.trashed.index');
         Route::resource('products.audits', ProductAuditController::class)->shallow()->only('index', 'show');
         Route::get('products/{product}/translations', ProductTranslationController::class)->name('products.translations.edit');
+        Route::resource('products.copy', ProductCopyController::class)->only('create', 'store')->shallow();
         Route::resource('products', ProductController::class)->except('show', 'edit');
 
         Route::put('variants/images', VariantBulkImageController::class)->name('variants.bulk-images.update');

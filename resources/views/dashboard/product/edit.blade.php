@@ -38,12 +38,18 @@
                     </div>
 
                     <div class="btn-group">
-                        <button class="btn btn-white w-3r text-secondary" data-bs-toggle="offcanvas" data-bs-target="#label-print-dialog" type="button">
+                        <button class="btn btn-white w-3r text-secondary" data-bs-toggle="offcanvas" data-bs-target="#label-print-dialog" type="button" title="Εκτύπωση ετικετών">
                             <em class="fas fa-receipt"></em>
                         </button>
-                        
+
+                        @can('Copy product')
+                            <a href="{{ route('products.copy.create', $product) }}" class="btn btn-white w-3r text-secondary" type="button" title="Αντιγραφή προϊόντος">
+                                <em class="fas fa-copy"></em>
+                            </a>
+                        @endcan
+
                         @if(productRouteExists())
-                            <a class="btn btn-white w-3r text-secondary" href="{{ productRoute($product) }}">
+                            <a class="btn btn-white w-3r text-secondary" href="{{ productRoute($product) }}" title="Προβολή">
                                 <em class="fas fa-eye"></em>
                             </a>
                         @endif
