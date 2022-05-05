@@ -41,9 +41,9 @@ return [
     'currency_placement' => env('CURRENCY_PLACEMENT', 's'),
     'sign_placement'     => env('SIGN_PLACEMENT', 'p'),
 
-    'google_analytics_id'  => env('GOOGLE_ANALYTICS_ID'),
-    'google_conversion_id' => env('GOOGLE_CONVERSION_ID'),
-    'google_event_id'      => env('GOOGLE_EVENT_ID'),
+    'google_analytics_id'     => env('GOOGLE_ANALYTICS_ID'),
+    'google_conversion_id'    => env('GOOGLE_CONVERSION_ID'),
+    'google_conversion_label' => env('GOOGLE_CONVERSION_LABEL'),
 
     'paypal_live_client_id'     => env('PAYPAL_LIVE_CLIENT_ID'),
     'paypal_live_client_secret' => env('PAYPAL_LIVE_CLIENT_SECRET'),

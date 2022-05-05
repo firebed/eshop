@@ -16,10 +16,13 @@ class SpeedExPaymentsInfo extends SpeedExRequest
         ]);
 
         $result = $response->GetDepositedConsignmentsByDateResult;
+        if ($result === null) {
+            return [];
+        }
 
         $message = $result->Message;
         $statusCode = $result->StatusCode;
-        
+
         $consignments = $result->Result->ConsignmentCollectOnDelivery ?? [];
         return is_array($consignments) ? $consignments : [];
     }

@@ -13,7 +13,7 @@
             position: relative;
             font-family: DejaVu Sans, sans-serif;
             font-size: {{ $options['fontSize'] ?? 9 }}px !important;
-            line-height: .5rem;
+            line-height: 2mm;
             page-break-inside: avoid;
         }
 
@@ -22,7 +22,7 @@
         }
 
         #company-title {
-            height: .7rem;
+            height: 3mm;
             font-weight: bold
         }
 
@@ -31,19 +31,19 @@
         }
 
         #product-title {
-            top: .7rem;
+            top: 3mm;
             width: 100%;
-            height: 2.1rem;
+            height: {{ ($options['height'] ?? 24) - 20 }}mm;
             overflow: hidden;
-            line-height: .46rem;
+            line-height: 2mm;
         }
 
         #barcode {
-            top: 2.7rem;
+            bottom: 5mm;
             left: 0;
             right: 0;
             text-align: center;
-            height: 2rem;
+            height: 9mm;
         }
 
         #barcode img {
@@ -52,7 +52,7 @@
         }
 
         #barcode-numbers {
-            top: 4.7rem;
+            bottom: 1mm;
             width: 100%;
             text-align: center
         }

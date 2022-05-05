@@ -4,6 +4,7 @@ namespace Eshop\Actions\SpeedEx;
 
 use Error;
 use SoapClient;
+use stdClass;
 use Throwable;
 
 class SpeedExRequest
@@ -28,7 +29,7 @@ class SpeedExRequest
         return self::$sessionId = $session->sessionId;
     }
 
-    public function request(array $params): array
+    public function request(array $params): null|stdClass
     {
         try {
             $this->checkCredentials();
@@ -39,7 +40,7 @@ class SpeedExRequest
 
             return $client->{$this->action}($params);
         } catch (Throwable) {
-            return [];
+            return null;
         }
     }
 
