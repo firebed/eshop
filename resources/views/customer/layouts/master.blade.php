@@ -31,12 +31,12 @@
 
     <link href="{{ mix('dist/app.css') }}" rel="stylesheet">
 
-    @stack('header_scripts')
-
     <livewire:styles/>
     <script defer src="https://unpkg.com/alpinejs@3.2.1/dist/cdn.min.js"></script>
 
     <x-eshop::google-analytics/>
+
+    @stack('header_scripts')
 </head>
 <body>
 

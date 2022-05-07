@@ -7,15 +7,16 @@
         global: '',
 
         apply() {
-            const pad = this.global.indexOf('##');
+            const str = this.global.toString()
+            const pad = str.indexOf('##');
             let len = ($el.querySelectorAll('input.' + this.property).length).toString().length;
             $el.querySelectorAll('input.' + this.property).forEach((input, i) => {
                 let replacement = (i + 1).toString();
                 if (pad !== -1) {
                     len = Math.max(2, len)
-                    replacement = this.global.replace('##', replacement.padStart(len, '0'))                    
+                    replacement = str.replace('##', replacement.padStart(len, '0'))
                 } else {
-                    replacement = this.global.replace('#', replacement)                    
+                    replacement = str.replace('#', replacement)
                 }
                 input.value = replacement
             })
