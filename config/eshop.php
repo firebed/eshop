@@ -138,5 +138,9 @@ return [
         'width'     => '35',
         'height'    => '24',
         'margin'    => '1',
+    ],
+
+    'analytics' => [
+        'couriers' => true
     ]
 ];

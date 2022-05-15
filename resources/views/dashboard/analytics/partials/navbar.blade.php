@@ -17,6 +17,11 @@
                     <li class="nav-item">
                         <a class="nav-link py-lg-0" href="{{ route('analytics.orders.index') }}">Παραγγελίες</a>
                     </li>
+                    @if(eshop('analytics.couriers'))
+                        <li class="nav-item">
+                            <a class="nav-link py-lg-0" href="{{ route('analytics.couriers.index') }}">Courier</a>
+                        </li>
+                    @endif
                     <li class="nav-item">
                         <a class="nav-link py-lg-0" href="{{ route('analytics.warehouse.index') }}">Αποθήκη</a>
                     </li>
