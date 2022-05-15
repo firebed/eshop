@@ -22,7 +22,7 @@ class PosShipping extends Component
     public array  $shipping       = [];
     public string $email          = "";
     public string $method         = "";
-    public string $fee            = "0";
+    public ?float $fee            = 0;
     public float  $weight         = 0;
     public float  $products_value = 0;
 
@@ -36,7 +36,7 @@ class PosShipping extends Component
 
     public function updatedFee(): void
     {
-        $this->emit('setShippingFee', $this->fee);
+        $this->emit('setShippingFee', $this->fee ?? 0);
     }
 
     public function updatedShipping($val, $key): void
@@ -50,6 +50,7 @@ class PosShipping extends Component
     {
         $calculator = new ShippingFeeCalculator();
         $this->fee = $calculator->handle(CountryShippingMethod::find($this->method), $this->weight, $this->shipping['postcode'] ?? null);
+        $this->updatedFee();
     }
 
     public function getProvincesProperty(): Collection
@@ -108,7 +109,7 @@ class PosShipping extends Component
         $this->validate([
             'shipping.country_id' => ['required', 'integer'],
         ]);
-        
+
         $this->method = $this->shippingOptions->first()?->id;
     }
 
@@ -124,7 +125,7 @@ class PosShipping extends Component
             $inaccessible_area_fee = $calculator->getInaccessibleAreaFee();
             $excess_weight_fee = $calculator->getExcessWeightFee();
         }
-        
+
         return view('eshop::dashboard.pos.wire.pos-shipping', [
             'countries'             => $this->countries,
             'provinces'             => $this->provinces,

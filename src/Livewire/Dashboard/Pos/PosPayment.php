@@ -5,7 +5,6 @@ namespace Eshop\Livewire\Dashboard\Pos;
 use Eshop\Actions\Order\PaymentFeeCalculator;
 use Eshop\Models\Location\Country;
 use Eshop\Models\Location\CountryPaymentMethod;
-use Eshop\Models\Location\PaymentMethod;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Support\Collection;
 use Livewire\Component;
@@ -13,7 +12,7 @@ use Livewire\Component;
 class PosPayment extends Component
 {
     public string $method = "";
-    public string $fee    = "0";
+    public ?float $fee    = 0;
 
     public ?string $country_id = null;
     public float   $products_value;
@@ -24,7 +23,7 @@ class PosPayment extends Component
     {
         $this->products_value = array_reduce($items, static function ($carry, $item) {
             return $carry + $item['quantity'] * $item['price'] * (1 - $item['discount']);
-        }, $shipping_fee + (float)$this->fee);
+        }, $shipping_fee + ($this->fee ?? 0));
     }
 
     public function updateCountry(null|int $country_id): void
@@ -40,13 +39,13 @@ class PosPayment extends Component
     public function updatedMethod(): void
     {
         $method = CountryPaymentMethod::find($this->method);
-        $this->fee = $method?->fee;
+        $this->fee = $method?->fee ?? 0;
         $this->updatedFee();
     }
-    
+
     public function updatedFee(): void
     {
-        $this->emit('setPaymentFee', $this->fee);
+        $this->emit('setPaymentFee', $this->fee ?? 0);
     }
 
     public function calculatePayment(PaymentFeeCalculator $calculator): void

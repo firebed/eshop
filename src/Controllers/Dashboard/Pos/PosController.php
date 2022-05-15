@@ -66,8 +66,8 @@ class PosController extends Controller
             $cart->user()->associate(auth()->id());
             $cart->document_type = $hasInvoice ? 'Invoice' : 'Receipt';
             $cart->email = $request->input('email');
-            $cart->shipping_method_id = $countShippingMethod?->id;
-            $cart->payment_method_id = $countryPaymentMethod?->id;
+            $cart->shipping_method_id = $countShippingMethod?->shipping_method_id;
+            $cart->payment_method_id = $countryPaymentMethod?->payment_method_id;
             $cart->shipping_fee = $request->input('shipping_fee');
             $cart->payment_fee = $request->input('payment_fee');
             $cart->submitted_at = now();
