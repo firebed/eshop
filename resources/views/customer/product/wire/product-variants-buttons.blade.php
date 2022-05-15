@@ -1,4 +1,16 @@
 <div>
+    <div class="fs-3 fw-500 mb-3">
+        @if($variant)
+            {{ format_currency($variant->net_value) }}
+        @else
+            {{ format_currency($min = $product->variants->min('net_value')) }}
+
+            @if($min !== ($max = $product->variants->max('net_value')))
+                - {{ format_currency($max) }}
+            @endif
+        @endif
+    </div>
+
     <h2 class="visually-hidden">{{ __("Variants") }}</h2>
 
     @foreach($this->variantTypes as $type)

@@ -42,7 +42,7 @@
                             <em class="fas fa-receipt"></em>
                         </button>
 
-                        @can('Copy product')
+                        @can('Copy products')
                             <a href="{{ route('products.copy.create', $product) }}" class="btn btn-white w-3r text-secondary" type="button" title="Αντιγραφή προϊόντος">
                                 <em class="fas fa-copy"></em>
                             </a>

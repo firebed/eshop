@@ -49,7 +49,7 @@
 
                     <div class="input-group mb-3">
                         <x-eshop::money x-show="property === 'price' || property === 'compare_price'" x-effect="global = value" value="0" class="rounded-start"/>
-                        <x-eshop::percentage x-show="property === 'discount'" x-effect="global = value" value="0" class="rounded-start"/>
+                        <x-eshop::integer x-show="property === 'discount'" x-effect="global = value" value="0" class="rounded-start"/>
                         <x-eshop::integer x-show="property === 'stock' || property === 'weight'" x-effect="global = value" value="0" class="rounded-start"/>
                         <x-bs::input.text x-show="property === 'sku' || property === 'mpn' || property === 'display_stock_lt' || property === 'available_gt'" x-on:input="global = $el.value.trim()" class="rounded-start"/>
                         <button class="btn btn-outline-secondary" type="button" x-on:click.prevent="apply()">{{ __('eshop::variant.buttons.apply_all') }}</button>
@@ -77,7 +77,7 @@
                                     </td>
 
                                     <td x-data="{ v: {{ $variant->discount }} }" x-show="property === 'discount'" class="text-end w-7r">
-                                        <x-eshop::percentage x-effect="v = value" value="v" class="discount text-end"/>
+                                        <x-eshop::integer x-effect="v = value" value="v" class="discount text-end"/>
                                         <input x-model="v" x-bind:disabled="property !== 'discount' || !selectedVariants.includes({{ $variant->id }})" type="text" name="bulk_discount[]" hidden>
                                     </td>
 

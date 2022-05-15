@@ -39,15 +39,14 @@
 
                         <div class="d-grid gap-2">
                             @if($product->has_variants)
-                                <div class="fs-3 fw-500">
-                                    {{ format_currency($min = $product->variants->min('net_value')) }}
-                                    
-                                    @if($min !== ($max = $product->variants->max('net_value')))
-                                        - {{ format_currency($max) }}
-                                    @endif
-                                </div>
-                            
                                 @if($product->variants_display === 'grid')
+                                    <div class="fs-3 fw-500">
+                                        {{ format_currency($min = $product->variants->min('net_value')) }}
+
+                                        @if($min !== ($max = $product->variants->max('net_value')))
+                                            - {{ format_currency($max) }}
+                                        @endif
+                                    </div>
                                     <a href="#product-variants" class="btn btn-primary btn-block">{{ __("See all variants") }} ({{ $product->variants->count() }})</a>
                                 @endif
 

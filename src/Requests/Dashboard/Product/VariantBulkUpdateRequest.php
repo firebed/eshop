@@ -56,6 +56,7 @@ class VariantBulkUpdateRequest extends FormRequest
                 case 'display_stock_lt':
                 case 'available_gt':
                     $rules["bulk_$this->property.*"] = ['nullable', 'integer'];
+                    break;
             }
         }
 
@@ -80,6 +81,13 @@ class VariantBulkUpdateRequest extends FormRequest
     protected function prepareForValidation(): void
     {
         $this->properties = Arr::wrap($this->input('properties') ?? self::PROPERTIES);
+
+        if ($this->filled('bulk_discount')) {
+            $discounts = $this->bulk_discount;
+
+            array_walk($discounts, fn(&$d) => $d = round($d/100, 2));
+            $this->merge(['bulk_discount' => $discounts]);
+        }
     }
 
     protected function getRedirectUrl(): string
