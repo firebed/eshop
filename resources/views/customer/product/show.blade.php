@@ -17,11 +17,9 @@
 
                 <div class="col">
                     <div class="d-grid gap-2 align-self-start">
-                        <h1 class="fs-3 mb-0 d-grid gap-1">
-                            {{ $product->trademark }}
-                            <span class="product-sku">{{ __("Code") }}: {{ $product->sku }}</span>
-                        </h1>
-                        
+                        <h1 class="fs-3 mb-0">{{ $product->trademark }}</h1>
+                        <div class="product-sku">{{ __("Code") }}: {{ $product->sku }}</div>
+
                         @can('Manage products')
                             <div class="d-flex gap-3 mb-2 small text-secondary">
                                 <a href="{{ $product->isVariant() ? route('variants.edit', $product) : route('products.edit', $product) }}" class="text-decoration-none">

@@ -6,7 +6,11 @@
 
     <div class="row row-cols-2 row-cols-sm-3 g-3">
         <x-bs::input.group for="sku" label="{{ __('SKU') }}" class="col">
-            <x-bs::input.text x-on:variant-options-updated.window="$el.value = '{{ $product->sku }}' + '-' + slugify($event.detail.join('-'))" value="{{ old('sku', $variant->sku ?? ($product->sku . '-') ?? '') }}" name="sku" id="sku" error="sku" required/>
+            @if(request()->routeIs('products.variants.create'))
+                <x-bs::input.text x-on:variant-options-updated.window="$el.value = '{{ $product->sku }}' + '-' + slugify($event.detail.join('-'))" value="{{ old('sku', $variant->sku ?? ($product->sku . '-') ?? '') }}" name="sku" id="sku" error="sku" required/>
+            @else
+                <x-bs::input.text value="{{ old('sku', $variant->sku ?? ($product->sku . '-') ?? '') }}" name="sku" id="sku" error="sku" required/>
+            @endif
         </x-bs::input.group>
 
         <x-bs::input.group for="mpn" label="{{ __('MPN') }}" class="col">
@@ -53,7 +57,7 @@
                 <button @click.prevent="stock += (parseInt(prompt('Προσθήκη ποσότητας:')) || 0)" class="btn btn-outline-secondary"><em class="fas fa-plus"></em></button>
             </div>
         </x-bs::input.group>
-        
+
         <div x-data="{weight: 0}">
             <x-bs::input.group x-data="{ weight: {{ old('weight', $variant->weight ?? $product->weight ?? 0) ?? 0 }} }" for="weight" label="{{ __('Weight') }}" class="col">
                 <x-eshop::integer x-effect="weight = value" value="weight" error="weight" id="weight" currencySymbol=" gr"/>

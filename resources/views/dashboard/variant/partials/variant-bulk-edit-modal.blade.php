@@ -76,7 +76,7 @@
                                         <input x-model="v" x-bind:disabled="property !== 'compare_price' || !selectedVariants.includes({{ $variant->id }})" type="text" name="bulk_compare_price[]" hidden>
                                     </td>
 
-                                    <td x-data="{ v: {{ $variant->discount }} }" x-show="property === 'discount'" class="text-end w-7r">
+                                    <td x-data="{ v: {{ $variant->discount * 100 }} }" x-show="property === 'discount'" class="text-end w-7r">
                                         <x-eshop::integer x-effect="v = value" value="v" class="discount text-end"/>
                                         <input x-model="v" x-bind:disabled="property !== 'discount' || !selectedVariants.includes({{ $variant->id }})" type="text" name="bulk_discount[]" hidden>
                                     </td>

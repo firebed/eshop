@@ -21,6 +21,7 @@ class CourierExpenses
             ->groupBy('shipping_methods.name', 'year', 'month')
             ->orderBy('submitted_at')
             ->get()
-            ->groupBy('name');
+            ->groupBy('name')
+            ->map(fn($g) => $g->keyBy('month'));
     }
 }
