@@ -9,9 +9,16 @@
                 @endif
 
                 <div class="d-grid">
-                    <h3 class="fs-6 fw-500">{{ $variant->option_values }}@can('Manage products') <span class="text-secondary">({{ format_number($variant->stock) }})</span> @endcan</h3>
+                    @can('Manage products')
+                        <div class="d-flex align-items-center">
+                            <h3 class="fs-6 fw-500 mb-0">{{ trim($variant->parent->variants_prefix . ' ' . $variant->option_values) }}</h3>
+                            <span class="ps-1 text-secondary">({{ format_number($variant->stock) }})</span>
+                        </div>
+                    @else
+                        <h3 class="fs-6 fw-500 mb-0">{{ trim($variant->parent->variants_prefix . ' ' . $variant->option_values) }}</h3>
+                    @endcan
 
-                    @if($variant->sku !== null && $variant->option_values !== $variant->sku)
+                    @if($variant->sku !== null)
                         <small class="text-secondary">{{ __('Code') }}: {{ $variant->sku }}</small>
                     @endif
                 </div>

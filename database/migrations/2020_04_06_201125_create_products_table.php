@@ -46,6 +46,7 @@ class CreateProductsTable extends Migration
             $table->string('slug')->unique();
             $table->enum('variants_display', ['grid', 'buttons', 'list'])->nullable();
             $table->boolean('preview_variants')->nullable();
+            $table->string('variants_prefix')->nullable();
 
             $table->timestamps();
             $table->softDeletes()->index();

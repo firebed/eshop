@@ -54,6 +54,7 @@ class ProductRequest extends FormRequest
             # Variants
             'variants_display'    => ['nullable', 'string', 'in:grid,buttons,list'],
             'preview_variants'    => ['required', 'boolean'],
+            'variants_prefix'     => ['nullable', 'string'],
 
             # Seo
             'slug'                => ['required', 'string', new Slug(), Rule::unique('products')->when($product, fn($q) => $q->ignore($product))],

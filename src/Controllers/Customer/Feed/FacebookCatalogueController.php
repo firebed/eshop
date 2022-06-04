@@ -18,7 +18,7 @@ class FacebookCatalogueController
         $channel->addChild("title", config('app.name'));
         $channel->addChild("description", "Facebook catalogue xml feed");
 
-        $products = Product::visible()->exceptParents()->with('category', 'seo', 'image', 'options.translation', 'parent.seo')->get();
+        $products = Product::visible()->exceptParents()->with('category', 'image', 'options.translation', 'parent')->get();
         (new Collection($products->pluck('options')->collapse()->pluck('pivot')))->load('translation');
 
         foreach ($products as $product) {
@@ -47,8 +47,8 @@ class FacebookCatalogueController
                 }
             }
 
-            $item->addChild("g:title", e($product->seo->title), "http://base.google.com/ns/1.0");
-            $item->addChild("g:description", e($product->isVariant() ? $product->parent->seo->description : $product->seo->description), "http://base.google.com/ns/1.0");
+            $item->addChild("g:title", e($product->isVariant() ? trim($product->parent->variants_prefix . ' ' . $product->options_value) : $product->name, "http://base.google.com/ns/1.0"));
+            $item->addChild("g:description", e($product->isVariant() ? $product->parent->description : $product->description), "http://base.google.com/ns/1.0");
             $item->addChild("g:availability", $product->canBeBought() ? 'in stock' : 'out of stock', "http://base.google.com/ns/1.0");
             $item->addChild("g:condition", 'new', "http://base.google.com/ns/1.0");
             $item->addChild("g:price", $product->price . ' EUR', "http://base.google.com/ns/1.0");

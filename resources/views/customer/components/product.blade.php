@@ -38,7 +38,7 @@
                         <li class="col">
                             <div class="ratio ratio-1x1">
                                 @if($variant->image && $src = $variant->image->url('sm'))
-                                    <img loading="lazy" class="img-middle rounded" src="{{ $src }}" title="{{ $variant->option_values }}" alt="{{ $variant->option_values }}">
+                                    <img loading="lazy" class="img-middle rounded" src="{{ $src }}" title="{{ trim($product->name . ' ' . $variant->option_values) }}" alt="{{ trim($product->name . ' ' . $variant->option_values) }}">
                                 @endif
                             </div>
                         </li>

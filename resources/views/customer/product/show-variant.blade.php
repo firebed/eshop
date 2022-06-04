@@ -1,5 +1,5 @@
 @php
-    $title = $product->seo ? $product->seo->title : ($product->option_values ?? "");
+    $title = $product->option_values ?? "";
     if($product->parent &&  $product->parent->seo) {
         $title = trim($product->parent->seo->title . ' ' . $title);
     }

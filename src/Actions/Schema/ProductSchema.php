@@ -79,7 +79,7 @@ class ProductSchema
     {
         $model = [
             "@type"  => "ProductModel",
-            "name"   => $product->seo->title ?? $product->trademark,
+            "name"   => trim(($product->parent->seo->title ?? '') . ' ' . $product->option_values),
             "sku"    => $product->sku,
             "offers" => $this->offer($product),
             //            "aggregateRating" => [

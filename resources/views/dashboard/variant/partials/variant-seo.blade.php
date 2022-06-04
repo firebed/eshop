@@ -12,7 +12,7 @@
         }"
      @if(request()->routeIs('products.variants.create'))
      x-on:variant-options-updated.window="
-        title = '{{ $product->name }}' + ' ' + $event.detail.join(' ')
+        title = '{{ $product->seo->title ?? '' }}' + ' ' + $event.detail.join(' ')
         updateSlug()
      "
      @endif

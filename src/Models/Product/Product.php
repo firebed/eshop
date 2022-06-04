@@ -24,53 +24,54 @@ use Laravel\Scout\Searchable;
  * Class Product
  * @package App\Models\Product
  *
- * @property integer         id
- * @property integer         parent_id
- * @property integer         category_id
- * @property integer         manufacturer_id
- * @property integer         unit_id
- * @property bool            is_physical
- * @property bool            has_variants
- * @property float           vat
- * @property int             stock
- * @property int             weight
- * @property float           price
- * @property float           compare_price
- * @property float           discount
- * @property bool            visible
- * @property bool            recent
- * @property bool            available
- * @property ?integer|string available_gt
- * @property bool            has_watermark
- * @property bool            display_stock
- * @property ?integer|string display_stock_lt
- * @property string          location
- * @property string          sku
- * @property string          mpn
- * @property string          barcode
- * @property string          slug
- * @property string          variants_display
- * @property bool            preview_variants
- * @property Collection      options
+ * @property integer         $id
+ * @property integer         $parent_id
+ * @property integer         $category_id
+ * @property integer         $manufacturer_id
+ * @property integer         $unit_id
+ * @property bool            $is_physical
+ * @property bool            $has_variants
+ * @property float           $vat
+ * @property int             $stock
+ * @property int             $weight
+ * @property float           $price
+ * @property float           $compare_price
+ * @property float           $discount
+ * @property bool            $visible
+ * @property bool            $recent
+ * @property bool            $available
+ * @property ?integer|string $available_gt
+ * @property bool            $has_watermark
+ * @property bool            $display_stock
+ * @property ?integer|string $display_stock_lt
+ * @property string          $location
+ * @property string          $sku
+ * @property string          $mpn
+ * @property string          $barcode
+ * @property string          $slug
+ * @property string          $variants_display
+ * @property bool            $preview_variants
+ * @property string          $variants_prefix
+ * @property Collection      $options
  *
- * @property Product         parent
- * @property Collection      variants
- * @property Category        category
- * @property Manufacturer    manufacturer
- * @property Unit            unit
- * @property Seo             seo
- * @property Collection      properties
- * @property Collection      choices
- * @property Collection      variantTypes
+ * @property Product         $parent
+ * @property Collection      $variants
+ * @property Category        $category
+ * @property Manufacturer    $manufacturer
+ * @property Unit            $unit
+ * @property Seo             $seo
+ * @property Collection      $properties
+ * @property Collection      $choices
+ * @property Collection      $variantTypes
  *
- * @property string          name
- * @property string          description
- * @property string          trademark
- * @property int             available_stock
+ * @property string          $name
+ * @property string          $description
+ * @property string          $trademark
+ * @property int             $available_stock
  *
- * @property float           discountAmount
- * @property float           netValue
- * @property float           netValueWithoutVat
+ * @property float           $discountAmount
+ * @property float           $netValue
+ * @property float           $netValueWithoutVat
  *
  * @method Product visible($visible = true)
  * @method Product recent($recent = true)
@@ -97,7 +98,7 @@ class Product extends Model implements Auditable
     protected $fillable = [
         'name', 'description', 'category_id', 'manufacturer_id', 'unit_id', 'is_physical', 'vat', 'weight',
         'price', 'compare_price', 'discount', 'stock', 'visible', 'recent', 'display_stock', 'display_stock_lt', 'available', 'available_gt',
-        'has_watermark', 'location', 'sku', 'mpn', 'barcode', 'slug', 'has_variants', 'variants_display', 'preview_variants'
+        'has_watermark', 'location', 'sku', 'mpn', 'barcode', 'slug', 'has_variants', 'variants_display', 'preview_variants', 'variants_prefix'
     ];
 
     protected array  $translatable = ['name', 'description'];
