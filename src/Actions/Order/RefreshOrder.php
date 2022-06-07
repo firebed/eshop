@@ -93,7 +93,7 @@ class RefreshOrder
 
     private function calculateTotal(): float
     {
-        return $this->order->products_value + $this->order->shipping_fee + $this->order->payment_fee;
+        return round($this->order->products_value + $this->order->shipping_fee + $this->order->payment_fee, 2);
     }
 
     private function calculateTotalWeight(): int

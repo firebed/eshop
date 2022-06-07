@@ -32,7 +32,8 @@ trait PayPalCheckout
             
             DB::commit();
             return response()->json(URL::signedRoute('checkout.completed', [app()->getLocale(), $order->id]));
-        } catch (Throwable) {
+        } catch (Throwable $e) {
+            logger($e->getMessage());
             DB::rollBack();
             return response()->json(__("Payment was unsuccessful. Please select a different payment method and try again."), 422);
         }
