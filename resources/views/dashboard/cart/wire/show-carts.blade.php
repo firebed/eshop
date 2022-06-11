@@ -14,7 +14,7 @@
     <form wire:submit.prevent="saveOperators">
         @include('eshop::dashboard.cart.partials.index.cart-operators-modal')
     </form>
-    
+
     <form wire:submit.prevent="saveStatuses">
         @include('eshop::dashboard.cart.partials.index.cart-statuses-modal')
     </form>
@@ -22,4 +22,6 @@
     <form wire:submit.prevent="confirmMarkAsPaid">
         @include('eshop::dashboard.cart.partials.index.cart-payment-modal')
     </form>
+
+    <livewire:dashboard.cart.cash-payments/>
 </div>

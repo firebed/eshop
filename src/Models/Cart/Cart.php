@@ -113,6 +113,11 @@ class Cart extends Model implements Order
         return $this->hasOne(Payment::class);
     }
 
+    public function isPaid(): bool
+    {
+        return $this->payment !== null;
+    }
+
     public function shippingAddress(): MorphOne
     {
         return $this->address('shipping');

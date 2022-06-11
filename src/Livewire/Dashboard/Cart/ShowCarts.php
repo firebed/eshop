@@ -50,8 +50,8 @@ class ShowCarts extends Component
     public bool   $showStatusModal         = false;
     public bool   $showVoucherModal        = false;
     public bool   $showMarkAsPaidModal     = false;
-    public $incomplete;
-    public $unpaid;
+    public        $incomplete;
+    public        $unpaid;
 
     protected $queryString = [
         'filter'             => ['except' => ''],
@@ -72,7 +72,7 @@ class ShowCarts extends Component
         'model.channel'            => [],
     ];
 
-//    protected $listeners = ['cartStatusUpdated' => '$refresh'];
+    protected $listeners = ['cartsTableUpdated' => '$refresh'];
 
     public function mount(): void
     {
@@ -112,7 +112,7 @@ class ShowCarts extends Component
                 ->with('shippingMethod', 'paymentMethod', 'shippingAddress.country')
                 ->with(['products' => fn($q) => $q->with('translation', 'parent.translation', 'options')])
                 ->get();
-            
+
             $pdf = new Dompdf(['enable_remote' => true]);
             $pdf->loadHtml(view('eshop::customer.order-printer.print-many', compact('carts')));
 
@@ -172,7 +172,7 @@ class ShowCarts extends Component
             $this->showWarningToast('No rows selected!');
             return;
         }
-        
+
         $this->showMarkAsPaidModal = true;
     }
 
@@ -183,16 +183,16 @@ class ShowCarts extends Component
             $this->showWarningToast('No rows selected!');
             return;
         }
-        
+
         $carts = Cart::whereDoesntHave('payment')->findMany($this->selected());
-        foreach($carts as $cart) {
+        foreach ($carts as $cart) {
             $cart->payment()->save(new Payment());
         }
-        
+
         $this->showMarkAsPaidModal = false;
         $this->emit('paymentsUpdated');
     }
-    
+
     public function clearFilters(): void
     {
         $this->reset();

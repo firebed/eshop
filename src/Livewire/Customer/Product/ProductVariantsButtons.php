@@ -96,7 +96,7 @@ class ProductVariantsButtons extends Component
 
     public function getVariantTypesProperty(): Collection
     {
-        return $this->product->variants->pluck('options')->collapse()->unique('id');
+        return $this->product->variants->pluck('options')->collapse()->unique('id')->sortBy('position');
     }
 
     public function getUniqueVariantOptionsProperty(): Collection

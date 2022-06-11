@@ -58,19 +58,19 @@ class PayPalService
                     // 'soft_descriptor' => 'HighFashions',
                     'amount' => [
                         'currency_code' => $currency,
-                        'value'         => $order->total,
+                        'value'         => round($order->total, 2),
                         'breakdown'     => [
                             'item_total' => [
                                 'currency_code' => $currency,
-                                'value'         => $order->products_value,
+                                'value'         => round($order->products_value, 2),
                             ],
                             'shipping'   => [
                                 'currency_code' => $currency,
-                                'value'         => $order->shipping_fee
+                                'value'         => round($order->shipping_fee, 2),
                             ],
                             'handling'   => [
                                 'currency_code' => $currency,
-                                'value'         => $order->payment_fee,
+                                'value'         => round($order->payment_fee, 2),
                             ],
                             //                            'tax_total'         => [
                             //

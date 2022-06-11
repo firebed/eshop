@@ -27,5 +27,7 @@ return [
     'Manage API keys'                 => 'Διαχείριση κλειδιών API',
     'View notifications'              => 'Προβολή ειδοποιήσεων',
     'Copy products'                   => 'Αντιγραφή προϊόντων',
-    'Delete orders'                   => 'Διαγραφή παραγγελιών'
+    'Delete orders'                   => 'Διαγραφή παραγγελιών',
+    'Create voucher'                  => 'Δημιουργία voucher',
+    'Cash payments'                   => 'Απόδοση αντικαταβολών'
 ];

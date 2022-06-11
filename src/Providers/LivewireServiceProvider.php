@@ -12,6 +12,7 @@ use Eshop\Livewire\Dashboard\Cart\BillingAddress;
 use Eshop\Livewire\Dashboard\Cart\CartHeader;
 use Eshop\Livewire\Dashboard\Cart\CartItemCreateModal;
 use Eshop\Livewire\Dashboard\Cart\CartOverview;
+use Eshop\Livewire\Dashboard\Cart\CashPayments;
 use Eshop\Livewire\Dashboard\Cart\CustomerNotes;
 use Eshop\Livewire\Dashboard\Cart\Invoice;
 use Eshop\Livewire\Dashboard\Cart\ShippingAddress;
@@ -82,6 +83,7 @@ class LivewireServiceProvider extends ServiceProvider
         Livewire::component('dashboard.cart.show-cart', ShowCart::class);
         Livewire::component('dashboard.cart.show-carts', ShowCarts::class);
         Livewire::component('dashboard.cart.statuses-list', StatusesList::class);
+        Livewire::component('dashboard.cart.cash-payments', CashPayments::class);
 
         // Categories
         Livewire::component('dashboard.category.property-choices', CategoryPropertyChoices::class);
@@ -136,7 +138,7 @@ class LivewireServiceProvider extends ServiceProvider
         Livewire::component('dashboard.invoice.rows', InvoiceRows::class);
         Livewire::component('dashboard.invoice.search-products', InvoiceSearchProduct::class);
         Livewire::component('dashboard.client.show-clients', ShowClients::class);
-        
+
         // Simplify
         Livewire::component('dashboard.simplify.env', SimplifyEnv::class);
     }

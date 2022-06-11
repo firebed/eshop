@@ -37,8 +37,16 @@
                     <x-bs::dropdown.item wire:click.prevent="editStatuses"><em class="fas fa-tasks me-2 text-secondary"></em>{{ __("Change status") }}</x-bs::dropdown.item>
                     @if(eshop('auto_payments'))
                         <x-bs::dropdown.item wire:click.prevent="markAsPaid"><em class="fas fa-hand-holding-usd me-2 text-secondary"></em>{{ __("Mark as paid") }}</x-bs::dropdown.item>
+
+                        @can('Cash payments')
+                            <x-bs::dropdown.item wire:click.prevent="$emit('showCashPaymentsModal')">
+                                <em class="fas fa-cash-register me-2 text-secondary"></em>{{ __("Cash payments") }}
+                            </x-bs::dropdown.item>
+                        @endcan
                     @endif
+
                     <x-bs::dropdown.item wire:click.prevent="print"><em class="fas fa-print me-2 text-secondary"></em>{{ __("Print") }}</x-bs::dropdown.item>
+
                     @can("Manage orders")
                         <x-bs::dropdown.item wire:click.prevent="showOperators"><em class="fas fa-users me-2 text-secondary"></em>{{ __("Change operators") }}</x-bs::dropdown.item>
 

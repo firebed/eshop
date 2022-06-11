@@ -7,6 +7,8 @@ return [
     'Elta Courier'           => 'Elta Courier',
     'Geniki Taxydromiki'     => 'Γενική ταχυδρομική',
     'SpeedEx'                => 'SpeedEx',
+    'Hellenic Post'          => 'Ελληνικά Ταχυδρομεία',
+    'ΚΤΕΛ'                   => 'ΚΤΕΛ',
     'Courier Center'         => 'Courier Center',
 
     'abbr' => [
