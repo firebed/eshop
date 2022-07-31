@@ -26,13 +26,13 @@
                 'fee' => old('shipping_fee', 0) ?? ''
         ])
 
-        @livewire('dashboard.pos.payment', [
-                'country_id' => old('shipping.country_id', '') ?? '',
-                'items' => old('items', []),
-                'shipping_fee' => old('shipping_fee', 0) ?? 0,
-                'method' => old('payment_method_id', '') ?? '',
-                'fee' => old('payment_fee', 0) ?? ''
-        ])
+{{--        @livewire('dashboard.pos.payment', [--}}
+{{--                'country_id' => old('shipping.country_id', '') ?? '',--}}
+{{--                'items' => old('items', []),--}}
+{{--                'shipping_fee' => old('shipping_fee', 0) ?? 0,--}}
+{{--                'method' => old('payment_method_id', '') ?? '',--}}
+{{--                'fee' => old('payment_fee', 0) ?? ''--}}
+{{--        ])--}}
 
         @livewire('dashboard.pos.invoice', [
                 'invoice' => old('invoice', []),

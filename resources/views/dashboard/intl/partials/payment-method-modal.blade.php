@@ -30,6 +30,15 @@
                         </x-bs::input.select>
                     </x-bs::input.group>
 
+                    <x-bs::input.group for="shipping-method" label="{{ __('Shipping method') }}">
+                        <x-bs::input.select wire:model.defer="model.shipping_method_id" error="model.shipping_method_id" id="shipping-method">
+                            <option value="">{{ __('Shipping method') }}</option>
+                            @foreach($shippingMethods as $sm)
+                                <option value="{{ $sm->id }}">{{ __("eshop::shipping.$sm->name") }}</option>
+                            @endforeach
+                        </x-bs::input.select>
+                    </x-bs::input.group>
+                    
                     <x-bs::input.group for="position" label="{{ __('Position') }}" class="col-4">
                         <x-bs::input.integer wire:model.defer="model.position" error="model.position" id="position"/>
                     </x-bs::input.group>

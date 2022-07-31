@@ -15,6 +15,10 @@ class SpeedExPaymentsInfo extends SpeedExRequest
             'dateTo'   => $toDatetime->toAtomString()
         ]);
 
+        if ($response === null) {
+            return [];
+        }
+
         $result = $response->GetDepositedConsignmentsByDateResult;
         if ($result === null) {
             return [];

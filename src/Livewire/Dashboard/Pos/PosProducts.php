@@ -19,30 +19,23 @@ class PosProducts extends Component
     public ?Carbon $submitted_at = null;
     public int     $cart_id;
     public array   $items        = [];
-    public float   $shipping_fee = 0;
-    public float   $payment_fee  = 0;
+    public float   $fees         = 0;
     public float   $total        = 0;
     public float   $weight       = 0;
 
     public string $barcode = "";
 
-    protected $listeners = ['addProduct', 'updateProduct', 'setShippingFee', 'setPaymentFee'];
+    protected $listeners = ['addProduct', 'updateProduct', 'setProcessingFees'];
 
     public function mount(): void
     {
         $this->updateTotal();
     }
 
-    public function setShippingFee($fee): void
+    public function setProcessingFees($fees): void
     {
-        $this->shipping_fee = $fee;
-        $this->updateTotal();
-    }
-
-    public function setPaymentFee($fee): void
-    {
-        $this->payment_fee = $fee;
-        $this->updateTotal();
+        $this->fees = $fees;
+        $this->updateTotal(false);
     }
 
     public function addProduct(Product $product): void
@@ -116,19 +109,21 @@ class PosProducts extends Component
         ]);
     }
 
-    private function updateTotal(): void
+    private function updateTotal($emit = true): void
     {
         $items = $this->items;
         $this->total = array_reduce($items, static function ($carry, $item) {
             return $carry + $item['quantity'] * $item['price'] * (1 - $item['discount']);
-        }, (float)$this->payment_fee + (float)$this->shipping_fee);
+        }, (float)$this->fees);
 
         $this->weight = array_reduce(array_keys($items), function ($carry, $key) use ($items) {
             $qty = $items[$key]['quantity'];
             $weight = $this->products->find($key)?->weight ?? 0;
             return $carry + $qty * $weight;
         }, 0);
-
-        $this->emit('updateTotals', $this->weight, $this->total);
+        
+        if ($emit) {
+            $this->emit('updateTotals', $this->weight, $this->total);
+        }
     }
 }

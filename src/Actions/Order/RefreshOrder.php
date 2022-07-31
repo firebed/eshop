@@ -8,7 +8,8 @@ use Eshop\Repository\Contracts\Order;
 class RefreshOrder
 {
     private Order $order;
-    private bool  $totalHasChanged = false;
+    private bool                  $processingFessChanged   = false;
+    private bool                  $productsTotalHasChanged = false;
     private ShippingFeeCalculator $shippingFeeCalculator;
 
     public function __construct(ShippingFeeCalculator $shippingFeeCalculator)
@@ -19,24 +20,30 @@ class RefreshOrder
     public function handle(Order $order): void
     {
         $this->order = $order;
-        $currentTotal = $order->total;
 
-        $isDirty = $this->refreshProducts();
+        $this->productsTotalHasChanged = $this->refreshProducts();
 
+        $previousFees = $order->shipping_fee + $order->payment_fee;
         $country = $order->shippingAddress->country ?? null;
         $this->updateShipping($country);
-        $this->updatePayment($country);
+        $this->updatePayment($country, $order->shipping_method_id);
+        $newFees = $order->shipping_fee + $order->payment_fee;
 
         $order->parcel_weight = $this->calculateTotalWeight();
         $order->total = $this->calculateTotal();
         $order->save();
 
-        $this->totalHasChanged = $isDirty;
+        $this->processingFessChanged = abs($previousFees - $newFees) >= PHP_FLOAT_EPSILON;
     }
 
-    public function totalHasChanged(): bool
+    public function processingFeesHasChanged(): bool
     {
-        return $this->totalHasChanged;
+        return $this->processingFessChanged;
+    }
+    
+    public function productsTotalHasChanged(): bool
+    {
+        return $this->productsTotalHasChanged;
     }
 
     private function updateShipping(?Country $country): void
@@ -59,7 +66,7 @@ class RefreshOrder
         $this->order->shipping_fee = $this->shippingFeeCalculator->handle($option, $this->order->parcel_weight, $this->order->shippingAddress->postcode);
     }
 
-    private function updatePayment(?Country $country): void
+    private function updatePayment(?Country $country, ?int $shipping_method_id = null): void
     {
         if ($country === null || ($paymentOptions = $country->filterPaymentOptions($this->order->products_value))->isEmpty()) {
             $this->order->paymentMethod()->disassociate();
@@ -70,13 +77,14 @@ class RefreshOrder
 
         $countryPaymentMethod = session('countryPaymentMethod');
         $option = $paymentOptions->firstWhere('id', $countryPaymentMethod);
-        if ($option === null) {
-            $option = $paymentOptions->first(); // Fallback
+        
+        if ($option === null || $option->shipping_method_id !== $shipping_method_id) {
+            $option = $paymentOptions->filter(fn($c) => $c->shipping_method_id === null || $c->shipping_method_id === $shipping_method_id)->first(); // Fallback
         }
 
-        session()->put('countryPaymentMethod', $option->id);
-        $this->order->paymentMethod()->associate($option->payment_method_id);
-        $this->order->payment_fee = $option->fee;
+        $this->order->paymentMethod()->associate($option->payment_method_id ?? null);
+        $this->order->payment_fee = $option->fee ?? 0;
+        session()->put('countryPaymentMethod', $option->id ?? null);
     }
 
     private function refreshProducts(): bool

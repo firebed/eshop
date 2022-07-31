@@ -104,16 +104,6 @@
             <div>Σύνολο</div>
             <div>{{ format_currency($total) }}</div>
         </div>
-
-        {{--        <div class="d-flex justify-content-between text-secondary">--}}
-        {{--            <div>Μεταφορικά</div>--}}
-        {{--            <div>{{ format_currency($shipping_fee) }}</div>--}}
-        {{--        </div>--}}
-
-        {{--        <div class="d-flex justify-content-between text-secondary">--}}
-        {{--            <div>Πληρωμή</div>--}}
-        {{--            <div>{{ format_currency($payment_fee) }}</div>--}}
-        {{--        </div>--}}
     </div>
 
     @include('eshop::dashboard.pos.partials.pos-product-form')

@@ -1,15 +1,21 @@
 <x-bs::card class="shadow-none" id="shipping-methods">
     <h2 class="fs-5 fw-normal px-4 pt-4">1. {{ __('Select shipping method') }}</h2>
 
+    @if($errors->has('shipping_method_error'))
+        <x-bs::card.body>
+            <div class="fw-bold text-danger">Παρακαλώ επιλέξτε μέθοδο αποστολής</div>
+        </x-bs::card.body>
+    @endif
+    
     @forelse($shippingMethods as $option)
         <x-bs::card.body class="p-4 {{ !$loop->last ? 'border-bottom' : '' }}">
             <x-bs::input.radio
                 :value="$option->id"
                 :checked="$country_shipping_method_id == $option->id"
                 name="country_shipping_method_id"
-                error="country_shipping_method_id"
                 id="method-{{ $option->id }}"
                 label-class="w-100 fw-500"
+                data-shipping-method-id="{{ $option->shipping_method_id }}"
             >
                 {{ __("eshop::shipping." . $option->shippingMethod->name) }}
 
@@ -58,8 +64,15 @@
         const shippingMethods = document.getElementById('shipping-methods')
         shippingMethods.addEventListener('change', evt => {
             if (evt.target.matches('[name=country_shipping_method_id]')) {
+                
+                updatePaymentMethods(evt.target.dataset.shippingMethodId)
+                
+                const payload = {
+                    country_shipping_method_id: evt.target.value,
+                    country_payment_method_id: document.querySelector("input[name=country_payment_method_id]:enabled:checked").value
+                }
 
-                axios.put('/el/checkout/payment', {'country_shipping_method_id': evt.target.value})
+                axios.put('/el/checkout/payment', payload)
                     .then(res => document.getElementById('checkout-payment-summary').outerHTML = res.data);
 
                 const prev = shippingMethods.querySelector('.collapse.show')

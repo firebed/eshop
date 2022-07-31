@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\DB;
 
 trait ValidatesCheckout
 {
+    private RefreshOrder $refresh;
+    
     protected function validateCheckout(Order $order): bool
     {
         if ($order->isEmpty() || $order->isSubmitted()) {
@@ -19,13 +21,18 @@ trait ValidatesCheckout
             session()->flash('products-values-changed');
             return false;
         }
-
+                
         if (!$this->checkProductStocks($order)) {
             session()->flash('insufficient-quantity');
             return false;
         }
 
         return true;
+    }
+
+    protected function processingFeesHasChanged(): bool
+    {
+        return $this->refresh->processingFeesHasChanged();
     }
 
     protected function validateShippingAddress(Order $order): bool
@@ -35,9 +42,9 @@ trait ValidatesCheckout
 
     protected function totalHasChanged(Order $order): bool
     {
-        $refreshOrder = new RefreshOrder(new ShippingFeeCalculator());
-        DB::transaction(static fn() => $refreshOrder->handle($order));
-        return $refreshOrder->totalHasChanged();
+        $this->refresh = new RefreshOrder(new ShippingFeeCalculator());
+        DB::transaction(fn() => $this->refresh->handle($order));
+        return $this->refresh->productsTotalHasChanged();
     }
 
     protected function checkProductStocks(Order $order): bool

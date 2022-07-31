@@ -30,7 +30,12 @@
             </td>
             <td class="align-middle">{{ $paymentMethod->position }}</td>
             <td class="align-middle">{{ $paymentMethod->country->name }}</td>
-            <td class="align-middle text-nowrap">{{ __("eshop::payment." . $paymentMethod->paymentMethod->name) }}</td>
+            <td class="align-middle text-nowrap">
+                {{ __("eshop::payment." . $paymentMethod->paymentMethod->name) }}
+                @isset($paymentMethod->shippingMethod)
+                    ({{ __("eshop::shipping." . $paymentMethod->shippingMethod->name) }})
+                @endisset
+            </td>
             <td class="align-middle">{{ format_currency($paymentMethod->fee) }}</td>
             <td class="align-middle">{{ format_currency($paymentMethod->cart_total) }}</td>
             <td>{{ __($paymentMethod->created_at->format('d/m/Y')) }}</td>

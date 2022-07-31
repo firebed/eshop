@@ -21,12 +21,12 @@
             ])
         </div>
 
-        @livewire('dashboard.pos.shipping', [
-                'shipping' => old('shipping', $cart->shippingAddress?->getAttributes()) ?? [],
-                'email' => old('email', $cart->email) ?? '',
-                'method' => old('country_shipping_method_id') ?? '',
-                'fee' => old('shipping_fee', $cart->shipping_fee),
-        ])
+{{--        @livewire('dashboard.pos.shipping', [--}}
+{{--                'shipping' => old('shipping', $cart->shippingAddress?->getAttributes()) ?? [],--}}
+{{--                'email' => old('email', $cart->email) ?? '',--}}
+{{--                'method' => old('country_shipping_method_id') ?? '',--}}
+{{--                'fee' => old('shipping_fee', $cart->shipping_fee),--}}
+{{--        ])--}}
 
         @livewire('dashboard.pos.payment', [
                 'country_id' => old('shipping.country_id', $cart->shippingAddress->country_id ?? '') ?? '',

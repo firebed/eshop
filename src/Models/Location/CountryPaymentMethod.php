@@ -40,4 +40,9 @@ class CountryPaymentMethod extends Pivot
     {
         return $this->belongsTo(PaymentMethod::class);
     }
+
+    public function shippingMethod(): BelongsTo
+    {
+        return $this->belongsTo(ShippingMethod::class);
+    }
 }

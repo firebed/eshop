@@ -76,54 +76,87 @@
                 </x-bs::input.floating-label>
             </div>
 
-            <div class="text-center py-3">
-                <button wire:click.prevent="calculateShipping" wire:loading.attr="disabled" class="btn btn-warning">
-                    <em wire:loading wire:target="calculateShipping" class="fas fa-spinner fa-spin me-2"></em>
-                    Υπολογισμός μεταφορικών
-                </button>
-            </div>
-
             <div class="fw-500 mt-2">Μέθοδος αποστολής</div>
 
             <x-bs::input.floating-label for="shipping-method" label="{{ __('Shipping method') }}" class="col-8">
-                <x-bs::input.select wire:loading.attr="disabled" wire:target="shipping.country_id" wire:model="method" name="country_shipping_method_id" error="shipping_method" id="shipping-method">
+                <x-bs::input.select wire:model="shipping_method" wire:loading.attr="disabled" wire:target="shipping.country_id" name="country_shipping_method_id" error="shipping_method" id="shipping-method">
                     <option value="">{{ __('Select shipping method') }}</option>
                     @foreach($shippingOptions as $option)
-                        <option value="{{ $option->id }}">{{ __('eshop::shipping.' . $option->shippingMethod->name) }} ({{ format_currency($option->total_fee) }})</option>
+                        <option value="{{ $option->id }}">
+                            {{ __('eshop::shipping.' . $option->shippingMethod->name) }}
+                            @if($option->total_fee > 0) ({{ format_currency($option->total_fee) }}) @endif
+                        </option>
                     @endforeach
                 </x-bs::input.select>
             </x-bs::input.floating-label>
 
-            <x-bs::input.floating-label x-data="{fee: 0}" for="shipping-fee" label="{{ __('Shipping fee') }}" class="col-4">
-                <x-bs::input.money wire:model.lazy="fee" x-effect="fee = value" error="shipping_fee" id="shipping-fee" placeholder="{{ __('Shipping fee') }}"/>
+            <div x-data="{ fee: 0 }" class="form-floating col-4">
+                <x-eshop::money wire:model.lazy="shipping_fee" x-effect="fee = value" error="shipping_fee" id="shipping-fee" placeholder="{{ __('Shipping fee') }}"/>
                 <input type="hidden" x-model="fee" name="shipping_fee"/>
+                <label for="shipping-fee">{{ __("Shipping fee") }}</label>
+            </div>
+
+            <div class="fw-500 mt-2">Μέθοδος πληρωμής</div>
+
+            <x-bs::input.floating-label for="payment-method" label="{{ __('Payment method') }}" class="col-8">
+                <x-bs::input.select wire:model="payment_method" wire:loading.attr="disabled" wire:target="shipping.country_id" name="country_payment_method_id" error="payment_method" id="payment-method">
+                    <option value="">{{ __('Select payment method') }}</option>
+                    @foreach($paymentOptions as $option)
+                        <option value="{{ $option->id }}">
+                            {{ __('eshop::payment.' . $option->paymentMethod->name) }}
+                            @if($option->shippingMethod) ({{ __("eshop::shipping.abbr.{$option->shippingMethod->name}") }}) @endif
+                            @if($option->fee > 0) ({{ format_currency($option->fee) }}) @endif
+                        </option> 
+                    @endforeach
+                </x-bs::input.select>
             </x-bs::input.floating-label>
 
-            <div class="fw-500 mt-3">Ανάλυση μεταφορικών</div>
+            <x-bs::input.floating-label x-data="{ fee: 0 }" for="payment-fee" label="{{ __('Payment fee') }}" class="col-4">
+                <x-eshop::money wire:model.lazy="payment_fee" x-effect="fee = value" error="payment_fee" id="payment-fee" placeholder="{{ __('Payment fee') }}"/>
+                <input type="hidden" x-model="fee" name="payment_fee"/>
+            </x-bs::input.floating-label>
+
+{{--            <div class="text-center py-3">--}}
+{{--                <button wire:click.prevent="save" wire:loading.attr="disabled" class="btn btn-warning">--}}
+{{--                    <em wire:loading wire:target="save" class="fas fa-spinner fa-spin me-2"></em>--}}
+{{--                    Αποθήκευση--}}
+{{--                </button>--}}
+{{--            </div>--}}
+            
+            <div class="fw-500">Ανάλυση μεταφορικών</div>
 
             <div class="vstack gap-1">
                 <table class="table table-sm">
                     <tbody>
+                    <tr>
+                        <td>Έξοδα αποστολής</td>
+                        <td class="text-end">{{ format_currency($base_shipping_fee) }}</td>
+                    </tr>
+
+                    <tr>
+                        <td>Έξοδα πληρωμής</td>
+                        <td class="text-end">{{ format_currency($payment_fee) }}</td>
+                    </tr>
+
+                    @if($inaccessible_area_fee > 0)
                         <tr>
-                            <td>Βασικό τέλος</td>
-                            <td class="text-end">{{ format_currency($base_fee) }}</td>
-                        </tr>
-
-                        <tr @class(['fw-500 text-danger' => $inaccessible_area_fee > 0])>
                             <td>Δυσπρόσιτη περιοχή</td>
-                            <td class="text-end">{{ format_currency($inaccessible_area_fee) }}</td>
+                            <td class="text-end">+{{ format_currency($inaccessible_area_fee) }}</td>
                         </tr>
+                    @endif
 
-                        <tr @class(['fw-500 text-danger' => $excess_weight_fee > 0])>
+                    @if($excess_weight_fee > 0)
+                        <tr>
                             <td>Υπέρβαση βάρους</td>
-                            <td class="text-end">{{ format_currency($excess_weight_fee) }}</td>
+                            <td class="text-end">+{{ format_currency($excess_weight_fee) }}</td>
                         </tr>
+                    @endif
                     </tbody>
 
                     <tfoot>
                     <tr class="fw-bold">
                         <td>Σύνολο</td>
-                        <td class="text-end">{{ format_currency($base_fee + $inaccessible_area_fee + $excess_weight_fee) }}</td>
+                        <td class="text-end">{{ format_currency(($shipping_fee ?? 0) + ($payment_fee ?? 0)) }}</td>
                     </tr>
                     </tfoot>
                 </table>

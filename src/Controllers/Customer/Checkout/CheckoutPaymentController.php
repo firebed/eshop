@@ -21,6 +21,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\URL;
+use Illuminate\Validation\ValidationException;
 
 class CheckoutPaymentController extends Controller
 {
@@ -30,8 +31,21 @@ class CheckoutPaymentController extends Controller
 
     public function store(string $lang, Request $request, Order $order): RedirectResponse|JsonResponse
     {
+        if (blank($order->shipping_method_id)) {
+            throw ValidationException::withMessages(['shipping_method_error' => '']);
+        }
+
+        if (blank($order->payment_method_id)) {
+            throw ValidationException::withMessages(['payment_method_error' => '']);
+        }
+                
         if (!$this->validateCheckout($order)) {
             return redirect()->route('checkout.products.index', $lang);
+        }
+        
+        if ($this->processingFeesHasChanged()) {
+            session()->flash('processing-fees-changed');
+            return redirect()->route('checkout.payment.edit', $lang);            
         }
 
         if (!$this->validateShippingAddress($order)) {
@@ -115,7 +129,7 @@ class CheckoutPaymentController extends Controller
             session()->put('countryPaymentMethod', $request->input('country_payment_method_id'));
         }
 
-        DB::transaction(fn() => $refreshOrder->handle($order));
+        DB::transaction(static fn() => $refreshOrder->handle($order));
 
         $products = $order->products->load('parent', 'options');
         $products->merge($order->products->pluck('parent')->filter())->load('translations');

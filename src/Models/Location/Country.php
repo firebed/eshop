@@ -101,7 +101,7 @@ class Country extends Model
             ->where('visible', true)
             ->where('cart_total', '<=', $products_value)
             ->sortBy('position')
-            ->groupBy('payment_method_id')
+            ->groupBy(fn($i) => $i->payment_method_id . '-' . $i->shipping_method_id)
             ->map(fn($g) => $g->sortByDesc('cart_total')->unique('payment_method_id'))
             ->collapse();
     }

@@ -25,19 +25,19 @@
                 <button x-bind:disabled="submitting" type="button" class="btn btn-warning fw-500 py-2" data-bs-toggle="offcanvas" data-bs-target="#shipping-form">
                     <em class="fas fa-map-marked-alt fs-4 text-orange-700"></em>
                     <span class="d-none d-xxl-block text-center mt-1">
-                        Στοιχεία αποστολής
+                        Αποστολή & Πληρωμή
                     </span>
                 </button>
             </div>
 
-            <div class="col d-grid">
-                <button x-bind:disabled="submitting" type="button" class="btn btn-info py-2 fw-500" data-bs-toggle="offcanvas" data-bs-target="#payment-form">
-                    <em class="fas fa-money-check-alt fs-4 text-cyan-800"></em>
-                    <span class="d-none d-xxl-block text-center mt-1">
-                        Στοιχεία πληρωμής
-                    </span>
-                </button>
-            </div>
+{{--            <div class="col d-grid">--}}
+{{--                <button x-bind:disabled="submitting" type="button" class="btn btn-info py-2 fw-500" data-bs-toggle="offcanvas" data-bs-target="#payment-form">--}}
+{{--                    <em class="fas fa-money-check-alt fs-4 text-cyan-800"></em>--}}
+{{--                    <span class="d-none d-xxl-block text-center mt-1">--}}
+{{--                        Στοιχεία πληρωμής--}}
+{{--                    </span>--}}
+{{--                </button>--}}
+{{--            </div>--}}
 
             <div class="col d-grid">
                 <button x-bind:disabled="submitting" type="button" class="btn btn-danger py-2 fw-500" data-bs-toggle="offcanvas" data-bs-target="#invoice-form">

@@ -60,7 +60,7 @@ class CartInvoiceController extends Controller
                 'vat_percent' => $client->country === 'GR' ? $product->pivot->vat : 0,
             ];
         }
-        
+
         if ($cart->shipping_fee > 0) {
             $rows[] = [
                 'id'          => '',
@@ -71,7 +71,7 @@ class CartInvoiceController extends Controller
                 'price'       => round($cart->shipping_fee / (1 + 0.24), 4),
                 'discount'    => 0,
                 'vat_percent' => $client->country === 'GR' ? 0.24 : 0,
-            ];            
+            ];
         }
 
         if ($cart->payment_fee > 0) {
@@ -90,7 +90,7 @@ class CartInvoiceController extends Controller
         session()->flashInput([
             'type'                => InvoiceType::TPA->value,
             'client_id'           => $client->id,
-            'payment_method'      => $this->paymentMethod($cart->paymentMethod)->value,
+            'payment_method'      => $this->paymentMethod($cart->paymentMethod)->value ?? null,
             'relative_document'   => 'Παραγγελία #' . $cart->id,
             'transaction_purpose' => 'Πώληση',
             'rows'                => $rows
@@ -102,25 +102,26 @@ class CartInvoiceController extends Controller
         return redirect()->route('invoices.create');
     }
 
-    private function paymentMethod(CartPaymentMethod $cpm): PaymentMethod
+    private function paymentMethod(CartPaymentMethod $cpm): ?PaymentMethod
     {
         return match ($cpm->name) {
-            'paypal' => PaymentMethod::PayPal,
-            'credit_card' => PaymentMethod::CreditCard,
-            'wire_transfer' => PaymentMethod::WireTransfer,
-            'pay_on_delivery' => PaymentMethod::POD,
-            'pay_in_our_store' => PaymentMethod::Cash
+            'paypal'           => PaymentMethod::PayPal,
+            'credit_card'      => PaymentMethod::CreditCard,
+            'wire_transfer'    => PaymentMethod::WireTransfer,
+            'pay_on_delivery'  => PaymentMethod::POD,
+            'pay_in_our_store' => PaymentMethod::Cash,
+            default            => null
         };
     }
 
     private function unit(Unit $unit): UnitMeasurement
     {
         return match ($unit->name) {
-            'piece' => UnitMeasurement::Pieces,
-            'meter' => UnitMeasurement::Meters,
-            'liter' => UnitMeasurement::Liters,
+            'piece'    => UnitMeasurement::Pieces,
+            'meter'    => UnitMeasurement::Meters,
+            'liter'    => UnitMeasurement::Liters,
             'kilogram' => UnitMeasurement::Kilos,
-            'set' => UnitMeasurement::Set
+            'set'      => UnitMeasurement::Set
         };
     }
 }

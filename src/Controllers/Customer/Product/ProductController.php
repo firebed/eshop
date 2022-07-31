@@ -28,7 +28,14 @@ class ProductController extends Controller
         if ($product->has_variants) {
             $product->load(['variants' => fn($q) => $q->visible()->with('parent', 'image', 'options.translations')]);
             (new Collection($product->variants->pluck('options')->collapse()->pluck('pivot')))->load('translations');
-            $variants = $product->variants->sortBy('option_values', SORT_NATURAL | SORT_FLAG_CASE);
+
+            $variants = eshop('variants.sort.available_first')
+                ? $product->variants
+                    ->groupBy(fn($p) => $p->canBeBought())
+                    ->sortKeysDesc()
+                    ->map(fn($c) => $c->sortBy('option_values', SORT_NATURAL | SORT_FLAG_CASE))
+                    ->flatten()
+                : $product->variants->sortBy('option_values', SORT_NATURAL | SORT_FLAG_CASE);
         } else {
             $quantity = $order->getProductQuantity($product);
         }

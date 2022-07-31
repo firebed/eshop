@@ -25,7 +25,7 @@ class ShowCheckoutProducts extends Component
         if ($order->isNotEmpty()) {
             DB::transaction(function () use ($refreshOrder, $order) {
                 $refreshOrder->handle($order);
-                if ($refreshOrder->totalHasChanged()) {
+                if ($refreshOrder->productsTotalHasChanged()) {
                     session()->flash('products-values-changed');
                 }
             });

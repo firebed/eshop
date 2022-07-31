@@ -16,7 +16,7 @@ return [
     'notifications' => [
         'submitted' => [
             'cc' => [
-
+                env('EMAIL_CC')
             ]
         ]
     ],
@@ -71,6 +71,12 @@ return [
         'manufacturers' => true
     ],
 
+    'variants' => [
+        'sort' => [
+            'available_first' => false
+        ]
+    ],
+
     /*
     |--------------------------------------------------------------------------
     | Product Image Optimization
@@ -84,7 +90,8 @@ return [
     */
 
     'product'         => [
-        'image' => [
+        'show_manufacturer' => true,
+        'image'             => [
             'cover'         => false,
             'upload_width'  => 3000,
             'upload_height' => 3000

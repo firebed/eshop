@@ -19,6 +19,12 @@
                         </x-bs::alert>
                     @endif
 
+                    @if(session()->has('processing-fees-changed'))
+                        <x-bs::alert type="warning">
+                            Τα έξοδα αποστολής/αντικαταβολής άλλαξαν. Παρακαλούμε ελέγξτε το καλάθι σας.
+                        </x-bs::alert>
+                    @endif
+                    
                     @if($paymentMethods->isEmpty())
                         <x-bs::alert type="danger">
                             {{ __("There aren't any payment options available right now.") }}

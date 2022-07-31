@@ -2,9 +2,9 @@
 
 namespace Eshop\Livewire\Dashboard\Pos;
 
-use Eshop\Actions\Order\FindShippingMethodForOrder;
 use Eshop\Actions\Order\ShippingFeeCalculator;
 use Eshop\Models\Location\Country;
+use Eshop\Models\Location\CountryPaymentMethod;
 use Eshop\Models\Location\CountryShippingMethod;
 use Eshop\Models\Location\ShippingMethod;
 use Illuminate\Contracts\Support\Renderable;
@@ -19,12 +19,14 @@ use Livewire\Component;
  */
 class PosShipping extends Component
 {
-    public array  $shipping       = [];
-    public string $email          = "";
-    public string $method         = "";
-    public ?float $fee            = 0;
-    public float  $weight         = 0;
-    public float  $products_value = 0;
+    public array  $shipping        = [];
+    public string $email           = "";
+    public string $shipping_method = "";
+    public string $payment_method  = "";
+    public float|string|null $shipping_fee    = 0;
+    public float|string|null $payment_fee     = 0;
+    public float  $weight          = 0;
+    public float  $products_value  = 0;
 
     protected $listeners = ['updateTotals'];
 
@@ -34,25 +36,57 @@ class PosShipping extends Component
         $this->products_value = $products_value;
     }
 
-    public function updatedFee(): void
+    public function updatedShippingMethod(): void
     {
-        $this->emit('setShippingFee', $this->fee ?? 0);
+        $method = CountryShippingMethod::find($this->shipping_method);
+        if ($method === null) {
+            return;
+        }
+    
+        $calculator = new ShippingFeeCalculator();
+        $this->shipping_fee = $calculator->handle($method, $this->weight, $this->shipping['postcode'] ?? null);
+
+        if (!$this->paymentOptions->contains('id', $this->payment_method)) {
+            $payment = $this->paymentOptions->first();
+            $this->payment_method = $payment?->id;
+            $this->payment_fee = $payment?->fee ?? 0;
+        }
+
+        $this->fireProcessingFeesEvent();
     }
 
-    public function updatedShipping($val, $key): void
+    public function updatedPaymentMethod(): void
     {
-        if ($key === 'country_id') {
-            $this->emit('updateCountry', $val);
+        $method = CountryPaymentMethod::find($this->payment_method);
+        if ($method === null) {
+            return;
+        }
+    
+        $this->payment_fee = $method?->fee ?? 0;
+
+        $this->fireProcessingFeesEvent();
+    }
+
+    public function updated($name): void
+    {
+        if ($name === 'payment_fee' || $name === 'shipping_fee') {
+            $this->{$name} = $this->toFloat($this->{$name});
+            
+            $this->fireProcessingFeesEvent();
         }
     }
-
-    public function updatedMethod(): void
+    
+    private function fireProcessingFeesEvent(): void
     {
-        $calculator = new ShippingFeeCalculator();
-        $this->fee = $calculator->handle(CountryShippingMethod::find($this->method), $this->weight, $this->shipping['postcode'] ?? null);
-        $this->updatedFee();
+        $this->emit('setProcessingFees', ($this->shipping_fee ?? 0) + ($this->payment_fee ?? 0));        
     }
 
+    private function toFloat($float): float
+    {
+        $float = preg_replace('/[^\d,]/', '', $float);
+        return (float) str_replace(',', '.', $float ?? 0);
+    }
+    
     public function getProvincesProperty(): Collection
     {
         if (empty($this->shipping['country_id'])) {
@@ -99,29 +133,34 @@ class PosShipping extends Component
         return collect();
     }
 
+    public function getPaymentOptionsProperty(): Collection
+    {
+        if (!empty($this->shipping['country_id'])) {
+            $country = $this->country;
+            $country->paymentOptions->load('paymentMethod', 'shippingMethod');
+
+            $selected_shipping_method_id = $this->shippingOptions->firstWhere('id', $this->shipping_method)?->shipping_method_id;
+            return $country->filterPaymentOptions($this->products_value)
+                ->filter(fn($m) => $m->shipping_method_id === null || $m->shipping_method_id === $selected_shipping_method_id);
+        }
+
+        return collect();
+    }
+
     public function getCountriesProperty(): Collection
     {
         return Country::orderBy('name')->get();
     }
 
-    public function calculateShipping(FindShippingMethodForOrder $finder, ShippingFeeCalculator $calculator): void
-    {
-        $this->validate([
-            'shipping.country_id' => ['required', 'integer'],
-        ]);
-
-        $this->method = $this->shippingOptions->first()?->id;
-    }
-
     public function render(ShippingFeeCalculator $calculator): Renderable
     {
-        $base_fee = 0;
+        $base_shipping_fee = 0;
         $excess_weight_fee = 0;
         $inaccessible_area_fee = 0;
-        if ($this->method) {
-            $method = CountryShippingMethod::find($this->method);
+        if (filled($this->shipping_method)) {
+            $method = CountryShippingMethod::find($this->shipping_method);
             $calculator->handle($method, $this->weight, $this->shipping['postcode'] ?? null);
-            $base_fee = $calculator->getBaseFee();
+            $base_shipping_fee = $calculator->getBaseFee();
             $inaccessible_area_fee = $calculator->getInaccessibleAreaFee();
             $excess_weight_fee = $calculator->getExcessWeightFee();
         }
@@ -130,8 +169,9 @@ class PosShipping extends Component
             'countries'             => $this->countries,
             'provinces'             => $this->provinces,
             'shippingOptions'       => $this->shippingOptions,
-            'selectedOption'        => $this->shippingOptions->firstWhere('id', $this->method),
-            'base_fee'              => $base_fee,
+            'paymentOptions'        => $this->paymentOptions,
+            'selectedOption'        => $this->shippingOptions->firstWhere('id', $this->shipping_method),
+            'base_shipping_fee'     => $base_shipping_fee,
             'excess_weight_fee'     => $excess_weight_fee,
             'inaccessible_area_fee' => $inaccessible_area_fee
         ]);

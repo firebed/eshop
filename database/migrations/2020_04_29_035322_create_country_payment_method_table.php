@@ -17,6 +17,7 @@ class CreateCountryPaymentMethodTable extends Migration
             $table->id();
             $table->foreignId('country_id')->constrained()->cascadeOnDelete();
             $table->foreignId('payment_method_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('shipping_method_id')->nullable()->constrained()->cascadeOnDelete();
             $table->decimal('fee')->default(0);
             $table->decimal('cart_total')->default(0);
             $table->unsignedDecimal('position')->default(0);
