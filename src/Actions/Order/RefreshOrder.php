@@ -77,8 +77,8 @@ class RefreshOrder
 
         $countryPaymentMethod = session('countryPaymentMethod');
         $option = $paymentOptions->firstWhere('id', $countryPaymentMethod);
-        
-        if ($option === null || $option->shipping_method_id !== $shipping_method_id) {
+
+        if ($option === null || ($option->shipping_method_id !== null && $option->shipping_method_id !== $shipping_method_id)) {
             $option = $paymentOptions->filter(fn($c) => $c->shipping_method_id === null || $c->shipping_method_id === $shipping_method_id)->first(); // Fallback
         }
 
