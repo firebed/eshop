@@ -10,7 +10,7 @@
                     @endforeach
                 </x-bs::input.select>
 
-                <x-bs::input.file wire:model="files" multiple accept=".xlsx, .xls"/>
+                <x-bs::input.file wire:model="files" multiple accept=".csv, .xls, .xlsx"/>
 
                 <div>
                     @error('files')
@@ -62,19 +62,21 @@
                                     @endif
                                 </td>
 
-                                @if($carts->contains(fn($c) => $c->voucher === $voucher && $c->payment === null && $this->equalFloats($c->total, $total)))
+                                @if($cart !== null && $cart->payment === null && $this->equalFloats($cart->total, $total))
                                     <td class="text-end"><em class="fas fa-arrow-right text-secondary" title="Προς απόδοση"></em></td>
-                                @elseif($carts->contains(fn($c) => $c->voucher === $voucher && $c->payment !== null && $this->equalFloats($c->total, $total)))
+                                @elseif($cart !== null && $cart->payment !== null && $this->equalFloats($cart->total, $total))
                                     <td class="text-end"><em class="fas fa-check-circle text-success" title="Ήδη πληρωμένο"></em></td>
-                                @elseif($carts->keys()->doesntContain($voucher))
+                                @elseif($cart === null)
                                     <td class="text-end"><em class="fas fa-times-circle text-danger" title="Δεν βρέθηκε στο eshop"></em></td>
                                 @elseif(!$this->equalFloats($cart->total ?? 0, $total))
                                     <td class="text-end"><em class="fas fa-times-circle text-danger" title="Τα σύνολα δεν ταιριάζουν"></em></td>
+                                @else
+                                    <td class="text-end">-</td>
                                 @endif
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="4"></td>
+                                <td colspan="3"></td>
                             </tr>
                         @endforelse
                         </tbody>

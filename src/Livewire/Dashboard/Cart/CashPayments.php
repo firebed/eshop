@@ -59,7 +59,7 @@ class CashPayments extends Component
         foreach ($this->files as $file) {
             $imported = $this->readFile($file, $voucherIndex, $totalIndex);
 
-            $this->vouchers = $this->vouchers->merge($imported);
+            $this->vouchers = $this->vouchers->union($imported);
         }
 
         if ($this->vouchers->isNotEmpty()) {
@@ -85,19 +85,21 @@ class CashPayments extends Component
 
     private function readFile($file, $voucherIndex, $totalIndex)
     {
-        $imported = Excel::toCollection(null, $file)->first();
+        $imported = Excel::toCollection((object)null, $file)->first();
 
         $imported->shift();
         $imported->pop();
 
-        $imported = $imported->mapWithKeys(function ($row) use ($voucherIndex, $totalIndex) {
+        return $imported->mapWithKeys(function ($row) use ($voucherIndex, $totalIndex) {
             $voucher = $row[$voucherIndex] ?? null;
             $total = $row[$totalIndex] ?? null;
 
-            return [$voucher => $total];
-        })->filter();
+            if (is_numeric($total) && $total > 0) {
+                return [$voucher => $total];
+            }
 
-        $this->vouchers = $this->vouchers->merge($imported);
+            return [];
+        })->filter();
     }
 
     private function getShippingMethods(): Collection
@@ -154,7 +156,8 @@ class CashPayments extends Component
 
         return match ($method->name) {
             'Courier Center' => [11, 21],
-            default => null
+            'ACS Courier'    => [2, 3],
+            default          => null
         };
     }
 }
