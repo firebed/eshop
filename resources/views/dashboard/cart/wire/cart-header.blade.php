@@ -50,7 +50,7 @@
     @endcan
 
     @can('Manage orders')
-        @can('Delete order')
+        @can('Delete orders')
             <x-bs::dropdown>
                 <button type="button" class="btn btn-haze btn-sm py-1 px-3 rounded-pill border-2 border-white text-nowrap" data-bs-toggle="dropdown" aria-expanded="false">
                     {{ __('More') }} <em class="fas small text-secondary fa-chevron-down"></em>

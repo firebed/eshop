@@ -50,7 +50,7 @@
                     @can("Manage orders")
                         <x-bs::dropdown.item wire:click.prevent="showOperators"><em class="fas fa-users me-2 text-secondary"></em>{{ __("Change operators") }}</x-bs::dropdown.item>
 
-                        @can('Delete order')
+                        @can('Delete orders')
                             <x-bs::dropdown.divider/>
                             <x-bs::dropdown.item wire:click.prevent="confirmDelete()"><em class="far fa-trash-alt me-2 text-secondary"></em>{{ __("Delete") }}</x-bs::dropdown.item>
                         @endcan
