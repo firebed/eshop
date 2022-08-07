@@ -11,6 +11,7 @@ use Eshop\Controllers\Dashboard\Cart\CartInvoiceController;
 use Eshop\Controllers\Dashboard\Cart\OrderPrintController;
 use Eshop\Controllers\Dashboard\Category\CategoryController;
 use Eshop\Controllers\Dashboard\Category\CategoryPropertyController;
+use Eshop\Controllers\Dashboard\ChannelController;
 use Eshop\Controllers\Dashboard\Intl\BulkProvinceController;
 use Eshop\Controllers\Dashboard\Intl\CountryController;
 use Eshop\Controllers\Dashboard\Intl\CountryPaymentMethodController;
@@ -78,6 +79,10 @@ Route::middleware(['web', 'auth', 'admin'])->group(function () {
             Route::delete('bulk-destroy', [VariantBulkController::class, 'destroy'])->name('bulk-destroy');
         });
         
+        if (eshop('skroutz')) {
+            Route::resource('channels', ChannelController::class);
+        }
+
         Route::resource('products.variants', VariantController::class)->shallow()->except('show');
 
         Route::get('labels', [LabelPrintController::class, 'index'])->name('labels.index');

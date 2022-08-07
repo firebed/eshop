@@ -91,7 +91,7 @@
             })
 
             const checkedPaymentMethod = paymentMethods.querySelector("[name=country_payment_method_id]:checked")
-            if (checkedPaymentMethod == null || checkedPaymentMethod.dataset.shippingMethodId !== selectedShippingMethodId) {
+            if (checkedPaymentMethod == null || (checkedPaymentMethod.dataset.shippingMethodId != null && checkedPaymentMethod.dataset.shippingMethodId.length > 0 && checkedPaymentMethod.dataset.shippingMethodId !== selectedShippingMethodId)) {
                 const firstPaymentMethod = paymentMethods.querySelector("[name=country_payment_method_id]:enabled")
                 if (firstPaymentMethod != null) {
                     firstPaymentMethod.checked = true

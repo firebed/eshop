@@ -21,6 +21,7 @@ use Eshop\Livewire\Dashboard\Cart\ShowCarts;
 use Eshop\Livewire\Dashboard\Cart\StatusesList;
 use Eshop\Livewire\Dashboard\Category\CategoriesTree;
 use Eshop\Livewire\Dashboard\Category\CategoryPropertyChoices;
+use Eshop\Livewire\Dashboard\Channel\ShowChannel;
 use Eshop\Livewire\Dashboard\Config\ShowLocales;
 use Eshop\Livewire\Dashboard\Config\ShowUnits;
 use Eshop\Livewire\Dashboard\Config\ShowVats;
@@ -91,6 +92,9 @@ class LivewireServiceProvider extends ServiceProvider
 
         Livewire::component('dashboard.product.show-manufacturers', ShowManufacturers::class);
 
+        // Channel
+        Livewire::component('dashboard.channel.show-channel', ShowChannel::class);
+        
         // Intl
         Livewire::component('dashboard.intl.country-payment-methods', CountryPaymentMethods::class);
         Livewire::component('dashboard.intl.country-shipping-methods', CountryShippingMethods::class);

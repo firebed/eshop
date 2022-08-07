@@ -21,6 +21,15 @@
     </li>
 @endcanany
 
+@if (eshop('skroutz'))
+    <li class="nav-item">
+        <a href="{{ route('channels.index') }}" @class([$link, $active => request()->routeIs('channels.*')])>
+            <em class="fas fa-podcast text-green-500"></em>
+            <span>{{ __("Sales channels") }}</span>
+        </a>
+    </li>
+@endif
+
 @canany(['Manage POS', 'Create POS order'])
     <li class="nav-item">
         <a href="{{ route('pos.create') }}" @class([$link, $active => request()->routeIs('pos.*')])>

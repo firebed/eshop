@@ -65,7 +65,7 @@ class CartInvoiceController extends Controller
             $rows[] = [
                 'id'          => '',
                 'code'        => 'SHP',
-                'description' => 'Μεταφορικά έξοδα (' . __("eshop::shipping." . $cart->shippingMethod->name) . ')',
+                'description' => 'Μεταφορικά έξοδα (' . __("eshop::shipping." . $cart->shippingMethod?->name) . ')',
                 'unit'        => UnitMeasurement::Pieces->value,
                 'quantity'    => 1,
                 'price'       => round($cart->shipping_fee / (1 + 0.24), 4),
@@ -78,7 +78,7 @@ class CartInvoiceController extends Controller
             $rows[] = [
                 'id'          => '',
                 'code'        => 'PYM',
-                'description' => 'Έξοδα πληρωμής (' . __("eshop::payment." . $cart->paymentMethod->name) . ')',
+                'description' => 'Έξοδα πληρωμής (' . __("eshop::payment." . $cart->paymentMethod?->name) . ')',
                 'unit'        => UnitMeasurement::Pieces->value,
                 'quantity'    => 1,
                 'price'       => round($cart->payment_fee / (1 + 0.24), 4),
