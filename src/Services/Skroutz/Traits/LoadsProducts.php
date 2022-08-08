@@ -160,7 +160,7 @@ trait LoadsProducts
                 $q->where('translations.cluster', 'name');
             })
             ->whereIntegerInRaw('product_id', $this->products->keys())
-            ->get(['product_id', 'variant_type_id', 'translation'])
+            ->get(['slug', 'product_id', 'variant_type_id', 'translation'])
             ->groupBy('product_id')
             ->map(fn($g) => $g->keyBy('variant_type_id'));
     }

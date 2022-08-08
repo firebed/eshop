@@ -23,13 +23,13 @@ class SkroutzXML
         return $this->xml;
     }
 
-    public function addSimpleProduct($product, string $uniqueId = null, string $name = null, string $color = null, string $size = null): void
+    public function addSimpleProduct($product, string $uniqueId = null, string $name = null, string $link = null, string $color = null, string $size = null): void
     {
         $category = $this->categories->get($product->category_id);
         $node = $this->xml->addChild('product');
-
+        
         $this->addSharedProperties($node, $product, $uniqueId, $name, $color);
-        $node->addChild('link', e(route('products.show', ['el', $category->slug, $product->slug])));
+        $node->addChild('link', e($link ?? route('products.show', ['el', $category->slug, $product->slug])));
         $node->addChild('image', e($this->getImage($product)));
         $node->addChild('quantity', (int)$product->stock);
 
@@ -38,15 +38,15 @@ class SkroutzXML
         }
     }
 
-    public function addProductWithSizeVariations($product, string $uniqueId = null, string $name = null, string $color = null, Collection $sizeVariations = null): void
+    public function addProductWithSizeVariations($product, string $uniqueId = null, string $name = null, string $link = null, string $color = null, Collection $sizeVariations = null): void
     {
         $category = $this->categories->get($product->category_id);
         $node = $this->xml->addChild('product');
 
         $sample = $sizeVariations->sortByDesc('net_value')->first();
-
+        
         $this->addSharedProperties($node, $sample, $uniqueId ?? $product->id, $name ?? $product->translation, $color);
-        $node->addChild('link', e(route('products.show', ['el', $category->slug, $product->slug])));
+        $node->addChild('link', e($link ?? route('products.show', ['el', $category->slug, $product->slug])));
         $node->addChild('image', e($this->getImage($product)));
         $node->addChild('quantity', $sizeVariations->sum('stock'));
         $node->addChild('size', $sizeVariations->pluck('size')->join(', '));
@@ -71,7 +71,7 @@ class SkroutzXML
         $node->addChild('category', e($this->breadcrumb($category->id)));
         $node->addChild('category_id', $category->id);
         $node->addChild('name', e($name));
-        $node->addChild('price', number_format($product->net_value, 2));
+        $node->addChild('price_with_vat', number_format($product->net_value, 2));
         $node->addChild('vat', number_format($product->vat * 100, 2));
         $node->addChild('instock', 'Y');
         $node->addChild('availability', e('Παράδοση σε 1 - 3 ημέρες'));

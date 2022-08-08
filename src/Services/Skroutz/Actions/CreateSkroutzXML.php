@@ -40,13 +40,16 @@ class CreateSkroutzXML
                 $sizeVariant = $types->get('megethos');
 
                 $group = $group->each(function ($p) use ($colorVariant, $sizeVariant) {
+                    $p->color_slug = $this->productVariantTypes[$p->id][$colorVariant->id]->slug;
                     $p->color = $this->productVariantTypes[$p->id][$colorVariant->id]->translation;
                     $p->size = str_replace(',', '.', $this->productVariantTypes[$p->id][$sizeVariant->id]->translation);
-                })->groupBy('color');
+                })->groupBy('color_slug');
 
+                $category = $this->categories->get($parent->category_id);
                 foreach ($group as $color => $sizeVariations) {
-                    $uniqueId = $parent->id . '-' . str($color)->slug();
-                    $this->addProductWithSizeVariations($xml, $parent, $uniqueId, name: $parent->translation, color: $color, sizeVariations: $sizeVariations);
+                    $uniqueId = $parent->id . '-' . $color;
+                    $link = route('products.show', [$this->locale, $category->slug, $parent->slug, 'options' => $color]);
+                    $this->addProductWithSizeVariations($xml, $parent, $uniqueId, name: $parent->translation, link: $link, color: $color, sizeVariations: $sizeVariations);
                 }
 
                 continue;
@@ -86,14 +89,14 @@ class CreateSkroutzXML
         return $xml->getXML();
     }
 
-    protected function addSimpleProduct(SkroutzXML $xml, $product, string $uniqueId = null, string $name = null, string $color = null): void
+    protected function addSimpleProduct(SkroutzXML $xml, $product, string $uniqueId = null, string $name = null, string $link = null, string $color = null): void
     {
-        $xml->addSimpleProduct($product, $uniqueId, $name, $color);
+        $xml->addSimpleProduct($product, $uniqueId, $name, $link, $color);
     }
 
-    protected function addProductWithSizeVariations(SkroutzXML $xml, $product, string $uniqueId = null, string $name = null, string $color = null, Collection $sizeVariations = null): void
+    protected function addProductWithSizeVariations(SkroutzXML $xml, $product, string $uniqueId = null, string $name = null, string $link = null, string $color = null, Collection $sizeVariations = null): void
     {
-        $xml->addProductWithSizeVariations($product, $uniqueId, $name, $color, $sizeVariations);
+        $xml->addProductWithSizeVariations($product, $uniqueId, $name, $link, $color, $sizeVariations);
     }
 
     protected function canPurchase($product, $parent = null): bool
