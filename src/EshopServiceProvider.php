@@ -2,7 +2,6 @@
 
 namespace Eshop;
 
-use Eshop\Actions\Feed\CreateSkroutzXML;
 use Eshop\Commands\AcsPaymentsCommand;
 use Eshop\Commands\InstallCommand;
 use Eshop\Commands\ScoutIndexCommand;
@@ -31,6 +30,7 @@ use Eshop\Providers\CartServiceProvider;
 use Eshop\Providers\EventServiceProvider;
 use Eshop\Providers\FortifyServiceProvider;
 use Eshop\Providers\LivewireServiceProvider;
+use Eshop\Services\Skroutz\Actions\CreateSkroutzXML;
 use Eshop\View\Components\CategoryBreadcrumb;
 use Eshop\View\Components\LabelPrinterDialog;
 use Eshop\View\Components\NewArrivals;
