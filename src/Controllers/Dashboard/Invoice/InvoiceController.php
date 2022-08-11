@@ -128,7 +128,7 @@ class InvoiceController extends Controller
         $total_net_value = $vats->sum('total_net_value');
         $discount_amount = $total_value - $total_net_value;
         $total_vat_amount = $vats->sum('total_vat_amount');
-        
+
         $html = $this->view('invoice.print', [
             'invoice'          => $invoice,
             'units'            => $invoice->rows->groupBy(fn(InvoiceRow $row) => $row->unit->value),
@@ -152,7 +152,7 @@ class InvoiceController extends Controller
     private function updateTotals(Invoice $invoice, Collection $rows): void
     {
         $values = $rows->groupBy('vat_percent')
-            ->map(fn($g) => round($g->sum(fn($r) => $r['quantity'] * $r['price'] * (1 - $r['discount'])), 2));
+            ->map(fn($g) => round($g->sum(fn($r) => $r['quantity'] * round($r['price'] * (1 - $r['discount']), 4)), 2));
 
         $invoice->total_net_value = $values->sum();
         $invoice->total_vat_amount = $values->map(fn($v, $k) => round($v * $k, 2))->sum();

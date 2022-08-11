@@ -28,14 +28,6 @@
                 'fee' => old('shipping_fee', $cart->shipping_fee),
         ])
 
-{{--        @livewire('dashboard.pos.payment', [--}}
-{{--                'country_id' => old('shipping.country_id', $cart->shippingAddress->country_id ?? '') ?? '',--}}
-{{--                'items' => old('items', []),--}}
-{{--                'shipping_fee' => old('shipping_fee', 0) ?? 0,--}}
-{{--                'method' => old('country_payment_method_id') ?? '',--}}
-{{--                'fee' => old('payment_fee', $cart->payment_fee) ?? ''--}}
-{{--        ])--}}
-
         @livewire('dashboard.pos.invoice', [
                 'invoice' => old('invoice', $cart->invoice?->getAttributes()) ?? [],
                 'invoiceAddress' => old('invoiceAddress', $cart?->invoice?->billingAddress?->getAttributes()) ?? []

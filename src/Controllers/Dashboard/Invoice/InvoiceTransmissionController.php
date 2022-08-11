@@ -50,12 +50,12 @@ class InvoiceTransmissionController extends Controller
             foreach ($invoices as $invoice) {
                 $invoicesDoc->addInvoice($this->transform($invoice));
             }
-//            $dom = new DOMDocument("1.0");
-//            $dom->preserveWhiteSpace = false;
-//            $dom->formatOutput = true;
-//            $dom->loadXML((new InvoicesDocXML())->asXML($invoicesDoc));
-//            dd($dom->saveXML());
-            
+            //$dom = new DOMDocument("1.0");
+            //$dom->preserveWhiteSpace = false;
+            //$dom->formatOutput = true;
+            //$dom->loadXML((new InvoicesDocXML())->asXML($invoicesDoc));
+            //dd($dom->saveXML());
+
             $sendInvoices = new SendInvoices();
             $response = $sendInvoices->handle($invoicesDoc);
 

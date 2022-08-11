@@ -122,7 +122,6 @@ class LivewireServiceProvider extends ServiceProvider
         Livewire::component('dashboard.pos.models', PosModels::class);
         Livewire::component('dashboard.pos.products', PosProducts::class);
         Livewire::component('dashboard.pos.shipping', PosShipping::class);
-        Livewire::component('dashboard.pos.payment', PosPayment::class);
         Livewire::component('dashboard.pos.invoice', PosInvoice::class);
         Livewire::component('dashboard.pos.products-search', PosProductsSearch::class);
 

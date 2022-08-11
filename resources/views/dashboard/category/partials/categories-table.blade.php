@@ -62,10 +62,11 @@
                         <div class="d-flex align-items-center">
                             @if($category->isFolder())
                                 <em class="fa fa-folder text-warning me-2"></em>
+                                <a href="{{ route('categories.edit', $category) }}" class="text-decoration-none d-block">{{ $category->name }}</a>
                             @else
                                 <em class="fa fa-file-archive text-secondary me-2"></em>
+                                <a href="{{ route('categories.edit', $category) }}" class="text-decoration-none d-block">{{ $category->name }} ({{ $category->products_count }})</a>
                             @endif
-                            <a href="{{ route('categories.edit', $category) }}" class="text-decoration-none d-block">{{ $category->name }}</a>
                         </div>
                     </td>
                     <td>

@@ -47,7 +47,7 @@ class SkroutzXML
         
         $this->addSharedProperties($node, $sample, $uniqueId ?? $product->id, $name ?? $product->translation, $color);
         $node->addChild('link', e($link ?? route('products.show', ['el', $category->slug, $product->slug])));
-        $node->addChild('image', e($this->getImage($product)));
+        $node->addChild('image', e($this->getImage($sample)));
         $node->addChild('quantity', $sizeVariations->sum('stock'));
         $node->addChild('size', $sizeVariations->pluck('size')->join(', '));
 
@@ -83,6 +83,10 @@ class SkroutzXML
             $node->addChild('description', e($product->description));
         }
 
+        if (filled($product->barcode)) {
+            $node->addChild('barcode', e($product->barcode));
+        }
+        
         if (filled($color)) {
             $node->addChild('color', e($color));
         }
@@ -110,6 +114,14 @@ class SkroutzXML
         $node->addChild('price_with_vat', number_format($variation->net_value, 2));
         $node->addChild('size', $variation->size);
         $node->addChild('quantity', (int)$variation->stock);
+
+        if (filled($variation->mpn)) {
+            $node->addChild('mpn', e($variation->mpn));
+        }
+
+        if (filled($variation->barcode)) {
+            $node->addChild('barcode', e($variation->barcode));
+        }
     }
 
     private function breadcrumb(int $category_id): string

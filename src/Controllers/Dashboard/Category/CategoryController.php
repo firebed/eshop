@@ -89,6 +89,7 @@ class CategoryController extends Controller
             $categories = $category->children()
                 ->with('image', 'translation')
                 ->withCount('translations')
+                ->withCount('products')
                 ->orderByDesc('type')
                 ->get();
         } else {

@@ -40,15 +40,16 @@ class CreateSkroutzXML
                 $sizeVariant = $types->get('megethos');
 
                 $group = $group->each(function ($p) use ($colorVariant, $sizeVariant) {
-                    $p->color_slug = $this->productVariantTypes[$p->id][$colorVariant->id]->slug;
                     $p->color = $this->productVariantTypes[$p->id][$colorVariant->id]->translation;
                     $p->size = str_replace(',', '.', $this->productVariantTypes[$p->id][$sizeVariant->id]->translation);
-                })->groupBy('color_slug');
+                })->groupBy('color');
 
                 $category = $this->categories->get($parent->category_id);
                 foreach ($group as $color => $sizeVariations) {
-                    $uniqueId = $parent->id . '-' . $color;
-                    $link = route('products.show', [$this->locale, $category->slug, $parent->slug, 'options' => $color]);
+                    $slug = slugify($color, '_');
+                    $uniqueId = $parent->id . '-' . $slug;
+                    $link = route('products.show', [$this->locale, $category->slug, $parent->slug, 'options' => $slug]);
+                    
                     $this->addProductWithSizeVariations($xml, $parent, $uniqueId, name: $parent->translation, link: $link, color: $color, sizeVariations: $sizeVariations);
                 }
 

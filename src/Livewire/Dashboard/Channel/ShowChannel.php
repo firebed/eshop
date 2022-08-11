@@ -46,15 +46,15 @@ class ShowChannel extends Component
         $keys = $this->channel->products()->with('parent')->get();
 
         $missingImages = $this->channel->products()->whereDoesntHave('image')->count();
-        $inactive = Product::exceptParents()->whereKeyNot($keys->pluck('id'))->count();
+        $inactive = Product::exceptParents()->whereIntegerNotInRaw('id', $keys->pluck('id'))->count();
 
         $categories = Category::whereKey($keys->pluck('category_id')->unique())
-            ->withCount(['products' => fn($q) => $q->whereKey($keys->pluck('id'))->when(filled($this->selectedManufacturers), fn($q) => $q->whereIn('manufacturer_id', $this->selectedManufacturers))])
+            ->withCount(['products' => fn($q) => $q->whereIntegerInRaw('id', $keys->pluck('id'))->when(filled($this->selectedManufacturers), fn($q) => $q->whereIn('manufacturer_id', $this->selectedManufacturers))])
             ->with('translation')
             ->get();
 
         $manufacturers = Manufacturer::whereKey($keys->pluck('manufacturer_id')->unique())
-            ->withCount(['products' => fn($q) => $q->whereKey($keys->pluck('id'))->when(filled($this->selectedCategories), fn($q) => $q->whereIn('category_id', $this->selectedCategories))])
+            ->withCount(['products' => fn($q) => $q->whereIntegerInRaw('id', $keys->pluck('id'))->when(filled($this->selectedCategories), fn($q) => $q->whereIn('category_id', $this->selectedCategories))])
             ->get();
 
         $products = $this->channel
