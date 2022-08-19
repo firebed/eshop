@@ -5,7 +5,7 @@
         <x-bs::navbar.toggler target="customer-notes"/>
 
         <x-bs::navbar.collapse id="customer-notes">
-            <div class="d-grid">
+            <div class="vstack">
                 <a href="#" class="text-decoration-none" wire:click="$toggle('showModal')">{{ __("Edit") }}</a>
 
                 <div class="mt-3">
@@ -15,6 +15,13 @@
                         <span class="text-secondary">{{ __("No notes from customer") }}</span>
                     @endif
                 </div>
+
+                @if(filled($comments))
+                    <div class="mt-3 pt-3 border-top">
+                        <div class="fw-bold">Κρυφές σημειώσεις</div>
+                        <div>{{ $comments }}</div>
+                    </div>
+                @endif
             </div>
         </x-bs::navbar.collapse>
     </x-bs::navbar>
@@ -25,6 +32,11 @@
             <x-bs::modal.body>
                 <x-bs::input.group for="details" label="{{ __('Customer notes') }}"/>
                 <x-bs::input.textarea wire:model.defer="notes" id="details" cols="30" rows="5"/>
+
+                <div class="mt-3">
+                    <x-bs::input.group for="details" label="Κρυφές σημειώσεις"/>
+                    <x-bs::input.textarea wire:model.defer="comments" id="comments" cols="30" rows="5"/>
+                </div>
             </x-bs::modal.body>
             <x-bs::modal.footer>
                 <x-bs::modal.close-button>{{ __('Cancel') }}</x-bs::modal.close-button>

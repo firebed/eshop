@@ -42,6 +42,7 @@ use Illuminate\Support\Collection;
  * @property string         channel
  * @property float          total
  * @property ?string        details
+ * @property ?string        comments
  * @property ?string        voucher
  * @property ?Carbon        submitted_at
  * @property ?Carbon        viewed_at

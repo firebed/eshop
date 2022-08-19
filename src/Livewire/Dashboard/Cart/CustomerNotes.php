@@ -15,16 +15,19 @@ class CustomerNotes extends Component
 
     public $cart_id;
     public $notes;
+    public $comments;
     public $showModal;
 
     protected $rules = [
-        'notes' => 'nullable|string',
+        'notes'    => 'nullable|string',
+        'comments' => 'nullable|string',
     ];
 
     public function mount(Cart $cart): void
     {
         $this->cart_id = $cart->id;
         $this->notes = $cart->details;
+        $this->comments = $cart->comments;
     }
 
     public function save(): void
@@ -32,7 +35,8 @@ class CustomerNotes extends Component
         $this->validate();
 
         Cart::where('id', $this->cart_id)->update([
-            'details' => $this->trim($this->notes)
+            'details'  => $this->trim($this->notes),
+            'comments' => $this->trim($this->comments)
         ]);
 
         $this->showSuccessToast('Customer notes saved!');
