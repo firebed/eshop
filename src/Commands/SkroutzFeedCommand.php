@@ -2,8 +2,8 @@
 
 namespace Eshop\Commands;
 
-use Eshop\Actions\Feed\CreateSkroutzXML;
 use Eshop\Actions\ReportError;
+use Eshop\Services\Skroutz\Actions\CreateSkroutzXML;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Storage;
 use Throwable;
@@ -14,10 +14,8 @@ class SkroutzFeedCommand extends Command
 
     protected $description = 'Create xml feed for Skroutz';
 
-    public function handle(ReportError $report): void
-    {
-        $skroutz = app()->make('skroutz');
-        
+    public function handle(ReportError $report, CreateSkroutzXML $skroutz): void
+    {        
         try {
             $xml = $skroutz->handle();
             Storage::disk('public')->put('feeds/skroutz.xml', $xml->asXML());

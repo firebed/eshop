@@ -87,7 +87,7 @@ trait LoadsProducts
                 $j->where('images.imageable_type', 'product');
                 $j->whereNull('images.collection');
             })
-            ->get(['products.id', 'images.disk', 'images.src', 'images.conversions', 'translations.translation', 'category_id', 'available', 'slug', 'has_watermark'])
+            ->get(['products.id', 'images.disk', 'images.src', 'images.conversions', 'translations.translation', 'category_id', 'available', 'slug', 'has_watermark', 'mpn'])
             ->keyBy('id');
     }
 

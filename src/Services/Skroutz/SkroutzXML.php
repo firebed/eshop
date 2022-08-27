@@ -32,6 +32,7 @@ class SkroutzXML
         $node->addChild('link', e($link ?? route('products.show', ['el', $category->slug, $product->slug])));
         $node->addChild('image', e($this->getImage($product)));
         $node->addChild('quantity', (int)$product->stock);
+        $node->addChild('mpn', $product->mpn);
 
         if (filled($size)) {
             $node->addChild('size', $size);
@@ -50,6 +51,7 @@ class SkroutzXML
         $node->addChild('image', e($this->getImage($sample)));
         $node->addChild('quantity', $sizeVariations->sum('stock'));
         $node->addChild('size', $sizeVariations->pluck('size')->join(', '));
+        $node->addChild('mpn', $product->mpn);
 
         $variations = $node->addChild('variations');
         foreach ($sizeVariations as $variation) {
@@ -77,7 +79,6 @@ class SkroutzXML
         $node->addChild('availability', e('Παράδοση σε 1 - 3 ημέρες'));
         $node->addChild('weight', $product->weight);
         $node->addChild('manufacturer', e($product->manufacturer));
-        $node->addChild('mpn', $product->mpn);
 
         if (isset($product->description) && filled($product->description)) {
             $node->addChild('description', e($product->description));
