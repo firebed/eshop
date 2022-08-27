@@ -34,6 +34,7 @@ return [
         'phone'     => 'Phone',
         'eshop'     => 'Eshop',
         'pos'       => 'POS',
-        'other'     => 'Other'
+        'other'     => 'Other',
+        'skroutz'   => 'Skroutz'
     ]
 ];

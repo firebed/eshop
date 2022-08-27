@@ -38,7 +38,7 @@ class VarCache
                 'Billing_Code'     => '',
                 'User_locals'      => ''
             ],
-            
+
             'SpeedEx' => [
                 'SpeedEx_Username' => '',
                 'SpeedEx_Password' => '',
@@ -52,6 +52,10 @@ class VarCache
                 'SIMPLIFY_LIVE_PRIVATE_KEY'    => '',
                 'SIMPLIFY_HOSTED_PUBLIC_KEY'   => '',
                 'SIMPLIFY_HOSTED_PRIVATE_KEY'  => '',
+            ],
+
+            'Skroutz' => [
+                'SKROUTZ_API_TOKEN' => ''
             ]
         ];
     }

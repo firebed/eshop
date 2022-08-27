@@ -73,6 +73,9 @@
                     @else
                         <em class="fa fa-user text-light w-1r"></em>
                     @endif
+                    @if($cart->channel === 'skroutz')
+                        <span class="badge rounded-pill bg-orange-500 text-gray-100">Skroutz</span>
+                    @endif
                     <span>{{ $cart->shippingAddress->to ?? '' }}</span>
                 </a>
             </td>

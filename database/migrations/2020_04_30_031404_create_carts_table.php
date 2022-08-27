@@ -15,6 +15,7 @@ class CreateCartsTable extends Migration
     {
         Schema::create('carts', function (Blueprint $table) {
             $table->id();
+            $table->string('reference_id')->nullable()->index();
             $table->foreignId('user_id')->nullable()->constrained()->nullOnDelete();
             $table->foreignId('payment_method_id')->nullable()->constrained()->nullOnDelete();
             $table->foreignId('shipping_method_id')->nullable()->constrained()->nullOnDelete();
@@ -31,7 +32,8 @@ class CreateCartsTable extends Migration
             $table->string('voucher')->nullable()->index();
             $table->string('email')->nullable();
             $table->string('ip')->nullable();
-            $table->enum('channel', ['eshop', 'phone', 'pos', 'facebook', 'instagram', 'other'])->default('eshop');
+            $table->enum('channel', ['eshop', 'phone', 'pos', 'facebook', 'instagram', 'skroutz', 'other'])->default('eshop');
+            $table->boolean('gift_wrap')->default(false);
 
             $table->timestamp('submitted_at')->nullable()->index();
             $table->timestamp('viewed_at')->nullable();

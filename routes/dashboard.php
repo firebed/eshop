@@ -42,6 +42,7 @@ use Eshop\Controllers\Dashboard\Product\VariantController;
 use Eshop\Controllers\Dashboard\SidebarController;
 use Eshop\Controllers\Dashboard\Simplify\SimplifyController;
 use Eshop\Controllers\Dashboard\Simplify\SimplifyWebhookController;
+use Eshop\Controllers\Dashboard\Skroutz\SkroutzWebhookController;
 use Eshop\Controllers\Dashboard\Slide\SlideController;
 use Eshop\Controllers\Dashboard\User\UserController;
 use Eshop\Controllers\Dashboard\User\UserPermissionController;
@@ -50,11 +51,15 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('simplify/webhook', SimplifyWebhookController::class)->middleware('web');
 
+if (eshop('skroutz')) {
+    Route::post('webhooks/skroutz', SkroutzWebhookController::class)->name('webhooks.skroutz');
+}
+
 Route::middleware(['web', 'auth', 'admin'])->group(function () {
     Route::prefix('dashboard')->group(function () {
         Route::post('simplify/checkout', [SimplifyController::class, 'checkout'])->name('simplify.checkout');
         Route::get('simplify', [SimplifyController::class, 'index'])->name('simplify.index');
-        
+
         Route::put('sidebar', SidebarController::class);
         Route::put('theme', ThemeController::class);
 
@@ -78,7 +83,7 @@ Route::middleware(['web', 'auth', 'admin'])->group(function () {
             Route::put('bulk-edit', [VariantBulkController::class, 'update'])->name('bulk-update');
             Route::delete('bulk-destroy', [VariantBulkController::class, 'destroy'])->name('bulk-destroy');
         });
-        
+
         if (eshop('skroutz')) {
             Route::resource('channels', ChannelController::class);
         }
@@ -87,7 +92,7 @@ Route::middleware(['web', 'auth', 'admin'])->group(function () {
 
         Route::get('labels', [LabelPrintController::class, 'index'])->name('labels.index');
         Route::post('labels', [LabelPrintController::class, 'export'])->name('labels.export');
-        
+
         Route::delete('collections/{collection}/detach-product/{product}', [CollectionController::class, 'detachProduct'])->name('collections.detachProduct');
         Route::delete('collections/destroy-many', [CollectionController::class, 'destroyMany'])->name('collections.destroyMany');
         Route::resource('collections', CollectionController::class)->except('show');
@@ -117,7 +122,7 @@ Route::middleware(['web', 'auth', 'admin'])->group(function () {
         Route::resource('manufacturers', ManufacturerController::class)->only('index');
 
         Route::get('notifications', NotificationController::class)->name('notifications.index');
-        
+
         Route::get('users/{user}/permissions', UserPermissionController::class)->name('users.permissions.index');
         Route::resource('users', UserController::class)->only('index', 'show');
 
@@ -133,17 +138,17 @@ Route::middleware(['web', 'auth', 'admin'])->group(function () {
         Route::get('analytics/warehouse', WarehouseAnalyticsController::class)->name('analytics.warehouse.index');
 
         Route::resource('pages', PageController::class)->only('index', 'edit', 'update');
-        
+
         Route::resource('pos', PosController::class)->except('index', 'show')->parameter('pos', 'cart');
 
         Route::post('invoices/send', [InvoiceTransmissionController::class, 'send'])->name('invoices.send');
         Route::post('invoices/cancel', [InvoiceTransmissionController::class, 'cancel'])->name('invoices.cancel');
-        
+
         Route::post('invoices/search-clients', [InvoiceController::class, 'searchClients'])->name('invoices.search_clients');
         Route::get('invoices/{invoice}/print', [InvoiceController::class, 'print'])->name('invoices.print');
         Route::resource('invoices', InvoiceController::class);
         Route::resource('clients', ClientController::class)->only('index', 'create', 'store');
-        
+
         Route::resource('user-variables', UserVariableController::class)->only('index', 'store');
     });
 });
