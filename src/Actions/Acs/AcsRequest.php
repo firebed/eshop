@@ -4,7 +4,6 @@ namespace Eshop\Actions\Acs;
 
 use Error;
 use Illuminate\Support\Facades\Http;
-use Exception;
 use Throwable;
 
 class AcsRequest
@@ -13,7 +12,7 @@ class AcsRequest
 
     protected string $action = "";
 
-    public function request(array $params): array|int
+    protected function request(array $params): array|int
     {
         $params = [
             "ACSAlias"           => $this->action,
@@ -36,7 +35,7 @@ class AcsRequest
             }
 
             $response = $response->json();
-
+  
             $hasErrors = $response['ACSExecution_HasError'];
             $errorMessage = $response['ACSExecutionErrorMessage'];
 

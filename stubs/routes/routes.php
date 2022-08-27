@@ -36,9 +36,6 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('web')->group(function () {
     Route::get('/', HomepageController::class)->name('landing_page');
-
-    Route::get('/facebook-catalogue', FacebookCatalogueController::class)->name('facebook-catalogue');
-    Route::get('/skroutz-feed', SkroutzFeedController::class)->name('skroutz.feed');
 });
 
 // Global routes
@@ -91,7 +88,7 @@ Route::group([
         Route::post('order-tracking/id', [OrderTrackingController::class, 'searchById'])->name('order-tracking.search_by_id');
         Route::get('order-tracking', [OrderTrackingController::class, 'index'])->name('order-tracking.index');
         Route::get('order-tracking/{order}', [OrderTrackingController::class, 'show'])->name('order-tracking.show');
-        
+
         Route::get('search', [ProductSearchController::class, 'index'])->name('products.search.index');
         Route::post('search', [ProductSearchController::class, 'ajax'])->name('products.search.ajax');
 
