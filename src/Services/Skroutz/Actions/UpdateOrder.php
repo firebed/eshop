@@ -10,18 +10,18 @@ class UpdateOrder
 {
     public function handle($event): void
     {
-        $changes = $event->changes;
-        $order = $event->order;
-        $cart = Cart::where('reference_id', $order->code)->where('channel', CartChannel::SKROUTZ)->first();
+        $changes = $event['changes'];
+        $order = $event['order'];
+        $cart = Cart::where('reference_id', $order['code'])->where('channel', CartChannel::SKROUTZ)->first();
 
-        if (isset($changes->state)) {
+        if (isset($changes['state'])) {
             $oldState = $cart->status;
-            $newState = $this->getStatus($changes->state->new);
+            $newState = $this->getStatus($changes['state']['new']);
 
             if ($newState === null) {
                 return;
             }
-            
+
             if ($oldState->isCapturingStocks() && $newState->isReleasingStocks()) {
                 $this->incrementStocks($cart);
             } else if ($oldState->isReleasingStocks() && $newState->isCapturingStocks()) {
@@ -32,8 +32,9 @@ class UpdateOrder
             $cart->save();
         }
 
-        if (isset($changes->courier_voucher)) {
-            $cart->voucher = $changes->courier_tracking_codes->new[0];
+        if (isset($changes['courier_voucher'])) {
+            $cart->voucher = $changes['courier_tracking_codes']['new'][0];
+            $cart->viewed_at = null;
             $cart->save();
         }
     }
