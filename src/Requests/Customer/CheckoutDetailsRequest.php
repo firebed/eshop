@@ -3,6 +3,7 @@
 namespace Eshop\Requests\Customer;
 
 use Eshop\Models\Location\Country;
+use Eshop\Rules\PhoneNumber;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
@@ -29,7 +30,7 @@ class CheckoutDetailsRequest extends FormRequest
                 'shippingAddress'            => ['required', 'array'],
                 'shippingAddress.first_name' => ['required', 'string'],
                 'shippingAddress.last_name'  => ['required', 'string'],
-                'shippingAddress.phone'      => ['required', 'string'],
+                'shippingAddress.phone'      => ['required', 'string', new PhoneNumber($this->input('shippingAddress.country_id'))],
                 'shippingAddress.country_id' => ['required', 'integer', 'exists:countries,id'],
                 'shippingAddress.province'   => ['required', 'string', Rule::when(fn() => $country?->provinces()->exists(), ['exists:provinces,name'])],
                 'shippingAddress.city'       => ['required', 'string'],
@@ -48,7 +49,7 @@ class CheckoutDetailsRequest extends FormRequest
                 'invoice.tax_authority'      => ['required', 'nullable', 'string'],
 
                 'invoiceAddress'             => ['required', 'nullable', 'array'],
-                'invoiceAddress.phone'       => ['required', 'nullable', 'string'],
+                'invoiceAddress.phone'       => ['required', 'nullable', 'string', new PhoneNumber($this->input('invoiceAddress.country_id'))],
                 'invoiceAddress.country_id'  => ['required', 'nullable', 'integer', 'exists:countries,id'],
                 'invoiceAddress.province'    => ['required', 'nullable', 'string'],
                 'invoiceAddress.street'      => ['required', 'nullable', 'string'],
@@ -59,6 +60,21 @@ class CheckoutDetailsRequest extends FormRequest
         }
 
         return $rules;
+    }
+
+    protected function prepareForValidation()
+    {
+        if (eshop('validate_phone_number', false)) {
+            $shippingAddress = $this->input('shippingAddress', []);
+            $shippingAddress['phone'] = preg_replace('/[^0-9]/', '', $this->input('shippingAddress.phone'));
+            $this->merge(['shippingAddress' => $shippingAddress]);
+
+            if ($this->filled('invoicing')) {
+                $invoiceAddress = $this->input('invoiceAddress', []);
+                $invoiceAddress['phone'] = preg_replace('/[^0-9]/', '', $this->input('invoiceAddress.phone'));
+                $this->merge(['invoiceAddress' => $invoiceAddress]);
+            }
+        }
     }
 
     public function attributes(): array

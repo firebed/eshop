@@ -54,7 +54,26 @@ return [
     'show_incomplete_carts' => false,
     'auto_payments'         => false,
     'skroutz'               => false,
-
+    
+    'validate_phone_number' => false,
+    
+    /*
+    |--------------------------------------------------------------------------
+    | ACS
+    |--------------------------------------------------------------------------
+    |
+    | Here you may specify the options for acs courier.
+    | Billing codes must have the country code in upper case as the key
+    | and the billing code itself as the value e.g. ['GR' => 'XN123456']
+    |
+    */
+    
+    'acs' => [
+        'billing_codes' => [
+            
+        ]
+    ],
+    
     /*
     |--------------------------------------------------------------------------
     | Filtering Products

@@ -59,7 +59,7 @@
                 @endguest
 
                 <div class="@guest col-12 col-sm-6 @else col-12 @endguest">
-                    <x-bs::input.floating-label for="phone" label="{{ __('Phone') }}">
+                    <x-bs::input.floating-label for="phone" label="{{ __('Mobile') }}">
                         <x-bs::input.text value="{{ old('shippingAddress.phone', $shipping?->phone) ?? '' }}" name="shippingAddress[phone]" error="shippingAddress.phone" id="phone" placeholder="{{ __('Phone') }}"/>
                     </x-bs::input.floating-label>
                 </div>
