@@ -11,9 +11,19 @@
             <x-bs::dropdown.menu button="voucher-dropdown">
                 <x-bs::dropdown.item wire:click="editVoucher"><em class="fa fa-edit text-secondary me-2"></em>{{ __('Edit tracking code') }}</x-bs::dropdown.item>
 
-                @isset($voucherUrl)
-                    <x-bs::dropdown.item href="{{ $voucherUrl }}" target="_blank"><em class="fas fa-external-link-alt text-secondary me-2"></em> {{ __('Show in couriers page') }}</x-bs::dropdown.item>
-                @endisset
+                @if(filled($cart->voucher))
+                    @if($cart->shippingMethod)
+                        <x-bs::dropdown.item href="{{ $cart->shippingMethod?->getVoucherUrl($cart->voucher) }}" target="_blank">
+                            <em class="fas fa-external-link-alt text-secondary me-2"></em> Εμφάνιση
+                        </x-bs::dropdown.item>
+
+                        @if($cart->channel === 'skroutz')
+                            <x-bs::dropdown.item href="{{ route('carts.print-voucher', $cart) }}" target="_blank">
+                                <em class="fas fa-print text-secondary me-2"></em> Εκτύπωση δελτίου αποστολής
+                            </x-bs::dropdown.item>
+                        @endif
+                    @endif
+                @endif
             </x-bs::dropdown.menu>
         </x-bs::dropdown>
 

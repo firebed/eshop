@@ -8,6 +8,7 @@ use Eshop\Controllers\Dashboard\Analytics\OrderAnalyticsController;
 use Eshop\Controllers\Dashboard\Analytics\WarehouseAnalyticsController;
 use Eshop\Controllers\Dashboard\Cart\CartController;
 use Eshop\Controllers\Dashboard\Cart\CartInvoiceController;
+use Eshop\Controllers\Dashboard\Cart\CartPrintVoucherController;
 use Eshop\Controllers\Dashboard\Cart\OrderPrintController;
 use Eshop\Controllers\Dashboard\Category\CategoryController;
 use Eshop\Controllers\Dashboard\Category\CategoryPropertyController;
@@ -98,6 +99,7 @@ Route::middleware(['web', 'auth', 'admin'])->group(function () {
         Route::resource('collections', CollectionController::class)->except('show');
 
         Route::get('carts/{cart}/invoice', CartInvoiceController::class)->name('carts.invoice');
+        Route::get('carts/{cart}/print-voucher', CartPrintVoucherController::class)->name('carts.print-voucher');
         Route::get('carts/{cart}/print', OrderPrintController::class)->name('carts.print');
         Route::resource('carts', CartController::class)->only('index', 'show', 'destroy');
 
