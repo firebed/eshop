@@ -155,7 +155,9 @@ class ProductTranslations extends Component
 
         $source = config('app.locale', '');
 
-        $http = Http::post("https://translation.googleapis.com/language/translate/v2?key=$key", [
+        $http = Http::withHeaders([
+            'Referer' => config('app.url')
+        ])->post("https://translation.googleapis.com/language/translate/v2?key=$key", [
             'q'      => $q,
             'target' => $target,
             'format' => $format,
