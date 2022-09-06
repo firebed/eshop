@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Eshop\Actions\ReportError;
 use Eshop\Actions\SpeedEx\SpeedExPaymentsInfo;
 use Eshop\Models\Cart\Cart;
+use Eshop\Models\Cart\CartEvent;
 use Eshop\Models\Cart\Payment;
 use Eshop\Models\Location\ShippingMethod;
 use Eshop\Models\Notification;
@@ -88,6 +89,8 @@ class SpeedExPaymentsCommand extends Command
                 'created_at' => $payment->Date
             ]));
 
+            CartEvent::orderPaid($cart->id, 'SpeedEx', $voucher);
+            
             $text = sprintf("Λάβατε μια πληρωμή αξίας <strong>%s</strong> από τη <strong style='color: #00b23b'>SpeedEx</strong> για την παραγγελία με κωδικό <strong>#%d</strong> και voucher %s.", format_currency($payment->Amount), $cart->id, $voucher);
 
             Notification::create([

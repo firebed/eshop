@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Eshop\Actions\Acs\AcsPaymentsInfo;
 use Eshop\Actions\ReportError;
 use Eshop\Models\Cart\Cart;
+use Eshop\Models\Cart\CartEvent;
 use Eshop\Models\Cart\Payment;
 use Eshop\Models\Location\ShippingMethod;
 use Eshop\Models\Notification;
@@ -80,6 +81,8 @@ class AcsPaymentsCommand extends Command
                 'metadata'   => $payment,
                 'created_at' => $date
             ]));
+            
+            CartEvent::orderPaid($cart->id, 'ACS Courier', $voucher);
 
             $text = sprintf("Λάβατε μια πληρωμή αξίας <strong>%s</strong> από την <strong style='color: #E3001C'>ACS</strong> για την παραγγελία με κωδικό <strong>#%d</strong> και voucher %s.", format_currency($payment['Parcel_COD_Amount']), $cart->id, $voucher);
 
