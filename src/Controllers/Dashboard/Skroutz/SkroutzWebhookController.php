@@ -22,7 +22,8 @@ class SkroutzWebhookController
         } catch (Throwable $e) {
             DB::rollBack();
 
-            (new ReportError())->handle($e->getMessage(), $e->getTraceAsString());
+            $debug = var_export($event, true);
+            (new ReportError())->handle($e->getMessage(), $debug . "\n\n" . $e->getTraceAsString());
         }
 
         return response()->json();

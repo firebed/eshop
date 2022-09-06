@@ -2,8 +2,11 @@
 
 namespace Eshop\Requests\Customer;
 
+use Eshop\Models\Cart\CartEvent;
 use Eshop\Models\Location\Country;
+use Eshop\Repository\Contracts\Order;
 use Eshop\Rules\PhoneNumber;
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
@@ -102,5 +105,13 @@ class CheckoutDetailsRequest extends FormRequest
             'invoiceAddress.city'        => trans('validation.attributes.city'),
             'invoiceAddress.postcode'    => trans('validation.attributes.postcode'),
         ];
+    }
+
+    protected function failedValidation(Validator $validator)
+    {
+        $order = app(Order::class);
+        CartEvent::setCheckoutDetails($order->id, CartEvent::ERROR, $validator->errors()->messages());
+        
+        parent::failedValidation($validator);
     }
 }

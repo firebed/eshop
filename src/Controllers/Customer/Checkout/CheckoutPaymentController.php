@@ -11,6 +11,7 @@ use Eshop\Controllers\Customer\Checkout\Traits\StripeCheckout;
 use Eshop\Controllers\Customer\Checkout\Traits\ValidatesCheckout;
 use Eshop\Controllers\Customer\Controller;
 use Eshop\Controllers\Dashboard\Traits\WithNotifications;
+use Eshop\Models\Cart\CartEvent;
 use Eshop\Models\Cart\Payment;
 use Eshop\Repository\Contracts\Order;
 use Eshop\Requests\Customer\CheckoutPaymentRequest;
@@ -84,6 +85,8 @@ class CheckoutPaymentController extends Controller
             return redirect()->route('checkout.details.edit', app()->getLocale());
         }
 
+        CartEvent::getCheckoutPayment($order->id);
+        
         $country = $order->shippingAddress->country;
         $shippingOptions = $country->filterShippingOptions($order->products_value);
         $paymentOptions = $country->filterPaymentOptions($order->products_value);

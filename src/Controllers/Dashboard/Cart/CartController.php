@@ -4,6 +4,7 @@ namespace Eshop\Controllers\Dashboard\Cart;
 
 use Eshop\Controllers\Dashboard\Controller;
 use Eshop\Models\Cart\Cart;
+use Eshop\Models\Cart\CartEvent;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\RedirectResponse;
 
@@ -25,6 +26,8 @@ class CartController extends Controller
             if (!$cart->isViewed()) {
                 $cart->viewed_at = now();
                 $cart->save();
+                
+                CartEvent::orderViewed($cart->id);
             }
 
             $assignment = $cart->operators()->firstWhere('user_id', auth()->id());

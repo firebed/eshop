@@ -7,16 +7,18 @@ use Illuminate\Contracts\Validation\Rule;
 
 class PhoneNumber implements Rule
 {
-    private Country $country;
+    private Country|null $country = null;
 
-    public function __construct(int $country_id)
+    public function __construct(int|null $country_id)
     {
-        $this->country = Country::find($country_id);
+        if ($country_id !== null) {
+            $this->country = Country::find($country_id);
+        }
     }
 
     public function passes($attribute, $value): bool
     {
-        if (!eshop('validate_phone_number', false)) {
+        if (!eshop('validate_phone_number', false) || $this->country === null) {
             return true;
         }
         

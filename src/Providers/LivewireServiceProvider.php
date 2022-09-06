@@ -17,6 +17,7 @@ use Eshop\Livewire\Dashboard\Cart\CustomerNotes;
 use Eshop\Livewire\Dashboard\Cart\Invoice;
 use Eshop\Livewire\Dashboard\Cart\ShippingAddress;
 use Eshop\Livewire\Dashboard\Cart\ShowCart;
+use Eshop\Livewire\Dashboard\Cart\ShowCartEvents;
 use Eshop\Livewire\Dashboard\Cart\ShowCarts;
 use Eshop\Livewire\Dashboard\Cart\StatusesList;
 use Eshop\Livewire\Dashboard\Category\CategoriesTree;
@@ -34,7 +35,6 @@ use Eshop\Livewire\Dashboard\Invoice\ShowClients;
 use Eshop\Livewire\Dashboard\Label\LabelsTable;
 use Eshop\Livewire\Dashboard\Pos\PosInvoice;
 use Eshop\Livewire\Dashboard\Pos\PosModels;
-use Eshop\Livewire\Dashboard\Pos\PosPayment;
 use Eshop\Livewire\Dashboard\Pos\PosProducts;
 use Eshop\Livewire\Dashboard\Pos\PosProductsSearch;
 use Eshop\Livewire\Dashboard\Pos\PosShipping;
@@ -85,6 +85,7 @@ class LivewireServiceProvider extends ServiceProvider
         Livewire::component('dashboard.cart.show-carts', ShowCarts::class);
         Livewire::component('dashboard.cart.statuses-list', StatusesList::class);
         Livewire::component('dashboard.cart.cash-payments', CashPayments::class);
+        Livewire::component('dashboard.cart.show-cart-events', ShowCartEvents::class);
 
         // Categories
         Livewire::component('dashboard.category.property-choices', CategoryPropertyChoices::class);
@@ -94,7 +95,7 @@ class LivewireServiceProvider extends ServiceProvider
 
         // Channel
         Livewire::component('dashboard.channel.show-channel', ShowChannel::class);
-        
+
         // Intl
         Livewire::component('dashboard.intl.country-payment-methods', CountryPaymentMethods::class);
         Livewire::component('dashboard.intl.country-shipping-methods', CountryShippingMethods::class);

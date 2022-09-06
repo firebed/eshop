@@ -15,6 +15,7 @@ class CartStatusChanged
     public Cart       $cart;
     public CartStatus $status;
     public ?string    $notesToCustomer;
+    public bool       $notifyCustomer;
 
     /**
      * Create a new event instance.
@@ -22,11 +23,13 @@ class CartStatusChanged
      * @param Cart        $cart
      * @param CartStatus  $status
      * @param string|null $notesToCustomer
+     * @param bool        $notifyCustomer
      */
-    public function __construct(Cart $cart, CartStatus $status, ?string $notesToCustomer = null)
+    public function __construct(Cart $cart, CartStatus $status, ?string $notesToCustomer = null, bool $notifyCustomer = true)
     {
         $this->cart = $cart;
         $this->status = $status;
         $this->notesToCustomer = $notesToCustomer;
+        $this->notifyCustomer = $notifyCustomer;
     }
 }

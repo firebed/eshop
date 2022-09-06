@@ -6,6 +6,7 @@ namespace Eshop\Repository;
 
 use Eshop\Events\CartStatusChanged;
 use Eshop\Models\Cart\Cart;
+use Eshop\Models\Cart\CartEvent;
 use Eshop\Models\Cart\CartProduct;
 use Eshop\Models\Cart\CartStatus;
 use Eshop\Models\Product\Product;
@@ -323,9 +324,8 @@ class CartRepository implements CartContract
         } elseif ($this->shouldReleaseProductStocks($previous_status, $currentStatus)) {
             $this->releaseStocks($cart->id);
         }
-        if ($notifyCustomer) {
-            event(new CartStatusChanged($cart, $currentStatus, $notesToCustomer));
-        }
+
+        event(new CartStatusChanged($cart, $currentStatus, $notesToCustomer, $notifyCustomer));
     }
 
     public function shouldCaptureProductStocks(CartStatus $previousStatus, CartStatus $currentStatus): bool
@@ -339,12 +339,14 @@ class CartRepository implements CartContract
     }
 
     public function setVoucher(Cart|int $cart, ?string $voucher): bool
-    {
+    {        
         if ($cart instanceof Cart) {
             $cart->voucher = $voucher;
+            CartEvent::info($cart->id, CartEvent::VOUCHER_UPDATED, $voucher);
             return $cart->save();
         }
 
+        CartEvent::info($cart, CartEvent::VOUCHER_UPDATED, $voucher);
         return Cart::whereKey($cart)->update(['voucher' => $voucher]);
     }
 

@@ -3,6 +3,7 @@
 namespace Eshop;
 
 use Eshop\Commands\AcsPaymentsCommand;
+use Eshop\Commands\CartCleanup;
 use Eshop\Commands\InstallCommand;
 use Eshop\Commands\ScoutIndexCommand;
 use Eshop\Commands\SitemapCommand;
@@ -125,6 +126,7 @@ class EshopServiceProvider extends ServiceProvider
                 SkroutzFeedCommand::class,
                 AcsPaymentsCommand::class,
                 SpeedExPaymentsCommand::class,
+                CartCleanup::class
             ]);
         }
     }

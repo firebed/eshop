@@ -89,6 +89,11 @@ class Cart extends Model implements Order
     |-----------------------------------------------------------------------------
     */
 
+    public function events(): HasMany
+    {
+        return $this->hasMany(CartEvent::class);
+    }
+    
     public function operators(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'cart_operator')->withPivot('viewed_at');

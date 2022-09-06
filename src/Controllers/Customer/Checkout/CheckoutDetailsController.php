@@ -5,6 +5,7 @@ namespace Eshop\Controllers\Customer\Checkout;
 use Eshop\Actions\Order\RefreshOrder;
 use Eshop\Controllers\Customer\Checkout\Traits\ValidatesCheckout;
 use Eshop\Controllers\Customer\Controller;
+use Eshop\Models\Cart\CartEvent;
 use Eshop\Models\Cart\DocumentType;
 use Eshop\Models\Location\Address;
 use Eshop\Models\Location\Country;
@@ -27,6 +28,8 @@ class CheckoutDetailsController extends Controller
         if (!$this->validateCheckout($order)) {
             return redirect()->route('checkout.products.index', app()->getLocale());
         }
+        
+        CartEvent::getCheckoutDetails($order->id);
 
         if ($order->shippingAddress === null && auth()->user()?->addresses->isNotEmpty()) {
             $replicator = auth()->user()->addresses->first();
@@ -112,6 +115,8 @@ class CheckoutDetailsController extends Controller
 
         $order->save();
 
+        CartEvent::setCheckoutDetails($order->id);
+        
         return redirect()->route('checkout.payment.edit', $lang);
     }
 

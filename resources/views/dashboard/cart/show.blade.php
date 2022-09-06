@@ -17,7 +17,14 @@
 
                 <div class="d-grid">
                     <h1 class="fs-4">#{{ $cart->id }}</h1>
-                    <div class="small text-secondary mb-3">{{ optional($cart->submitted_at)->isoFormat('dddd, ll HH:mm') }}</div>
+                    <div class="d-flex small text-secondary mb-3">
+                        <div class="me-3">{{ optional($cart->submitted_at)->isoFormat('dddd, ll HH:mm') }}</div>
+
+                        @can('View cart history')
+                            <livewire:dashboard.cart.show-cart-events :cart="$cart"/>
+                        @endcan
+                    </div>
+
                     <livewire:dashboard.cart.cart-header :cart="$cart"/>
                 </div>
 

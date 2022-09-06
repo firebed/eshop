@@ -29,5 +29,6 @@ return [
     'Copy products'                   => 'Αντιγραφή προϊόντων',
     'Delete orders'                   => 'Διαγραφή παραγγελιών',
     'Create voucher'                  => 'Δημιουργία voucher',
-    'Cash payments'                   => 'Απόδοση αντικαταβολών'
+    'Cash payments'                   => 'Απόδοση αντικαταβολών',
+    'View cart history'               => 'Προβολή ιστορικού καλαθιού'
 ];

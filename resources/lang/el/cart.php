@@ -36,5 +36,53 @@ return [
         'pos'       => 'POS',
         'other'     => 'Other',
         'skroutz'   => 'Skroutz'
+    ],
+
+    'events' => [
+        'get_checkout_products' => 'Επίσκεψη σελίδας καλαθιού',
+
+        'get_checkout_details' => 'Επίσκεψη σελίδας διεύθυνσης αποστολής & τιμολογίου',
+        'set_checkout_details' => 'Ενημέρωση διεύθυνσης αποστολής & τιμολογίου',
+
+        'get_checkout_payment' => 'Επίσκεψη σελίδας ολοκλήρωσης καλαθιού',
+        'set_checkout_payment' => 'Ολοκλήρωση καλαθιού',
+
+        'checkout_email' => 'Αποστολή email παραγγελίας στον πελάτη',
+
+        'checkout_insufficient_quantity' => 'Αποτυχία παραγγελίας λόγω ανεπαρκής ποσότητας προϊόντων',
+        'checkout_total_updated'         => 'Επανέναρξη διαδικασίας παραγγελίας λόγω αλλαγής τιμής προϊόντων',
+
+        'paypal_checkout'        => 'Προσπάθεια πληρωμής μέσω PayPal',
+        'stripe_checkout'        => 'Προσπάθεια πληρωμής μέσω Stripe',
+        'stripe_action_required' => 'Προσπάθεια πληρωμής μέσω Stripe. Απαιτείται ενέργεια από τον πελάτη (3d secure).',
+        'simplify_checkout'      => 'Προσπάθεια πληρωμής μέσω Εθνικής Τράπεζας',
+
+        'order_viewed' => 'Προβολή παραγγελίας',
+
+        'order-submitted'       => 'Υποβολή παραγγελίας',
+        'order-submitted-email' => 'Ενημέρωση πελάτη μέσω mail',
+
+        'order-approved'       => 'Έγκριση παραγγελίας',
+        'order-approved-email' => 'Ενημέρωση πελάτη μέσω mail',
+
+        'order-completed'       => 'Ολοκλήρωση παραγγελίας',
+        'order-completed-email' => 'Ενημέρωση πελάτη μέσω mail',
+
+        'order-held'       => 'Αναμονή παραγγελίας',
+        'order-held-email' => 'Ενημέρωση πελάτη μέσω mail',
+
+        'order-shipped'       => 'Η παραγγελία στάλθηκε',
+        'order-shipped-email' => 'Ενημέρωση πελάτη μέσω mail',
+
+        'order-cancelled'       => 'Η παραγγελία ακυρώθηκε',
+        'order-cancelled-email' => 'Ενημέρωση πελάτη μέσω mail',
+
+        'order-rejected'       => 'Η παραγγελία απορρίφθηκε',
+        'order-rejected-email' => 'Ενημέρωση πελάτη μέσω mail',
+
+        'order-returned'       => 'Η παραγγελία επιστράφηκε',
+        'order-returned-email' => 'Ενημέρωση πελάτη μέσω mail',
+        
+        'voucher-updated' => 'Ενημέρωση voucher'
     ]
 ];

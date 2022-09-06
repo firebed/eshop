@@ -54,9 +54,36 @@ return [
     'show_incomplete_carts' => false,
     'auto_payments'         => false,
     'skroutz'               => false,
-    
+
     'validate_phone_number' => false,
-    
+
+    /*
+    |--------------------------------------------------------------------------
+    | Cart events
+    |--------------------------------------------------------------------------
+    |
+    | Here you may specify the options for cart management.
+    | 
+    | Change the abandoned notification option in order to switch on or off
+    | the email notifications for abandoned carts.
+    |
+    | You may also specify whether to delete the old carts that cannot be 
+    | associated to any user.
+    |
+    */
+
+    'cart' => [
+        'abandoned' => [
+            'notifications'       => false,
+            'first_notification'  => 60, // 1 hour
+            'second_notification' => 24 * 60, // 1 day
+            'third_notification'  => 3 * 24 * 60, // 3 days
+
+            'delete'        => false,
+            'delete_before' => '90 days'
+        ]
+    ],
+
     /*
     |--------------------------------------------------------------------------
     | ACS
@@ -67,13 +94,13 @@ return [
     | and the billing code itself as the value e.g. ['GR' => 'XN123456']
     |
     */
-    
+
     'acs' => [
         'billing_codes' => [
-            
+
         ]
     ],
-    
+
     /*
     |--------------------------------------------------------------------------
     | Filtering Products

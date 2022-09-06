@@ -4,6 +4,7 @@ namespace Eshop\Controllers\Customer\Checkout\Traits;
 
 use Eshop\Actions\Order\RefreshOrder;
 use Eshop\Actions\Order\ShippingFeeCalculator;
+use Eshop\Models\Cart\CartEvent;
 use Eshop\Repository\Contracts\Order;
 use Illuminate\Support\Facades\DB;
 
@@ -19,11 +20,13 @@ trait ValidatesCheckout
 
         if ($this->totalHasChanged($order)) {
             session()->flash('products-values-changed');
+            CartEvent::checkoutTotalUpdated($order->id);
             return false;
         }
                 
         if (!$this->checkProductStocks($order)) {
             session()->flash('insufficient-quantity');
+            CartEvent::checkoutInsufficientQuantity($order->id);
             return false;
         }
 

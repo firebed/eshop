@@ -4,6 +4,7 @@ namespace Eshop\Providers;
 
 use Eshop\Events\CartStatusChanged;
 use Eshop\Listeners\CreateLoginRecord;
+use Eshop\Listeners\LogCartEvent;
 use Eshop\Listeners\MergeCustomerCarts;
 use Eshop\Listeners\SendCartStatusChangedNotification;
 use Illuminate\Auth\Events\Login;
@@ -13,6 +14,7 @@ class EventServiceProvider extends ServiceProvider
 {
     protected $listen = [
         CartStatusChanged::class => [
+            LogCartEvent::class,
             SendCartStatusChangedNotification::class
         ],
 
