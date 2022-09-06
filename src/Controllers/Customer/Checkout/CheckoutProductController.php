@@ -11,7 +11,9 @@ class CheckoutProductController extends Controller
 {
     public function __invoke(Order $order): Renderable
     {
-        CartEvent::getCheckoutProducts($order->id);
+        if ($order->id) {
+            CartEvent::getCheckoutProducts($order->id);
+        }
         
         return $this->view('checkout.products.wire-index');
     }
