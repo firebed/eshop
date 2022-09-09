@@ -34,10 +34,12 @@ class MergeCustomerCarts
                 self::updateCart($session);
                 return FALSE;
             }
-
-            $products = $session->pluckProductQuantities();
-            $previous->syncProducts($products);
-            $merged = $session->delete();
+            
+            if ($session !== null && $session->isNot($previous)) {
+                $products = $session->pluckProductQuantities();
+                $previous->syncProducts($products);
+                $merged = $session->delete();
+            }
         }
 
         self::updateCart($previous);

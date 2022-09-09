@@ -4,7 +4,6 @@ namespace Eshop\Providers;
 
 use Eshop\Models\Cart\Cart;
 use Eshop\Models\Location\Country;
-use Eshop\Models\Settings;
 use Eshop\Repository\CartRepository;
 use Eshop\Repository\Contracts\CartContract;
 use Eshop\Repository\Contracts\Order;
@@ -27,11 +26,10 @@ class CartServiceProvider extends ServiceProvider
         $this->app->singleton(CartContract::class, CartRepository::class);
 
         $this->app->singleton('countries', fn() => Country::orderBy('name')->get());
-        $this->app->singleton('settings', fn() => Settings::first());
 
         $this->app->singleton(Order::class, function () {
             if (Auth::check()) {
-                return auth()->user()->activeCart()->firstOrNew();
+                return auth()->user()->activeCart()->latest()->firstOrNew();
             }
 
 //            if (session()->has('cart-session-id')) {
@@ -44,13 +42,16 @@ class CartServiceProvider extends ServiceProvider
 //            }
 
             $request = request();
+
             if ($request && $request->hasCookie('cart-cookie-id')) {
                 $cookieId = $request->cookie('cart-cookie-id');
                 $cart = Cart::firstWhere('cookie_id', $cookieId);
-                if ($cart !== NULL && !$cart->isSubmitted()) {
+                if ($cart !== null && !$cart->isSubmitted()) {
 //                    session()->put('cart-session-id', $cart->id);
                     return $cart;
                 }
+                
+                // The cart is submitted or null, we must delete the cookie
                 cookie()->queue(cookie()->forget('cart-cookie-id'));
             }
 

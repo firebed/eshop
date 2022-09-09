@@ -40,6 +40,7 @@ trait ImplementsOrder
         }
 
         $this->channel = 'eshop';
+        $this->email = auth()->user()->email ?? null;
         $this->ip = request()?->ip();
 
         if ($this->save()) {

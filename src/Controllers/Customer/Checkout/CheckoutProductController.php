@@ -14,7 +14,7 @@ class CheckoutProductController extends Controller
         if ($order->id) {
             CartEvent::getCheckoutProducts($order->id);
         }
-        
+
         return $this->view('checkout.products.wire-index');
     }
 }

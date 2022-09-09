@@ -82,7 +82,22 @@ return [
 
         'order-returned'       => 'Η παραγγελία επιστράφηκε',
         'order-returned-email' => 'Ενημέρωση πελάτη μέσω mail',
-        
-        'voucher-updated' => 'Ενημέρωση voucher'
+
+        'voucher-updated' => 'Ενημέρωση voucher',
+
+        'abandonment-email-1' => 'Αποστολή 1ης υπενθύμισης καλαθιού',
+        'abandonment-email-2' => 'Αποστολή 2ης υπενθύμισης καλαθιού',
+        'abandonment-email-3' => 'Αποστολή 3ης υπενθύμισης καλαθιού',
+
+        'resume-abandoned-1' => 'Συνέχιση καλαθιού (1η υπενθύμιση)',
+        'resume-abandoned-2' => 'Συνέχιση καλαθιού (2η υπενθύμιση)',
+        'resume-abandoned-3' => 'Συνέχιση καλαθιού (3η υπενθύμιση)',
+
+        'first_abandonment_subject'  => '🛒 Το καλάθι σας περιμένει',
+        'second_abandonment_subject' => '🛒 Το καλάθι σας περιμένει',
+        'third_abandonment_subject'  => '🚨 Το καλάθι σας περιμένει',
+
+        'abandoned-email-title' => 'Παρατηρήσαμε πως αφήσατε προϊόντα στο καλάθι αγορών σας.',
+        'abandoned-email-help' => 'Αν έχετε απορίες ή χρειάζεστε βοήθεια μπορείτε να επικοινωνήσετε μαζί μας.',
     ]
 ];

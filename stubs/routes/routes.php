@@ -11,9 +11,8 @@ use Eshop\Controllers\Customer\Checkout\CheckoutDetailsController;
 use Eshop\Controllers\Customer\Checkout\CheckoutLoginController;
 use Eshop\Controllers\Customer\Checkout\CheckoutPaymentController;
 use Eshop\Controllers\Customer\Checkout\CheckoutProductController;
+use Eshop\Controllers\Customer\Checkout\OrderAbandonmentController;
 use Eshop\Controllers\Customer\Checkout\OrderTrackingController;
-use Eshop\Controllers\Customer\Feed\FacebookCatalogueController;
-use Eshop\Controllers\Customer\Feed\SkroutzFeedController;
 use Eshop\Controllers\Customer\HomepageController;
 use Eshop\Controllers\Customer\Pages\PageController;
 use Eshop\Controllers\Customer\Product\ProductCollectionController;
@@ -88,6 +87,7 @@ Route::group([
         Route::post('order-tracking/id', [OrderTrackingController::class, 'searchById'])->name('order-tracking.search_by_id');
         Route::get('order-tracking', [OrderTrackingController::class, 'index'])->name('order-tracking.index');
         Route::get('order-tracking/{order}', [OrderTrackingController::class, 'show'])->name('order-tracking.show');
+        Route::get('order-tracking/{cart}/{event}', OrderAbandonmentController::class)->name('order-abandonment.show');
 
         Route::get('search', [ProductSearchController::class, 'index'])->name('products.search.index');
         Route::post('search', [ProductSearchController::class, 'ajax'])->name('products.search.ajax');

@@ -67,6 +67,14 @@ return [
     | Change the abandoned notification option in order to switch on or off
     | the email notifications for abandoned carts.
     |
+    | When the merge_abandoned is enabled and aside the cart from the email
+    | there is another cart that can be fetched by using cookies or by
+    | logging in the user, then these carts will be merged. After the merge,
+    | the delete_abandoned option will specify which one to delete and which
+    | one to keep. If its 'cookie' then the cart in cookie will be deleted,
+    | otherwise if its 'email' then cart that was reminded by email will be
+    | deleted.
+    |
     | You may also specify whether to delete the old carts that cannot be 
     | associated to any user.
     |
@@ -78,6 +86,8 @@ return [
             'first_notification'  => 60, // 1 hour
             'second_notification' => 24 * 60, // 1 day
             'third_notification'  => 3 * 24 * 60, // 3 days
+
+            'merge_abandoned' => 'cookie', // email, null
 
             'delete'        => false,
             'delete_before' => '90 days'

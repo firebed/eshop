@@ -79,9 +79,9 @@ class CartEvent extends Model
         return $this->belongsTo(User::class);
     }
 
-    public static function info($cartId, $action, $details = null): void
+    public static function info($cartId, $action, $details = null): self
     {
-        self::create([
+        return self::create([
             'cart_id' => $cartId,
             'user_id' => auth()->id(),
             'type'    => self::INFO,
@@ -91,9 +91,9 @@ class CartEvent extends Model
         ]);
     }
 
-    public static function success($cartId, $action, $details = null): void
+    public static function success($cartId, $action, $details = null): self
     {
-        self::create([
+        return self::create([
             'cart_id' => $cartId,
             'user_id' => auth()->id(),
             'type'    => self::SUCCESS,
@@ -103,9 +103,9 @@ class CartEvent extends Model
         ]);
     }
 
-    public static function error($cartId, $action, $details = null): void
+    public static function error($cartId, $action, $details = null): self
     {
-        self::create([
+        return self::create([
             'cart_id' => $cartId,
             'user_id' => auth()->id(),
             'type'    => self::ERROR,
@@ -115,9 +115,9 @@ class CartEvent extends Model
         ]);
     }
 
-    public static function warning($cartId, $action, $details = null): void
+    public static function warning($cartId, $action, $details = null): self
     {
-        self::create([
+        return self::create([
             'cart_id' => $cartId,
             'user_id' => auth()->id(),
             'type'    => self::WARNING,
@@ -127,9 +127,9 @@ class CartEvent extends Model
         ]);
     }
 
-    public static function getCheckoutProducts($cartId): void
+    public static function getCheckoutProducts($cartId): self
     {
-        self::firstOrCreate([
+        return self::firstOrCreate([
             'cart_id' => $cartId,
             'type'    => self::INFO,
             'action'  => CartEvent::CHECKOUT_PRODUCTS,
@@ -139,9 +139,9 @@ class CartEvent extends Model
         ]);
     }
 
-    public static function getCheckoutDetails($cartId): void
+    public static function getCheckoutDetails($cartId): self
     {
-        self::firstOrCreate([
+        return self::firstOrCreate([
             'cart_id' => $cartId,
             'type'    => self::INFO,
             'action'  => CartEvent::CHECKOUT_DETAILS,
@@ -151,9 +151,9 @@ class CartEvent extends Model
         ]);
     }
 
-    public static function setCheckoutDetails($cartId, $type = self::SUCCESS, $details = null): void
+    public static function setCheckoutDetails($cartId, $type = self::SUCCESS, $details = null): self
     {
-        self::create([
+        return self::create([
             'cart_id' => $cartId,
             'user_id' => auth()->id(),
             'type'    => $type,
@@ -175,9 +175,9 @@ class CartEvent extends Model
         ]);
     }
 
-    public static function setCheckoutPayment($cartId, $type = self::SUCCESS, $details = null): void
+    public static function setCheckoutPayment($cartId, $type = self::SUCCESS, $details = null): self
     {
-        self::create([
+        return self::create([
             'cart_id' => $cartId,
             'user_id' => auth()->id(),
             'type'    => $type,
@@ -187,9 +187,9 @@ class CartEvent extends Model
         ]);
     }
 
-    public static function paypal($cartId, $type, $details = null)
+    public static function paypal($cartId, $type, $details = null): self
     {
-        self::create([
+        return self::create([
             'cart_id' => $cartId,
             'user_id' => auth()->id(),
             'type'    => $type,
@@ -199,9 +199,9 @@ class CartEvent extends Model
         ]);
     }
 
-    public static function checkoutInsufficientQuantity($cartId): void
+    public static function checkoutInsufficientQuantity($cartId): self
     {
-        self::create([
+        return self::create([
             'cart_id' => $cartId,
             'action'  => CartEvent::CHECKOUT_PRODUCTS,
             'type'    => self::ERROR,
@@ -210,9 +210,9 @@ class CartEvent extends Model
         ]);
     }
 
-    public static function checkoutTotalUpdated($cartId): void
+    public static function checkoutTotalUpdated($cartId): self
     {
-        self::create([
+        return self::create([
             'cart_id' => $cartId,
             'action'  => CartEvent::CHECKOUT_PRODUCTS,
             'type'    => self::WARNING,
@@ -221,9 +221,9 @@ class CartEvent extends Model
         ]);
     }
 
-    public static function orderPaid($cartId, $vendor, $details = null): void
+    public static function orderPaid($cartId, $vendor, $details = null): self
     {
-        self::create([
+        return self::create([
             'cart_id' => $cartId,
             'action'  => CartEvent::ORDER_PAID,
             'type'    => self::INFO,
@@ -233,9 +233,9 @@ class CartEvent extends Model
         ]);
     }
 
-    public static function orderViewed($cartId): void
+    public static function orderViewed($cartId): self
     {
-        self::create([
+        return self::create([
             'cart_id' => $cartId,
             'action'  => CartEvent::ORDER_VIEWED,
             'type'    => self::INFO,
@@ -244,9 +244,21 @@ class CartEvent extends Model
         ]);
     }
 
-    public static function resumeAuth(int $cartId): void
+    public static function resumeAbandoned(int $cartId, string $action): self
     {
-        self::create([
+        return self::firstOrCreate([
+            'cart_id' => $cartId,
+            'action'  => $action,
+        ], [
+            'user_id' => auth()->id(),
+            'type'    => self::INFO,
+            'title'   => __("eshop::cart.abandoned.$action"),
+        ]);
+    }
+
+    public static function resumeAuth(int $cartId): self
+    {
+        return self::create([
             'cart_id' => $cartId,
             'user_id' => auth()->id(),
             'action'  => self::RESUME_AUTH,
@@ -254,9 +266,9 @@ class CartEvent extends Model
         ]);
     }
 
-    public static function resumeCookie(int $cartId): void
+    public static function resumeCookie(int $cartId): self
     {
-        self::create([
+        return self::create([
             'cart_id' => $cartId,
             'user_id' => null,
             'action'  => self::RESUME_COOKIE,
