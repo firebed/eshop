@@ -53,6 +53,23 @@
                     </div>
                 </div>
             @endforeach
+            <div class="d-flex mb-3 align-items-start">
+                <div class="pe-3">
+                    <em class="fas fa-exclamation-circle text-primary fs-5"></em>
+                </div>
+
+                <div class="w-100 d-flex flex-column">
+                    <a href="#" @click.prevent="open = !open" class="d-flex justify-content-between text-dark align-items-baseline text-decoration-none fw-500">
+                        Δημιουργία καλαθιού
+                    </a>
+
+                    <div class="d-flex">
+                        <div>{{ $cart->created_at->isoFormat('lL HH:mm') }}</div>
+                        <div class="mx-2">|</div>
+                        <div>{{ $cart->user?->fullname }}</div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>

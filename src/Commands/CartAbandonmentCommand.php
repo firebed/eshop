@@ -28,6 +28,7 @@ class CartAbandonmentCommand extends Command
             ->whereNotNull('email')
             ->whereNull('submitted_at')
             ->whereBetween('created_at', [$from, $this->now])
+            ->whereHas('products')
             ->with('events', 'shippingMethod', 'paymentMethod', 'products')
             ->get();
 

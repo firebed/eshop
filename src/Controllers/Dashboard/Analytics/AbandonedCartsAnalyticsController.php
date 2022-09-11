@@ -22,7 +22,10 @@ class AbandonedCartsAnalyticsController extends Controller
         $resumed_1 = Cart::whereRelation('events', 'action', CartEvent::RESUME_ABANDONED_1)->count();
         $submitted_1 = Cart::query()
             ->submitted()
-            ->whereRelation('events', 'action', CartEvent::RESUME_ABANDONED_1)
+            ->where(function($q) {
+                $q->whereRelation('events', 'action', CartEvent::ABANDONMENT_EMAIL_1_VIEWED);
+                $q->orWhereRelation('events', 'action', CartEvent::RESUME_ABANDONED_1);
+            })
             ->whereDoesntHave('events', fn($q) => $q->whereIn('action', [CartEvent::RESUME_ABANDONED_2, CartEvent::RESUME_ABANDONED_3]))
             ->pluck('total');
 
@@ -31,7 +34,10 @@ class AbandonedCartsAnalyticsController extends Controller
         $resumed_2 = Cart::whereRelation('events', 'action', CartEvent::RESUME_ABANDONED_2)->count();
         $submitted_2 = Cart::query()
             ->submitted()
-            ->whereRelation('events', 'action', CartEvent::RESUME_ABANDONED_2)
+            ->where(function($q) {
+                $q->whereRelation('events', 'action', CartEvent::ABANDONMENT_EMAIL_2_VIEWED);
+                $q->orWhereRelation('events', 'action', CartEvent::RESUME_ABANDONED_2);
+            })
             ->whereDoesntHave('events', fn($q) => $q->where('action', CartEvent::RESUME_ABANDONED_3))
             ->pluck('total');
 
@@ -40,7 +46,10 @@ class AbandonedCartsAnalyticsController extends Controller
         $resumed_3 = Cart::whereRelation('events', 'action', CartEvent::RESUME_ABANDONED_3)->count();
         $submitted_3 = Cart::query()
             ->submitted()
-            ->whereRelation('events', 'action', CartEvent::RESUME_ABANDONED_3)
+            ->where(function($q) {
+                $q->whereRelation('events', 'action', CartEvent::ABANDONMENT_EMAIL_3_VIEWED);
+                $q->orWhereRelation('events', 'action', CartEvent::RESUME_ABANDONED_3);
+            })
             ->pluck('total');
 
         return $this->view('analytics.abandoned-carts.index', [

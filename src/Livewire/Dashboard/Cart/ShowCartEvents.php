@@ -21,6 +21,7 @@ class ShowCartEvents extends Component
                 ->where('cart_id', $this->cart->id)
                 ->latest()
                 ->with('user')
+                ->orderByDesc('id')
                 ->get();
         }
 
