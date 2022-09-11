@@ -89,6 +89,10 @@ return [
         'abandonment-email-2' => 'Αποστολή 2ης υπενθύμισης καλαθιού',
         'abandonment-email-3' => 'Αποστολή 3ης υπενθύμισης καλαθιού',
 
+        'abandonment-email-1-viewed' => 'Άνοιγμα μηνύματος 1ης υπενθύμισης',
+        'abandonment-email-2-viewed' => 'Άνοιγμα μηνύματος 2ης υπενθύμισης',
+        'abandonment-email-3-viewed' => 'Άνοιγμα μηνύματος 3ης υπενθύμισης',
+        
         'resume-abandoned-1' => 'Συνέχιση καλαθιού (1η υπενθύμιση)',
         'resume-abandoned-2' => 'Συνέχιση καλαθιού (2η υπενθύμιση)',
         'resume-abandoned-3' => 'Συνέχιση καλαθιού (3η υπενθύμιση)',

@@ -40,10 +40,6 @@ class CartAbandonmentCommand extends Command
 
     private function processCart($cart): void
     {
-        if ($cart->email !== 'okan.giritli@gmail.com') {
-            return;
-        }
-
         if ($this->thirdNotificationSent($cart)) {
             // Suppress further notifications
             return;

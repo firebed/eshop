@@ -25,9 +25,8 @@
                             <th>Email</th>
                             <th>Στάλθηκαν</th>
                             <th>Ανοίχτηκαν</th>
-                            <th>Ποσοστό ανοίγματος</th>
+                            <th>Clicked</th>
                             <th>Ολοκληρώθηκαν</th>
-                            <th>Ποσοστό ολοκλήρωσης</th>
                             <th>Έσοδα</th>
                         </tr>
                         </thead>
@@ -35,55 +34,74 @@
                         <tr>
                             <td>1η ειδοποίηση</td>
                             <td>{{ $sent_1 }}</td>
-                            <td>{{ $resumed_1 }}</td>
-                            @if($sent_1 > 0)
-                                <td>{{ format_percent($resumed_1/($sent_1 ?: 1)) }}</td>
-                            @else
-                                <td>{{ format_percent(0) }}</td>
-                            @endif
-                            <td>{{ $submitted_1->count() }}</td>
-                            @if($submitted_1->count() > 0)
-                                <td>{{ format_percent($resumed_1/$submitted_1->count()) }}</td>
-                            @else
-                                <td>{{ format_percent(0) }}</td>
-                            @endif
+                            <td>
+                                {{ $opened_1 }}
+                                ({{ format_percent($opened_1 === 0 ? 0 : $sent_1/$opened_1) }})
+                            </td>
+                            <td>
+                                {{ $resumed_1 }}
+                                ({{ format_percent($resumed_1 === 0 ? 0 : $sent_1/$resumed_1) }})
+                            </td>
+                            <td>
+                                {{ $cnt = $submitted_1->count() }}
+                                ({{ format_percent($cnt === 0 ? 0 : $sent_1/$cnt) }})
+                            </td>
                             <td>{{ format_currency($submitted_1->sum()) }}</td>
                         </tr>
                         <tr>
                             <td>2η ειδοποίηση</td>
                             <td>{{ $sent_2 }}</td>
-                            <td>{{ $resumed_2 }}</td>
-                            @if($sent_2 > 0)
-                                <td>{{ format_percent($resumed_2/($sent_2 ?: 1)) }}</td>
-                            @else
-                                <td>{{ format_percent(0) }}</td>
-                            @endif
-                            <td>{{ $submitted_2->count() }}</td>
-                            @if($submitted_2->count() > 0)
-                                <td>{{ format_percent($resumed_2/$submitted_2->count()) }}</td>
-                            @else
-                                <td>{{ format_percent(0) }}</td>
-                            @endif
+                            <td>
+                                {{ $opened_2 }}
+                                ({{ format_percent($opened_2 === 0 ? 0 : $sent_2/$opened_2) }})
+                            </td>
+                            <td>
+                                {{ $resumed_2 }}
+                                ({{ format_percent($resumed_2 === 0 ? 0 : $sent_2/$resumed_2) }})
+                            </td>
+                            <td>
+                                {{ $cnt = $submitted_2->count() }}
+                                ({{ format_percent($cnt === 0 ? 0 : $sent_2/$cnt) }})
+                            </td>
                             <td>{{ format_currency($submitted_2->sum()) }}</td>
                         </tr>
                         <tr>
                             <td>3η ειδοποίηση</td>
                             <td>{{ $sent_3 }}</td>
-                            <td>{{ $resumed_3 }}</td>
-                            @if($sent_3 > 0)
-                                <td>{{ format_percent($resumed_3/($sent_3 ?: 1)) }}</td>
-                            @else
-                                <td>{{ format_percent(0) }}</td>
-                            @endif
-                            <td>{{ $submitted_3->count() }}</td>
-                            @if($submitted_3->count() > 0)
-                                <td>{{ format_percent($resumed_3/$submitted_3->count()) }}</td>
-                            @else
-                                <td>{{ format_percent(0) }}</td>
-                            @endif
+                            <td>
+                                {{ $opened_3 }}
+                                ({{ format_percent($opened_3 === 0 ? 0 : $sent_3/$opened_3) }})
+                            </td>
+                            <td>
+                                {{ $resumed_3 }}
+                                ({{ format_percent($resumed_3 === 0 ? 0 : $sent_3/$resumed_3) }})
+                            </td>
+                            <td>
+                                {{ $cnt = $submitted_3->count() }}
+                                ({{ format_percent($cnt === 0 ? 0 : $sent_3/$cnt) }})
+                            </td>
                             <td>{{ format_currency($submitted_3->sum()) }}</td>
                         </tr>
                         </tbody>
+                        <tfoot>
+                        <tr>
+                            <td></td>
+                            <td>{{ $sent = $sent_1 + $sent_2 + $sent_3 }}</td>
+                            <td>
+                                {{ $opened = $opened_1 + $opened_2 + $opened_3 }}
+                                ({{ format_percent($opened === 0 ? 0 : $sent/$opened) }})
+                            </td>
+                            <td>
+                                {{ $resumed = $resumed_1 + $resumed_2 + $resumed_3 }}
+                                ({{ format_percent($resumed === 0 ? 0 : $sent/$resumed) }})
+                            </td>
+                            <td>
+                                {{ $submitted = $submitted_1->count() + $submitted_2->count() + $submitted_3->count() }}
+                                ({{ format_percent($submitted === 0 ? 0 : $sent/$submitted) }})
+                            </td>
+                            <td>{{ format_currency($submitted_1->sum() + $submitted_2->sum() + $submitted_3->sum()) }}</td>
+                        </tr>
+                        </tfoot>
                     </x-bs::table>
                 </x-bs::card>
             </div>

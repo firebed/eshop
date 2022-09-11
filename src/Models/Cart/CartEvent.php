@@ -65,6 +65,9 @@ class CartEvent extends Model
     public const ABANDONMENT_EMAIL_1 = 'abandonment-email-1';
     public const ABANDONMENT_EMAIL_2 = 'abandonment-email-2';
     public const ABANDONMENT_EMAIL_3 = 'abandonment-email-3';
+    public const ABANDONMENT_EMAIL_1_VIEWED = 'abandonment-email-1-viewed';
+    public const ABANDONMENT_EMAIL_2_VIEWED = 'abandonment-email-2-viewed';
+    public const ABANDONMENT_EMAIL_3_VIEWED = 'abandonment-email-3-viewed';
     public const RESUME_ABANDONED_1  = 'resume-abandoned-1';
     public const RESUME_ABANDONED_2  = 'resume-abandoned-2';
     public const RESUME_ABANDONED_3  = 'resume-abandoned-3';

@@ -15,4 +15,5 @@
 @include('eshop::customer.emails.order.partials.items')
 
 {{ config('app.name') }}
+<img src="{{ URL::signedRoute('order-abandonment.track', [app()->getLocale(), $cart, $event]) }}" width="1" height="1" alt=""/>
 @endcomponent
