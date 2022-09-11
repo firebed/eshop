@@ -19,7 +19,7 @@ class ShowCartEvents extends Component
         if ($this->show) {
             $events = CartEvent::query()
                 ->where('cart_id', $this->cart->id)
-                ->orderByDesc('id')
+                ->latest()
                 ->with('user')
                 ->get();
         }

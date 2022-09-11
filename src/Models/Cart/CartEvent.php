@@ -259,6 +259,18 @@ class CartEvent extends Model
         ]);
     }
 
+    public static function openEmail(int $cartId, string $action, int|null $user_id): self
+    {
+        return self::firstOrCreate([
+            'cart_id' => $cartId,
+            'action'  => $action,
+        ], [
+            'user_id' => $user_id,
+            'type'    => self::INFO,
+            'title'   => __("eshop::cart.events.$action"),
+        ]);
+    }
+
     public static function resumeAuth(int $cartId): self
     {
         return self::create([

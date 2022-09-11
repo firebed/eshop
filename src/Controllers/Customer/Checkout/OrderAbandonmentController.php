@@ -63,25 +63,25 @@ class OrderAbandonmentController extends Controller
         if (!$request->hasValidSignature()) {
             return $response;
         }
-        
+
         $cart = Cart::find($cartId);
         if ($cart === null) {
             return $response;
         }
-        
+
         $event = $cart->events()->find($eventId);
         if ($event === null) {
             return $response;
         }
 
         if ($event->action === CartEvent::ABANDONMENT_EMAIL_1) {
-            CartEvent::info($cart->id, CartEvent::ABANDONMENT_EMAIL_1_VIEWED);
+            CartEvent::openEmail($cartId, CartEvent::ABANDONMENT_EMAIL_1_VIEWED, $cart->user_id);
         } elseif ($event->action === CartEvent::ABANDONMENT_EMAIL_2) {
-            CartEvent::info($cart->id, CartEvent::ABANDONMENT_EMAIL_2_VIEWED);
+            CartEvent::openEmail($cartId, CartEvent::ABANDONMENT_EMAIL_2_VIEWED, $cart->user_id);
         } else if ($event->action === CartEvent::ABANDONMENT_EMAIL_3) {
-            CartEvent::info($cart->id, CartEvent::ABANDONMENT_EMAIL_3_VIEWED);
+            CartEvent::openEmail($cartId, CartEvent::ABANDONMENT_EMAIL_3_VIEWED, $cart->user_id);
         }
-        
+
         return $response;
     }
 }

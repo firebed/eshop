@@ -36,15 +36,15 @@
                             <td>{{ $sent_1 }}</td>
                             <td>
                                 {{ $opened_1 }}
-                                ({{ format_percent($opened_1 === 0 ? 0 : $sent_1/$opened_1) }})
+                                ({{ format_percent($sent_1 === 0 ? 0 : $opened_1/$sent_1) }})
                             </td>
                             <td>
                                 {{ $resumed_1 }}
-                                ({{ format_percent($resumed_1 === 0 ? 0 : $sent_1/$resumed_1) }})
+                                ({{ format_percent($sent_1 === 0 ? 0 : $resumed_1/$sent_1) }})
                             </td>
                             <td>
                                 {{ $cnt = $submitted_1->count() }}
-                                ({{ format_percent($cnt === 0 ? 0 : $sent_1/$cnt) }})
+                                ({{ format_percent($sent_1 === 0 ? 0 : $cnt/$sent_1) }})
                             </td>
                             <td>{{ format_currency($submitted_1->sum()) }}</td>
                         </tr>
@@ -53,15 +53,15 @@
                             <td>{{ $sent_2 }}</td>
                             <td>
                                 {{ $opened_2 }}
-                                ({{ format_percent($opened_2 === 0 ? 0 : $sent_2/$opened_2) }})
+                                ({{ format_percent($sent_2 === 0 ? 0 : $opened_2/$sent_2) }})
                             </td>
                             <td>
                                 {{ $resumed_2 }}
-                                ({{ format_percent($resumed_2 === 0 ? 0 : $sent_2/$resumed_2) }})
+                                ({{ format_percent($sent_2 === 0 ? 0 : $resumed_2/$sent_2) }})
                             </td>
                             <td>
                                 {{ $cnt = $submitted_2->count() }}
-                                ({{ format_percent($cnt === 0 ? 0 : $sent_2/$cnt) }})
+                                ({{ format_percent($sent_2 === 0 ? 0 : $cnt/$sent_2) }})
                             </td>
                             <td>{{ format_currency($submitted_2->sum()) }}</td>
                         </tr>
@@ -70,15 +70,15 @@
                             <td>{{ $sent_3 }}</td>
                             <td>
                                 {{ $opened_3 }}
-                                ({{ format_percent($opened_3 === 0 ? 0 : $sent_3/$opened_3) }})
+                                ({{ format_percent($sent_3 === 0 ? 0 : $opened_3/$sent_3) }})
                             </td>
                             <td>
                                 {{ $resumed_3 }}
-                                ({{ format_percent($resumed_3 === 0 ? 0 : $sent_3/$resumed_3) }})
+                                ({{ format_percent($sent_3 === 0 ? 0 : $resumed_3/$sent_3) }})
                             </td>
                             <td>
                                 {{ $cnt = $submitted_3->count() }}
-                                ({{ format_percent($cnt === 0 ? 0 : $sent_3/$cnt) }})
+                                ({{ format_percent($sent_3 === 0 ? 0 : $cnt/$sent_3) }})
                             </td>
                             <td>{{ format_currency($submitted_3->sum()) }}</td>
                         </tr>
@@ -89,15 +89,15 @@
                             <td>{{ $sent = $sent_1 + $sent_2 + $sent_3 }}</td>
                             <td>
                                 {{ $opened = $opened_1 + $opened_2 + $opened_3 }}
-                                ({{ format_percent($opened === 0 ? 0 : $sent/$opened) }})
+{{--                                ({{ format_percent($sent === 0 ? 0 : $opened/$sent) }})--}}
                             </td>
                             <td>
                                 {{ $resumed = $resumed_1 + $resumed_2 + $resumed_3 }}
-                                ({{ format_percent($resumed === 0 ? 0 : $sent/$resumed) }})
+{{--                                ({{ format_percent($sent === 0 ? 0 : $resumed/$sent) }})--}}
                             </td>
                             <td>
                                 {{ $submitted = $submitted_1->count() + $submitted_2->count() + $submitted_3->count() }}
-                                ({{ format_percent($submitted === 0 ? 0 : $sent/$submitted) }})
+{{--                                ({{ format_percent($sent === 0 ? 0 : $submitted/$sent) }})--}}
                             </td>
                             <td>{{ format_currency($submitted_1->sum() + $submitted_2->sum() + $submitted_3->sum()) }}</td>
                         </tr>
