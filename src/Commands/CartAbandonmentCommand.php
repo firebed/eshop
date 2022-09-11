@@ -20,17 +20,17 @@ class CartAbandonmentCommand extends Command
     public function handle(): int
     {
         $this->now = now();
-        
-        $lastEmailNotification = eshop('cart.abandoned.third_notification');
+
+        $lastEmailNotification = eshop('cart.abandoned.third_notification') + 1;
         $from = now()->subMinutes($lastEmailNotification)->startOfMinute();
 
         $carts = Cart::query()
             ->whereNotNull('email')
             ->whereNull('submitted_at')
             ->whereBetween('created_at', [$from, $this->now])
-            ->with('events')
+            ->with('events', 'shippingMethod', 'paymentMethod', 'products')
             ->get();
-        
+
         foreach ($carts as $cart) {
             $this->processCart($cart);
         }
@@ -49,10 +49,12 @@ class CartAbandonmentCommand extends Command
             return;
         }
 
+        $diff = $cart->created_at->diffInMinutes($this->now);
+
         if ($this->secondNotificationSent($cart)) {
             $thirdNotificationMinutes = eshop('cart.abandoned.third_notification');
 
-            if ($cart->created_at->addMinutes($thirdNotificationMinutes)->gte($this->now)) {
+            if ($diff >= $thirdNotificationMinutes) {
                 $this->sendThirdNotification($cart);
             }
 
@@ -62,7 +64,7 @@ class CartAbandonmentCommand extends Command
         if ($this->firstNotificationSent($cart)) {
             $secondNotificationMinutes = eshop('cart.abandoned.second_notification');
 
-            if ($cart->created_at->addMinutes($secondNotificationMinutes)->gte($this->now)) {
+            if ($diff >= $secondNotificationMinutes) {
                 $this->sendSecondNotification($cart);
             }
 
@@ -70,7 +72,8 @@ class CartAbandonmentCommand extends Command
         }
 
         $firstNotificationMinutes = eshop('cart.abandoned.first_notification');
-        if ($cart->created_at->addMinutes($firstNotificationMinutes)->gte($this->now)) {
+
+        if ($diff >= $firstNotificationMinutes) {
             $this->sendFirstNotification($cart);
         }
     }

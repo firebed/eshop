@@ -2,6 +2,7 @@
 
 use Eshop\Controllers\Customer\Product\LabelPrintController;
 use Eshop\Controllers\Customer\ThemeController;
+use Eshop\Controllers\Dashboard\Analytics\AbandonedCartsAnalyticsController;
 use Eshop\Controllers\Dashboard\Analytics\AnalyticsController;
 use Eshop\Controllers\Dashboard\Analytics\CourierAnalyticsController;
 use Eshop\Controllers\Dashboard\Analytics\OrderAnalyticsController;
@@ -134,6 +135,9 @@ Route::middleware(['web', 'auth', 'admin'])->group(function () {
 
         Route::get('analytics', AnalyticsController::class)->name('analytics.index');
         Route::get('analytics/orders', OrderAnalyticsController::class)->name('analytics.orders.index');
+        if (eshop('cart.abandoned.notifications')) {
+            Route::get('analytics/abandoned-carts', AbandonedCartsAnalyticsController::class)->name('analytics.abandoned-carts.index');
+        }
         if (eshop('analytics.couriers')) {
             Route::get('analytics/couriers', CourierAnalyticsController::class)->name('analytics.couriers.index');
         }

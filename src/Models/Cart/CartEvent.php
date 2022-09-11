@@ -252,7 +252,7 @@ class CartEvent extends Model
         ], [
             'user_id' => auth()->id(),
             'type'    => self::INFO,
-            'title'   => __("eshop::cart.abandoned.$action"),
+            'title'   => __("eshop::cart.events.$action"),
         ]);
     }
 

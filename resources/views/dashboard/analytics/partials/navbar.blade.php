@@ -22,6 +22,13 @@
                             <a class="nav-link py-lg-0" href="{{ route('analytics.couriers.index') }}">Courier</a>
                         </li>
                     @endif
+                    
+                    @if(eshop('cart.abandoned.notifications', false))
+                        <li class="nav-item">
+                            <a class="nav-link py-lg-0" href="{{ route('analytics.abandoned-carts.index') }}">Εγκατάλειψη καλαθιών</a>
+                        </li>
+                    @endif
+                    
                     <li class="nav-item">
                         <a class="nav-link py-lg-0" href="{{ route('analytics.warehouse.index') }}">Αποθήκη</a>
                     </li>
