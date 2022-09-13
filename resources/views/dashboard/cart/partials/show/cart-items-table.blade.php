@@ -78,6 +78,7 @@
                                         <span class="fw-500 rounded-pill small bg-red-400 px-3"><em class="fas fa-boxes me-2"></em>{{ format_number($product->stock) }}</span>
                                     @endif
                                     <span class="fw-500 rounded-pill small bg-gray-200 px-3"><em class="fas fa-weight-hanging text-secondary me-2"></em>{{ format_weight($product->weight) }}</span>
+                                    <span class="fw-500 rounded-pill small bg-gray-200 px-3">ΦΠΑ {{ format_percent($product->pivot->vat) }}</span>
                                     {{--                                    <small class="text-secondary">{{ $product->pivot->created_at->format('d/m/y H:i:s') }}</small>--}}
                                 </div>
                             </div>
