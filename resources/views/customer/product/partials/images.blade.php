@@ -1,13 +1,19 @@
 <div class="row row-cols-1 row-cols-sm-2 gx-4 gy-1"
      x-data="{ show: true, thumbnails: [] }"
      x-on:variant-selected.window="
-        thumbnails = $event.detail.images
+        if ($event.detail.images) {
+            thumbnails = $event.detail.images
+        }
         $refs.preview.src = $event.detail.image.length > 0 ? $event.detail.image : $refs.preview.src
         $refs.preview.parentElement.href = $event.detail.image
         refreshFsLightbox()
     ">
     <div class="col flex-grow-1 d-grid order-sm-1">
-        @if($product->image && $src = $product->image->url($product->has_watermark ? 'wm' : null))
+        @if($variantImage)
+            <a href="{{ $variantImage }}" class="ratio ratio-4x3" data-fslightbox="images" data-type="image">
+                <img x-ref="preview" src="{{ $variantImage }}" alt="{{ $product->trademark }}" class="start-0 top-0 w-auto h-auto mw-100 mh-100 rounded">
+            </a>
+        @elseif($product->image && $src = $product->image->url($product->has_watermark ? 'wm' : null))
             <a href="{{ $src }}" class="ratio ratio-4x3" data-fslightbox="images" data-type="image">
                 <img x-ref="preview" src="{{ $src }}" alt="{{ $product->trademark }}" class="start-0 top-0 w-auto h-auto mw-100 mh-100 rounded">
             </a>

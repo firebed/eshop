@@ -371,12 +371,12 @@ class Product extends Model implements Auditable
         return $this->getAttribute('visible') && $this->getAttribute('available');
     }
 
-    public function canBeBought(int $quantity = 1): bool
+    public function canBeBought(int $quantity = 1, bool $includeParent = true): bool
     {
-        if (!$this->isAccessible()) {
+        if ($includeParent && !$this->isAccessible()) {
             return false;
         }
-
+        
         return $this->available_gt === null || ($this->stock - $quantity >= $this->available_gt);
     }
 

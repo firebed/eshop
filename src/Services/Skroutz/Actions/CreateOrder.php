@@ -30,12 +30,17 @@ class CreateOrder
 
             $weight += $item['quantity'] * $product->weight;
 
+            $vat = $product->vat;
+            if ($item['island_vat_discount_applied']) {
+                $vat = round($vat * 0.7, 2); // 30% off for islands
+            }
+            
             $products->put($product->id, [
                 'quantity'      => $item['quantity'],
                 'price'         => $item['unit_price'],
                 'compare_price' => $product->compare_price,
                 'discount'      => 0,
-                'vat'           => $product->vat
+                'vat'           => $vat
             ]);
             
             $product->stock -= $item['quantity'];
