@@ -84,6 +84,15 @@
     </li>
 @endcan
 
+@can('Manage blogs')
+    <li class="nav-item">
+        <a href="{{ route('blogs.index') }}" @class([$link, $active => request()->routeIs('blogs.*')])>
+            <em class="fas fa-blog text-yellow-300"></em>
+            <span>Blogs</span>
+        </a>
+    </li>
+@endcan
+
 @can('View notifications')
     <li class="nav-item">
         <a href="{{ route('notifications.index') }}" @class([$link, $active => request()->routeIs('notifications.*')])>

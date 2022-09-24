@@ -5,6 +5,7 @@ use Eshop\Controllers\Customer\Account\ProfileController;
 use Eshop\Controllers\Customer\Account\UserAddressController;
 use Eshop\Controllers\Customer\Account\UserCompanyController;
 use Eshop\Controllers\Customer\Account\UserOrderController;
+use Eshop\Controllers\Customer\Blog\BlogController;
 use Eshop\Controllers\Customer\Category\CategoryController;
 use Eshop\Controllers\Customer\Checkout\CheckoutCompletedController;
 use Eshop\Controllers\Customer\Checkout\CheckoutDetailsController;
@@ -80,6 +81,10 @@ Route::group([
                 Route::get('completed/{cart}', CheckoutCompletedController::class)->name('completed');
             });
         });
+
+        Route::get('blogs/{blog:slug}', [BlogController::class, 'show'])->name('blogs.show');
+        Route::get('blogs/{blog:slug}/click', [BlogController::class, 'click'])->name('blogs.click');
+        Route::get('blogs/{blog:slug}/track', [BlogController::class, 'track'])->name('blogs.track');
 
         Route::get('{page}', PageController::class)->where('page', '(shipping-methods|payment-methods|terms-of-service|data-protection|return-policy|cancellation-policy|secure-transactions)')->name('pages.show');
 

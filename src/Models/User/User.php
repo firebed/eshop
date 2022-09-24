@@ -2,6 +2,7 @@
 
 namespace Eshop\Models\User;
 
+use Eshop\Models\Blog\Blog;
 use Eshop\Models\Cart\Cart;
 use Eshop\Models\Lang\Traits\FullTextIndex;
 use Eshop\Models\Location\Addressable;
@@ -78,6 +79,11 @@ class User extends Authenticatable
     public function companies(): HasMany
     {
         return $this->hasMany(Company::class);
+    }
+
+    public function blogs(): HasMany
+    {
+        return $this->hasMany(Blog::class);
     }
 
     public function searches(): HasMany

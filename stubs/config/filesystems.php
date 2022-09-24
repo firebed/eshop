@@ -62,6 +62,13 @@ return [
             'url'        => env('STORAGE_URL') . '/storage/images/manufacturers',
             'visibility' => 'public',
         ],
+        
+        'blogs' => [
+            'driver'     => 'local',
+            'root'       => public_path('storage/images/blogs'),
+            'url'        => env('STORAGE_URL') . '/storage/images/blogs',
+            'visibility' => 'public',            
+        ],
 
         'slides' => [
             'driver'     => 'local',

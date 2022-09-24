@@ -7,6 +7,7 @@ use Eshop\Controllers\Dashboard\Analytics\AnalyticsController;
 use Eshop\Controllers\Dashboard\Analytics\CourierAnalyticsController;
 use Eshop\Controllers\Dashboard\Analytics\OrderAnalyticsController;
 use Eshop\Controllers\Dashboard\Analytics\WarehouseAnalyticsController;
+use Eshop\Controllers\Dashboard\Blog\BlogController;
 use Eshop\Controllers\Dashboard\Cart\CartController;
 use Eshop\Controllers\Dashboard\Cart\CartInvoiceController;
 use Eshop\Controllers\Dashboard\Cart\CartPrintVoucherController;
@@ -138,6 +139,12 @@ Route::middleware(['web', 'auth', 'admin'])->group(function () {
         if (eshop('cart.abandoned.notifications')) {
             Route::get('analytics/abandoned-carts', AbandonedCartsAnalyticsController::class)->name('analytics.abandoned-carts.index');
         }
+
+        Route::post('blogs/{blog:slug}/publish', [BlogController::class, 'publish'])->name('blogs.publish');
+        Route::post('blogs/{blog:slug}/upload', [BlogController::class, 'upload'])->name('blogs.upload');
+        Route::delete('blogs/{blog:slug}/upload', [BlogController::class, 'deleteUploadedImage'])->name('blogs.delete-upload');
+        Route::resource('blogs', BlogController::class)->except('show');
+
         if (eshop('analytics.couriers')) {
             Route::get('analytics/couriers', CourierAnalyticsController::class)->name('analytics.couriers.index');
         }

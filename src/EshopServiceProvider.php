@@ -12,6 +12,7 @@ use Eshop\Commands\SkroutzFeedCommand;
 use Eshop\Commands\SpeedExPaymentsCommand;
 use Eshop\Middleware\Admin;
 use Eshop\Middleware\Locale;
+use Eshop\Models\Blog\Blog;
 use Eshop\Models\Cart\Cart;
 use Eshop\Models\Cart\CartInvoice;
 use Eshop\Models\Location\CountryPaymentMethod;
@@ -63,7 +64,7 @@ class EshopServiceProvider extends ServiceProvider
         $this->registerPublishing();
 
         $this->app->bindIf('skroutz', CreateSkroutzXML::class);
-        
+
         app('router')->aliasMiddleware('locale', Locale::class);
         app('router')->aliasMiddleware('admin', Admin::class);
 
@@ -178,7 +179,9 @@ class EshopServiceProvider extends ServiceProvider
             //
             'seo'                     => Seo::class,
             //
-            'slide'                   => Slide::class
+            'slide'                   => Slide::class,
+            //
+            'blog'                    => Blog::class
         ]);
     }
 
