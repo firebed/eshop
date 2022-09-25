@@ -12,13 +12,8 @@ use Illuminate\Http\Response;
 class BlogController extends Controller
 {
     public function show(string $locale, Blog $blog): Renderable
-    {
-        $descriptionStart = mb_strpos($blog->content, "<p>");
-        $descriptionEnd = mb_strpos($blog->content, "</p>");
-        $description = mb_substr($blog->content, $descriptionStart, $descriptionEnd);
-        $description = strip_tags($description);
-        
-        return $this->view('blog.show', compact('locale', 'blog', 'description'));
+    {        
+        return $this->view('blog.show', compact('locale', 'blog'));
     }
     
     public function click(Request $request, string $locale, Blog $blog): RedirectResponse

@@ -30,7 +30,7 @@ class BlogRequest extends FormRequest
     {
         $this->merge([
             'user_id'     => auth()->id(),
-            'description' => (string)str($this->input('description'))
+            'description' => (string)str($this->input('description') ?: "")
                 ->replaceMatches("!\s\s+!", " ")
         ]);
     }
