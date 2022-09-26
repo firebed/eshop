@@ -5,7 +5,7 @@
 <h2 style="color: black; font-weight: normal">{!! $blog->description !!}</h2>
 
 @component('mail::button', ['url' => URL::signedRoute('blogs.click', [app()->getLocale(), $blog->slug])])
-    Δείτε όλο το άρθρο
+    Δείτε όλο το άρθρο...
 @endcomponent
 
 {{ config('app.name') }}

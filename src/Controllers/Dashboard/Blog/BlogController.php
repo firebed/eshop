@@ -102,6 +102,7 @@ class BlogController extends Controller
     public function publish(Blog $blog)
     {
         //$emails = Cart::whereNotNull('email')->distinct()->pluck('email');
+        //$emails = collect(['okan.giritli@gmail.com', 'plexoudes@gmail.com', 'gizemonbasi@gmail.com', 'joseph.nteli@gmail.com', 'ebocivil@gmail.com']);
         $emails = collect(['okan.giritli@gmail.com']);
 
         $message = new BlogMail($blog);
@@ -112,13 +113,15 @@ class BlogController extends Controller
             });
         }
 
-        $chunkSize = 500;
-        $emails->chunk($chunkSize)->each(function (Collection $chunk) use ($message) {
+        $bccPerEmail = 500;
+        $emails->chunk($bccPerEmail)->each(function (Collection $chunk) use ($message) {
             Mail::to($chunk->shift())
                 ->when($chunk->isNotEmpty(), fn(PendingMail $mail) => $mail->bcc($chunk->all()))
                 ->send($message);
         });
 
         $blog->increment('sent', $emails->count());
+
+        return "ok";
     }
 }
