@@ -440,7 +440,7 @@ class Product extends Model implements Auditable
     protected function registerImageConversions(): void
     {
         $this->addImageConversion('md', function ($image) {
-            $image->resize(400, 400, function ($constraint) {
+            $image->resize(500, 500, function ($constraint) {
                 $constraint->aspectRatio();
                 $constraint->upsize();
             });
