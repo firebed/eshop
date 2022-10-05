@@ -68,7 +68,19 @@
                 </x-bs::dropdown.item>
 
                 <x-bs::dropdown.divider/>
+                
+                <x-bs::dropdown.item x-on:click.prevent="$wire.toggleRecent([...document.querySelectorAll('#variants-table tbody input:checked')].map(i => i.value), true)">
+                    <em class="fa fa-star text-warning me-2 text-secondary w-1r"></em>
+                    Προσθήκη ετικέτας "Νέο"
+                </x-bs::dropdown.item>
 
+                <x-bs::dropdown.item x-on:click.prevent="$wire.toggleRecent([...document.querySelectorAll('#variants-table tbody input:checked')].map(i => i.value), false)">
+                    <em class="fa fa-star me-2 text-secondary w-1r"></em>
+                    Αφαίρεση ετικέτας "Νεό"
+                </x-bs::dropdown.item>
+
+                <x-bs::dropdown.divider/>
+                
                 <x-bs::dropdown.item data-bs-toggle="modal" data-bs-target="#variant-bulk-edit-modal" data-property="sku" data-title="{{ __('eshop::variant.bulk-actions.sku') }}">
                     <em class="fa fa-box-open me-2 text-secondary w-1r"></em>
                     {{ __('eshop::variant.bulk-actions.sku') }}
