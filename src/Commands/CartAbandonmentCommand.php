@@ -29,7 +29,7 @@ class CartAbandonmentCommand extends Command
             ->whereNull('submitted_at')
             ->whereBetween('created_at', [$from, $this->now])
             ->whereHas('products')
-            ->with('events', 'shippingMethod', 'paymentMethod', 'products')
+            ->with('events', 'shippingMethod', 'paymentMethod', 'shippingAddress.country', 'products')
             ->get();
 
         foreach ($carts as $cart) {
