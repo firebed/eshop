@@ -66,7 +66,24 @@ class VariantsTable extends Component
             $this->showSuccessToast("Οι αλλαγές αποθηκεύτηκαν!");
         });
     }
+    
+    public function toggleRecent(array $ids, bool $recent, AuditModel $audit): void
+    {
+        DB::transaction(function () use ($ids, $recent, $audit) {
+            Product::whereKey($ids)->update([
+                'recent' => $recent
+            ]);
 
+            $variants = $this->variants;
+            $variants->load('manufacturer', 'translations', 'seos', 'unit', 'parent.translations');
+            foreach ($this->variants as $variant) {
+                $audit->handle($variant);
+            }
+
+            $this->showSuccessToast("Οι αλλαγές αποθηκεύτηκαν!");
+        });
+    }
+    
     public function addWatermark(array $ids, InsertWatermark $watermark): void
     {
         if (empty($ids)) {
