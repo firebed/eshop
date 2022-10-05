@@ -20,6 +20,13 @@ class OrderAbandonedNotification extends Notification
     {
         $this->subject = $subject;
         $this->cart = $cart;
+        
+        $address = $this->cart->shippingAddress;
+        if (isset($address->country->code)) {
+            $locale = in_array($address->country->code, ['GR', 'CY']) ? 'el' : 'en';
+            app()->setLocale($locale);
+        }
+        
         $this->event = $event;
     }
 

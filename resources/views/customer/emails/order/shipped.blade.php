@@ -6,6 +6,12 @@
 
 <div style="font-size: 1.25rem; margin-bottom: 1rem">{{ __("Your order has been shipped!") }}</div>
 
+@if(filled($template))
+<div style="margin-bottom: 1rem">
+    {!! $template !!}
+</div>
+@endif
+
 @if(filled($notesToCustomer))
 <div style="margin-bottom: 1rem">{{ $notesToCustomer }}</div>
 @endif
