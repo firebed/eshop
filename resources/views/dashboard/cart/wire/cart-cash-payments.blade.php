@@ -25,7 +25,7 @@
                         </div>
                     @elseif($errors->isEmpty())
                         <div class="fw-bold text-success text-center border border-success rounded p-2">
-                            {{ sprintf("Βρέθηκαν %d voucher σε %d αρχεία", $total_vouchers, $total_files) }}
+                            {{ sprintf("Βρέθηκαν %d/%d voucher σε %d αρχεία", $carts->count(), $total_vouchers, $total_files) }}
                         </div>
                     @endif
                 </div>
