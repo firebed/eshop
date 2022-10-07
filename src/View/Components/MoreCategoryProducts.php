@@ -23,7 +23,7 @@ class MoreCategoryProducts extends Component
             ->pluck('c');
 
         $this->products = Product::whereKey($productIds)
-            ->with('category.translation', 'parent.translation', 'image', 'translation', 'options.translation')
+            ->with('category.translation', 'parent.translation', 'image', 'translation', 'variants')
             ->get();
 
         //(new \Illuminate\Database\Eloquent\Collection($this->products->pluck('options')->collapse()->pluck('pivot')))->load('translations');

@@ -59,7 +59,9 @@
                             @else
                                 <div class="col-12 mb-3 hstack gap-3">
                                     <div class="h3 mb-0">{{ format_currency($product->netValue) }}</div>
-                                    @if($product->discount > 0) <s class="text-secondary">{{ format_currency($product->price) }}</s>@endif
+                                    @if($product->discount > 0)
+                                        <s class="text-secondary">{{ format_currency($product->price) }}</s>
+                                    @endif
                                 </div>
 
                                 <button class="btn btn-danger" disabled>{{ __("Out of stock") }}</button>
@@ -75,7 +77,7 @@
             </div>
         </div>
     </main>
-    
+
     @if($product->has_variants && $product->variants_display === 'grid')
         <section class="container-fluid bg-light py-3">
             <div id="product-variants" class="container-xxl">
@@ -89,10 +91,12 @@
             </div>
         </section>
     @endif
-    
+
     @if(eshop('product.suggestions'))
         <section class="container-fluid bg-white py-4">
-            <x-more-category-products :product="$product"/>
+            <div class="container-xxl">
+                <x-more-category-products :product="$product"/>
+            </div>
         </section>
     @endif
 @endsection
