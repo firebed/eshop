@@ -147,6 +147,7 @@ return [
 
     'product'         => [
         'show_manufacturer' => true,
+        'suggestions'       => 'similar',
         'image'             => [
             'cover'         => false,
             'upload_width'  => 3000,

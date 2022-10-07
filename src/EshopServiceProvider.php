@@ -6,6 +6,7 @@ use Eshop\Commands\AcsPaymentsCommand;
 use Eshop\Commands\CartAbandonmentCommand;
 use Eshop\Commands\CartCleanup;
 use Eshop\Commands\InstallCommand;
+use Eshop\Commands\ProductAggregationsCommand;
 use Eshop\Commands\ScoutIndexCommand;
 use Eshop\Commands\SitemapCommand;
 use Eshop\Commands\SkroutzFeedCommand;
@@ -35,6 +36,8 @@ use Eshop\Providers\LivewireServiceProvider;
 use Eshop\Services\Skroutz\Actions\CreateSkroutzXML;
 use Eshop\View\Components\CategoryBreadcrumb;
 use Eshop\View\Components\LabelPrinterDialog;
+use Eshop\View\Components\MoreCategoryProducts;
+use Eshop\View\Components\MoreProducts;
 use Eshop\View\Components\NewArrivals;
 use Eshop\View\Components\Sales;
 use Eshop\View\Components\TrendingProducts;
@@ -109,6 +112,8 @@ class EshopServiceProvider extends ServiceProvider
         Blade::component(NewArrivals::class, 'new-arrivals');
         Blade::component(TrendingProducts::class, 'trending-products');
         Blade::component(LabelPrinterDialog::class, 'label-printer-dialog');
+        Blade::component(MoreProducts::class, 'more-products');
+        Blade::component(MoreCategoryProducts::class, 'more-category-products');
     }
 
     private function registerRoutes(): void
@@ -128,7 +133,8 @@ class EshopServiceProvider extends ServiceProvider
                 AcsPaymentsCommand::class,
                 SpeedExPaymentsCommand::class,
                 CartCleanup::class,
-                CartAbandonmentCommand::class
+                CartAbandonmentCommand::class,
+                ProductAggregationsCommand::class,
             ]);
         }
     }

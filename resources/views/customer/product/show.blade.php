@@ -89,4 +89,10 @@
             </div>
         </section>
     @endif
+    
+    @if(eshop('product.suggestions'))
+        <section class="container-fluid bg-white py-4">
+            <x-more-category-products :product="$product"/>
+        </section>
+    @endif
 @endsection

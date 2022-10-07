@@ -84,7 +84,9 @@
                             @else
                                 <div class="col-12 mb-3 hstack gap-3">
                                     <div class="h3 mb-0">{{ format_currency($product->netValue) }}</div>
-                                    @if($product->discount > 0) <s class="text-secondary">{{ format_currency($product->price) }}</s>@endif
+                                    @if($product->discount > 0)
+                                        <s class="text-secondary">{{ format_currency($product->price) }}</s>
+                                    @endif
                                 </div>
 
                                 <button class="btn btn-danger" disabled>{{ __("Out of stock") }}</button>
@@ -94,5 +96,11 @@
                 </div>
             </div>
         </section>
+
+        @if(eshop('product.suggestions'))
+            <section class="container-xxl py-4">
+                <x-more-products :product="$product"/>
+            </section>
+        @endif
     </main>
 @endsection
