@@ -46,6 +46,7 @@ class ProductRequest extends FormRequest
             # Accessibility
             'visible'             => ['required', 'boolean'],
             'recent'              => ['required', 'boolean'],
+            'promote'             => ['required', 'boolean'],
             'available'           => ['required', 'boolean'],
             'available_gt'        => ['nullable', 'integer'],
             'display_stock'       => ['required', 'boolean'],
@@ -100,6 +101,7 @@ class ProductRequest extends FormRequest
             'is_physical'      => $this->boolean('is_physical'),
             'visible'          => $this->boolean('visible'),
             'recent'           => $this->boolean('recent'),
+            'promote'          => $this->boolean('promote'),
             'available'        => $this->boolean('available'),
             'display_stock'    => $this->boolean('display_stock'),
             'preview_variants' => $this->boolean('preview_variants'),

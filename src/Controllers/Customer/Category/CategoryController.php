@@ -65,14 +65,12 @@ class CategoryController extends Controller
                 }])
                 ->get();
         }
-
-        $order = 'name';
-        $direction = 'asc';
+        
+        $orderBy = 'promote DESC, name';
         if ($request->query('sort') === 'price') {
-            $order = 'price';
+            $orderBy = 'price';
         } elseif ($request->query('sort') === 'price-desc') {
-            $order = 'price';
-            $direction = 'desc';
+            $orderBy = 'price DESC';
         }
 
         $products = $category
@@ -88,7 +86,7 @@ class CategoryController extends Controller
             ->with(['variants' => fn($q) => $q->visible()->with('translations', 'parent', 'variantOptions.translations', 'image')])
             ->select('products.*')
             ->joinTranslation()
-            ->orderBy($order, $direction)
+            ->orderByRaw($orderBy)
             ->paginate(48);
 
         $priceRanges = $this->groupPriceRanges($category, $filters);

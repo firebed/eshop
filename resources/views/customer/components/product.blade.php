@@ -9,11 +9,11 @@
 
             <h2 class="fs-6 fw-500 mb-4"><a class="text-dark text-hover-underline" href="{{ productRoute($product) }}">{{ $product->name }}</a></h2>
 
-{{--            @if($product->relationLoaded('choices') && $product->choices->isNotEmpty())--}}
-{{--                <div class="text-secondary small mt-2 mb-3">--}}
-{{--                    {{ $product->choices->map(fn($choice) => ($choice->property->name . ': ' . $choice->name))->join(', ') }}--}}
-{{--                </div>--}}
-{{--            @endif--}}
+            {{--            @if($product->relationLoaded('choices') && $product->choices->isNotEmpty())--}}
+            {{--                <div class="text-secondary small mt-2 mb-3">--}}
+            {{--                    {{ $product->choices->map(fn($choice) => ($choice->property->name . ': ' . $choice->name))->join(', ') }}--}}
+            {{--                </div>--}}
+            {{--            @endif--}}
 
             <div class="d-flex align-items-baseline mt-auto" style="font-size: 1.1rem">
                 @if($product->has_variants && $product->relationLoaded('variants'))
@@ -54,6 +54,10 @@
                         {{ format_percent(-$product->discount) }}
                     @endif
                 </div>
+            @endif
+
+            @if($product->promote)
+                <em class="position-absolute fas fa-heart text-red-500 fa-2x" style="top: {{ $product->recent ? '3.5rem' : '1rem' }}; left: 0.7rem" title="{{ __("Popular") }}"></em>
             @endif
 
             @if($product->has_variants && $product->variants->count() > 0)

@@ -97,7 +97,7 @@ class Product extends Model implements Auditable
 
     protected $fillable = [
         'name', 'description', 'category_id', 'manufacturer_id', 'unit_id', 'is_physical', 'vat', 'weight',
-        'price', 'compare_price', 'discount', 'stock', 'visible', 'recent', 'display_stock', 'display_stock_lt', 'available', 'available_gt',
+        'price', 'compare_price', 'discount', 'stock', 'visible', 'recent', 'promote', 'display_stock', 'display_stock_lt', 'available', 'available_gt',
         'has_watermark', 'location', 'sku', 'mpn', 'barcode', 'slug', 'has_variants', 'variants_display', 'preview_variants', 'variants_prefix'
     ];
 
@@ -118,6 +118,7 @@ class Product extends Model implements Auditable
         'weight'           => 'int',
         'display_stock'    => 'bool',
         'preview_variants' => 'bool',
+        'promote'          => 'bool'
     ];
 
     /*
@@ -376,7 +377,7 @@ class Product extends Model implements Auditable
         if ($includeParent && !$this->isAccessible()) {
             return false;
         }
-        
+
         return $this->available_gt === null || ($this->stock - $quantity >= $this->available_gt);
     }
 
