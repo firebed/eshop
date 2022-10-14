@@ -33,6 +33,7 @@ use Eshop\Livewire\Dashboard\Invoice\InvoiceRows;
 use Eshop\Livewire\Dashboard\Invoice\InvoiceSearchProduct;
 use Eshop\Livewire\Dashboard\Invoice\ShowClients;
 use Eshop\Livewire\Dashboard\Label\LabelsTable;
+use Eshop\Livewire\Dashboard\Notification\NotificationsTable;
 use Eshop\Livewire\Dashboard\Pos\PosInvoice;
 use Eshop\Livewire\Dashboard\Pos\PosModels;
 use Eshop\Livewire\Dashboard\Pos\PosProducts;
@@ -128,6 +129,9 @@ class LivewireServiceProvider extends ServiceProvider
 
         // Label
         Livewire::component('dashboard.label.labels-table', LabelsTable::class);
+
+        // Notifications
+        Livewire::component('dashboard.notifications-table', NotificationsTable::class);
 
         // Slides
         Livewire::component('dashboard.slide.show-slides', ShowSlides::class);

@@ -1,8 +1,10 @@
 <?php
 
-namespace Eshop\Imports;
+namespace Eshop\Services\CourierCenter\Imports;
 
-class CourierCenterImport extends VoucherImport
+use Eshop\Services\Concerns\PayoutsImport;
+
+class CourierCenterPayoutsImport extends PayoutsImport
 {
     protected function voucherColumn(): int
     {

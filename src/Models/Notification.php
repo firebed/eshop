@@ -23,5 +23,5 @@ class Notification extends Model
     
     protected $fillable = ['text', 'metadata', 'viewed_at', 'created_at'];
     
-    protected $casts = ['metadata' => 'json'];
+    protected $casts = ['metadata' => 'array'];
 }

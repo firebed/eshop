@@ -9,8 +9,6 @@ class NotificationController extends Controller
 {
     public function __invoke(): Renderable
     {
-        $notifications = Notification::latest()->paginate(30);
-
-        return $this->view('notification.index', compact('notifications'));
+        return $this->view('notification.index');
     }
 }

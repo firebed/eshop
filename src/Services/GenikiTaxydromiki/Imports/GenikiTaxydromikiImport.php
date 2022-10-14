@@ -1,10 +1,11 @@
 <?php
 
-namespace Eshop\Imports;
+namespace Eshop\Services\GenikiTaxydromiki\Imports;
 
+use Eshop\Services\Concerns\PayoutsImport;
 use Maatwebsite\Excel\Concerns\WithCustomCsvSettings;
 
-class GenikiTaxydromikiImport extends VoucherImport implements WithCustomCsvSettings
+class GenikiTaxydromikiImport extends PayoutsImport implements WithCustomCsvSettings
 {
     protected function voucherColumn(): int
     {

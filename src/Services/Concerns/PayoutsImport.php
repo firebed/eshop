@@ -1,6 +1,6 @@
 <?php
 
-namespace Eshop\Imports;
+namespace Eshop\Services\Concerns;
 
 use Maatwebsite\Excel\Concerns\WithBatchInserts;
 use Maatwebsite\Excel\Concerns\WithChunkReading;
@@ -8,7 +8,7 @@ use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Events\BeforeImport;
 
-abstract class VoucherImport implements WithMapping, WithBatchInserts, WithChunkReading, WithEvents
+abstract class PayoutsImport implements WithMapping, WithBatchInserts, WithChunkReading, WithEvents
 {
     public function batchSize(): int
     {

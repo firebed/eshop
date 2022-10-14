@@ -2,6 +2,7 @@
 
 namespace Eshop\Services\Skroutz;
 
+use Eshop\Services\Payout\HasPayouts;
 use Eshop\Services\Skroutz\Actions\AcceptOrder;
 use Eshop\Services\Skroutz\Actions\CreateOrder;
 use Eshop\Services\Skroutz\Actions\RejectOrder;
@@ -12,6 +13,10 @@ use Eshop\Services\Skroutz\Exceptions\SkroutzException;
 
 class Skroutz
 {
+    use HasPayouts;
+    
+    private const PAYOUTS_ADDRESS = 'noreply@skroutz.gr';
+    
     public static function handleWebhookRequest($event): void
     {
         match ($event['event_type']) {

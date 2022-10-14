@@ -3,9 +3,11 @@
 namespace Eshop\Providers;
 
 use Eshop\Events\CartStatusChanged;
+use Eshop\Events\PayoutReceived;
 use Eshop\Listeners\CreateLoginRecord;
 use Eshop\Listeners\LogCartEvent;
 use Eshop\Listeners\MergeCustomerCarts;
+use Eshop\Listeners\ProcessPayouts;
 use Eshop\Listeners\SendCartStatusChangedNotification;
 use Illuminate\Auth\Events\Login;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -22,5 +24,9 @@ class EventServiceProvider extends ServiceProvider
             MergeCustomerCarts::class,
             CreateLoginRecord::class
         ],
+        
+        PayoutReceived::class => [
+            ProcessPayouts::class
+        ]
     ];
 }

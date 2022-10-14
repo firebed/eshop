@@ -5,6 +5,7 @@ namespace Eshop;
 use Eshop\Commands\AcsPaymentsCommand;
 use Eshop\Commands\CartAbandonmentCommand;
 use Eshop\Commands\CartCleanup;
+use Eshop\Commands\ImapCommand;
 use Eshop\Commands\InstallCommand;
 use Eshop\Commands\ProductAggregationsCommand;
 use Eshop\Commands\ScoutIndexCommand;
@@ -33,6 +34,7 @@ use Eshop\Providers\CartServiceProvider;
 use Eshop\Providers\EventServiceProvider;
 use Eshop\Providers\FortifyServiceProvider;
 use Eshop\Providers\LivewireServiceProvider;
+use Eshop\Services\CourierCenter\Commands\CourierCenterPayoutsCommand;
 use Eshop\Services\Skroutz\Actions\CreateSkroutzXML;
 use Eshop\View\Components\CategoryBreadcrumb;
 use Eshop\View\Components\LabelPrinterDialog;
@@ -135,6 +137,7 @@ class EshopServiceProvider extends ServiceProvider
                 CartCleanup::class,
                 CartAbandonmentCommand::class,
                 ProductAggregationsCommand::class,
+                CourierCenterPayoutsCommand::class,
             ]);
         }
     }
