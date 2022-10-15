@@ -3,20 +3,24 @@
 namespace Eshop\Services\Skroutz;
 
 use Eshop\Services\Payout\HasPayouts;
+use Eshop\Services\Payout\PayoutReader;
 use Eshop\Services\Skroutz\Actions\AcceptOrder;
 use Eshop\Services\Skroutz\Actions\CreateOrder;
+use Eshop\Services\Skroutz\Actions\ProcessPayoutAttachment;
 use Eshop\Services\Skroutz\Actions\RejectOrder;
 use Eshop\Services\Skroutz\Actions\RetrieveOrder;
 use Eshop\Services\Skroutz\Actions\UpdateOrder;
 use Eshop\Services\Skroutz\Actions\UploadInvoice;
 use Eshop\Services\Skroutz\Exceptions\SkroutzException;
+use Illuminate\Support\Collection;
+use Webklex\PHPIMAP\Attachment;
 
-class Skroutz
+class Skroutz implements PayoutReader
 {
     use HasPayouts;
-    
+
     private const PAYOUTS_ADDRESS = 'noreply@skroutz.gr';
-    
+
     public static function handleWebhookRequest($event): void
     {
         match ($event['event_type']) {
@@ -61,5 +65,10 @@ class Skroutz
     public static function uploadInvoice(string $skroutzOrderId, string $invoice): bool
     {
         return (new UploadInvoice())->handle($skroutzOrderId, $invoice);
+    }
+
+    public function resolvePayoutsAttachment(Attachment $attachment): Collection
+    {
+        return (new ProcessPayoutAttachment())->handle($attachment);
     }
 }

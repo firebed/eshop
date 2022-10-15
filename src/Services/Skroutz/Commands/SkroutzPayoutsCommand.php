@@ -1,20 +1,24 @@
 <?php
 
-namespace Eshop\Services\CourierCenter\Commands;
+namespace Eshop\Services\Skroutz\Commands;
 
-use Eshop\Services\CourierCenter\CourierCenterService;
-use Eshop\Services\CourierCenter\Events\CourierCenterPayoutReceived;
 use Eshop\Services\Payout\PayoutsCommand;
+use Eshop\Services\Skroutz\Events\SkroutzPayoutReceived;
+use Eshop\Services\Skroutz\Skroutz;
+use Exception;
 use Illuminate\Support\Carbon;
 use Throwable;
 
-class CourierCenterPayoutsCommand extends PayoutsCommand
+class SkroutzPayoutsCommand extends PayoutsCommand
 {
-    protected $signature = 'payouts:courier-center {--on=}';
+    protected $signature = 'payouts:skroutz {--on=}';
 
     protected $description = 'Reads the mail inbox for a given date and address';
 
-    public function handle(CourierCenterService $service): int
+    /**
+     * @throws Exception
+     */
+    public function handle(Skroutz $service): int
     {
         $on = filled($this->option('on')) ? Carbon::parse($this->option('on')) : null;
 
@@ -32,9 +36,9 @@ class CourierCenterPayoutsCommand extends PayoutsCommand
 
                 if ($payouts->filter()->isNotEmpty()) {
                     foreach ($payouts as $payout) {
-                        event(new CourierCenterPayoutReceived($payout, $message['date']));
+                        event(new SkroutzPayoutReceived($payout, $message['date']));
 
-                        $this->info($payout->count() . " vouchers of total: " . format_currency($payout->sum()));
+                        $this->info($payout->count() . " orders of total: " . format_currency($payout->sum('payoutTotal')));
                     }
                 }
             }

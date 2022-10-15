@@ -82,28 +82,7 @@ class Payout
      */
     public function previewMessages(Carbon $on = null, Carbon $since = null): Collection
     {
-        try {
-            $query = $this->imap->withoutBody()->whereFrom($this->payoutAddress);
-
-            if (filled($on)) {
-                $query->whereOn($on);
-            }
-
-            if (filled($since)) {
-                $query->whereSince($since);
-            }
-
-            return $query->get()->mapWithKeys(fn(Message $message) => [
-                    $message->getMessageId()->first() => [
-                        'subject'     => $message->getSubject()->first(),
-                        'fromName'    => $message->getFrom()->first()->personal,
-                        'fromAddress' => $message->getFrom()->first()->mail,
-                        'date'        => $message->getDate()->first()
-                    ]
-                ]);
-        } catch (Throwable $e) {
-            throw new ImapException($e->getMessage());
-        }
+        return $this->imap->preview($on, $since, $this->payoutAddress);
     }
 
     private function parsePayoutMessages(MessageCollection $messages): Collection
@@ -123,7 +102,7 @@ class Payout
 
         foreach ($message->getAttachments() as $attachment) {
             $results = $this->reader->resolvePayoutsAttachment($attachment);
-            
+
             if ($results->isNotEmpty()) {
                 $payouts = $payouts->push($this->reader->resolvePayoutsAttachment($attachment));
             }

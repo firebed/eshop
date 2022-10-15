@@ -108,11 +108,6 @@ class CashPayments extends Component
         ]);
     }
 
-    public function equalFloats($a, $b): bool
-    {
-        return abs($a - $b) < PHP_FLOAT_EPSILON;
-    }
-
     public function save(): void
     {
         if (empty($this->valid_cart_ids)) {

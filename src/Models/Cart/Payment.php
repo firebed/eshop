@@ -23,7 +23,7 @@ class Payment extends Model
 
     public const UPDATED_AT = null;
 
-    protected $fillable = ['metadata'];
+    protected $fillable = ['metadata', 'created_at'];
 
     protected $casts = [
         'metadata' => 'json'

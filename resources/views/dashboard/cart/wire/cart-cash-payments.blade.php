@@ -55,20 +55,20 @@
                                 <td class="text-end">
                                     @if($cart === null)
                                         {{ format_currency($total) }}
-                                    @elseif($this->equalFloats($cart->total, $total))
+                                    @elseif(floats_equal($cart->total, $total))
                                         {{ format_currency($total) }}
                                     @else
                                         {{ format_currency($total) }} <span class="fw-bold text-danger">({{ format_currency($cart->total) }})</span>
                                     @endif
                                 </td>
 
-                                @if($cart !== null && $cart->payment === null && $this->equalFloats($cart->total, $total))
+                                @if($cart !== null && $cart->payment === null && floats_equal($cart->total, $total))
                                     <td class="text-end"><em class="fas fa-arrow-right text-secondary" title="Προς απόδοση"></em></td>
-                                @elseif($cart !== null && $cart->payment !== null && $this->equalFloats($cart->total, $total))
+                                @elseif($cart !== null && $cart->payment !== null && floats_equal($cart->total, $total))
                                     <td class="text-end"><em class="fas fa-check-circle text-success" title="Ήδη πληρωμένο"></em></td>
                                 @elseif($cart === null)
                                     <td class="text-end"><em class="fas fa-times-circle text-danger" title="Δεν βρέθηκε στο eshop"></em></td>
-                                @elseif(!$this->equalFloats($cart->total ?? 0, $total))
+                                @elseif(!floats_equal($cart->total ?? 0, $total))
                                     <td class="text-end"><em class="fas fa-times-circle text-danger" title="Τα σύνολα δεν ταιριάζουν"></em></td>
                                 @else
                                     <td class="text-end">-</td>

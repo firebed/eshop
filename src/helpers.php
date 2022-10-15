@@ -132,7 +132,7 @@ if (!function_exists('categoryRoute')) {
         if (!empty($max_price)) {
             $params['max_price'] = $max_price;
         }
-        
+
         if (!empty($sort)) {
             $params['sort'] = $sort;
         }
@@ -193,5 +193,23 @@ if (!function_exists('api_key')) {
     function api_key($key, $default = null): ?string
     {
         return VarCache::get($key, $default);
+    }
+}
+
+if (!function_exists('floats_equal')) {
+    function floats_equal(float $a, float $b): bool
+    {
+        return abs($a - $b) < PHP_FLOAT_EPSILON;
+    }
+}
+
+if (!function_exists('parseFloat')) {
+    function parseFloat(string $float, string $decimalCharacter = '.'): float
+    {
+        if ($decimalCharacter === ',') {
+            return str_replace(['.', ','], ['', '.'], $float) * 1.0;
+        }
+
+        return str_replace(',', '', $float) * 1.0;
     }
 }

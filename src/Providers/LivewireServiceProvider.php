@@ -34,6 +34,7 @@ use Eshop\Livewire\Dashboard\Invoice\InvoiceSearchProduct;
 use Eshop\Livewire\Dashboard\Invoice\ShowClients;
 use Eshop\Livewire\Dashboard\Label\LabelsTable;
 use Eshop\Livewire\Dashboard\Notification\NotificationsTable;
+use Eshop\Livewire\Dashboard\Notification\UnreadNotificationCounter;
 use Eshop\Livewire\Dashboard\Pos\PosInvoice;
 use Eshop\Livewire\Dashboard\Pos\PosModels;
 use Eshop\Livewire\Dashboard\Pos\PosProducts;
@@ -132,6 +133,7 @@ class LivewireServiceProvider extends ServiceProvider
 
         // Notifications
         Livewire::component('dashboard.notifications-table', NotificationsTable::class);
+        Livewire::component('dashboard.notifications-counter', UnreadNotificationCounter::class);
 
         // Slides
         Livewire::component('dashboard.slide.show-slides', ShowSlides::class);
