@@ -68,7 +68,9 @@ class CheckoutPaymentController extends Controller
         DB::beginTransaction();
         (new SubmitOrder())->handle($order, auth()->user(), ip: $request->ip());
         if (!$order->paymentMethod->isPayOnDelivery()) {
-            $order->payment()->save(new Payment());
+            $order->payment()->save(new Payment([
+                'total' => $order->total
+            ]));
         }
         DB::commit();
 

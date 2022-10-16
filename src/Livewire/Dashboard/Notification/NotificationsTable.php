@@ -40,21 +40,23 @@ class NotificationsTable extends Component
         if ($this->activeNotification !== null && filled($this->activeNotification->metadata)) {
             $metadata = $this->activeNotification->metadata;
 
-            $keyName = $metadata['keyName'];
-            $payouts = collect($metadata['payouts']);
-            
-            $carts = Cart::select('id', 'total', $keyName)->whereIn($keyName, $payouts->pluck('reference'))->get()->keyBy($keyName);
+            if (array_key_exists('keyName', $metadata)) {
+                $keyName = $metadata['keyName'];
+                $payouts = collect($metadata['payouts']);
 
-            foreach ($payouts as $key => $payout) {
-                $cart = $carts->get($payout['reference']);
+                $carts = Cart::select('id', 'total', $keyName)->whereIn($keyName, $payouts->pluck('reference'))->get()->keyBy($keyName);
 
-                if ($cart === null) {
-                    $payout['error'] = "Δεν βρέθηκε αντίστοιχη παραγγελία στο eshop.";
-                } elseif (!floats_equal($cart->total, $payout['total'] + $payout['fees'])) {
-                    $payout['error'] ??= "Το σύνολο πληρωμής δεν είναι ίδιο με το σύνολο της παραγγελίας.";
+                foreach ($payouts as $key => $payout) {
+                    $cart = $carts->get($payout['reference']);
+
+                    if ($cart === null) {
+                        $payout['error'] = "Δεν βρέθηκε αντίστοιχη παραγγελία στο eshop.";
+                    } elseif (!floats_equal($cart->total, $payout['total'] + $payout['fees'])) {
+                        $payout['error'] ??= "Το σύνολο πληρωμής δεν είναι ίδιο με το σύνολο της παραγγελίας.";
+                    }
+
+                    $payouts->put($key, $payout);
                 }
-
-                $payouts->put($key, $payout);
             }
         }
 

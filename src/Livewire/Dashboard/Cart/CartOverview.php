@@ -42,7 +42,9 @@ class CartOverview extends Component
 
     public function markAsPaid(): void
     {
-        $this->cart->payment()->updateOrCreate([]);
+        $this->cart->payment()->updateOrCreate([
+            'total' => $this->cart->total
+        ]);
     }
 
     public function markAsUnpaid(): void
