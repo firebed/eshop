@@ -1,6 +1,6 @@
 <?php
 
-namespace Eshop\Actions\SpeedEx;
+namespace Eshop\Services\SpeedEx\Http;
 
 use Error;
 use SoapClient;

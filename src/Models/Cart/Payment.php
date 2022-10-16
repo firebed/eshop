@@ -13,6 +13,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  *
  * @property integer $id
  * @property integer $cart_id
+ * @property integer $payout_id
+ * @property float   $total
+ * @property float   $fees
  * @property array   $metadata
  *
  * @mixin Builder
@@ -23,14 +26,21 @@ class Payment extends Model
 
     public const UPDATED_AT = null;
 
-    protected $fillable = ['metadata', 'created_at'];
+    protected $fillable = ['payout_id', 'total', 'fees', 'metadata', 'created_at'];
 
     protected $casts = [
-        'metadata' => 'json'
+        'metadata' => 'json',
+        'total'    => 'float',
+        'fees'     => 'float'
     ];
 
     public function cart(): BelongsTo
     {
         return $this->belongsTo(Cart::class);
+    }
+
+    public function payout(): BelongsTo
+    {
+        return $this->belongsTo(Payout::class);
     }
 }

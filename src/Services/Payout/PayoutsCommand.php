@@ -3,7 +3,6 @@
 namespace Eshop\Services\Payout;
 
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Cache;
 
 abstract class PayoutsCommand extends Command
 {
@@ -13,8 +12,8 @@ abstract class PayoutsCommand extends Command
      * true if the item is actually added to the cache.
      * Otherwise, the method will return false.
      */
-    protected function isNew(string $messageId): bool
+    protected function isNew(string $key): bool
     {
-        return Cache::add($messageId, today()->diff(today()->addWeek()));
+        return \Eshop\Models\Cart\Payout::where('reference_id', $key)->doesntExist();
     }
 }

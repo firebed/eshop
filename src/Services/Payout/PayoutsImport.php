@@ -1,6 +1,6 @@
 <?php
 
-namespace Eshop\Services\Concerns;
+namespace Eshop\Services\Payout;
 
 use Maatwebsite\Excel\Concerns\WithBatchInserts;
 use Maatwebsite\Excel\Concerns\WithChunkReading;
@@ -18,18 +18,6 @@ abstract class PayoutsImport implements WithMapping, WithBatchInserts, WithChunk
     public function chunkSize(): int
     {
         return 500;
-    }
-
-    public function map($row): array
-    {
-        $voucher = $row[$this->voucherColumn()] ?? null;
-        $total = $row[$this->totalColumn()] ?? null;
-
-        if ($voucher == null || $total === null) {
-            return [];
-        }
-
-        return [$voucher => $this->parseTotal($total)];
     }
 
     public function registerEvents(): array
@@ -58,13 +46,4 @@ abstract class PayoutsImport implements WithMapping, WithBatchInserts, WithChunk
     {
         return true;
     }
-
-    protected function parseTotal(string $total): float
-    {
-        return floatval($total);
-    }
-
-    abstract protected function voucherColumn(): int;
-
-    abstract protected function totalColumn(): int;
 }

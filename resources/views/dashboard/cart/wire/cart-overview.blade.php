@@ -33,7 +33,7 @@
                     <x-bs::group label="Πληρώθηκε" inline>
                         @if($payment)
                             <div wire:key="order-paid">
-                                {{ $payment->created_at?->format('d/m/Y H:i') }}
+                                <span title="Πληρωμή: {{ format_currency($payment->total) }}. @if($payment->fees > 0) Προμήθεια {{ format_currency($payment->fees) }} @endif">{{ $payment->created_at?->format('d/m/Y H:i') }}</span>
                                 <a href="#" wire:click.prevent="markAsUnpaid" title="Διαγραφή πληρωμής"><em class="fas fa-times-circle text-secondary"></em></a>
                             </div>
                         @else

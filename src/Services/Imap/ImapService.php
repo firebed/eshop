@@ -2,8 +2,8 @@
 
 namespace Eshop\Services\Imap;
 
+use Carbon\Carbon;
 use Eshop\Services\Imap\Exceptions\ImapException;
-use Illuminate\Support\Carbon;
 use Throwable;
 use Webklex\IMAP\Facades\Client;
 use Webklex\PHPIMAP\Client as ImapClient;
@@ -84,7 +84,7 @@ class ImapService
     /**
      * @throws ImapException
      */
-    public function find(string $messageId): Message
+    public function find(string $messageId): ?Message
     {
         try {
             // It is necessary to mark the message as read in order to get its attachments.

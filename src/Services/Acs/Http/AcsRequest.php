@@ -1,6 +1,6 @@
 <?php
 
-namespace Eshop\Actions\Acs;
+namespace Eshop\Services\Acs\Http;
 
 use Error;
 use Illuminate\Support\Facades\Http;

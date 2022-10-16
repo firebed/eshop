@@ -124,7 +124,8 @@ Route::middleware(['web', 'auth', 'admin'])->group(function () {
 
         Route::resource('manufacturers', ManufacturerController::class)->only('index');
 
-        Route::get('notifications', NotificationController::class)->name('notifications.index');
+        Route::get('notifications', [NotificationController::class, 'index'])->name('notifications.index');
+        Route::get('notifications/{notification}/download', [NotificationController::class, 'download'])->name('notifications.download');
 
         Route::get('users/{user}/permissions', UserPermissionController::class)->name('users.permissions.index');
         Route::resource('users', UserController::class)->only('index', 'show');

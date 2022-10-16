@@ -2,17 +2,26 @@
 
 namespace Eshop\Services\Acs\Imports;
 
-use Eshop\Services\Concerns\PayoutsImport;
+use Eshop\Services\Payout\PayoutsImport;
 
 class ACSImport extends PayoutsImport
 {
-    protected function voucherColumn(): int
+    public function map($row): array
     {
-        return 2;
-    }
+        $voucher = $row[2] ?? null;
+        $customer = $row[20] ?? null;
+        $total = $row[3] ?? null;
 
-    protected function totalColumn(): int
-    {
-        return 3;
+        if ($voucher == null || $total === null) {
+            return [];
+        }
+
+        return [
+            $voucher => [
+                'customer_name' => $customer,
+                'fees'          => 0,
+                'total'         => $this->parseTotal($total)
+            ]
+        ];
     }
 }

@@ -2,25 +2,23 @@
 
 namespace Eshop;
 
-use Eshop\Commands\AcsPaymentsCommand;
 use Eshop\Commands\CartAbandonmentCommand;
 use Eshop\Commands\CartCleanup;
-use Eshop\Commands\ImapCommand;
 use Eshop\Commands\InstallCommand;
 use Eshop\Commands\ProductAggregationsCommand;
 use Eshop\Commands\ScoutIndexCommand;
 use Eshop\Commands\SitemapCommand;
-use Eshop\Commands\SkroutzFeedCommand;
-use Eshop\Commands\SpeedExPaymentsCommand;
 use Eshop\Middleware\Admin;
 use Eshop\Middleware\Locale;
 use Eshop\Models\Cart\Cart;
 use Eshop\Models\Cart\CartInvoice;
 use Eshop\Models\Location\CountryPaymentMethod;
 use Eshop\Models\Location\CountryShippingMethod;
+use Eshop\Models\Location\ShippingMethod;
 use Eshop\Models\Product\Category;
 use Eshop\Models\Product\CategoryChoice;
 use Eshop\Models\Product\CategoryProperty;
+use Eshop\Models\Product\Channel;
 use Eshop\Models\Product\Manufacturer;
 use Eshop\Models\Product\Product;
 use Eshop\Models\Product\ProductVariantOption;
@@ -34,9 +32,12 @@ use Eshop\Providers\CartServiceProvider;
 use Eshop\Providers\EventServiceProvider;
 use Eshop\Providers\FortifyServiceProvider;
 use Eshop\Providers\LivewireServiceProvider;
+use Eshop\Services\Acs\Commands\AcsPayoutsCommand;
 use Eshop\Services\CourierCenter\Commands\CourierCenterPayoutsCommand;
 use Eshop\Services\Skroutz\Actions\CreateSkroutzXML;
+use Eshop\Services\Skroutz\Commands\SkroutzFeedCommand;
 use Eshop\Services\Skroutz\Commands\SkroutzPayoutsCommand;
+use Eshop\Services\SpeedEx\Commands\SpeedExPayoutsCommand;
 use Eshop\View\Components\CategoryBreadcrumb;
 use Eshop\View\Components\LabelPrinterDialog;
 use Eshop\View\Components\MoreCategoryProducts;
@@ -69,7 +70,7 @@ class EshopServiceProvider extends ServiceProvider
         $this->registerPublishing();
 
         $this->app->bindIf('skroutz', CreateSkroutzXML::class);
-        
+
         app('router')->aliasMiddleware('locale', Locale::class);
         app('router')->aliasMiddleware('admin', Admin::class);
 
@@ -133,11 +134,11 @@ class EshopServiceProvider extends ServiceProvider
                 InstallCommand::class,
                 ScoutIndexCommand::class,
                 SkroutzFeedCommand::class,
-                AcsPaymentsCommand::class,
-                SpeedExPaymentsCommand::class,
                 CartCleanup::class,
                 CartAbandonmentCommand::class,
                 ProductAggregationsCommand::class,
+                AcsPayoutsCommand::class,
+                SpeedExPayoutsCommand::class,
                 CourierCenterPayoutsCommand::class,
                 SkroutzPayoutsCommand::class,
             ]);
@@ -189,7 +190,11 @@ class EshopServiceProvider extends ServiceProvider
             //
             'seo'                     => Seo::class,
             //
-            'slide'                   => Slide::class
+            'slide'                   => Slide::class,
+
+            //
+            'shipping_method'         => ShippingMethod::class,
+            'channel'                 => Channel::class,
         ]);
     }
 

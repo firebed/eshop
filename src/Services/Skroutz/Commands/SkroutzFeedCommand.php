@@ -1,6 +1,6 @@
 <?php
 
-namespace Eshop\Commands;
+namespace Eshop\Services\Skroutz\Commands;
 
 use Eshop\Actions\ReportError;
 use Eshop\Services\Skroutz\Actions\CreateSkroutzXML;
@@ -10,7 +10,7 @@ use Throwable;
 
 class SkroutzFeedCommand extends Command
 {
-    protected $signature = 'skroutz:generate';
+    protected $signature = 'skroutz:xml';
 
     protected $description = 'Create xml feed for Skroutz';
 

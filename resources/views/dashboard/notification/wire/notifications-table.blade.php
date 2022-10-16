@@ -23,8 +23,14 @@
                 {{ $this->activeNotification->text }}
             </x-bs::modal.header>
 
-            <x-bs::modal.body>
-                {!! $activeNotification->body !!}
+            <x-bs::modal.body class="bg-gray-100">
+                @include('eshop::dashboard.notification.partials.payout-template')
+
+                @if($attachment = $activeNotification->metadata['attachment'] ?? null)
+                    <div class="p-3">
+                        <a href="{{ route('notifications.download', $activeNotification) }}"><em class="fas fa-download me-2"></em>Κατέβασμα αρχείου</a>
+                    </div>
+                @endif
             </x-bs::modal.body>
         @endisset
     </x-bs::modal>

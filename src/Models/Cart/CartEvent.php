@@ -224,14 +224,14 @@ class CartEvent extends Model
         ]);
     }
 
-    public static function orderPaid($cartId, $vendor, $details = null): self
+    public static function orderPaid($cartId, $details = null): self
     {
         return self::create([
             'cart_id' => $cartId,
             'action'  => CartEvent::ORDER_PAID,
             'type'    => self::INFO,
             'user_id' => auth()->id(),
-            'title'   => __("eshop::cart.events.order_paid", ['vendor' => $vendor]),
+            'title'   => __("eshop::cart.events.order_paid"),
             'details' => $details
         ]);
     }

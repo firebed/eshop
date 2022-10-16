@@ -1,29 +1,29 @@
 <?php
 
-namespace Eshop\Services\CourierCenter;
+namespace Eshop\Services\GenikiTaxydromiki;
 
-use Eshop\Services\CourierCenter\Imports\CourierCenterPayoutsImport;
+use Eshop\Services\GenikiTaxydromiki\Imports\GenikiTaxydromikiImport;
 use Eshop\Services\Payout\HasPayouts;
 use Eshop\Services\Payout\PayoutReader;
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Facades\Excel;
 use Webklex\PHPIMAP\Attachment;
 
-class CourierCenterService implements PayoutReader
+class GenikiTaxydromiki implements PayoutReader
 {
     use HasPayouts;
 
-    private const PAYOUTS_ADDRESS = "cod@courier.gr";
+    private const PAYOUTS_ADDRESS = "cod@taxydromiki.gr";
 
     public function validatePayoutAttachment(Attachment $attachment): bool
     {
-        return $attachment->getMimeType() === "application/vnd.ms-excel";
+        return $attachment->getMimeType() === "text/csv";
     }
 
     public function handlePayoutsAttachment(string $filename): Collection
     {
         $path = $this->payouts()->disk()->path($filename);
-        
-        return Excel::toCollection(new CourierCenterPayoutsImport(), $path)->first()->mapWithKeys(fn($v) => $v);
+
+        return Excel::toCollection(new GenikiTaxydromikiImport(), $path)->first()->mapWithKeys(fn($v) => $v);
     }
 }

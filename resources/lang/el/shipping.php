@@ -19,5 +19,6 @@ return [
         'Geniki Taxydromiki'     => 'ΓΤ',
         'SpeedEx'                => 'SE',
         'Courier Center'         => 'CC',
+        'Hellenic Post'          => 'HP'
     ]
 ];

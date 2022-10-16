@@ -6,12 +6,13 @@ use Eshop\Services\Payout\HasPayouts;
 use Eshop\Services\Payout\PayoutReader;
 use Eshop\Services\Skroutz\Actions\AcceptOrder;
 use Eshop\Services\Skroutz\Actions\CreateOrder;
-use Eshop\Services\Skroutz\Actions\ProcessPayoutAttachment;
 use Eshop\Services\Skroutz\Actions\RejectOrder;
 use Eshop\Services\Skroutz\Actions\RetrieveOrder;
 use Eshop\Services\Skroutz\Actions\UpdateOrder;
 use Eshop\Services\Skroutz\Actions\UploadInvoice;
 use Eshop\Services\Skroutz\Exceptions\SkroutzException;
+use Eshop\Services\Skroutz\Imports\SkroutzPayoutsImport;
+use Exception;
 use Illuminate\Support\Collection;
 use Webklex\PHPIMAP\Attachment;
 
@@ -67,8 +68,18 @@ class Skroutz implements PayoutReader
         return (new UploadInvoice())->handle($skroutzOrderId, $invoice);
     }
 
-    public function resolvePayoutsAttachment(Attachment $attachment): Collection
+    public function validatePayoutAttachment(Attachment $attachment): bool
     {
-        return (new ProcessPayoutAttachment())->handle($attachment);
+        return $attachment->getMimeType() === "application/pdf";
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function handlePayoutsAttachment(string $filename): Collection
+    {
+        $path = $this->payouts()->disk()->path($filename);
+
+        return (new SkroutzPayoutsImport())->handle($path);
     }
 }

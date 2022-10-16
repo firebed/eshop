@@ -2,30 +2,14 @@
 
 namespace Eshop\Services\GenikiTaxydromiki\Imports;
 
-use Eshop\Services\Concerns\PayoutsImport;
+use Eshop\Services\Payout\PayoutsImport;
 use Maatwebsite\Excel\Concerns\WithCustomCsvSettings;
 
 class GenikiTaxydromikiImport extends PayoutsImport implements WithCustomCsvSettings
 {
-    protected function voucherColumn(): int
-    {
-        return 1;
-    }
-
-    protected function totalColumn(): int
-    {
-        return 6;
-    }
-
     protected function skipLastRow(): bool
     {
         return false;
-    }
-
-    protected function parseTotal(string $total): float
-    {
-        $total = str_replace(',', '.', $total);
-        return floatval($total);
     }
 
     public function getCsvSettings(): array
@@ -33,6 +17,25 @@ class GenikiTaxydromikiImport extends PayoutsImport implements WithCustomCsvSett
         return [
             'input_encoding' => 'UTF-16',
             'delimiter'      => "\t"
+        ];
+    }
+
+    public function map($row): array
+    {
+        $voucher = $row[1] ?? null;
+        $customer = $row[4] ?? null;
+        $total = $row[5] ?? null;
+
+        if ($voucher == null || $total === null) {
+            return [];
+        }
+
+        return [
+            $voucher => [
+                'customer_name' => $customer,
+                'fees'          => 0,
+                'total'         => parseFloat($total, ',')
+            ]
         ];
     }
 }

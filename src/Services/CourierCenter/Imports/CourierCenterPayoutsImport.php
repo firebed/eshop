@@ -2,17 +2,26 @@
 
 namespace Eshop\Services\CourierCenter\Imports;
 
-use Eshop\Services\Concerns\PayoutsImport;
+use Eshop\Services\Payout\PayoutsImport;
 
 class CourierCenterPayoutsImport extends PayoutsImport
 {
-    protected function voucherColumn(): int
+    public function map($row): array
     {
-        return 11;
-    }
+        $voucher = $row[11] ?? null;
+        $customer = $row[20] ?? null;
+        $total = $row[21] ?? null;
 
-    protected function totalColumn(): int
-    {
-        return 21;
+        if ($voucher == null || $total === null) {
+            return [];
+        }
+
+        return [
+            $voucher => [
+                'customer_name' => $customer,
+                'fees'          => 0,
+                'total'         => $this->parseTotal($total)
+            ]
+        ];
     }
 }

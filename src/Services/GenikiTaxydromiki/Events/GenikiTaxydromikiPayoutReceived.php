@@ -1,12 +1,12 @@
 <?php
 
-namespace Eshop\Services\CourierCenter\Events;
+namespace Eshop\Services\GenikiTaxydromiki\Events;
 
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class CourierCenterPayoutReceived
+class GenikiTaxydromikiPayoutReceived
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 

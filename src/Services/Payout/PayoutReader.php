@@ -8,6 +8,8 @@ use Webklex\PHPIMAP\Attachment;
 interface PayoutReader
 {
     public function payouts(): Payout;
+
+    public function validatePayoutAttachment(Attachment $attachment): bool;
     
-    public function resolvePayoutsAttachment(Attachment $attachment): Collection;
+    public function handlePayoutsAttachment(string $filename): Collection;
 }
