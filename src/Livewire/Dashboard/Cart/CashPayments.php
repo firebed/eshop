@@ -60,7 +60,10 @@ class CashPayments extends Component
         }
 
         foreach ($this->files as $file) {
-            $imported = Excel::toCollection($resolver, $file)->first()->mapWithKeys(fn($v) => $v);
+            $imported = Excel::toCollection($resolver, $file)
+                ->first()
+                ->mapWithKeys(fn($v) => $v)
+                ->mapWithKeys(fn($v, $k) => [$k => $v['total']]);
 
             $this->vouchers = $this->vouchers->union($imported);
         }
@@ -81,7 +84,7 @@ class CashPayments extends Component
 
         $this->valid_carts = $this->carts
             ->filter(fn($cart) => !$cart->isPaid())
-            ->filter(fn($c) => $this->equalFloats($c->total, $this->vouchers->get($c->voucher)));
+            ->filter(fn($c) => floats_equal($c->total, $this->vouchers->get($c->voucher)));
 
         $this->valid_cart_ids = $this->valid_carts->pluck('id')->toArray();
     }

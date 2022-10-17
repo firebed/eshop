@@ -20,7 +20,7 @@ class CourierCenterPayoutsImport extends PayoutsImport
             $voucher => [
                 'customer_name' => $customer,
                 'fees'          => 0,
-                'total'         => $this->parseTotal($total)
+                'total'         => parseFloat($total)
             ]
         ];
     }

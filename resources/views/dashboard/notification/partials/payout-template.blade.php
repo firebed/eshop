@@ -19,9 +19,11 @@
                 <td class="text-center">
                     @if(isset($payout['error']))
                         <em class="fas fa-exclamation-circle text-danger" title="{{ $payout['error'] }}"></em>
+                    @elseif(isset($payout['warning']))
+                        <em class="fas fa-minus-circle text-warning" title="{{ $payout['warning'] }}"></em>
                     @else
                         <em class="fas fa-check-circle text-success"></em>
-                    @endisset
+                    @endif
                 </td>
 
                 <td>

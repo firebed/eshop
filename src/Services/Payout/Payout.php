@@ -223,6 +223,7 @@ class Payout
                 'text'     => $notification,
                 'metadata' => [
                     'keyName'    => $keyName,
+                    'payout_id'  => $payoutReference->id,
                     'attachment' => $attachment,
                     'payouts'    => $metadata
                 ]

@@ -22,7 +22,7 @@ class HandleGenikiTaxydromikiPayouts
      */
     public function handle(GenikiTaxydromikiPayoutReceived $event): void
     {
-        $geniki = ShippingMethod::firstWhere('name', 'Γενική ταχυδρομική');
+        $geniki = ShippingMethod::firstWhere('name', 'Geniki Taxydromiki');
 
         $cartsResolver = fn($references) => [
             'voucher',
