@@ -24,7 +24,7 @@ class GenikiTaxydromikiImport extends PayoutsImport implements WithCustomCsvSett
     {
         $voucher = $row[1] ?? null;
         $customer = $row[4] ?? null;
-        $total = $row[5] ?? null;
+        $total = $row[6] ?? null;
 
         if ($voucher == null || $total === null) {
             return [];

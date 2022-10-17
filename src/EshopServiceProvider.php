@@ -34,6 +34,7 @@ use Eshop\Providers\FortifyServiceProvider;
 use Eshop\Providers\LivewireServiceProvider;
 use Eshop\Services\Acs\Commands\AcsPayoutsCommand;
 use Eshop\Services\CourierCenter\Commands\CourierCenterPayoutsCommand;
+use Eshop\Services\GenikiTaxydromiki\Commands\GenikiTaxydromikiPayoutsCommand;
 use Eshop\Services\Skroutz\Actions\CreateSkroutzXML;
 use Eshop\Services\Skroutz\Commands\SkroutzFeedCommand;
 use Eshop\Services\Skroutz\Commands\SkroutzPayoutsCommand;
@@ -141,6 +142,7 @@ class EshopServiceProvider extends ServiceProvider
                 SpeedExPayoutsCommand::class,
                 CourierCenterPayoutsCommand::class,
                 SkroutzPayoutsCommand::class,
+                GenikiTaxydromikiPayoutsCommand::class
             ]);
         }
     }

@@ -17,7 +17,7 @@ class GenikiTaxydromiki implements PayoutReader
 
     public function validatePayoutAttachment(Attachment $attachment): bool
     {
-        return $attachment->getMimeType() === "text/csv";
+        return $attachment->getMimeType() === "text/plain";
     }
 
     public function handlePayoutsAttachment(string $filename): Collection
