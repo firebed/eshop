@@ -28,7 +28,7 @@
 
                 <td>
                     @if($cart !== null)
-                        <a href="{{ route('carts.show', $cart->id) }}">
+                        <a href="{{ route('carts.show', $cart->id) }}" target="_blank">
                             {{ $payout['reference'] }}
                         </a>
                     @else
@@ -37,7 +37,7 @@
                 </td>
 
                 <td>
-                    <a href="{{ route('carts.index', ['filter' => $payout['customer_name']]) }}" class="flex items-center">
+                    <a href="{{ route('carts.index', ['filter' => $payout['customer_name']]) }}" target="_blank" class="flex items-center">
                         <em class="fas fa-search me-1"></em><span>{{ $payout['customer_name'] }}</span>
                     </a>
                 </td>
