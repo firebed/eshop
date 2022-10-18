@@ -11,6 +11,7 @@ use Eshop\Controllers\Dashboard\Cart\CartController;
 use Eshop\Controllers\Dashboard\Cart\CartInvoiceController;
 use Eshop\Controllers\Dashboard\Cart\CartPrintVoucherController;
 use Eshop\Controllers\Dashboard\Cart\OrderPrintController;
+use Eshop\Controllers\Dashboard\Cart\VoucherController;
 use Eshop\Controllers\Dashboard\Category\CategoryController;
 use Eshop\Controllers\Dashboard\Category\CategoryPropertyController;
 use Eshop\Controllers\Dashboard\ChannelController;
@@ -134,6 +135,12 @@ Route::middleware(['web', 'auth', 'admin'])->group(function () {
 
         Route::view('config', 'eshop::dashboard.config.index')->name('config.index');
 
+        Route::get('vouchers', [VoucherController::class, 'create'])->name('vouchers.create');
+        Route::post('vouchers', [VoucherController::class, 'store'])->name('vouchers.store');
+        Route::post('vouchers/stations', [VoucherController::class, 'searchStations'])->name('vouchers.search-stations');
+        Route::post('vouchers/areas', [VoucherController::class, 'searchAreas'])->name('vouchers.search-areas');
+        Route::delete('vouchers', [VoucherController::class, 'destroy'])->name('vouchers.destroy');
+        
         Route::get('analytics', AnalyticsController::class)->name('analytics.index');
         Route::get('analytics/orders', OrderAnalyticsController::class)->name('analytics.orders.index');
         if (eshop('cart.abandoned.notifications')) {
