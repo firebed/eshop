@@ -20,6 +20,7 @@ use Eshop\Livewire\Dashboard\Cart\ShowCart;
 use Eshop\Livewire\Dashboard\Cart\ShowCartEvents;
 use Eshop\Livewire\Dashboard\Cart\ShowCarts;
 use Eshop\Livewire\Dashboard\Cart\StatusesList;
+use Eshop\Livewire\Dashboard\Cart\TrackAndTrace;
 use Eshop\Livewire\Dashboard\Category\CategoriesTree;
 use Eshop\Livewire\Dashboard\Category\CategoryPropertyChoices;
 use Eshop\Livewire\Dashboard\Channel\ShowChannel;
@@ -88,6 +89,7 @@ class LivewireServiceProvider extends ServiceProvider
         Livewire::component('dashboard.cart.statuses-list', StatusesList::class);
         Livewire::component('dashboard.cart.cash-payments', CashPayments::class);
         Livewire::component('dashboard.cart.show-cart-events', ShowCartEvents::class);
+        Livewire::component('dashboard.cart.track-and-trace', TrackAndTrace::class);
 
         // Categories
         Livewire::component('dashboard.category.property-choices', CategoryPropertyChoices::class);

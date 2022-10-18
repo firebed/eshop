@@ -20,8 +20,8 @@ class SpeedExPayoutsCommand extends PayoutsCommand
         $payouts = collect($speedEx->handle($on->startOfDay(), $on->copy()->endOfDay()))
             ->keyBy('ConsignmentNumber')
             ->sortKeys();
-        $reference_id = md5(serialize($payouts->keys()->toArray()));
         
+        $reference_id = md5(serialize($payouts->keys()->toArray()));
         if ($payouts->isEmpty() || !$this->isNew($reference_id)) {
             return;
         }

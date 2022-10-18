@@ -9,6 +9,7 @@ use Throwable;
 
 class SpeedExRequest
 {
+    private const DEMO_WSDL = "https://devspdxws.gr/accesspoint.asmx?WSDL";
     private const WSDL = "https://spdxws.gr/accesspoint.asmx?WSDL";
     private static ?string $sessionId = null;
     protected string $action = '';
@@ -37,7 +38,7 @@ class SpeedExRequest
             $client = new SoapClient(self::WSDL);
 
             $params['sessionID'] = self::auth();
-
+            
             return $client->{$this->action}($params);
         } catch (Throwable) {
             return null;

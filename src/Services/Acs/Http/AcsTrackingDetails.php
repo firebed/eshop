@@ -2,12 +2,16 @@
 
 namespace Eshop\Services\Acs\Http;
 
+use Illuminate\Support\Collection;
+
 class AcsTrackingDetails extends AcsRequest
 {
     protected string $action = 'ACS_TrackingDetails';
 
-    public function handle(string $voucher): int|array
+    public function handle(string $voucher): Collection
     {
-        return $this->request(["Voucher_No" => $voucher]);
+        [$_, $table] = $this->request(["Voucher_No" => $voucher]);
+
+        return collect($table);
     }
 }

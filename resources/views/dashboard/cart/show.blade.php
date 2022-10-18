@@ -31,6 +31,10 @@
                 <div class="row g-4">
                     <div class="col-12 col-lg-5 col-xxl-4 order-xxl-1">
                         <div class="d-flex flex-column gap-4 ">
+                            @if(filled($cart->voucher))
+                                <livewire:dashboard.cart.track-and-trace :cart_id="$cart->id"/>
+                            @endif
+                            
                             <livewire:dashboard.cart.customer-notes :cart="$cart"/>
                             <livewire:dashboard.cart.cart-overview :cart="$cart"/>
                             <livewire:dashboard.cart.shipping-address :cart="$cart"/>

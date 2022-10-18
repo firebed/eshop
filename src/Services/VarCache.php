@@ -56,6 +56,12 @@ class VarCache
 
             'Skroutz' => [
                 'SKROUTZ_API_TOKEN' => ''
+            ],
+
+            'CourierCenter' => [
+                'CourierCenter_UserAlias'       => '',
+                'CourierCenter_CredentialValue' => '',
+                'CourierCenter_ApiKey'          => '',
             ]
         ];
     }
