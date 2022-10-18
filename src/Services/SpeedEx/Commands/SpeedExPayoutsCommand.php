@@ -13,13 +13,15 @@ class SpeedExPayoutsCommand extends PayoutsCommand
 
     protected $description = 'Synchronize payments from SpeedEx courier.';
 
-    public function handle(SpeedExPaymentsInfo $speedex): void
+    public function handle(SpeedExPaymentsInfo $speedEx): void
     {
         $on = filled($this->option('on')) ? Carbon::parse($this->option('on')) : today();
-
-        $payouts = collect($speedex->handle($on->startOfDay(), $on->copy()->endOfDay()))->keyBy('ConsignmentNumber');
         
+        $payouts = collect($speedEx->handle($on->startOfDay(), $on->copy()->endOfDay()))
+            ->keyBy('ConsignmentNumber')
+            ->sortKeys();
         $reference_id = md5(serialize($payouts->keys()->toArray()));
+        
         if ($payouts->isEmpty() || !$this->isNew($reference_id)) {
             return;
         }

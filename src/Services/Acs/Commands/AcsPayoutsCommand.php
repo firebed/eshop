@@ -17,7 +17,9 @@ class AcsPayoutsCommand extends PayoutsCommand
     {
         $on = filled($this->option('on')) ? Carbon::parse($this->option('on')) : today();
 
-        $payouts = collect($acsPayments->handle($on))->keyBy('POD');
+        $payouts = collect($acsPayments->handle($on))
+            ->keyBy('POD')
+            ->sortKeys();
 
         $reference_id = md5(serialize($payouts->keys()->toArray()));
         if ($payouts->isEmpty() || !$this->isNew($reference_id)) {
