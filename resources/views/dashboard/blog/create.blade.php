@@ -20,8 +20,8 @@
 
         <x-bs::card>
             <x-bs::card.body x-data="{
-                updateSlug(title) {
-                    $refs.slug.value = slugifyLower(title)
+                updateSlug() {
+                    $refs.slug.value = slugifyLower($refs.title.value.trim())
                 }
             }" class="d-grid gap-4">
                 @include('eshop::dashboard.blog.forms.blog-form')

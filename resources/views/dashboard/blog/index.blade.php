@@ -5,7 +5,7 @@
 @endsection
 
 @section('main')
-    <div class="col-12 col-xxl-8 mx-auto p-4 d-grid gap-3">
+    <div class="col-12 col-xxl-10 mx-auto p-4 d-grid gap-3">
         <div class="d-flex justify-content-end">
             <a href="{{ route('blogs.create') }}" class="btn btn-primary">Δημιουργία</a>
         </div>
