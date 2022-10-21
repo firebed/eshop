@@ -5,7 +5,7 @@ namespace Eshop\Services\SpeedEx\Commands;
 use Carbon\Carbon;
 use Eshop\Services\Payout\PayoutsCommand;
 use Eshop\Services\SpeedEx\Events\SpeedExPayoutReceived;
-use Eshop\Services\SpeedEx\Http\SpeedExPaymentsInfo;
+use Eshop\Services\SpeedEx\Http\SpeedExGetPayouts;
 
 class SpeedExPayoutsCommand extends PayoutsCommand
 {
@@ -13,11 +13,11 @@ class SpeedExPayoutsCommand extends PayoutsCommand
 
     protected $description = 'Synchronize payments from SpeedEx courier.';
 
-    public function handle(SpeedExPaymentsInfo $speedEx): void
+    public function handle(SpeedExGetPayouts $speedEx): void
     {
         $on = filled($this->option('on')) ? Carbon::parse($this->option('on')) : today();
         
-        $payouts = collect($speedEx->handle($on->startOfDay(), $on->copy()->endOfDay()))
+        $payouts = collect($speedEx->handle($on))
             ->keyBy('ConsignmentNumber')
             ->sortKeys();
         

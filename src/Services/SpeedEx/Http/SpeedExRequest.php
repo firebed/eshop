@@ -3,44 +3,59 @@
 namespace Eshop\Services\SpeedEx\Http;
 
 use Error;
+use Illuminate\Support\Facades\Cache;
 use SoapClient;
 use stdClass;
 use Throwable;
 
 class SpeedExRequest
 {
-    private const DEMO_WSDL = "https://devspdxws.gr/accesspoint.asmx?WSDL";
-    private const WSDL = "https://spdxws.gr/accesspoint.asmx?WSDL";
-    private static ?string $sessionId = null;
+    private const WSDL = "https://devspdxws.gr/accesspoint.asmx?WSDL"; // Demo
+    //private const WSDL = "https://spdxws.gr/accesspoint.asmx?WSDL";
     protected string $action = '';
 
-    private static function auth(): string
+    private static function getSessionId(): string
     {
-        if (filled(self::$sessionId)) {
-            return self::$sessionId;
-        }
+        return Cache::remember('speedex-session-id', now()->addHour(), function () {
+            $auth = new SoapClient(self::WSDL);
 
-        $auth = new SoapClient(self::WSDL);
+            $session = $auth->CreateSession([
+                //'username' => api_key('SpeedEx_Username'),
+                //'password' => api_key('SpeedEx_Password'),
+                'username' => 'demoapi',
+                'password' => 'GOOD-GO-HOME-GUYS',
+            ]);
 
-        $session = $auth->CreateSession([
-            'username' => api_key('SpeedEx_Username'),
-            'password' => api_key('SpeedEx_Password'),
-        ]);
-
-        return self::$sessionId = $session->sessionId;
+            return $session->sessionId;
+        });
     }
 
     public function request(array $params): null|stdClass
     {
+        Cache::forget('speedex-session-id');
         try {
             $this->checkCredentials();
 
-            $client = new SoapClient(self::WSDL);
+            $client = new SoapClient(self::WSDL, [
+                'soap_version' => SOAP_1_2,
+                //'cache_wsdl' => WSDL_CACHE_NONE,
+                //'encoding' => 'UTF-8',
+                //'exceptions' => true,
+                //'trace' => 1
+            ]);
 
-            $params['sessionID'] = self::auth();
-            
-            return $client->{$this->action}($params);
-        } catch (Throwable) {
+            $params['sessionID'] = self::getSessionId();
+
+            $response = $client->{$this->action}($params);
+
+            if ($response->returnCode === 1401) {
+                Cache::forget('speedex-session-id');
+                return $this->request($params);
+            }
+
+            return $response;
+        } catch (Throwable $t) {
+            throw $t;
             return null;
         }
     }

@@ -4,8 +4,10 @@ namespace Eshop\Controllers\Dashboard\Cart;
 
 use Eshop\Controllers\Dashboard\Controller;
 use Eshop\Models\Cart\Cart;
+use Eshop\Models\Location\ShippingMethod;
 use Eshop\Services\Acs\Http\AcsAddressValidation;
 use Eshop\Services\Acs\Http\AcsFindAreaByZipcode;
+use Eshop\Services\SpeedEx\Http\SpeedExGetBranches;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
@@ -18,7 +20,12 @@ class VoucherController extends Controller
     {
         $ids = json_decode($request->query('ids'));
 
-        $carts = Cart::whereKey($ids)->with('paymentMethod', 'shippingMethod', 'shippingAddress.country')->get()->keyBy('id');
+        $carts = Cart::whereKey($ids)
+            ->with('paymentMethod', 'shippingMethod', 'shippingAddress.country')
+            ->latest('submitted_at')
+            ->get()
+            ->keyBy('id');
+
         $billingCodes = eshop('acs.billing_codes');
 
         return $this->view('voucher.create', compact('carts', 'billingCodes'));
@@ -30,32 +37,58 @@ class VoucherController extends Controller
         return back();
     }
 
-    public function searchStations(Request $request, AcsAddressValidation $validation): JsonResponse
+    public function searchStations(Request $request): JsonResponse
     {
         $request->validate([
-            'street'    => ['required', 'string'],
-            'street_no' => ['nullable', 'string'],
-            'postcode'  => ['required', 'string'],
+            'shipping_method_id' => ['required', 'int', 'exists:shipping_methods,id'],
+            'street'             => ['required', 'string'],
+            'street_no'          => ['nullable', 'string'],
+            'postcode'           => ['required', 'string'],
         ]);
 
         $address = $request->input();
-        $stations = $validation->handle($address['street'], $address['street_no'], null, $address['postcode']);
 
-        if ($stations->count() === 1) {
-            $station = $stations->first();
+        $shippingMethod = ShippingMethod::find($request->input('shipping_method_id'));
+        if ($shippingMethod->name === 'ACS Courier') {
+            $validation = new AcsAddressValidation();
+            $stations = $validation->handle($address['street'], $address['street_no'], null, $address['postcode']);
 
-            $type = null;
-            if ($station['Resolved_As_Inaccesible_Area_With_Cost']) {
-                $type = 'ΔΠ';
-            } elseif ($station['Resolved_As_Inaccesible_Area_WithOut_Cost']) {
-                $type = 'ΔΧ';
+            if ($stations->count() === 1) {
+                $station = $stations->first();
+
+                $type = null;
+                if ($station['Resolved_As_Inaccesible_Area_With_Cost']) {
+                    $type = 'ΔΠ';
+                } elseif ($station['Resolved_As_Inaccesible_Area_WithOut_Cost']) {
+                    $type = 'ΔΧ';
+                }
+
+                return response()->json([
+                    'id'   => $station['Resolved_Station_ID'],
+                    'name' => $station['Resolved_Station_Descr'],
+                    'type' => $type,
+                ]);
             }
+        } elseif ($shippingMethod->name === 'SpeedEx') {
+            $validation = new SpeedExGetBranches();
+            $stations = $validation->handle($address['postcode']);
 
-            return response()->json([
-                'id'   => $station['Resolved_Station_ID'],
-                'name' => $station['Resolved_Station_Descr'],
-                'type' => $type,
-            ]);
+            if ($stations->count() === 1) {
+                $station = $stations->first();
+
+                $type = null;
+                //if ($station['Resolved_As_Inaccesible_Area_With_Cost']) {
+                //    $type = 'ΔΠ';
+                //} elseif ($station['Resolved_As_Inaccesible_Area_WithOut_Cost']) {
+                //    $type = 'ΔΧ';
+                //}
+
+                return response()->json([
+                    'id'   => $station['BranchCode'],
+                    'name' => $station['BranchName'],
+                    'type' => $type,
+                ]);
+            }
         }
 
         return response()->json([], Response::HTTP_UNPROCESSABLE_ENTITY);

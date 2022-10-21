@@ -4,15 +4,15 @@ namespace Eshop\Services\SpeedEx\Http;
 
 use Carbon\Carbon;
 
-class SpeedExPaymentsInfo extends SpeedExRequest
+class SpeedExGetPayouts extends SpeedExRequest
 {
     protected string $action = 'GetDepositedConsignmentsByDate';
 
-    public function handle(Carbon $fromDatetime, Carbon $toDatetime): array
+    public function handle(Carbon $date): array
     {
         $response = $this->request([
-            'dateFrom' => $fromDatetime->toAtomString(),
-            'dateTo'   => $toDatetime->toAtomString()
+            'dateFrom' => $date->startOfDay()->toAtomString(),
+            'dateTo'   => $date->copy()->endOfDay()->toAtomString()
         ]);
 
         if ($response === null) {

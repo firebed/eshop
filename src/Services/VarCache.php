@@ -40,8 +40,22 @@ class VarCache
             ],
 
             'SpeedEx' => [
-                'SpeedEx_Username' => '',
-                'SpeedEx_Password' => '',
+                'SpeedEx_Username'  => '',
+                'SpeedEx_Password'  => '',
+                'SpeedEx_Agreement' => ''
+            ],
+
+            'CourierCenter' => [
+                'CourierCenter_UserAlias'       => '',
+                'CourierCenter_CredentialValue' => '',
+                'CourierCenter_ApiKey'          => '',
+                'CourierCenter_AccountCode'     => ''
+            ],
+
+            'Γενική Ταχυδρομική' => [
+                'Geniki_Username'        => '',
+                'Geniki_Password'        => '',
+                'Geniki_Application_Key' => ''
             ],
 
             'SIMPLIFY' => [
@@ -57,12 +71,6 @@ class VarCache
             'Skroutz' => [
                 'SKROUTZ_API_TOKEN' => ''
             ],
-
-            'CourierCenter' => [
-                'CourierCenter_UserAlias'       => '',
-                'CourierCenter_CredentialValue' => '',
-                'CourierCenter_ApiKey'          => '',
-            ]
         ];
     }
 

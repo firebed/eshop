@@ -18,13 +18,13 @@ class CourierCenterRequest
 
             $params = array_merge([
                 'Context' => [
-                    'UserAlias'       => api_key('CourierCenter_UserAlias'),
-                    'CredentialValue' => api_key('CourierCenter_CredentialValue'),
-                    'ApiKey'          => api_key('CourierCenter_ApiKey'),
+                    'UserAlias'       => 'CourierCenterAPITestUser',//api_key('CourierCenter_UserAlias'),
+                    'CredentialValue' => 'CourierCenterAPITestUser',//api_key('CourierCenter_CredentialValue'),
+                    'ApiKey'          => 'CourierCenterAPITestKey',//api_key('CourierCenter_ApiKey'),
                 ]
             ], $params);
             
-            $response = Http::withHeaders(['AcsApiKey' => api_key('AcsApiKey')])->post(self::ENDPOINT . $this->action, $params);
+            $response = Http::post(self::ENDPOINT . $this->action, $params);
 
             if (!$response->ok()) {
                 return $response->status();

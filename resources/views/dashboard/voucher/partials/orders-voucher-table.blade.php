@@ -2,10 +2,9 @@
     <thead>
     <tr>
         <th style="width: 4rem"></th>
-        <th style="width: 7rem">Παραγγελία</th>
+        <th style="width: 10rem">Courier</th>
+        <th style="width: 6rem">#</th>
         <th>Παραλήπτης</th>
-        <th>Διεύθυνση</th>
-        <th style="width: 8rem">Τηλέφωνο</th>
         <th style="width: 8rem">Κατάστημα</th>
         <th style="width: 5rem">Τύπος</th>
         <th style="width: 5rem">Βάρος</th>
@@ -21,6 +20,7 @@
                 load: function() {
                     this.loading = true
                     axios.post(@js(route('vouchers.search-stations')), {
+                        shipping_method_id: @js($cart->shipping_method_id),
                         street:    @js($cart->shippingAddress->street),
                         street_no: @js($cart->shippingAddress->street_no),
                         postcode:  @js($cart->shippingAddress->postcode),
@@ -33,8 +33,7 @@
                     .finally(() => this.loading = false)                            
                 },
              }"
-            class="my-1"
-            :class="{ 'table-danger': !success && !loading }"
+{{--            :class="{ 'table-danger': !success && !loading }"--}}
             x-on:set-station.window="
                 if ($event.detail.cart == @js($cart_id)) {
                     success = true
@@ -43,15 +42,19 @@
                 }
            "
             x-init="load()">
-            <td class="align-middle">
+            <td class="align-top">
                 <div x-show="loading" x-cloak class="spinner-border spinner-border-sm text-gray-500" role="status"></div>
                 <em x-show="!loading && success" x-cloak class="fa fa-check-circle text-success"></em>
                 <em x-show="!loading && !success" x-cloak class="fa fa-times-circle text-danger"></em>
             </td>
-            <td class="align-middle">{{ $cart_id }}</td>
-            <td class="align-middle">{{ $cart->shippingAddress->fullname }}</td>
-            <td class="align-middle text-truncate">{{ $cart->shippingAddress->fullStreet . ' ' . $cart->shippingAddress->city_or_country }}</td>
-            <td class="align-middle">{{ $cart->shippingAddress->phone }}</td>
+            <td class="align-top text-nowrap">{{ $cart->shippingMethod->name }}</td>
+            <td class="align-top">{{ $cart_id }}</td>
+            <td class="align-top">
+                <div>
+                    <div>{{ $cart->shippingAddress->fullname }}</div>
+                    <div>{{ $cart->shippingAddress->fullStreet . ' ' . $cart->shippingAddress->city_or_country }}</div>
+                </div>
+            </td>
             <td class="align-middle">
                 <button type="button" class="btn btn-sm btn-outline-dark" data-bs-toggle="modal" data-bs-target="#search-area" data-cart="{{ $cart_id }}" data-postcode="{{ $cart->shippingAddress->postcode }}">
                     <i class="fas fa-search"></i>
@@ -71,11 +74,11 @@
             </td>
             <td class="align-middle">
                 <div class="d-flex gap-1 justify-content-end">
-                    <button 
-                        data-bs-toggle="modal" 
+                    <button
+                        data-bs-toggle="modal"
                         data-bs-target="#forms-modal"
                         @click="$dispatch('show-cart', @js($cart->id))"
-                        type="button" 
+                        type="button"
                         class="btn btn-sm btn-outline-primary"><i class="fas fa-edit"></i></button>
                 </div>
             </td>
