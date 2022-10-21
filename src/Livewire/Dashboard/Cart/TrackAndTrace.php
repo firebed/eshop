@@ -3,6 +3,7 @@
 namespace Eshop\Livewire\Dashboard\Cart;
 
 use Carbon\Carbon;
+use Eshop\Livewire\Dashboard\Cart\Traits\ManagesVoucher;
 use Eshop\Models\Cart\Cart;
 use Eshop\Services\Acs\Http\AcsTrackingDetails;
 use Eshop\Services\CourierCenter\Http\CourierCenterTracking;
@@ -13,6 +14,8 @@ use Livewire\Component;
 
 class TrackAndTrace extends Component
 {
+    use ManagesVoucher;
+
     public int $cart_id;
 
     private Collection $checkpoints;
@@ -43,7 +46,7 @@ class TrackAndTrace extends Component
                         'description' => $city . ', ' . $date->format('d/m/Y στις H:i')
                     ];
                 });
-        } elseif($shippingMethod->name === 'Courier Center') {
+        } elseif ($shippingMethod->name === 'Courier Center') {
             $this->checkpoints = (new CourierCenterTracking())->handle($cart->voucher)
                 ->sortByDesc('ExecutedOn')
                 ->map(function ($checkpoint) {
@@ -53,14 +56,16 @@ class TrackAndTrace extends Component
                         'title'       => str($checkpoint['Note']),
                         'description' => $city . ', ' . $date->format('d/m/Y στις H:i')
                     ];
-                });            
+                });
         }
     }
 
     public function render(): Renderable
     {
         return view('eshop::dashboard.cart.wire.track-and-trace', [
-            'checkpoints' => $this->checkpoints ?? collect()
+            'checkpoints' => $this->checkpoints ?? collect(),
+            'voucher'     => $this->voucher,
+            'vouchers'    => $this->vouchers
         ]);
     }
 }

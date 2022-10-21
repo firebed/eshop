@@ -22,7 +22,6 @@ class CartHeader extends Component
 {
     use SendsNotifications;
     use TrimStrings;
-    use ManagesVoucher;
     use UpdatesCartStatus;
     use WithNotifications;
 
@@ -67,7 +66,7 @@ class CartHeader extends Component
 
         return view('eshop::dashboard.cart.wire.cart-header', [
             'statuses' => $statuses,
-            'status'   => $status ?? null,
+            'status'   => $status ?? null
         ]);
     }
 }

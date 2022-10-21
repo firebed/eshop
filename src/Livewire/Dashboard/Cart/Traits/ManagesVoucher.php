@@ -4,37 +4,40 @@
 namespace Eshop\Livewire\Dashboard\Cart\Traits;
 
 
+use Eshop\Models\Cart\Voucher;
 use Eshop\Repository\Contracts\CartContract;
+use Illuminate\Support\Collection;
 
 trait ManagesVoucher
 {
-    public ?string $voucher = "";
+    private Collection $vouchers;
+    
+    private ?string $voucher = null;
     public bool $showVoucherModal = false;
     public ?string $voucherUrl;
 
     public function mountManagesVoucher(): void
     {
-        $this->voucher = $this->cart->voucher;
+        $this->vouchers = collect();
 
         $this->updateVoucherUrl();
     }
 
     public function editVoucher(): void
     {
-        $this->voucher = $this->cart->voucher;
         $this->showVoucherModal = true;
         $this->skipRender();
     }
 
     private function updateVoucherUrl(): void
     {
-        if ($this->voucher) {
-            $countryShippingMethod = $this->cart->shippingMethod()->first();
-            $shippingMethod = $countryShippingMethod?->shippingMethod;
-            $this->voucherUrl = $shippingMethod?->getVoucherUrl($this->voucher);
-        } else {
-            $this->voucherUrl = null;
-        }
+        //if ($this->voucher) {
+        //    $countryShippingMethod = $this->cart->shippingMethod()->first();
+        //    $shippingMethod = $countryShippingMethod?->shippingMethod;
+        //    $this->voucherUrl = $shippingMethod?->getVoucherUrl($this->voucher);
+        //} else {
+        //    $this->voucherUrl = null;
+        //}
     }
 
     public function saveVoucher(CartContract $contract): void
@@ -49,5 +52,13 @@ trait ManagesVoucher
         } else {
             $this->addError('voucher', 'An error occurred. The voucher code was not updated.');
         }
+    }
+
+    public function renderingManagesVoucher(): void
+    {
+        $this->vouchers = collect();
+        
+        $this->vouchers = Voucher::where('cart_id', $this->cart_id)->latest()->pluck('number');
+        $this->voucher = $this->vouchers->first();
     }
 }

@@ -5,29 +5,6 @@
 
     @if($cart->submitted_at)
         <x-bs::dropdown>
-            <x-bs::dropdown.button id="voucher-dropdown" class="btn-secondary rounded-pill py-1 px-3 border-2 border-white btn-sm">
-                {{ $cart->voucher ?? 'Voucher' }}
-            </x-bs::dropdown.button>
-            <x-bs::dropdown.menu button="voucher-dropdown">
-                <x-bs::dropdown.item wire:click="editVoucher"><em class="fa fa-edit text-secondary me-2"></em>{{ __('Edit tracking code') }}</x-bs::dropdown.item>
-
-                @if(filled($cart->voucher))
-                    @if($cart->shippingMethod)
-                        <x-bs::dropdown.item href="{{ $cart->shippingMethod?->getVoucherUrl($cart->voucher) }}" target="_blank">
-                            <em class="fas fa-external-link-alt text-secondary me-2"></em> Εμφάνιση
-                        </x-bs::dropdown.item>
-
-                        @if($cart->channel === 'skroutz')
-                            <x-bs::dropdown.item href="{{ route('carts.print-voucher', $cart) }}" target="_blank">
-                                <em class="fas fa-print text-secondary me-2"></em> Εκτύπωση δελτίου αποστολής
-                            </x-bs::dropdown.item>
-                        @endif
-                    @endif
-                @endif
-            </x-bs::dropdown.menu>
-        </x-bs::dropdown>
-
-        <x-bs::dropdown>
             @if($status)
                 <x-bs::dropdown.button wire:loading.attr="disabled" wire:target="resetStatus, editCartStatus" id="statuses-dropdown" class="btn-{{ $status->color }} rounded-pill py-1 px-3 btn-sm border-2 border-white">
                     {{ __("eshop::cart.status.action.$status->name") }}
@@ -48,7 +25,6 @@
         </x-bs::dropdown>
 
         @include('eshop::dashboard.cart.partials.show.cart-status-modal')
-        @include('eshop::dashboard.cart.partials.show.cart-voucher-modal')
     @endif
 
     @can('Manage invoices')

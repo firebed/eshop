@@ -154,6 +154,16 @@ class Cart extends Model implements Order
         return $this->hasMany(CartProduct::class);
     }
 
+    public function voucher(): HasOne
+    {
+        return $this->hasOne(Voucher::class)->latestOfMany('created_at');
+    }
+
+    public function vouchers(): HasMany
+    {
+        return $this->hasMany(Voucher::class);
+    }
+
     /*
     |-----------------------------------------------------------------------------
     | SCOPES
