@@ -16,7 +16,7 @@
 
         <div class="offcanvas-body">
             @foreach($events as $event)
-                <div class="d-flex mb-3 align-items-start">
+                <div wire:key="event" class="d-flex mb-3 align-items-start">
                     <div class="pe-3">
                         @if($event->type === \Eshop\Models\Cart\CartEvent::INFO)
                             <em class="fas fa-exclamation-circle text-primary fs-5"></em>
@@ -59,7 +59,7 @@
                 </div>
 
                 <div class="w-100 d-flex flex-column">
-                    <a href="#" @click.prevent="open = !open" class="d-flex justify-content-between text-dark align-items-baseline text-decoration-none fw-500">
+                    <a href="#" class="d-flex justify-content-between text-dark align-items-baseline text-decoration-none fw-500">
                         Δημιουργία καλαθιού
                     </a>
 

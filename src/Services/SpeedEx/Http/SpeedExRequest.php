@@ -55,7 +55,6 @@ class SpeedExRequest
 
             return $response;
         } catch (Throwable $t) {
-            throw $t;
             return null;
         }
     }

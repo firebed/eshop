@@ -29,7 +29,7 @@
                 </div>
 
                 <div class="row g-4">
-                    <div class="col-12 col-lg-5 col-xxl-4 order-xxl-1">
+                    <div class="col-12 col-lg-5 col-xxl-4 order-xxl-1 w-xxl-25r">
                         <div class="d-flex flex-column gap-4 ">
                             <livewire:dashboard.cart.track-and-trace :cart_id="$cart->id"/>
                             <livewire:dashboard.cart.customer-notes :cart="$cart"/>

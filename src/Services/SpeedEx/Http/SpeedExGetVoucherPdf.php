@@ -29,6 +29,6 @@ class SpeedExGetVoucherPdf extends SpeedExRequest
             return collect($vouchers)->mapWithKeys(fn($v) => [$v->VoucherID => $v->pdf]);
         }
 
-        return $vouchers->pdf;
+        return $vouchers->pdf ?? "";
     }
 }

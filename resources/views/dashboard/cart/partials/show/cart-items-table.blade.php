@@ -87,7 +87,7 @@
                         <td class="text-end">{{ format_currency($product->pivot->price) }}</td>
                         <td class="text-end">{{ format_percent($product->pivot->discount) }}</td>
                         <td class="text-end">{{ format_currency($product->pivot->total) }}</td>
-                        <td class="text-end">
+                        <td>
                             <div class="d-grid gap-1">
                                 <x-bs::button.white wire:loading.attr="disabled" wire:click="edit({{ $product->pivot->id }})" wire:target="edit({{ $product->pivot->id }})" size="sm">
                                     <em class="far fa-edit"></em>
@@ -101,6 +101,23 @@
                     </tr>
                 @endforeach
                 </tbody>
+                
+                <tfoot>
+                <tr>
+                    <td colspan="6" class="text-end">Βάρος</td>
+                    <td colspan="2" class="text-end">{{ format_weight($cart->parcel_weight) }}</td>
+                </tr>
+
+                <tr>
+                    <td colspan="6" class="text-end">{{ __('Total quantity') }}</td>
+                    <td colspan="2" class="text-end">{{ format_number($cart->total_quantity) }}</td>
+                </tr>
+                
+                <tr>
+                    <td colspan="6" class="text-end">Σύνολο</td>
+                    <td colspan="2" class="text-end">{{ format_currency($cart->total - $cart->total_fees) }}</td>
+                </tr>
+                </tfoot>
             </x-bs::table>
         </div>
     </x-bs::card.body>

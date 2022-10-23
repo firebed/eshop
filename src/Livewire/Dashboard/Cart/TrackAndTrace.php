@@ -8,14 +8,19 @@ use Eshop\Models\Cart\Cart;
 use Eshop\Services\Acs\Http\AcsTrackingDetails;
 use Eshop\Services\CourierCenter\Http\CourierCenterTracking;
 use Eshop\Services\SpeedEx\Http\SpeedExGetTraceByVoucher;
+use Eshop\Services\SpeedEx\Http\SpeedExGetVoucherPdf;
+use Firebed\Components\Livewire\Traits\SendsNotifications;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Support\Collection;
 use Livewire\Component;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class TrackAndTrace extends Component
 {
     use ManagesVoucher;
+    use SendsNotifications;
 
+    public bool $show = false;
     public int $cart_id;
 
     private Collection $checkpoints;
@@ -58,6 +63,23 @@ class TrackAndTrace extends Component
                     ];
                 });
         }
+        
+        $this->show = true;
+    }
+
+    public function print(string $voucher): ?StreamedResponse
+    {
+        $pdf = (new SpeedExGetVoucherPdf())->handle($voucher);
+        
+        if (blank($pdf)) {
+            $this->showErrorToast("Αποτυχία σύνδεσης");
+            $this->skipRender();
+            return null;
+        }
+        
+        return response()->streamDownload(function() use ($pdf){
+            echo $pdf;
+        }, $voucher . '.pdf', ['ContentType' => 'application/pdf']);
     }
 
     public function render(): Renderable
