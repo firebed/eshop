@@ -2,14 +2,22 @@
 
 namespace Eshop\Services\SpeedEx\Http;
 
+use Eshop\Services\SpeedEx\Exceptions\SpeedExException;
 use Illuminate\Support\Collection;
 
 class SpeedExCreateVoucherWithPickup extends SpeedExRequest
 {
     protected string $action = 'CreateBOLwithOrder';
 
+    /**
+     * @throws SpeedExException
+     */
     public function handle(Collection $carts)
     {
+        if ($carts->count() > 10) {
+            throw new SpeedExException("Maximum number of vouchers is 10.");
+        }
+        
         $list = [];
         foreach ($carts as $cart) {
             $item = [
@@ -45,11 +53,20 @@ class SpeedExCreateVoucherWithPickup extends SpeedExRequest
             $list[] = $item;
         }
 
-        $response = $this->request([
-            'inListPod' => $list,
-            'tableFlag' => 0
-        ]);
+        try {
+            $response = $this->request([
+                'inListPod' => $list,
+                'tableFlag' => 0
+            ]);
+        } catch (SpeedExException $ex) {
+            if ($ex->getCode() !== 310) { // Partially failed
+                throw $ex;
+            }
+        }
 
+        $outList = $response->outListPod ?? [];
+        $statusList = $response->statusList ?? [];
+        
         dd($response);
 
         return $response->outListPod;

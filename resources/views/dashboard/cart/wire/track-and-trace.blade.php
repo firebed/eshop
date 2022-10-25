@@ -38,7 +38,10 @@
                                 @endif
 
                                 <x-bs::dropdown.item wire:click.prevent="cancelVoucher({{ $voucher->id }})">Ακύρωση κωδικού</x-bs::dropdown.item>
-                                <x-bs::dropdown.item wire:click.prevent="deleteVoucher({{ $voucher->id }})">Διαγραφή κωδικού</x-bs::dropdown.item>
+
+                                @if($voucher->is_manual)
+                                    <x-bs::dropdown.item wire:click.prevent="deleteVoucher({{ $voucher->id }})">Διαγραφή κωδικού</x-bs::dropdown.item>
+                                @endif
                             </x-bs::dropdown.menu>
                         </x-bs::dropdown>
                     </div>
@@ -66,15 +69,15 @@
                         <td class="text-secondary ps-3 align-middle">{{ $voucher->number }}</td>
 
                         <td class="text-end pe-3 align-middle">
-{{--                            <x-bs::button.white wire:click.prevent="trace()" wire:loading.attr="disabled" size="sm" style="width: 2.5rem !important" class="text-indigo-600">--}}
-{{--                                <span wire:loading wire:target="trace"><em class="fas fa-spinner fa-spin"></em></span>--}}
-{{--                                <span wire:loading.remove wire:target="trace"><em class="fas fa-search"></em></span>--}}
-{{--                            </x-bs::button.white>--}}
+                            {{--                            <x-bs::button.white wire:click.prevent="trace()" wire:loading.attr="disabled" size="sm" style="width: 2.5rem !important" class="text-indigo-600">--}}
+                            {{--                                <span wire:loading wire:target="trace"><em class="fas fa-spinner fa-spin"></em></span>--}}
+                            {{--                                <span wire:loading.remove wire:target="trace"><em class="fas fa-search"></em></span>--}}
+                            {{--                            </x-bs::button.white>--}}
 
-{{--                            <x-bs::button.white wire:click="print('{{ $voucher }}')" wire:loading.attr="disabled" size="sm" style="width: 2.5rem !important" class="text-teal-600">--}}
-{{--                                <span wire:loading wire:target="print"><em class="fas fa-spinner fa-spin"></em></span>--}}
-{{--                                <em wire:loading.remove wire:target="print" class="fas fa-print"></em>--}}
-{{--                            </x-bs::button.white>--}}
+                            {{--                            <x-bs::button.white wire:click="print('{{ $voucher }}')" wire:loading.attr="disabled" size="sm" style="width: 2.5rem !important" class="text-teal-600">--}}
+                            {{--                                <span wire:loading wire:target="print"><em class="fas fa-spinner fa-spin"></em></span>--}}
+                            {{--                                <em wire:loading.remove wire:target="print" class="fas fa-print"></em>--}}
+                            {{--                            </x-bs::button.white>--}}
 
                             <x-bs::dropdown>
                                 <button type="button" class="btn btn-white btn-sm dropdown-toggle" data-bs-toggle="dropdown">

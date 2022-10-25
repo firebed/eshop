@@ -3,11 +3,15 @@
 namespace Eshop\Services\SpeedEx\Http;
 
 use Carbon\Carbon;
+use Eshop\Services\SpeedEx\Exceptions\SpeedExException;
 
-class SpeedExGetPayouts extends SpeedExRequest
+class SpeedExGetPayouts extends SpeedExRequestV2
 {
     protected string $action = 'GetDepositedConsignmentsByDate';
 
+    /**
+     * @throws SpeedExException
+     */
     public function handle(Carbon $date): array
     {
         $response = $this->request([
@@ -15,19 +19,6 @@ class SpeedExGetPayouts extends SpeedExRequest
             'dateTo'   => $date->copy()->endOfDay()->toAtomString()
         ]);
 
-        if ($response === null) {
-            return [];
-        }
-
-        $result = $response->GetDepositedConsignmentsByDateResult;
-        if ($result === null) {
-            return [];
-        }
-
-        $message = $result->Message;
-        $statusCode = $result->StatusCode;
-
-        $consignments = $result->Result->ConsignmentCollectOnDelivery ?? [];
-        return is_array($consignments) ? $consignments : [];
+        return $response->ConsignmentCollectOnDelivery ?? [];
     }
 }

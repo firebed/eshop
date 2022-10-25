@@ -5,6 +5,7 @@ namespace Eshop\Controllers\Dashboard\Cart;
 use Eshop\Controllers\Dashboard\Controller;
 use Eshop\Models\Cart\Cart;
 use Eshop\Models\Cart\CartEvent;
+use Eshop\Services\SpeedEx\Http\SpeedExGetVouchersByDate;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\RedirectResponse;
 
@@ -22,6 +23,7 @@ class CartController extends Controller
 
     public function show(Cart $cart): Renderable
     {
+        //dd((new SpeedExGetVouchersByDate())->handle(today()));
         if ($cart->isSubmitted()) {
             if (!$cart->isViewed()) {
                 $cart->viewed_at = now();

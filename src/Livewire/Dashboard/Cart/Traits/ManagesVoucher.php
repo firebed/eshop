@@ -7,6 +7,7 @@ namespace Eshop\Livewire\Dashboard\Cart\Traits;
 use Eshop\Models\Cart\Cart;
 use Eshop\Models\Cart\Voucher;
 use Eshop\Repository\Contracts\CartContract;
+use Eshop\Services\SpeedEx\Exceptions\SpeedExException;
 use Illuminate\Support\Collection;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
@@ -20,12 +21,23 @@ trait ManagesVoucher
     public function buyShippingLabel(): void
     {
         $cart = Cart::find($this->cart_id);
-        Voucher::create([
-            'cart_id'            => $cart->id,
-            'shipping_method_id' => $cart->shipping_method_id,
-            'number'             => random_int(1000000000, 9999999999),
-            'is_manual'          => false
-        ]);
+        try {
+            $voucher = $cart->shippingMethod->createVoucher($cart);
+
+            if ($voucher->success) {
+                Voucher::create([
+                    'cart_id'            => $voucher->cart_id,
+                    'shipping_method_id' => $cart->shipping_method_id,
+                    'number'             => $voucher->number,
+                    'is_manual'          => false
+                ]);
+                $this->showSuccessToast('Ο κωδικός αποστολής δημιουργήθηκε με επιτυχία!');
+            } else {
+                $this->showErrorToast($voucher->statusMessage);
+            }
+        } catch (SpeedExException $e) {
+            $this->showErrorToast($e->getMessage());
+        }
     }
 
     public function createVoucher(): void

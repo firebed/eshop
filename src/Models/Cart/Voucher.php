@@ -23,8 +23,7 @@ use Illuminate\Support\Collection;
  * @property ShippingMethod     $shippingMethod
  * @property Collection<Pickup> $pickups
  *
- * @method Builder onWait(Builder $builder)
- * @method Builder active(Builder $builder)
+ * @method Builder notCancelled()
  *
  * @mixin Builder
  */
@@ -63,13 +62,8 @@ class Voucher extends Model
         );
     }
 
-    public function scopeActive(Builder $builder): Builder
+    public function scopeNotCancelled(Builder $builder): Builder
     {
         return $builder->whereNull('cancelled_at');
-    }
-
-    public function scopeOnWait(Builder $builder): Builder
-    {
-        return $builder->whereNull('pickup_id');
     }
 }

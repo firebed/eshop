@@ -3,16 +3,23 @@
 namespace Eshop\Services\SpeedEx\Http;
 
 use Carbon\Carbon;
+use Eshop\Services\SpeedEx\Exceptions\SpeedExException;
+use Illuminate\Support\Collection;
 
-class SpeedExGetVouchersByDate extends SpeedExRequest
+class SpeedExGetVouchersByDate extends SpeedExRequestV2
 {
-    protected string $action = 'GetVouchersByDate';
+    protected string $action = 'GetConsignmentsByDate';
 
-    public function handle(Carbon $date)
+    /**
+     * @throws SpeedExException
+     */
+    public function handle(Carbon $date): Collection
     {
-        return $this->request([
+        $results = $this->request([
             'dateFrom' => $date->startOfDay()->toAtomString(),
-            'dateTo'   => $date->endOfDay()->toAtomString()
+            'dateTo'   => now()->toAtomString()
         ]);
+        
+        return collect($results);
     }
 }

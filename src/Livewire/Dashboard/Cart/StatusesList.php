@@ -24,7 +24,7 @@ class StatusesList extends Component
         
         $unpaid_carts = Cart::whereNotNull('submitted_at')->where('status_id', '<', 6)->whereDoesntHave('payment')->count();
 
-        $vouchers = Voucher::whereDoesntHave('pickups')->count();
+        $vouchers = Voucher::notCancelled()->whereDoesntHave('pickups')->count();
         
         return view('eshop::dashboard.cart.partials.statuses-list', compact('statuses', 'incomplete_carts_count', 'unpaid_carts', 'vouchers'));
     }
