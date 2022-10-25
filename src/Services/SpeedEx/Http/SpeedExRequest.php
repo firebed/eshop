@@ -32,7 +32,7 @@ class SpeedExRequest
 
     public function request(array $params): null|stdClass
     {
-        Cache::forget('speedex-session-id');
+        //Cache::forget('speedex-session-id');
         try {
             $this->checkCredentials();
 

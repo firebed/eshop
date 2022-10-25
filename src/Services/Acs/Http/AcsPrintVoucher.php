@@ -23,7 +23,7 @@ class AcsPrintVoucher extends AcsRequest
      * @param int   $startPosition
      * @return int|array
      */
-    public function handle(mixed $vouchers, int $printType, int $startPosition = 1): int|array
+    public function handle(mixed $vouchers, int $printType = self::LASER, int $startPosition = 1): int|array
     {
         $vouchers = Arr::wrap($vouchers);
         $vouchers = array_map('trim', $vouchers);
@@ -32,11 +32,15 @@ class AcsPrintVoucher extends AcsRequest
             throw new Error("Max 10");
         }
         
-        return $this->request([
+        [$value] = $this->request([
             "Voucher_No"     => implode(',', $vouchers),
             "Print_Type"     => 2,
             "Start_Position" => 1
         ]);
+
+        dd($value);
+        
+        return $value['ACSObjectOutput'] ?? [];
     }
 
     protected function parseOutput($output)

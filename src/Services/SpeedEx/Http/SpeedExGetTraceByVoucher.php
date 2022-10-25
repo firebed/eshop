@@ -2,6 +2,7 @@
 
 namespace Eshop\Services\SpeedEx\Http;
 
+use Carbon\Carbon;
 use Illuminate\Support\Collection;
 
 class SpeedExGetTraceByVoucher extends SpeedExRequest
@@ -18,6 +19,16 @@ class SpeedExGetTraceByVoucher extends SpeedExRequest
             return collect();
         }
         
-        return collect($response->checkpoints->Checkpoint ?? [])->map(fn($checkpoint) => (array) $checkpoint);
+        return collect($response->checkpoints->Checkpoint ?? [])
+            ->map(fn($checkpoint) => (array) $checkpoint)
+            ->sortByDesc('CheckpointDate')
+            ->map(function ($checkpoint) {
+                $city = str($checkpoint['Branch'])->after('-');
+                $date = Carbon::parse($checkpoint['CheckpointDate']);
+                return [
+                    'title'       => str($checkpoint['StatusDesc']),
+                    'description' => $city . ', ' . $date->format('d/m/Y στις H:i')
+                ];
+            });
     }
 }

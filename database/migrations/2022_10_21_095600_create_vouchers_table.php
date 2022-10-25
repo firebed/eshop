@@ -16,7 +16,9 @@ class CreateVouchersTable extends Migration
             $table->foreignIdFor(Cart::class);
             $table->foreignIdFor(ShippingMethod::class)->nullable();
             $table->string('number')->index();
+            $table->boolean('is_manual');
             $table->timestamps();
+            $table->timestamp('cancelled_at')->nullable();
             $table->softDeletes();
         });
 
@@ -30,6 +32,7 @@ class CreateVouchersTable extends Migration
                     'cart_id'            => $cart->id,
                     'shipping_method_id' => $cart->shipping_method_id,
                     'number'             => $values->get($i),
+                    'is_manual'          => true,
                 ]);
             }
 
@@ -38,6 +41,7 @@ class CreateVouchersTable extends Migration
                     'cart_id'            => $cart->id,
                     'shipping_method_id' => $cart->shipping_method_id,
                     'number'             => $value,
+                    'is_manual'          => true,
                 ];
             }
 

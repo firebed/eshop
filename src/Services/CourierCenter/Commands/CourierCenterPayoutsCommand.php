@@ -3,7 +3,7 @@
 namespace Eshop\Services\CourierCenter\Commands;
 
 use Carbon\Carbon;
-use Eshop\Services\CourierCenter\CourierCenterService;
+use Eshop\Services\CourierCenter\CourierCenter;
 use Eshop\Services\CourierCenter\Events\CourierCenterPayoutReceived;
 use Eshop\Services\Payout\PayoutsCommand;
 use Throwable;
@@ -14,7 +14,7 @@ class CourierCenterPayoutsCommand extends PayoutsCommand
 
     protected $description = 'Reads the mail inbox for a given date and address';
 
-    public function handle(CourierCenterService $service): int
+    public function handle(CourierCenter $service): int
     {
         $on = filled($this->option('on')) ? Carbon::parse($this->option('on')) : today();
 

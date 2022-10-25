@@ -4,15 +4,15 @@ namespace Eshop\Services\CourierCenter\Listeners;
 
 use Eshop\Models\Cart\Cart;
 use Eshop\Models\Location\ShippingMethod;
-use Eshop\Services\CourierCenter\CourierCenterService;
+use Eshop\Services\CourierCenter\CourierCenter;
 use Eshop\Services\CourierCenter\Events\CourierCenterPayoutReceived;
 use Eshop\Services\Imap\Exceptions\ImapException;
 
 class HandleCourierCenterPayouts
 {
-    private CourierCenterService $service;
+    private CourierCenter $service;
 
-    public function __construct(CourierCenterService $service)
+    public function __construct(CourierCenter $service)
     {
         $this->service = $service;
     }

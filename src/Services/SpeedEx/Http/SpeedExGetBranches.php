@@ -17,7 +17,12 @@ class SpeedExGetBranches extends SpeedExRequest
             'language' => $language,
             'zipCode'  => $zipCode,
         ]);
-        dd($response);
-        return collect($response->Branches->Branch ?? [])->map(fn($branch) => (array)$branch);
+
+        return collect($response->Branches->Branch ?? [])
+            ->map(fn($station) => [
+                'id'   => $station->BranchCode,
+                'name' => $station->BranchName,
+                'type' => null,
+            ]);
     }
 }

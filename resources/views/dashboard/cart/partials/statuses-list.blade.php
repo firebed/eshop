@@ -4,6 +4,13 @@
 
     <x-bs::navbar.collapse id="cart-statuses-nav">
         <x-bs::list class="rounded flex-grow-1">
+            @if($vouchers > 0)
+                <x-bs::list.link href="#" class="d-flex justify-content-between align-items-center bg-yellow-200">
+                    <span>Λίστα παραλαβής</span>
+                    <x-bs::badge type="warning">{{ format_number($vouchers) }}</x-bs::badge>
+                </x-bs::list.link>
+            @endif
+            
             <x-bs::list.link href="{{ route('carts.index') }}" class="d-flex justify-content-between align-items-center">
                 <span class="text-secondary">{{ __("All") }}</span>
                 <x-bs::badge type="primary">{{ format_number($statuses->sum('carts_count')) }}</x-bs::badge>

@@ -1,65 +1,100 @@
 <div class="card shadow-sm">
     <div class="card-body fw-500">Διαχείριση κωδικών αποστολής</div>
-    @if(filled($voucher))
-        <div class="px-3 pb-3 d-flex align-items-center justify-content-between">
-            <div class="fw-500 text-dark">{{ $voucher }}</div>
 
-            <div class="d-flex gap-1">
-                <x-bs::button.white wire:click.prevent="trace()" wire:loading.attr="disabled" size="sm" style="width: 2.5rem !important">
-                    <span wire:loading wire:target="trace"><em class="fas fa-spinner fa-spin"></em></span>
-                    <span wire:loading.remove wire:target="trace"><em class="fas fa-search"></em></span>
-                </x-bs::button.white>
+    <ul class="nav nav-tabs px-3">
+        <li class="nav-item">
+            <a class="nav-link active" data-bs-toggle="tab" href="#active-vouchers">Ενεργά ({{ $vouchers->filter->isActive->count() }})</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="tab" href="#cancelled-vouchers">Ακυρωμένα ({{ $vouchers->filter->isCancelled->count() }})</a>
+        </li>
+    </ul>
 
-                <x-bs::button.white wire:click="print('{{ $voucher }}')" wire:loading.attr="disabled" size="sm" style="width: 2.5rem !important">
-                    <span wire:loading wire:target="print"><em class="fas fa-spinner fa-spin"></em></span>
-                    <em wire:loading.remove wire:target="print" class="fas fa-print"></em>
-                </x-bs::button.white>
+    <div class="tab-content pt-3">
+        <div class="tab-pane show active" id="active-vouchers">
+            @foreach($vouchers->filter->isActive as $voucher)
+                <div wire:key="voucher-{{ $voucher->id }}" class="px-3 pb-1 d-flex align-items-center justify-content-between">
+                    <div class="text-indigo-600 fw-bold">{{ $voucher->number }}</div>
 
-                <x-bs::button.white wire:click="delete" wire:loading.attr="disabled" size="sm" style="width: 2.5rem !important">
-                    <span wire:loading wire:target="delete"><em class="fas fa-spinner fa-spin"></em></span>
-                    <em wire:loading.remove wire:target="delete" class="fas fa-trash"></em>
-                </x-bs::button.white>
+                    <div class="d-flex gap-1">
+                        <x-bs::button.white wire:click.prevent="trace({{ $voucher->id }})" wire:loading.attr="disabled" size="sm" style="width: 2.5rem !important" class="text-indigo-600">
+                            <span wire:loading wire:target="trace({{ $voucher->id }})"><em class="fas fa-spinner fa-spin"></em></span>
+                            <span wire:loading.remove wire:target="trace({{ $voucher->id }})"><em class="fas fa-search"></em></span>
+                        </x-bs::button.white>
+
+                        <x-bs::button.white wire:click="printVoucher({{ $voucher->id }})" wire:loading.attr="disabled" wire:target="printVoucher({{ $voucher->id }})" size="sm" style="width: 2.5rem !important" class="text-teal-600">
+                            <span wire:loading wire:target="printVoucher({{ $voucher->id }})"><em class="fas fa-spinner fa-spin"></em></span>
+                            <em wire:loading.remove wire:target="printVoucher({{ $voucher->id }})" class="fas fa-print"></em>
+                        </x-bs::button.white>
+
+                        <x-bs::dropdown>
+                            <x-bs::dropdown.button id="more-{{ $voucher->id }}" class="btn-white text-gray-600">
+                            </x-bs::dropdown.button>
+
+                            <x-bs::dropdown.menu button="more-{{ $voucher->id }}" class="shadow">
+                                @if($voucher->is_manual)
+                                    <x-bs::dropdown.item wire:click.prevent="editVoucher({{ $voucher->id }})">Επεξεργασία</x-bs::dropdown.item>
+                                    <x-bs::dropdown.divider/>
+                                @endif
+
+                                <x-bs::dropdown.item wire:click.prevent="cancelVoucher({{ $voucher->id }})">Ακύρωση κωδικού</x-bs::dropdown.item>
+                                <x-bs::dropdown.item wire:click.prevent="deleteVoucher({{ $voucher->id }})">Διαγραφή κωδικού</x-bs::dropdown.item>
+                            </x-bs::dropdown.menu>
+                        </x-bs::dropdown>
+                    </div>
+                </div>
+            @endforeach
+
+            <div class="d-flex flex-column flex-sm-row border-top gap-2 p-3 mt-2">
+                <div class="col-12 col-sm d-grid">
+                    <x-bs::button.white wire:click.prevent="buyShippingLabel()"><em class="fas fa-star-of-life text-gray-600"></em> Έκδοση νέου</x-bs::button.white>
+                </div>
+
+                <div class="col-12 col-sm d-grid">
+                    <x-bs::button.white wire:click.prevent="createVoucher()" data-bs-toggle="modal" data-bs-target="#add-voucher-modal" class="col">
+                        <em class="fas fa-plus text-gray-600"></em>
+                        Προσθήκη
+                    </x-bs::button.white>
+                </div>
             </div>
         </div>
-    @endif
 
-    <div class="d-flex flex-column flex-sm-row border-top gap-2 p-3">
-        <div class="col-12 col-sm d-grid">
-            <x-bs::button.white><em class="fas fa-star-of-life text-gray-600"></em> Έκδοση νέου</x-bs::button.white>
-        </div>
+        <div class="tab-pane pb-3" id="cancelled-vouchers">
+            <x-bs::table size="sm" class="small" hover>
+                @foreach($vouchers->filter->isCancelled as $voucher)
+                    <tr wire:key="voucher-{{ $voucher->id }}">
+                        <td class="text-secondary ps-3 align-middle">{{ $voucher->number }}</td>
 
-        <div class="col-12 col-sm d-grid">
-            <x-bs::button.white wire:click.prevent="$toggle('showVoucherModal')" data-bs-toggle="modal" data-bs-target="#add-voucher-modal" class="col">
-                <em class="fas fa-plus text-gray-600"></em>
-                Προσθήκη
-            </x-bs::button.white>
+                        <td class="text-end pe-3 align-middle">
+{{--                            <x-bs::button.white wire:click.prevent="trace()" wire:loading.attr="disabled" size="sm" style="width: 2.5rem !important" class="text-indigo-600">--}}
+{{--                                <span wire:loading wire:target="trace"><em class="fas fa-spinner fa-spin"></em></span>--}}
+{{--                                <span wire:loading.remove wire:target="trace"><em class="fas fa-search"></em></span>--}}
+{{--                            </x-bs::button.white>--}}
+
+{{--                            <x-bs::button.white wire:click="print('{{ $voucher }}')" wire:loading.attr="disabled" size="sm" style="width: 2.5rem !important" class="text-teal-600">--}}
+{{--                                <span wire:loading wire:target="print"><em class="fas fa-spinner fa-spin"></em></span>--}}
+{{--                                <em wire:loading.remove wire:target="print" class="fas fa-print"></em>--}}
+{{--                            </x-bs::button.white>--}}
+
+                            <x-bs::dropdown>
+                                <button type="button" class="btn btn-white btn-sm dropdown-toggle" data-bs-toggle="dropdown">
+                                    <em class="fas fa-bars"></em>
+                                </button>
+
+                                <x-bs::dropdown.menu button="more-{{ $voucher->id }}" class="shadow">
+                                    @if($voucher->is_manual)
+                                        <x-bs::dropdown.item>Επεξεργασία</x-bs::dropdown.item>
+                                    @endif
+                                </x-bs::dropdown.menu>
+                            </x-bs::dropdown>
+                        </td>
+                    </tr>
+                @endforeach
+            </x-bs::table>
         </div>
     </div>
 
-    {{--        <x-bs::dropdown>--}}
-    {{--            <x-bs::dropdown.button id="voucher-dropdown" class="btn-secondary rounded-pill py-1 px-3 border-2 border-white btn-sm">--}}
-    {{--                {{ $voucher ?? 'Voucher' }}--}}
-    {{--            </x-bs::dropdown.button>--}}
-    {{--            <x-bs::dropdown.menu button="voucher-dropdown">--}}
-    {{--                <x-bs::dropdown.item wire:click="editVoucher"><em class="fa fa-edit text-secondary me-2"></em>{{ __('Edit tracking code') }}</x-bs::dropdown.item>--}}
-
-    {{--                @if(filled($cart->voucher))--}}
-    {{--                    @if($cart->shippingMethod)--}}
-    {{--                        <x-bs::dropdown.item href="{{ $cart->shippingMethod?->getVoucherUrl($cart->voucher) }}" target="_blank">--}}
-    {{--                            <em class="fas fa-external-link-alt text-secondary me-2"></em> Εμφάνιση--}}
-    {{--                        </x-bs::dropdown.item>--}}
-
-    {{--                        @if($cart->channel === 'skroutz')--}}
-    {{--                            <x-bs::dropdown.item href="{{ route('carts.print-voucher', $cart) }}" target="_blank">--}}
-    {{--                                <em class="fas fa-print text-secondary me-2"></em> Εκτύπωση δελτίου αποστολής--}}
-    {{--                            </x-bs::dropdown.item>--}}
-    {{--                        @endif--}}
-    {{--                    @endif--}}
-    {{--                @endif--}}
-    {{--            </x-bs::dropdown.menu>--}}
-    {{--        </x-bs::dropdown>--}}
-
-    {{--    @include('eshop::dashboard.cart.partials.show.cart-voucher-modal')--}}
+    @include('eshop::dashboard.cart.partials.show.cart-voucher-modal')
 
     <div wire:ignore.self
          x-data="{ show: @entangle('show'), offcanvas: null }"

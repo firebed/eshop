@@ -4,10 +4,18 @@ namespace Eshop\Services\SpeedEx\Http;
 
 class SpeedExCancelVoucher extends SpeedExRequest
 {
-    public function handle(string $voucher)
+    protected string $action = 'CancelBOL';
+    
+    public function handle(string $voucher): bool|string
     {
-        return $this->request([
+        $response = $this->request([
             'voucherID' => $voucher
         ]);
+        
+        if ($response->returnCode === 1) {
+            return true;
+        }
+        
+        return $response->returnMessage;
     }
 }

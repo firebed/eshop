@@ -31,6 +31,19 @@ class AcsAddressValidation extends AcsRequest
             'AddressID' => null
         ]);
 
-        return collect($value[0]['ACSObjectOutput']) ?? null;
+        return collect($value[0]['ACSObjectOutput'] ?? [])
+            ->map(function ($station) {
+                if ($station['Resolved_As_Inaccesible_Area_With_Cost']) {
+                    $type = 'ΔΠ';
+                } elseif ($station['Resolved_As_Inaccesible_Area_WithOut_Cost']) {
+                    $type = 'ΔΧ';
+                }
+
+                return [
+                    'id'   => $station['Resolved_Station_ID'],
+                    'name' => $station['Resolved_Station_Descr'],
+                    'type' => $type ?? null,
+                ];
+            });
     }
 }

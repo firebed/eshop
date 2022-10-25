@@ -9,7 +9,7 @@ use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Facades\Excel;
 use Webklex\PHPIMAP\Attachment;
 
-class CourierCenterService implements PayoutReader
+class CourierCenter implements PayoutReader
 {
     use HasPayouts;
 

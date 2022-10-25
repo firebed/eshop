@@ -29,7 +29,7 @@ use Illuminate\Support\Str;
  */
 class ShippingMethod extends Model
 {
-    use HasFactory;
+    use HasFactory, HasCourierService;
 
     protected $fillable = ['name', 'tracking_url', 'icon', 'is_courier'];
 

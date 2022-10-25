@@ -9,6 +9,7 @@ use Eshop\Models\Cart\Cart;
 use Eshop\Models\Cart\CartEvent;
 use Eshop\Models\Cart\CartProduct;
 use Eshop\Models\Cart\CartStatus;
+use Eshop\Models\Cart\Voucher;
 use Eshop\Models\Product\Product;
 use Eshop\Repository\Contracts\CartContract;
 use Illuminate\Support\Collection;
@@ -338,16 +339,19 @@ class CartRepository implements CartContract
         return $currentStatus->isReleasingStocks() && ($previousStatus === null || $previousStatus->isCapturingStocks());
     }
 
-    public function setVoucher(Cart|int $cart, ?string $voucher): bool
-    {        
-        if ($cart instanceof Cart) {
-            $cart->voucher = $voucher;
-            CartEvent::info($cart->id, CartEvent::VOUCHER_UPDATED, $voucher);
-            return $cart->save();
-        }
+    public function setVoucher(Cart|int $cart, ?string $voucher, ?int $shipping_method_id = null, bool $is_manual = false): bool
+    {
+        $cartId = $cart instanceof Cart ? $cart->id : $cart;
 
-        CartEvent::info($cart, CartEvent::VOUCHER_UPDATED, $voucher);
-        return Cart::whereKey($cart)->update(['voucher' => $voucher]);
+        $voucher = Voucher::create([
+            'cart_id'            => $cartId,
+            'shipping_method_id' => $shipping_method_id,
+            'number'             => $voucher,
+            'is_manual'          => $is_manual
+        ]);
+
+        CartEvent::info($voucher->cart_id, CartEvent::VOUCHER_UPDATED, $voucher->number);
+        return true;
     }
 
     public function resetStatus(int|Cart $cart): CartStatus
