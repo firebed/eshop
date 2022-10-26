@@ -3,12 +3,16 @@
 namespace Eshop\Services\CourierCenter\Http;
 
 use Carbon\Carbon;
+use Eshop\Services\CourierCenter\Exceptions\CourierCenterException;
 use Illuminate\Support\Collection;
 
 class CourierCenterTracking extends CourierCenterRequest
 {
     protected string $action = 'Tracking';
 
+    /**
+     * @throws CourierCenterException
+     */
     public function handle(string $voucher): Collection
     {
         $checkpoints = $this->request([

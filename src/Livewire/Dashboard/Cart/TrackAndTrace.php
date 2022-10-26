@@ -10,6 +10,7 @@ use Firebed\Components\Livewire\Traits\SendsNotifications;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Support\Collection;
 use Livewire\Component;
+use Throwable;
 
 class TrackAndTrace extends Component
 {
@@ -32,7 +33,7 @@ class TrackAndTrace extends Component
         try {
             $this->checkpoints = $shippingMethod->trace($voucher->number);
             $this->show = true;
-        } catch (SpeedExException $e) {
+        } catch (Throwable $e) {
             $this->showErrorToast($e->getMessage());
         }
     }

@@ -7,9 +7,9 @@ namespace Eshop\Livewire\Dashboard\Cart\Traits;
 use Eshop\Models\Cart\Cart;
 use Eshop\Models\Cart\Voucher;
 use Eshop\Repository\Contracts\CartContract;
-use Eshop\Services\SpeedEx\Exceptions\SpeedExException;
 use Illuminate\Support\Collection;
 use Symfony\Component\HttpFoundation\StreamedResponse;
+use Throwable;
 
 trait ManagesVoucher
 {
@@ -35,7 +35,7 @@ trait ManagesVoucher
             } else {
                 $this->showErrorToast($voucher->statusMessage);
             }
-        } catch (SpeedExException $e) {
+        } catch (Throwable $e) {
             $this->showErrorToast($e->getMessage());
         }
     }
@@ -93,12 +93,12 @@ trait ManagesVoucher
     public function cancelVoucher(Voucher $voucher): void
     {
         $shippingMethod = $voucher->shippingMethod;
-        $result = $shippingMethod->cancelVoucher($voucher->number);
-        if ($result === true) {
+        try {
+            $shippingMethod->cancelVoucher($voucher->number);
             $voucher->update(['cancelled_at' => now()]);
             $this->showSuccessToast("Ο κωδικός αποστολής $voucher->number ακυρώθηκε.");
-        } else {
-            $this->showErrorToast($result);
+        } catch (Throwable $e) {
+            $this->showErrorToast($e->getMessage());
         }
     }
 

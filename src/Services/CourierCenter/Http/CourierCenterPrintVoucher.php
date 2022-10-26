@@ -2,6 +2,7 @@
 
 namespace Eshop\Services\CourierCenter\Http;
 
+use Eshop\Services\CourierCenter\Exceptions\CourierCenterException;
 use Illuminate\Support\Arr;
 
 class CourierCenterPrintVoucher extends CourierCenterRequest
@@ -15,6 +16,9 @@ class CourierCenterPrintVoucher extends CourierCenterRequest
 
     protected string $action = 'Voucher';
 
+    /**
+     * @throws CourierCenterException
+     */
     public function handle(mixed $vouchers, string $template = self::FORMAT_PDF): string
     {
         $vouchers = Arr::wrap($vouchers);
@@ -26,6 +30,6 @@ class CourierCenterPrintVoucher extends CourierCenterRequest
             'Template'        => $template
         ]));
 
-        return $response->Voucher; // Base64Binary
+        return base64_decode($response['Voucher']); // Base64Binary
     }
 }
