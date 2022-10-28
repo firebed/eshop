@@ -39,7 +39,7 @@ class ShippingMethod extends Model
     {
         return $this->morphMany(Payout::class, 'originator');
     }
-    
+
     public function countries(): BelongsToMany
     {
         return $this->belongsToMany(Country::class)
@@ -58,5 +58,18 @@ class ShippingMethod extends Model
             return '#';
         }
         return Str::replaceFirst('{$tracking}', urlencode($voucher), $this->tracking_url);
+    }
+
+    public function iconSrc(): string|null
+    {
+        return match ($this->name) {
+            "SpeedEx"           => "SpeedEx.png",
+            'Courier Center'    => "courier-center.jpeg",
+            "GenikiTaxydromiki" => "geniki.jpg",
+            "ACS Courier"       => "ACS.png",
+            "ELTA"              => "elta.png",
+            "ELTA Courier"      => "elta-courier.png",
+            default             => null
+        };
     }
 }

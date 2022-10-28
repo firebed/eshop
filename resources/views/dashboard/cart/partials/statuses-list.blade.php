@@ -5,7 +5,7 @@
     <x-bs::navbar.collapse id="cart-statuses-nav">
         <x-bs::list class="rounded flex-grow-1">
             @if($vouchers > 0)
-                <x-bs::list.link href="#" class="d-flex justify-content-between align-items-center bg-yellow-200">
+                <x-bs::list.link href="{{ route('pickups.create') }}" class="d-flex justify-content-between align-items-center bg-yellow-200">
                     <span>Λίστα παραλαβής</span>
                     <x-bs::badge type="warning">{{ format_number($vouchers) }}</x-bs::badge>
                 </x-bs::list.link>

@@ -86,11 +86,9 @@
 
 @can('View notifications')
     <li class="nav-item">
-        <a href="{{ route('notifications.index') }}" @class([$link, 'd-flex justify-content-between align-items-center', $active => request()->routeIs('notifications.*')])>
-            <span>
-                <em class="fas fa-bell text-yellow-300"></em>
-                <span>Ειδοποιήσεις</span>
-            </span>
+        <a href="{{ route('notifications.index') }}" @class([$link, 'd-flex align-items-center', $active => request()->routeIs('notifications.*')])>
+            <em class="fas fa-bell text-yellow-300"></em>
+            <span class="me-auto">Ειδοποιήσεις</span>
             
             <livewire:dashboard.notifications-counter/>
         </a>

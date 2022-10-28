@@ -42,6 +42,7 @@ class VarCache
             'SpeedEx' => [
                 'SpeedEx_Username'  => '',
                 'SpeedEx_Password'  => '',
+                'SpeedEx_Customer'  => '',
                 'SpeedEx_Agreement' => ''
             ],
 

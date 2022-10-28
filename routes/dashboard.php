@@ -11,6 +11,7 @@ use Eshop\Controllers\Dashboard\Cart\CartController;
 use Eshop\Controllers\Dashboard\Cart\CartInvoiceController;
 use Eshop\Controllers\Dashboard\Cart\CartPrintVoucherController;
 use Eshop\Controllers\Dashboard\Cart\OrderPrintController;
+use Eshop\Controllers\Dashboard\Cart\PickupController;
 use Eshop\Controllers\Dashboard\Cart\VoucherController;
 use Eshop\Controllers\Dashboard\Category\CategoryController;
 use Eshop\Controllers\Dashboard\Category\CategoryPropertyController;
@@ -140,6 +141,7 @@ Route::middleware(['web', 'auth', 'admin'])->group(function () {
         Route::post('vouchers/stations', [VoucherController::class, 'searchStations'])->name('vouchers.search-stations');
         Route::post('vouchers/areas', [VoucherController::class, 'searchAreas'])->name('vouchers.search-areas');
         Route::delete('vouchers', [VoucherController::class, 'destroy'])->name('vouchers.destroy');
+        Route::resource('pickups', PickupController::class);
         
         Route::get('analytics', AnalyticsController::class)->name('analytics.index');
         Route::get('analytics/orders', OrderAnalyticsController::class)->name('analytics.orders.index');

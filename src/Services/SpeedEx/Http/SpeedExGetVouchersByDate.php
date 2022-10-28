@@ -17,7 +17,7 @@ class SpeedExGetVouchersByDate extends SpeedExRequestV2
     {
         $results = $this->request([
             'dateFrom' => $date->startOfDay()->toAtomString(),
-            'dateTo'   => now()->toAtomString()
+            'dateTo'   => $date->endOfDay()->toAtomString()
         ]);
         
         return collect($results);

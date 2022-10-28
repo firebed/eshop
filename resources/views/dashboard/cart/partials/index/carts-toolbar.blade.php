@@ -69,7 +69,7 @@
     <script>
         document.getElementById('create-vouchers').addEventListener('click', e => {
             e.preventDefault();
-            const values = [...document.querySelectorAll("input[type=checkbox][id^=cart-]:checked")].map(e => e.value)
+            const values = [...document.querySelectorAll("input[type=checkbox][id^=cart-]:checked")].map(e => parseInt(e.value))
             const url = "{{ route('vouchers.create') }}?ids=" + encodeURIComponent(JSON.stringify(values));
             window.open(url, '_blank').focus()
         })

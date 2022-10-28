@@ -49,8 +49,12 @@ if (!function_exists('format_percent')) {
 }
 
 if (!function_exists('format_weight')) {
-    function format_weight($weight): string
+    function format_weight($weight, bool $useGrams = true): string
     {
+        if (!$useGrams) {
+            return format_number($weight / 1000) . ' kg';
+        }
+        
         return $weight >= 1000 ? format_number($weight / 1000) . ' kg' : format_number($weight) . ' gr';
     }
 }

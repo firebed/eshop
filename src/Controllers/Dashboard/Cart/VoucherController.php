@@ -17,11 +17,11 @@ class VoucherController extends Controller
     public function create(Request $request): Renderable
     {
         $ids = json_decode($request->query('ids'));
-
         $carts = Cart::whereKey($ids)
             ->with('paymentMethod', 'shippingMethod', 'shippingAddress.country')
             ->latest('submitted_at')
             ->get()
+            ->sortBy('shippingMethod.id')
             ->keyBy('id');
 
         $billingCodes = eshop('acs.billing_codes');

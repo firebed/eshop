@@ -71,7 +71,7 @@ class SpeedExRequest
             $params['sessionID'] = self::getSessionId();
 
             $response = self::client()->{$this->action}($params);
-
+            
             return $this->parseResponse($response);
         } catch (SpeedExSessionExpired) {
             Cache::forget('speedex-session-id');

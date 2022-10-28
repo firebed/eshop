@@ -38,6 +38,11 @@ class Voucher extends Model
         'cancelled_at' => 'datetime'
     ];
 
+    public function cart(): BelongsTo
+    {
+        return $this->belongsTo(Cart::class);
+    }
+
     public function shippingMethod(): BelongsTo
     {
         return $this->belongsTo(ShippingMethod::class);
