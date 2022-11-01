@@ -1,7 +1,8 @@
 <?php
 
 return [
-    'invoicing' => env('INVOICING', true),
+    'invoicing'      => env('INVOICING', true),
+    'invoice_series' => null,
 
     'locales' => [
         'el' => 'Ελληνικά',

@@ -26,7 +26,7 @@
 
                 <div class="col">
                     <label for="invoice-row" class="form-label">Σειρά</label>
-                    <input type="text" name="row" class="form-control" id="invoice-row" placeholder="Σειρά" value="{{ old('row', $invoice->row ?? '') }}">
+                    <input type="text" name="row" class="form-control" id="invoice-row" placeholder="Σειρά" value="{{ old('row', $invoice->row ?? eshop('invoice_series', '')) }}">
                 </div>
 
                 <div class="col">
