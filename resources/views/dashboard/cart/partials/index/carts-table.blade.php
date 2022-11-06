@@ -82,13 +82,13 @@
             <td class="align-middle">
                 @if($cart->shippingMethod)
                     <div class="d-flex gap-2 align-items-center">
-                        @if(blank($cart->voucher))
-                            <a href="#" wire:click.prevent="editVoucher({{ $cart->id }})">
-                                <em class="fas fa-shipping-fast {{ blank($cart->voucher) ? 'text-light' : 'text-primary' }}"></em>
+                        @isset($cart->voucher->number)
+                            <a href="{{ $cart->shippingMethod->getVoucherUrl($cart->voucher->number) }}" target="_blank">
+                                <em class="fas fa-shipping-fast text-primary"></em>
                             </a>
                         @else
-                            <a href="{{ $cart->shippingMethod->getVoucherUrl($cart->voucher) }}" target="_blank">
-                                <em class="fas fa-shipping-fast text-primary"></em>
+                            <a href="#" wire:click.prevent="editVoucher({{ $cart->id }})">
+                                <em class="fas fa-shipping-fast {{ blank($cart->voucher) ? 'text-light' : 'text-primary' }}"></em>
                             </a>
                         @endif
                         <a href="{{ route('carts.show', $cart) }}" class="text-decoration-none align-items-center text-dark font-monospace">

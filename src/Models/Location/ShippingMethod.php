@@ -3,6 +3,7 @@
 namespace Eshop\Models\Location;
 
 use Eshop\Models\Cart\Payout;
+use Eshop\Services\Courier\Couriers;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -29,7 +30,7 @@ use Illuminate\Support\Str;
  */
 class ShippingMethod extends Model
 {
-    use HasFactory, HasCourierService;
+    use HasFactory;
 
     protected $fillable = ['name', 'tracking_url', 'icon', 'is_courier'];
 
@@ -69,6 +70,18 @@ class ShippingMethod extends Model
             "ACS Courier"       => "ACS.png",
             "ELTA"              => "elta.png",
             "ELTA Courier"      => "elta-courier.png",
+            default             => null
+        };
+    }
+
+    public function courier(): Couriers
+    {
+        return match ($this->name) {
+            "SpeedEx"           => Couriers::SPEEDEX,
+            'Courier Center'    => Couriers::COURIER_CENTER,
+            "GenikiTaxydromiki" => Couriers::GENIKI,
+            "ACS Courier"       => Couriers::ACS,
+            "ELTA Courier"      => Couriers::ELTA_COURIER,
             default             => null
         };
     }

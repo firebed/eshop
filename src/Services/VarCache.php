@@ -68,7 +68,11 @@ class VarCache
                 'SIMPLIFY_HOSTED_PUBLIC_KEY'   => '',
                 'SIMPLIFY_HOSTED_PRIVATE_KEY'  => '',
             ],
-
+            
+            'courier' => [
+                'COURIER_APIKEY' => ''    
+            ],
+            
             'Skroutz' => [
                 'SKROUTZ_API_TOKEN' => ''
             ],

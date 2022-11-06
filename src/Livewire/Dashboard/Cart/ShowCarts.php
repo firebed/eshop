@@ -206,6 +206,7 @@ class ShowCarts extends Component
     public function getCartsProperty(): LengthAwarePaginator
     {
         return Cart::query()
+            ->select('id', 'total', 'shipping_method_id', 'payment_method_id', 'document_type', 'submitted_at', 'viewed_at')
             ->when($this->incomplete, static fn($q) => $q->whereNull('submitted_at')->latest())
             ->when($this->unpaid, static fn($q) => $q->where('status_id', '<', 6)->whereDoesntHave('payment'))
             ->when(!$this->incomplete, static fn($q) => $q->submitted()->latest('submitted_at'))
@@ -218,7 +219,7 @@ class ShowCarts extends Component
             ->when(auth()->user()?->cannot('Manage orders') && auth()->user()?->can('Manage assigned orders'), function ($q) {
                 return $q->whereHas('operators', fn($b) => $b->where('user_id', auth()->id()));
             })
-            ->with('shippingAddress', 'status', 'paymentMethod', 'shippingMethod', 'operators', 'payment')
+            ->with('shippingAddress', 'status', 'paymentMethod', 'shippingMethod', 'operators', 'payment', 'voucher')
             ->when($this->status, fn($q, $s) => $q->where('status_id', $s))
             ->when($this->shipping_method_id, fn($q, $id) => $q->where('shipping_method_id', $id))
             ->when($this->payment_method_id, fn($q, $id) => $q->where('payment_method_id', $id))

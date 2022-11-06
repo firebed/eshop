@@ -13,8 +13,8 @@ class CreateVouchersTable extends Migration
     {
         Schema::create('vouchers', static function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Cart::class);
-            $table->foreignIdFor(ShippingMethod::class)->nullable();
+            $table->foreignIdFor(Cart::class)->constrained();
+            $table->foreignIdFor(ShippingMethod::class)->nullable()->constrained();
             $table->string('number')->index();
             $table->boolean('is_manual');
             $table->timestamps();

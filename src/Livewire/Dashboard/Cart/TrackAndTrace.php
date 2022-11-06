@@ -5,7 +5,7 @@ namespace Eshop\Livewire\Dashboard\Cart;
 use Eshop\Livewire\Dashboard\Cart\Traits\ManagesVoucher;
 use Eshop\Models\Cart\Voucher;
 use Eshop\Models\Location\ShippingMethod;
-use Eshop\Services\SpeedEx\Exceptions\SpeedExException;
+use Eshop\Services\Courier\Courier;
 use Firebed\Components\Livewire\Traits\SendsNotifications;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Support\Collection;
@@ -27,14 +27,13 @@ class TrackAndTrace extends Component
 
     private Collection $checkpoints;
 
-    public function trace(Voucher $voucher)
+    public function trace(Voucher $voucher, Courier $courier)
     {
-        $shippingMethod = $voucher->shippingMethod;
         try {
-            $this->checkpoints = $shippingMethod->trace($voucher->number);
+            $this->checkpoints = $courier->trace($voucher->shippingMethod->courier(), $voucher->number);
             $this->show = true;
         } catch (Throwable $e) {
-            $this->showErrorToast($e->getMessage());
+            $this->showErrorToast("Σφάλμα", $e->getMessage());
         }
     }
 
