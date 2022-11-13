@@ -14,18 +14,35 @@ class Courier
     /**
      * @throws Error
      */
-    private function get(string $method, array $params, $accept = 'application/json'): mixed
+    private function get(string $method, array $params): mixed
     {
         $response = Http::withToken(api_key('COURIER_APIKEY'))
             ->contentType('application/json')
-            ->accept($accept)
+            ->accept('application/json')
             ->get(self::ENDPOINT . $method, $params);
         
-        if ($response->failed()) {
-            throw new Error($response->json());
+        if ($response->failed()) { 
+            throw new Error($response->json()['message']);
         }
 
-        return $response->body();
+        return $response->json();
+    }
+
+    /**
+     * @throws Error
+     */
+    private function download(string $method, array $params): string
+    {
+        $response = Http::withToken(api_key('COURIER_APIKEY'))
+            ->contentType('application/json')
+            ->accept('application/json')
+            ->get(self::ENDPOINT . $method, $params);
+
+        if (!$response->successful()) {
+            throw new Error($response->json()['message']);
+        }
+
+        return base64_decode($response->body());
     }
 
     /**
@@ -38,7 +55,7 @@ class Courier
             ->post(self::ENDPOINT . $method, $params);
 
         if ($response->failed()) {
-            throw new Error($response->body());
+            throw new Error($response->json()['message'], $response->status());
         }
 
         return $response->json();
@@ -55,9 +72,9 @@ class Courier
         ]));
     }
 
-    public function printVoucher(array $vouchers)
+    public function printVoucher(array $vouchers): string
     {
-        return $this->get('vouchers/print', ['vouchers' => $vouchers], 'application/pdf');
+        return $this->download('vouchers/print', ['vouchers' => $vouchers]);
     }
 
     public function createVoucher(array $data)

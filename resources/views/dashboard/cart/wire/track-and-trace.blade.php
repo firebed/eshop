@@ -50,7 +50,7 @@
 
             <div class="d-flex flex-column flex-sm-row border-top gap-2 p-3 mt-2">
                 <div class="col-12 col-sm d-grid">
-                    <x-bs::button.white wire:click.prevent="buyShippingLabel()"><em class="fas fa-star-of-life text-gray-600"></em> Έκδοση νέου</x-bs::button.white>
+                    <x-bs::button.white wire:click.prevent="$toggle('showBuyVoucherModal')"><em class="fas fa-star-of-life text-gray-600"></em> Έκδοση νέου</x-bs::button.white>
                 </div>
 
                 <div class="col-12 col-sm d-grid">
@@ -133,4 +133,31 @@
             </div>
         </div>
     </div>
+
+    <form wire:submit.prevent="purchaseVoucher()">
+        <x-bs::modal wire:model.defer="showBuyVoucherModal">
+            <x-bs::modal.header>Αγορά Voucher</x-bs::modal.header>
+
+            <x-bs::modal.body>
+                <div class="row row-cols-2">
+                    <x-bs::input.group label="Μεταφορική" for="couriers" class="col">
+                        <x-bs::input.select wire:model.defer="courier_id" id="couriers">
+                            @foreach($couriers as $id => $name)
+                                <option value="{{ $id }}">{{ $name }}</option>
+                            @endforeach
+                        </x-bs::input.select>
+                    </x-bs::input.group>
+
+                    <x-bs::input.group label="Αριθμός τεμαχίων" for="items" class="col">
+                        <x-bs::input.integer wire:model.defer="itemsCount" id="items"/>
+                    </x-bs::input.group>
+                </div>
+            </x-bs::modal.body>
+
+            <x-bs::modal.footer>
+                <x-bs::modal.close-button>Άκυρο</x-bs::modal.close-button>
+                <x-bs::button.primary type="submit">Αγορά</x-bs::button.primary>
+            </x-bs::modal.footer>
+        </x-bs::modal>
+    </form>
 </div>

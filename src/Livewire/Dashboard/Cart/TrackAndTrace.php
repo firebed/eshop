@@ -17,7 +17,10 @@ class TrackAndTrace extends Component
     use ManagesVoucher;
     use SendsNotifications;
 
-    public bool $show = false;
+    public bool $show                = false;
+    public bool $showBuyVoucherModal = false;
+    public int  $itemsCount          = 1;
+    public ?int $courier_id          = null;
     public int  $cart_id;
 
     protected array $rules = [
@@ -42,7 +45,8 @@ class TrackAndTrace extends Component
         return view('eshop::dashboard.cart.wire.track-and-trace', [
             'checkpoints'     => $this->checkpoints ?? collect(),
             'shippingMethods' => ShippingMethod::where('is_courier', true)->where('name', '!=', 'ΚΤΕΛ')->pluck('name', 'id'),
-            'vouchers'        => $this->vouchers
+            'vouchers'        => $this->vouchers,
+            'couriers'        => ShippingMethod::where('is_courier', true)->pluck('name', 'id')
         ]);
     }
 }

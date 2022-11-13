@@ -6,6 +6,7 @@ namespace Eshop\Livewire\Dashboard\Cart\Traits;
 
 use Eshop\Models\Cart\Cart;
 use Eshop\Models\Cart\Voucher;
+use Eshop\Models\Location\ShippingMethod;
 use Eshop\Repository\Contracts\CartContract;
 use Eshop\Services\Courier\Courier;
 use Illuminate\Support\Collection;
@@ -18,18 +19,20 @@ trait ManagesVoucher
 
     public bool $showVoucherModal = false;
 
-    public function buyShippingLabel(Courier $courier): void
+    public function purchaseVoucher(Courier $courier): void
     {
         $cart = Cart::find($this->cart_id);
+        $method = ShippingMethod::find($this->courier_id);
+        
         try {
             $number = $courier->createVoucher([
-                'courier'            => $cart->shippingMethod->courier(),
+                'courier'            => $method->courier(),
                 'pickup_date'        => today()->addDay(),
                 //'time_window'        => '',
                 'reference_1'        => (string)$cart->id,
                 //'reference_2'        => '',
                 'charge_type'        => 1, // Sender
-                'number_of_packages' => 1,
+                'number_of_packages' => $this->itemsCount ?? 1,
                 'weight'             => max(round($cart->parcel_weight / 1000, 2), 0.5),
                 'pod_amount'         => $cart->paymentMethod->isPayOnDelivery() ? round($cart->total, 2) : 0,
                 'payment_method'     => 1, // Cash
@@ -53,7 +56,7 @@ trait ManagesVoucher
 
             Voucher::create([
                 'cart_id'            => $cart->id,
-                'shipping_method_id' => $cart->shipping_method_id,
+                'shipping_method_id' => $method->id,
                 'number'             => $number,
                 'is_manual'          => false
             ]);
@@ -79,14 +82,12 @@ trait ManagesVoucher
 
     public function printVoucher(Voucher $voucher, Courier $courier)
     {
+        $method = $voucher->shippingMethod->courier();
         try {
             $pdf = $courier->printVoucher([
-                [
-                    'courier' => $voucher->shippingMethod->courier()->value,
-                    'number'  => $voucher->number
-                ]
+                ['courier' => $method->value, 'number' => $voucher->number]
             ]);
-            
+
             return response()->streamDownload(function () use ($pdf) {
                 echo $pdf;
             }, $voucher->number . '.pdf', ['ContentType' => 'application/pdf']);
