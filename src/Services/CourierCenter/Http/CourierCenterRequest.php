@@ -26,7 +26,6 @@ class CourierCenterRequest
         $this->checkCredentials();
 
         $params = array_merge($this->credentials(), $params);
-        
         $response = Http::post(self::ENDPOINT . $this->action, $params);
         
         if (!$response->successful()) {
