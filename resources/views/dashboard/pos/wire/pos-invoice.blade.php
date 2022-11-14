@@ -5,6 +5,16 @@
     </div>
 
     <div class="offcanvas-body">
+        <div class="row gx-2 border-bottom pb-3 mb-3">
+            <div class="col-6 ">
+                <x-bs::input.text wire:model.defer="vatSearch" placeholder="{{ __('Αναζήτηση ΑΦΜ') }}"/>
+            </div>
+
+            <div class="col-6">
+                <x-bs::button.primary wire:click.prevent="searchVatNumber()">Αναζήτηση ΑΦΜ</x-bs::button.primary>
+            </div>
+        </div>
+        
         <div class="row g-2">
             <div class="col-12">
                 <x-bs::input.floating-label for="invoice-name" label="{{ __('Name') }}">
@@ -23,7 +33,6 @@
                     <x-bs::input.text wire:model.defer="invoice.vat_number" name="invoice[vat_number]" maxlength="20" error="invoice.vat_number" id="invoice-vat" placeholder="{{ __('Vat number') }}" autocomplete="new"/>
                 </x-bs::input.floating-label>
             </div>
-
             <div class="col-6">
                 <x-bs::input.floating-label for="invoice-tax-authority" label="{{ __('Tax authority') }}">
                     <x-bs::input.text wire:model.defer="invoice.tax_authority" name="invoice[tax_authority]" error="invoice.tax_authority" id="invoice-tax-authority" placeholder="{{ __('Tax authority') }}" autocomplete="new"/>
