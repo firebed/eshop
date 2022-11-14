@@ -229,12 +229,23 @@ class ShowCarts extends Component
     {
         $employees = User::whereHas('roles', fn($q) => $q->whereName('Employee'))->get();
 
+        if ($this->unpaid) {
+            $totalUnpaidByCourier = Cart::query()
+                ->submitted()
+                ->selectRaw('`shipping_method_id`, SUM(`total`) as `total`')
+                ->where('status_id', '<', 6)
+                ->whereDoesntHave('payment')
+                ->groupBy('shipping_method_id')
+                ->pluck('total', 'shipping_method_id');
+        }
+
         return view('eshop::dashboard.cart.wire.show-carts', [
-            'carts'           => $this->carts,
-            'shippingMethods' => ShippingMethod::all(),
-            'paymentMethods'  => PaymentMethod::all(),
-            'statuses'        => CartStatus::all(),
-            'employees'       => $employees,
+            'carts'                => $this->carts,
+            'shippingMethods'      => ShippingMethod::all(),
+            'paymentMethods'       => PaymentMethod::all(),
+            'statuses'             => CartStatus::all(),
+            'employees'            => $employees,
+            'totalUnpaidByCourier' => $totalUnpaidByCourier ?? collect()
         ]);
     }
 

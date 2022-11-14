@@ -18,7 +18,7 @@
                         <h3 class="fs-6 fw-500 mb-0">{{ trim($variant->parent->variants_prefix . ' ' . $variant->option_values) }}</h3>
                     @endcan
 
-                    @if($variant->sku !== null)
+                    @if(eshop('product.show_sku', true) && $variant->sku !== null)
                         <small class="text-secondary">{{ __('Code') }}: {{ $variant->sku }}</small>
                     @endif
                 </div>
