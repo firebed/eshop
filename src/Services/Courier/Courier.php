@@ -37,9 +37,9 @@ class Courier
             ->contentType('application/json')
             ->accept('application/json')
             ->get(self::ENDPOINT . $method, $params);
-
+        
         if (!$response->successful()) {
-            throw new Error($response->json()['message']);
+            throw new Error($response->json()['message'] ?? 'An error occurred.');
         }
 
         return base64_decode($response->body());
@@ -53,7 +53,7 @@ class Courier
         $response = Http::withToken(api_key('COURIER_APIKEY'))
             ->accept('application/json')
             ->post(self::ENDPOINT . $method, $params);
-
+        
         if ($response->failed()) {
             throw new Error($response->json()['message'], $response->status());
         }

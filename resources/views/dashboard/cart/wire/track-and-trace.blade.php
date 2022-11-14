@@ -50,7 +50,7 @@
 
             <div class="d-flex flex-column flex-sm-row border-top gap-2 p-3 mt-2">
                 <div class="col-12 col-sm d-grid">
-                    <x-bs::button.white wire:click.prevent="$toggle('showBuyVoucherModal')"><em class="fas fa-star-of-life text-gray-600"></em> Έκδοση νέου</x-bs::button.white>
+                    <x-bs::button.white wire:click.prevent="showBuyVoucherModal()"><em class="fas fa-star-of-life text-gray-600"></em> Έκδοση νέου</x-bs::button.white>
                 </div>
 
                 <div class="col-12 col-sm d-grid">

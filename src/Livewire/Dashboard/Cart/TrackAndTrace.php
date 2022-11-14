@@ -3,6 +3,7 @@
 namespace Eshop\Livewire\Dashboard\Cart;
 
 use Eshop\Livewire\Dashboard\Cart\Traits\ManagesVoucher;
+use Eshop\Models\Cart\Cart;
 use Eshop\Models\Cart\Voucher;
 use Eshop\Models\Location\ShippingMethod;
 use Eshop\Services\Courier\Courier;
@@ -30,6 +31,12 @@ class TrackAndTrace extends Component
 
     private Collection $checkpoints;
 
+    public function showBuyVoucherModal()
+    {
+        $this->courier_id = Cart::find($this->cart_id)?->shipping_method_id;
+        $this->showBuyVoucherModal = true;
+    }
+    
     public function trace(Voucher $voucher, Courier $courier)
     {
         try {

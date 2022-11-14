@@ -4,6 +4,7 @@
 namespace Eshop\Livewire\Dashboard\Cart\Traits;
 
 
+use Error;
 use Eshop\Models\Cart\Cart;
 use Eshop\Models\Cart\Voucher;
 use Eshop\Models\Location\ShippingMethod;
@@ -23,9 +24,9 @@ trait ManagesVoucher
     {
         $cart = Cart::find($this->cart_id);
         $method = ShippingMethod::find($this->courier_id);
-        
+
         try {
-            $number = $courier->createVoucher([
+            $voucher = $courier->createVoucher([
                 'courier'            => $method->courier(),
                 'pickup_date'        => today()->addDay(),
                 //'time_window'        => '',
@@ -34,8 +35,8 @@ trait ManagesVoucher
                 'charge_type'        => 1, // Sender
                 'number_of_packages' => $this->itemsCount ?? 1,
                 'weight'             => max(round($cart->parcel_weight / 1000, 2), 0.5),
-                'pod_amount'         => $cart->paymentMethod->isPayOnDelivery() ? round($cart->total, 2) : 0,
-                'payment_method'     => 1, // Cash
+                'pod_amount'         => $cart->paymentMethod->isPayOnDelivery() ? round($cart->total, 2) : null,
+                'payment_method'     => $cart->paymentMethod->isPayOnDelivery() ? 1 : null, // Cash
                 //'insurance_amount'   => '',
                 'customer_name'      => $cart->shippingAddress->fullName,
                 'customer_comments'  => $cart->comments,
@@ -53,18 +54,24 @@ trait ManagesVoucher
                 //'branch_id'          => '',
                 'services'           => $cart->paymentMethod->isPayOnDelivery() ? [5] : null, // POD
             ]);
+            
+            if ($voucher['success'] ?? false) {
+                Voucher::create([
+                    'cart_id'            => $cart->id,
+                    'shipping_method_id' => $method->id,
+                    'number'             => $voucher['number'] ?? null,
+                    'is_manual'          => false
+                ]);
 
-            Voucher::create([
-                'cart_id'            => $cart->id,
-                'shipping_method_id' => $method->id,
-                'number'             => $number,
-                'is_manual'          => false
-            ]);
-
-            $this->showSuccessToast('Ο κωδικός αποστολής δημιουργήθηκε με επιτυχία!');
+                $this->showSuccessToast('Ο κωδικός αποστολής δημιουργήθηκε με επιτυχία!');
+            } else {
+                throw new Error($voucher['message'] ?? "Courier error");
+            }
         } catch (Throwable $e) {
             $this->showErrorToast("Σφάλμα", $e->getMessage());
         }
+        
+        $this->showBuyVoucherModal = false;
     }
 
     public function createVoucher(): void
@@ -87,7 +94,7 @@ trait ManagesVoucher
             $pdf = $courier->printVoucher([
                 ['courier' => $method->value, 'number' => $voucher->number]
             ]);
-
+            
             return response()->streamDownload(function () use ($pdf) {
                 echo $pdf;
             }, $voucher->number . '.pdf', ['ContentType' => 'application/pdf']);
