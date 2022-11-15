@@ -20,8 +20,8 @@ class Courier
             ->contentType('application/json')
             ->accept('application/json')
             ->get(self::ENDPOINT . $method, $params);
-        
-        if ($response->failed()) { 
+
+        if ($response->failed()) {
             throw new Error($response->json()['message']);
         }
 
@@ -69,14 +69,14 @@ class Courier
         $response = Http::withToken(api_key('COURIER_APIKEY'))
             ->accept('application/json')
             ->delete(self::ENDPOINT . $method, $params);
-        
+
         if ($response->failed()) {
             throw new Error($response->json()['message'], $response->status());
         }
 
         return $response->json('data');
     }
-    
+
     /**
      * @throws Error
      */
@@ -88,9 +88,12 @@ class Courier
         ]));
     }
 
-    public function printVoucher(array $vouchers): string
+    public function printVoucher(array $vouchers, $options = []): string
     {
-        return $this->download('vouchers/print', ['vouchers' => $vouchers]);
+        return $this->download('vouchers/print', [
+            'options'  => $options,
+            'vouchers' => $vouchers
+        ]);
     }
 
     public function createVoucher(array $data)
