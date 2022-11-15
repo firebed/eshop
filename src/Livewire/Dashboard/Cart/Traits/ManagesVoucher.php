@@ -4,13 +4,13 @@
 namespace Eshop\Livewire\Dashboard\Cart\Traits;
 
 
-use Error;
 use Eshop\Models\Cart\Cart;
 use Eshop\Models\Cart\Voucher;
 use Eshop\Models\Location\ShippingMethod;
 use Eshop\Repository\Contracts\CartContract;
 use Eshop\Services\Courier\Courier;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Log;
 use Throwable;
 
 trait ManagesVoucher
@@ -54,23 +54,19 @@ trait ManagesVoucher
                 //'branch_id'          => '',
                 'services'           => $cart->paymentMethod->isPayOnDelivery() ? [5] : null, // POD
             ]);
-            
-            if ($voucher['success'] ?? false) {
-                Voucher::create([
-                    'cart_id'            => $cart->id,
-                    'shipping_method_id' => $method->id,
-                    'number'             => $voucher['number'] ?? null,
-                    'is_manual'          => false
-                ]);
 
-                $this->showSuccessToast('Ο κωδικός αποστολής δημιουργήθηκε με επιτυχία!');
-            } else {
-                throw new Error($voucher['message'] ?? "Courier error");
-            }
+            Voucher::create([
+                'cart_id'            => $cart->id,
+                'shipping_method_id' => $method->id,
+                'number'             => $voucher['voucher'],
+                'is_manual'          => false
+            ]);
+
+            $this->showSuccessToast('Ο κωδικός αποστολής δημιουργήθηκε με επιτυχία!');
         } catch (Throwable $e) {
             $this->showErrorToast("Σφάλμα", $e->getMessage());
         }
-        
+
         $this->showBuyVoucherModal = false;
     }
 
@@ -94,7 +90,7 @@ trait ManagesVoucher
             $pdf = $courier->printVoucher([
                 ['courier' => $method->value, 'number' => $voucher->number]
             ]);
-            
+
             return response()->streamDownload(function () use ($pdf) {
                 echo $pdf;
             }, $voucher->number . '.pdf', ['ContentType' => 'application/pdf']);

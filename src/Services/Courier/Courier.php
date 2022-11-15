@@ -58,7 +58,7 @@ class Courier
             throw new Error($response->json()['message'], $response->status());
         }
 
-        return $response->json();
+        return $response->json('data');
     }
 
     /**
