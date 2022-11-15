@@ -18,12 +18,9 @@ use Illuminate\Support\Collection;
  * @property int                $shipping_method_id
  * @property string             $number
  * @property bool               $is_manual
- * @property Carbon             $cancelled_at
  *
  * @property ShippingMethod     $shippingMethod
  * @property Collection<Pickup> $pickups
- *
- * @method Builder notCancelled()
  *
  * @mixin Builder
  */
@@ -31,11 +28,10 @@ class Voucher extends Model
 {
     use SoftDeletes;
 
-    protected $fillable = ['cart_id', 'shipping_method_id', 'number', 'is_manual', 'cancelled_at'];
+    protected $fillable = ['cart_id', 'shipping_method_id', 'number', 'is_manual'];
 
     protected $casts = [
         'is_manual'    => 'bool',
-        'cancelled_at' => 'datetime'
     ];
 
     public function cart(): BelongsTo
@@ -56,19 +52,14 @@ class Voucher extends Model
     public function isActive(): Attribute
     {
         return new Attribute(
-            get: fn() => $this->cancelled_at === null,
+            get: fn() => $this->deleted_at === null,
         );
     }
 
-    public function isCancelled(): Attribute
+    public function isDeleted(): Attribute
     {
         return new Attribute(
-            get: fn() => $this->cancelled_at !== null,
+            get: fn() => $this->deleted_at !== null,
         );
-    }
-
-    public function scopeNotCancelled(Builder $builder): Builder
-    {
-        return $builder->whereNull('cancelled_at');
     }
 }

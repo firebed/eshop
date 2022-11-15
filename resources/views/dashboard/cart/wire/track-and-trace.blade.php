@@ -6,7 +6,7 @@
             <a class="nav-link active" data-bs-toggle="tab" href="#active-vouchers">Ενεργά ({{ $vouchers->filter->isActive->count() }})</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" data-bs-toggle="tab" href="#cancelled-vouchers">Ακυρωμένα ({{ $vouchers->filter->isCancelled->count() }})</a>
+            <a class="nav-link" data-bs-toggle="tab" href="#cancelled-vouchers">Ακυρωμένα ({{ $vouchers->filter->isDeleted->count() }})</a>
         </li>
     </ul>
 
@@ -64,7 +64,7 @@
 
         <div class="tab-pane pb-3" id="cancelled-vouchers">
             <x-bs::table size="sm" class="small" hover>
-                @foreach($vouchers->filter->isCancelled as $voucher)
+                @foreach($vouchers->filter->isDeleted as $voucher)
                     <tr wire:key="voucher-{{ $voucher->id }}">
                         <td class="text-secondary ps-3 align-middle">{{ $voucher->number }}</td>
 

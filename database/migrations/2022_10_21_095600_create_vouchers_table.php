@@ -18,7 +18,6 @@ class CreateVouchersTable extends Migration
             $table->string('number')->index();
             $table->boolean('is_manual');
             $table->timestamps();
-            $table->timestamp('cancelled_at')->nullable();
             $table->softDeletes();
         });
 

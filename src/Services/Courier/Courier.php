@@ -37,7 +37,7 @@ class Courier
             ->contentType('application/json')
             ->accept('application/json')
             ->get(self::ENDPOINT . $method, $params);
-        
+        //dd($response->body());
         if (!$response->successful()) {
             throw new Error($response->json()['message'] ?? 'An error occurred.');
         }
@@ -53,14 +53,30 @@ class Courier
         $response = Http::withToken(api_key('COURIER_APIKEY'))
             ->accept('application/json')
             ->post(self::ENDPOINT . $method, $params);
+        //dd($response->body());
+        if ($response->failed()) {
+            throw new Error($response->json()['message'], $response->status());
+        }
+
+        return $response->json('data');
+    }
+
+    /**
+     * @throws Error
+     */
+    private function delete(string $method, array $params): mixed
+    {
+        $response = Http::withToken(api_key('COURIER_APIKEY'))
+            ->accept('application/json')
+            ->delete(self::ENDPOINT . $method, $params);
         
         if ($response->failed()) {
             throw new Error($response->json()['message'], $response->status());
         }
 
-        return $response->json();
+        return $response->json('data');
     }
-
+    
     /**
      * @throws Error
      */
@@ -82,9 +98,9 @@ class Courier
         return $this->post('vouchers', $data);
     }
 
-    public function cancelVoucher(Couriers $courier, string $voucher)
+    public function deleteVoucher(Couriers $courier, string $voucher)
     {
-        return $this->post('vouchers/cancel', [
+        return $this->delete('vouchers/cancel', [
             'courier' => $courier->value,
             'number'  => $voucher
         ]);
