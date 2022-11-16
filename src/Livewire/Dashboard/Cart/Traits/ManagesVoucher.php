@@ -9,6 +9,7 @@ use Eshop\Models\Cart\Voucher;
 use Eshop\Models\Location\ShippingMethod;
 use Eshop\Repository\Contracts\CartContract;
 use Eshop\Services\Courier\Courier;
+use Eshop\Services\Courier\Couriers;
 use Illuminate\Support\Collection;
 use Throwable;
 
@@ -16,44 +17,37 @@ trait ManagesVoucher
 {
     private Collection $vouchers;
     public ?Voucher    $editingVoucher = null;
+    public array       $contentTypes   = [];
+    public array       $options       = [];
+
+    public array $voucher = [
+        'courier'            => null,
+        'pickup_date'        => null,
+        'number_of_packages' => 1,
+        'weight'             => 0.5,
+        'cod_amount'         => null,
+        'customer_name'      => "",
+        'address'            => "",
+        'address_number'     => "",
+        'postcode'           => "",
+        'region'             => "",
+        'cellphone'          => "",
+        'country'            => "",
+        'content_type'       => null,
+        'services'           => [],
+    ];
 
     public bool $showVoucherModal = false;
 
     public function purchaseVoucher(Courier $courier): void
     {
+        dd($this->voucher);
+
         $cart = Cart::find($this->cart_id);
         $method = ShippingMethod::find($this->courier_id);
 
         try {
-            $voucher = $courier->createVoucher([
-                'courier'            => $method->courier(),
-                'pickup_date'        => today()->addDay(),
-                //'time_window'        => '',
-                'reference_1'        => (string)$cart->id,
-                //'reference_2'        => '',
-                'charge_type'        => 1, // Sender
-                'number_of_packages' => $this->itemsCount ?? 1,
-                'weight'             => max(round($cart->parcel_weight / 1000, 2), 0.5),
-                'cod_amount'         => $cart->paymentMethod->isPayOnDelivery() ? round($cart->total, 2) : null,
-                'payment_method'     => $cart->paymentMethod->isPayOnDelivery() ? 1 : null, // Cash
-                //'insurance_amount'   => '',
-                'sender'             => config('app.name'),
-                'customer_name'      => $cart->shippingAddress->fullName,
-                'customer_comments'  => $cart->comments,
-                //'customer_email'     => '',
-                'address'            => $cart->shippingAddress->street,
-                'address_number'     => $cart->shippingAddress->street_no,
-                'postcode'           => str_replace(" ", "", $cart->shippingAddress->postcode),
-                'region'             => $cart->shippingAddress->city,
-                //'phone'              => ,
-                'cellphone'          => $cart->shippingAddress->phone,
-                //'floor'              => '',
-                //'company_name'       => '',
-                'country'            => $cart->shippingAddress->country->code,
-                //'station_id'         => '',
-                //'branch_id'          => '',
-                'services'           => $cart->paymentMethod->isPayOnDelivery() ? [5] : null, // POD
-            ]);
+            $voucher = $courier->createVoucher($this->voucher);
 
             Voucher::create([
                 'cart_id'            => $cart->id,
@@ -75,6 +69,50 @@ trait ManagesVoucher
         $cart = Cart::find($this->cart_id);
         $this->editingVoucher = new Voucher(['shipping_method_id' => $cart->shipping_method_id]);
         $this->showVoucherModal = true;
+    }
+
+    public function updatedVoucher($value, $key): void
+    {
+        if ($key === 'country' || $key === 'courier') {
+            $this->voucher['services'] = [];
+            $courier = Couriers::tryFrom($this->voucher['courier']);
+            $this->options = (new Courier())->shippingServices($courier, $this->voucher['country']);;
+        }
+    }
+
+    public function showBuyVoucherModal(): void
+    {
+        $this->reset('voucher', 'contentTypes');
+
+        $cart = Cart::find($this->cart_id);
+        if ($cart->shippingMethod->courier() === null) {
+            $methodName = $cart->shippingMethod?->name;
+            $this->showErrorToast("Σφάλμα", "Μη αποδεκτός τρόπος αποστολής" . ($methodName ? " \"" . __("eshop::shipping.$methodName") . "\"" : "") . ".");
+            $this->skipRender();
+            return;
+        }
+        $this->voucher['reference_1'] = $cart->id;
+        $this->voucher['courier'] = $cart->shippingMethod->courier();
+        $this->voucher['pickup_date'] = today()->format('d/m/Y');
+        $this->voucher['number_of_packages'] = 1;
+        $this->voucher['weight'] = round($cart->parcel_weight / 1000, 2);
+        $this->voucher['cod_amount'] = $cart->paymentMethod->isPayOnDelivery() ? round($cart->total, 2) : null;
+        $this->voucher['payment_method'] = $cart->paymentMethod->isPayOnDelivery() ? 1 : null;
+        $this->voucher['sender'] = config('app.name');
+        $this->voucher['customer_name'] = $cart->shippingAddress->fullName;
+        $this->voucher['address'] = $cart->shippingAddress->street;
+        $this->voucher['address_number'] = $cart->shippingAddress->street_no;
+        $this->voucher['postcode'] = str_replace(" ", "", $cart->shippingAddress->postcode);
+        $this->voucher['region'] = $cart->shippingAddress->city;
+        $this->voucher['cellphone'] = $cart->shippingAddress->phone;
+        $this->voucher['country'] = $cart->shippingAddress->country->code;
+        $this->voucher['content_type'] = null;
+        if ($cart->paymentMethod->isPayOnDelivery()) {
+            $this->voucher['services'][0] = 5;
+        }
+
+        $this->options = (new Courier())->shippingServices($this->voucher['courier'], $this->voucher['country']);
+        $this->showBuyVoucherModal = true;
     }
 
     public function editVoucher(Voucher $voucher): void

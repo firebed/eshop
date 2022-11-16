@@ -3,10 +3,10 @@
 namespace Eshop\Livewire\Dashboard\Cart;
 
 use Eshop\Livewire\Dashboard\Cart\Traits\ManagesVoucher;
-use Eshop\Models\Cart\Cart;
 use Eshop\Models\Cart\Voucher;
 use Eshop\Models\Location\ShippingMethod;
 use Eshop\Services\Courier\Courier;
+use Eshop\Services\Courier\Couriers;
 use Firebed\Components\Livewire\Traits\SendsNotifications;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Support\Collection;
@@ -20,8 +20,6 @@ class TrackAndTrace extends Component
 
     public bool $show                = false;
     public bool $showBuyVoucherModal = false;
-    public int  $itemsCount          = 1;
-    public ?int $courier_id          = null;
     public int  $cart_id;
 
     protected array $rules = [
@@ -31,12 +29,6 @@ class TrackAndTrace extends Component
 
     private Collection $checkpoints;
 
-    public function showBuyVoucherModal()
-    {
-        $this->courier_id = Cart::find($this->cart_id)?->shipping_method_id;
-        $this->showBuyVoucherModal = true;
-    }
-    
     public function trace(Voucher $voucher, Courier $courier)
     {
         try {
@@ -53,7 +45,7 @@ class TrackAndTrace extends Component
             'checkpoints'     => $this->checkpoints ?? collect(),
             'shippingMethods' => ShippingMethod::where('is_courier', true)->where('name', '!=', 'ΚΤΕΛ')->pluck('name', 'id'),
             'vouchers'        => $this->vouchers,
-            'couriers'        => ShippingMethod::where('is_courier', true)->pluck('name', 'id')
+            'icons'           => collect(Couriers::cases())->mapWithKeys(fn($c) => [$c->value => asset('images/' . $c->icon())])
         ]);
     }
 }

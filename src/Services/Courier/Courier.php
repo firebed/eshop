@@ -108,4 +108,12 @@ class Courier
             'number'  => $voucher
         ]);
     }
+
+    public function shippingServices(Couriers $courier, string $country_code)
+    {
+        return $this->get('shipping-services', [
+            'courier' => $courier->value,
+            'country' => $country_code
+        ]);
+    }
 }

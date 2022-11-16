@@ -98,6 +98,7 @@
     </div>
 
     @include('eshop::dashboard.cart.partials.show.cart-voucher-modal')
+    @include('eshop::dashboard.cart.partials.show.cart-buy-voucher-modal')
 
     <div wire:ignore.self
          x-data="{ show: @entangle('show'), offcanvas: null }"
@@ -133,31 +134,4 @@
             </div>
         </div>
     </div>
-
-    <form wire:submit.prevent="purchaseVoucher()">
-        <x-bs::modal wire:model.defer="showBuyVoucherModal">
-            <x-bs::modal.header>Αγορά Voucher</x-bs::modal.header>
-
-            <x-bs::modal.body>
-                <div class="row row-cols-2">
-                    <x-bs::input.group label="Μεταφορική" for="couriers" class="col">
-                        <x-bs::input.select wire:model.defer="courier_id" id="couriers">
-                            @foreach($couriers as $id => $name)
-                                <option value="{{ $id }}">{{ $name }}</option>
-                            @endforeach
-                        </x-bs::input.select>
-                    </x-bs::input.group>
-
-                    <x-bs::input.group label="Αριθμός τεμαχίων" for="items" class="col">
-                        <x-bs::input.integer wire:model.defer="itemsCount" id="items"/>
-                    </x-bs::input.group>
-                </div>
-            </x-bs::modal.body>
-
-            <x-bs::modal.footer>
-                <x-bs::modal.close-button>Άκυρο</x-bs::modal.close-button>
-                <x-bs::button.primary type="submit">Αγορά</x-bs::button.primary>
-            </x-bs::modal.footer>
-        </x-bs::modal>
-    </form>
 </div>
