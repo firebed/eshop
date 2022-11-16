@@ -32,7 +32,8 @@ class TrackAndTrace extends Component
     public function trace(Voucher $voucher, Courier $courier)
     {
         try {
-            $this->checkpoints = $courier->trace($voucher->shippingMethod->courier(), $voucher->number);
+            $method = Couriers::tryFrom($voucher->courier);
+            $this->checkpoints = $courier->trace($method, $voucher->number);
             $this->show = true;
         } catch (Throwable $e) {
             $this->showErrorToast("Σφάλμα", $e->getMessage());

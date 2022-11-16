@@ -22,7 +22,7 @@ class Courier
             ->get(self::ENDPOINT . $method, $params);
 
         if ($response->failed()) {
-            throw new Error($response->json()['message']);
+            throw new Error("Courier: " . $response->json()['message']);
         }
 
         return $response->json();
@@ -39,7 +39,7 @@ class Courier
             ->get(self::ENDPOINT . $method, $params);
         //dd($response->body());
         if (!$response->successful()) {
-            throw new Error($response->json()['message'] ?? 'An error occurred.');
+            throw new Error("Courier: " . ($response->json()['message'] ?? 'An error occurred.'));
         }
 
         return base64_decode($response->body());
@@ -53,9 +53,9 @@ class Courier
         $response = Http::withToken(api_key('COURIER_APIKEY'))
             ->accept('application/json')
             ->post(self::ENDPOINT . $method, $params);
-        //dd($response->body());
+        //dd($response->json());
         if ($response->failed()) {
-            throw new Error($response->json()['message'], $response->status());
+            throw new Error("Courier: " . $response->json()['message'], $response->status());
         }
 
         return $response->json('data');
@@ -71,7 +71,7 @@ class Courier
             ->delete(self::ENDPOINT . $method, $params);
 
         if ($response->failed()) {
-            throw new Error($response->json()['message'], $response->status());
+            throw new Error("Courier: " . $response->json()['message'], $response->status());
         }
 
         return $response->json('data');

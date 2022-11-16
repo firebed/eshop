@@ -1,7 +1,6 @@
 <?php
 
 use Eshop\Models\Cart\Cart;
-use Eshop\Models\Location\ShippingMethod;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
@@ -14,7 +13,7 @@ class CreateVouchersTable extends Migration
         Schema::create('vouchers', static function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(Cart::class)->constrained();
-            $table->foreignIdFor(ShippingMethod::class)->nullable()->constrained();
+            $table->unsignedSmallInteger('courier')->nullable();
             $table->string('number')->index();
             $table->boolean('is_manual');
             $table->timestamps();
@@ -22,25 +21,33 @@ class CreateVouchersTable extends Migration
         });
 
         $temp = collect();
-        $vouchers = Cart::whereNotNull('voucher')->select('id', 'shipping_method_id', 'voucher')->get();
+        $vouchers = Cart::whereNotNull('voucher')
+            ->select('id', 'shipping_method_id', 'voucher', 'updated_at')
+            ->with('shippingMethod')
+            ->get();
+
         $vouchers = $vouchers->map(function ($cart) use ($temp) {
             $values = str($cart->voucher)->trim()->split("/[\s,]+/");
 
             for ($i = 1; $i < count($values); $i++) {
                 $temp->add([
-                    'cart_id'            => $cart->id,
-                    'shipping_method_id' => $cart->shipping_method_id,
-                    'number'             => $values->get($i),
-                    'is_manual'          => true,
+                    'cart_id'    => $cart->id,
+                    'courier'    => $cart->shippingMethod?->courier(),
+                    'number'     => $values->get($i),
+                    'is_manual'  => true,
+                    'created_at' => $cart->updated_at,
+                    'updated_at' => $cart->updated_at,
                 ]);
             }
 
             if (($value = $values->shift()) && filled($value)) {
                 return [
-                    'cart_id'            => $cart->id,
-                    'shipping_method_id' => $cart->shipping_method_id,
-                    'number'             => $value,
-                    'is_manual'          => true,
+                    'cart_id'    => $cart->id,
+                    'courier'    => $cart->shippingMethod?->courier(),
+                    'number'     => $value,
+                    'is_manual'  => true,
+                    'created_at' => $cart->updated_at,
+                    'updated_at' => $cart->updated_at,
                 ];
             }
 

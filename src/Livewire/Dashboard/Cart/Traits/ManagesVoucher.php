@@ -4,9 +4,9 @@
 namespace Eshop\Livewire\Dashboard\Cart\Traits;
 
 
+use Carbon\Carbon;
 use Eshop\Models\Cart\Cart;
 use Eshop\Models\Cart\Voucher;
-use Eshop\Models\Location\ShippingMethod;
 use Eshop\Repository\Contracts\CartContract;
 use Eshop\Services\Courier\Courier;
 use Eshop\Services\Courier\Couriers;
@@ -18,7 +18,7 @@ trait ManagesVoucher
     private Collection $vouchers;
     public ?Voucher    $editingVoucher = null;
     public array       $contentTypes   = [];
-    public array       $options       = [];
+    public array       $options        = [];
 
     public array $voucher = [
         'courier'            => null,
@@ -41,19 +41,18 @@ trait ManagesVoucher
 
     public function purchaseVoucher(Courier $courier): void
     {
-        dd($this->voucher);
-
-        $cart = Cart::find($this->cart_id);
-        $method = ShippingMethod::find($this->courier_id);
+        $query = $this->voucher;
+        $query['pickup_date'] = Carbon::createFromFormat("d/m/Y", $query['pickup_date'])->format('Y-m-d');
+        $query['charge_type'] = 1;
 
         try {
-            $voucher = $courier->createVoucher($this->voucher);
+            $voucher = $courier->createVoucher($query);
 
             Voucher::create([
-                'cart_id'            => $cart->id,
-                'shipping_method_id' => $method->id,
-                'number'             => $voucher['number'],
-                'is_manual'          => false
+                'cart_id'   => $this->cart_id,
+                'courier'   => $query['courier'],
+                'number'    => $voucher['number'],
+                'is_manual' => false
             ]);
 
             $this->showSuccessToast('Ο κωδικός αποστολής δημιουργήθηκε με επιτυχία!');
@@ -107,9 +106,6 @@ trait ManagesVoucher
         $this->voucher['cellphone'] = $cart->shippingAddress->phone;
         $this->voucher['country'] = $cart->shippingAddress->country->code;
         $this->voucher['content_type'] = null;
-        if ($cart->paymentMethod->isPayOnDelivery()) {
-            $this->voucher['services'][0] = 5;
-        }
 
         $this->options = (new Courier())->shippingServices($this->voucher['courier'], $this->voucher['country']);
         $this->showBuyVoucherModal = true;
@@ -123,10 +119,9 @@ trait ManagesVoucher
 
     public function printVoucher(Voucher $voucher, Courier $courier)
     {
-        $method = $voucher->shippingMethod->courier();
         try {
             $pdf = $courier->printVoucher([
-                ['courier' => $method->value, 'number' => $voucher->number]
+                ['courier' => $voucher->courier, 'number' => $voucher->number]
             ]);
 
             return response()->streamDownload(function () use ($pdf) {
@@ -160,9 +155,9 @@ trait ManagesVoucher
 
     public function cancelVoucher(Voucher $voucher, Courier $courier): void
     {
-        $shippingMethod = $voucher->shippingMethod;
+        $method = Couriers::tryFrom($voucher->courier);
         try {
-            $courier->deleteVoucher($shippingMethod->courier(), $voucher->number);
+            $courier->deleteVoucher($method, $voucher->number);
             $voucher->delete();
 
             $this->showSuccessToast("Ο κωδικός αποστολής $voucher->number ακυρώθηκε.");
