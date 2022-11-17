@@ -3,8 +3,10 @@
 namespace Eshop\Livewire\Dashboard\Cart;
 
 use Eshop\Livewire\Dashboard\Cart\Traits\ManagesVoucher;
+use Eshop\Models\Cart\Cart;
 use Eshop\Models\Cart\Voucher;
 use Eshop\Models\Location\ShippingMethod;
+use Eshop\Services\Courier\ContentType;
 use Eshop\Services\Courier\Courier;
 use Eshop\Services\Courier\Couriers;
 use Firebed\Components\Livewire\Traits\SendsNotifications;
@@ -42,11 +44,17 @@ class TrackAndTrace extends Component
 
     public function render(): Renderable
     {
+        $cart = Cart::find($this->cart_id);
+        $courier = Couriers::tryFrom($this->voucher['courier']);
+
         return view('eshop::dashboard.cart.wire.track-and-trace', [
             'checkpoints'     => $this->checkpoints ?? collect(),
             'shippingMethods' => ShippingMethod::where('is_courier', true)->where('name', '!=', 'ΚΤΕΛ')->pluck('name', 'id'),
-            'vouchers'        => $this->vouchers,
-            'icons'           => collect(Couriers::cases())->mapWithKeys(fn($c) => [$c->value => asset('images/' . $c->icon())])
+            //'vouchers'        => $this->vouchers,
+            'icons'           => collect(Couriers::cases())->mapWithKeys(fn($c) => [$c->value => asset('images/' . $c->icon())]),
+            'contentTypes'    => ContentType::cases(),
+            'services'        => $courier?->services() ?? [],
+            'currentVoucher'  => $cart->voucher()->first()
         ]);
     }
 }

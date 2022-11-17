@@ -212,7 +212,7 @@ class ShowCarts extends Component
             ->when(!$this->incomplete, static fn($q) => $q->submitted()->latest('submitted_at'))
             ->when($this->filter, function ($q, $f) {
                 return $q->where(fn($b) => $b->where('id', 'LIKE', "$f%")
-                    ->orWhere('voucher', 'LIKE', "$f%")
+                    ->orWhereHas('voucher', fn($b) => $b->where('number', 'LIKE', "$f%"))
                     ->orWhere('reference_id', 'LIKE', "$f%")
                     ->orWhereHas('shippingAddress', fn($b) => $b->matchAgainst($f)));
             })

@@ -55,4 +55,20 @@ enum Couriers: int
             self::UPS            => "UPS",
         };
     }
+
+    public function services(): array
+    {
+        return match($this) {
+            self::ACS            => AcsServices::cases(),
+            self::SPEEDEX        => [],
+            self::GENIKI         => [],
+            self::COURIER_CENTER => [],
+            self::DHL            => [],
+            self::TNT            => [],
+            self::ELTA_COURIER   => [],
+            self::TCS_COURIER    => [],
+            self::FEDEX          => [],
+            self::UPS            => [],
+        };
+    }
 }
