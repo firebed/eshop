@@ -10,13 +10,11 @@ use Eshop\Models\Cart\Voucher;
 use Eshop\Repository\Contracts\CartContract;
 use Eshop\Services\Courier\Courier;
 use Eshop\Services\Courier\Couriers;
-use Illuminate\Support\Collection;
 use Throwable;
 
 trait ManagesVoucher
 {
-    //private Collection $vouchers;
-    public ?Voucher    $editingVoucher = null;
+    public ?Voucher $editingVoucher = null;
 
     public array $voucher = [
         'courier'            => null,
