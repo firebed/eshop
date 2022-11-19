@@ -79,8 +79,15 @@
                         <img :src="icons[courier]" alt="" style="max-height: 55px" class="img-fluid">
                     </div>
 
-                    @forelse($services as $service)
-                        <x-bs::input.checkbox id="service-{{ $service->name }}" wire:model.defer="voucher.services.{{ $service->name }}" value="{{ $service->name }}">{{ $service->value }}</x-bs::input.checkbox>
+                    <div class="fw-bold mb-2">Υπηρεσίες</div>
+                    @forelse($services as $groups)
+                        @foreach($groups as $id => $name)
+                            <x-bs::input.checkbox id="service-{{ $id }}" wire:model.defer="voucher.services.{{ $id }}" value="{{ $id }}">{{ $name }}</x-bs::input.checkbox>
+                        @endforeach
+                    
+                        @if(!$loop->last)
+                            <hr>
+                        @endif
                     @empty
                         <div class="text-secondary py-5 text-center">Δεν βρέθηκαν υπηρεσίες.</div>
                     @endforelse

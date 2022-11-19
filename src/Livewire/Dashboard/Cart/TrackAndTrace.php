@@ -53,7 +53,7 @@ class TrackAndTrace extends Component
             //'vouchers'        => $this->vouchers,
             'icons'           => collect(Couriers::cases())->mapWithKeys(fn($c) => [$c->value => asset('images/' . $c->icon())]),
             'contentTypes'    => ContentType::cases(),
-            'services'        => $courier?->services() ?? [],
+            'services'        => $courier?->services($cart->shippingAddress->country->code) ?? [],
             'currentVoucher'  => $cart->voucher()->first()
         ]);
     }

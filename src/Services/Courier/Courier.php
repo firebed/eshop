@@ -8,8 +8,8 @@ use Illuminate\Support\Facades\Http;
 
 class Courier
 {
-    private const ENDPOINT = "https://www.myshipping.gr/api/";
-    //private const ENDPOINT = "http://127.0.0.1:8000/api/";
+    //private const ENDPOINT = "https://www.myshipping.gr/api/";
+    private const ENDPOINT = "http://127.0.0.1:8000/api/";
 
     /**
      * @throws Error

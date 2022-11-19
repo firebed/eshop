@@ -24,6 +24,8 @@ enum Couriers: int
 
     case UPS = 10;
 
+    case TAS_COURIER = 11;
+
     public function icon(): string|null
     {
         return match ($this) {
@@ -37,6 +39,7 @@ enum Couriers: int
             self::TCS_COURIER    => "tcs.png",
             self::FEDEX          => "fedex.svg",
             self::UPS            => "ups.svg",
+            self::TAS_COURIER    => "tas-courier.svg",
         };
     }
 
@@ -53,13 +56,14 @@ enum Couriers: int
             self::TCS_COURIER    => "TCS Courier",
             self::FEDEX          => "FexEx",
             self::UPS            => "UPS",
+            self::TAS_COURIER    => "TAS Courier",
         };
     }
 
-    public function services(): array
+    public function services(string $country_code): array
     {
-        return match($this) {
-            self::ACS            => AcsServices::cases(),
+        return match ($this) {
+            self::ACS            => (new Courier())->shippingServices(self::ACS, $country_code),
             self::SPEEDEX        => [],
             self::GENIKI         => [],
             self::COURIER_CENTER => [],
@@ -69,6 +73,7 @@ enum Couriers: int
             self::TCS_COURIER    => [],
             self::FEDEX          => [],
             self::UPS            => [],
+            self::TAS_COURIER    => [],
         };
     }
 }

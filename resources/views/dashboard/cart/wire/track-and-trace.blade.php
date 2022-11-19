@@ -4,12 +4,12 @@
     <div class="card-body">
         <div class="btn-group w-100">
             @if($currentVoucher)
-                <button type="button" class="flex-grow-1 btn btn-primary"><em class="fas fa-print fa-sm"></em> Εκτύπωση voucher</button>
+                <button type="button" wire:click="printVoucher()" class="flex-grow-1 btn btn-primary"><em class="fas fa-print fa-sm"></em> Εκτύπωση voucher</button>
             @else
-                <button type="button" class="flex-grow-1 btn btn-primary"><em class="fas fa-plus fa-sm"></em> Έκδοση voucher</button>
+                <button type="button" wire:click="showBuyVoucherModal()" class="flex-grow-1 btn btn-primary"><em class="fas fa-plus fa-sm"></em> Έκδοση voucher</button>
             @endif
 
-            <button type="button" class="flex-shrink-1 btn btn-outline-primary"><em class="fas fa-truck fa-sm"></em></button>
+            <button type="button" wire:click="trace()" class="flex-shrink-1 btn btn-outline-primary"><em class="fas fa-truck fa-sm"></em></button>
             <button type="button" class="flex-shrink-1 btn btn-outline-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
                 <span class="visually-hidden">Toggle Dropdown</span>
             </button>
