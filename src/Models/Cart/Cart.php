@@ -221,7 +221,7 @@ class Cart extends Model implements Order
     {
         static::addGlobalScope('safe', function (Builder $builder) {
             if (panicking()) {
-                $builder->whereDate('submitted_at', '>', today()->subMonth());
+                $builder->whereNull('submitted_at')->orWhereDate('submitted_at', '>', today()->subMonth());
             }
         });
     }
