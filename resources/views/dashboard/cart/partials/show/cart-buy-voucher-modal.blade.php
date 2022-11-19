@@ -62,6 +62,15 @@
                 <x-bs::input.group label="Ημερομηνία παραλαβής" for="pickup-date" inline>
                     <x-bs::input.date wire:model.defer="voucher.pickup_date" id="pickup-date" class="w-50"/>
                 </x-bs::input.group>
+
+                <x-bs::input.group label="Περιεχόμενο αποστολής" for="content-type" inline>
+                    <x-bs::input.select wire:model.defer="voucher.content_type" id="content-type">
+                        <option value="">Επιλέξτε περιεχόμενο αποστολής</option>
+                        @foreach($contentTypes as $type)
+                            <option value="{{ $type->value }}">{{ $type->label() }}</option>
+                        @endforeach
+                    </x-bs::input.select>
+                </x-bs::input.group>
             </div>
 
             <div class="col-4 border-start">
@@ -70,49 +79,11 @@
                         <img :src="icons[courier]" alt="" style="max-height: 55px" class="img-fluid">
                     </div>
 
-                    @if(filled($options))
-                        @foreach($options as $id => $value)
-                            @if(is_array($value))
-                                <x-bs::input.group label="{{ $id }}" for="service-{{ $id }}">
-                                    <x-bs::input.select id="service-{{ $id }}">
-                                        <option value="">{{ $id }}</option>
-                                        @foreach($value as $k => $v)
-                                            <option value="{{ $k }}">{{ $v }}</option>
-                                        @endforeach
-                                    </x-bs::input.select>
-                                </x-bs::input.group>
-                            @else
-                                <x-bs::input.checkbox id="service-{{ $id }}" wire:model.defer="voucher.services.{{ $id }}" value="{{ $id }}">{{ $value }}</x-bs::input.checkbox>
-                            @endif
-                        @endforeach
-                    @else
+                    @forelse($services as $service)
+                        <x-bs::input.checkbox id="service-{{ $service->name }}" wire:model.defer="voucher.services.{{ $service->name }}" value="{{ $service->name }}">{{ $service->value }}</x-bs::input.checkbox>
+                    @empty
                         <div class="text-secondary py-5 text-center">Δεν βρέθηκαν υπηρεσίες.</div>
-                    @endif
-                    {{--                    <x-bs::input.checkbox id="cd" wire:model.defer="voucher.services.0" value="5">Αντικαταβολή</x-bs::input.checkbox>--}}
-                    {{--                    --}}
-                    {{--                    <x-bs::input.checkbox id="ia" wire:model.defer="voucher.services.1" value="7">Δυσπρόσιτη περιοχή</x-bs::input.checkbox>--}}
-                    {{--                    <x-bs::input.checkbox id="sd" wire:model.defer="voucher.services.2" value="2">Παράδοση Σάββατο</x-bs::input.checkbox>--}}
-                    {{--                    <x-bs::input.checkbox id="md" wire:model.defer="voucher.services.3" value="3">Πρωινή παράδοση</x-bs::input.checkbox>--}}
-
-                    {{--                    <div>--}}
-                    {{--                        @if($voucher['country'] === 'CY')--}}
-                    {{--                            <div class="fw-500 mb-1 mt-3">Υπηρεσίες για Κύπρο</div>--}}
-
-                    {{--                            <x-bs::input.group label="Περιεχόμενο αποστολής" for="content-type" class="mb-2">--}}
-                    {{--                                <x-bs::input.select wire:model.defer="voucher.content_type" id="content-type">--}}
-                    {{--                                    <option value="">Επιλέξτε περιεχόμενο αποστολής</option>--}}
-                    {{--                                    @foreach($contentTypes as $id => $name)--}}
-                    {{--                                        <option value="{{ $id }}">{{ $name }}</option>--}}
-                    {{--                                    @endforeach--}}
-                    {{--                                </x-bs::input.select>--}}
-                    {{--                            </x-bs::input.group>--}}
-
-                    {{--                            <x-bs::input.checkbox id="ce" wire:model.defer="voucher.services.4" value="10">Cyprus Economy</x-bs::input.checkbox>--}}
-                    {{--                            <x-bs::input.checkbox id="pp" wire:model.defer="voucher.services.5" value="11">Point - Point</x-bs::input.checkbox>--}}
-                    {{--                            <x-bs::input.checkbox id="dp" wire:model.defer="voucher.services.6" value="12">Door - Point</x-bs::input.checkbox>--}}
-                    {{--                            <x-bs::input.checkbox id="pd" wire:model.defer="voucher.services.7" value="13">Point - Door</x-bs::input.checkbox>--}}
-                    {{--                        @endif--}}
-                    {{--                    </div>--}}
+                    @endforelse
                 </div>
             </div>
         </x-bs::modal.body>

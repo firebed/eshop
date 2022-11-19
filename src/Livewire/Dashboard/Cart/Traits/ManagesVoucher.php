@@ -10,15 +10,11 @@ use Eshop\Models\Cart\Voucher;
 use Eshop\Repository\Contracts\CartContract;
 use Eshop\Services\Courier\Courier;
 use Eshop\Services\Courier\Couriers;
-use Illuminate\Support\Collection;
 use Throwable;
 
 trait ManagesVoucher
 {
-    private Collection $vouchers;
-    public ?Voucher    $editingVoucher = null;
-    public array       $contentTypes   = [];
-    public array       $options        = [];
+    public ?Voucher $editingVoucher = null;
 
     public array $voucher = [
         'courier'            => null,
@@ -70,18 +66,9 @@ trait ManagesVoucher
         $this->showVoucherModal = true;
     }
 
-    public function updatedVoucher($value, $key): void
-    {
-        if ($key === 'country' || $key === 'courier') {
-            $this->voucher['services'] = [];
-            $courier = Couriers::tryFrom($this->voucher['courier']);
-            $this->options = (new Courier())->shippingServices($courier, $this->voucher['country']);;
-        }
-    }
-
     public function showBuyVoucherModal(): void
     {
-        $this->reset('voucher', 'contentTypes');
+        $this->reset('voucher');
 
         $cart = Cart::find($this->cart_id);
         if ($cart->shippingMethod->courier() === null) {
@@ -91,7 +78,7 @@ trait ManagesVoucher
             return;
         }
         $this->voucher['reference_1'] = $cart->id;
-        $this->voucher['courier'] = $cart->shippingMethod->courier();
+        $this->voucher['courier'] = $cart->shippingMethod->courier()->value;
         $this->voucher['pickup_date'] = today()->format('d/m/Y');
         $this->voucher['number_of_packages'] = 1;
         $this->voucher['weight'] = round($cart->parcel_weight / 1000, 2);
@@ -107,7 +94,6 @@ trait ManagesVoucher
         $this->voucher['country'] = $cart->shippingAddress->country->code;
         $this->voucher['content_type'] = null;
 
-        $this->options = (new Courier())->shippingServices($this->voucher['courier'], $this->voucher['country']);
         $this->showBuyVoucherModal = true;
     }
 
@@ -173,6 +159,6 @@ trait ManagesVoucher
 
     public function renderingManagesVoucher(): void
     {
-        $this->vouchers = Voucher::where('cart_id', $this->cart_id)->withTrashed()->latest()->get();
+        //$this->vouchers = Voucher::where('cart_id', $this->cart_id)->withTrashed()->latest()->get();
     }
 }
