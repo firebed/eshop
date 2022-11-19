@@ -18,6 +18,10 @@ class WarehouseAnalyticsController extends Controller
 
     public function __invoke(Request $request, OrderAnalytics $analytics): Renderable
     {
+        if (panicking()) {
+            abort(404);
+        }
+        
         return $this->view('analytics.warehouse.index', [
             'warehouseValue' => $this->warehouseValue(),
         ]);

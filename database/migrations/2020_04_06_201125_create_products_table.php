@@ -32,6 +32,7 @@ class CreateProductsTable extends Migration
             $table->boolean('visible')->default(true)->index();
             $table->boolean('recent')->default(false)->index();
             $table->boolean('promote')->default(false)->index();
+            $table->boolean('high_risk')->default(false)->index();
 
             $table->boolean('display_stock')->default(true);
             $table->integer('display_stock_lt')->nullable();
