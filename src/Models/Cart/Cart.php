@@ -226,4 +226,13 @@ class Cart extends Model implements Order
         $this->addresses()->delete();
         return parent::delete();
     }
+
+    protected static function booted(): void
+    {
+        static::addGlobalScope('safe', function (Builder $builder) {
+            if (panicking()) {
+                $builder->whereDate('submitted_at', '>', today()->subMonth());
+            }
+        });
+    }
 }

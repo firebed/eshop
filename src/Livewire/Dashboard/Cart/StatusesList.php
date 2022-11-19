@@ -15,6 +15,10 @@ class StatusesList extends Component
     public function render(): Renderable
     {
         $statuses = CartStatus::withCount(['carts' => function ($q) {
+            if (panicking()) {
+                $q->whereHas('products');
+            }
+            
             $q->when(auth()->user()?->cannot('Manage orders') && auth()->user()?->can('Manage assigned orders'), function ($q) {
                 $q->whereHas('operators', fn($b) => $b->where('user_id', auth()->id()));
             });

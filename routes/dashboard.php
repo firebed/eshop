@@ -51,6 +51,7 @@ use Eshop\Controllers\Dashboard\Slide\SlideController;
 use Eshop\Controllers\Dashboard\User\UserController;
 use Eshop\Controllers\Dashboard\User\UserPermissionController;
 use Eshop\Controllers\Dashboard\User\UserVariableController;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Route;
 
 Route::post('simplify/webhook', SimplifyWebhookController::class)->middleware('web');
@@ -60,6 +61,8 @@ if (eshop('skroutz')) {
 }
 
 Route::middleware(['web', 'auth', 'admin'])->group(function () {
+    Route::post('panic', fn() => Cache::put('panic', !Cache::get('panic', false)))->name('panic');
+
     Route::prefix('dashboard')->group(function () {
         Route::post('simplify/checkout', [SimplifyController::class, 'checkout'])->name('simplify.checkout');
         Route::get('simplify', [SimplifyController::class, 'index'])->name('simplify.index');

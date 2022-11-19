@@ -20,6 +20,7 @@ use Firebed\Components\Livewire\Traits\SendsNotifications;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -223,6 +224,7 @@ class ShowCarts extends Component
             ->when($this->status, fn($q, $s) => $q->where('status_id', $s))
             ->when($this->shipping_method_id, fn($q, $id) => $q->where('shipping_method_id', $id))
             ->when($this->payment_method_id, fn($q, $id) => $q->where('payment_method_id', $id))
+            ->when(panicking(), fn($q) => $q->whereHas('products'))
             ->paginate($this->per_page);
     }
 

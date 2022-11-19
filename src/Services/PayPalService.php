@@ -120,6 +120,12 @@ class PayPalService
         $order->loadMissing('products.parent.translations', 'products.translations', 'products.options');
         $items = [];
         foreach ($order->products as $product) {
+
+            // PayPal throws error if quantities with value zero are present
+            if ($product->pivot->quantity === 0 || $product->pivot->net_value === .0) {
+                continue;
+            }
+            
             $items[] = [
                 'name'        => $product->trademark,
                 //                'description' => $product->description,

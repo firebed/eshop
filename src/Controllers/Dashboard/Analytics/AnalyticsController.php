@@ -5,7 +5,6 @@ namespace Eshop\Controllers\Dashboard\Analytics;
 use Eshop\Controllers\Dashboard\Controller;
 use Eshop\Models\Cart\CartChannel;
 use Eshop\Models\Cart\CartStatus;
-use Eshop\Models\Product\Product;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -15,12 +14,16 @@ use Illuminate\Support\Facades\DB;
 class AnalyticsController extends Controller
 {
     public function __construct()
-    {
+    {        
         $this->middleware('can:View analytics');
     }
 
     public function __invoke(Request $request): Renderable
     {
+        if (panicking()) {
+            abort(404);
+        }
+        
         $date = $request->filled('date')
             ? Carbon::createFromFormat('Y-m-d', $request->input('date'))->startOfDay()
             : today();
