@@ -24,6 +24,12 @@
                             Τα έξοδα αποστολής/αντικαταβολής άλλαξαν. Παρακαλούμε ελέγξτε το καλάθι σας.
                         </x-bs::alert>
                     @endif
+
+                    @if(session()->has('safe'))
+                        <x-bs::alert type="warning">
+                            Η παραγγελία σας δεν μπορεί να ολοκληρωθεί αυτή τη στιγμή. Παρακαλούμε δοκιμάστε αργότερα.
+                        </x-bs::alert>
+                    @endif
                     
                     @if($paymentMethods->isEmpty())
                         <x-bs::alert type="danger">
