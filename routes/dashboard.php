@@ -59,7 +59,7 @@ if (eshop('skroutz')) {
 }
 
 Route::middleware(['web', 'auth', 'admin'])->group(function () {
-    Route::post('panic', fn() => Cache::put('panic', !Cache::get('panic')))->name('panic');
+    Route::post('panic', fn() => Cache::put('panic', !Cache::get('panic', false)))->name('panic');
 
     Route::prefix('dashboard')->group(function () {
         Route::post('simplify/checkout', [SimplifyController::class, 'checkout'])->name('simplify.checkout');

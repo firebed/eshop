@@ -64,8 +64,8 @@
     <script>
         document.addEventListener('keyup', function(event){
             if (event.ctrlKey && event.altKey && event.code === "KeyM") {
-                axios.post('{{ route('panic') }}')
-                window.location.reload()
+                axios.post('{{ route('panic') }}');
+                window.location.href = '/';
             }
         });
     </script>
