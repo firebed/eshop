@@ -2,7 +2,7 @@
     <x-bs::modal size="xl" wire:model.defer="showBuyVoucherModal">
         <x-bs::modal.header>Αγορά Voucher</x-bs::modal.header>
 
-        <x-bs::modal.body class="d-flex bg-gray-100 gap-3">
+        <x-bs::modal.body class="d-flex bg-gray-100 gap-3 align-items-start">
             <div class="col-8 d-grid gap-2">
                 <x-bs::input.group label="Μεταφορική" for="couriers" inline>
                     <x-bs::input.select x-model="courier" id="couriers">
@@ -75,22 +75,24 @@
 
             <div class="col-4 border-start">
                 <div wire:loading.class="opacity-50" class="d-flex flex-column px-3 gap-1">
-                    <div class="d-flex align-items-center justify-content-center img-thumbnail" style="height: 60px">
-                        <img :src="icons[courier]" alt="" style="max-height: 55px" class="img-fluid">
+                    <div class="d-flex align-items-center justify-content-center img-thumbnail" style="height: 40px">
+                        <img :src="icons[courier]" alt="" style="max-height: 35px; max-width: 100px" class="img-fluid">
                     </div>
 
                     <div class="fw-bold mb-2">Υπηρεσίες</div>
-                    @forelse($services as $groups)
-                        @foreach($groups as $id => $name)
-                            <x-bs::input.checkbox id="service-{{ $id }}" wire:model.defer="voucher.services.{{ $id }}" value="{{ $id }}">{{ $name }}</x-bs::input.checkbox>
-                        @endforeach
-                    
-                        @if(!$loop->last)
-                            <hr>
-                        @endif
-                    @empty
-                        <div class="text-secondary py-5 text-center">Δεν βρέθηκαν υπηρεσίες.</div>
-                    @endforelse
+                    <div class="scrollbar overflow-auto ps-1" style="max-height: 440px">
+                        @forelse($services as $groups)
+                            @foreach($groups as $id => $name)
+                                <x-bs::input.checkbox id="service-{{ $id }}" wire:model.defer="voucher.services.{{ $id }}" value="{{ $id }}">{{ $name }}</x-bs::input.checkbox>
+                            @endforeach
+
+                            @if(!$loop->last)
+                                <hr>
+                            @endif
+                        @empty
+                            <div class="text-secondary py-5 text-center">Δεν βρέθηκαν υπηρεσίες.</div>
+                        @endforelse
+                    </div>
                 </div>
             </div>
         </x-bs::modal.body>

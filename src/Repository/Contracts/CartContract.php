@@ -183,7 +183,7 @@ interface CartContract
     /**
      * Updates the voucher code of the given cart.
      */
-    public function setVoucher(Cart|int $cart, ?string $voucher, ?int $shipping_method_id = null, bool $is_manual = false): bool;
+    public function setVoucher(Cart|int $cart, ?string $voucher, ?int $courier = null, bool $is_manual = false, array $meta = []): bool;
 
     /**
      * Resets the cart's status as it was newly submitted.

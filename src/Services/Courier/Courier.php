@@ -3,6 +3,7 @@
 namespace Eshop\Services\Courier;
 
 use Error;
+use Eshop\Models\Cart\Voucher;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
 
@@ -88,25 +89,29 @@ class Courier
         ]));
     }
 
-    public function printVoucher(array $vouchers, $options = []): string
+    public function printVoucher(Collection $vouchers, $options = []): string
     {
-        return $this->download('vouchers/print', [
-            'options'  => $options,
-            'vouchers' => $vouchers
+        return $this->download("vouchers/print", [
+            'ids'     => $vouchers->pluck('meta.uuid')->toArray(),
+            'options' => $options,
         ]);
     }
 
     public function createVoucher(array $data)
     {
+        return $this->post('vouchers/issue', $data);
+    }
+
+    public function createManualVoucher(array $data)
+    {
         return $this->post('vouchers', $data);
     }
 
-    public function deleteVoucher(Couriers $courier, string $voucher)
+    public function deleteVoucher(Voucher $voucher, bool $propagate = true): void
     {
-        return $this->delete('vouchers/cancel', [
-            'courier' => $courier->value,
-            'number'  => $voucher
-        ]);
+        if (isset($voucher->meta['uuid']) && filled($uuid = $voucher->meta['uuid'])) {
+            $this->delete("vouchers/$uuid", ['propagate' => $propagate]);
+        }
     }
 
     public function shippingServices(Couriers $courier, string $country_code)

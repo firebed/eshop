@@ -62,18 +62,6 @@ enum Couriers: int
 
     public function services(string $country_code): array
     {
-        return match ($this) {
-            self::ACS            => (new Courier())->shippingServices(self::ACS, $country_code),
-            self::SPEEDEX        => [],
-            self::GENIKI         => [],
-            self::COURIER_CENTER => [],
-            self::DHL            => [],
-            self::TNT            => [],
-            self::ELTA_COURIER   => [],
-            self::TCS_COURIER    => [],
-            self::FEDEX          => [],
-            self::UPS            => [],
-            self::TAS_COURIER    => [],
-        };
+        return (new Courier())->shippingServices($this, $country_code);
     }
 }

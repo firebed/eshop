@@ -16,6 +16,7 @@ class CreateVouchersTable extends Migration
             $table->unsignedSmallInteger('courier')->nullable();
             $table->string('number')->index();
             $table->boolean('is_manual');
+            $table->json('meta')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

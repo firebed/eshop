@@ -1,6 +1,6 @@
 <x-bs::modal wire:model.defer="showVoucherModal">
     <form wire:submit.prevent="saveVoucher">
-        <x-bs::modal.header>Διαχείριση κωδικών αποστολής</x-bs::modal.header>
+        <x-bs::modal.header>Διαχείριση κωδικού αποστολής</x-bs::modal.header>
         <x-bs::modal.body>
             @if(isset($editingVoucher) && $editingVoucher->exists)
                 <div class="alert alert-warning">
@@ -8,10 +8,10 @@
                 </div>
             @endif
 
-            <x-bs::input.group for="cart-voucher-shipping-method-id" label="Εταιρεία" inline class="mb-2">
-                <x-bs::input.select wire:model.defer="editingVoucher.shipping_method_id" error="editingVoucher.shipping_method_id" id="cart-voucher-shipping-method-id">
-                    @foreach($shippingMethods as $id => $name)
-                        <option value="{{ $id }}">{{ $name }}</option>
+            <x-bs::input.group for="cart-voucher-courier" label="Εταιρεία" inline class="mb-2">
+                <x-bs::input.select wire:model.defer="editingVoucher.courier" error="editingVoucher.courier" id="cart-voucher-courier">
+                    @foreach(\Eshop\Services\Courier\Couriers::cases() as $c)
+                        <option value="{{ $c->value }}">{{ $c->label() }}</option>
                     @endforeach
                 </x-bs::input.select>
             </x-bs::input.group>

@@ -3,6 +3,7 @@
 namespace Eshop\Models\Cart;
 
 use Eshop\Models\Location\ShippingMethod;
+use Eshop\Services\Courier\Couriers;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
@@ -14,11 +15,11 @@ use Illuminate\Support\Collection;
 /**
  * @property int                $id
  * @property int                $cart_id
- * @property int                $courier
+ * @property Couriers           $courier
  * @property string             $number
  * @property bool               $is_manual
+ * @property array              $meta
  *
- * @property ShippingMethod     $shippingMethod
  * @property Collection<Pickup> $pickups
  *
  * @mixin Builder
@@ -27,10 +28,11 @@ class Voucher extends Model
 {
     use SoftDeletes;
 
-    protected $fillable = ['cart_id', 'courier', 'number', 'is_manual'];
+    protected $fillable = ['cart_id', 'courier', 'number', 'is_manual', 'meta'];
 
     protected $casts = [
         'is_manual' => 'bool',
+        'meta'      => 'array'
     ];
 
     public function cart(): BelongsTo

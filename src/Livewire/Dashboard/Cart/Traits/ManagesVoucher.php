@@ -15,6 +15,7 @@ use Throwable;
 trait ManagesVoucher
 {
     public ?Voucher $editingVoucher = null;
+    protected array $services       = [];
 
     public array $voucher = [
         'courier'            => null,
@@ -48,7 +49,8 @@ trait ManagesVoucher
                 'cart_id'   => $this->cart_id,
                 'courier'   => $query['courier'],
                 'number'    => $voucher['number'],
-                'is_manual' => false
+                'is_manual' => false,
+                'meta'      => ['uuid' => $voucher['uuid']]
             ]);
 
             $this->showSuccessToast('Ο κωδικός αποστολής δημιουργήθηκε με επιτυχία!');
@@ -59,26 +61,20 @@ trait ManagesVoucher
         $this->showBuyVoucherModal = false;
     }
 
-    public function createVoucher(): void
-    {
-        $cart = Cart::find($this->cart_id);
-        $this->editingVoucher = new Voucher(['shipping_method_id' => $cart->shipping_method_id]);
-        $this->showVoucherModal = true;
-    }
-
     public function showBuyVoucherModal(): void
     {
         $this->reset('voucher');
 
         $cart = Cart::find($this->cart_id);
-        if ($cart->shippingMethod->courier() === null) {
+        $courier = $cart->shippingMethod->courier();
+        if ($courier === null) {
             $methodName = $cart->shippingMethod?->name;
             $this->showErrorToast("Σφάλμα", "Μη αποδεκτός τρόπος αποστολής" . ($methodName ? " \"" . __("eshop::shipping.$methodName") . "\"" : "") . ".");
             $this->skipRender();
             return;
         }
         $this->voucher['reference_1'] = $cart->id;
-        $this->voucher['courier'] = $cart->shippingMethod->courier()->value;
+        $this->voucher['courier'] = $courier->value;
         $this->voucher['pickup_date'] = today()->format('d/m/Y');
         $this->voucher['number_of_packages'] = 1;
         $this->voucher['weight'] = round($cart->parcel_weight / 1000, 2);
@@ -94,7 +90,38 @@ trait ManagesVoucher
         $this->voucher['country'] = $cart->shippingAddress->country->code;
         $this->voucher['content_type'] = null;
 
+        $this->loadServices($courier, $cart);
+
         $this->showBuyVoucherModal = true;
+    }
+
+    private function loadServices(Couriers $courier, Cart $cart): void
+    {
+        $this->voucher['services'] = [];
+        
+        $this->services = $courier->services($cart->shippingAddress->country->code) ?? [];
+        
+        if ($cart->paymentMethod->isPayOnDelivery()) {
+            $cod = match ($courier) {
+                Couriers::ACS    => 'COD',
+                Couriers::GENIKI => 'ΑΜ',
+                default          => null,
+            };
+
+            if ($cod !== null) {
+                $this->voucher['services'][$cod] = $cod;
+            }
+        }
+    }
+
+    public function createVoucher(): void
+    {
+        $cart = Cart::find($this->cart_id);
+        $this->editingVoucher = new Voucher([
+            'courier' => $cart->shippingMethod->courier()->value
+        ]);
+
+        $this->showVoucherModal = true;
     }
 
     public function editVoucher(Voucher $voucher): void
@@ -103,12 +130,40 @@ trait ManagesVoucher
         $this->showVoucherModal = true;
     }
 
+    public function saveVoucher(CartContract $contract, Courier $courier): void
+    {
+        $this->validate();
+        //
+        //if ($this->editingVoucher && $this->editingVoucher->exists) {
+        //    $this->editingVoucher->save();
+        //    $this->showVoucherModal = false;
+        //    $this->showSuccessToast('Voucher saved!');
+        //    return;
+        //}
+
+        $cart = Cart::find($this->cart_id);
+        $number = trim($this->editingVoucher->number) ?: null;
+
+        $response = $courier->createManualVoucher([
+            'courier'     => $this->editingVoucher->courier,
+            'reference_1' => $cart->id,
+            'number'      => $this->editingVoucher->number,
+            'cod_amount'  => 0,
+        ]);
+
+        if ($contract->setVoucher($cart->id, $number, $response['courier'], true, ['uuid' => $response['uuid']])) {
+            $this->showVoucherModal = false;
+
+            $this->showSuccessToast('Voucher saved!');
+        } else {
+            $this->addError('voucher', 'An error occurred. The voucher code was not updated.');
+        }
+    }
+
     public function printVoucher(Voucher $voucher, Courier $courier)
     {
         try {
-            $pdf = $courier->printVoucher([
-                ['courier' => $voucher->courier, 'number' => $voucher->number]
-            ]);
+            $pdf = $courier->printVoucher(collect([$voucher]));
 
             return response()->streamDownload(function () use ($pdf) {
                 echo $pdf;
@@ -118,47 +173,27 @@ trait ManagesVoucher
         }
     }
 
-    public function saveVoucher(CartContract $contract): void
+    public function deleteVoucher(Voucher $voucher, Courier $courier): void
     {
-        $this->validate();
-
-        if ($this->editingVoucher && $this->editingVoucher->exists) {
-            $this->editingVoucher->save();
-            $this->showVoucherModal = false;
-            return;
-        }
-
-        $cart = Cart::find($this->cart_id);
-        $number = trim($this->editingVoucher->number) ?: null;
-        if ($contract->setVoucher($cart->id, $number, $this->editingVoucher->shipping_method_id, true)) {
-            $this->showVoucherModal = false;
-
-            $this->showSuccessToast('Voucher saved!');
-        } else {
-            $this->addError('voucher', 'An error occurred. The voucher code was not updated.');
-        }
-    }
-
-    public function cancelVoucher(Voucher $voucher, Courier $courier): void
-    {
-        $method = Couriers::tryFrom($voucher->courier);
         try {
-            $courier->deleteVoucher($method, $voucher->number);
+            $courier->deleteVoucher($voucher, $this->propagate_delete);
+
             $voucher->delete();
 
             $this->showSuccessToast("Ο κωδικός αποστολής $voucher->number ακυρώθηκε.");
+            $this->showDeleteVoucherModal = false;
         } catch (Throwable $e) {
             $this->showErrorToast("Σφάλμα", $e->getMessage());
         }
     }
 
-    public function deleteVoucher(Voucher $voucher): void
+    public function updatedVoucher($v, $k): void
     {
-        $voucher->delete();
-    }
-
-    public function renderingManagesVoucher(): void
-    {
-        //$this->vouchers = Voucher::where('cart_id', $this->cart_id)->withTrashed()->latest()->get();
+        if ($k === 'courier') {
+            $cart = Cart::find($this->cart_id);
+            $courier = Couriers::tryFrom($v);
+            
+            $this->loadServices($courier, $cart);
+        }
     }
 }
