@@ -2,14 +2,23 @@
 
 namespace Eshop\Livewire\Dashboard\Voucher;
 
+use Eshop\Actions\CreateVoucherRequest;
 use Eshop\Models\Cart\Cart;
+use Eshop\Models\Cart\Voucher;
+use Eshop\Services\Courier\Courier;
 use Eshop\Services\Courier\Couriers;
+use Firebed\Components\Livewire\Traits\SendsNotifications;
 use Illuminate\Contracts\Support\Renderable;
 use Livewire\Component;
+use Throwable;
 
 class CreateVoucherModal extends Component
 {
+    use SendsNotifications;
+
     public bool $showModal = false;
+
+    private ?string $icon = null;
 
     protected $listeners = [
         'createVoucher'
@@ -32,59 +41,53 @@ class CreateVoucherModal extends Component
         'services'           => [],
     ];
 
-    public function createVoucher(Cart $cart): void
+    private array $services = [];
+
+    public function createVoucher(Cart $cart, CreateVoucherRequest $voucherRequest): void
     {
         $courier = $cart->shippingMethod->courier();
+        $this->icon = asset("images/" . $courier->icon());
 
-        $this->voucher['reference_1'] = $cart->id;
-        $this->voucher['courier'] = $courier->value;
-        $this->voucher['pickup_date'] = today()->format('d/m/Y');
-        $this->voucher['number_of_packages'] = 1;
-        $this->voucher['weight'] = max(round($cart->parcel_weight / 1000, 2), 0.5);
-        $this->voucher['cod_amount'] = $cart->paymentMethod->isPayOnDelivery() ? round($cart->total, 2) : null;
-        $this->voucher['payment_method'] = $cart->paymentMethod->isPayOnDelivery() ? 1 : null;
-        $this->voucher['sender'] = config('app.name');
-        $this->voucher['customer_name'] = $cart->shippingAddress->fullName;
-        $this->voucher['address'] = $cart->shippingAddress->street;
-        $this->voucher['address_number'] = $cart->shippingAddress->street_no;
-        $this->voucher['postcode'] = str_replace(" ", "", $cart->shippingAddress->postcode);
-        $this->voucher['region'] = $cart->shippingAddress->city;
-        $this->voucher['cellphone'] = $cart->shippingAddress->phone;
-        $this->voucher['country'] = $cart->shippingAddress->country->code;
-        $this->voucher['content_type'] = null;
-
+        $this->voucher = $voucherRequest->handle($cart, $courier);
         $this->loadServices($courier, $cart);
 
         $this->showModal = true;
     }
 
-    public function purchaseVoucher()
+    public function purchaseVoucher(Courier $courier)
     {
-        
+        $query = $this->voucher;
+        $query['charge_type'] = 1;
+
+        try {
+            $voucher = $courier->createVoucher($query);
+
+            Voucher::create([
+                'cart_id'   => $voucher['reference_1'],
+                'courier'   => $voucher['courier'],
+                'number'    => $voucher['number'],
+                'is_manual' => false,
+                'meta'      => ['uuid' => $voucher['uuid']]
+            ]);
+
+            $this->showSuccessToast('Ο κωδικός αποστολής δημιουργήθηκε με επιτυχία!');
+            $this->showBuyVoucherModal = false;
+        } catch (Throwable $e) {
+            $this->addError('error', $e->getMessage());
+        }
     }
 
     private function loadServices(Couriers $courier, Cart $cart): void
     {
-        $this->voucher['services'] = [];
-
         $this->services = $courier->services($cart->shippingAddress->country->code) ?? [];
-
-        if ($cart->paymentMethod->isPayOnDelivery()) {
-            $cod = match ($courier) {
-                Couriers::ACS    => 'COD',
-                Couriers::GENIKI => 'ΑΜ',
-                default          => null,
-            };
-
-            if ($cod !== null) {
-                $this->voucher['services'][$cod] = $cod;
-            }
-        }
     }
 
 
     public function render(): Renderable
     {
-        return view('eshop::dashboard.voucher.wire.create');
+        return view('eshop::dashboard.voucher.wire.create', [
+            'services' => $this->services,
+            'icon'     => $this->icon,
+        ]);
     }
 }

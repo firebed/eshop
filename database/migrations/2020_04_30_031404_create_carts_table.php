@@ -31,6 +31,7 @@ class CreateCartsTable extends Migration
             $table->text('comments')->nullable();
             $table->string('email')->nullable();
             $table->string('ip')->nullable();
+            $table->string('voucher')->nullable();
             $table->enum('channel', ['eshop', 'phone', 'pos', 'facebook', 'instagram', 'skroutz', 'other'])->default('eshop');
             $table->boolean('gift_wrap')->default(false);
 

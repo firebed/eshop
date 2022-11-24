@@ -2,7 +2,7 @@
 
 namespace Eshop\Livewire\Dashboard\Voucher;
 
-use Carbon\Carbon;
+use Eshop\Actions\CreateVoucherRequest;
 use Eshop\Models\Cart\Cart;
 use Eshop\Models\Cart\Voucher;
 use Eshop\Services\Courier\Courier;
@@ -24,34 +24,16 @@ class VoucherTableRow extends Component
         $this->number = $cart->voucher()->first()->number ?? "";
     }
 
-    public function createVoucher(Courier $courier)
+    public function createVoucher(CreateVoucherRequest $voucherRequest, Courier $courier)
     {
         $cart = $this->cart;
         if ($cart->voucher()->exists()) {
             return;
         }
-        
+
         $sm = $cart->shippingMethod()->first();
 
-        $query = [
-            'charge_type'        => 1,
-            'reference_1'        => $cart->id,
-            'courier'            => $sm->courier()->value,
-            'pickup_date'        => today()->format('Y-m-d'),
-            'number_of_packages' => 1,
-            'weight'             => max(round($cart->parcel_weight / 1000, 2), 0.5),
-            'cod_amount'         => $cart->paymentMethod->isPayOnDelivery() ? round($cart->total, 2) : 0,
-            'payment_method'     => $cart->paymentMethod->isPayOnDelivery() ? 1 : null,
-            'sender'             => config('app.name'),
-            'customer_name'      => $cart->shippingAddress->fullName,
-            'address'            => $cart->shippingAddress->street,
-            'address_number'     => $cart->shippingAddress->street_no,
-            'postcode'           => str_replace(" ", "", $cart->shippingAddress->postcode),
-            'region'             => $cart->shippingAddress->city,
-            'cellphone'          => $cart->shippingAddress->phone,
-            'country'            => $cart->shippingAddress->country->code,
-            'content_type'       => null,
-        ];
+        $query = $voucherRequest->handle($cart, $sm->courier());
 
         try {
             $voucher = $courier->createVoucher($query);

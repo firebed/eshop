@@ -5,6 +5,7 @@ namespace Eshop\Livewire\Dashboard\Cart\Traits;
 
 
 use Carbon\Carbon;
+use Eshop\Actions\CreateVoucherRequest;
 use Eshop\Models\Cart\Cart;
 use Eshop\Models\Cart\Voucher;
 use Eshop\Repository\Contracts\CartContract;
@@ -61,7 +62,7 @@ trait ManagesVoucher
         $this->showBuyVoucherModal = false;
     }
 
-    public function showBuyVoucherModal(): void
+    public function showBuyVoucherModal(CreateVoucherRequest $voucherRequest): void
     {
         $this->reset('voucher');
 
@@ -73,22 +74,7 @@ trait ManagesVoucher
             $this->skipRender();
             return;
         }
-        $this->voucher['reference_1'] = $cart->id;
-        $this->voucher['courier'] = $courier->value;
-        $this->voucher['pickup_date'] = today()->format('d/m/Y');
-        $this->voucher['number_of_packages'] = 1;
-        $this->voucher['weight'] = round($cart->parcel_weight / 1000, 2);
-        $this->voucher['cod_amount'] = $cart->paymentMethod->isPayOnDelivery() ? round($cart->total, 2) : null;
-        $this->voucher['payment_method'] = $cart->paymentMethod->isPayOnDelivery() ? 1 : null;
-        $this->voucher['sender'] = config('app.name');
-        $this->voucher['customer_name'] = $cart->shippingAddress->fullName;
-        $this->voucher['address'] = $cart->shippingAddress->street;
-        $this->voucher['address_number'] = $cart->shippingAddress->street_no;
-        $this->voucher['postcode'] = str_replace(" ", "", $cart->shippingAddress->postcode);
-        $this->voucher['region'] = $cart->shippingAddress->city;
-        $this->voucher['cellphone'] = $cart->shippingAddress->phone;
-        $this->voucher['country'] = $cart->shippingAddress->country->code;
-        $this->voucher['content_type'] = null;
+        $this->voucher = $voucherRequest->handle($cart, $courier);
 
         $this->loadServices($courier, $cart);
 
@@ -97,21 +83,7 @@ trait ManagesVoucher
 
     private function loadServices(Couriers $courier, Cart $cart): void
     {
-        $this->voucher['services'] = [];
-
         $this->services = $courier->services($cart->shippingAddress->country->code) ?? [];
-
-        if ($cart->paymentMethod->isPayOnDelivery()) {
-            $cod = match ($courier) {
-                Couriers::ACS    => 'COD',
-                Couriers::GENIKI => 'ΑΜ',
-                default          => null,
-            };
-
-            if ($cod !== null) {
-                $this->voucher['services'][$cod] = $cod;
-            }
-        }
     }
 
     public function createVoucher(): void
@@ -158,7 +130,7 @@ trait ManagesVoucher
                 'number'      => $number,
                 'cod_amount'  => 0,
             ]);
-            
+
             $meta = ['uuid' => $response['uuid']];
         }
 
