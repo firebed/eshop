@@ -56,6 +56,8 @@ use Eshop\Livewire\Dashboard\User\ShowUserPermissions;
 use Eshop\Livewire\Dashboard\User\ShowUsers;
 use Eshop\Livewire\Dashboard\User\UserAddressesTable;
 use Eshop\Livewire\Dashboard\User\UserCartsTable;
+use Eshop\Livewire\Dashboard\Voucher\CreateVoucherModal;
+use Eshop\Livewire\Dashboard\Voucher\VoucherTableRow;
 use Illuminate\Support\ServiceProvider;
 use Livewire\Livewire;
 
@@ -91,6 +93,10 @@ class LivewireServiceProvider extends ServiceProvider
         Livewire::component('dashboard.cart.show-cart-events', ShowCartEvents::class);
         Livewire::component('dashboard.cart.track-and-trace', TrackAndTrace::class);
 
+        // Voucher
+        Livewire::component('dashboard.voucher.create', CreateVoucherModal::class);
+        Livewire::component('dashboard.voucher.table-row', VoucherTableRow::class);
+        
         // Categories
         Livewire::component('dashboard.category.property-choices', CategoryPropertyChoices::class);
         Livewire::component('dashboard.category.categories-tree', CategoriesTree::class);

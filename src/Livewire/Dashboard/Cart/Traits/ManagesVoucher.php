@@ -98,9 +98,9 @@ trait ManagesVoucher
     private function loadServices(Couriers $courier, Cart $cart): void
     {
         $this->voucher['services'] = [];
-        
+
         $this->services = $courier->services($cart->shippingAddress->country->code) ?? [];
-        
+
         if ($cart->paymentMethod->isPayOnDelivery()) {
             $cod = match ($courier) {
                 Couriers::ACS    => 'COD',
@@ -118,9 +118,10 @@ trait ManagesVoucher
     {
         $cart = Cart::find($this->cart_id);
         $this->editingVoucher = new Voucher([
-            'courier' => $cart->shippingMethod->courier()->value
+            'courier' => $cart->shippingMethod->courier()->value ?? null
         ]);
 
+        $this->saveOnMyShipping = true;
         $this->showVoucherModal = true;
     }
 
@@ -133,25 +134,35 @@ trait ManagesVoucher
     public function saveVoucher(CartContract $contract, Courier $courier): void
     {
         $this->validate();
-        //
-        //if ($this->editingVoucher && $this->editingVoucher->exists) {
-        //    $this->editingVoucher->save();
-        //    $this->showVoucherModal = false;
-        //    $this->showSuccessToast('Voucher saved!');
-        //    return;
-        //}
+
+        if ($this->editingVoucher && $this->editingVoucher->exists) {
+            $courier->updateManualVoucher($this->editingVoucher, [
+                'courier'    => $this->editingVoucher->courier,
+                'number'     => $this->editingVoucher->number,
+                'cod_amount' => 0,
+            ]);
+
+            $this->editingVoucher->save();
+            $this->showVoucherModal = false;
+            $this->showSuccessToast('Voucher saved!');
+            return;
+        }
 
         $cart = Cart::find($this->cart_id);
         $number = trim($this->editingVoucher->number) ?: null;
 
-        $response = $courier->createManualVoucher([
-            'courier'     => $this->editingVoucher->courier,
-            'reference_1' => $cart->id,
-            'number'      => $this->editingVoucher->number,
-            'cod_amount'  => 0,
-        ]);
+        if ($this->saveOnMyShipping) {
+            $response = $courier->createManualVoucher([
+                'courier'     => $this->editingVoucher->courier,
+                'reference_1' => $cart->id,
+                'number'      => $number,
+                'cod_amount'  => 0,
+            ]);
+            
+            $meta = ['uuid' => $response['uuid']];
+        }
 
-        if ($contract->setVoucher($cart->id, $number, $response['courier'], true, ['uuid' => $response['uuid']])) {
+        if ($contract->setVoucher($cart->id, $number, $this->editingVoucher->courier, true, $meta ?? [])) {
             $this->showVoucherModal = false;
 
             $this->showSuccessToast('Voucher saved!');
@@ -192,7 +203,7 @@ trait ManagesVoucher
         if ($k === 'courier') {
             $cart = Cart::find($this->cart_id);
             $courier = Couriers::tryFrom($v);
-            
+
             $this->loadServices($courier, $cart);
         }
     }

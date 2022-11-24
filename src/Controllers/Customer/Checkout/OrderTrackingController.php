@@ -4,6 +4,7 @@ namespace Eshop\Controllers\Customer\Checkout;
 
 use Eshop\Controllers\Customer\Controller;
 use Eshop\Models\Cart\Cart;
+use Eshop\Models\Cart\Voucher;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -31,16 +32,16 @@ class OrderTrackingController extends Controller
     public function searchByVoucher(Request $request, string $lang): RedirectResponse
     {
         $request->validate([
-            'voucher' => ['required', 'string', 'exists:carts,voucher'],
+            'voucher' => ['required', 'string', 'exists:vouchers,number'],
         ]);
 
-        $cart = Cart::firstWhere('voucher', $request->input('voucher'));
-
-        if ($cart === null) {
+        $voucher = Voucher::firstWhere('number', $request->input('voucher'));
+        
+        if ($voucher === null) {
             return redirect()->route('order-tracking.index', $lang);
         }
 
-        return redirect(URL::signedRoute('order-tracking.show', [$lang, $cart]));
+        return redirect(URL::signedRoute('order-tracking.show', [$lang, $voucher->cart]));
     }
 
     public function searchById(Request $request, string $lang): RedirectResponse

@@ -3,6 +3,9 @@
 
     <div class="card-body">
         @if($currentVoucher)
+            @if($cart->channel === 'skroutz')
+                <div class="mb-3"><span class="badge rounded-pill bg-orange-500 text-gray-100">Skroutz</span></div>
+            @endif
             <div class="d-flex justify-content-between align-items-center mb-3">
                 <div class="fw-500">{{ $currentVoucher->number }}</div>
                 <div><img src="{{ $icons[$currentVoucher->courier] }}" class="img-fluid" style="max-height: 24px; max-width: 80px" alt=""></div>
@@ -11,33 +14,43 @@
 
         <div class="btn-group w-100">
             @if($currentVoucher)
-                <button type="button" wire:click="printVoucher({{ $currentVoucher->id }})" wire:loading.attr="disabled" class="col-8 btn btn-primary">
-                    <span wire:loading wire:target="printVoucher"><em class="fa fa-spinner fa-spin"></em></span>
-                    <span wire:loading.remove wire:target="printVoucher"><em class="fas fa-print fa-sm"></em> Εκτύπωση voucher</span>
-                </button>
+                @if(filled($cart->reference_id) && $cart->channel === 'skroutz')
+                    <a href="{{ route('carts.print-voucher', $cart) }}" target="_blank" type="button" class="col-8 btn btn-primary">
+                        <em class="fas fa-print fa-sm"></em> Εκτύπωση voucher
+                    </a>
+                @else
+                    <button type="button" wire:click="printVoucher({{ $currentVoucher->id }})" wire:loading.attr="disabled" class="col-8 btn btn-primary">
+                        <span wire:loading wire:target="printVoucher"><em class="fa fa-spinner fa-spin"></em></span>
+                        <span wire:loading.remove wire:target="printVoucher"><em class="fas fa-print fa-sm"></em> Εκτύπωση voucher</span>
+                    </button>
 
-                <button type="button" wire:click="trace({{ $currentVoucher->id }})" wire:loading.attr="disabled" class="col-2 btn btn-outline-primary">
-                    <em wire:loading wire:target="trace" class="fa fa-spinner fa-spin"></em>
-                    <em wire:loading.remove wire:target="trace" class="fas fa-map-marked-alt"></em>
-                </button>
+                    <button type="button" wire:click="trace({{ $currentVoucher->id }})" wire:loading.attr="disabled" class="col-2 btn btn-outline-primary">
+                        <em wire:loading wire:target="trace" class="fa fa-spinner fa-spin"></em>
+                        <em wire:loading.remove wire:target="trace" class="fas fa-map-marked-alt"></em>
+                    </button>
+                @endif
             @else
-                <button type="button" wire:click="showBuyVoucherModal()" class="col-8 btn btn-primary"><em class="fas fa-plus fa-sm"></em> Έκδοση voucher</button>
+                <button type="button" wire:click="showBuyVoucherModal()" wire:loading.attr="disabled" class="col-8 btn btn-primary"><em class="fas fa-plus fa-sm"></em> Έκδοση voucher</button>
             @endif
 
-            <button type="button" class="col-2 btn btn-outline-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
-                <span class="visually-hidden">Toggle Dropdown</span>
-            </button>
-            <ul class="dropdown-menu">
-                @if($currentVoucher === null)
-                    <li><a class="dropdown-item" href="#" wire:click.prevent="createVoucher()"><em class="fas fa-pencil-alt text-secondary me-2"></em> Χειροκίνητη εισαγωγή</a></li>
-                @else
-                    @if($currentVoucher->is_manual)
-                        <li><a class="dropdown-item" href="#" wire:click.prevent="editVoucher({{ $currentVoucher->id }})"><em class="fas fa-pencil-alt text-secondary me-2"></em> Επεξεργασία</a></li>
-                        <li><hr class="dropdown-divider"></li>
+            @if($cart->channel !== 'skroutz')
+                <button type="button" class="col-2 btn btn-outline-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+                    <span class="visually-hidden">Toggle Dropdown</span>
+                </button>
+                <ul class="dropdown-menu">
+                    @if($currentVoucher === null)
+                        <li><a class="dropdown-item" href="#" wire:click.prevent="createVoucher()"><em class="fas fa-pencil-alt text-secondary me-2"></em> Χειροκίνητη εισαγωγή</a></li>
+                    @else
+                        @if($currentVoucher->is_manual)
+                            <li><a class="dropdown-item" href="#" wire:click.prevent="editVoucher({{ $currentVoucher->id }})"><em class="fas fa-pencil-alt text-secondary me-2"></em> Επεξεργασία</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                        @endif
+                        <li><a class="dropdown-item" href="#" wire:click.prevent="$toggle('showDeleteVoucherModal')"><em class="fas fa-trash-alt text-secondary me-2"></em> Διαγραφή voucher</a></li>
                     @endif
-                    <li><a class="dropdown-item" href="#" wire:click.prevent="$toggle('showDeleteVoucherModal')"><em class="fas fa-trash-alt text-secondary me-2"></em> Διαγραφή voucher</a></li>
-                @endif
-            </ul>
+                </ul>
+            @endif
         </div>
     </div>
 

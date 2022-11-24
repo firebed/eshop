@@ -33,7 +33,7 @@ class NotificationsTable extends Component
     public function refreshPayouts(Notification $notification): void
     {
         $this->activeNotification = $notification;
-        
+
         $metadata = $notification->metadata;
         if (!array_key_exists('keyName', $metadata)) {
             return;
@@ -41,16 +41,18 @@ class NotificationsTable extends Component
 
         $keyName = $metadata['keyName'];
         $payoutId = $metadata['payout_id'] ?? null;
-        $payouts = collect($metadata['payouts']);
+        $payouts = collect($metadata['payouts'])->keyBy('reference');
 
-        $carts = Cart::select('id', 'total', $keyName)
-            ->whereIn($keyName, $payouts->pluck('reference'))
+        $carts = Cart::select('id', 'total')
+            ->when($keyName !== 'voucher', fn($q) => $q->addSelect($keyName))
+            ->when($keyName === 'voucher', fn($q) => $q->whereHas('voucher', fn($b) => $b->whereIn('number', $payouts->pluck('reference'))))
+            ->when($keyName !== 'voucher', fn($q) => $q->whereIn($keyName, $payouts->pluck('reference')))
             ->whereDoesntHave('payment')
             ->get()
             ->keyBy($keyName);
 
-        foreach ($payouts as $payout) {
-            $cart = $carts->get($payout['reference']);
+        foreach ($carts as $reference => $cart) {
+            $payout = $payouts[$reference];
 
             $cart->payment()->save(new Payment([
                 'payout_id' => $payoutId,
@@ -72,20 +74,23 @@ class NotificationsTable extends Component
 
             if (array_key_exists('keyName', $metadata)) {
                 $keyName = $metadata['keyName'];
+
                 $payouts = collect($metadata['payouts']);
 
-                $carts = Cart::select('id', 'total', $keyName)
-                    ->whereIn($keyName, $payouts->pluck('reference'))
-                    ->with('payment')
+                $carts = Cart::select('id', 'total')
+                    ->when($keyName !== 'voucher', fn($q) => $q->addSelect($keyName))
+                    ->when($keyName === 'voucher', fn($q) => $q->whereHas('voucher', fn($b) => $b->whereIn('number', $payouts->pluck('reference'))))
+                    ->when($keyName !== 'voucher', fn($q) => $q->whereIn($keyName, $payouts->pluck('reference')))
+                    ->with('payment', 'voucher')
                     ->get()
-                    ->keyBy($keyName);
+                    ->keyBy($keyName === "voucher" ? "voucher.number" : $keyName);
 
                 foreach ($payouts as $key => $payout) {
                     $cart = $carts->get($payout['reference']);
-
+                    
                     if ($cart === null) {
                         $payout['error'] = "Δεν βρέθηκε αντίστοιχη παραγγελία στο eshop.";
-                    } elseif (!floats_equal($cart->total, $payout['total'] + $payout['fees'])) {
+                    } elseif (!floats_equal(round($cart->total, 2), round($payout['total'] + $payout['fees'], 2))) {
                         $payout['error'] = "Το σύνολο πληρωμής δεν είναι ίδιο με το σύνολο της παραγγελίας.";
                     } elseif ($cart->payment === null) {
                         $payout['warning'] = "Δεν έχει αποδοθεί η πληρωμή.";

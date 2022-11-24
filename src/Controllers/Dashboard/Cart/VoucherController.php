@@ -18,7 +18,7 @@ class VoucherController extends Controller
     {
         $ids = json_decode($request->query('ids'));
         $carts = Cart::whereKey($ids)
-            ->with('paymentMethod', 'shippingMethod', 'shippingAddress.country')
+            ->with('paymentMethod', 'shippingMethod', 'shippingAddress.country', 'voucher')
             ->latest('submitted_at')
             ->get()
             ->sortBy('shippingMethod.id')

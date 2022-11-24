@@ -23,6 +23,7 @@ class TrackAndTrace extends Component
     public bool $showBuyVoucherModal    = false;
     public bool $showDeleteVoucherModal = false;
     public bool $propagate_delete       = true;
+    public bool $saveOnMyShipping       = true;
     public int  $cart_id;
 
     protected array $rules = [
@@ -35,7 +36,7 @@ class TrackAndTrace extends Component
     public function trace(Voucher $voucher, Courier $courier)
     {
         try {
-            $this->checkpoints = $courier->trace($voucher->courier, $voucher->number);
+            $this->checkpoints = $courier->trace($voucher);
             $this->show = true;
         } catch (Throwable $e) {
             $this->showErrorToast("Σφάλμα", $e->getMessage());
@@ -51,6 +52,7 @@ class TrackAndTrace extends Component
             'icons'          => collect(Couriers::cases())->mapWithKeys(fn($c) => [$c->value => asset('images/' . $c->icon())]),
             'contentTypes'   => ContentType::cases(),
             'services'       => $this->services,
+            'cart'           => $cart,
             'currentVoucher' => $cart->voucher()->first()
         ]);
     }

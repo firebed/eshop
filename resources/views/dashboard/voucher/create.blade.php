@@ -12,30 +12,33 @@
 
 @section('main')
     <div class="col-12 p-4">
-        <form action="{{ route('vouchers.store') }}" method="post">
-            @csrf
 
-            <div id="forms-modal" class="modal" tabindex="-1">
-                <div class="modal-dialog modal-dialog-scrollable modal-lg">
-                    <div x-data="{ cart: null }" x-on:show-cart.window="cart = $event.detail" class="modal-content shadow">
-                        <x-bs::modal.header>Επεξεργασία voucher</x-bs::modal.header>
-                        <x-bs::modal.body>
-                            @foreach($carts as $cart_id => $cart)
-                                <div x-show="cart == @js($cart_id)" x-cloak id="cart-{{ $cart_id }}">
-                                    @includeWhen($cart->shippingMethod->name === 'ACS Courier', 'eshop::dashboard.voucher.partials.acs-form')
-                                    @includeWhen($cart->shippingMethod->name === 'SpeedEx', 'eshop::dashboard.voucher.partials.speedex-form')
-                                </div>
-                            @endforeach
-                        </x-bs::modal.body>
-                    </div>
-                </div>
-            </div>
+        <div class="d-flex mb-3">
+            <x-bs::button.primary id="issue-vouchers">Έκδοση</x-bs::button.primary>
+        </div>
 
-            <div class="table-responsive bg-white shadow-sm rounded">
-                @include('eshop::dashboard.voucher.partials.orders-voucher-table')
-            </div>
-        </form>
-        
-        @include('eshop::dashboard.voucher.modals.voucher-address-modal')
+        <div class="table-responsive bg-white shadow-sm rounded">
+            @include('eshop::dashboard.voucher.partials.orders-voucher-table')
+        </div>
+
+        <livewire:dashboard.voucher.create/>
     </div>
 @endsection
+
+@push('footer_scripts')
+    <script>
+        function issueVoucher(index) {
+            const tr = document.querySelector('#vouchers-table tr:nth-child(' + index + ')');
+            tr.dispatchEvent(new CustomEvent('purchase'))
+            
+            const len = document.querySelectorAll('#vouchers-table tr').length
+            index = index + 1;
+            if (index <= len) {
+                setTimeout(() => issueVoucher(index), 500)
+            }
+        }
+        
+        const btn = document.getElementById('issue-vouchers');
+        btn.addEventListener('click', () => issueVoucher(1));
+    </script>
+@endpush

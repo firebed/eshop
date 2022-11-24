@@ -16,9 +16,11 @@
                 </x-bs::input.select>
             </x-bs::input.group>
 
-            <x-bs::input.group for="cart-voucher-alone" label="{{ __('Voucher') }}" inline>
+            <x-bs::input.group for="cart-voucher-alone" label="{{ __('Voucher') }}" inline class="mb-3">
                 <x-bs::input.text wire:model.defer="editingVoucher.number" error="editingVoucher.number" id="cart-voucher-alone" autofocus/>
             </x-bs::input.group>
+            
+            <x-bs::input.checkbox wire:model.defer="saveOnMyShipping" id="saveOnMyShipping">Αποθήκευση voucher στο myShipping.gr</x-bs::input.checkbox>
         </x-bs::modal.body>
         <x-bs::modal.footer>
             <x-bs::modal.close-button>{{ __('Cancel') }}</x-bs::modal.close-button>

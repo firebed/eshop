@@ -34,12 +34,6 @@ class CartOverview extends Component
         $this->showEditingModal = true;
     }
 
-    public function cartVoucherUpdated($voucher): void
-    {
-        $this->cart->voucher = $voucher;
-        $this->skipRender();
-    }
-
     public function markAsPaid(): void
     {
         $this->cart->payment()->updateOrCreate([
@@ -86,7 +80,7 @@ class CartOverview extends Component
         $profit = $this->cart->items()->selectRaw("SUM(quantity * (price * (1 - discount) / (1 + vat) - compare_price)) as profits")->first();
 
         $payment = $this->cart->payment()->first();
-        
+
         return view('eshop::dashboard.cart.wire.cart-overview', [
             'shippingMethods' => $shippingMethods,
             'paymentMethods'  => $paymentMethods,

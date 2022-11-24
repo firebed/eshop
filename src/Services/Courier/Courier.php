@@ -15,13 +15,13 @@ class Courier
     /**
      * @throws Error
      */
-    private function get(string $method, array $params): mixed
+    private function get(string $method, array $params = []): mixed
     {
         $response = Http::withToken(api_key('COURIER_APIKEY'))
             ->contentType('application/json')
             ->accept('application/json')
             ->get(self::ENDPOINT . $method, $params);
-
+        
         if ($response->failed()) {
             throw new Error("Courier: " . $response->json()['message']);
         }
@@ -65,12 +65,12 @@ class Courier
     /**
      * @throws Error
      */
-    private function delete(string $method, array $params): mixed
+    private function put(string $method, array $params): mixed
     {
         $response = Http::withToken(api_key('COURIER_APIKEY'))
             ->accept('application/json')
-            ->delete(self::ENDPOINT . $method, $params);
-
+            ->put(self::ENDPOINT . $method, $params);
+        //dd($response->json());
         if ($response->failed()) {
             throw new Error("Courier: " . $response->json()['message'], $response->status());
         }
@@ -81,12 +81,31 @@ class Courier
     /**
      * @throws Error
      */
-    public function trace(Couriers $courier, string $voucher): Collection
+    private function delete(string $method, array $params): mixed
     {
-        return collect($this->get('vouchers/trace', [
-            'courier' => $courier->value,
-            'number'  => $voucher
-        ]));
+        $response = Http::withToken(api_key('COURIER_APIKEY'))
+            ->accept('application/json')
+            ->delete(self::ENDPOINT . $method, $params);
+        
+        if ($response->failed()) {
+            throw new Error("Courier: " . $response->json()['message'], $response->status());
+        }
+
+        return $response->json('data');
+    }
+
+    /**
+     * @throws Error
+     */
+    public function trace(Voucher $voucher): Collection
+    {
+        $uuid = $voucher->meta['uuid'] ?? null;
+        
+        if (blank($uuid)) {
+            throw new Error("Ο κωδικός αποστολής δεν είναι συσχετισμένος με το myShipping.gr");
+        }
+        
+        return collect($this->get("vouchers/$uuid/trace"));
     }
 
     public function printVoucher(Collection $vouchers, $options = []): string
@@ -105,6 +124,12 @@ class Courier
     public function createManualVoucher(array $data)
     {
         return $this->post('vouchers', $data);
+    }
+
+    public function updateManualVoucher(Voucher $voucher, array $data)
+    {
+        $uuid = $voucher->meta['uuid'];
+        return $this->put("vouchers/$uuid", $data);
     }
 
     public function deleteVoucher(Voucher $voucher, bool $propagate = true): void

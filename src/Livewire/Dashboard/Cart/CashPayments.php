@@ -76,11 +76,11 @@ class CashPayments extends Component
     private function updateCarts(): void
     {
         $this->carts = Cart::where('shipping_method_id', $this->shipping_method_id)
-            ->whereIn('voucher', $this->vouchers->keys())
+            ->whereHas('voucher', fn($q) => $q->whereIn('number', $this->vouchers->keys()))
             ->select(['id', 'voucher', 'total'])
             ->with('payment')
             ->get()
-            ->keyBy('voucher');
+            ->keyBy('voucher.number');
 
         $this->valid_carts = $this->carts
             ->filter(fn($cart) => !$cart->isPaid())
