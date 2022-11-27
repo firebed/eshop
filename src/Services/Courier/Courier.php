@@ -2,148 +2,56 @@
 
 namespace Eshop\Services\Courier;
 
-use Error;
-use Eshop\Models\Cart\Voucher;
-use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Http;
-
-class Courier
+enum Courier: int
 {
-    //private const ENDPOINT = "https://www.myshipping.gr/api/";
-    private const ENDPOINT = "http://127.0.0.1:8000/api/";
+    case ACS = 1;
+    case SPEEDEX = 2;
+    case COURIER_CENTER = 3;
+    case GENIKI = 4;
+    case TCS_COURIER = 5;
+    case TAS_COURIER = 6;    
+    case ELTA_COURIER = 7;
+    case DHL = 8;
+    case TNT = 9;
+    case FEDEX = 10;
+    case UPS = 11;
 
-    /**
-     * @throws Error
-     */
-    private function get(string $method, array $params = []): mixed
+    public function icon(): string|null
     {
-        $response = Http::withToken(api_key('COURIER_APIKEY'))
-            ->contentType('application/json')
-            ->accept('application/json')
-            ->get(self::ENDPOINT . $method, $params);
-        
-        if ($response->failed()) {
-            throw new Error("Courier: " . $response->json()['message']);
-        }
-
-        return $response->json();
+        return match ($this) {
+            self::ACS            => "ACS.png",
+            self::SPEEDEX        => "SpeedEx.png",
+            self::GENIKI         => "geniki.jpg",
+            self::COURIER_CENTER => "courier-center.jpeg",
+            self::DHL            => "dhl.svg",
+            self::TNT            => "tnt.svg",
+            self::ELTA_COURIER   => "elta-courier.png",
+            self::TCS_COURIER    => "tcs.png",
+            self::FEDEX          => "fedex.svg",
+            self::UPS            => "ups.svg",
+            self::TAS_COURIER    => "tas-courier.svg",
+        };
     }
 
-    /**
-     * @throws Error
-     */
-    private function download(string $method, array $params): string
+    public function label(): string
     {
-        $response = Http::withToken(api_key('COURIER_APIKEY'))
-            ->contentType('application/json')
-            ->accept('application/json')
-            ->get(self::ENDPOINT . $method, $params);
-        //dd($response->body());
-        if (!$response->successful()) {
-            throw new Error("Courier: " . ($response->json()['message'] ?? 'An error occurred.'));
-        }
-
-        return base64_decode($response->body());
+        return match ($this) {
+            self::ACS            => "ACS Courier",
+            self::SPEEDEX        => "SpeedEx",
+            self::GENIKI         => "Γενική Ταχυδρομική",
+            self::COURIER_CENTER => "Courier Center",
+            self::DHL            => "DHL",
+            self::TNT            => "TNT",
+            self::ELTA_COURIER   => "ΕΛΤΑ Courier",
+            self::TCS_COURIER    => "TCS Courier",
+            self::FEDEX          => "FedEx",
+            self::UPS            => "UPS",
+            self::TAS_COURIER    => "TAS Courier",
+        };
     }
 
-    /**
-     * @throws Error
-     */
-    private function post(string $method, array $params): mixed
+    public function services(string $country_code): array
     {
-        $response = Http::withToken(api_key('COURIER_APIKEY'))
-            ->accept('application/json')
-            ->post(self::ENDPOINT . $method, $params);
-        //dd($response->json());
-        if ($response->failed()) {
-            throw new Error("Courier: " . $response->json()['message'], $response->status());
-        }
-
-        return $response->json('data');
-    }
-
-    /**
-     * @throws Error
-     */
-    private function put(string $method, array $params): mixed
-    {
-        $response = Http::withToken(api_key('COURIER_APIKEY'))
-            ->accept('application/json')
-            ->put(self::ENDPOINT . $method, $params);
-        //dd($response->json());
-        if ($response->failed()) {
-            throw new Error("Courier: " . $response->json()['message'], $response->status());
-        }
-
-        return $response->json('data');
-    }
-
-    /**
-     * @throws Error
-     */
-    private function delete(string $method, array $params): mixed
-    {
-        $response = Http::withToken(api_key('COURIER_APIKEY'))
-            ->accept('application/json')
-            ->delete(self::ENDPOINT . $method, $params);
-        
-        if ($response->failed()) {
-            throw new Error("Courier: " . $response->json()['message'], $response->status());
-        }
-
-        return $response->json('data');
-    }
-
-    /**
-     * @throws Error
-     */
-    public function trace(Voucher $voucher): Collection
-    {
-        $uuid = $voucher->meta['uuid'] ?? null;
-        
-        if (blank($uuid)) {
-            throw new Error("Ο κωδικός αποστολής δεν είναι συσχετισμένος με το myShipping.gr");
-        }
-        
-        return collect($this->get("vouchers/$uuid/trace"));
-    }
-
-    public function printVoucher(Collection $vouchers, $options = []): string
-    {
-        return $this->download("vouchers/print", [
-            'ids'     => $vouchers->pluck('meta.uuid')->toArray(),
-            'options' => $options,
-        ]);
-    }
-
-    public function createVoucher(array $data)
-    {
-        return $this->post('vouchers/issue', $data);
-    }
-
-    public function createManualVoucher(array $data)
-    {
-        return $this->post('vouchers', $data);
-    }
-
-    public function updateManualVoucher(Voucher $voucher, array $data)
-    {
-        $uuid = $voucher->meta['uuid'];
-        return $this->put("vouchers/$uuid", $data);
-    }
-
-    public function deleteVoucher(Voucher $voucher, bool $propagate = true): void
-    {
-        if (isset($voucher->meta['uuid']) && filled($uuid = $voucher->meta['uuid'])) {
-            $this->delete("vouchers/$uuid", ['propagate' => $propagate]);
-        }
-    }
-
-    public function shippingServices(Couriers $courier, string $country_code)
-    {
-        return $this->get('shipping-services', [
-            'courier' => $courier->value,
-            'country' => $country_code
-        ]);
+        return (new CourierService())->shippingServices($this, $country_code);
     }
 }

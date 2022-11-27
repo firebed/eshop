@@ -10,7 +10,7 @@
 
             <x-bs::input.group for="cart-voucher-courier" label="Εταιρεία" inline class="mb-2">
                 <x-bs::input.select wire:model.defer="editingVoucher.courier" error="editingVoucher.courier" id="cart-voucher-courier">
-                    @foreach(\Eshop\Services\Courier\Couriers::cases() as $c)
+                    @foreach(\Eshop\Services\Courier\Courier::cases() as $c)
                         <option value="{{ $c->value }}">{{ $c->label() }}</option>
                     @endforeach
                 </x-bs::input.select>
@@ -19,7 +19,7 @@
             <x-bs::input.group for="cart-voucher-alone" label="{{ __('Voucher') }}" inline class="mb-3">
                 <x-bs::input.text wire:model.defer="editingVoucher.number" error="editingVoucher.number" id="cart-voucher-alone" autofocus/>
             </x-bs::input.group>
-            
+
             <x-bs::input.checkbox wire:model.defer="saveOnMyShipping" id="saveOnMyShipping">Αποθήκευση voucher στο myShipping.gr</x-bs::input.checkbox>
         </x-bs::modal.body>
         <x-bs::modal.footer>

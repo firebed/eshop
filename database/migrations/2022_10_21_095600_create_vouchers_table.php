@@ -13,7 +13,7 @@ class CreateVouchersTable extends Migration
         Schema::create('vouchers', static function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(Cart::class)->constrained();
-            $table->unsignedSmallInteger('courier')->nullable();
+            $table->unsignedSmallInteger('courier_id')->nullable();
             $table->string('number')->index();
             $table->boolean('is_manual');
             $table->json('meta')->nullable();
@@ -33,7 +33,7 @@ class CreateVouchersTable extends Migration
             for ($i = 1; $i < count($values); $i++) {
                 $temp->add([
                     'cart_id'    => $cart->id,
-                    'courier'    => $cart->shippingMethod?->courier(),
+                    'courier_id' => $cart->shippingMethod?->courier(),
                     'number'     => $values->get($i),
                     'is_manual'  => true,
                     'created_at' => $cart->updated_at,
@@ -44,7 +44,7 @@ class CreateVouchersTable extends Migration
             if (($value = $values->shift()) && filled($value)) {
                 return [
                     'cart_id'    => $cart->id,
-                    'courier'    => $cart->shippingMethod?->courier(),
+                    'courier_id' => $cart->shippingMethod?->courier(),
                     'number'     => $value,
                     'is_manual'  => true,
                     'created_at' => $cart->updated_at,

@@ -8,7 +8,7 @@
             @endif
             <div class="d-flex justify-content-between align-items-center mb-3">
                 <div class="fw-500">{{ $currentVoucher->number }}</div>
-                <div><img src="{{ $icons[$currentVoucher->courier] }}" class="img-fluid" style="max-height: 24px; max-width: 80px" alt=""></div>
+                <div><img src="{{ $icons[$currentVoucher->courier_id] }}" class="img-fluid" style="max-height: 24px; max-width: 80px" alt=""></div>
             </div>
         @endif
 
@@ -20,8 +20,9 @@
                     </a>
                 @else
                     <button type="button" wire:click="printVoucher({{ $currentVoucher->id }})" wire:loading.attr="disabled" class="col-8 btn btn-primary">
-                        <span wire:loading wire:target="printVoucher"><em class="fa fa-spinner fa-spin"></em></span>
-                        <span wire:loading.remove wire:target="printVoucher"><em class="fas fa-print fa-sm"></em> Εκτύπωση voucher</span>
+                        <em wire:loading wire:target="printVoucher" class="fa fa-spinner fa-spin"></em>
+                        <em wire:loading.remove wire:target="printVoucher" class="fas fa-print fa-sm"></em>
+                        Εκτύπωση voucher
                     </button>
 
                     <button type="button" wire:click="trace({{ $currentVoucher->id }})" wire:loading.attr="disabled" class="col-2 btn btn-outline-primary">
@@ -30,7 +31,11 @@
                     </button>
                 @endif
             @else
-                <button type="button" wire:click="showBuyVoucherModal()" wire:loading.attr="disabled" class="col-8 btn btn-primary"><em class="fas fa-plus fa-sm"></em> Έκδοση voucher</button>
+                <button x-data="{ disabled: false }"
+                        @click.prevent="disabled = true; $wire.emitTo('dashboard.voucher.create', 'createVoucher', {{ $cart->id }})"
+                        x-on:create-voucher-shown.window="disabled = false"
+                        :disabled="disabled"
+                        type="button" class="col-8 btn btn-primary"><em class="fas fa-plus fa-sm"></em> Έκδοση voucher</button>
             @endif
 
             @if($cart->channel !== 'skroutz')
@@ -57,11 +62,11 @@
     <div wire:loading class="position-absolute start-0 end-0 w-100 h-100 opacity-50 bg-gray-100"></div>
 
     @include('eshop::dashboard.cart.partials.show.cart-voucher-modal')
-    @include('eshop::dashboard.cart.partials.show.cart-buy-voucher-modal')
+    <livewire:dashboard.voucher.create/>
     @includeWhen($currentVoucher, 'eshop::dashboard.cart.partials.show.delete-voucher-modal')
 
     <div wire:ignore.self
-         x-data="{ show: @entangle('show'), offcanvas: null }"
+         x-data="{ show: @entangle('showTrace'), offcanvas: null }"
          x-init="
             offcanvas = new bootstrap.Offcanvas($el)
             $watch('show', () => { if(show) offcanvas.show() })

@@ -3,7 +3,7 @@
 namespace Eshop\Models\Location;
 
 use Eshop\Models\Cart\Payout;
-use Eshop\Services\Courier\Couriers;
+use Eshop\Services\Courier\Courier;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -61,14 +61,14 @@ class ShippingMethod extends Model
         return Str::replaceFirst('{$tracking}', urlencode($voucher), $this->tracking_url);
     }
 
-    public function courier(): ?Couriers
+    public function courier(): ?Courier
     {
         return match ($this->name) {
-            "SpeedEx"           => Couriers::SPEEDEX,
-            'Courier Center'    => Couriers::COURIER_CENTER,
-            "GenikiTaxydromiki" => Couriers::GENIKI,
-            "ACS Courier"       => Couriers::ACS,
-            "ELTA Courier"      => Couriers::ELTA_COURIER,
+            "SpeedEx"           => Courier::SPEEDEX,
+            'Courier Center'    => Courier::COURIER_CENTER,
+            "GenikiTaxydromiki" => Courier::GENIKI,
+            "ACS Courier"       => Courier::ACS,
+            "ELTA Courier"      => Courier::ELTA_COURIER,
             default             => null
         };
     }

@@ -11,14 +11,53 @@
 @endsection
 
 @section('main')
-    <div class="col-12 p-4">
-
+    <div x-data="{ 
+        status: [], 
+        total: {{ $carts->count() }},
+        success() {
+            val = this.total === 0 ? 0 : (this.status.filter(s => s === true).length/this.total*100)
+            return Math.round(val+Number.EPSILON)
+        }
+    }" 
+         x-on:status-updated.window="status[$event.detail.cart_id] = $event.detail.status" 
+         class="col-12 p-4">
+        
         <div class="d-flex mb-3">
-            <x-bs::button.primary id="issue-vouchers">Έκδοση</x-bs::button.primary>
+            <x-bs::button.primary id="issue-vouchers" :disabled="$carts->isEmpty()">Έκδοση</x-bs::button.primary>
         </div>
 
+        <div class="progress mb-3">
+            <div class="progress-bar bg-success" role="progressbar" :style="`width: ${success()}%`">
+                <span x-text="`${success()}%`"></span>
+            </div>
+        </div>
+        
         <div class="table-responsive bg-white shadow-sm rounded">
-            @include('eshop::dashboard.voucher.partials.orders-voucher-table')
+            <x-bs::table hover style="table-layout: fixed">
+                <thead>
+                <tr>
+                    <th style="width: 6rem">#</th>
+                    <th style="width: 10rem">Voucher</th>
+                    <th>Παραλήπτης</th>
+                    <th style="width: 10rem">Courier</th>
+                    <th class="text-end" style="width: 5rem">Βάρος</th>
+                    <th class="text-end" style="width: 8rem">Αντικαταβολή</th>
+                    <th class="text-end" style="width: 4rem"></th>
+                </tr>
+                </thead>
+                <tbody id="vouchers-table">
+                @forelse($carts as $cart)
+                    <livewire:dashboard.voucher.table-row :cart="$cart"/>
+                @empty
+                    <tr>
+                        <td colspan="7" class="py-5 small text-secondary text-center">
+                            <em class="fa fa-exclamation-circle"></em>
+                            Δεν υπάρχουν παραγγελίες για τις οποίες μπορούν να δημιουργηθούν κωδικούς αποστολής (voucher).
+                        </td>
+                    </tr>
+                @endforelse
+                </tbody>
+            </x-bs::table>
         </div>
 
         <livewire:dashboard.voucher.create/>
@@ -27,18 +66,31 @@
 
 @push('footer_scripts')
     <script>
+        const vouchersCount = document.querySelectorAll('#vouchers-table tr').length
+        
         function issueVoucher(index) {
-            const tr = document.querySelector('#vouchers-table tr:nth-child(' + index + ')');
-            tr.dispatchEvent(new CustomEvent('purchase'))
+            if (index > vouchersCount) {
+                setTimeout(() => btn.removeAttribute('disabled'), 500)
+                return
+            }
             
-            const len = document.querySelectorAll('#vouchers-table tr').length
-            index = index + 1;
-            if (index <= len) {
+            const tr = document.querySelector('#vouchers-table tr:nth-child(' + index + ')')
+            index = index + 1
+                        
+            tr.dispatchEvent(new CustomEvent('purchase'))
+
+            const filled = tr.querySelector('span[x-text]').childNodes.length > 0
+            if (filled) {
+                issueVoucher(index)
+            } else {
                 setTimeout(() => issueVoucher(index), 500)
             }
         }
         
         const btn = document.getElementById('issue-vouchers');
-        btn.addEventListener('click', () => issueVoucher(1));
+        btn.addEventListener('click', () => {
+            btn.setAttribute('disabled', 'disabled')
+            issueVoucher(1)
+        });
     </script>
 @endpush
