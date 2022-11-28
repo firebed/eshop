@@ -28,6 +28,9 @@
     
     <td>
         <div>
+            @error('courier')
+                <div class="text-danger fw-500 mb-1"><em class="fa fa-exclamation-circle me-1"></em>{{ $message }}</div>
+            @enderror
             <div class="fw-500">{{ $cart->shippingAddress->fullname }}</div>
             <div class="small text-secondary">{{ $cart->shippingAddress->city_or_country }}</div>
         </div>

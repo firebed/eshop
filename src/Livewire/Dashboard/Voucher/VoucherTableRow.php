@@ -21,10 +21,8 @@ class VoucherTableRow extends Component
         $this->number = $cart->voucher()->first()->number ?? "";
     }
 
-    public function createVoucher(CreateVoucherRequest $voucherRequest, CourierService $courier)
+    public function createVoucher(CreateVoucherRequest $voucherRequest, CourierService $courierService)
     {
-        $this->skipRender();
-
         $cart = Cart::find($this->cart_id);
         if ($cart->voucher()->exists()) {
             return;
@@ -33,20 +31,21 @@ class VoucherTableRow extends Component
         $query = $voucherRequest->handle($cart);
 
         try {
-            $voucher = $courier->createVoucher($query);
+            $courier_id = $cart->shippingMethod->courier()->value;
+            $voucher = $courierService->createVoucher($courier_id, $query);
 
             Voucher::create([
-                'cart_id'   => $voucher['reference_1'],
-                'courier'   => $voucher['courier'],
-                'number'    => $voucher['number'],
-                'is_manual' => false,
-                'meta'      => ['uuid' => $voucher['uuid']]
+                'cart_id'    => $voucher['reference_1'],
+                'courier_id' => $courier_id,
+                'number'     => $voucher['number'],
+                'is_manual'  => false,
+                'meta'       => ['uuid' => $voucher['uuid']]
             ]);
 
             $this->number = $voucher['number'];
             $this->dispatchBrowserEvent('status-updated', ['cart_id' => $this->cart_id, 'status' => true]);
         } catch (Throwable $e) {
-            $this->addError('error', $e->getMessage());
+            $this->addError('courier', $e->getMessage());
             $this->dispatchBrowserEvent('status-updated', ['cart_id' => $this->cart_id, 'status' => false]);
         }
     }

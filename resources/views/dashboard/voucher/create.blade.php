@@ -47,7 +47,7 @@
                 </thead>
                 <tbody id="vouchers-table">
                 @forelse($carts as $cart)
-                    <livewire:dashboard.voucher.table-row :cart="$cart"/>
+                    <livewire:dashboard.voucher.table-row :cart="$cart" wire:key="row-{{ $cart->id }}"/>
                 @empty
                     <tr>
                         <td colspan="7" class="py-5 small text-secondary text-center">
