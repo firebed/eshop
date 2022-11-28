@@ -32,18 +32,20 @@ class CourierService
     /**
      * @throws Error
      */
-    private function download(string $method, array $params): string
+    private function download(string $method, bool $acceptsJson = true, array $params = []): string|array
     {
         $response = Http::withToken(api_key('COURIER_APIKEY'))
             ->contentType('application/json')
-            ->accept('application/json')
+            ->accept($acceptsJson ? 'application/json' : 'application/pdf')
             ->get(self::ENDPOINT . $method, $params);
         //dd($response->body());
         if (!$response->successful()) {
             throw new Error("Courier: " . ($response->json()['message'] ?? 'An error occurred.'));
         }
 
-        return base64_decode($response->body());
+        return $acceptsJson
+            ? $response->json()
+            : base64_decode($response->body(), true);
     }
 
     /**
@@ -108,9 +110,9 @@ class CourierService
         return collect($this->get("vouchers/$uuid/trace"));
     }
 
-    public function printVoucher(Collection $vouchers, $options = []): string
+    public function printVouchers(Collection $vouchers, bool $acceptsJson = true, $options = []): string|array
     {
-        return $this->download("vouchers/print", [
+        return $this->download("vouchers/print", $acceptsJson, [
             'ids'     => $vouchers->pluck('meta.uuid')->toArray(),
             'options' => $options,
         ]);

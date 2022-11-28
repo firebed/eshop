@@ -29,6 +29,8 @@
     "maatwebsite/excel": "^3.1",
     "paypal/paypal-checkout-sdk": "1.0.1",
     "picqer/php-barcode-generator": "^2.2",
+    "setasign/fpdf": "^1.8",
+    "setasign/fpdi": "^2.3",
     "smalot/pdfparser": "^2.2",
     "stevebauman/location": "^6.1",
     "webklex/laravel-imap": "^4.0"

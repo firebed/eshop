@@ -13,6 +13,7 @@
 @section('main')
     <div x-data="{ 
         status: [], 
+        ids: @json($carts->pluck('id')),
         total: {{ $carts->count() }},
         success() {
             val = this.total === 0 ? 0 : (this.status.filter(s => s === true).length/this.total*100)
@@ -22,8 +23,9 @@
          x-on:status-updated.window="status[$event.detail.cart_id] = $event.detail.status" 
          class="col-12 p-4">
         
-        <div class="d-flex mb-3">
+        <div class="d-flex gap-1 mb-3">
             <x-bs::button.primary id="issue-vouchers" :disabled="$carts->isEmpty()">Έκδοση</x-bs::button.primary>
+            <a x-bind:href="'{{ route('carts.print-vouchers') }}' + '?ids=' + encodeURIComponent(ids)" class="btn btn-primary" target="_blank" id="print-vouchers"><em class="fa fa-print me-1"></em>Εκτύπωση</a>
         </div>
 
         <div class="progress mb-3">

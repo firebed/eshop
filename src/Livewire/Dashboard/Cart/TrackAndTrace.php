@@ -106,7 +106,7 @@ class TrackAndTrace extends Component
     public function printVoucher(Voucher $voucher, CourierService $courier)
     {
         try {
-            $pdf = $courier->printVoucher(collect([$voucher]));
+            $pdf = $courier->printVouchers(collect([$voucher]));
 
             return response()->streamDownload(function () use ($pdf) {
                 echo $pdf;
