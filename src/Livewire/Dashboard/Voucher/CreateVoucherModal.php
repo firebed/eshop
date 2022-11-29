@@ -45,6 +45,10 @@ class CreateVoucherModal extends Component
     public function createVoucher(Cart $cart, CreateVoucherRequest $voucherRequest): void
     {
         $this->reset('voucher');
+        
+        if ($cart->voucher !== null) {
+            return;
+        }
 
         $courier = $cart->shippingMethod->courier();
         if ($courier === null) {
@@ -67,7 +71,12 @@ class CreateVoucherModal extends Component
     {
         $this->resetErrorBag();
         $query = $this->voucher;
-
+        
+        $cart = Cart::findOrFail($query['reference_1']);
+        if ($cart->voucher !== null) {
+            return;
+        }
+        
         try {
             $response = $courierService->createVoucher($this->courier_id, $query);
             

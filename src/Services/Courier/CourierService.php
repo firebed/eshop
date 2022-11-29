@@ -43,9 +43,7 @@ class CourierService
             throw new Error("Courier: " . ($response->json()['message'] ?? 'An error occurred.'));
         }
 
-        return $acceptsJson
-            ? $response->json()
-            : base64_decode($response->body(), true);
+        return $acceptsJson ? $response->json() : $response->body();
     }
 
     /**

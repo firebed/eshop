@@ -12,20 +12,37 @@
 
 @section('main')
     <div x-data="{ 
-        status: [], 
+        status: @json($carts->whereNotNull('voucher')->pluck('id')), 
         ids: @json($carts->pluck('id')),
         total: {{ $carts->count() }},
         success() {
-            val = this.total === 0 ? 0 : (this.status.filter(s => s === true).length/this.total*100)
+            val = this.total === 0 ? 0 : (this.status.length/this.total*100)
             return Math.round(val+Number.EPSILON)
-        }
-    }" 
-         x-on:status-updated.window="status[$event.detail.cart_id] = $event.detail.status" 
-         class="col-12 p-4">
+        },
+        pushStatus(id) {
+            if (!this.status.includes(id)) {
+                this.status.push(id)
+            }
+        },
         
-        <div class="d-flex gap-1 mb-3">
-            <x-bs::button.primary id="issue-vouchers" :disabled="$carts->isEmpty()">Έκδοση</x-bs::button.primary>
-            <a x-bind:href="'{{ route('carts.print-vouchers') }}' + '?ids=' + encodeURIComponent(ids)" class="btn btn-primary" target="_blank" id="print-vouchers"><em class="fa fa-print me-1"></em>Εκτύπωση</a>
+        removeStatus(id) {
+            status = this.status.filter((v) => v === id)
+        }
+    }"
+         x-on:status-updated.window="
+            id = $event.detail.cart_id
+            $event.detail.status ? pushStatus(id) : removeStatus(id)
+         "
+         class="col-12 p-4">
+
+        <div class="d-flex gap-2 mb-3">
+            <x-bs::button.primary id="issue-vouchers" :disabled="$carts->isEmpty()">
+                <em class="fa fa-plus me-1"></em> Έκδοση
+            </x-bs::button.primary>
+
+            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#print-vouchers-modal" id="print-vouchers">
+                <em class="fa fa-print me-1"></em> Εκτύπωση
+            </button>
         </div>
 
         <div class="progress mb-3">
@@ -33,7 +50,7 @@
                 <span x-text="`${success()}%`"></span>
             </div>
         </div>
-        
+
         <div class="table-responsive bg-white shadow-sm rounded">
             <x-bs::table hover style="table-layout: fixed">
                 <thead>
@@ -62,6 +79,30 @@
             </x-bs::table>
         </div>
 
+        <form action="{{ route('carts.print-vouchers') }}" target="_blank">
+            <div class="modal fade" id="print-vouchers-modal" tabindex="-1">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Εκτύπωση</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <template x-for="cart_id in status">
+                                <input hidden name="ids[]" x-bind:value="cart_id">
+                            </template>
+                            <x-bs::input.checkbox name="with-cart" id="with-carts">Εκτύπωση των δελτίων παραγγελίας</x-bs::input.checkbox>
+                            <x-bs::input.checkbox name="two-sided" id="2-faced">Εκτύπωση διπλής όψης</x-bs::input.checkbox>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Άκυρο</button>
+                            <button type="submit" class="btn btn-primary">Εκτύπωση</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+
         <livewire:dashboard.voucher.create/>
     </div>
 @endsection
@@ -69,16 +110,16 @@
 @push('footer_scripts')
     <script>
         const vouchersCount = document.querySelectorAll('#vouchers-table tr').length
-        
+
         function issueVoucher(index) {
             if (index > vouchersCount) {
                 setTimeout(() => btn.removeAttribute('disabled'), 500)
                 return
             }
-            
+
             const tr = document.querySelector('#vouchers-table tr:nth-child(' + index + ')')
             index = index + 1
-                        
+
             tr.dispatchEvent(new CustomEvent('purchase'))
 
             const filled = tr.querySelector('span[x-text]').childNodes.length > 0
@@ -88,7 +129,7 @@
                 setTimeout(() => issueVoucher(index), 500)
             }
         }
-        
+
         const btn = document.getElementById('issue-vouchers');
         btn.addEventListener('click', () => {
             btn.setAttribute('disabled', 'disabled')

@@ -6,7 +6,6 @@ namespace Eshop\Livewire\Dashboard\Cart;
 
 use Dompdf\Dompdf;
 use Eshop\Controllers\Dashboard\Traits\WithNotifications;
-use Eshop\Livewire\Dashboard\Cart\Traits\ManagesVoucher;
 use Eshop\Livewire\Dashboard\Cart\Traits\UpdatesCartStatus;
 use Eshop\Livewire\Traits\TrimStrings;
 use Eshop\Models\Cart\Cart;
