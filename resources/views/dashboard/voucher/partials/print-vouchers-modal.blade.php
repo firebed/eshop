@@ -2,7 +2,7 @@
   x-on:submit.prevent="
         error = null
         loading = true
-        axios.get($el.action, { params: { ids } })
+        axios.get($el.action, { params: {  } })
             .then(r => $refs.modal.hide())
             .catch(e => error = e.response.data.message)
             .finally(() => loading = false)
@@ -15,9 +15,10 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <template x-for="cart_id in ids">
-                        <input type="hidden" name="ids[]" x-bind:value="cart_id">
-                    </template>
+                    @foreach($carts as $cart)
+                        <input type="hidden" name="ids[]" value="{{ $cart->id }}">
+                    @endforeach
+                    
                     <template x-if="error">
                         <div class="alert alert-danger fw-500">
                             <em class="fa fa-exclamation-circle me-2"></em>

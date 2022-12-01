@@ -11,43 +11,7 @@
 @endsection
 
 @section('main')
-    <div x-data="{ 
-        successful: @json($carts->whereNotNull('voucher')->pluck('id')), 
-        failed: [], 
-        ids: @json($carts->pluck('id')),
-        total: {{ $carts->count() }},
-        successRate() {
-            val = this.total === 0 ? 0 : (this.successful.length/this.total*100)
-            return Math.round(val+Number.EPSILON)
-        },
-        
-        success(id) {
-            this.failed = this.failed.filter((v) => v === id)
-        
-            if (!this.successful.includes(id)) {
-                this.successful.push(id)
-            }
-        },    
-        
-        failed(id) {
-            this.successful = this.successful.filter((v) => v === id)
-            
-            if (!this.failed.includes(id)) {
-                this.failed.push(id)
-            }
-        },
-        
-        remove(id) {
-            this.successful = this.successful.filter((v) => v === id)
-            this.failed = this.failed.filter((v) => v === id)
-        },    
-    }"
-         x-on:status-updated.window="
-            id = $event.detail.cart_id
-            $event.detail.status ? success(id) : failed(id)
-         "
-         class="col-12 p-4">
-
+    <div x-data="vouchers(@json($carts->pluck('id')))" class="col-12 p-4">
         <div class="d-flex gap-2 mb-3">
             <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#issue-vouchers-modal" @if($carts->isEmpty()) disabled="disabled" @endif>
                 <em class="fa fa-plus me-1"></em> Έκδοση
@@ -95,37 +59,54 @@
 
 @push('footer_scripts')
     <script>
-        const vouchersCount = document.querySelectorAll('#vouchers-table tr').length
-        let promises = []
-        let events = []
-        const btn = document.getElementById('issue-vouchers');
+        document.addEventListener('alpine:init', () => {
+            Alpine.data('vouchers', () => ({
+                loading: false,
+                rows: [],
+                successCount: 0,
+                failedCount: 0,
+                errors: [],
+                
+                setup() {
+                    this.rows = [...document.querySelectorAll('#vouchers-table tr')].filter(tr => tr.dataset.voucher.length === 0);
+                },
+                
+                dispatch() {
+                    if (this.loading || this.rows.length === 0) {
+                        return;
+                    }
 
-        btn.addEventListener('click', () => {
-            document.querySelectorAll('#vouchers-table tr').forEach(() => {
-                promises.push(new Promise((resolve, reject) => {
-                    events.push({resolve, reject})
-                }))
-            });
+                    this.successCount = 0;
+                    this.failedCount = 0;
+                    const promises = [];
+                    const events = [];
 
-            Promise.allSettled(promises).then(() => {
-                window.dispatchEvent(new CustomEvent('create-vouchers-finished'))
-            })
+                    this.rows.forEach(tr => {
+                        const detail = {};
 
-            window.dispatchEvent(new CustomEvent('create-vouchers-started'))
+                        promises.push(
+                            new Promise((resolve, reject) => {
+                                detail.resolve = resolve
+                                detail.reject = reject
+                            })
+                                .then(() => this.successCount++)
+                                .catch(() => this.failedCount++)
+                        );
 
-            for (let i = 0; i < promises.length; i++) {
-                setTimeout(() => {
-                    const index = i + 1;
-                    const event = events[i]
-                    const tr = document.querySelector('#vouchers-table tr:nth-child(' + index + ')')
-                    tr.dispatchEvent(new CustomEvent('purchase', {
-                        detail: {
-                            resolve: event.resolve,
-                            reject: event.reject,
-                        }
-                    }))
-                }, i * 500)
-            }
+                        events.push(() => tr.dispatchEvent(new CustomEvent('create-voucher', {detail})));
+                    });
+
+                    this.loading = true;
+                    Promise.allSettled(promises).then(() => this.loading = false);
+                    events.forEach((event, i) => setTimeout(() => event(), i * 350));
+                },
+
+                successRate() {
+                    const total = this.rows.length;
+
+                    return total === 0 ? 0 : Math.round((this.successCount / total) * 100) + '%';
+                }
+            }));
         });
     </script>
 @endpush

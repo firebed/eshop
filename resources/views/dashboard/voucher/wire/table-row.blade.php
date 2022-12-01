@@ -1,29 +1,32 @@
-<tr x-data="{ cart_id: {{ $cart->id }}, number: @entangle('number'), loading: false }"
-    x-on:purchase="               
+<tr x-data="{ cart_id: {{ $cart->id }}, number: @entangle('number'), loading: false, success: null }"
+    x-on:create-voucher="         
         if (number.length > 0) {
             $event.detail.resolve()
-            return success(cart_id)
+            return
         }
-    
-        loading = true
+
+        loading = true;
+        success = null;
         $wire.createVoucher()
-            .then(() => $event.detail.resolve())
-            .catch(() => $event.detail.reject())
+            .then(result => {
+                success = result;
+                success ? $event.detail.resolve() : $event.detail.reject(); 
+            })
             .finally(() => loading = false)
     "
     x-on:voucher-created.window="
         if (event.detail.cart_id === cart_id) {
             number = event.detail.number
-            success(cart_id)
         }
     "
+    x-bind:data-voucher="number"
 >
     <td><a href="{{ route('carts.show', $cart->id) }}" target="_blank">#{{ $cart->id }}</a></td>
 
     <td>
         <em x-show="loading" x-cloak class="fa fa-spinner fa-spin fa-sm"></em>
-        <em x-show="!loading && number.length > 0" x-cloak class="fa fa-check-circle text-success fa-sm"></em>
-        <em x-show="!loading && number.length === 0 && vouchers[cart_id] === false" x-cloak class="fa fa-times-circle text-danger fa-sm"></em>
+        <em x-show="!loading && success === true" x-cloak class="fa fa-check-circle text-success fa-sm"></em>
+        <em x-show="!loading && success === false" x-cloak class="fa fa-times-circle text-danger fa-sm"></em>
         <span x-text="number"></span>
     </td>
 

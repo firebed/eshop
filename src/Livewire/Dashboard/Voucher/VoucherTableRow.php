@@ -11,8 +11,8 @@ use Throwable;
 
 class VoucherTableRow extends Component
 {
+    public string $number = '';
     public int    $cart_id;
-    public string $number;
 
     public function mount(Cart $cart)
     {
@@ -22,9 +22,11 @@ class VoucherTableRow extends Component
 
     public function createVoucher(CreateVoucherRequest $voucherRequest, CourierService $courierService)
     {
+        $this->resetErrorBag();
+
         $cart = Cart::find($this->cart_id);
         if ($cart->voucher()->exists()) {
-            return response($cart->voucher->number);
+            return true;
         }
 
         $query = $voucherRequest->handle($cart);
@@ -42,10 +44,10 @@ class VoucherTableRow extends Component
             //]);
 
             $this->number = $voucher['number'];
-            return response($this->number);
+            return true;
         } catch (Throwable $e) {
             $this->addError('courier', $e->getMessage());
-            return response($e->getMessage(), 422);
+            return false;
             //$this->dispatchBrowserEvent('voucher-failed', ['cart_id' => $this->cart_id]);
         }
     }
