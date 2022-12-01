@@ -69,7 +69,7 @@ class OrderShippedNotification extends Notification
 
     private function loadStatusTemplates(): void
     {                
-        if (!Lang::has('cart.status.templates.shipped')) {
+        if (!Lang::has('templates.mail.shipped')) {
             return;
         }
 
@@ -80,7 +80,7 @@ class OrderShippedNotification extends Notification
         
         $days = $address->isLocalCountry() ? "1-3" : "5-10";
 
-        $this->statusTemplate = __("cart.status.templates.shipped", [
+        $this->statusTemplate = __("templates.mail.shipped", [
             'customer' => $address->fullname,
             'days'     => $days
         ]);

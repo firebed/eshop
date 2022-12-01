@@ -15,7 +15,7 @@ class CourierService
     /**
      * @throws Error
      */
-    private function get(string $method, array $params = []): mixed
+    private function get(string $method, array $params = [], ?string $key = 'data'): mixed
     {
         $response = Http::withToken(api_key('COURIER_APIKEY'))
             ->contentType('application/json')
@@ -26,24 +26,7 @@ class CourierService
             throw new Error("Courier: " . $response->json()['message']);
         }
 
-        return $response->json('data');
-    }
-
-    /**
-     * @throws Error
-     */
-    private function download(string $method, bool $acceptsJson = true, array $params = []): string|array
-    {
-        $response = Http::withToken(api_key('COURIER_APIKEY'))
-            ->contentType('application/json')
-            ->accept($acceptsJson ? 'application/json' : 'application/pdf')
-            ->get(self::ENDPOINT . $method, $params);
-        //dd($response->body());
-        if (!$response->successful()) {
-            throw new Error("Courier: " . ($response->json()['message'] ?? 'An error occurred.'));
-        }
-
-        return $acceptsJson ? $response->json() : $response->body();
+        return $response->json($key);
     }
 
     /**
@@ -108,12 +91,13 @@ class CourierService
         return collect($this->get("vouchers/$uuid/trace"));
     }
 
-    public function printVouchers(Collection $vouchers, bool $acceptsJson = true, $options = []): string|array
+    public function printVouchers(Collection $vouchers, bool $merge = true, $options = []): string|array
     {
-        return $this->download("vouchers/print", $acceptsJson, [
+        return $this->get("vouchers/print", [
             'ids'     => $vouchers->pluck('meta.uuid')->toArray(),
+            'merge'   => $merge,
             'options' => $options,
-        ]);
+        ], null);
     }
 
     public function createVoucher(int $courier, array $data)

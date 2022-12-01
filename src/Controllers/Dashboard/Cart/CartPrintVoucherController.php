@@ -2,7 +2,7 @@
 
 namespace Eshop\Controllers\Dashboard\Cart;
 
-use Dompdf\Dompdf;
+use Eshop\Actions\MergeCartVouchers;
 use Eshop\Controllers\Dashboard\Controller;
 use Eshop\Models\Cart\Cart;
 use Eshop\Services\Courier\CourierService;
@@ -11,9 +11,7 @@ use Eshop\Services\Skroutz\Skroutz;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
-use setasign\Fpdi\Fpdi;
+use Illuminate\Validation\ValidationException;
 use Throwable;
 
 class CartPrintVoucherController extends Controller
@@ -44,62 +42,16 @@ class CartPrintVoucherController extends Controller
                 ]);
 
             }
-        } catch (Throwable) {
-            return "<script>window.close();</script>";
+
+            $byteArray = (new MergeCartVouchers())->handle($carts, $vouchers, $request->boolean('two_sided'));
+
+            return response($byteArray, 200, [
+                'Content-Type'        => 'application/pdf',
+                'Content-Disposition' => 'attachment; filename=' . time()
+            ]);
+        } catch (Throwable $e) {
+            throw ValidationException::withMessages([$e->getMessage()]);
         }
-
-        $pdf = new Fpdi();
-        foreach ($vouchers as $number => $byteArray) {
-            $cart = $carts->firstWhere('voucher.number', $number);
-            $fn = $this->cartPdf($cart);
-
-            $pageCount = $pdf->setSourceFile(Storage::disk('local')->path($fn));
-            $pageId = $pdf->importPage(1);
-
-            $pdf->AddPage();
-            $pdf->useTemplate($pageId);
-
-            $filename = Str::random(40) . '.pdf';
-            Storage::disk('local')->put($filename, base64_decode($byteArray, true));
-
-            $pdf->setSourceFile(Storage::disk('local')->path($filename));
-            $pageId = $pdf->importPage(1);
-
-            $pdf->AddPage();
-            $pdf->useTemplate($pageId);
-
-            Storage::disk('local')->delete([$fn, $filename]);
-
-            for ($i = 1; $i < $pageCount; $i++) {
-                $pdf->AddPage();
-                $pageId = $pdf->importPage($i);
-                $pdf->useTemplate($pageId);
-            }
-
-            if ($pageCount % 2 === 0) {
-                $pdf->AddPage();
-            }
-        }
-
-        return response($pdf->Output('S'), 200, [
-            'Content-Type'        => 'application/pdf',
-            'Content-Disposition' => 'inline; filename=' . time()
-        ]);
-    }
-
-    private function cartPdf(Cart $cart)
-    {
-        $pdf = new Dompdf(['enable_remote' => true]);
-        $pdf->loadHtml(view('eshop::customer.order-printer.print', [
-            'cart'     => $cart,
-            'products' => $cart->products
-        ]));
-        $pdf->render();
-
-        $fn = Str::random(40) . '.pdf';
-        Storage::disk('local')->put($fn, $pdf->output());
-
-        return $fn;
     }
 
     public function show(Cart $cart): string|RedirectResponse
@@ -111,7 +63,7 @@ class CartPrintVoucherController extends Controller
                     return redirect()->to($order['courier_voucher']);
                 }
             } catch (SkroutzException $e) {
-
+                report($e);
             }
         }
 

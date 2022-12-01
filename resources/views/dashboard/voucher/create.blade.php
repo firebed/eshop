@@ -12,43 +12,50 @@
 
 @section('main')
     <div x-data="{ 
-        status: @json($carts->whereNotNull('voucher')->pluck('id')), 
+        successful: @json($carts->whereNotNull('voucher')->pluck('id')), 
+        failed: [], 
         ids: @json($carts->pluck('id')),
         total: {{ $carts->count() }},
-        success() {
-            val = this.total === 0 ? 0 : (this.status.length/this.total*100)
+        successRate() {
+            val = this.total === 0 ? 0 : (this.successful.length/this.total*100)
             return Math.round(val+Number.EPSILON)
         },
-        pushStatus(id) {
-            if (!this.status.includes(id)) {
-                this.status.push(id)
+        
+        success(id) {
+            this.failed = this.failed.filter((v) => v === id)
+        
+            if (!this.successful.includes(id)) {
+                this.successful.push(id)
+            }
+        },    
+        
+        failed(id) {
+            this.successful = this.successful.filter((v) => v === id)
+            
+            if (!this.failed.includes(id)) {
+                this.failed.push(id)
             }
         },
         
-        removeStatus(id) {
-            status = this.status.filter((v) => v === id)
-        }
+        remove(id) {
+            this.successful = this.successful.filter((v) => v === id)
+            this.failed = this.failed.filter((v) => v === id)
+        },    
     }"
          x-on:status-updated.window="
             id = $event.detail.cart_id
-            $event.detail.status ? pushStatus(id) : removeStatus(id)
+            $event.detail.status ? success(id) : failed(id)
          "
          class="col-12 p-4">
 
         <div class="d-flex gap-2 mb-3">
-            <x-bs::button.primary id="issue-vouchers" :disabled="$carts->isEmpty()">
+            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#issue-vouchers-modal" @if($carts->isEmpty()) disabled="disabled" @endif>
                 <em class="fa fa-plus me-1"></em> Έκδοση
-            </x-bs::button.primary>
+            </button>
 
             <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#print-vouchers-modal" id="print-vouchers">
                 <em class="fa fa-print me-1"></em> Εκτύπωση
             </button>
-        </div>
-
-        <div class="progress mb-3">
-            <div class="progress-bar bg-success" role="progressbar" :style="`width: ${success()}%`">
-                <span x-text="`${success()}%`"></span>
-            </div>
         </div>
 
         <div class="table-responsive bg-white shadow-sm rounded">
@@ -79,29 +86,8 @@
             </x-bs::table>
         </div>
 
-        <form action="{{ route('carts.print-vouchers') }}" target="_blank">
-            <div class="modal fade" id="print-vouchers-modal" tabindex="-1">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Εκτύπωση</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <template x-for="cart_id in status">
-                                <input hidden name="ids[]" x-bind:value="cart_id">
-                            </template>
-                            <x-bs::input.checkbox name="with-cart" id="with-carts">Εκτύπωση των δελτίων παραγγελίας</x-bs::input.checkbox>
-                            <x-bs::input.checkbox name="two-sided" id="2-faced">Εκτύπωση διπλής όψης</x-bs::input.checkbox>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Άκυρο</button>
-                            <button type="submit" class="btn btn-primary">Εκτύπωση</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </form>
+        @include('eshop::dashboard.voucher.partials.issue-vouchers-modal')
+        @include('eshop::dashboard.voucher.partials.print-vouchers-modal')
 
         <livewire:dashboard.voucher.create/>
     </div>
@@ -110,30 +96,36 @@
 @push('footer_scripts')
     <script>
         const vouchersCount = document.querySelectorAll('#vouchers-table tr').length
-
-        function issueVoucher(index) {
-            if (index > vouchersCount) {
-                setTimeout(() => btn.removeAttribute('disabled'), 500)
-                return
-            }
-
-            const tr = document.querySelector('#vouchers-table tr:nth-child(' + index + ')')
-            index = index + 1
-
-            tr.dispatchEvent(new CustomEvent('purchase'))
-
-            const filled = tr.querySelector('span[x-text]').childNodes.length > 0
-            if (filled) {
-                issueVoucher(index)
-            } else {
-                setTimeout(() => issueVoucher(index), 500)
-            }
-        }
-
+        let promises = []
+        let events = []
         const btn = document.getElementById('issue-vouchers');
+
         btn.addEventListener('click', () => {
-            btn.setAttribute('disabled', 'disabled')
-            issueVoucher(1)
+            document.querySelectorAll('#vouchers-table tr').forEach(() => {
+                promises.push(new Promise((resolve, reject) => {
+                    events.push({resolve, reject})
+                }))
+            });
+
+            Promise.allSettled(promises).then(() => {
+                window.dispatchEvent(new CustomEvent('create-vouchers-finished'))
+            })
+
+            window.dispatchEvent(new CustomEvent('create-vouchers-started'))
+
+            for (let i = 0; i < promises.length; i++) {
+                setTimeout(() => {
+                    const index = i + 1;
+                    const event = events[i]
+                    const tr = document.querySelector('#vouchers-table tr:nth-child(' + index + ')')
+                    tr.dispatchEvent(new CustomEvent('purchase', {
+                        detail: {
+                            resolve: event.resolve,
+                            reject: event.reject,
+                        }
+                    }))
+                }, i * 500)
+            }
         });
     </script>
 @endpush

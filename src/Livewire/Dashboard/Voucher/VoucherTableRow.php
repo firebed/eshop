@@ -4,7 +4,6 @@ namespace Eshop\Livewire\Dashboard\Voucher;
 
 use Eshop\Actions\CreateVoucherRequest;
 use Eshop\Models\Cart\Cart;
-use Eshop\Models\Cart\Voucher;
 use Eshop\Services\Courier\CourierService;
 use Illuminate\Contracts\Support\Renderable;
 use Livewire\Component;
@@ -25,7 +24,7 @@ class VoucherTableRow extends Component
     {
         $cart = Cart::find($this->cart_id);
         if ($cart->voucher()->exists()) {
-            return;
+            return response($cart->voucher->number);
         }
 
         $query = $voucherRequest->handle($cart);
@@ -34,19 +33,20 @@ class VoucherTableRow extends Component
             $courier_id = $cart->shippingMethod->courier()->value;
             $voucher = $courierService->createVoucher($courier_id, $query);
 
-            Voucher::create([
-                'cart_id'    => $voucher['reference_1'],
-                'courier_id' => $courier_id,
-                'number'     => $voucher['number'],
-                'is_manual'  => false,
-                'meta'       => ['uuid' => $voucher['uuid']]
-            ]);
+            //Voucher::create([
+            //    'cart_id'    => $voucher['reference_1'],
+            //    'courier_id' => $courier_id,
+            //    'number'     => $voucher['number'],
+            //    'is_manual'  => false,
+            //    'meta'       => ['uuid' => $voucher['uuid']]
+            //]);
 
             $this->number = $voucher['number'];
-            $this->dispatchBrowserEvent('status-updated', ['cart_id' => $this->cart_id, 'status' => true]);
+            return response($this->number);
         } catch (Throwable $e) {
             $this->addError('courier', $e->getMessage());
-            $this->dispatchBrowserEvent('status-updated', ['cart_id' => $this->cart_id, 'status' => false]);
+            return response($e->getMessage(), 422);
+            //$this->dispatchBrowserEvent('voucher-failed', ['cart_id' => $this->cart_id]);
         }
     }
 

@@ -1,17 +1,20 @@
 <tr x-data="{ cart_id: {{ $cart->id }}, number: @entangle('number'), loading: false }"
-    x-on:purchase="
+    x-on:purchase="               
         if (number.length > 0) {
-            return pushStatus(cart_id)
+            $event.detail.resolve()
+            return success(cart_id)
         }
     
         loading = true
-        removeStatus(cart_id)
-        $wire.createVoucher().finally(() => loading = false)
-     "
+        $wire.createVoucher()
+            .then(() => $event.detail.resolve())
+            .catch(() => $event.detail.reject())
+            .finally(() => loading = false)
+    "
     x-on:voucher-created.window="
         if (event.detail.cart_id === cart_id) {
             number = event.detail.number
-            pushStatus(cart_id)
+            success(cart_id)
         }
     "
 >
@@ -20,7 +23,7 @@
     <td>
         <em x-show="loading" x-cloak class="fa fa-spinner fa-spin fa-sm"></em>
         <em x-show="!loading && number.length > 0" x-cloak class="fa fa-check-circle text-success fa-sm"></em>
-        <em x-show="!loading && number.length === 0 && status[cart_id] === false" x-cloak class="fa fa-times-circle text-danger fa-sm"></em>
+        <em x-show="!loading && number.length === 0 && vouchers[cart_id] === false" x-cloak class="fa fa-times-circle text-danger fa-sm"></em>
         <span x-text="number"></span>
     </td>
 
