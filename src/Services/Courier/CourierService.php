@@ -17,7 +17,7 @@ class CourierService
      */
     private function get(string $method, array $params = [], ?string $key = 'data'): mixed
     {
-        $response = Http::withToken(api_key('COURIER_APIKEY'))
+        $response = Http::withToken(api_key('myShipping_apikey'))
             ->contentType('application/json')
             ->accept('application/json')
             ->get(self::ENDPOINT . $method, $params);
@@ -34,7 +34,7 @@ class CourierService
      */
     private function post(string $method, array $params): mixed
     {
-        $response = Http::withToken(api_key('COURIER_APIKEY'))
+        $response = Http::withToken(api_key('myShipping_apikey'))
             ->accept('application/json')
             ->post(self::ENDPOINT . $method, $params);
         //dd($response->json());
@@ -50,7 +50,7 @@ class CourierService
      */
     private function put(string $method, array $params): mixed
     {
-        $response = Http::withToken(api_key('COURIER_APIKEY'))
+        $response = Http::withToken(api_key('myShipping_apikey'))
             ->accept('application/json')
             ->put(self::ENDPOINT . $method, $params);
         //dd($response->json());
@@ -66,7 +66,7 @@ class CourierService
      */
     private function delete(string $method, array $params): mixed
     {
-        $response = Http::withToken(api_key('COURIER_APIKEY'))
+        $response = Http::withToken(api_key('myShipping_apikey'))
             ->accept('application/json')
             ->delete(self::ENDPOINT . $method, $params);
 
@@ -128,5 +128,10 @@ class CourierService
         return $this->get("shipping-services/$courier->value", [
             'country_code' => $country_code
         ]);
+    }
+
+    public function checkAreas(array $postcode_regions)
+    {
+        //return $this->
     }
 }

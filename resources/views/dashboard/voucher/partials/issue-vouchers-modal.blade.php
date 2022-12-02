@@ -15,11 +15,15 @@
                     </template>
                 </div>
 
-                <div class="border-start border-3 border-primary alert-primary p-3 mb-3"><em class="fa fa-info-circle fa-sm"></em> Πρόκειται να εκδώσετε <span></span> κωδικούς αποστολής.
+                <div class="border-start border-3 border-primary alert-primary p-3">
+                    <em class="fa fa-info-circle fa-sm"></em>
                     Μετά την έκδοση θα έχετε ακόμα τη δυνατότητα ακύρωσης των αποστολών σε περίπτωση που χρειαστεί.
                 </div>
 
-                <p><em class="fa fa-exclamation-circle text-warning"></em> Θα γίνει χρέωση των κωδικών βάση του συμβολαίου σας.</p>
+                <div class="border-start border-3 border-warning alert-warning p-3 mb-3">
+                    <em class="fa fa-exclamation-circle text-yellow-700"></em>
+                    Θα γίνει χρέωση των κωδικών βάση του συμβολαίου σας.
+                </div>
 
                 <template x-if="rows.length > 0">
                     <div>
@@ -48,7 +52,7 @@
 
             <div class="modal-footer">
                 <button x-bind:disabled="loading" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Κλείσιμο</button>
-                <button x-show="rows.length > 0" @click="dispatch()" x-bind:disabled="loading" type="button" class="btn btn-primary">
+                <button x-show="rows.length > 0 && (!finished || failedCount > 0)" @click="dispatch()" x-bind:disabled="loading" type="button" class="btn btn-primary">
                     <em x-show="loading" x-cloak class="fa fa-spinner fa-spin me-2"></em>
                     Έκδοση
                 </button>

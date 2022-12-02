@@ -6,6 +6,7 @@ use Eshop\Controllers\Dashboard\Controller;
 use Eshop\Models\Cart\Cart;
 use Eshop\Models\Location\ShippingMethod;
 use Eshop\Services\Acs\Http\AcsFindAreaByZipcode;
+use Eshop\Services\Courier\CourierService;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
@@ -14,7 +15,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class VoucherController extends Controller
 {
-    public function create(Request $request): Renderable
+    public function create(Request $request, CourierService $courierService): Renderable
     {
         $ids = json_decode($request->query('ids'));
         $carts = Cart::whereKey($ids)

@@ -69,8 +69,8 @@ class VarCache
                 'SIMPLIFY_HOSTED_PRIVATE_KEY'  => '',
             ],
             
-            'courier' => [
-                'COURIER_APIKEY' => ''    
+            'myShipping' => [
+                'myShipping_apikey' => ''    
             ],
             
             'Skroutz' => [

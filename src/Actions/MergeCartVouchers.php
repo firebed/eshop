@@ -71,8 +71,10 @@ class MergeCartVouchers
         $filename = Str::random(40) . '.pdf';
         Storage::disk('local')->put($filename, base64_decode($byteArray, true));
 
-        $this->pdf->setSourceFile(Storage::disk('local')->path($filename));
-        $this->importPage(1);
+        $pages = $this->pdf->setSourceFile(Storage::disk('local')->path($filename));
+        for($i = 0; $i < $pages; $i++) {
+            $this->importPage($i);
+        }
 
         Storage::disk('local')->delete($filename);
     }

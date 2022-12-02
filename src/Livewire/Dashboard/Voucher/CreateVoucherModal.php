@@ -42,7 +42,7 @@ class CreateVoucherModal extends Component
         'services'           => [],
     ];
 
-    public function createVoucher(Cart $cart, CreateVoucherRequest $voucherRequest): void
+    public function createVoucher(Cart $cart, int $packages, CreateVoucherRequest $voucherRequest): void
     {
         $this->reset('voucher');
         
@@ -59,7 +59,7 @@ class CreateVoucherModal extends Component
         }
         $this->courier_id = $courier->value;
         $this->icon = asset("images/" . $courier->icon());
-        $this->voucher = $voucherRequest->handle($cart);
+        $this->voucher = $voucherRequest->handle($cart, $packages);
         $this->cod = $cart->paymentMethod->isPayOnDelivery();
         $this->showModal = true;
 

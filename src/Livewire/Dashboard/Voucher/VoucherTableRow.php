@@ -4,6 +4,7 @@ namespace Eshop\Livewire\Dashboard\Voucher;
 
 use Eshop\Actions\CreateVoucherRequest;
 use Eshop\Models\Cart\Cart;
+use Eshop\Models\Cart\Voucher;
 use Eshop\Services\Courier\CourierService;
 use Illuminate\Contracts\Support\Renderable;
 use Livewire\Component;
@@ -13,14 +14,16 @@ class VoucherTableRow extends Component
 {
     public string $number = '';
     public int    $cart_id;
+    public array  $voucher;
 
-    public function mount(Cart $cart)
+    public function mount(Cart $cart, CreateVoucherRequest $voucherRequest)
     {
         $this->cart_id = $cart->id;
         $this->number = $cart->voucher()->first()->number ?? "";
+        $this->voucher = $voucherRequest->handle($cart);
     }
 
-    public function createVoucher(CreateVoucherRequest $voucherRequest, CourierService $courierService)
+    public function createVoucher(CourierService $courierService): bool
     {
         $this->resetErrorBag();
 
@@ -29,26 +32,23 @@ class VoucherTableRow extends Component
             return true;
         }
 
-        $query = $voucherRequest->handle($cart);
-
         try {
             $courier_id = $cart->shippingMethod->courier()->value;
-            $voucher = $courierService->createVoucher($courier_id, $query);
+            $voucher = $courierService->createVoucher($courier_id, $this->voucher);
 
-            //Voucher::create([
-            //    'cart_id'    => $voucher['reference_1'],
-            //    'courier_id' => $courier_id,
-            //    'number'     => $voucher['number'],
-            //    'is_manual'  => false,
-            //    'meta'       => ['uuid' => $voucher['uuid']]
-            //]);
+            Voucher::create([
+                'cart_id'    => $voucher['reference_1'],
+                'courier_id' => $courier_id,
+                'number'     => $voucher['number'],
+                'is_manual'  => false,
+                'meta'       => ['uuid' => $voucher['uuid']]
+            ]);
 
             $this->number = $voucher['number'];
             return true;
         } catch (Throwable $e) {
             $this->addError('courier', $e->getMessage());
             return false;
-            //$this->dispatchBrowserEvent('voucher-failed', ['cart_id' => $this->cart_id]);
         }
     }
 

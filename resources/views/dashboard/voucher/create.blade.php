@@ -22,13 +22,14 @@
             </button>
         </div>
 
-        <div class="table-responsive bg-white shadow-sm rounded">
+        <div class="table-responsive bg-white shadow-sm rounded border">
             <x-bs::table hover style="table-layout: fixed">
                 <thead>
                 <tr>
                     <th style="width: 6rem">#</th>
                     <th style="width: 10rem">Voucher</th>
                     <th>Παραλήπτης</th>
+                    <th style="width: 7rem">Τεμάχια</th>
                     <th style="width: 10rem">Courier</th>
                     <th class="text-end" style="width: 5rem">Βάρος</th>
                     <th class="text-end" style="width: 8rem">Αντικαταβολή</th>
@@ -62,6 +63,7 @@
         document.addEventListener('alpine:init', () => {
             Alpine.data('vouchers', () => ({
                 loading: false,
+                finished: false,
                 rows: [],
                 successCount: 0,
                 failedCount: 0,
@@ -72,10 +74,13 @@
                 },
                 
                 dispatch() {
+                    this.setup();
+                    
                     if (this.loading || this.rows.length === 0) {
                         return;
                     }
 
+                    this.finished = false;
                     this.successCount = 0;
                     this.failedCount = 0;
                     const promises = [];
@@ -97,7 +102,10 @@
                     });
 
                     this.loading = true;
-                    Promise.allSettled(promises).then(() => this.loading = false);
+                    Promise.allSettled(promises).then(() => {
+                        this.loading = false;
+                        this.finished = true;
+                    });
                     events.forEach((event, i) => setTimeout(() => event(), i * 350));
                 },
 
