@@ -21,6 +21,7 @@
         }
     "
     x-bind:data-voucher="number"
+{{--    x-init="$wire.validateAddress()"--}}
 >
     <td><a href="{{ route('carts.show', $cart->id) }}" target="_blank">#{{ $cart->id }}</a></td>
 
@@ -36,17 +37,28 @@
             @error('courier')
             <div class="text-danger fw-500 mb-1"><em class="fa fa-exclamation-circle me-1"></em>{{ $message }}</div>
             @enderror
-            <div class="fw-500">{{ $voucher['customer_name'] }}</div>
-            <div class="small text-secondary">{{ $voucher['region'] }}, {{ $voucher['postcode'] }}</div>
+            <div class="fw-500">
+                @if($addressValidation)
+                    <em class="fa fa-exclamation-triangle text-warning fa-sm"></em>
+                @endif
+                <span>{{ $voucher['customer_name'] }}</span>
+            </div>
+            <div class="small text-secondary d-flex gap-2">
+                <span>{{ $cart->submitted_at->format('d/m/Y H:i') }}</span>
+                <span>|</span>
+                <span>{{ $voucher['region'] }}, {{ $voucher['postcode'] }}</span>
+            </div>
         </div>
     </td>
 
     <td>
         <input type="number" x-model="packages" class="form-control">
     </td>
-    
+
     <td>
-        <img src="{{ asset('images/' . $cart->shippingMethod->courier()->icon()) }}" alt="" class="img-fluid" style="max-height: 20px; max-width: 80px">
+        @if($cart->shippingMethod->courier())
+            <img src="{{ asset('images/' . $cart->shippingMethod->courier()->icon()) }}" alt="" class="img-fluid" style="max-height: 20px; max-width: 80px">
+        @endif
     </td>
 
     <td class="text-end">{{ $voucher['weight'] }}&nbsp;kg</td>

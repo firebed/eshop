@@ -31,12 +31,7 @@ class CheckoutPaymentController extends Controller
     use StripeCheckout, PayPalCheckout, SimplifyCheckout;
 
     public function store(string $lang, Request $request, Order $order): RedirectResponse|JsonResponse
-    {
-        if (panicking()) {
-            session()->flash('safe');
-            return redirect()->route('checkout.payment.edit', $lang);
-        }
-        
+    {        
         if (blank($order->shipping_method_id)) {
             throw ValidationException::withMessages(['shipping_method_error' => '']);
         }

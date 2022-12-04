@@ -20,7 +20,6 @@ use Firebed\Components\Livewire\Traits\SendsNotifications;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -212,10 +211,10 @@ class ShowCarts extends Component
             ->when($this->unpaid, static fn($q) => $q->where('status_id', '<', 6)->whereDoesntHave('payment'))
             ->when(!$this->incomplete, static fn($q) => $q->submitted()->latest('submitted_at'))
             ->when($this->filter, function ($q, $f) {
-                return $q->where(fn($b) => $b->where('id', 'LIKE', "$f%")
-                    ->orWhereHas('voucher', fn($b) => $b->where('number', 'LIKE', "$f%"))
+                return $q->where(fn($b) => $b->where('id', 'LIKE', "$f%"))
+                    ->orWhereHas('voucher', fn($q) => $q->where('number', 'LIKE', "$f%"))
                     ->orWhere('reference_id', 'LIKE', "$f%")
-                    ->orWhereHas('shippingAddress', fn($b) => $b->matchAgainst($f)));
+                    ->orWhereHas('shippingAddress', fn($b) => $b->matchAgainst($f));
             })
             ->when(auth()->user()?->cannot('Manage orders') && auth()->user()?->can('Manage assigned orders'), function ($q) {
                 return $q->whereHas('operators', fn($b) => $b->where('user_id', auth()->id()));
@@ -224,7 +223,6 @@ class ShowCarts extends Component
             ->when($this->status, fn($q, $s) => $q->where('status_id', $s))
             ->when($this->shipping_method_id, fn($q, $id) => $q->where('shipping_method_id', $id))
             ->when($this->payment_method_id, fn($q, $id) => $q->where('payment_method_id', $id))
-            ->when(panicking(), fn($q) => $q->whereHas('products'))
             ->paginate($this->per_page);
     }
 

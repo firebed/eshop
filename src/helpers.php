@@ -218,10 +218,3 @@ if (!function_exists('parseFloat')) {
         return str_replace(',', '', $float) * 1.0;
     }
 }
-
-if (!function_exists('panicking')) {
-    function panicking(): bool
-    {
-        return eshop('product.high_risk') && Cache::get('panic', false);
-    }
-}

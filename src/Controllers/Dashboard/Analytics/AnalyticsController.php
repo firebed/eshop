@@ -19,11 +19,7 @@ class AnalyticsController extends Controller
     }
 
     public function __invoke(Request $request): Renderable
-    {
-        if (panicking()) {
-            abort(404);
-        }
-        
+    {        
         $date = $request->filled('date')
             ? Carbon::createFromFormat('Y-m-d', $request->input('date'))->startOfDay()
             : today();

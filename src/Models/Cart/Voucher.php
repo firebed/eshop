@@ -7,19 +7,15 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Support\Collection;
 
 /**
- * @property int                $id
- * @property int                $cart_id
- * @property int                $courier_id
- * @property string             $number
- * @property bool               $is_manual
- * @property array              $meta
- *
- * @property Collection<Pickup> $pickups
+ * @property int    $id
+ * @property int    $cart_id
+ * @property int    $courier_id
+ * @property string $number
+ * @property bool   $is_manual
+ * @property array  $meta
  *
  * @mixin Builder
  */
@@ -42,11 +38,6 @@ class Voucher extends Model
     public function shippingMethod(): BelongsTo
     {
         return $this->belongsTo(ShippingMethod::class);
-    }
-
-    public function pickups(): BelongsToMany
-    {
-        return $this->belongsToMany(Pickup::class);
     }
 
     public function isActive(): Attribute

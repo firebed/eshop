@@ -130,8 +130,18 @@ class CourierService
         ]);
     }
 
-    public function checkAreas(array $postcode_regions)
+    public function validateArea(string $street, string $number, string $postcode, string $region)
     {
-        //return $this->
+        return $this->get('areas/validate', [
+            'street'   => $street,
+            'number'   => $number,
+            'postcode' => $postcode,
+            'region'   => $region
+        ], null);
+    }
+
+    public function searchAreas(string $term)
+    {
+        return $this->get('areas/search', compact('term'));
     }
 }

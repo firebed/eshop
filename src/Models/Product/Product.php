@@ -465,13 +465,4 @@ class Product extends Model implements Auditable
             });
         });
     }
-
-    protected static function booted(): void
-    {
-        static::addGlobalScope('safe', function (Builder $builder) {
-            if (panicking()) {
-                $builder->where('high_risk', false);
-            }
-        });
-    }
 }

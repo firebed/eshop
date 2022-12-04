@@ -65,6 +65,10 @@ class CreateVouchersTable extends Migration
         $temp->each(function ($chunk) {
             DB::table('vouchers')->insert($chunk);
         });
+        
+        Schema::table('carts', function(Blueprint $table) {
+            $table->renameColumn('voucher', 'voucher_old');
+        });
     }
 
     public function down(): void

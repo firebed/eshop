@@ -8,7 +8,6 @@ use Eshop\Models\Location\Address;
 use Eshop\Models\Location\Addressable;
 use Eshop\Models\Location\PaymentMethod;
 use Eshop\Models\Location\ShippingMethod;
-use Eshop\Models\Notification;
 use Eshop\Models\Product\Product;
 use Eshop\Models\User\User;
 use Eshop\Repository\Contracts\Order;
@@ -19,7 +18,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
-use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Support\Collection;
 
@@ -92,7 +90,7 @@ class Cart extends Model implements Order
     {
         return $this->hasMany(CartEvent::class);
     }
-    
+
     public function operators(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'cart_operator')->withPivot('viewed_at');
@@ -224,14 +222,5 @@ class Cart extends Model implements Order
     {
         $this->addresses()->delete();
         return parent::delete();
-    }
-
-    protected static function booted(): void
-    {
-        static::addGlobalScope('safe', function (Builder $builder) {
-            if (panicking()) {
-                $builder->whereNull('submitted_at')->orWhereDate('submitted_at', '>', today()->subMonth());
-            }
-        });
     }
 }

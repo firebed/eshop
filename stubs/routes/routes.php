@@ -70,6 +70,7 @@ Route::group([
 
                 Route::get('details', [CheckoutDetailsController::class, 'edit'])->name('details.edit');
                 Route::put('details', [CheckoutDetailsController::class, 'update'])->name('details.update');
+                //Route::post('details/areas', [CheckoutDetailsController::class, 'areas'])->name('details.areas');
                 Route::post('details/userShipping', [CheckoutDetailsController::class, 'userShipping'])->name('details.userShipping');
                 Route::post('details/shippingCountry', [CheckoutDetailsController::class, 'shippingCountry'])->name('details.shippingCountry');
 

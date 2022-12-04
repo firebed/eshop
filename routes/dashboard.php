@@ -140,12 +140,13 @@ Route::middleware(['web', 'auth', 'admin'])->group(function () {
 
         Route::view('config', 'eshop::dashboard.config.index')->name('config.index');
 
-        Route::get('vouchers', [VoucherController::class, 'create'])->name('vouchers.create');
-        Route::post('vouchers', [VoucherController::class, 'store'])->name('vouchers.store');
-        Route::post('vouchers/stations', [VoucherController::class, 'searchStations'])->name('vouchers.search-stations');
-        Route::post('vouchers/areas', [VoucherController::class, 'searchAreas'])->name('vouchers.search-areas');
-        Route::delete('vouchers', [VoucherController::class, 'destroy'])->name('vouchers.destroy');
-        Route::resource('pickups', PickupController::class);
+        Route::resource('vouchers', VoucherController::class);
+        //Route::get('vouchers/create', [VoucherController::class, 'create'])->name('vouchers.create');
+        //Route::post('vouchers', [VoucherController::class, 'store'])->name('vouchers.store');
+        //Route::post('vouchers/stations', [VoucherController::class, 'searchStations'])->name('vouchers.search-stations');
+        //Route::post('vouchers/areas', [VoucherController::class, 'searchAreas'])->name('vouchers.search-areas');
+        //Route::delete('vouchers', [VoucherController::class, 'destroy'])->name('vouchers.destroy');
+        //Route::resource('pickups', PickupController::class);
         
         Route::get('analytics', AnalyticsController::class)->name('analytics.index');
         Route::get('analytics/orders', OrderAnalyticsController::class)->name('analytics.orders.index');

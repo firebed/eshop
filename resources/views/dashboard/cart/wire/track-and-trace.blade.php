@@ -32,7 +32,7 @@
                 @endif
             @else
                 <button x-data="{ disabled: false }"
-                        @click.prevent="disabled = true; $wire.emitTo('dashboard.voucher.create', 'createVoucher', {{ $cart->id }})"
+                        @click.prevent="disabled = true; $wire.emitTo('dashboard.voucher.create', 'createVoucher', {{ $cart->id }}, 1)"
                         x-on:create-voucher-shown.window="disabled = false"
                         :disabled="disabled"
                         type="button" class="col-8 btn btn-primary"><em class="fas fa-plus fa-sm"></em> Έκδοση voucher</button>

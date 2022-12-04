@@ -63,7 +63,7 @@
                         <x-bs::input.text value="{{ old('shippingAddress.phone', $shipping?->phone) ?? '' }}" name="shippingAddress[phone]" error="shippingAddress.phone" id="phone" placeholder="{{ __('Phone') }}"/>
                     </x-bs::input.floating-label>
                 </div>
-
+                
                 <div class="col-12 col-sm-6">
                     <x-bs::input.floating-label for="country" label="{{ __('Country') }}">
                         <x-bs::input.select name="shippingAddress[country_id]" error="shippingAddress.country_id" id="shipping-country" class="pb-2">

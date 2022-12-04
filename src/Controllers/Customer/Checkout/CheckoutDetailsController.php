@@ -11,6 +11,7 @@ use Eshop\Models\Location\Address;
 use Eshop\Models\Location\Country;
 use Eshop\Repository\Contracts\Order;
 use Eshop\Requests\Customer\CheckoutDetailsRequest;
+use Eshop\Services\Courier\CourierService;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
@@ -212,5 +213,14 @@ class CheckoutDetailsController extends Controller
         ])->render();
 
         return response()->json(compact('summary', 'provinces'));
+    }
+
+    public function areas(Request $request, CourierService $service)
+    {
+        $request->validate([
+            'term' => ['required', 'string', 'max:150']
+        ]);
+
+        return $service->searchAreas($request->input('term'));
     }
 }

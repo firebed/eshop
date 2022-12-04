@@ -4,7 +4,6 @@ namespace Eshop\Livewire\Dashboard\Cart;
 
 use Eshop\Models\Cart\Cart;
 use Eshop\Models\Cart\CartStatus;
-use Eshop\Models\Cart\Voucher;
 use Illuminate\Contracts\Support\Renderable;
 use Livewire\Component;
 
@@ -15,21 +14,15 @@ class StatusesList extends Component
     public function render(): Renderable
     {
         $statuses = CartStatus::withCount(['carts' => function ($q) {
-            if (panicking()) {
-                $q->whereHas('products');
-            }
-            
             $q->when(auth()->user()?->cannot('Manage orders') && auth()->user()?->can('Manage assigned orders'), function ($q) {
                 $q->whereHas('operators', fn($b) => $b->where('user_id', auth()->id()));
             });
         }])->get();
 
         $incomplete_carts_count = Cart::whereNull('submitted_at')->count();
-        
+
         $unpaid_carts = Cart::whereNotNull('submitted_at')->where('status_id', '<', 6)->whereDoesntHave('payment')->count();
 
-        $vouchers = Voucher::whereDoesntHave('pickups')->count();
-        
-        return view('eshop::dashboard.cart.partials.statuses-list', compact('statuses', 'incomplete_carts_count', 'unpaid_carts', 'vouchers'));
+        return view('eshop::dashboard.cart.partials.statuses-list', compact('statuses', 'incomplete_carts_count', 'unpaid_carts'));
     }
 }
