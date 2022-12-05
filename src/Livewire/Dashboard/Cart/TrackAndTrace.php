@@ -11,6 +11,7 @@ use Eshop\Services\Courier\CourierService;
 use Firebed\Components\Livewire\Traits\SendsNotifications;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Cache;
 use Livewire\Component;
 use Throwable;
 
@@ -30,12 +31,12 @@ class TrackAndTrace extends Component
     private Collection $checkpoints;
 
     protected array $rules = [
-        'editingVoucher.courier' => ['required', 'integer'],
-        'editingVoucher.number'  => 'required|string|max:255'
+        'editingVoucher.courier_id' => ['required', 'integer'],
+        'editingVoucher.number'     => 'required|string|max:255'
     ];
 
     protected $listeners = ['voucher-created' => '$refresh'];
-    
+
     public function trace(Voucher $voucher, CourierService $courier)
     {
         try {
@@ -50,7 +51,7 @@ class TrackAndTrace extends Component
     {
         $cart = Cart::find($this->cart_id);
         $this->editingVoucher = new Voucher([
-            'courier' => $cart->shippingMethod->courier()->value ?? null
+            'courier_id' => $cart->shippingMethod->courier()->value ?? null
         ]);
 
         $this->saveOnMyShipping = true;
@@ -69,7 +70,7 @@ class TrackAndTrace extends Component
 
         if ($this->editingVoucher && $this->editingVoucher->exists) {
             $courier->updateManualVoucher($this->editingVoucher, [
-                'courier'    => $this->editingVoucher->courier,
+                'courier_id' => $this->editingVoucher->courier_id,
                 'number'     => $this->editingVoucher->number,
                 'cod_amount' => 0,
             ]);
@@ -85,16 +86,16 @@ class TrackAndTrace extends Component
 
         if ($this->saveOnMyShipping) {
             $response = $courier->createManualVoucher([
-                'courier'     => $this->editingVoucher->courier,
+                'courier_id'  => $this->editingVoucher->courier_id,
                 'reference_1' => $cart->id,
                 'number'      => $number,
                 'cod_amount'  => 0,
             ]);
 
-            $meta = ['uuid' => $response['uuid']];
+            $uuid = $response['uuid'];
         }
 
-        if ($contract->setVoucher($cart->id, $number, $this->editingVoucher->courier, true, $meta ?? [])) {
+        if ($contract->setVoucher($cart->id, $number, $this->editingVoucher->courier_id, true, $uuid ?? null)) {
             $this->showVoucherModal = false;
 
             $this->showSuccessToast('Voucher saved!');
@@ -117,6 +118,12 @@ class TrackAndTrace extends Component
 
     public function deleteVoucher(Voucher $voucher, CourierService $courier): void
     {
+        if ($voucher->submitted_at !== null) {
+            $this->showErrorToast("Σφάλμα", "Ο κωδικός αποστολής έχει κλείσει και δεν μπορεί να ακυρωθεί.");
+            $this->skipRender();
+            return;
+        }
+
         try {
             $courier->deleteVoucher($voucher, $this->propagate_delete);
 
@@ -124,6 +131,9 @@ class TrackAndTrace extends Component
 
             $this->showSuccessToast("Ο κωδικός αποστολής $voucher->number ακυρώθηκε.");
             $this->showDeleteVoucherModal = false;
+
+            $pending_vouchers = Cache::decrement('pending-vouchers-count');
+            $this->dispatchBrowserEvent('pending-vouchers-updated', $pending_vouchers);
         } catch (Throwable $e) {
             $this->showErrorToast("Σφάλμα", $e->getMessage());
         }
@@ -132,7 +142,7 @@ class TrackAndTrace extends Component
     public function render(): Renderable
     {
         $cart = Cart::find($this->cart_id);
-        
+
         return view('eshop::dashboard.cart.wire.track-and-trace', [
             'checkpoints'    => $this->checkpoints ?? collect(),
             'icons'          => collect(Courier::cases())->mapWithKeys(fn($c) => [$c->value => asset('images/' . $c->icon())]),

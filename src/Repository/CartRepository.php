@@ -339,16 +339,16 @@ class CartRepository implements CartContract
         return $currentStatus->isReleasingStocks() && ($previousStatus === null || $previousStatus->isCapturingStocks());
     }
 
-    public function setVoucher(Cart|int $cart, ?string $voucher, ?int $courier = null, bool $is_manual = false, array $meta = []): bool
+    public function setVoucher(Cart|int $cart, ?string $voucher, ?int $courier_id = null, bool $is_manual = false, ?string $myshipping_id = null): bool
     {
         $cartId = $cart instanceof Cart ? $cart->id : $cart;
 
         $voucher = Voucher::create([
-            'cart_id'   => $cartId,
-            'courier'   => $courier,
-            'number'    => $voucher,
-            'is_manual' => $is_manual,
-            'meta'      => $meta,
+            'cart_id'       => $cartId,
+            'myshipping_id' => $myshipping_id,
+            'courier_id'    => $courier_id,
+            'number'        => $voucher,
+            'is_manual'     => $is_manual,
         ]);
 
         CartEvent::info($voucher->cart_id, CartEvent::VOUCHER_UPDATED, $voucher->number);

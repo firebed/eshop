@@ -87,7 +87,7 @@ class ShowCart extends Component
     {
         $cp->update(['pinned' => !$cp->pinned]);
     }
-    
+
     public function save(): void
     {
         $this->validate();

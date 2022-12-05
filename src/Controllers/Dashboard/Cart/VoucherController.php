@@ -4,22 +4,46 @@ namespace Eshop\Controllers\Dashboard\Cart;
 
 use Eshop\Controllers\Dashboard\Controller;
 use Eshop\Models\Cart\Cart;
-use Eshop\Models\Location\ShippingMethod;
-use Eshop\Services\Acs\Http\AcsFindAreaByZipcode;
+use Eshop\Models\Cart\Voucher;
 use Eshop\Services\Courier\CourierService;
 use Illuminate\Contracts\Support\Renderable;
-use Illuminate\Http\JsonResponse;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Support\Facades\Cache;
+use Throwable;
 
 class VoucherController extends Controller
 {
-    public function index()
+    public function index(Request $request): Renderable
     {
-        return $this->view("voucher.index");
+        $request->validate([
+            'date' => ['nullable', 'date']
+        ]);
+
+        $date = $request->date('date') ?? today();
+        $pending = $request->boolean('pending');
+
+        $vouchers = Voucher::query()
+            ->whereNotNull('courier_id')
+            ->with('cart.shippingAddress')
+            ->when($pending, function (Builder $q) {
+                $q->whereNull('submitted_at');
+                $collection = $q->get();
+
+                Cache::put('pending-vouchers-count', $collection->count());
+
+                return $collection;
+            })
+            ->when(!$pending, function (Builder $q) use ($date) {
+                $q->whereBetween('submitted_at', [$date->startOfDay(), $date->copy()->endOfDay()]);
+                $q->whereNotNull('submitted_at');
+                return $q->get();
+            });
+
+        return $this->view($pending ? "voucher.pending" : "voucher.index", compact('vouchers', 'date'));
     }
-    
+
     public function create(Request $request, CourierService $courierService): Renderable
     {
         $ids = json_decode($request->query('ids'));
@@ -40,4 +64,24 @@ class VoucherController extends Controller
 
         return $this->view('voucher.create', compact('carts', 'billingCodes'));
     }
+
+    public function submit(CourierService $courierService): RedirectResponse
+    {
+        try {
+
+            $response = $courierService->submitPendingVouchers();
+
+            Voucher::query()
+                ->whereIn('myshipping_id', $response)
+                ->update(['submitted_at' => now()]);
+
+            $pendingVouchers = Voucher::whereNull('submitted_at')->count();
+            Cache::put('pending-vouchers-count', $pendingVouchers);
+
+            return back()->with('submitted', count($response));
+        } catch (Throwable $e) {
+            return back()->withErrors(['error' => $e->getMessage()]);
+        }
+    }
+
 }

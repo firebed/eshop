@@ -5,12 +5,14 @@ namespace Eshop\Livewire\Dashboard\Voucher;
 use Eshop\Actions\CreateVoucherRequest;
 use Eshop\Models\Cart\Cart;
 use Eshop\Models\Cart\Voucher;
+use Eshop\Repository\Contracts\CartContract;
 use Eshop\Services\Courier\ContentType;
 use Eshop\Services\Courier\Courier;
 use Eshop\Services\Courier\CourierService;
 use Firebed\Components\Livewire\Traits\SendsNotifications;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Cache;
 use Livewire\Component;
 use Throwable;
 
@@ -45,7 +47,7 @@ class CreateVoucherModal extends Component
     public function createVoucher(Cart $cart, int $packages, CreateVoucherRequest $voucherRequest): void
     {
         $this->reset('voucher');
-        
+
         if ($cart->voucher !== null) {
             return;
         }
@@ -67,32 +69,30 @@ class CreateVoucherModal extends Component
         $this->dispatchBrowserEvent('create-voucher-shown');
     }
 
-    public function purchaseVoucher(CourierService $courierService)
+    public function purchaseVoucher(CartContract $contract, CourierService $courierService)
     {
         $this->resetErrorBag();
         $query = $this->voucher;
-        
+
         $cart = Cart::findOrFail($query['reference_1']);
         if ($cart->voucher !== null) {
             return;
         }
-        
+
         try {
             $response = $courierService->createVoucher($this->courier_id, $query);
-            
-            $voucher = Voucher::create([
-                'cart_id'    => $response['reference_1'],
-                'courier_id' => $response['courier_id'],
-                'number'     => $response['number'],
-                'is_manual'  => false,
-                'meta'       => ['uuid' => $response['uuid']]
-            ]);
+
+            $contract->setVoucher($cart->id, $response['number'], $response['courier_id'], false, $response['uuid']);
 
             $this->showSuccessToast('Ο κωδικός αποστολής δημιουργήθηκε με επιτυχία!');
             $this->showModal = false;
-            
-            $this->emit('voucher-created', $voucher);
-            $this->dispatchBrowserEvent('voucher-created', $voucher);
+
+
+            $this->emit('voucher-created', $response);
+            $this->dispatchBrowserEvent('voucher-created', $response);
+
+            $pending_vouchers = Cache::increment('pending-vouchers-count');
+            $this->dispatchBrowserEvent('pending-vouchers-updated', $pending_vouchers);
         } catch (Throwable $e) {
             $this->addError('error', $e->getMessage());
         }

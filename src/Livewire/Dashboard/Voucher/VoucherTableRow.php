@@ -4,9 +4,11 @@ namespace Eshop\Livewire\Dashboard\Voucher;
 
 use Eshop\Actions\CreateVoucherRequest;
 use Eshop\Models\Cart\Cart;
+use Eshop\Repository\Contracts\CartContract;
 use Eshop\Services\Courier\CourierService;
 use Exception;
 use Illuminate\Contracts\Support\Renderable;
+use Illuminate\Support\Facades\Cache;
 use Livewire\Component;
 use Throwable;
 
@@ -26,7 +28,7 @@ class VoucherTableRow extends Component
         //$this->validateAddress();
     }
 
-    public function createVoucher(CourierService $courierService): bool
+    public function createVoucher(CartContract $contract, CourierService $courierService): bool
     {
         $this->resetErrorBag();
 
@@ -39,15 +41,13 @@ class VoucherTableRow extends Component
             $courier_id = $cart->shippingMethod->courier()->value;
             $voucher = $courierService->createVoucher($courier_id, $this->voucher);
 
-            //Voucher::create([
-            //    'cart_id'    => $voucher['reference_1'],
-            //    'courier_id' => $courier_id,
-            //    'number'     => $voucher['number'],
-            //    'is_manual'  => false,
-            //    'meta'       => ['uuid' => $voucher['uuid']]
-            //]);
+            $contract->setVoucher($cart->id, $voucher['number'], $courier_id, false, $voucher['uuid']);
 
             $this->number = $voucher['number'];
+
+            $pending_vouchers = Cache::increment('pending-vouchers-count');
+            $this->dispatchBrowserEvent('pending-vouchers-updated', $pending_vouchers);
+
             return true;
         } catch (Throwable $e) {
             $this->addError('courier', $e->getMessage());

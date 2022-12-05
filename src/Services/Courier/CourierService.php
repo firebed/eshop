@@ -32,7 +32,7 @@ class CourierService
     /**
      * @throws Error
      */
-    private function post(string $method, array $params): mixed
+    private function post(string $method, array $params, ?string $key = 'data'): mixed
     {
         $response = Http::withToken(api_key('myShipping_apikey'))
             ->accept('application/json')
@@ -42,7 +42,7 @@ class CourierService
             throw new Error("Courier: " . $response->json()['message'], $response->status());
         }
 
-        return $response->json('data');
+        return $response->json($key);
     }
 
     /**
@@ -82,19 +82,17 @@ class CourierService
      */
     public function trace(Voucher $voucher): Collection
     {
-        $uuid = $voucher->meta['uuid'] ?? null;
-
-        if (blank($uuid)) {
+        if (blank($voucher->myshipping_id)) {
             throw new Error("Ο κωδικός αποστολής δεν είναι συσχετισμένος με το myShipping.gr");
         }
 
-        return collect($this->get("vouchers/$uuid/trace"));
+        return collect($this->get("vouchers/$voucher->myshipping_id/trace"));
     }
 
     public function printVouchers(Collection $vouchers, bool $merge = true, $options = []): string|array
     {
         return $this->get("vouchers/print", [
-            'ids'     => $vouchers->pluck('meta.uuid')->toArray(),
+            'ids'     => $vouchers->pluck('myshipping_id')->toArray(),
             'merge'   => $merge,
             'options' => $options,
         ], null);
@@ -112,13 +110,12 @@ class CourierService
 
     public function updateManualVoucher(Voucher $voucher, array $data)
     {
-        $uuid = $voucher->meta['uuid'];
-        return $this->put("vouchers/$uuid", $data);
+        return $this->put("vouchers/$voucher->myshipping_id", $data);
     }
 
     public function deleteVoucher(Voucher $voucher, bool $propagate = true): void
     {
-        if (isset($voucher->meta['uuid']) && filled($uuid = $voucher->meta['uuid'])) {
+        if (filled($uuid = $voucher->myshipping_id)) {
             $this->delete("vouchers/$uuid", ['propagate' => $propagate]);
         }
     }
@@ -128,6 +125,11 @@ class CourierService
         return $this->get("shipping-services/$courier->value", [
             'country_code' => $country_code
         ]);
+    }
+
+    public function submitPendingVouchers()
+    {
+        return $this->post("vouchers/submit", [], null);
     }
 
     public function validateArea(string $street, string $number, string $postcode, string $region)

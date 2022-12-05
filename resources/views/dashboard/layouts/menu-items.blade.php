@@ -19,11 +19,16 @@
             <span>{{ __("Orders") }}</span>
         </a>
     </li>
-    
+
     <li class="nav-item">
-        <a href="{{ route('vouchers.index') }}" @class([$link, $active => request()->routeIs('vouchers.*')])>
+        <a href="{{ route('vouchers.index', ['pending' => 1]) }}" @class([$link, 'd-flex align-items-center', $active => request()->routeIs('vouchers.*')])>
             <em class="fas fa-pallet text-cyan-300"></em>
-            <span>{{ __("Vouchers") }}</span>
+            <span x-data="{ count: {{ $count = Cache::get('pending-vouchers-count', 0) }} }" 
+                  x-on:pending-vouchers-updated.window="count = $event.detail"
+                  class="d-flex align-items-center justify-content-between flex-grow-1">
+                <span>Vouchers</span>
+                <span x-show="count > 0" @if($count === 0) x-cloak @endif x-text="count" class="badge bg-light text-dark">{{ $count }}</span>
+            </span>
         </a>
     </li>
 @endcanany
@@ -93,13 +98,12 @@
 
 @can('View notifications')
     <li class="nav-item">
-        <a href="{{ route('notifications.index') }}" @class([$link, 'd-flex justify-content-between align-items-center', $active => request()->routeIs('notifications.*')])>
-            <span>
-                <em class="fas fa-bell text-yellow-300"></em>
+        <a href="{{ route('notifications.index') }}" @class([$link, 'd-flex align-items-center', $active => request()->routeIs('notifications.*')])>
+            <em class="fas fa-bell text-yellow-300"></em>
+            <span class="d-flex align-items-center justify-content-between flex-grow-1">
                 <span>Ειδοποιήσεις</span>
+                <livewire:dashboard.notifications-counter/>
             </span>
-
-            <livewire:dashboard.notifications-counter/>
         </a>
     </li>
 @endcan

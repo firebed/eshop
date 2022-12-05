@@ -140,7 +140,8 @@ Route::middleware(['web', 'auth', 'admin'])->group(function () {
 
         Route::view('config', 'eshop::dashboard.config.index')->name('config.index');
 
-        Route::resource('vouchers', VoucherController::class);
+        Route::post('vouchers/submit', [VoucherController::class, 'submit'])->name('vouchers.submit');
+        Route::resource('vouchers', VoucherController::class)->only('index', 'create');
         //Route::get('vouchers/create', [VoucherController::class, 'create'])->name('vouchers.create');
         //Route::post('vouchers', [VoucherController::class, 'store'])->name('vouchers.store');
         //Route::post('vouchers/stations', [VoucherController::class, 'searchStations'])->name('vouchers.search-stations');

@@ -8,6 +8,7 @@
             @endif
             <div class="d-flex justify-content-between align-items-center mb-3">
                 <div class="fw-500">{{ $currentVoucher->number }}</div>
+
                 <div><img src="{{ $icons[$currentVoucher->courier_id] }}" class="img-fluid" style="max-height: 24px; max-width: 80px" alt=""></div>
             </div>
         @endif
@@ -35,10 +36,11 @@
                         @click.prevent="disabled = true; $wire.emitTo('dashboard.voucher.create', 'createVoucher', {{ $cart->id }}, 1)"
                         x-on:create-voucher-shown.window="disabled = false"
                         :disabled="disabled"
-                        type="button" class="col-8 btn btn-primary"><em class="fas fa-plus fa-sm"></em> Έκδοση voucher</button>
+                        type="button" class="col-8 btn btn-primary"><em class="fas fa-plus fa-sm"></em> Έκδοση voucher
+                </button>
             @endif
 
-            @if($cart->channel !== 'skroutz')
+            @if($cart->channel !== 'skroutz' && ($currentVoucher === null || ($currentVoucher->is_manual || $currentVoucher->submitted_at === null)))
                 <button type="button" class="col-2 btn btn-outline-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
                     <span class="visually-hidden">Toggle Dropdown</span>
                 </button>
@@ -52,7 +54,10 @@
                                 <hr class="dropdown-divider">
                             </li>
                         @endif
-                        <li><a class="dropdown-item" href="#" wire:click.prevent="$toggle('showDeleteVoucherModal')"><em class="fas fa-trash-alt text-secondary me-2"></em> Διαγραφή voucher</a></li>
+
+                        @if($currentVoucher->submitted_at === null)
+                            <li><a class="dropdown-item" href="#" wire:click.prevent="$toggle('showDeleteVoucherModal')"><em class="fas fa-trash-alt text-secondary me-2"></em> Διαγραφή voucher</a></li>
+                        @endif
                     @endif
                 </ul>
             @endif

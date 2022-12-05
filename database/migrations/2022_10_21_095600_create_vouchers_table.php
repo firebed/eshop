@@ -13,10 +13,12 @@ class CreateVouchersTable extends Migration
         Schema::create('vouchers', static function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(Cart::class)->constrained();
+            $table->string('myshipping_id')->nullable()->unique();
             $table->unsignedSmallInteger('courier_id')->nullable();
             $table->string('number')->index();
             $table->boolean('is_manual');
-            $table->json('meta')->nullable();
+            $table->timestamp('printed_at')->nullable();
+            $table->timestamp('submitted_at')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
@@ -32,23 +34,25 @@ class CreateVouchersTable extends Migration
 
             for ($i = 1; $i < count($values); $i++) {
                 $temp->add([
-                    'cart_id'    => $cart->id,
-                    'courier_id' => $cart->shippingMethod?->courier(),
-                    'number'     => $values->get($i),
-                    'is_manual'  => true,
-                    'created_at' => $cart->updated_at,
-                    'updated_at' => $cart->updated_at,
+                    'cart_id'      => $cart->id,
+                    'courier_id'   => $cart->shippingMethod?->courier(),
+                    'number'       => $values->get($i),
+                    'is_manual'    => true,
+                    'submitted_at' => $cart->updated_at,
+                    'created_at'   => $cart->updated_at,
+                    'updated_at'   => $cart->updated_at,
                 ]);
             }
 
             if (($value = $values->shift()) && filled($value)) {
                 return [
-                    'cart_id'    => $cart->id,
-                    'courier_id' => $cart->shippingMethod?->courier(),
-                    'number'     => $value,
-                    'is_manual'  => true,
-                    'created_at' => $cart->updated_at,
-                    'updated_at' => $cart->updated_at,
+                    'cart_id'      => $cart->id,
+                    'courier_id'   => $cart->shippingMethod?->courier(),
+                    'number'       => $value,
+                    'is_manual'    => true,
+                    'submitted_at' => $cart->updated_at,
+                    'created_at'   => $cart->updated_at,
+                    'updated_at'   => $cart->updated_at,
                 ];
             }
 
@@ -65,10 +69,10 @@ class CreateVouchersTable extends Migration
         $temp->each(function ($chunk) {
             DB::table('vouchers')->insert($chunk);
         });
-        
-        Schema::table('carts', function(Blueprint $table) {
-            $table->renameColumn('voucher', 'voucher_old');
-        });
+
+        //Schema::table('carts', function(Blueprint $table) {
+        //    $table->renameColumn('voucher', 'voucher_old');
+        //});
     }
 
     public function down(): void
