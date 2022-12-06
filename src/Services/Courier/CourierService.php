@@ -2,6 +2,7 @@
 
 namespace Eshop\Services\Courier;
 
+use Carbon\Carbon;
 use Error;
 use Eshop\Models\Cart\Voucher;
 use Illuminate\Support\Collection;
@@ -127,9 +128,9 @@ class CourierService
         ]);
     }
 
-    public function submitPendingVouchers()
+    public function submitPendingVouchers(Carbon $from, Carbon $to)
     {
-        return $this->post("vouchers/submit", [], null);
+        return $this->post("vouchers/submit", compact('from', 'to'), null);
     }
 
     public function validateArea(string $street, string $number, string $postcode, string $region)

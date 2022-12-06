@@ -15,12 +15,14 @@
         @include('eshop::dashboard.voucher.partials.voucher-navigation')
 
         @if($errors->any())
-            <div class="bg-white shadow-sm border-start border-4 border-danger p-3 fw-500 d-flex align-items-center gap-3">
-                <em class="fa fa-times-circle fa-2x text-danger"></em>
-                {{ $errors->first() }}
-            </div>
+            @foreach($errors as $error)
+                <div class="bg-white shadow-sm border-start border-4 border-danger p-3 fw-500 d-flex align-items-center gap-3">
+                    <em class="fa fa-times-circle fa-2x text-danger"></em>
+                    {{ $error }}
+                </div>
+            @endforeach
         @endif
-        
+
         @if(session()->has('submitted'))
             <div class="bg-white shadow-sm border-start border-4 border-success p-3 fw-500 d-flex align-items-start gap-3">
                 <em class="fa fa-check-circle fa-2x text-success"></em>
@@ -30,8 +32,12 @@
                 </div>
             </div>
         @elseif($vouchers->isNotEmpty())
-            <div>
+            <div class="d-flex gap-2">
                 <button type="button" class="btn btn-primary" data-bs-target="#pending-vouchers-modal" data-bs-toggle="modal">Κλείσιμο αποστολών</button>
+
+                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#print-vouchers-modal" id="print-vouchers">
+                    <em class="fa fa-print me-1"></em> Εκτύπωση
+                </button>
             </div>
 
             <div class="table-responsive bg-white shadow-sm border rounded mt-3">
@@ -95,6 +101,42 @@
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Άκυρο</button>
                         <button type="submit" class="btn btn-primary">Κλείσιμο αποστολών</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <form action="{{ route('carts.print-vouchers') }}" method="post" target="_blank">
+        @csrf
+        <div x-ref="modal" class="modal fade" id="print-vouchers-modal" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Εκτύπωση</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        @foreach($vouchers as $voucher)
+                            <input type="hidden" name="ids[]" value="{{ $voucher->cart_id }}">
+                        @endforeach
+
+                        <template x-if="error">
+                            <div class="alert alert-danger fw-500">
+                                <em class="fa fa-exclamation-circle me-2"></em>
+                                <span x-text="error"></span>
+                            </div>
+                        </template>
+                        <x-bs::input.checkbox name="with_carts" id="with-carts">Εκτύπωση των δελτίων παραγγελίας</x-bs::input.checkbox>
+                        <x-bs::input.checkbox name="two_sided" id="2-faced">Εκτύπωση διπλής όψης</x-bs::input.checkbox>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Κλείσιμο</button>
+                        <button type="submit" class="btn btn-primary" x-bind:disabled="loading">
+                            <em x-show="!loading" class="fa fa-print me-2"></em>
+                            <em x-show="loading" x-cloak class="fa fa-spinner fa-spin me-2"></em>
+                            Εκτύπωση
+                        </button>
                     </div>
                 </div>
             </div>

@@ -25,7 +25,7 @@ class OrderTrackingController extends Controller
 
         $order->load(['products' => fn($q) => $q->with('translations', 'image', 'parent.translations', 'variantOptions.translations')]);
         $products = $order->products;
-
+        
         return $this->view('order-tracking.show', compact('order', 'products'));
     }
 

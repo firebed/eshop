@@ -40,14 +40,18 @@
                             </div>
                         </td>
                         <td>{{ $voucher->number }}</td>
-                        <td><img src="{{ asset('images/' . $voucher->courier_id->icon()) }}" alt="" class="img-fluid" style="max-height: 20px; max-width: 80px"></td>
+                        <td><img src="{{ asset('images/' . $voucher->courier()->icon()) }}" alt="" class="img-fluid" style="max-height: 20px; max-width: 80px"></td>
                         
                         <td class="text-end">
-                            <button class="btn btn-sm btn-outline-secondary">Ακύρωση</button>
+{{--                            <button class="btn btn-sm btn-outline-secondary">Ακύρωση</button>--}}
                         </td>
                     </tr>
                 @endforeach
                 </tbody>
+
+                <caption>
+                    <x-eshop::pagination :paginator="$vouchers"/>
+                </caption>
             </x-bs::table>
         </div>
     </div>
