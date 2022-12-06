@@ -1,12 +1,5 @@
-<form x-data="{ loading: false, error: null }"
-  x-on:submit.prevent="
-        error = null
-        loading = true
-        axios.get($el.action, { params: {  } })
-            .then(r => $refs.modal.hide())
-            .catch(e => error = e.response.data.message)
-            .finally(() => loading = false)
-    " action="{{ route('carts.print-vouchers') }}">
+<form action="{{ route('carts.print-vouchers') }}" method="post" target="_blank">
+    @csrf
     <div x-ref="modal" class="modal fade" id="print-vouchers-modal" tabindex="-1">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -25,8 +18,8 @@
                             <span x-text="error"></span>
                         </div>
                     </template>
-                    <x-bs::input.checkbox name="with-cart" id="with-carts">Εκτύπωση των δελτίων παραγγελίας</x-bs::input.checkbox>
-                    <x-bs::input.checkbox name="two-sided" id="2-faced">Εκτύπωση διπλής όψης</x-bs::input.checkbox>
+                    <x-bs::input.checkbox name="with_carts" id="with-carts">Εκτύπωση των δελτίων παραγγελίας</x-bs::input.checkbox>
+                    <x-bs::input.checkbox name="two_sided" id="2-faced">Εκτύπωση διπλής όψης</x-bs::input.checkbox>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Κλείσιμο</button>

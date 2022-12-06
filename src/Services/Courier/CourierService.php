@@ -21,7 +21,7 @@ class CourierService
             ->contentType('application/json')
             ->accept('application/json')
             ->get(self::ENDPOINT . $method, $params);
-
+        
         if ($response->failed()) {
             throw new Error("Courier: " . $response->json()['message']);
         }

@@ -42,6 +42,11 @@ class Voucher extends Model
         return $this->belongsTo(ShippingMethod::class);
     }
 
+    public function courier(): Courier
+    {
+        return Courier::tryFrom($this->courier_id);
+    }
+
     public function isActive(): Attribute
     {
         return new Attribute(

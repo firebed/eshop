@@ -27,7 +27,7 @@
                   x-on:pending-vouchers-updated.window="count = $event.detail"
                   class="d-flex align-items-center justify-content-between flex-grow-1">
                 <span>Vouchers</span>
-                <span x-show="count > 0" @if($count === 0) x-cloak @endif x-text="count" class="badge bg-light text-dark">{{ $count }}</span>
+                <span x-show="count > 0" @if($count === 0) x-cloak @endif x-text="count" class="badge  rounded-pill bg-light text-dark">{{ $count }}</span>
             </span>
         </a>
     </li>

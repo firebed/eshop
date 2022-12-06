@@ -34,16 +34,15 @@ class CartPrintVoucherController extends Controller
 
         try {
             $with_carts = $request->boolean('with_carts');
-            $vouchers = $courierService->printVouchers($carts->pluck('voucher'), $with_carts);
-            
-            Voucher::whereKey($carts->pluck('voucher')->pluck('id'))->update([
-                'printed_at' => now()
-            ]);
-            
+
+            $vouchers = $courierService->printVouchers($carts->pluck('voucher'), !$with_carts);
+
+            Voucher::whereKey($carts->pluck('voucher')->pluck('id'))->update(['printed_at' => now()]);
+
             if (!$with_carts) {
                 return response(base64_decode($vouchers, true), 200, [
                     'Content-Type'        => 'application/pdf',
-                    'Content-Disposition' => 'inline; filename=' . time()
+                    'Content-Disposition' => 'inline; filename=' . time() . '.pdf'
                 ]);
 
             }
@@ -52,10 +51,10 @@ class CartPrintVoucherController extends Controller
 
             return response($byteArray, 200, [
                 'Content-Type'        => 'application/pdf',
-                'Content-Disposition' => 'attachment; filename=' . time()
+                'Content-Disposition' => 'inline; filename=' . time() . '.pdf'
             ]);
         } catch (Throwable $e) {
-            throw ValidationException::withMessages([$e->getMessage()]);
+            throw $e;
         }
     }
 

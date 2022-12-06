@@ -32,7 +32,7 @@ class MergeCartVouchers
 
             $voucherImported = false;
             for ($i = 0; $i < $pageCount; $i++) {
-                $this->importPage($i);
+                $this->importPage($i + 1);
 
                 if ($two_sided && !$voucherImported) {
                     $this->importVoucher($byteArray);
@@ -71,9 +71,9 @@ class MergeCartVouchers
         $filename = Str::random(40) . '.pdf';
         Storage::disk('local')->put($filename, base64_decode($byteArray, true));
 
-        $pages = $this->pdf->setSourceFile(Storage::disk('local')->path($filename));
+        $pages = $this->fpdi->setSourceFile(Storage::disk('local')->path($filename));
         for($i = 0; $i < $pages; $i++) {
-            $this->importPage($i);
+            $this->importPage($i + 1);
         }
 
         Storage::disk('local')->delete($filename);

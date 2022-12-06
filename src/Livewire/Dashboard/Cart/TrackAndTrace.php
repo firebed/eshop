@@ -109,7 +109,7 @@ class TrackAndTrace extends Component
         try {
             $pdf = $courier->printVouchers(collect([$voucher]));
             return response()->streamDownload(function () use ($pdf) {
-                echo base64_decode($pdf[0]);
+                echo base64_decode($pdf);
             }, $voucher->number . '.pdf', ['ContentType' => 'application/pdf']);
         } catch (Throwable $e) {
             $this->showErrorToast("Σφάλμα", $e->getMessage());

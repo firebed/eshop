@@ -54,7 +54,7 @@ class VoucherController extends Controller
             //->whereBetween('submitted_at', [now()->subDays(5), now()])
             ->whereHas('shippingMethod')
             ->whereHas('paymentMethod')
-            ->whereDoesntHave('voucher')
+            //->whereDoesntHave('voucher')
             ->with('paymentMethod', 'shippingMethod', 'shippingAddress.country', 'voucher')
             ->latest('submitted_at')
             ->get()

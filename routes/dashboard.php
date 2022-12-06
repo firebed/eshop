@@ -106,7 +106,7 @@ Route::middleware(['web', 'auth', 'admin'])->group(function () {
 
         Route::get('carts/{cart}/invoice', CartInvoiceController::class)->name('carts.invoice');
         Route::get('carts/{cart}/print', OrderPrintController::class)->name('carts.print');
-        Route::get('carts/print-vouchers', [CartPrintVoucherController::class, 'index'])->name('carts.print-vouchers');
+        Route::post('carts/print-vouchers', [CartPrintVoucherController::class, 'index'])->name('carts.print-vouchers');
         Route::get('carts/{cart}/print-voucher', [CartPrintVoucherController::class, 'show'])->name('carts.print-voucher');
         Route::resource('carts', CartController::class)->only('index', 'show', 'destroy');
 

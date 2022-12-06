@@ -13,6 +13,10 @@ class UnreadNotificationCounter extends Component
     {
         $count = Notification::whereNull('viewed_at')->count();
         
-        return "<span class='badge bg-light text-dark'>$count</span>";
+        if ($count > 0) {
+            return "<span class='badge bg-light text-dark rounded-pill'>$count</span>";
+        }
+        
+        return "";
     }
 }

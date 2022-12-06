@@ -53,7 +53,7 @@
                                 </div>
                             </td>
                             <td>{{ $voucher->number }}</td>
-                            <td><img src="{{ asset('images/' . $voucher->courier_id->icon()) }}" alt="" class="img-fluid" style="max-height: 20px; max-width: 80px"></td>
+                            <td><img src="{{ asset('images/' . $voucher->courier()->icon()) }}" alt="" class="img-fluid" style="max-height: 20px; max-width: 80px"></td>
                         </tr>
                     @endforeach
                     </tbody>
