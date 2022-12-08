@@ -44,6 +44,7 @@
                 <button type="button" class="col-2 btn btn-outline-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
                     <span class="visually-hidden">Toggle Dropdown</span>
                 </button>
+                
                 <ul class="dropdown-menu">
                     @if($currentVoucher === null)
                         <li><a class="dropdown-item" href="#" wire:click.prevent="createVoucher()"><em class="fas fa-pencil-alt text-secondary me-2"></em> Χειροκίνητη εισαγωγή</a></li>

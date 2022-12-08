@@ -4,7 +4,6 @@ namespace Eshop\Livewire\Dashboard\Voucher;
 
 use Eshop\Actions\CreateVoucherRequest;
 use Eshop\Models\Cart\Cart;
-use Eshop\Models\Cart\Voucher;
 use Eshop\Repository\Contracts\CartContract;
 use Eshop\Services\Courier\ContentType;
 use Eshop\Services\Courier\Courier;
@@ -61,11 +60,17 @@ class CreateVoucherModal extends Component
         }
         $this->courier_id = $courier->value;
         $this->icon = asset("images/" . $courier->icon());
+
         $this->voucher = $voucherRequest->handle($cart, $packages);
         $this->cod = $cart->paymentMethod->isPayOnDelivery();
-        $this->showModal = true;
 
-        $this->loadServices($courier);
+        try {
+            $this->loadServices($courier);
+            $this->showModal = true;
+        } catch (Throwable $e) {
+            $this->showErrorToast("Σφάλμα", $e->getMessage());
+        }
+
         $this->dispatchBrowserEvent('create-voucher-shown');
     }
 
@@ -86,7 +91,6 @@ class CreateVoucherModal extends Component
 
             $this->showSuccessToast('Ο κωδικός αποστολής δημιουργήθηκε με επιτυχία!');
             $this->showModal = false;
-
 
             $this->emit('voucher-created', $response);
             $this->dispatchBrowserEvent('voucher-created', $response);

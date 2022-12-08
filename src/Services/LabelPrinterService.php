@@ -35,7 +35,7 @@ class LabelPrinterService
     {
         return $this->get('font-size', eshop('label.font-size', 9));
     }
-    
+
     public function get(string $key, $default = null): string
     {
         return $this->attributes()[$key] ?? $default;

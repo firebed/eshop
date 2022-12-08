@@ -13,7 +13,7 @@
 @section('main')
     <div class="col-12 p-4">
         @include('eshop::dashboard.voucher.partials.voucher-navigation')
-
+@dump($errors)
         @if($errors->any())
             @foreach($errors as $error)
                 <div class="bg-white shadow-sm border-start border-4 border-danger p-3 fw-500 d-flex align-items-center gap-3">
@@ -24,13 +24,23 @@
         @endif
 
         @if(session()->has('submitted'))
-            <div class="bg-white shadow-sm border-start border-4 border-success p-3 fw-500 d-flex align-items-start gap-3">
-                <em class="fa fa-check-circle fa-2x text-success"></em>
-                <div>
-                    <div>Το κλείσιμο των αποστολών ολοκληρώθηκε με επιτυχία.</div>
-                    <div class="text-secondary fw-normal">Αποστολές που έκλεισαν: {{ session('submitted') }}</div>
+            @if($count = session('submitted'))
+                <div class="bg-white shadow-sm border-start border-4 border-success p-3 fw-500 d-flex align-items-start gap-3">
+                    <em class="fa fa-check-circle fa-2x text-success"></em>
+                    <div>
+                        <div>Το κλείσιμο των αποστολών ολοκληρώθηκε με επιτυχία.</div>
+                        <div class="text-secondary fw-normal">Αποστολές που έκλεισαν: {{ session('submitted') }}</div>
+                    </div>
                 </div>
-            </div>
+            @else
+                <div class="bg-white shadow-sm border-start border-4 border-warning p-3 fw-500 d-flex align-items-start gap-3">
+                    <em class="fa fa-info-circle fa-2x text-warning"></em>
+                    <div>
+                        <div>Δεν βρέθηκαν αποστολές</div>
+                        <div class="text-secondary fw-normal">Αποστολές που έκλεισαν: {{ session('submitted') }}</div>
+                    </div>
+                </div>
+            @endif
         @elseif($vouchers->isNotEmpty())
             <div class="d-flex gap-2">
                 <button type="button" class="btn btn-primary" data-bs-target="#pending-vouchers-modal" data-bs-toggle="modal">Κλείσιμο αποστολών</button>
@@ -91,9 +101,9 @@
                             <em class="fa fa-exclamation-circle text-warning fa-2x"></em>
                             <div>
                                 <div class="fw-500">Προσοχή</div>
-                                <ul>
-                                    <li>Σε περίπτωση που έχετε εκδώσει κωδικούς από άλλες πλατφόρμες με τον ίδιο κωδικό χρέωσης, το κλείσιμο των αποστολών θα κλείσει επίσης όλες τις υπόλοιπες αποστολές.</li>
-                                    <li>Ορισμένες μεταφορικές εταιρείες δεν επιτρέπουν την ακύρωση των αποστολών μετά το κλείσιμο.</li>
+                                <ul class="list-unstyled">
+                                    <li class="my-2">Σε περίπτωση που έχετε εκδώσει κωδικούς από άλλες πλατφόρμες με τον ίδιο κωδικό χρέωσης, το κλείσιμο των αποστολών θα κλείσει επίσης όλες τις υπόλοιπες αποστολές.</li>
+                                    <li>Ορισμένες μεταφορικές εταιρείες δεν επιτρέπουν την ακύρωση των αποστολών μετά το κλείσιμο. Στην περίπτωση αυτή θα πρέπει να επικοινωνήσετε με τη μεταφορική εταιρεία.</li>
                                 </ul>
                             </div>
                         </div>

@@ -66,15 +66,16 @@ class VoucherController extends Controller
         return $this->view('voucher.create', compact('carts', 'billingCodes'));
     }
 
-    public function submit(Request $request, CourierService $courierService): RedirectResponse
+    public function submit(CourierService $courierService): RedirectResponse
     {
-        $request->validate([
-            'from' => ['required', 'date', 'before_or_equal:to'],
-            'to'   => ['nullable', 'date', 'before_or_equal:today']
-        ]);
-        
+        $pendingVouchers = Voucher::query()
+            ->whereNotNull('courier_id')
+            ->whereNull('submitted_at')
+            ->get();
+
         try {
-            $response = $courierService->submitPendingVouchers($request->date('from'), $request->date('to'));
+            $from = $pendingVouchers->min('created_at');
+            $response = $courierService->submitPendingVouchers($from, today());
 
             Voucher::query()
                 ->whereIn('myshipping_id', $response['submitted'])
@@ -83,13 +84,11 @@ class VoucherController extends Controller
                     'updated_at'   => DB::raw('updated_at')
                 ]);
 
-            $pendingVouchers = Voucher::whereNull('submitted_at')->count();
-            Cache::put('pending-vouchers-count', $pendingVouchers);
+            Cache::put('pending-vouchers-count', $pendingVouchers->count());
 
-            return back()->with([
-                'submitted' => count($response['submitted']),
-                'errors'    => $response['errors']
-            ]);
+            return back()
+                ->with(['submitted' => count($response['submitted'])])
+                ->withErrors($response['errors']);
         } catch (Throwable $e) {
             return back()->withErrors(['error' => $e->getMessage()]);
         }

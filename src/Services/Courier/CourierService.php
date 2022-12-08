@@ -128,9 +128,12 @@ class CourierService
         ]);
     }
 
-    public function submitPendingVouchers(Carbon $from, Carbon $to)
+    public function submitPendingVouchers(Carbon $from, Carbon $to = null)
     {
-        return $this->post("vouchers/submit", compact('from', 'to'), null);
+        return $this->post("vouchers/submit", [
+            'from' => $from->format('Y-m-d'),
+            'to' => $to?->format('Y-m-d'),
+        ], null);
     }
 
     public function validateArea(string $street, string $number, string $postcode, string $region)

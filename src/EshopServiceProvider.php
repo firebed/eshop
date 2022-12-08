@@ -33,13 +33,9 @@ use Eshop\Providers\CartServiceProvider;
 use Eshop\Providers\EventServiceProvider;
 use Eshop\Providers\FortifyServiceProvider;
 use Eshop\Providers\LivewireServiceProvider;
-use Eshop\Services\Acs\Commands\AcsPayoutsCommand;
-use Eshop\Services\CourierCenter\Commands\CourierCenterPayoutsCommand;
-use Eshop\Services\GenikiTaxydromiki\Commands\GenikiTaxydromikiPayoutsCommand;
 use Eshop\Services\Skroutz\Actions\CreateSkroutzXML;
 use Eshop\Services\Skroutz\Commands\SkroutzFeedCommand;
 use Eshop\Services\Skroutz\Commands\SkroutzPayoutsCommand;
-use Eshop\Services\SpeedEx\Commands\SpeedExPayoutsCommand;
 use Eshop\View\Components\CategoryBreadcrumb;
 use Eshop\View\Components\LabelPrinterDialog;
 use Eshop\View\Components\MoreCategoryProducts;
@@ -139,11 +135,7 @@ class EshopServiceProvider extends ServiceProvider
                 CartCleanup::class,
                 CartAbandonmentCommand::class,
                 ProductAggregationsCommand::class,
-                AcsPayoutsCommand::class,
-                SpeedExPayoutsCommand::class,
-                CourierCenterPayoutsCommand::class,
                 SkroutzPayoutsCommand::class,
-                GenikiTaxydromikiPayoutsCommand::class,
                 Panic::class
             ]);
         }
