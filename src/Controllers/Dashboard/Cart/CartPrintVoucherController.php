@@ -12,7 +12,6 @@ use Eshop\Services\Skroutz\Skroutz;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Validation\ValidationException;
 use Throwable;
 
 class CartPrintVoucherController extends Controller

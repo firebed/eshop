@@ -13,14 +13,12 @@
 @section('main')
     <div class="col-12 p-4">
         @include('eshop::dashboard.voucher.partials.voucher-navigation')
-@dump($errors)
+
         @if($errors->any())
-            @foreach($errors as $error)
-                <div class="bg-white shadow-sm border-start border-4 border-danger p-3 fw-500 d-flex align-items-center gap-3">
-                    <em class="fa fa-times-circle fa-2x text-danger"></em>
-                    {{ $error }}
-                </div>
-            @endforeach
+            <ul class="bg-white shadow-sm border-start border-4 border-danger list-unstyled p-2 fw-500">
+                <li class="text-danger mb-2">Σφάλματα</li>
+                {!! implode("", $errors->all("<li>&bullet; :message</li>")) !!}
+            </ul>
         @endif
 
         @if(session()->has('submitted'))
@@ -68,7 +66,12 @@
                                     <div class="small text-secondary">{{ $voucher->cart->shippingAddress->city }}, {{ $voucher->cart->shippingAddress->postcode }}</div>
                                 </div>
                             </td>
-                            <td>{{ $voucher->number }}</td>
+                            <td>
+                                <div class="d-grid">
+                                    <div>{{ $voucher->number }}</div>
+                                    <div class="small text-secondary"><em class="far fa-calendar"></em> {{ $voucher->created_at->format('d/m/Y') }}</div>
+                                </div>
+                            </td>
                             <td><img src="{{ asset('images/' . $voucher->courier()->icon()) }}" alt="" class="img-fluid" style="max-height: 20px; max-width: 80px"></td>
                         </tr>
                     @endforeach
@@ -87,16 +90,17 @@
 
     <!-- Modal -->
 
-    <form action="{{ route('vouchers.submit') }}" method="post">
+    <form x-data="{ loading: false }" x-on:submit="loading = true" action="{{ route('vouchers.submit') }}" method="post">
         @csrf
-        <div class="modal fade" id="pending-vouchers-modal" tabindex="-1">
+        <div class="modal fade" id="pending-vouchers-modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLabel">Κλείσιμο αποστολών</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <button :disabled="loading" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <div class="modal-body bg-light">
+                    
+                    <div class="modal-body bg-light position-relative">
                         <div class="bg-white shadow-sm border-warning p-3 border-start border-4 mb-3 d-flex gap-3 align-items-start rounded">
                             <em class="fa fa-exclamation-circle text-warning fa-2x"></em>
                             <div>
@@ -107,10 +111,12 @@
                                 </ul>
                             </div>
                         </div>
+                        
+                        <div x-show="loading" x-cloak class="text-center py-1"><em class="fa fa-spinner fa-spin"></em> Παρακαλώ περιμένετε...</div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Άκυρο</button>
-                        <button type="submit" class="btn btn-primary">Κλείσιμο αποστολών</button>
+                        <button :disabled="loading" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Άκυρο</button>
+                        <button :disabled="loading" type="submit" class="btn btn-primary">Κλείσιμο αποστολών</button>
                     </div>
                 </div>
             </div>
@@ -126,7 +132,7 @@
                         <h5 class="modal-title">Εκτύπωση</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <div class="modal-body">
+                    <div class="modal-body">                        
                         @foreach($vouchers as $voucher)
                             <input type="hidden" name="ids[]" value="{{ $voucher->cart_id }}">
                         @endforeach
