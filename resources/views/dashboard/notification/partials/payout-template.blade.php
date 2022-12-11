@@ -37,9 +37,11 @@
                 </td>
 
                 <td>
-                    <a href="{{ route('carts.index', ['filter' => $payout['customer']]) }}" target="_blank" class="flex items-center">
-                        <em class="fas fa-search me-1"></em><span>{{ $payout['customer'] }}</span>
-                    </a>
+                    @if(isset($payout['customer']))
+                        <a href="{{ route('carts.index', ['filter' => $payout['customer']]) }}" target="_blank" class="flex items-center">
+                            <em class="fas fa-search me-1"></em><span>{{ $payout['customer'] }}</span>
+                        </a>
+                    @endif
                 </td>
 
                 <td class="text-end">
