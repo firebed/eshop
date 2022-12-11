@@ -9,7 +9,7 @@
             @endif
 
             <x-bs::input.group for="cart-voucher-courier" label="Εταιρεία" inline class="mb-2">
-                <x-bs::input.select wire:model.defer="editingVoucher.courier_id" error="editingVoucher.courier_id" id="cart-voucher-courier">
+                <x-bs::input.select wire:model.defer="editingVoucher.courier" error="editingVoucher.courier" id="cart-voucher-courier">
                     @foreach(\Eshop\Services\Courier\Courier::cases() as $c)
                         <option value="{{ $c->value }}">{{ $c->label() }}</option>
                     @endforeach

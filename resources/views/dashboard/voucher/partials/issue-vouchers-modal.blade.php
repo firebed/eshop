@@ -6,15 +6,6 @@
                 <button type="button" :disabled="loading" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <div class="d-grid gap-2">
-                    <template x-for="error in errors">
-                        <div class="text-danger fw-500">
-                            <em class="fa fa-exclamation-circle me-2"></em>
-                            <span x-text="error"></span>
-                        </div>
-                    </template>
-                </div>
-
                 <div class="border-start border-3 border-primary alert-primary p-3">
                     <em class="fa fa-info-circle fa-sm"></em>
                     Μετά την έκδοση θα έχετε ακόμα τη δυνατότητα ακύρωσης των αποστολών σε περίπτωση που χρειαστεί.

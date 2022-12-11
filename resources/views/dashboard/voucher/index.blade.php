@@ -19,7 +19,7 @@
             <input class="form-control w-auto" type="date" name="date" id="date" value="{{ $date->format('Y-m-d') }}">
             <button type="submit" class="btn btn-primary">Αναζήτηση</button>
         </form>
-        
+
         <div class="table-responsive bg-white shadow-sm border rounded">
             <x-bs::table>
                 <thead>
@@ -40,10 +40,14 @@
                             </div>
                         </td>
                         <td>{{ $voucher->number }}</td>
-                        <td><img src="{{ asset('images/' . $voucher->courier()->icon()) }}" alt="" class="img-fluid" style="max-height: 20px; max-width: 80px"></td>
-                        
+                        <td>
+                            @if($voucher->courier)
+                                <img src="{{ asset('images/' . $voucher->courier->icon()) }}" alt="" class="img-fluid" style="max-height: 20px; max-width: 80px">
+                            @endif
+                        </td>
+
                         <td class="text-end">
-{{--                            <button class="btn btn-sm btn-outline-secondary">Ακύρωση</button>--}}
+                            {{--                            <button class="btn btn-sm btn-outline-secondary">Ακύρωση</button>--}}
                         </td>
                     </tr>
                 @endforeach

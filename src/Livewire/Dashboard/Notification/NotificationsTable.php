@@ -79,18 +79,18 @@ class NotificationsTable extends Component
 
                 $carts = Cart::select('id', 'total')
                     ->when($keyName !== 'voucher', fn($q) => $q->addSelect($keyName))
-                    ->when($keyName === 'voucher', fn($q) => $q->whereHas('voucher', fn($b) => $b->whereIn('number', $payouts->pluck('reference'))))
+                    ->when($keyName === 'voucher', fn($q) => $q->whereHas('voucher', fn($b) => $b->whereIn('number', $payouts->keys())))
                     ->when($keyName !== 'voucher', fn($q) => $q->whereIn($keyName, $payouts->pluck('reference')))
                     ->with('payment', 'voucher')
                     ->get()
                     ->keyBy($keyName === "voucher" ? "voucher.number" : $keyName);
 
                 foreach ($payouts as $key => $payout) {
-                    $cart = $carts->get($payout['reference']);
+                    $cart = $carts->get($key);
                     
                     if ($cart === null) {
                         $payout['error'] = "Δεν βρέθηκε αντίστοιχη παραγγελία στο eshop.";
-                    } elseif (!floats_equal(round($cart->total, 2), round($payout['total'] + $payout['fees'], 2))) {
+                    } elseif (!floats_equal(round($cart->total, 2), round($payout['amount'] + $payout['fees'], 2))) {
                         $payout['error'] = "Το σύνολο πληρωμής δεν είναι ίδιο με το σύνολο της παραγγελίας.";
                     } elseif ($cart->payment === null) {
                         $payout['warning'] = "Δεν έχει αποδοθεί η πληρωμή.";

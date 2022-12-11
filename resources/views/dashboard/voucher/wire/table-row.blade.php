@@ -15,7 +15,7 @@
             .finally(() => loading = false)
     "
     x-on:voucher-created.window="
-        if (event.detail.cart_id === cart_id) {
+        if (event.detail.reference_1 === cart_id) {
             number = event.detail.number
             success = true
         }

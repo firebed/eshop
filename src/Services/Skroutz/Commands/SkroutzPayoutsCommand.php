@@ -3,13 +3,13 @@
 namespace Eshop\Services\Skroutz\Commands;
 
 use Carbon\Carbon;
-use Eshop\Services\Payout\PayoutsCommand;
+use Eshop\Services\Imap\ImapService;
 use Eshop\Services\Skroutz\Events\SkroutzPayoutReceived;
-use Eshop\Services\Skroutz\Skroutz;
 use Exception;
+use Illuminate\Console\Command;
 use Throwable;
 
-class SkroutzPayoutsCommand extends PayoutsCommand
+class SkroutzPayoutsCommand extends Command
 {
     protected $signature = 'skroutz:payouts {--on=}';
 
@@ -18,18 +18,14 @@ class SkroutzPayoutsCommand extends PayoutsCommand
     /**
      * @throws Exception
      */
-    public function handle(Skroutz $service): int
+    public function handle(ImapService $imap): int
     {
         $on = filled($this->option('on')) ? Carbon::parse($this->option('on')) : today();
 
         try {
-            $messages = $service->payouts()->previewMessages($on)->keys();
+            $messages = $imap->preview($on, null, 'noreply@skroutz.gr')->keys();
 
             foreach ($messages as $messageId) {
-                if (!$this->isNew($messageId)) {
-                    continue;
-                }
-                
                 event(new SkroutzPayoutReceived($messageId));
             }
         } catch (Throwable $e) {

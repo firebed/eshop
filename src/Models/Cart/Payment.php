@@ -13,7 +13,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  *
  * @property integer $id
  * @property integer $cart_id
- * @property integer $payout_id
  * @property float   $total
  * @property float   $fees
  * @property array   $metadata
@@ -26,7 +25,7 @@ class Payment extends Model
 
     public const UPDATED_AT = null;
 
-    protected $fillable = ['payout_id', 'total', 'fees', 'metadata', 'created_at'];
+    protected $fillable = ['total', 'fees', 'metadata', 'created_at'];
 
     protected $casts = [
         'metadata' => 'json',

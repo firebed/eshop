@@ -10,7 +10,6 @@ use Eshop\Services\Courier\Courier;
 use Eshop\Services\Courier\CourierService;
 use Firebed\Components\Livewire\Traits\SendsNotifications;
 use Illuminate\Contracts\Support\Renderable;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
 use Livewire\Component;
 use Throwable;
@@ -23,7 +22,7 @@ class CreateVoucherModal extends Component
     public ?string $icon      = null;
     public bool    $cod       = false;
     public array   $services  = [];
-    public int     $courier_id;
+    public string  $courier;
 
     protected $listeners = ['createVoucher'];
 
@@ -58,7 +57,7 @@ class CreateVoucherModal extends Component
             $this->skipRender();
             return;
         }
-        $this->courier_id = $courier->value;
+        $this->courier = $courier->value;
         $this->icon = asset("images/" . $courier->icon());
 
         $this->voucher = $voucherRequest->handle($cart, $packages);
@@ -85,9 +84,9 @@ class CreateVoucherModal extends Component
         }
 
         try {
-            $response = $courierService->createVoucher($this->courier_id, $query);
+            $response = $courierService->createVoucher($this->courier, $query);
 
-            $contract->setVoucher($cart->id, $response['number'], $response['courier_id'], false, $response['uuid']);
+            $contract->setVoucher($cart->id, $response['number'], $response['courier'], false, $response['uuid']);
 
             $this->showSuccessToast('Ο κωδικός αποστολής δημιουργήθηκε με επιτυχία!');
             $this->showModal = false;
@@ -104,9 +103,9 @@ class CreateVoucherModal extends Component
 
     public function updated($k): void
     {
-        if ($k === 'courier_id' || $k === 'voucher.country') {
+        if ($k === 'courier' || $k === 'voucher.country') {
             $this->voucher['services'] = [];
-            $courier = Courier::tryFrom($this->courier_id);
+            $courier = Courier::tryFrom($this->courier);
 
             $this->icon = asset("images/" . $courier->icon());
             $this->loadServices($courier);
@@ -115,10 +114,7 @@ class CreateVoucherModal extends Component
 
     private function loadServices(Courier $courier): void
     {
-        $this->services = collect($courier->services($this->voucher['country']))
-            ->groupBy('group')
-            ->map(fn(Collection $c) => $c->pluck('description', 'code'))
-            ->toArray();
+        $this->services = $courier->services($this->voucher['country']);
     }
 
     public function render(): Renderable

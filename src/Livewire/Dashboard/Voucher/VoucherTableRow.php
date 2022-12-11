@@ -14,10 +14,10 @@ use Throwable;
 
 class VoucherTableRow extends Component
 {
-    public string      $number            = '';
-    public int         $cart_id;
-    public array       $voucher;
     public bool|string $addressValidation = '';
+    public string      $number            = '';
+    public array       $voucher;
+    public int         $cart_id;
 
     public function mount(Cart $cart, CreateVoucherRequest $voucherRequest)
     {

@@ -9,7 +9,9 @@
             <div class="d-flex justify-content-between align-items-center mb-3">
                 <div class="fw-500">{{ $currentVoucher->number }}</div>
 
-                <div><img src="{{ $icons[$currentVoucher->courier_id] }}" class="img-fluid" style="max-height: 24px; max-width: 80px" alt=""></div>
+                @if($currentVoucher->courier)
+                    <div><img src="{{ $icons[$currentVoucher->courier->value] }}" class="img-fluid" style="max-height: 24px; max-width: 80px" alt=""></div>
+                @endif
             </div>
         @endif
 
@@ -44,7 +46,7 @@
                 <button type="button" class="col-2 btn btn-outline-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
                     <span class="visually-hidden">Toggle Dropdown</span>
                 </button>
-                
+
                 <ul class="dropdown-menu">
                     @if($currentVoucher === null)
                         <li><a class="dropdown-item" href="#" wire:click.prevent="createVoucher()"><em class="fas fa-pencil-alt text-secondary me-2"></em> Χειροκίνητη εισαγωγή</a></li>

@@ -2,38 +2,102 @@
 
 namespace Eshop\Services\Skroutz\Listeners;
 
+use Carbon\Carbon;
 use Eshop\Models\Cart\Cart;
-use Eshop\Models\Product\Channel;
+use Eshop\Models\Cart\CartEvent;
+use Eshop\Models\Cart\Payment;
+use Eshop\Models\Notification;
+use Eshop\Services\Imap\ImapService;
 use Eshop\Services\Skroutz\Events\SkroutzPayoutReceived;
-use Eshop\Services\Skroutz\Skroutz;
+use Eshop\Services\Skroutz\Imports\SkroutzPayoutsImport;
 use Exception;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
+use Throwable;
 
 class HandleSkroutzPayouts
 {
-    private Skroutz $service;
-
-    public function __construct(Skroutz $service)
-    {
-        $this->service = $service;
-    }
-
     /**
      * @throws Exception
      */
     public function handle(SkroutzPayoutReceived $event): void
     {
-        $cartsResolver = fn($references) => [
-            'reference_id',
-            Cart::query()
-                ->select('id', 'reference_id', 'total')
-                ->whereIn('reference_id', $references)
-                ->with('shippingAddress', 'payment')
-                ->get()
-                ->keyBy('reference_id')
-        ];
+        $imap = new ImapService();
+        $message = $imap->find($event->messageId);
 
-        $skroutz = Channel::firstWhere('name', 'Skroutz');
+        if ($message === null) {
+            return;
+        }
 
-        $this->service->payouts()->processMessage($event->messageId, $skroutz, $cartsResolver);
+        foreach ($message->getAttachments() as $attachment) {
+            if ($attachment->getMimeType() !== "application/pdf") {
+                continue;
+            }
+
+            $filename = Str::random(40) . '.' . $attachment->getExtension();
+            Storage::disk('payouts')->put($filename, $attachment->getContent());
+
+            $payouts = (new SkroutzPayoutsImport())->handle(Storage::disk('payouts')->path($filename));
+
+            Storage::disk('payouts')->delete($filename);
+
+            if ($payouts->isEmpty()) {
+                continue;
+            }
+
+            $this->processPayouts($payouts, $message->getDate()->toDate());
+        }
+    }
+
+    public function processPayouts(Collection $payouts, Carbon $created_at): void
+    {
+        $carts = Cart::query()
+            ->select('id', 'reference_id', 'total')
+            ->whereIn('reference_id', $payouts->keys())
+            ->with('shippingAddress', 'payment')
+            ->get()
+            ->keyBy('reference_id');
+
+        DB::beginTransaction();
+        try {
+            $metadata = collect();
+
+            foreach ($payouts as $reference => $payout) {
+                $cart = $carts->get($reference);
+
+                if ($cart !== null && $cart->payment === null && floats_equal($cart->total, $payout['total'] + $payout['fees'])) {
+                    $cart->payment()->save(new Payment([
+                        'fees'       => $payout['fees'],
+                        'total'      => $payout['total'],
+                        'created_at' => $created_at
+                    ]));
+
+                    CartEvent::orderPaid($cart->id);
+                }
+
+                $metadata->put($reference, [
+                    'reference' => $reference,
+                    'customer'  => $cart->shippingAddress->fullname ?? $payout['customer'] ?? null,
+                    'fees'      => $payout['fees'] ?? 0,
+                    'amount'    => $payout['total'],
+                ]);
+            }
+
+            $total = $payouts->sum('total');
+            $notification = sprintf("%s: Λάβατε μια πληρωμή με ποσό %s", 'Skroutz', format_currency($total));
+            Notification::create([
+                'text'     => $notification,
+                'metadata' => [
+                    'keyName' => 'reference_id',
+                    'payouts' => $metadata
+                ]
+            ]);
+
+            DB::commit();
+        } catch (Throwable) {
+            DB::rollBack();
+        }
     }
 }

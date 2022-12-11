@@ -33,24 +33,8 @@ class EventServiceProvider extends ServiceProvider
             CreateLoginRecord::class
         ],
 
-        CourierCenterPayoutReceived::class => [
-            HandleCourierCenterPayouts::class
-        ],
-
         SkroutzPayoutReceived::class => [
             HandleSkroutzPayouts::class
         ],
-
-        AcsPayoutReceived::class => [
-            HandleAcsPayouts::class
-        ],
-
-        SpeedExPayoutReceived::class => [
-            HandleSpeedExPayouts::class
-        ],
-
-        GenikiTaxydromikiPayoutReceived::class => [
-            HandleGenikiTaxydromikiPayouts::class
-        ]
     ];
 }

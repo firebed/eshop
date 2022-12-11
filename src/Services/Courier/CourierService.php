@@ -10,8 +10,8 @@ use Illuminate\Support\Facades\Http;
 
 class CourierService
 {
-    //private const ENDPOINT = "https://www.myshipping.gr/api/";
-    private const ENDPOINT = "http://127.0.0.1:8000/api/";
+    private const ENDPOINT = "https://www.myshipping.gr/api/";
+    //private const ENDPOINT = "http://127.0.0.1:8000/api/";
 
     /**
      * @throws Error
@@ -99,7 +99,7 @@ class CourierService
         ], null);
     }
 
-    public function createVoucher(int $courier, array $data)
+    public function createVoucher(string $courier, array $data)
     {
         return $this->post("couriers/{$courier}/voucher", $data);
     }
@@ -125,7 +125,7 @@ class CourierService
     {
         return $this->get("shipping-services/$courier->value", [
             'country_code' => $country_code
-        ]);
+        ], null);
     }
 
     public function submitPendingVouchers(Carbon $from, Carbon $to = null)

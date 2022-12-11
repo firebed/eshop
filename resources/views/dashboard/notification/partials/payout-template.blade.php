@@ -12,8 +12,8 @@
         </thead>
 
         <tbody>
-        @foreach($payouts as $payout)
-            @php($cart = $carts->get($payout['reference']))
+        @foreach($payouts as $key => $payout)
+            @php($cart = $carts->get($key))
 
             <tr>
                 <td class="text-center">
@@ -29,16 +29,16 @@
                 <td>
                     @if($cart !== null)
                         <a href="{{ route('carts.show', $cart->id) }}" target="_blank">
-                            {{ $payout['reference'] }}
+                            {{ $key }}
                         </a>
                     @else
-                        {{ $payout['reference'] }}
+                        {{ $key }}
                     @endif
                 </td>
 
                 <td>
-                    <a href="{{ route('carts.index', ['filter' => $payout['customer_name']]) }}" target="_blank" class="flex items-center">
-                        <em class="fas fa-search me-1"></em><span>{{ $payout['customer_name'] }}</span>
+                    <a href="{{ route('carts.index', ['filter' => $payout['customer']]) }}" target="_blank" class="flex items-center">
+                        <em class="fas fa-search me-1"></em><span>{{ $payout['customer'] }}</span>
                     </a>
                 </td>
 
@@ -52,7 +52,7 @@
 
                 <td class="text-end">{{ format_currency($payout['fees']) }}</td>
 
-                <td @class(["text-end", "text-danger fw-bold" => $cart !== null && !floats_equal($payout['total'] + $payout['fees'], $cart->total)])>{{ format_currency($payout['total']) }}</td>
+                <td @class(["text-end", "text-danger fw-bold" => $cart !== null && !floats_equal(round($cart->total, 2), round($payout['amount'] + $payout['fees'], 2))])>{{ format_currency($payout['amount']) }}</td>
             </tr>
         @endforeach
         </tbody>
@@ -72,7 +72,7 @@
         </tr>
         <tr>
             <td class="text-end fw-bold" colspan="5">Σύνολο πληρωμής</td>
-            <td class="text-end fw-bold">{{ format_currency($payouts->sum('total')) }}</td>
+            <td class="text-end fw-bold">{{ format_currency($payouts->sum('amount')) }}</td>
         </tr>
         </tfoot>
     </x-bs::table>

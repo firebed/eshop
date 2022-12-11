@@ -24,20 +24,6 @@
             @if($payouts->isNotEmpty())
                 <x-bs::modal.body class="bg-gray-100">
                     @include('eshop::dashboard.notification.partials.payout-template')
-
-                    @if($attachment = $activeNotification->metadata['attachment'] ?? null)
-                        <div class="mt-3 d-flex">
-                            <a href="{{ route('notifications.download', $activeNotification) }}" class="btn btn-sm btn-white">
-                                <em class="fas fa-download me-2"></em>Κατέβασμα αρχείου
-                            </a>
-
-                            @if($payouts->contains(fn($p) => array_key_exists('error', $p) || array_key_exists('warning', $p)))
-                                <button wire:click.prevent="refreshPayouts({{ $activeNotification->id }})" class="ms-2 btn btn-sm btn-white">
-                                    <em class="fas fa-sync-alt me-2"></em>Ανανέωση
-                                </button>
-                            @endif
-                        </div>
-                    @endif
                 </x-bs::modal.body>
             @endif
         @endisset

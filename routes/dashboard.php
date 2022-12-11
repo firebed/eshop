@@ -26,6 +26,7 @@ use Eshop\Controllers\Dashboard\Intl\ShippingMethodController;
 use Eshop\Controllers\Dashboard\Invoice\ClientController;
 use Eshop\Controllers\Dashboard\Invoice\InvoiceController;
 use Eshop\Controllers\Dashboard\Invoice\InvoiceTransmissionController;
+use Eshop\Controllers\Dashboard\MyShipping\MyShippingWebhookController;
 use Eshop\Controllers\Dashboard\NotificationController;
 use Eshop\Controllers\Dashboard\Page\PageController;
 use Eshop\Controllers\Dashboard\Pos\PosController;
@@ -58,6 +59,10 @@ Route::post('simplify/webhook', SimplifyWebhookController::class)->middleware('w
 
 if (eshop('skroutz')) {
     Route::post('webhooks/skroutz', SkroutzWebhookController::class)->name('webhooks.skroutz');
+}
+
+if (eshop('myshipping')) {
+    Route::post('webhooks/myshipping', MyShippingWebhookController::class)->name('webhooks.myshipping');
 }
 
 Route::middleware(['web', 'auth', 'admin'])->group(function () {

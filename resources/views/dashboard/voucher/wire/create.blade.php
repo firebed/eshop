@@ -9,14 +9,14 @@
 
             <div class="row g-4 align-items-start">
                 <div class="col-8 d-grid gap-2 border-end">
-{{--                    <x-bs::input.group label="Μεταφορική" for="couriers" inline>--}}
-{{--                        <x-bs::input.select wire:model="courier_id" id="couriers">--}}
-{{--                            @foreach($couriers as $courier)--}}
-{{--                                <option value="{{ $courier->value }}">{{ $courier->label() }}</option>--}}
-{{--                            @endforeach--}}
-{{--                        </x-bs::input.select>--}}
-{{--                    </x-bs::input.group>--}}
-                    
+                    {{--                    <x-bs::input.group label="Μεταφορική" for="couriers" inline>--}}
+                    {{--                        <x-bs::input.select wire:model="courier_id" id="couriers">--}}
+                    {{--                            @foreach($couriers as $courier)--}}
+                    {{--                                <option value="{{ $courier->value }}">{{ $courier->label() }}</option>--}}
+                    {{--                            @endforeach--}}
+                    {{--                        </x-bs::input.select>--}}
+                    {{--                    </x-bs::input.group>--}}
+
                     <x-bs::input.group label="Αριθμός τεμαχίων" for="items" inline>
                         <x-bs::input.integer wire:model.defer="voucher.number_of_packages" id="items" class="w-25"/>
                     </x-bs::input.group>
@@ -64,9 +64,9 @@
                         </x-bs::input.select>
                     </x-bs::input.group>
 
-{{--                    <x-bs::input.group label="Αποστολέας" for="sender" inline>--}}
-{{--                        <x-bs::input.text wire:model.defer="voucher.sender_name" id="sender"/>--}}
-{{--                    </x-bs::input.group>--}}
+                    {{--                    <x-bs::input.group label="Αποστολέας" for="sender" inline>--}}
+                    {{--                        <x-bs::input.text wire:model.defer="voucher.sender_name" id="sender"/>--}}
+                    {{--                    </x-bs::input.group>--}}
 
                     <x-bs::input.group label="Ημερομηνία παραλαβής" for="pickup-date" inline>
                         <input type="date" wire:model.defer="voucher.pickup_date" id="pickup-date" class="form-control w-50"/>
@@ -92,17 +92,12 @@
 
                         <div class="fw-bold mb-2">Υπηρεσίες</div>
                         <div class="scrollbar overflow-auto ps-1" style="max-height: 440px">
-                            @forelse($services as $groups)
-                                @foreach($groups as $id => $name)
-                                    <x-bs::input.checkbox wire:key="service-{{ $id }}"
-                                                          wire:model.defer="voucher.services"
-                                                          id="service-{{ $id }}" 
-                                                          value="{{ $id }}">{{ $name }}</x-bs::input.checkbox>
-                                @endforeach
+                            @forelse($services as $id => $name)
+                                <x-bs::input.checkbox wire:key="service-{{ $id }}"
+                                                      wire:model.defer="voucher.services"
+                                                      id="service-{{ $id }}"
+                                                      value="{{ $id }}">{{ $name }}</x-bs::input.checkbox>
 
-                                @if(!$loop->last)
-                                    <hr>
-                                @endif
                             @empty
                                 <div class="text-secondary py-5 text-center">Δεν βρέθηκαν υπηρεσίες.</div>
                             @endforelse
@@ -115,8 +110,8 @@
         <x-bs::modal.footer>
             <x-bs::modal.close-button>Άκυρο</x-bs::modal.close-button>
             <x-bs::button.primary type="submit">
-                <em wire:loading.remove wire:target="purchaseVoucher" class="fa fa-shopping-bag"></em> 
-                <em wire:loading wire:target="purchaseVoucher" class="fa fa-spinner fa-spin"></em> 
+                <em wire:loading.remove wire:target="purchaseVoucher" class="fa fa-shopping-bag"></em>
+                <em wire:loading wire:target="purchaseVoucher" class="fa fa-spinner fa-spin"></em>
                 <span class="ms-1">Έκδοση</span>
             </x-bs::button.primary>
         </x-bs::modal.footer>

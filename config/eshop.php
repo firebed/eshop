@@ -55,6 +55,7 @@ return [
     'show_incomplete_carts' => false,
     'auto_payments'         => false,
     'skroutz'               => false,
+    'myshipping'            => false,
 
     'validate_phone_number' => false,
 

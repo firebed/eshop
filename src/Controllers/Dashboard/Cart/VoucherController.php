@@ -26,7 +26,7 @@ class VoucherController extends Controller
         $pending = $request->boolean('pending');
 
         $vouchers = Voucher::query()
-            ->whereNotNull('courier_id')
+            ->whereNotNull('courier')
             ->with('cart.shippingAddress')
             ->when($pending, function (Builder $q) {
                 $q->whereNull('submitted_at');
@@ -69,7 +69,7 @@ class VoucherController extends Controller
     public function submit(CourierService $courierService): RedirectResponse
     {
         $pendingVouchers = Voucher::query()
-            ->whereNotNull('courier_id')
+            ->whereNotNull('courier')
             ->whereNull('submitted_at')
             ->get();
 

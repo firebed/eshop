@@ -14,7 +14,7 @@ class CreateVouchersTable extends Migration
             $table->id();
             $table->foreignIdFor(Cart::class)->constrained();
             $table->string('myshipping_id')->nullable()->unique();
-            $table->unsignedSmallInteger('courier_id')->nullable();
+            $table->string('courier', 50)->nullable();
             $table->string('number')->index();
             $table->boolean('is_manual');
             $table->timestamp('printed_at')->nullable();
@@ -35,7 +35,7 @@ class CreateVouchersTable extends Migration
             for ($i = 1; $i < count($values); $i++) {
                 $temp->add([
                     'cart_id'      => $cart->id,
-                    'courier_id'   => $cart->shippingMethod?->courier(),
+                    'courier'   => $cart->shippingMethod?->courier(),
                     'number'       => $values->get($i),
                     'is_manual'    => true,
                     'submitted_at' => $cart->updated_at,
@@ -47,7 +47,7 @@ class CreateVouchersTable extends Migration
             if (($value = $values->shift()) && filled($value)) {
                 return [
                     'cart_id'      => $cart->id,
-                    'courier_id'   => $cart->shippingMethod?->courier(),
+                    'courier'   => $cart->shippingMethod?->courier(),
                     'number'       => $value,
                     'is_manual'    => true,
                     'submitted_at' => $cart->updated_at,

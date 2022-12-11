@@ -68,7 +68,6 @@ class ShippingMethod extends Model
             'Courier Center'    => Courier::COURIER_CENTER,
             "GenikiTaxydromiki" => Courier::GENIKI,
             "ACS Courier"       => Courier::ACS,
-            "ELTA Courier"      => Courier::ELTA_COURIER,
             default             => null
         };
     }

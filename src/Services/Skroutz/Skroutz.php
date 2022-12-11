@@ -2,8 +2,6 @@
 
 namespace Eshop\Services\Skroutz;
 
-use Eshop\Services\Payout\HasPayouts;
-use Eshop\Services\Payout\PayoutReader;
 use Eshop\Services\Skroutz\Actions\AcceptOrder;
 use Eshop\Services\Skroutz\Actions\CreateOrder;
 use Eshop\Services\Skroutz\Actions\RejectOrder;
@@ -11,17 +9,9 @@ use Eshop\Services\Skroutz\Actions\RetrieveOrder;
 use Eshop\Services\Skroutz\Actions\UpdateOrder;
 use Eshop\Services\Skroutz\Actions\UploadInvoice;
 use Eshop\Services\Skroutz\Exceptions\SkroutzException;
-use Eshop\Services\Skroutz\Imports\SkroutzPayoutsImport;
-use Exception;
-use Illuminate\Support\Collection;
-use Webklex\PHPIMAP\Attachment;
 
-class Skroutz implements PayoutReader
+class Skroutz
 {
-    use HasPayouts;
-
-    private const PAYOUTS_ADDRESS = 'noreply@skroutz.gr';
-
     public static function handleWebhookRequest($event): void
     {
         match ($event['event_type']) {
@@ -66,20 +56,5 @@ class Skroutz implements PayoutReader
     public static function uploadInvoice(string $skroutzOrderId, string $invoice): bool
     {
         return (new UploadInvoice())->handle($skroutzOrderId, $invoice);
-    }
-
-    public function validatePayoutAttachment(Attachment $attachment): bool
-    {
-        return $attachment->getMimeType() === "application/pdf";
-    }
-
-    /**
-     * @throws Exception
-     */
-    public function handlePayoutsAttachment(string $filename): Collection
-    {
-        $path = $this->payouts()->disk()->path($filename);
-
-        return (new SkroutzPayoutsImport())->handle($path);
     }
 }

@@ -12,12 +12,6 @@
                         <input type="hidden" name="ids[]" value="{{ $cart->id }}">
                     @endforeach
                     
-                    <template x-if="error">
-                        <div class="alert alert-danger fw-500">
-                            <em class="fa fa-exclamation-circle me-2"></em>
-                            <span x-text="error"></span>
-                        </div>
-                    </template>
                     <x-bs::input.checkbox name="with_carts" id="with-carts">Εκτύπωση των δελτίων παραγγελίας</x-bs::input.checkbox>
                     <x-bs::input.checkbox name="two_sided" id="2-faced">Εκτύπωση διπλής όψης</x-bs::input.checkbox>
                 </div>

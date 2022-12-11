@@ -25,14 +25,14 @@ class TrackAndTrace extends Component
     public bool     $propagate_delete       = true;
     public bool     $saveOnMyShipping       = true;
     public int      $cart_id;
-    public int      $courier_id;
+    public string   $courier;
     public ?Voucher $editingVoucher         = null;
 
     private Collection $checkpoints;
 
     protected array $rules = [
-        'editingVoucher.courier_id' => ['required', 'integer'],
-        'editingVoucher.number'     => 'required|string|max:255'
+        'editingVoucher.courier' => ['required', 'string'],
+        'editingVoucher.number'  => 'required|string|max:255'
     ];
 
     protected $listeners = ['voucher-created' => '$refresh'];
@@ -51,7 +51,7 @@ class TrackAndTrace extends Component
     {
         $cart = Cart::find($this->cart_id);
         $this->editingVoucher = new Voucher([
-            'courier_id' => $cart->shippingMethod->courier()->value ?? null
+            'courier' => $cart->shippingMethod->courier()
         ]);
 
         $this->saveOnMyShipping = true;
@@ -68,39 +68,43 @@ class TrackAndTrace extends Component
     {
         $this->validate();
 
-        if ($this->editingVoucher && $this->editingVoucher->exists) {
-            $courier->updateManualVoucher($this->editingVoucher, [
-                'courier_id' => $this->editingVoucher->courier_id,
-                'number'     => $this->editingVoucher->number,
-                'cod_amount' => 0,
-            ]);
+        try {
+            if ($this->editingVoucher && $this->editingVoucher->exists) {
+                $courier->updateManualVoucher($this->editingVoucher, [
+                    'courier'    => $this->editingVoucher->courier,
+                    'number'     => $this->editingVoucher->number,
+                    'cod_amount' => 0,
+                ]);
 
-            $this->editingVoucher->save();
-            $this->showVoucherModal = false;
-            $this->showSuccessToast('Voucher saved!');
-            return;
-        }
+                $this->editingVoucher->save();
+                $this->showVoucherModal = false;
+                $this->showSuccessToast('Voucher saved!');
+                return;
+            }
 
-        $cart = Cart::find($this->cart_id);
-        $number = trim($this->editingVoucher->number) ?: null;
+            $cart = Cart::find($this->cart_id);
+            $number = trim($this->editingVoucher->number) ?: null;
 
-        if ($this->saveOnMyShipping) {
-            $response = $courier->createManualVoucher([
-                'courier_id'  => $this->editingVoucher->courier_id,
-                'reference_1' => $cart->id,
-                'number'      => $number,
-                'cod_amount'  => 0,
-            ]);
+            if ($this->saveOnMyShipping) {
+                $response = $courier->createManualVoucher([
+                    'courier'     => $this->editingVoucher->courier,
+                    'reference_1' => $cart->id,
+                    'number'      => $number,
+                    'cod_amount'  => 0,
+                ]);
 
-            $uuid = $response['uuid'];
-        }
+                $uuid = $response['uuid'];
+            }
 
-        if ($contract->setVoucher($cart->id, $number, $this->editingVoucher->courier_id, true, $uuid ?? null)) {
-            $this->showVoucherModal = false;
+            if ($contract->setVoucher($cart->id, $number, $this->editingVoucher->courier->value, true, $uuid ?? null)) {
+                $this->showVoucherModal = false;
 
-            $this->showSuccessToast('Voucher saved!');
-        } else {
-            $this->addError('voucher', 'An error occurred. The voucher code was not updated.');
+                $this->showSuccessToast('Voucher saved!');
+            } else {
+                $this->addError('voucher', 'An error occurred. The voucher code was not updated.');
+            }
+        }catch (Throwable $t) {
+            $this->showErrorToast("Σφάλμα", $t->getMessage());
         }
     }
 

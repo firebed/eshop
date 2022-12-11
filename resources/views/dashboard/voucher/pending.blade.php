@@ -72,7 +72,7 @@
                                     <div class="small text-secondary"><em class="far fa-calendar"></em> {{ $voucher->created_at->format('d/m/Y') }}</div>
                                 </div>
                             </td>
-                            <td><img src="{{ asset('images/' . $voucher->courier()->icon()) }}" alt="" class="img-fluid" style="max-height: 20px; max-width: 80px"></td>
+                            <td><img src="{{ asset('images/' . $voucher->courier->icon()) }}" alt="" class="img-fluid" style="max-height: 20px; max-width: 80px"></td>
                         </tr>
                     @endforeach
                     </tbody>
