@@ -3,7 +3,7 @@
 namespace Eshop\Imports;
 
 
-class ACSImport extends PayoutsImport
+class AcsImport extends PayoutsImport
 {
     public function map($row): array
     {
