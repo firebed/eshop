@@ -13,12 +13,17 @@ class CourierService
     private const ENDPOINT = "https://www.myshipping.gr/api/";
     //private const ENDPOINT = "http://127.0.0.1:8000/api/";
 
+    private function token(): ?string
+    {
+        return api_key("MY_SHIPPING_API_TOKEN");
+    }
+    
     /**
      * @throws Error
      */
     private function get(string $method, array $params = [], ?string $key = 'data'): mixed
     {
-        $response = Http::withToken(api_key('myShipping_apikey'))
+        $response = Http::withToken($this->token())
             ->contentType('application/json')
             ->accept('application/json')
             ->get(self::ENDPOINT . $method, $params);
@@ -35,7 +40,7 @@ class CourierService
      */
     private function post(string $method, array $params, ?string $key = 'data'): mixed
     {
-        $response = Http::withToken(api_key('myShipping_apikey'))
+        $response = Http::withToken($this->token())
             ->accept('application/json')
             ->post(self::ENDPOINT . $method, $params);
         //dd($response->json());
@@ -51,7 +56,7 @@ class CourierService
      */
     private function put(string $method, array $params): mixed
     {
-        $response = Http::withToken(api_key('myShipping_apikey'))
+        $response = Http::withToken($this->token())
             ->accept('application/json')
             ->put(self::ENDPOINT . $method, $params);
         //dd($response->json());
@@ -67,7 +72,7 @@ class CourierService
      */
     private function delete(string $method, array $params): mixed
     {
-        $response = Http::withToken(api_key('myShipping_apikey'))
+        $response = Http::withToken($this->token())
             ->accept('application/json')
             ->delete(self::ENDPOINT . $method, $params);
 

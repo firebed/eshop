@@ -29,36 +29,6 @@ class VarCache
                 'GGPS_PASSWORD' => '',
             ],
 
-            'ACS' => [
-                'AcsApiKey'        => '',
-                'Company_ID'       => '',
-                'Company_Password' => '',
-                'User_ID'          => '',
-                'User_Password'    => '',
-                'Billing_Code'     => '',
-                'User_locals'      => ''
-            ],
-
-            'SpeedEx' => [
-                'SpeedEx_Username'  => '',
-                'SpeedEx_Password'  => '',
-                'SpeedEx_Customer'  => '',
-                'SpeedEx_Agreement' => ''
-            ],
-
-            'CourierCenter' => [
-                'CourierCenter_UserAlias'       => '',
-                'CourierCenter_CredentialValue' => '',
-                'CourierCenter_ApiKey'          => '',
-                'CourierCenter_AccountCode'     => ''
-            ],
-
-            'Γενική Ταχυδρομική' => [
-                'Geniki_Username'        => '',
-                'Geniki_Password'        => '',
-                'Geniki_Application_Key' => ''
-            ],
-
             'SIMPLIFY' => [
                 'SIMPLIFY_ENVIRONMENT'         => '',
                 'SIMPLIFY_SANDBOX_PUBLIC_KEY'  => '',
@@ -69,8 +39,8 @@ class VarCache
                 'SIMPLIFY_HOSTED_PRIVATE_KEY'  => '',
             ],
             
-            'myShipping' => [
-                'myShipping_apikey' => ''    
+            'MY_SHIPPING' => [
+                'MY_SHIPPING_API_TOKEN' => ''    
             ],
             
             'Skroutz' => [
