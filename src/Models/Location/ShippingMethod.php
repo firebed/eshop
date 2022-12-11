@@ -2,7 +2,6 @@
 
 namespace Eshop\Models\Location;
 
-use Eshop\Models\Cart\Payout;
 use Eshop\Services\Courier\Courier;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
@@ -35,11 +34,6 @@ class ShippingMethod extends Model
     protected $fillable = ['name', 'tracking_url', 'icon', 'is_courier'];
 
     protected $casts = ['is_courier' => 'bool'];
-
-    public function payouts(): MorphMany
-    {
-        return $this->morphMany(Payout::class, 'originator');
-    }
 
     public function countries(): BelongsToMany
     {

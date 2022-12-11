@@ -37,9 +37,4 @@ class Payment extends Model
     {
         return $this->belongsTo(Cart::class);
     }
-
-    public function payout(): BelongsTo
-    {
-        return $this->belongsTo(Payout::class);
-    }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace Eshop\Services\Payout;
+namespace Eshop\Imports;
 
 use Maatwebsite\Excel\Concerns\WithBatchInserts;
 use Maatwebsite\Excel\Concerns\WithChunkReading;

@@ -2,12 +2,12 @@
 
 namespace Eshop\Livewire\Dashboard\Cart;
 
+use Eshop\Imports\ACSImport;
+use Eshop\Imports\CourierCenterPayoutsImport;
+use Eshop\Imports\GenikiPayoutsImport;
 use Eshop\Models\Cart\Cart;
 use Eshop\Models\Cart\Payment;
 use Eshop\Models\Location\ShippingMethod;
-use Eshop\Services\Acs\Imports\ACSImport;
-use Eshop\Services\CourierCenter\Imports\CourierCenterPayoutsImport;
-use Eshop\Services\GenikiTaxydromiki\Imports\GenikiTaxydromikiImport;
 use Firebed\Components\Livewire\Traits\SendsNotifications;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Support\Collection;
@@ -132,14 +132,14 @@ class CashPayments extends Component
         $this->emit('cartsTableUpdated');
     }
 
-    private function getFileResolver(): ACSImport|CourierCenterPayoutsImport|GenikiTaxydromikiImport|null
+    private function getFileResolver(): ACSImport|CourierCenterPayoutsImport|GenikiPayoutsImport|null
     {
         $method = ShippingMethod::find($this->shipping_method_id);
 
         return match ($method->name) {
             'Courier Center'     => new CourierCenterPayoutsImport,
             'ACS Courier'        => new ACSImport,
-            'Geniki Taxydromiki' => new GenikiTaxydromikiImport,
+            'Geniki Taxydromiki' => new GenikiPayoutsImport,
             default              => null
         };
     }
