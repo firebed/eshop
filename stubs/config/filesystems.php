@@ -70,6 +70,11 @@ return [
             'visibility' => 'public',            
         ],
 
+        'payouts' => [
+            'driver' => 'local',
+            'root'   => storage_path('app/payouts'),
+        ],
+
         'slides' => [
             'driver'     => 'local',
             'root'       => public_path('storage/images/slides'),
