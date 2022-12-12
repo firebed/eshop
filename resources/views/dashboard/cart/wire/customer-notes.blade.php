@@ -6,15 +6,11 @@
 
         <x-bs::navbar.collapse id="customer-notes">
             <div class="vstack">
-                <a href="#" class="text-decoration-none" wire:click="$toggle('showModal')">{{ __("Edit") }}</a>
-
-                <div class="mt-3">
-                    @if(filled($notes))
-                        <strong>{{ $notes }}</strong>
-                    @else
-                        <span class="text-secondary">{{ __("No notes from customer") }}</span>
-                    @endif
-                </div>
+                @if(filled($notes))
+                    <strong>{{ $notes }}</strong>
+                @else
+                    <span class="text-secondary">{{ __("No notes from customer") }}</span>
+                @endif
 
                 @if(filled($comments))
                     <div class="mt-3 pt-3 border-top">
@@ -22,6 +18,10 @@
                         <div>{{ $comments }}</div>
                     </div>
                 @endif
+                
+                <div class="row border-top pt-2 mt-2">
+                    <a href="#" class="col text-decoration-none" wire:click="$toggle('showModal')">{{ __("Edit") }}</a>
+                </div>
             </div>
         </x-bs::navbar.collapse>
     </x-bs::navbar>

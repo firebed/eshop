@@ -20,7 +20,7 @@ class StatusesList extends Component
         }])->get();
 
         $incomplete_carts_count = Cart::whereNull('submitted_at')->count();
-        
+
         $unpaid_carts = Cart::whereNotNull('submitted_at')->where('status_id', '<', 6)->whereDoesntHave('payment')->count();
 
         return view('eshop::dashboard.cart.partials.statuses-list', compact('statuses', 'incomplete_carts_count', 'unpaid_carts'));

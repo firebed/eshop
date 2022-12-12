@@ -206,16 +206,20 @@ class ShowCarts extends Component
     public function getCartsProperty(): LengthAwarePaginator
     {
         return Cart::query()
+            ->select('id', 'channel', 'status_id', 'total', 'shipping_method_id', 'payment_method_id', 'document_type', 'submitted_at', 'viewed_at')
             ->when($this->incomplete, static fn($q) => $q->whereNull('submitted_at')->latest())
             ->when($this->unpaid, static fn($q) => $q->where('status_id', '<', 6)->whereDoesntHave('payment'))
             ->when(!$this->incomplete, static fn($q) => $q->submitted()->latest('submitted_at'))
             ->when($this->filter, function ($q, $f) {
-                return $q->where(fn($b) => $b->where('id', 'LIKE', "$f%")->orWhere('voucher', 'LIKE', "$f%")->orWhereHas('shippingAddress', fn($b) => $b->matchAgainst($f)));
+                return $q->where(fn($b) => $b->where('id', 'LIKE', "$f%"))
+                    ->orWhereHas('voucher', fn($q) => $q->where('number', 'LIKE', "$f%"))
+                    ->orWhere('reference_id', 'LIKE', "$f%")
+                    ->orWhereHas('shippingAddress', fn($b) => $b->matchAgainst($f));
             })
             ->when(auth()->user()?->cannot('Manage orders') && auth()->user()?->can('Manage assigned orders'), function ($q) {
                 return $q->whereHas('operators', fn($b) => $b->where('user_id', auth()->id()));
             })
-            ->with('shippingAddress', 'status', 'paymentMethod', 'shippingMethod', 'operators', 'payment')
+            ->with('shippingAddress', 'status', 'paymentMethod', 'shippingMethod', 'operators', 'payment', 'voucher')
             ->when($this->status, fn($q, $s) => $q->where('status_id', $s))
             ->when($this->shipping_method_id, fn($q, $id) => $q->where('shipping_method_id', $id))
             ->when($this->payment_method_id, fn($q, $id) => $q->where('payment_method_id', $id))
@@ -226,12 +230,23 @@ class ShowCarts extends Component
     {
         $employees = User::whereHas('roles', fn($q) => $q->whereName('Employee'))->get();
 
+        if ($this->unpaid) {
+            $totalUnpaidByCourier = Cart::query()
+                ->submitted()
+                ->selectRaw('`shipping_method_id`, SUM(`total`) as `total`')
+                ->where('status_id', '<', 6)
+                ->whereDoesntHave('payment')
+                ->groupBy('shipping_method_id')
+                ->pluck('total', 'shipping_method_id');
+        }
+
         return view('eshop::dashboard.cart.wire.show-carts', [
-            'carts'           => $this->carts,
-            'shippingMethods' => ShippingMethod::all(),
-            'paymentMethods'  => PaymentMethod::all(),
-            'statuses'        => CartStatus::all(),
-            'employees'       => $employees,
+            'carts'                => $this->carts,
+            'shippingMethods'      => ShippingMethod::all(),
+            'paymentMethods'       => PaymentMethod::all(),
+            'statuses'             => CartStatus::all(),
+            'employees'            => $employees,
+            'totalUnpaidByCourier' => $totalUnpaidByCourier ?? collect()
         ]);
     }
 

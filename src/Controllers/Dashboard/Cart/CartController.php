@@ -26,14 +26,14 @@ class CartController extends Controller
             if (!$cart->isViewed()) {
                 $cart->viewed_at = now();
                 $cart->save();
-                
+
                 CartEvent::orderViewed($cart->id);
             }
 
             $assignment = $cart->operators()->firstWhere('user_id', auth()->id());
             $assignment?->pivot?->update(['viewed_at' => now()]);
         }
-        
+
         return $this->view('cart.show', compact('cart'));
     }
 

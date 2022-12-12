@@ -8,6 +8,7 @@ use Eshop\Actions\Product\Traits\SavesSaleChannels;
 use Eshop\Actions\Product\Traits\SavesVariantOptions;
 use Eshop\Actions\Product\Traits\SavesVariantTypes;
 use Eshop\Models\Product\Product;
+use Illuminate\Database\Query\Builder;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\UploadedFile;
 
@@ -85,6 +86,12 @@ class UpdateProduct
         if ($product->isDirty('unit_id')) {
             $product->variants()->update([
                 'unit_id' => $request->input('unit_id')
+            ]);
+        }
+
+        if ($product->isDirty('high_risk')) {
+            $product->variants()->update([
+                'high_risk' => $request->input('high_risk')
             ]);
         }
     }

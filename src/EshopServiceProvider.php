@@ -2,24 +2,24 @@
 
 namespace Eshop;
 
-use Eshop\Commands\AcsPaymentsCommand;
 use Eshop\Commands\CartAbandonmentCommand;
 use Eshop\Commands\CartCleanup;
 use Eshop\Commands\InstallCommand;
+use Eshop\Commands\Panic;
+use Eshop\Commands\ProductAggregationsCommand;
 use Eshop\Commands\ScoutIndexCommand;
 use Eshop\Commands\SitemapCommand;
-use Eshop\Commands\SkroutzFeedCommand;
-use Eshop\Commands\SpeedExPaymentsCommand;
 use Eshop\Middleware\Admin;
 use Eshop\Middleware\Locale;
-use Eshop\Models\Blog\Blog;
 use Eshop\Models\Cart\Cart;
 use Eshop\Models\Cart\CartInvoice;
 use Eshop\Models\Location\CountryPaymentMethod;
 use Eshop\Models\Location\CountryShippingMethod;
+use Eshop\Models\Location\ShippingMethod;
 use Eshop\Models\Product\Category;
 use Eshop\Models\Product\CategoryChoice;
 use Eshop\Models\Product\CategoryProperty;
+use Eshop\Models\Product\Channel;
 use Eshop\Models\Product\Manufacturer;
 use Eshop\Models\Product\Product;
 use Eshop\Models\Product\ProductVariantOption;
@@ -34,8 +34,12 @@ use Eshop\Providers\EventServiceProvider;
 use Eshop\Providers\FortifyServiceProvider;
 use Eshop\Providers\LivewireServiceProvider;
 use Eshop\Services\Skroutz\Actions\CreateSkroutzXML;
+use Eshop\Services\Skroutz\Commands\SkroutzFeedCommand;
+use Eshop\Services\Skroutz\Commands\SkroutzPayoutsCommand;
 use Eshop\View\Components\CategoryBreadcrumb;
 use Eshop\View\Components\LabelPrinterDialog;
+use Eshop\View\Components\MoreCategoryProducts;
+use Eshop\View\Components\MoreProducts;
 use Eshop\View\Components\NewArrivals;
 use Eshop\View\Components\Sales;
 use Eshop\View\Components\TrendingProducts;
@@ -110,6 +114,8 @@ class EshopServiceProvider extends ServiceProvider
         Blade::component(NewArrivals::class, 'new-arrivals');
         Blade::component(TrendingProducts::class, 'trending-products');
         Blade::component(LabelPrinterDialog::class, 'label-printer-dialog');
+        Blade::component(MoreProducts::class, 'more-products');
+        Blade::component(MoreCategoryProducts::class, 'more-category-products');
     }
 
     private function registerRoutes(): void
@@ -126,10 +132,11 @@ class EshopServiceProvider extends ServiceProvider
                 InstallCommand::class,
                 ScoutIndexCommand::class,
                 SkroutzFeedCommand::class,
-                AcsPaymentsCommand::class,
-                SpeedExPaymentsCommand::class,
                 CartCleanup::class,
-                CartAbandonmentCommand::class
+                CartAbandonmentCommand::class,
+                ProductAggregationsCommand::class,
+                SkroutzPayoutsCommand::class,
+                Panic::class
             ]);
         }
     }
@@ -180,8 +187,10 @@ class EshopServiceProvider extends ServiceProvider
             'seo'                     => Seo::class,
             //
             'slide'                   => Slide::class,
+
             //
-            'blog'                    => Blog::class
+            'shipping_method'         => ShippingMethod::class,
+            'channel'                 => Channel::class,
         ]);
     }
 

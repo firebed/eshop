@@ -2,15 +2,18 @@
 
 namespace Eshop\Livewire\Dashboard\Pos;
 
+use Eshop\Actions\VatSearch;
 use Eshop\Models\Location\Country;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Support\Collection;
 use Livewire\Component;
+use SoapFault;
 
 class PosInvoice extends Component
 {
-    public array $invoice        = [];
-    public array $invoiceAddress = [];
+    public array  $invoice        = [];
+    public array  $invoiceAddress = [];
+    public string $vatSearch      = "";
 
     public function getCountriesProperty(): Collection
     {
@@ -40,6 +43,27 @@ class PosInvoice extends Component
         }
 
         return collect();
+    }
+
+    public function searchVatNumber(VatSearch $search)
+    {
+        if (blank($this->vatSearch)) {
+            return;
+        }
+
+        try {
+            $results = $search->handle($this->vatSearch);
+            $this->invoice['vat_number'] = $results['vat'];
+            $this->invoice['name'] = $results['name'];
+            $this->invoice['tax_authority'] = $results['tax_authority'];
+            $this->invoice['job'] = $results['job'];
+            $this->invoiceAddress['city'] = $results['city'];
+            $this->invoiceAddress['postcode'] = $results['postcode'];
+            $this->invoiceAddress['street'] = $results['street'];
+            $this->invoiceAddress['street_no'] = $results['street_number'];
+            $this->invoiceAddress['country_id'] = Country::firstWhere('code', 'GR')->id;
+        } catch (SoapFault $e) {
+        }
     }
 
     public function render(): Renderable

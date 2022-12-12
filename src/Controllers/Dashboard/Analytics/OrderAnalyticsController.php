@@ -15,7 +15,7 @@ class OrderAnalyticsController extends Controller
     }
 
     public function __invoke(Request $request, OrderAnalytics $analytics): Renderable
-    {
+    {        
         return $this->view('analytics.orders.index', [
             'orders'          => $analytics->totalOrders(now()->startOfMonth(), now()),
             //            'avg_orders'      => $analytics->averageOrders(now()->startOfMonth(), now()->endOfDay()),

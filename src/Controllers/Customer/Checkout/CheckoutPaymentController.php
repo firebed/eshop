@@ -31,7 +31,7 @@ class CheckoutPaymentController extends Controller
     use StripeCheckout, PayPalCheckout, SimplifyCheckout;
 
     public function store(string $lang, Request $request, Order $order): RedirectResponse|JsonResponse
-    {
+    {        
         if (blank($order->shipping_method_id)) {
             throw ValidationException::withMessages(['shipping_method_error' => '']);
         }
@@ -68,7 +68,9 @@ class CheckoutPaymentController extends Controller
         DB::beginTransaction();
         (new SubmitOrder())->handle($order, auth()->user(), ip: $request->ip());
         if (!$order->paymentMethod->isPayOnDelivery()) {
-            $order->payment()->save(new Payment());
+            $order->payment()->save(new Payment([
+                'total' => $order->total
+            ]));
         }
         DB::commit();
 

@@ -97,7 +97,7 @@ class PosController extends Controller
             $cart->products()->syncWithoutDetaching($pivot);
             $cart->operators()->attach(auth()->id());
             if ($action !== 'saveAsOrder') {
-                $cart->payment()->save(new Payment());
+                $cart->payment()->save(new Payment(['total' => $cart->total]));
             }
 
             $products = $cart->products;

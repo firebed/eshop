@@ -92,7 +92,7 @@ class ShippingAddress extends Component
         return view('eshop::dashboard.cart.wire.shipping-address', [
             'countries' => $countries,
             'country'   => $country,
-            'location'  => empty($this->ip) ? null : Location::get($this->ip)
+            //'location'  => empty($this->ip) ? null : Location::get($this->ip)
         ]);
     }
 

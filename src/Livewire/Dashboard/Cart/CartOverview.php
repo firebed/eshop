@@ -34,15 +34,11 @@ class CartOverview extends Component
         $this->showEditingModal = true;
     }
 
-    public function cartVoucherUpdated($voucher): void
-    {
-        $this->cart->voucher = $voucher;
-        $this->skipRender();
-    }
-
     public function markAsPaid(): void
     {
-        $this->cart->payment()->updateOrCreate([]);
+        $this->cart->payment()->updateOrCreate([
+            'total' => $this->cart->total
+        ]);
     }
 
     public function markAsUnpaid(): void
@@ -83,14 +79,16 @@ class CartOverview extends Component
 
         $profit = $this->cart->items()->selectRaw("SUM(quantity * (price * (1 - discount) / (1 + vat) - compare_price)) as profits")->first();
 
+        $payment = $this->cart->payment()->first();
+
         return view('eshop::dashboard.cart.wire.cart-overview', [
             'shippingMethods' => $shippingMethods,
             'paymentMethods'  => $paymentMethods,
             'shippingMethod'  => $shippingMethod,
             'paymentMethod'   => $paymentMethod,
-            'profit'          => $profit->profits,
+            'profit'          => $profit->profits - (eshop('auto_payments') && $payment ? $payment->fees : 0),
             'cc'              => $cc ?? null,
-            'payment'         => $this->cart->payment()->first()
+            'payment'         => $payment
         ]);
     }
 

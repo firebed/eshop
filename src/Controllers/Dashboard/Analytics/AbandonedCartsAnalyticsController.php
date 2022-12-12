@@ -16,7 +16,7 @@ class AbandonedCartsAnalyticsController extends Controller
     }
 
     public function __invoke(Request $request): Renderable
-    {
+    {        
         $sent_1 = Cart::whereRelation('events', 'action', CartEvent::ABANDONMENT_EMAIL_1)->count();
         $opened_1 = Cart::whereRelation('events', 'action', CartEvent::ABANDONMENT_EMAIL_1_VIEWED)->count();
         $resumed_1 = Cart::whereRelation('events', 'action', CartEvent::RESUME_ABANDONED_1)->count();

@@ -29,21 +29,6 @@ class VarCache
                 'GGPS_PASSWORD' => '',
             ],
 
-            'ACS' => [
-                'AcsApiKey'        => '',
-                'Company_ID'       => '',
-                'Company_Password' => '',
-                'User_ID'          => '',
-                'User_Password'    => '',
-                'Billing_Code'     => '',
-                'User_locals'      => ''
-            ],
-
-            'SpeedEx' => [
-                'SpeedEx_Username' => '',
-                'SpeedEx_Password' => '',
-            ],
-
             'SIMPLIFY' => [
                 'SIMPLIFY_ENVIRONMENT'         => '',
                 'SIMPLIFY_SANDBOX_PUBLIC_KEY'  => '',
@@ -53,10 +38,14 @@ class VarCache
                 'SIMPLIFY_HOSTED_PUBLIC_KEY'   => '',
                 'SIMPLIFY_HOSTED_PRIVATE_KEY'  => '',
             ],
-
+            
+            'MY_SHIPPING' => [
+                'MY_SHIPPING_API_TOKEN' => ''    
+            ],
+            
             'Skroutz' => [
                 'SKROUTZ_API_TOKEN' => ''
-            ]
+            ],
         ];
     }
 

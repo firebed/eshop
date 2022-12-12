@@ -16,7 +16,9 @@ class CreatePaymentsTable extends Migration
     {
         Schema::create('payments', static function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Cart::class);
+            $table->foreignIdFor(Cart::class)->constrained()->cascadeOnDelete();
+            $table->unsignedDecimal('fees')->default(0);
+            $table->unsignedDecimal('total')->default(0);
             $table->json('metadata')->nullable();
             $table->timestamp('created_at')->nullable();
         });

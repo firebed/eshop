@@ -19,7 +19,7 @@ class CourierAnalyticsController extends Controller
     }
 
     public function __invoke(Request $request, CourierExpenses $analytics): Renderable
-    {
+    {        
         $request->validate(['year' => ['nullable', 'integer']]);
         $year = $request->input('year', today()->year);
 

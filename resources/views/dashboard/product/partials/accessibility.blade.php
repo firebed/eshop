@@ -23,6 +23,16 @@
                 {{ __("Εμφάνιση αρχικής εικόνας με watermark") }}
             </x-bs::input.switch>
 
+            <x-bs::input.switch name="promote" :checked="old('promote', $product->promote ?? false)" id="promote">
+                {{ __("Προώθηση προϊόντος") }}
+            </x-bs::input.switch>
+
+            @if(eshop('product.high_risk'))
+                <x-bs::input.switch name="high_risk" :checked="old('high_risk', $product->high_risk ?? false)" id="high_risk">
+                    {{ __("Προϊόν υψηλού κινδύνου") }}
+                </x-bs::input.switch>
+            @endif
+
             <div x-show="!has_variants" x-transition>
                 <div class="row mt-3">
                     <div x-data="{ number: '{{ old('available_gt', isset($product) ? $product->available_gt : 0) }}' }" class="col">

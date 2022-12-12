@@ -1,7 +1,8 @@
 <?php
 
 return [
-    'invoicing' => env('INVOICING', true),
+    'invoicing'      => env('INVOICING', true),
+    'invoice_series' => null,
 
     'locales' => [
         'el' => 'Ελληνικά',
@@ -54,6 +55,7 @@ return [
     'show_incomplete_carts' => false,
     'auto_payments'         => false,
     'skroutz'               => false,
+    'myshipping'            => false,
 
     'validate_phone_number' => false,
 
@@ -146,7 +148,9 @@ return [
     */
 
     'product'         => [
+        'high_risk'         => false,
         'show_manufacturer' => true,
+        'suggestions'       => 'similar',
         'image'             => [
             'cover'         => false,
             'upload_width'  => 3000,

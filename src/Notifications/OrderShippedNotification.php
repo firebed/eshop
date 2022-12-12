@@ -6,12 +6,14 @@ use Eshop\Models\Cart\Cart;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
+use Illuminate\Support\Facades\Lang;
 
 class OrderShippedNotification extends Notification
 {
     use Queueable;
 
     private Cart    $cart;
+    private ?string $statusTemplate = null;
     private ?string $notesToCustomer;
 
     /**
@@ -24,6 +26,14 @@ class OrderShippedNotification extends Notification
     {
         $this->cart = $cart;
         $this->notesToCustomer = $notesToCustomer;
+
+        $address = $this->cart->shippingAddress;
+        if (isset($address->country->code)) {
+            $locale = in_array($address->country->code, ['GR', 'CY']) ? 'el' : 'en';
+            app()->setLocale($locale);
+        }
+        
+        $this->loadStatusTemplates();
     }
 
     /**
@@ -50,9 +60,29 @@ class OrderShippedNotification extends Notification
 
         $mail->markdown('eshop::customer.emails.order.shipped', [
             'cart'            => $this->cart,
+            'template'        => $this->statusTemplate,
             'notesToCustomer' => $this->notesToCustomer
         ]);
 
         return $mail;
+    }
+
+    private function loadStatusTemplates(): void
+    {                
+        if (!Lang::has('templates.mail.shipped')) {
+            return;
+        }
+
+        $address = $this->cart->shippingAddress;
+        if ($address === null) {
+            return;
+        }
+        
+        $days = $address->isLocalCountry() ? "1-3" : "5-10";
+
+        $this->statusTemplate = __("templates.mail.shipped", [
+            'customer' => $address->fullname,
+            'days'     => $days
+        ]);
     }
 }

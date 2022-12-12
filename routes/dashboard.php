@@ -12,6 +12,8 @@ use Eshop\Controllers\Dashboard\Cart\CartController;
 use Eshop\Controllers\Dashboard\Cart\CartInvoiceController;
 use Eshop\Controllers\Dashboard\Cart\CartPrintVoucherController;
 use Eshop\Controllers\Dashboard\Cart\OrderPrintController;
+use Eshop\Controllers\Dashboard\Cart\PickupController;
+use Eshop\Controllers\Dashboard\Cart\VoucherController;
 use Eshop\Controllers\Dashboard\Category\CategoryController;
 use Eshop\Controllers\Dashboard\Category\CategoryPropertyController;
 use Eshop\Controllers\Dashboard\ChannelController;
@@ -25,6 +27,7 @@ use Eshop\Controllers\Dashboard\Intl\ShippingMethodController;
 use Eshop\Controllers\Dashboard\Invoice\ClientController;
 use Eshop\Controllers\Dashboard\Invoice\InvoiceController;
 use Eshop\Controllers\Dashboard\Invoice\InvoiceTransmissionController;
+use Eshop\Controllers\Dashboard\MyShipping\MyShippingWebhookController;
 use Eshop\Controllers\Dashboard\NotificationController;
 use Eshop\Controllers\Dashboard\Page\PageController;
 use Eshop\Controllers\Dashboard\Pos\PosController;
@@ -50,6 +53,7 @@ use Eshop\Controllers\Dashboard\Slide\SlideController;
 use Eshop\Controllers\Dashboard\User\UserController;
 use Eshop\Controllers\Dashboard\User\UserPermissionController;
 use Eshop\Controllers\Dashboard\User\UserVariableController;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Route;
 
 Route::post('simplify/webhook', SimplifyWebhookController::class)->middleware('web');
@@ -58,7 +62,13 @@ if (eshop('skroutz')) {
     Route::post('webhooks/skroutz', SkroutzWebhookController::class)->name('webhooks.skroutz');
 }
 
+if (eshop('myshipping')) {
+    Route::post('webhooks/myshipping', MyShippingWebhookController::class)->name('webhooks.myshipping');
+}
+
 Route::middleware(['web', 'auth', 'admin'])->group(function () {
+    Route::post('panic', fn() => Cache::put('panic', !Cache::get('panic', false)))->name('panic');
+
     Route::prefix('dashboard')->group(function () {
         Route::post('simplify/checkout', [SimplifyController::class, 'checkout'])->name('simplify.checkout');
         Route::get('simplify', [SimplifyController::class, 'index'])->name('simplify.index');
@@ -101,8 +111,9 @@ Route::middleware(['web', 'auth', 'admin'])->group(function () {
         Route::resource('collections', CollectionController::class)->except('show');
 
         Route::get('carts/{cart}/invoice', CartInvoiceController::class)->name('carts.invoice');
-        Route::get('carts/{cart}/print-voucher', CartPrintVoucherController::class)->name('carts.print-voucher');
         Route::get('carts/{cart}/print', OrderPrintController::class)->name('carts.print');
+        Route::post('carts/print-vouchers', [CartPrintVoucherController::class, 'index'])->name('carts.print-vouchers');
+        Route::get('carts/{cart}/print-voucher', [CartPrintVoucherController::class, 'show'])->name('carts.print-voucher');
         Route::resource('carts', CartController::class)->only('index', 'show', 'destroy');
 
         Route::put('categories/properties/{property}/moveUp', [CategoryPropertyController::class, 'moveUp'])->name('categories.properties.moveUp');
@@ -125,7 +136,8 @@ Route::middleware(['web', 'auth', 'admin'])->group(function () {
 
         Route::resource('manufacturers', ManufacturerController::class)->only('index');
 
-        Route::get('notifications', NotificationController::class)->name('notifications.index');
+        Route::get('notifications', [NotificationController::class, 'index'])->name('notifications.index');
+        Route::get('notifications/{notification}/download', [NotificationController::class, 'download'])->name('notifications.download');
 
         Route::get('users/{user}/permissions', UserPermissionController::class)->name('users.permissions.index');
         Route::resource('users', UserController::class)->only('index', 'show');
@@ -134,6 +146,15 @@ Route::middleware(['web', 'auth', 'admin'])->group(function () {
 
         Route::view('config', 'eshop::dashboard.config.index')->name('config.index');
 
+        Route::post('vouchers/submit', [VoucherController::class, 'submit'])->name('vouchers.submit');
+        Route::resource('vouchers', VoucherController::class)->only('index', 'create');
+        //Route::get('vouchers/create', [VoucherController::class, 'create'])->name('vouchers.create');
+        //Route::post('vouchers', [VoucherController::class, 'store'])->name('vouchers.store');
+        //Route::post('vouchers/stations', [VoucherController::class, 'searchStations'])->name('vouchers.search-stations');
+        //Route::post('vouchers/areas', [VoucherController::class, 'searchAreas'])->name('vouchers.search-areas');
+        //Route::delete('vouchers', [VoucherController::class, 'destroy'])->name('vouchers.destroy');
+        //Route::resource('pickups', PickupController::class);
+        
         Route::get('analytics', AnalyticsController::class)->name('analytics.index');
         Route::get('analytics/orders', OrderAnalyticsController::class)->name('analytics.orders.index');
         if (eshop('cart.abandoned.notifications')) {

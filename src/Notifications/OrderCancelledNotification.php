@@ -24,6 +24,12 @@ class OrderCancelledNotification extends Notification
     {
         $this->cart = $cart;
         $this->notesToCustomer = $notesToCustomer;
+
+        $address = $this->cart->shippingAddress;
+        if (isset($address->country->code)) {
+            $locale = in_array($address->country->code, ['GR', 'CY']) ? 'el' : 'en';
+            app()->setLocale($locale);
+        }
     }
 
     /**

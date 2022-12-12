@@ -39,6 +39,8 @@ use Laravel\Scout\Searchable;
  * @property float           $discount
  * @property bool            $visible
  * @property bool            $recent
+ * @property bool            $promote
+ * @property bool            $high_risk
  * @property bool            $available
  * @property ?integer|string $available_gt
  * @property bool            $has_watermark
@@ -97,8 +99,9 @@ class Product extends Model implements Auditable
 
     protected $fillable = [
         'name', 'description', 'category_id', 'manufacturer_id', 'unit_id', 'is_physical', 'vat', 'weight',
-        'price', 'compare_price', 'discount', 'stock', 'visible', 'recent', 'display_stock', 'display_stock_lt', 'available', 'available_gt',
-        'has_watermark', 'location', 'sku', 'mpn', 'barcode', 'slug', 'has_variants', 'variants_display', 'preview_variants', 'variants_prefix'
+        'price', 'compare_price', 'discount', 'stock', 'visible', 'recent', 'promote', 'high_risk',
+        'display_stock', 'display_stock_lt', 'available', 'available_gt', 'has_watermark', 'location', 'sku',
+        'mpn', 'barcode', 'slug', 'has_variants', 'variants_display', 'preview_variants', 'variants_prefix'
     ];
 
     protected array  $translatable = ['name', 'description'];
@@ -118,6 +121,8 @@ class Product extends Model implements Auditable
         'weight'           => 'int',
         'display_stock'    => 'bool',
         'preview_variants' => 'bool',
+        'promote'          => 'bool',
+        'high_risk'        => 'bool'
     ];
 
     /*
@@ -376,7 +381,7 @@ class Product extends Model implements Auditable
         if ($includeParent && !$this->isAccessible()) {
             return false;
         }
-        
+
         return $this->available_gt === null || ($this->stock - $quantity >= $this->available_gt);
     }
 
@@ -440,7 +445,7 @@ class Product extends Model implements Auditable
     protected function registerImageConversions(): void
     {
         $this->addImageConversion('md', function ($image) {
-            $image->resize(400, 400, function ($constraint) {
+            $image->resize(500, 500, function ($constraint) {
                 $constraint->aspectRatio();
                 $constraint->upsize();
             });

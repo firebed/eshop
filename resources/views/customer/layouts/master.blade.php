@@ -53,5 +53,20 @@
 
 <script src="{{ mix('dist/app.js') }}"></script>
 @stack('footer_scripts')
+
+@auth
+    @can('View dashboard')
+        @if(eshop('product.high_risk'))
+            <script>
+                document.addEventListener('keyup', function (event) {
+                    if (event.ctrlKey && event.altKey && event.code === "KeyM") {
+                        event.preventDefault()
+                        axios.post('{{ route('panic') }}').then(() => window.location.href = '/')
+                    }
+                });
+            </script>
+        @endif
+    @endcan
+@endauth
 </body>
 </html>

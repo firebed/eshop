@@ -20,6 +20,7 @@ use Eshop\Livewire\Dashboard\Cart\ShowCart;
 use Eshop\Livewire\Dashboard\Cart\ShowCartEvents;
 use Eshop\Livewire\Dashboard\Cart\ShowCarts;
 use Eshop\Livewire\Dashboard\Cart\StatusesList;
+use Eshop\Livewire\Dashboard\Cart\TrackAndTrace;
 use Eshop\Livewire\Dashboard\Category\CategoriesTree;
 use Eshop\Livewire\Dashboard\Category\CategoryPropertyChoices;
 use Eshop\Livewire\Dashboard\Channel\ShowChannel;
@@ -33,6 +34,8 @@ use Eshop\Livewire\Dashboard\Invoice\InvoiceRows;
 use Eshop\Livewire\Dashboard\Invoice\InvoiceSearchProduct;
 use Eshop\Livewire\Dashboard\Invoice\ShowClients;
 use Eshop\Livewire\Dashboard\Label\LabelsTable;
+use Eshop\Livewire\Dashboard\Notification\NotificationsTable;
+use Eshop\Livewire\Dashboard\Notification\UnreadNotificationCounter;
 use Eshop\Livewire\Dashboard\Pos\PosInvoice;
 use Eshop\Livewire\Dashboard\Pos\PosModels;
 use Eshop\Livewire\Dashboard\Pos\PosProducts;
@@ -53,6 +56,8 @@ use Eshop\Livewire\Dashboard\User\ShowUserPermissions;
 use Eshop\Livewire\Dashboard\User\ShowUsers;
 use Eshop\Livewire\Dashboard\User\UserAddressesTable;
 use Eshop\Livewire\Dashboard\User\UserCartsTable;
+use Eshop\Livewire\Dashboard\Voucher\CreateVoucherModal;
+use Eshop\Livewire\Dashboard\Voucher\VoucherTableRow;
 use Illuminate\Support\ServiceProvider;
 use Livewire\Livewire;
 
@@ -86,7 +91,12 @@ class LivewireServiceProvider extends ServiceProvider
         Livewire::component('dashboard.cart.statuses-list', StatusesList::class);
         Livewire::component('dashboard.cart.cash-payments', CashPayments::class);
         Livewire::component('dashboard.cart.show-cart-events', ShowCartEvents::class);
+        Livewire::component('dashboard.cart.track-and-trace', TrackAndTrace::class);
 
+        // Voucher
+        Livewire::component('dashboard.voucher.create', CreateVoucherModal::class);
+        Livewire::component('dashboard.voucher.table-row', VoucherTableRow::class);
+        
         // Categories
         Livewire::component('dashboard.category.property-choices', CategoryPropertyChoices::class);
         Livewire::component('dashboard.category.categories-tree', CategoriesTree::class);
@@ -128,6 +138,10 @@ class LivewireServiceProvider extends ServiceProvider
 
         // Label
         Livewire::component('dashboard.label.labels-table', LabelsTable::class);
+
+        // Notifications
+        Livewire::component('dashboard.notifications-table', NotificationsTable::class);
+        Livewire::component('dashboard.notifications-counter', UnreadNotificationCounter::class);
 
         // Slides
         Livewire::component('dashboard.slide.show-slides', ShowSlides::class);

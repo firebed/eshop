@@ -47,6 +47,10 @@
 
                     <x-bs::dropdown.item wire:click.prevent="print"><em class="fas fa-print me-2 text-secondary"></em>{{ __("Print") }}</x-bs::dropdown.item>
 
+                    @can('Create voucher')
+                        <x-bs::dropdown.item id="create-vouchers" href="#"><em class="fas fa-plus text-secondary me-2"></em> Έκδοση Voucher</x-bs::dropdown.item>
+                    @endif
+                    
                     @can("Manage orders")
                         <x-bs::dropdown.item wire:click.prevent="showOperators"><em class="fas fa-users me-2 text-secondary"></em>{{ __("Change operators") }}</x-bs::dropdown.item>
 
@@ -60,3 +64,14 @@
         </div>
     </div>
 </div>
+
+@push('footer_scripts')
+    <script>
+        document.getElementById('create-vouchers').addEventListener('click', e => {
+            e.preventDefault();
+            const values = [...document.querySelectorAll("input[type=checkbox][id^=cart-]:checked")].map(e => parseInt(e.value))
+            const url = "{{ route('vouchers.create') }}?ids=" + encodeURIComponent(JSON.stringify(values));
+            window.open(url, '_blank').focus()
+        })
+    </script>
+@endpush

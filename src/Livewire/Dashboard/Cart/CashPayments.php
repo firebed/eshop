@@ -2,6 +2,9 @@
 
 namespace Eshop\Livewire\Dashboard\Cart;
 
+use Eshop\Imports\AcsImport;
+use Eshop\Imports\CourierCenterPayoutsImport;
+use Eshop\Imports\GenikiPayoutsImport;
 use Eshop\Models\Cart\Cart;
 use Eshop\Models\Cart\Payment;
 use Eshop\Models\Location\ShippingMethod;
@@ -47,17 +50,20 @@ class CashPayments extends Component
     public function updated(): void
     {
         $this->validate([
-            'files.*' => ['file', 'mimes:xls,xlsx', 'max:2048'], // 2MB Max
+            'files.*' => ['file', 'mimes:xls,xlsx,csv,txt', 'max:2048'], // 2MB Max
         ]);
 
-        [$voucherIndex, $totalIndex] = $this->getColumnIndex();
-        if ($voucherIndex === null || $totalIndex === null) {
+        $resolver = $this->getFileResolver();
+        if ($resolver === null) {
             $this->addError('error', 'Δεν βρέθηκαν ρυθμίσεις για την επιλεγμένη μεταφορική εταιρεία.');
             return;
         }
 
         foreach ($this->files as $file) {
-            $imported = $this->readFile($file, $voucherIndex, $totalIndex);
+            $imported = Excel::toCollection($resolver, $file)
+                ->first()
+                ->mapWithKeys(fn($v) => $v)
+                ->mapWithKeys(fn($v, $k) => [$k => $v['total']]);
 
             $this->vouchers = $this->vouchers->union($imported);
         }
@@ -70,36 +76,17 @@ class CashPayments extends Component
     private function updateCarts(): void
     {
         $this->carts = Cart::where('shipping_method_id', $this->shipping_method_id)
-            ->whereIn('voucher', $this->vouchers->keys())
+            ->whereHas('voucher', fn($q) => $q->whereIn('number', $this->vouchers->keys()))
             ->select(['id', 'voucher', 'total'])
             ->with('payment')
             ->get()
-            ->keyBy('voucher');
+            ->keyBy('voucher.number');
 
         $this->valid_carts = $this->carts
             ->filter(fn($cart) => !$cart->isPaid())
-            ->filter(fn($c) => $this->equalFloats($c->total, $this->vouchers->get($c->voucher)));
+            ->filter(fn($c) => floats_equal($c->total, $this->vouchers->get($c->voucher)));
 
         $this->valid_cart_ids = $this->valid_carts->pluck('id')->toArray();
-    }
-
-    private function readFile($file, $voucherIndex, $totalIndex)
-    {
-        $imported = Excel::toCollection((object)null, $file)->first();
-
-        $imported->shift();
-        $imported->pop();
-
-        return $imported->mapWithKeys(function ($row) use ($voucherIndex, $totalIndex) {
-            $voucher = $row[$voucherIndex] ?? null;
-            $total = $row[$totalIndex] ?? null;
-
-            if (is_numeric($total) && $total > 0) {
-                return [$voucher => $total];
-            }
-
-            return [];
-        })->filter();
     }
 
     private function getShippingMethods(): Collection
@@ -124,11 +111,6 @@ class CashPayments extends Component
         ]);
     }
 
-    public function equalFloats($a, $b): bool
-    {
-        return abs($a - $b) < PHP_FLOAT_EPSILON;
-    }
-
     public function save(): void
     {
         if (empty($this->valid_cart_ids)) {
@@ -150,14 +132,15 @@ class CashPayments extends Component
         $this->emit('cartsTableUpdated');
     }
 
-    private function getColumnIndex(): ?array
+    private function getFileResolver(): AcsImport|CourierCenterPayoutsImport|GenikiPayoutsImport|null
     {
         $method = ShippingMethod::find($this->shipping_method_id);
 
         return match ($method->name) {
-            'Courier Center' => [11, 21],
-            'ACS Courier'    => [2, 3],
-            default          => null
+            'Courier Center'     => new CourierCenterPayoutsImport,
+            'ACS Courier'        => new AcsImport,
+            'Geniki Taxydromiki' => new GenikiPayoutsImport,
+            default              => null
         };
     }
 }

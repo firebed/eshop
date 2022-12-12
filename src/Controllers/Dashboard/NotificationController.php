@@ -4,13 +4,18 @@ namespace Eshop\Controllers\Dashboard;
 
 use Eshop\Models\Notification;
 use Illuminate\Contracts\Support\Renderable;
+use Illuminate\Support\Facades\Storage;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class NotificationController extends Controller
 {
-    public function __invoke(): Renderable
+    public function index(): Renderable
     {
-        $notifications = Notification::latest()->paginate(30);
+        return $this->view('notification.index');
+    }
 
-        return $this->view('notification.index', compact('notifications'));
+    public function download(Notification $notification): StreamedResponse
+    {
+        return Storage::disk('payouts')->download($notification->metadata['attachment']);
     }
 }

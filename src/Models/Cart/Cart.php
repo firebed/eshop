@@ -8,7 +8,6 @@ use Eshop\Models\Location\Address;
 use Eshop\Models\Location\Addressable;
 use Eshop\Models\Location\PaymentMethod;
 use Eshop\Models\Location\ShippingMethod;
-use Eshop\Models\Notification;
 use Eshop\Models\Product\Product;
 use Eshop\Models\User\User;
 use Eshop\Repository\Contracts\Order;
@@ -19,7 +18,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
-use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Support\Collection;
 
@@ -43,7 +41,6 @@ use Illuminate\Support\Collection;
  * @property float          total
  * @property ?string        details
  * @property ?string        comments
- * @property ?string        voucher
  * @property ?Carbon        submitted_at
  * @property ?Carbon        viewed_at
  *
@@ -93,7 +90,7 @@ class Cart extends Model implements Order
     {
         return $this->hasMany(CartEvent::class);
     }
-    
+
     public function operators(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'cart_operator')->withPivot('viewed_at');
@@ -152,6 +149,16 @@ class Cart extends Model implements Order
     public function items(): HasMany
     {
         return $this->hasMany(CartProduct::class);
+    }
+
+    public function voucher(): HasOne
+    {
+        return $this->hasOne(Voucher::class)->latestOfMany('created_at');
+    }
+
+    public function vouchers(): HasMany
+    {
+        return $this->hasMany(Voucher::class);
     }
 
     /*
