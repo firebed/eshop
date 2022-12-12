@@ -9,6 +9,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use setasign\Fpdi\Fpdi;
+use setasign\Fpdi\PdfParser\CrossReference\CrossReference;
 
 class MergeCartVouchers
 {
@@ -16,6 +17,7 @@ class MergeCartVouchers
 
     public function __construct()
     {
+        CrossReference::$trailerSearchLength = 22000;
         $this->fpdi = new Fpdi();
     }
 
