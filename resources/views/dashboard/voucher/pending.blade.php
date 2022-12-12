@@ -123,7 +123,7 @@
         </div>
     </form>
 
-    <form action="{{ route('carts.print-vouchers') }}" method="post" target="_blank">
+    <form action="{{ route('carts.print-vouchers') }}" method="post">
         @csrf
         <div x-ref="modal" class="modal fade" id="print-vouchers-modal" tabindex="-1">
             <div class="modal-dialog">

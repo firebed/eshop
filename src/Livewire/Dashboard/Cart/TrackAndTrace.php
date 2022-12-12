@@ -90,7 +90,7 @@ class TrackAndTrace extends Component
                     'courier'     => $this->editingVoucher->courier,
                     'reference_1' => $cart->id,
                     'number'      => $number,
-                    'cod_amount'  => 0,
+                    'cod_amount'  => $cart->paymentMethod->isPayOnDelivery() ? $cart->total : 0,
                 ]);
 
                 $uuid = $response['uuid'];
@@ -103,7 +103,7 @@ class TrackAndTrace extends Component
             } else {
                 $this->addError('voucher', 'An error occurred. The voucher code was not updated.');
             }
-        }catch (Throwable $t) {
+        } catch (Throwable $t) {
             $this->showErrorToast("Σφάλμα", $t->getMessage());
         }
     }

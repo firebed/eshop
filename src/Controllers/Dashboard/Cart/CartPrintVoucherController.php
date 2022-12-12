@@ -4,6 +4,7 @@ namespace Eshop\Controllers\Dashboard\Cart;
 
 use Eshop\Actions\MergeCartVouchers;
 use Eshop\Controllers\Dashboard\Controller;
+use Eshop\Controllers\Dashboard\Traits\WithNotifications;
 use Eshop\Models\Cart\Cart;
 use Eshop\Models\Cart\Voucher;
 use Eshop\Services\Courier\CourierService;
@@ -16,6 +17,8 @@ use Throwable;
 
 class CartPrintVoucherController extends Controller
 {
+    use WithNotifications;
+
     public function index(Request $request, CourierService $courierService): Response|string
     {
         $request->validate([
@@ -43,7 +46,6 @@ class CartPrintVoucherController extends Controller
                     'Content-Type'        => 'application/pdf',
                     'Content-Disposition' => 'inline; filename=' . time() . '.pdf'
                 ]);
-
             }
 
             $byteArray = (new MergeCartVouchers())->handle($carts, $vouchers, $request->boolean('two_sided'));
@@ -53,7 +55,9 @@ class CartPrintVoucherController extends Controller
                 'Content-Disposition' => 'inline; filename=' . time() . '.pdf'
             ]);
         } catch (Throwable $e) {
-            throw $e;
+            $this->showErrorNotification("Σφάλμα", $e->getMessage());
+
+            return back();
         }
     }
 
