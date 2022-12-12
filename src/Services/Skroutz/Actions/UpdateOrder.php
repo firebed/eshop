@@ -33,7 +33,10 @@ class UpdateOrder
         }
 
         if (isset($changes['courier_voucher'])) {
-            $cart->voucher()->updateOrCreate([], ['number' => $changes['courier_tracking_codes']['new'][0]]);
+            $cart->voucher()->updateOrCreate([], [
+                'number'    => $changes['courier_tracking_codes']['new'][0],
+                'is_manual' => false
+            ]);
             $cart->viewed_at = null;
             $cart->save();
         }
