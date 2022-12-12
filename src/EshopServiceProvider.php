@@ -5,7 +5,6 @@ namespace Eshop;
 use Eshop\Commands\CartAbandonmentCommand;
 use Eshop\Commands\CartCleanup;
 use Eshop\Commands\InstallCommand;
-use Eshop\Commands\Panic;
 use Eshop\Commands\ProductAggregationsCommand;
 use Eshop\Commands\ScoutIndexCommand;
 use Eshop\Commands\SitemapCommand;
@@ -136,7 +135,6 @@ class EshopServiceProvider extends ServiceProvider
                 CartAbandonmentCommand::class,
                 ProductAggregationsCommand::class,
                 SkroutzPayoutsCommand::class,
-                Panic::class
             ]);
         }
     }
