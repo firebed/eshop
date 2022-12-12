@@ -5,6 +5,7 @@ namespace Eshop\Services\Skroutz\Actions;
 use Eshop\Models\Cart\Cart;
 use Eshop\Models\Cart\CartChannel;
 use Eshop\Models\Cart\CartStatus;
+use Eshop\Services\Courier\Courier;
 
 class UpdateOrder
 {
@@ -34,6 +35,7 @@ class UpdateOrder
 
         if (isset($changes['courier_voucher'])) {
             $cart->voucher()->updateOrCreate([], [
+                'courier'   => Courier::ACS->value,
                 'number'    => $changes['courier_tracking_codes']['new'][0],
                 'is_manual' => false
             ]);
