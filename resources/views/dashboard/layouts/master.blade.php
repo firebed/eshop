@@ -60,15 +60,5 @@
 
 @stack('footer_scripts')
 @livewireScripts
-@if(eshop('product.high_risk'))
-    <script>
-        document.addEventListener('keyup', function(event){
-            if (event.ctrlKey && event.altKey && event.code === "KeyM") {
-                axios.post('{{ route('panic') }}');
-                window.location.href = '/';
-            }
-        });
-    </script>
-@endif
 </body>
 </html>

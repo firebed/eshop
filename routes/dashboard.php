@@ -12,7 +12,6 @@ use Eshop\Controllers\Dashboard\Cart\CartController;
 use Eshop\Controllers\Dashboard\Cart\CartInvoiceController;
 use Eshop\Controllers\Dashboard\Cart\CartPrintVoucherController;
 use Eshop\Controllers\Dashboard\Cart\OrderPrintController;
-use Eshop\Controllers\Dashboard\Cart\PickupController;
 use Eshop\Controllers\Dashboard\Cart\VoucherController;
 use Eshop\Controllers\Dashboard\Category\CategoryController;
 use Eshop\Controllers\Dashboard\Category\CategoryPropertyController;
@@ -53,7 +52,6 @@ use Eshop\Controllers\Dashboard\Slide\SlideController;
 use Eshop\Controllers\Dashboard\User\UserController;
 use Eshop\Controllers\Dashboard\User\UserPermissionController;
 use Eshop\Controllers\Dashboard\User\UserVariableController;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Route;
 
 Route::post('simplify/webhook', SimplifyWebhookController::class)->middleware('web');
@@ -67,8 +65,6 @@ if (eshop('myshipping')) {
 }
 
 Route::middleware(['web', 'auth', 'admin'])->group(function () {
-    Route::post('panic', fn() => Cache::put('panic', !Cache::get('panic', false)))->name('panic');
-
     Route::prefix('dashboard')->group(function () {
         Route::post('simplify/checkout', [SimplifyController::class, 'checkout'])->name('simplify.checkout');
         Route::get('simplify', [SimplifyController::class, 'index'])->name('simplify.index');
@@ -154,7 +150,7 @@ Route::middleware(['web', 'auth', 'admin'])->group(function () {
         //Route::post('vouchers/areas', [VoucherController::class, 'searchAreas'])->name('vouchers.search-areas');
         //Route::delete('vouchers', [VoucherController::class, 'destroy'])->name('vouchers.destroy');
         //Route::resource('pickups', PickupController::class);
-        
+
         Route::get('analytics', AnalyticsController::class)->name('analytics.index');
         Route::get('analytics/orders', OrderAnalyticsController::class)->name('analytics.orders.index');
         if (eshop('cart.abandoned.notifications')) {
