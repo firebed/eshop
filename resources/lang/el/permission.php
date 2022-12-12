@@ -15,6 +15,7 @@ return [
     'Manage users'                    => 'Διαχείριση χρηστών',
     'Manage permissions'              => 'Διαχείριση δικαιωμάτων',
     'Manage slides'                   => 'Διαχείριση διαφανειών',
+    'Manage blogs'                    => 'Διαχείριση blogs',
     'View analytics'                  => 'Προβολή στατιστικών',
     'Manage orders'                   => 'Διαχείριση παραγγελιών',
     'Manage POS'                      => 'Διαχείριση POS',
