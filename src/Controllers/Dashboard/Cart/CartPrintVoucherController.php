@@ -4,7 +4,6 @@ namespace Eshop\Controllers\Dashboard\Cart;
 
 use Eshop\Actions\MergeCartVouchers;
 use Eshop\Controllers\Dashboard\Controller;
-use Eshop\Controllers\Dashboard\Traits\WithNotifications;
 use Eshop\Models\Cart\Cart;
 use Eshop\Models\Cart\Voucher;
 use Eshop\Services\Courier\CourierService;
@@ -17,8 +16,6 @@ use Throwable;
 
 class CartPrintVoucherController extends Controller
 {
-    use WithNotifications;
-
     public function index(Request $request, CourierService $courierService): Response|string
     {
         $request->validate([
@@ -30,8 +27,7 @@ class CartPrintVoucherController extends Controller
         $carts = Cart::query()
             ->whereKey($request->input('ids'))
             ->whereHas('voucher')
-            ->with('voucher', 'shippingMethod', 'paymentMethod', 'shippingAddress.country')
-            ->with(['products' => fn($q) => $q->with('translation', 'parent.translation', 'variantOptions.translation')])
+            ->with('voucher')
             ->get();
 
         try {
@@ -48,6 +44,9 @@ class CartPrintVoucherController extends Controller
                 ]);
             }
 
+            $carts->load('shippingMethod', 'paymentMethod', 'shippingAddress.country');
+            $carts->load(['products' => fn($q) => $q->with('translation', 'parent.translation', 'variantOptions.translation')]);
+
             $byteArray = (new MergeCartVouchers())->handle($carts, $vouchers, $request->boolean('two_sided'));
 
             return response($byteArray, 200, [
@@ -55,9 +54,7 @@ class CartPrintVoucherController extends Controller
                 'Content-Disposition' => 'inline; filename=' . time() . '.pdf'
             ]);
         } catch (Throwable $e) {
-            $this->showErrorNotification("Σφάλμα", $e->getMessage());
-
-            return back();
+            return back()->withErrors([$e->getMessage()]);
         }
     }
 

@@ -24,6 +24,7 @@ class CreateVoucherRequest
             'region'             => $cart->shippingAddress->city,
             'cellphone'          => $cart->shippingAddress->phone,
             'country'            => $cart->shippingAddress->country->code,
+            'customer_comments'  => $cart->details,
             'content_type'       => '',
             'services'           => []
         ];

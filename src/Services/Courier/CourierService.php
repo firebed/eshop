@@ -11,13 +11,14 @@ use Illuminate\Support\Facades\Http;
 class CourierService
 {
     private const ENDPOINT = "https://www.myshipping.gr/api/";
+
     //private const ENDPOINT = "http://127.0.0.1:8000/api/";
 
     private function token(): ?string
     {
         return api_key("MY_SHIPPING_API_TOKEN");
     }
-    
+
     /**
      * @throws Error
      */
@@ -27,7 +28,7 @@ class CourierService
             ->contentType('application/json')
             ->accept('application/json')
             ->get(self::ENDPOINT . $method, $params);
-        
+
         if ($response->failed()) {
             throw new Error("Courier: " . $response->json()['message']);
         }
@@ -133,12 +134,19 @@ class CourierService
         ], null);
     }
 
-    public function submitPendingVouchers(Carbon $from, Carbon $to = null)
+    public function vouchers(bool $pending, ?Carbon $date = null): Collection
     {
-        return $this->post("vouchers/submit", [
-            'from' => $from->format('Y-m-d'),
-            'to' => $to?->format('Y-m-d'),
-        ], null);
+        $vouchers = $this->get('vouchers', [
+            'pending' => $pending,
+            'date'    => $date?->format('Y-m-d')
+        ]);
+
+        return collect($vouchers);
+    }
+
+    public function submitPendingVouchers()
+    {
+        return $this->post("vouchers/submit", [], null);
     }
 
     public function validateArea(string $street, string $number, string $postcode, string $region)

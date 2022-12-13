@@ -16,8 +16,6 @@ class CreateVouchersTable extends Migration
             $table->string('courier', 50)->nullable();
             $table->string('number')->index();
             $table->boolean('is_manual');
-            $table->timestamp('printed_at')->nullable();
-            $table->timestamp('submitted_at')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

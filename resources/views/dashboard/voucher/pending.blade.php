@@ -52,27 +52,21 @@
                 <x-bs::table>
                     <thead>
                     <tr>
+                        <th>Παραγγελία</th>
                         <th>Πελάτης</th>
-                        <th>Voucher</th>
                         <th>Courier</th>
+                        <th>Voucher</th>
                     </tr>
                     </thead>
                     <tbody>
                     @foreach($vouchers as $voucher)
+                        @php($cart = $carts->find($voucher['reference_1']))
+                        
                         <tr>
-                            <td>
-                                <div class="d-grid">
-                                    <div class="fw-500">{{ $voucher->cart->shippingAddress->fullname }}</div>
-                                    <div class="small text-secondary">{{ $voucher->cart->shippingAddress->city }}, {{ $voucher->cart->shippingAddress->postcode }}</div>
-                                </div>
-                            </td>
-                            <td>
-                                <div class="d-grid">
-                                    <div>{{ $voucher->number }}</div>
-                                    <div class="small text-secondary"><em class="far fa-calendar"></em> {{ $voucher->created_at->format('d/m/Y') }}</div>
-                                </div>
-                            </td>
-                            <td><img src="{{ asset('images/' . $voucher->courier->icon()) }}" alt="" class="img-fluid" style="max-height: 20px; max-width: 80px"></td>
+                            <td>{{ $voucher['reference_1'] }}</td>
+                            <td>{{ $cart?->shippingAddress->fullname }}</td>
+                            <td class="fw-500">{{ $voucher['courier'] }}</td>
+                            <td>{{ $voucher['number'] }}</td>
                         </tr>
                     @endforeach
                     </tbody>
@@ -134,7 +128,7 @@
                     </div>
                     <div class="modal-body">                        
                         @foreach($vouchers as $voucher)
-                            <input type="hidden" name="ids[]" value="{{ $voucher->cart_id }}">
+                            <input type="hidden" name="ids[]" value="{{ $voucher['reference_1'] }}">
                         @endforeach
 
                         <template x-if="error">
