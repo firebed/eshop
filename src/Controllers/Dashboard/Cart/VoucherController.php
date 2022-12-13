@@ -4,13 +4,11 @@ namespace Eshop\Controllers\Dashboard\Cart;
 
 use Eshop\Controllers\Dashboard\Controller;
 use Eshop\Models\Cart\Cart;
-use Eshop\Models\Cart\Voucher;
 use Eshop\Services\Courier\CourierService;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\DB;
 use Throwable;
 
 class VoucherController extends Controller
@@ -23,6 +21,10 @@ class VoucherController extends Controller
 
         $date = $request->date('date');
         $pending = $request->boolean('pending');
+        
+        if ($date === null && !$pending) {
+            $date = today();
+        }
 
         $vouchers = $courierService->vouchers($pending, $date);
 
