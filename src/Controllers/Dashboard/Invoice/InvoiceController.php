@@ -124,19 +124,25 @@ class InvoiceController extends Controller
                 ];
             });
 
-        $total_value = round($invoice->rows->sum(fn($r) => $r->quantity * $r->price), 2);
+        $items = $invoice->rows->reject(fn($row) => in_array($row->code, ['SHP', 'PYM']));
+        $extra = $invoice->rows->filter(fn($row) => in_array($row->code, ['SHP', 'PYM']));
+
+        $total_extra_value = round($extra->sum(fn($r) => $r->quantity * $r->price), 2);
+        $total_value = round($items->sum(fn($r) => $r->quantity * $r->price), 2);
         $total_net_value = $vats->sum('total_net_value');
         $discount_amount = $total_value - $total_net_value;
         $total_vat_amount = $vats->sum('total_vat_amount');
 
         $html = $this->view('invoice.print', [
-            'invoice'          => $invoice,
-            'units'            => $invoice->rows->groupBy(fn(InvoiceRow $row) => $row->unit->value),
-            'vats'             => $vats,
-            'total_value'      => $total_value,
-            'discount_amount'  => $discount_amount,
-            'total_net_value'  => $total_net_value,
-            'total_vat_amount' => $total_vat_amount
+            'invoice'           => $invoice,
+            'items'             => $items,
+            'units'             => $invoice->rows->groupBy(fn(InvoiceRow $row) => $row->unit->value),
+            'vats'              => $vats,
+            'total_value'       => $total_value,
+            'discount_amount'   => $discount_amount,
+            'total_net_value'   => $total_net_value,
+            'total_extra_value' => $total_extra_value,
+            'total_vat_amount'  => $total_vat_amount
         ]);
 
         return response()->stream(function () use ($invoice, $html) {
