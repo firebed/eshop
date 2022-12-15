@@ -93,7 +93,7 @@ class CourierService
             throw new Error("Ο κωδικός αποστολής δεν είναι συσχετισμένος με το myShipping.gr");
         }
 
-        return collect($this->get("vouchers/$voucher->myshipping_id/trace"));
+        return collect($this->get("vouchers/$voucher->myshipping_id/trace", [], null));
     }
 
     public function printVouchers(Collection $vouchers, bool $merge = true, $options = []): string|array
