@@ -208,21 +208,23 @@ class ShowCarts extends Component
         return Cart::query()
             ->select('id', 'channel', 'status_id', 'total', 'shipping_method_id', 'payment_method_id', 'document_type', 'submitted_at', 'viewed_at')
             ->when($this->incomplete, static fn($q) => $q->whereNull('submitted_at')->latest())
-            ->when($this->unpaid, static fn($q) => $q->where('status_id', '<', 6)->whereDoesntHave('payment'))
             ->when(!$this->incomplete, static fn($q) => $q->submitted()->latest('submitted_at'))
-            ->when($this->filter, function ($q, $f) {
-                return $q->where(fn($b) => $b->where('id', 'LIKE', "$f%"))
-                    ->orWhereHas('voucher', fn($q) => $q->where('number', 'LIKE', "$f%"))
-                    ->orWhere('reference_id', 'LIKE', "$f%")
-                    ->orWhereHas('shippingAddress', fn($b) => $b->matchAgainst($f));
-            })
+            ->when($this->unpaid, static fn($q) => $q->where('status_id', '<', 6)->whereDoesntHave('payment'))
             ->when(auth()->user()?->cannot('Manage orders') && auth()->user()?->can('Manage assigned orders'), function ($q) {
                 return $q->whereHas('operators', fn($b) => $b->where('user_id', auth()->id()));
             })
-            ->with('shippingAddress', 'status', 'paymentMethod', 'shippingMethod', 'operators', 'payment', 'voucher')
             ->when($this->status, fn($q, $s) => $q->where('status_id', $s))
             ->when($this->shipping_method_id, fn($q, $id) => $q->where('shipping_method_id', $id))
             ->when($this->payment_method_id, fn($q, $id) => $q->where('payment_method_id', $id))
+            ->when($this->filter, function ($q, $f) {
+                $q->where(function ($b) use ($f) {
+                    $b->where('id', 'LIKE', "$f%")
+                        ->orWhereHas('vouchers', fn($q) => $q->where('number', 'LIKE', "$f%"))
+                        ->orWhere('reference_id', 'LIKE', "$f%")
+                        ->orWhereHas('shippingAddress', fn($b) => $b->matchAgainst($f));
+                });
+            })
+            ->with('shippingAddress', 'status', 'paymentMethod', 'shippingMethod', 'operators', 'payment', 'voucher')
             ->paginate($this->per_page);
     }
 
