@@ -206,7 +206,7 @@ class ShowCarts extends Component
     public function getCartsProperty(): LengthAwarePaginator
     {
         return Cart::query()
-            ->select('id', 'channel', 'status_id', 'total', 'shipping_method_id', 'payment_method_id', 'document_type', 'submitted_at', 'viewed_at')
+            ->select('id', 'user_id', 'channel', 'status_id', 'total', 'shipping_method_id', 'payment_method_id', 'document_type', 'submitted_at', 'viewed_at')
             ->when($this->incomplete, static fn($q) => $q->whereNull('submitted_at')->latest())
             ->when(!$this->incomplete, static fn($q) => $q->submitted()->latest('submitted_at'))
             ->when($this->unpaid, static fn($q) => $q->where('status_id', '<', 6)->whereDoesntHave('payment'))
