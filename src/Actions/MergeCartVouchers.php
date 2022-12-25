@@ -29,16 +29,24 @@ class MergeCartVouchers
         foreach ($vouchers as $number => $byteArray) {
             $cart = $carts->firstWhere('voucher.number', $number);
 
-            $filename = $this->createOrderDocument($cart);
-            $pageCount = $this->fpdi->setSourceFile(Storage::disk('local')->path($filename));
+            // Create the order's pdf and use it as the source file
+            $orderPdf = $this->createOrderDocument($cart);
+            $disk = Storage::disk('local');
+            $pageCount = $this->fpdi->setSourceFile($disk->path($orderPdf));
 
-            $voucherImported = false;
-            for ($i = 0; $i < $pageCount; $i++) {
-                $this->importPage($i + 1);
+            for ($i = 1; $i <= $pageCount; $i++) {
+                $this->importPage($i);
 
-                if ($two_sided && !$voucherImported) {
+                // If two-sided printing is enabled, and we are on the first page 
+                if ($two_sided && $i === 1) {
+                    // Import the voucher pdf
                     $this->importVoucher($byteArray);
-                    $voucherImported = true;
+
+                    // If the order document has more than 1 page
+                    if ($pageCount > 1) {
+                        // Use the order as the source file so that the rest of the pages are imported
+                        $this->fpdi->setSourceFile($disk->path($orderPdf));
+                    }
                 }
             }
 
@@ -48,7 +56,8 @@ class MergeCartVouchers
                 $this->fpdi->AddPage();
             }
 
-            Storage::disk('local')->delete($filename);
+            // Delete the temporary pdf file
+            $disk->delete($orderPdf);
         }
 
         return $this->fpdi->Output('S');
@@ -74,8 +83,8 @@ class MergeCartVouchers
         Storage::disk('local')->put($filename, base64_decode($byteArray, true));
 
         $pages = $this->fpdi->setSourceFile(Storage::disk('local')->path($filename));
-        for($i = 0; $i < $pages; $i++) {
-            $this->importPage($i + 1);
+        for($i = 1; $i <= $pages; $i++) {
+            $this->importPage($i);
         }
 
         Storage::disk('local')->delete($filename);

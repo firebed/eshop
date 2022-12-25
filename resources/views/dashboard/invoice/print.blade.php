@@ -217,7 +217,7 @@
         </thead>
 
         <tbody>
-        @foreach($invoice->rows as $row)
+        @foreach($items as $row)
             <tr>
                 <td style="white-space: nowrap; overflow: hidden">{{ $row->code }}</td>
                 <td style="white-space: nowrap; overflow: hidden">{{ $row->description }}</td>
@@ -309,6 +309,13 @@
                         <th class="text-start fw-normal">ΣΥΝΟΛΟ ΚΑΘΑΡΟ</th>
                         <td class="text-end" style="padding-right: 5px">{{ format_number($total_net_value, 2) }}</td>
                     </tr>
+
+                    @if($total_extra_value > 0)
+                        <tr>
+                            <th class="text-start fw-normal">ΕΠΙΒΑΡΥΝΣΕΙΣ</th>
+                            <td class="text-end" style="padding-right: 5px">({{ format_number($total_extra_value, 2) }})</td>
+                        </tr>
+                    @endif
 
                     <tr>
                         <th class="text-start fw-normal">ΣΥΝΟΛΟ Φ.Π.Α</th>
