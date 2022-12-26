@@ -83,7 +83,7 @@ class MergeCartVouchers
         Storage::disk('local')->put($filename, base64_decode($byteArray, true));
 
         $pages = $this->fpdi->setSourceFile(Storage::disk('local')->path($filename));
-        for($i = 1; $i <= $pages; $i++) {
+        for ($i = 1; $i <= $pages; $i++) {
             $this->importPage($i);
         }
 

@@ -5,7 +5,6 @@ namespace Eshop\Controllers\Dashboard\Cart;
 use Eshop\Actions\MergeCartVouchers;
 use Eshop\Controllers\Dashboard\Controller;
 use Eshop\Models\Cart\Cart;
-use Eshop\Models\Cart\Voucher;
 use Eshop\Services\Courier\CourierService;
 use Eshop\Services\Skroutz\Exceptions\SkroutzException;
 use Eshop\Services\Skroutz\Skroutz;
@@ -34,8 +33,6 @@ class CartPrintVoucherController extends Controller
             $with_carts = $request->boolean('with_carts');
 
             $vouchers = $courierService->printVouchers($carts->pluck('voucher'), !$with_carts);
-
-            Voucher::whereKey($carts->pluck('voucher')->pluck('id'))->update(['printed_at' => now()]);
 
             if (!$with_carts) {
                 return response(base64_decode($vouchers, true), 200, [
