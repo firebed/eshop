@@ -7,6 +7,7 @@ use Eshop\Services\Imap\ImapService;
 use Eshop\Services\Skroutz\Events\SkroutzPayoutReceived;
 use Exception;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Cache;
 use Throwable;
 
 class SkroutzPayoutsCommand extends Command
@@ -26,6 +27,12 @@ class SkroutzPayoutsCommand extends Command
             $messages = $imap->preview($on, null, 'noreply@skroutz.gr')->keys();
 
             foreach ($messages as $messageId) {
+                if (Cache::get($messageId)) {
+                    continue;
+                }
+
+                Cache::put($messageId, true, today()->addDay());
+
                 event(new SkroutzPayoutReceived($messageId));
             }
         } catch (Throwable $e) {

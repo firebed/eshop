@@ -129,7 +129,7 @@ class InvoiceController extends Controller
 
         $total_extra_value = round($extra->sum(fn($r) => $r->quantity * $r->price), 2);
         $total_value = round($items->sum(fn($r) => $r->quantity * $r->price), 2);
-        $total_net_value = $vats->sum('total_net_value');
+        $total_net_value = $vats->sum('total_net_value') - $total_extra_value;
         $discount_amount = $total_value - $total_net_value;
         $total_vat_amount = $vats->sum('total_vat_amount');
 

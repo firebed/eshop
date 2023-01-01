@@ -39,7 +39,7 @@ class CheckoutDetailsRequest extends FormRequest
                 'shippingAddress.city'       => ['required', 'string'],
                 'shippingAddress.street'     => ['required', 'string'],
                 'shippingAddress.street_no'  => ['nullable', 'string'],
-                'shippingAddress.postcode'   => ['required', 'string'],
+                'shippingAddress.postcode'   => ['required', 'string', 'max:20'],
             ]);
         }
 
@@ -58,7 +58,7 @@ class CheckoutDetailsRequest extends FormRequest
                 'invoiceAddress.street'      => ['required', 'nullable', 'string'],
                 'invoiceAddress.street_no'   => ['nullable', 'string'],
                 'invoiceAddress.city'        => ['required', 'nullable', 'string'],
-                'invoiceAddress.postcode'    => ['required', 'nullable', 'string'],
+                'invoiceAddress.postcode'    => ['required', 'nullable', 'string', 'max:20'],
             ]);
         }
 

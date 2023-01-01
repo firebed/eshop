@@ -14,6 +14,7 @@
                     
                     <x-bs::input.checkbox name="with_carts" id="with-carts">Εκτύπωση των δελτίων παραγγελίας</x-bs::input.checkbox>
                     <x-bs::input.checkbox name="two_sided" id="2-faced">Εκτύπωση διπλής όψης</x-bs::input.checkbox>
+                    <x-bs::input.checkbox name="merge_vouchers" id="merge-vouchers">Συγχώνευση κωδικών αποστολής</x-bs::input.checkbox>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Κλείσιμο</button>

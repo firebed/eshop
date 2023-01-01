@@ -28,7 +28,7 @@ class MergeCartVouchers
     {
         foreach ($vouchers as $number => $byteArray) {
             $cart = $carts->firstWhere('voucher.number', $number);
-
+            
             // Create the order's pdf and use it as the source file
             $orderPdf = $this->createOrderDocument($cart);
             $disk = Storage::disk('local');

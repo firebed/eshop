@@ -11,7 +11,7 @@ class CreateVouchersTable extends Migration
     {
         Schema::create('vouchers', static function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Cart::class)->constrained();
+            $table->foreignIdFor(Cart::class)->constrained()->cascadeOnDelete();
             $table->string('myshipping_id')->nullable()->unique();
             $table->string('courier', 50)->nullable();
             $table->string('number')->index();
