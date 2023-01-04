@@ -40,7 +40,6 @@ use Laravel\Scout\Searchable;
  * @property bool            $visible
  * @property bool            $recent
  * @property bool            $promote
- * @property bool            $high_risk
  * @property bool            $available
  * @property ?integer|string $available_gt
  * @property bool            $has_watermark
@@ -99,7 +98,7 @@ class Product extends Model implements Auditable
 
     protected $fillable = [
         'name', 'description', 'category_id', 'manufacturer_id', 'unit_id', 'is_physical', 'vat', 'weight',
-        'price', 'compare_price', 'discount', 'stock', 'visible', 'recent', 'promote', 'high_risk',
+        'price', 'compare_price', 'discount', 'stock', 'visible', 'recent', 'promote',
         'display_stock', 'display_stock_lt', 'available', 'available_gt', 'has_watermark', 'location', 'sku',
         'mpn', 'barcode', 'slug', 'has_variants', 'variants_display', 'preview_variants', 'variants_prefix'
     ];
@@ -122,7 +121,6 @@ class Product extends Model implements Auditable
         'display_stock'    => 'bool',
         'preview_variants' => 'bool',
         'promote'          => 'bool',
-        'high_risk'        => 'bool'
     ];
 
     /*

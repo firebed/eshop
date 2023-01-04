@@ -148,7 +148,6 @@ return [
     */
 
     'product'         => [
-        'high_risk'         => false,
         'show_manufacturer' => true,
         'suggestions'       => 'similar',
         'image'             => [

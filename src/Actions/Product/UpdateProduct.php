@@ -88,12 +88,6 @@ class UpdateProduct
                 'unit_id' => $request->input('unit_id')
             ]);
         }
-
-        if ($product->isDirty('high_risk')) {
-            $product->variants()->update([
-                'high_risk' => $request->input('high_risk')
-            ]);
-        }
     }
 
     private function replaceImage($imageable, UploadedFile $image): void
