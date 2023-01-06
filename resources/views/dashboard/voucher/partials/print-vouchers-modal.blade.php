@@ -13,20 +13,20 @@
                     @endforeach
 
                     <x-bs::input.radio x-model="joinType" name="joinType" value="carts" id="with-carts">
-                        <div>Εκτύπωση των δελτίων παραγγελίας</div>
-                        <p class="small text-secondary">Συμπερίληψη των δελτίων παραγγελίας πριν το κωδικό αποστολής.</p>
+                        <div class="fw-500">Εκτύπωση των δελτίων παραγγελίας</div>
+                        <p class="small text-secondary">Συμπερίληψη του εκάστοτε δελτίου παραγγελίας πριν τον κωδικό αποστολής.</p>
                     </x-bs::input.radio>
 
                     <div class="ms-4">
                         <x-bs::input.checkbox x-bind:disabled="joinType !== 'carts'" name="two_sided" id="2-faced">
-                            <div>Εκτύπωση διπλής όψης</div>
+                            <div class="fw-500">Εκτύπωση διπλής όψης</div>
                             <p class="small text-secondary">Αναδιάταξη σελίδων έτσι ώστε οι κωδικοί αποστολής να εκτυπώνονται στο πίσω μέρος του δελτίου παραγγελίας.</p>
                         </x-bs::input.checkbox>
                     </div>
 
                     <x-bs::input.radio x-model="joinType" name="joinType" value="vouchers" id="join-vouchers">
-                        <div>Συγχώνευση κωδικών αποστολής 1x3</div>
-                        <p class="small text-secondary">Κάθε σελίδα θα περιλαμβάνει έως και 3 κωδικούς αποστολής για εξοικονόμηση χαρτιού.</p>
+                        <div class="fw-500">Συγχώνευση κωδικών αποστολής 1x3</div>
+                        <p class="small text-secondary">Κάθε σελίδα θα περιλαμβάνει έως και 3 κωδικούς αποστολής οριζόντια για εξοικονόμηση χαρτιού.</p>
                     </x-bs::input.radio>
                 </div>
                 <div class="modal-footer">

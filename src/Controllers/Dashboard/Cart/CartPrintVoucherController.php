@@ -30,12 +30,12 @@ class CartPrintVoucherController extends Controller
             ->get();
 
         try {
-            $with_carts = $request->input('joinType') === 'carts';
+            $mergeCarts = $request->input('joinType') === 'carts';
             $joinVouchers = $request->input('joinType') === 'vouchers';
 
-            $vouchers = $courierService->printVouchers($carts->pluck('voucher'), !$with_carts, $joinVouchers);
+            $vouchers = $courierService->printVouchers($carts->pluck('voucher'), !$mergeCarts, $joinVouchers);
 
-            if (!$with_carts) {
+            if (!$mergeCarts) {
                 return response(base64_decode($vouchers, true), 200, [
                     'Content-Type'        => 'application/pdf',
                     'Content-Disposition' => 'inline; filename=' . time() . '.pdf'
