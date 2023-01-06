@@ -96,11 +96,12 @@ class CourierService
         return collect($this->get("vouchers/$voucher->myshipping_id/trace", [], null));
     }
 
-    public function printVouchers(Collection $vouchers, bool $merge = true, $options = []): string|array
+    public function printVouchers(Collection $vouchers, bool $merge, bool $join, $options = []): string|array
     {
         return $this->get("vouchers/print", [
             'ids'     => $vouchers->pluck('myshipping_id')->toArray(),
             'merge'   => $merge,
+            'join'    => $join,
             'options' => $options,
         ], null);
     }

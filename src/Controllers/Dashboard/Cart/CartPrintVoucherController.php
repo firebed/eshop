@@ -18,10 +18,9 @@ class CartPrintVoucherController extends Controller
     public function index(Request $request, CourierService $courierService): Response|string
     {
         $request->validate([
-            'ids'            => ['required', 'array', 'exists:carts,id'],
-            'two_sided'      => ['nullable'],
-            'with_carts'     => ['nullable'],
-            'merge_vouchers' => ['nullable'],
+            'ids'       => ['required', 'array', 'exists:carts,id'],
+            'joinType'  => ['nullable', 'string', 'in:carts,vouchers'],
+            'two_sided' => ['nullable'],
         ]);
 
         $carts = Cart::query()
@@ -31,15 +30,10 @@ class CartPrintVoucherController extends Controller
             ->get();
 
         try {
-            $with_carts = $request->boolean('with_carts');
-            $merge_vouchers = $request->boolean('merge_vouchers');
+            $with_carts = $request->input('joinType') === 'carts';
+            $joinVouchers = $request->input('joinType') === 'vouchers';
 
-            $options = [];
-            if ($merge_vouchers) {
-                $options[] = 'collapse';
-            }
-
-            $vouchers = $courierService->printVouchers($carts->pluck('voucher'), !$with_carts, $options);
+            $vouchers = $courierService->printVouchers($carts->pluck('voucher'), !$with_carts, $joinVouchers);
 
             if (!$with_carts) {
                 return response(base64_decode($vouchers, true), 200, [

@@ -61,7 +61,7 @@
                     <tbody>
                     @foreach($vouchers as $voucher)
                         @php($cart = $carts->find($voucher['reference_1']))
-                        
+
                         <tr>
                             <td>{{ $voucher['reference_1'] }}</td>
                             <td>{{ $cart?->shippingAddress->fullname }}</td>
@@ -93,7 +93,7 @@
                         <h5 class="modal-title" id="exampleModalLabel">Κλείσιμο αποστολών</h5>
                         <button :disabled="loading" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    
+
                     <div class="modal-body bg-light position-relative">
                         <div class="bg-white shadow-sm border-warning p-3 border-start border-4 mb-3 d-flex gap-3 align-items-start rounded">
                             <em class="fa fa-exclamation-circle text-warning fa-2x"></em>
@@ -105,7 +105,7 @@
                                 </ul>
                             </div>
                         </div>
-                        
+
                         <div x-show="loading" x-cloak class="text-center py-1"><em class="fa fa-spinner fa-spin"></em> Παρακαλώ περιμένετε...</div>
                     </div>
                     <div class="modal-footer">
@@ -116,41 +116,6 @@
             </div>
         </div>
     </form>
-
-    <form action="{{ route('carts.print-vouchers') }}" method="post">
-        @csrf
-        <div x-ref="modal" class="modal fade" id="print-vouchers-modal" tabindex="-1">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Εκτύπωση</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">                        
-                        @foreach($vouchers as $voucher)
-                            <input type="hidden" name="ids[]" value="{{ $voucher['reference_1'] }}">
-                        @endforeach
-
-                        <template x-if="error">
-                            <div class="alert alert-danger fw-500">
-                                <em class="fa fa-exclamation-circle me-2"></em>
-                                <span x-text="error"></span>
-                            </div>
-                        </template>
-                        <x-bs::input.checkbox name="with_carts" id="with-carts">Εκτύπωση των δελτίων παραγγελίας</x-bs::input.checkbox>
-                        <x-bs::input.checkbox name="two_sided" id="2-faced">Εκτύπωση διπλής όψης</x-bs::input.checkbox>
-                        <x-bs::input.checkbox name="merge_vouchers" id="merge-vouchers">Συγχώνευση κωδικών αποστολής</x-bs::input.checkbox>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Κλείσιμο</button>
-                        <button type="submit" class="btn btn-primary" x-bind:disabled="loading">
-                            <em x-show="!loading" class="fa fa-print me-2"></em>
-                            <em x-show="loading" x-cloak class="fa fa-spinner fa-spin me-2"></em>
-                            Εκτύπωση
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </form>
+    
+    @include('eshop::dashboard.voucher.partials.print-vouchers-modal', ['cartIds' => $vouchers->pluck('reference_1')])
 @endsection

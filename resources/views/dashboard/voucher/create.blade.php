@@ -52,7 +52,7 @@
         </div>
 
         @include('eshop::dashboard.voucher.partials.issue-vouchers-modal')
-        @include('eshop::dashboard.voucher.partials.print-vouchers-modal')
+        @include('eshop::dashboard.voucher.partials.print-vouchers-modal', ['cartIds' => $carts->pluck('id')])
 
         <livewire:dashboard.voucher.create/>
     </div>
