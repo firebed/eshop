@@ -44,6 +44,7 @@ class PosShipping extends Component
             ->whereNotNull('phone')
             ->with('addressable')
             ->where('phone', $this->phoneSearch)
+            ->latest()
             ->first();
         
         if ($address !== null) {
@@ -60,6 +61,8 @@ class PosShipping extends Component
             ];
             
             $this->email = $address->addressable->email ?? '';
+        } else {
+            $this->reset('shipping', 'email');
         }
     }
 

@@ -59,10 +59,10 @@ class InvoiceTransmissionController extends Controller
             $sendInvoices = new SendInvoices();
             $response = $sendInvoices->handle($invoicesDoc);
 
-            foreach ($response->getResponseTypes() as $responseType) {
+            foreach ($response as $responseType) {
                 $invoice = $invoices->get($responseType->getIndex() - 1);
 
-                if ($responseType->getStatusCode() === 'Success') {
+                if ($responseType->isSuccessful()) {
                     $invoice->transmissions()->save(new InvoiceTransmission([
                         'uid'               => $responseType->getInvoiceUid(),
                         'mark'              => $responseType->getInvoiceMark(),
@@ -70,7 +70,7 @@ class InvoiceTransmissionController extends Controller
                     ]));
                 } else {
                     $invoiceErrors = [];
-                    foreach ($responseType->getErrors()->getErrorsTypes() as $error) {
+                    foreach ($responseType->getErrors() as $error) {
                         $invoiceErrors[] = $error->getCode() . ': ' . $error->getMessage();
                     }
 
@@ -105,14 +105,14 @@ class InvoiceTransmissionController extends Controller
             $cancelInvoice = new CancelInvoice();
             foreach ($invoices as $invoice) {
                 $response = $cancelInvoice->handle($invoice->transmission->mark);
-                foreach ($response->getResponseTypes() as $responseType) {
-                    if ($responseType->getStatusCode() === 'Success') {
+                foreach ($response as $responseType) {
+                    if ($responseType->isSuccessful()) {
                         $invoice->transmission->update([
                             'cancelled_by_mark' => $responseType->getCancellationMark()
                         ]);
                     } else {
                         $invoiceErrors = [];
-                        foreach ($responseType->getErrors()->getErrorsTypes() as $error) {
+                        foreach ($responseType->getErrors() as $error) {
                             $invoiceErrors[] = $error->getCode() . ': ' . $error->getMessage();
                         }
 
