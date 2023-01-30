@@ -43,7 +43,6 @@ class ShowCarts extends Component
     public string $status                  = "";
     public string $editing_status          = "";
     public string $editing_cart_voucher_id = "";
-    public string $editing_voucher         = "";
     public int    $per_page                = 0;
     public string $payment_method_id       = "";
     public string $shipping_method_id      = "";
@@ -145,24 +144,6 @@ class ShowCarts extends Component
         DB::transaction(fn() => $contract->setBulkCartStatus($status, $this->selected()));
 
         $this->showStatusModal = false;
-    }
-
-    public function editVoucher(int $cart_id)
-    {
-        $this->editing_voucher = "";
-        $this->editing_cart_voucher_id = $cart_id;
-        $this->showVoucherModal = true;
-    }
-
-    public function saveVoucher(): void
-    {
-        $this->showVoucherModal = false;
-
-        if (blank($this->editing_cart_voucher_id)) {
-            return;
-        }
-
-        Cart::whereKey($this->editing_cart_voucher_id)->update(['voucher' => blank($this->editing_voucher) ? null : trim($this->editing_voucher)]);
     }
 
     public function markAsPaid(): void

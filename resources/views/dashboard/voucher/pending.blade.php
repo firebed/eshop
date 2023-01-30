@@ -116,6 +116,10 @@
             </div>
         </div>
     </form>
-    
-    @include('eshop::dashboard.voucher.partials.print-vouchers-modal', ['cartIds' => $vouchers->pluck('reference_1')])
+
+    <form action="{{ route('carts.print-vouchers') }}" method="post" target="_blank">
+        @csrf
+        
+        @include('eshop::dashboard.voucher.partials.print-vouchers-modal', ['cartIds' => $vouchers->pluck('reference_1')])
+    </form>
 @endsection

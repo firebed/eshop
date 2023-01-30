@@ -49,8 +49,9 @@
 
                     @can('Create voucher')
                         <x-bs::dropdown.item id="create-vouchers" href="#"><em class="fas fa-plus text-secondary me-2"></em> Έκδοση Voucher</x-bs::dropdown.item>
+                        <x-bs::dropdown.item data-bs-toggle="modal" data-bs-target="#print-vouchers-modal" id="print-vouchers" href="#"><em class="fas fa-print text-secondary me-2"></em> Εκτύπωση Voucher</x-bs::dropdown.item>
                     @endif
-                    
+
                     @can("Manage orders")
                         <x-bs::dropdown.item wire:click.prevent="showOperators"><em class="fas fa-users me-2 text-secondary"></em>{{ __("Change operators") }}</x-bs::dropdown.item>
 
@@ -63,6 +64,12 @@
             </x-bs::dropdown>
         </div>
     </div>
+
+    <form action="{{ route('carts.print-vouchers') }}" method="post" target="_blank">
+        @csrf
+
+        @include('eshop::dashboard.voucher.partials.print-vouchers-modal', ['cartIds' => []])
+    </form>
 </div>
 
 @push('footer_scripts')
@@ -72,6 +79,23 @@
             const values = [...document.querySelectorAll("input[type=checkbox][id^=cart-]:checked")].map(e => parseInt(e.value))
             const url = "{{ route('vouchers.create') }}?ids=" + encodeURIComponent(JSON.stringify(values));
             window.open(url, '_blank').focus()
+        })
+
+        document.getElementById('print-vouchers').addEventListener('click', e => {
+            e.preventDefault();
+            const modal = document.querySelector('#print-vouchers-modal .modal-body');
+            modal.querySelectorAll("input[name='ids[]']").forEach(i => i.remove());
+
+            [...document.querySelectorAll("input[type=checkbox][id^=cart-]:checked")]
+                .map(e => parseInt(e.value))
+                .forEach(cartId => {
+                    const input = document.createElement("input");
+                    input.name = "ids[]";
+                    input.value = cartId;
+                    input.type = 'hidden';
+
+                    modal.appendChild(input);
+                });
         })
     </script>
 @endpush

@@ -11,7 +11,9 @@
                     <input type="search" id="client-search-input" class="form-control" placeholder="Αναζήτηση">
                 </div>
 
-                @include('eshop::dashboard.invoice.partials.clients')
+                <div id="clients-table">
+                    @include('eshop::dashboard.invoice.partials.clients')
+                </div>
             </div>
         </div>
     </div>
@@ -19,8 +21,8 @@
 
 @push('footer_scripts')
     <script>
-        const clientsTable = document.querySelector("#clients-modal .table-responsive")
-        
+        const clientsTable = document.querySelector("#clients-table")
+
         function debounce(func, ms) {
             let timeout;
             return function () {
@@ -28,7 +30,7 @@
                 timeout = setTimeout(() => func.apply(this, arguments), ms);
             };
         }
-        
+
         function render() {
             clientsTable.querySelectorAll('button').forEach(btn => {
                 btn.addEventListener('click', (c) => {
@@ -38,7 +40,7 @@
                     document.getElementById("client-title").value = btn.getAttribute('data-title')
 
                     bootstrap.Modal.getInstance(document.getElementById('clients-modal')).hide()
-                    
+
                     Livewire.emit('setVatPercent', btn.getAttribute('data-country'))
                 })
             })
@@ -50,11 +52,11 @@
 
             axios.post('{{ route('invoices.search_clients') }}', {term})
                 .then(res => {
-                    clientsTable.outerHTML = res.data
-                    render()                    
+                    clientsTable.innerHTML = res.data
+                    render()
                 })
         }, 100))
-        
+
         render()
     </script>
 @endpush

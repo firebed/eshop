@@ -52,7 +52,12 @@
         </div>
 
         @include('eshop::dashboard.voucher.partials.issue-vouchers-modal')
-        @include('eshop::dashboard.voucher.partials.print-vouchers-modal', ['cartIds' => $carts->pluck('id')])
+
+        <form action="{{ route('carts.print-vouchers') }}" method="post" target="_blank">
+            @csrf
+            
+            @include('eshop::dashboard.voucher.partials.print-vouchers-modal', ['cartIds' => $carts->pluck('id')])
+        </form>
 
         <livewire:dashboard.voucher.create/>
     </div>
@@ -68,14 +73,14 @@
                 successCount: 0,
                 failedCount: 0,
                 errors: [],
-                
+
                 setup() {
                     this.rows = [...document.querySelectorAll('#vouchers-table tr')].filter(tr => tr.dataset.voucher.length === 0);
                 },
-                
+
                 dispatch() {
                     this.setup();
-                    
+
                     if (this.loading || this.rows.length === 0) {
                         return;
                     }

@@ -66,7 +66,7 @@
                 </div>
 
                 <div>
-                    <label for="job" class="form-label">Επάγγελμα <span class="text-danger">*</span></label>
+                    <label for="job" class="form-label">Επάγγελμα</label>
                     <x-bs::input.text wire:model.defer="model.job" id="job" error="model.job"/>
                 </div>
 

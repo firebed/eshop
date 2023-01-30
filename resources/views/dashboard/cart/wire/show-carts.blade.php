@@ -1,4 +1,12 @@
 <div class="d-grid gap-3">
+
+    @if($errors->any())
+        <ul class="bg-white shadow-sm border-start border-4 border-danger list-unstyled p-2 fw-500">
+            <li class="text-danger mb-2">Σφάλματα</li>
+            {!! implode("", $errors->all("<li>&bullet; :message</li>")) !!}
+        </ul>
+    @endif
+    
     @include('eshop::dashboard.cart.partials.index.carts-toolbar')
 
     @if($totalUnpaidByCourier->isNotEmpty())

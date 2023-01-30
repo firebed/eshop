@@ -92,13 +92,16 @@
 <div>
     <table>
         <tr>
-            <td>
+            <td style="width: 40%">
                 <img src="{{ eshop('logo.path') }}" height="{{ eshop('logo.height') }}" alt="">
             </td>
 
             <td class="text-end">
                 <div class="fw-bold">{{ __("company.name") }}</div>
                 <div>{{ __("Vat number") }}: {{ __("company.vat") }} • {{ __("Tax authority") }}: {{ __("company.tax_office") }}</div>
+                @if(eshop('gemi'))
+                    <div>ΑΡΙΘΜΟΣ ΓΕΜΗ: {{ eshop('gemi') }}</div>
+                @endif
                 <div>{{ __('company.job') }}</div>
                 <div>{{ __("company.address") }} • ΤΗΛ: {{ __("company.phone")[0] }}</div>
                 <div><a href="{{ __('company.website') }}">{{ __('company.website') }}</a> • {{ __("company.email") }}</div>
@@ -148,10 +151,17 @@
                         <td>{{ $invoice->client->name }}</td>
                     </tr>
 
-                    <tr>
-                        <td>ΑΦΜ/ΔΟΥ:</td>
-                        <td>{{ $invoice->client->vat_number }} / {{ $invoice->client->tax_authority }}</td>
-                    </tr>
+                    @if(in_array($invoice->type, [\Eshop\Models\Invoice\InvoiceType::PSL]))
+                        <tr>
+                            <td>ΤΗΛΕΦΩΝΟ:</td>
+                            <td>{{ $invoice->client->vat_number }}</td>
+                        </tr>
+                    @else
+                        <tr>
+                            <td>ΑΦΜ/ΔΟΥ:</td>
+                            <td>{{ $invoice->client->vat_number }} / {{ $invoice->client->tax_authority }}</td>
+                        </tr>
+                    @endif
 
                     <tr>
                         <td>ΕΠΑΓΓΕΛΜΑ:</td>

@@ -69,7 +69,7 @@ class ShowClients extends Component
             'model.name'          => ['required', 'string'],
             'model.vat_number'    => ['required', 'string', 'regex:/^[A-Z]{0,2}[0-9]+$/', 'unique:clients,vat_number,' . $this->model->id],
             'model.tax_authority' => ['nullable', 'string'],
-            'model.job'           => ['required', 'string'],
+            'model.job'           => ['nullable', 'string'],
             'model.country'       => ['required', 'string', 'regex:/^[A-Z]{2}$/'],
             'model.city'          => ['required', 'string'],
             'model.street'        => ['required', 'string'],

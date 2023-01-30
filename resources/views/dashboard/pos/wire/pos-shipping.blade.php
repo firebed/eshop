@@ -5,6 +5,16 @@
     </div>
 
     <div class="offcanvas-body scrollbar">
+        <div class="row gx-2 border-bottom pb-3 mb-3">
+            <div class="col-6 ">
+                <x-bs::input.text wire:model.defer="phoneSearch" placeholder="{{ __('Τηλέφωνο') }}"/>
+            </div>
+
+            <div class="col-6">
+                <x-bs::button.primary wire:click.prevent="searchClient()">Αναζήτηση πελάτη</x-bs::button.primary>
+            </div>
+        </div>
+        
         <div class="row g-2">
             <div class="col">
                 <x-bs::input.floating-label for="shipping-first-name" label="{{ __('Name') }}">
@@ -19,7 +29,7 @@
             </div>
 
             <x-bs::input.floating-label for="email" label="{{ __('Email') }}" class="col-12">
-                <x-bs::input.email wire:model.defer="email" name="email" error="email" autocomplete="new" id="email" placeholder="{{ __('Email') }}"/>
+                <x-bs::input.email wire:model.defer="email" name="email" error="email" id="email" placeholder="{{ __('Email') }}"/>
             </x-bs::input.floating-label>
 
             <x-bs::input.floating-label for="shipping-phone" label="{{ __('Phone') }}" class="col-12">

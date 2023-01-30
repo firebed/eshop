@@ -15,7 +15,7 @@
                 <td class="align-middle">{{ $client->vat_number }}</td>
                 <td class="align-middle">{{ $client->city }} ({{ $client->country }})</td>
                 <td class="text-end">
-                    <button class="btn btn-sm btn-alt" data-id="{{ $client->id }}" data-country="{{ $client->country }}" data-title="{{ $client->name }} ({{ $client->vat_number }})">Επιλογή</button>
+                    <button type="button" class="btn btn-sm btn-alt" data-id="{{ $client->id }}" data-country="{{ $client->country }}" data-title="{{ $client->name }} ({{ $client->vat_number }})">Επιλογή</button>
                 </td>
             </tr>
         @endforeach

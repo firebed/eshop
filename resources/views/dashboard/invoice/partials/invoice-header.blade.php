@@ -13,20 +13,27 @@
 
     <div class="row gap-3">
         <div class="col d-grid gap-3">
-            <div class="d-flex gap-1">
+            <div x-data="{series: @js(eshop('invoice_series')), s: @js(old('type', $invoice->type->value ?? null))}" class="d-flex gap-1">
                 <div class="col-7">
                     <label for="invoice-type" class="form-label">Τύπος παραστατικού <span class="text-danger">*</span></label>
-                    <select name="type" id="invoice-type" class="form-select">
-                        <option disabled selected>Τύπος παραστατικού</option>
+                    <select name="type" x-model="s" id="invoice-type" class="form-select">
+                        <option selected>Τύπος παραστατικού</option>
                         @foreach(\Eshop\Models\Invoice\InvoiceType::cases() as $type)
-                            <option value="{{ $type->value }}" @if(old('type', $invoice->type->value ?? null) == $type->value) selected @endif>{{ $type->label() }}</option>
+                            <option data-series="{{ eshop('invoice_series.' . $type->value) }}" value="{{ $type->value }}" @if($itv = old('type', $invoice->type->value ?? null) == $type->value) selected @endif>{{ $type->label() }}</option>
                         @endforeach
                     </select>
                 </div>
 
                 <div class="col">
                     <label for="invoice-row" class="form-label">Σειρά</label>
-                    <input type="text" name="row" class="form-control" id="invoice-row" placeholder="Σειρά" value="{{ old('row', $invoice->row ?? eshop('invoice_series', '')) }}">
+                    <input type="text" 
+                           name="row"
+                           class="form-control"
+                           id="invoice-row"
+                           placeholder="Σειρά"
+                           value="{{ old('row', isset($invoice) ? $invoice->row : eshop('invoice_series.' . $itv, '')) }}"
+                           @unless(isset($invoice)) x-bind:value="series[s] ?? ''" @endunless
+                    >
                 </div>
 
                 <div class="col">

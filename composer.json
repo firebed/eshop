@@ -15,7 +15,7 @@
     "ext-simplexml": "*",
     "ext-soap": "*",
     "barryvdh/laravel-dompdf": "^2.0",
-    "firebed/aade-mydata": "^1.0",
+    "firebed/aade-mydata": "^3.0",
     "firebed/bootstrap-components": "dev-master",
     "firebed/laravel-scout-database": "dev-master",
     "firebed/permission": "^1.0",

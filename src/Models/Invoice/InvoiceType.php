@@ -11,14 +11,17 @@ enum InvoiceType: int
     case PT = 3;
     
     case PRO = 4;
+    
+    case PSL = 5;
 
     public function label(): string
     {
         return match ($this) {
             self::TPA => 'Τιμολόγιο Πώλησης Αγαθών',
             self::TPY => 'Τιμολόγιο Παροχής Υπηρεσιών',
-            self::PT => 'Πιστωτικό Τιμολόγιο',
-            self::PRO => 'Προτιμολόγιο'
+            self::PT  => 'Πιστωτικό Τιμολόγιο',
+            self::PRO => 'Προτιμολόγιο',
+            self::PSL => 'Πιστωτικό Στοιχείο Λιανικής'
         };
     }
 }
