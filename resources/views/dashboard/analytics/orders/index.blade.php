@@ -43,7 +43,7 @@
 
             {{-- Income/Profits --}}
             <div class="col-12 col-lg-7 col-xxl-8">
-                @include('eshop::dashboard.analytics.orders.partials.monthly-income')
+                <livewire:dashboard.analytics.monthly-income-chart/>
             </div>
 
             <div class="col-12 col-lg-5 col-xxl-4">

@@ -58,7 +58,7 @@
 
 <script src="{{ mix('dist/dashboard.js') }}"></script>
 
-@stack('footer_scripts')
 @livewireScripts
+@stack('footer_scripts')
 </body>
 </html>

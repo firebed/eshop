@@ -38,6 +38,12 @@
                     <td class="text-end">{{ __("Final total") }}:</td>
                     <td class="number">{{ format_currency($cart->total) }}</td>
                 </tr>
+                
+                @if($cart->isDocumentInvoice())
+                    <tr class="fw-bold">
+                        <td colspan="2" style="text-align: right; color: firebrick">***Συνοδεύει Τιμολόγιο***</td>
+                    </tr>
+                @endif
             </table>
         </td>
     </tr>

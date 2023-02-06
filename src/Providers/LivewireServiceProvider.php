@@ -8,6 +8,7 @@ use Eshop\Livewire\Customer\Checkout\ShowCheckoutProducts;
 use Eshop\Livewire\Customer\Product\AddToCartForm;
 use Eshop\Livewire\Customer\Product\ProductVariant;
 use Eshop\Livewire\Customer\Product\ProductVariantsButtons;
+use Eshop\Livewire\Dashboard\Analytics\MonthlyIncomeChart;
 use Eshop\Livewire\Dashboard\Cart\BillingAddress;
 use Eshop\Livewire\Dashboard\Cart\CartHeader;
 use Eshop\Livewire\Dashboard\Cart\CartItemCreateModal;
@@ -110,6 +111,9 @@ class LivewireServiceProvider extends ServiceProvider
         Livewire::component('dashboard.intl.country-payment-methods', CountryPaymentMethods::class);
         Livewire::component('dashboard.intl.country-shipping-methods', CountryShippingMethods::class);
         Livewire::component('dashboard.shipping-methods.inaccessible-areas', InaccessibleAreas::class);
+
+        // Analytics
+        Livewire::component('dashboard.analytics.monthly-income-chart', MonthlyIncomeChart::class);
 
         // Products
         Livewire::component('dashboard.product.show-product-images', ShowProductImages::class);

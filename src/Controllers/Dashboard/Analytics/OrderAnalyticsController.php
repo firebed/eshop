@@ -24,9 +24,9 @@ class OrderAnalyticsController extends Controller
             'statuses'        => $analytics->orderStatuses(now()->startOfMonth(), now()),
             'monthly_orders'  => $analytics->totalOrders(now()->startOfYear(), now(), '1 month'),
             'yearly_orders'   => $analytics->totalOrders(null, null, '1 year'),
-            'monthly_income'  => $analytics->totalIncome(now()->startOfYear(), now(), '1 month'),
+            //'monthly_income'  => $analytics->totalIncome(now()->startOfYear(), now(), '1 month'),
             'yearly_income'   => $analytics->totalIncome(null, null, '1 year'),
-            'monthly_profits' => $analytics->profits(now()->startOfYear(), now(), '1 month'),
+            //'monthly_profits' => $analytics->profits(now()->startOfYear(), now(), '1 month'),
             'yearly_profits'  => $analytics->profits(null, null, '1 year'),
         ]);
     }
