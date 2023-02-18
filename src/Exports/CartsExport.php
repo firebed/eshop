@@ -32,7 +32,7 @@ class CartsExport implements FromCollection, WithMapping, WithHeadings
      */
     public function collection(): Collection
     {
-        return Cart::with('paymentMethod', 'shippingAddress')->findMany($this->ids);
+        return Cart::with('paymentMethod', 'shippingAddress', 'voucher')->findMany($this->ids);
     }
 
     public function map($row): array
@@ -61,6 +61,7 @@ class CartsExport implements FromCollection, WithMapping, WithHeadings
             '', #ΣΧΕΤΙΚΟ2
             '', #ΩΡΑ ΠΑΡΑΔΟΣΗΣ
             '', #ΠΡΟΙΟΝΤΑ
+            $row->voucher?->number . ''
         ];
     }
 
