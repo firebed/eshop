@@ -15,6 +15,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Maatwebsite\Excel\Facades\Excel;
 use Throwable;
 
 class HandleSkroutzPayouts
@@ -32,16 +33,16 @@ class HandleSkroutzPayouts
         }
 
         foreach ($message->getAttachments() as $attachment) {
-            if ($attachment->getMimeType() !== "application/pdf") {
+            if ($attachment->getMimeType() !== "application/vnd.ms-excel") {
                 continue;
             }
 
             $filename = Str::random(40) . '.' . $attachment->getExtension();
             Storage::disk('payouts')->put($filename, $attachment->getContent());
 
-            $payouts = (new SkroutzPayoutsImport())->handle(Storage::disk('payouts')->path($filename));
-
-            Storage::disk('payouts')->delete($filename);
+            $path = Storage::disk('payouts')->path($filename);
+            $payouts = Excel::toCollection(new SkroutzPayoutsImport(), $path);
+            $payouts = $payouts->first()->filter(fn($q) => filled($q))->collapse();
 
             if ($payouts->isEmpty()) {
                 continue;
