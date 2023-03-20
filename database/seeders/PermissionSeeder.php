@@ -30,6 +30,15 @@ class PermissionSeeder extends Seeder
             ['name' => 'View analytics'],
             ['name' => 'Manage orders'],
             ['name' => 'Manage POS'],
+            ['name' => 'View product movements'],
+            ['name' => 'Manage invoices'],
+            ['name' => 'View product audits'],
+            ['name' => 'Manage translations'],
+            ['name' => 'Manage API keys'],
+            ['name' => 'View notifications'],
+            ['name' => 'Create voucher'],
+            ['name' => 'Cash payments'],
+            ['name' => 'View cart history'],
         ]);
 
         $employee = Role::create(['name' => 'Employee']);
@@ -37,6 +46,9 @@ class PermissionSeeder extends Seeder
             ['name' => 'View dashboard'],
             ['name' => 'Create POS order'],
             ['name' => 'Manage assigned orders'],
+            ['name' => 'Copy products'],
+            ['name' => 'Delete orders'],
+            ['name' => 'Manage blogs'],
         ]);
     }
 }

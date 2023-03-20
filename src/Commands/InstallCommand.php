@@ -74,10 +74,10 @@ class InstallCommand extends Command
         copy(__DIR__ . '/stubs/scss/_scrollbar.scss', resource_path('scss/_scrollbar.scss'));
         copy(__DIR__ . '/stubs/scss/_utilities.scss', resource_path('scss/_utilities.scss'));
 
-        copy(__DIR__ . '/stubs/scss/dashboard/_navigation.scss', resource_path('scss/dashboard/_navigation.scss'));
-        copy(__DIR__ . '/stubs/scss/dashboard/_tree.scss', resource_path('scss/dashboard/_tree.scss'));
-        copy(__DIR__ . '/stubs/scss/dashboard/_variables.scss', resource_path('scss/dashboard/_variables.scss'));
-        copy(__DIR__ . '/stubs/scss/dashboard/app.scss', resource_path('scss/dashboard/app.scss'));
+        //copy(__DIR__ . '/stubs/scss/dashboard/_navigation.scss', resource_path('scss/dashboard/_navigation.scss'));
+        //copy(__DIR__ . '/stubs/scss/dashboard/_tree.scss', resource_path('scss/dashboard/_tree.scss'));
+        //copy(__DIR__ . '/stubs/scss/dashboard/_variables.scss', resource_path('scss/dashboard/_variables.scss'));
+        //copy(__DIR__ . '/stubs/scss/dashboard/app.scss', resource_path('scss/dashboard/app.scss'));
 
         copy(__DIR__ . '/stubs/scss/customer/_cart-button.scss', resource_path('scss/customer/_cart-button.scss'));
         copy(__DIR__ . '/stubs/scss/customer/_filters.scss', resource_path('scss/customer/_filters.scss'));
@@ -90,7 +90,7 @@ class InstallCommand extends Command
 
     protected static function updateBootstrapping(): void
     {
-        copy(__DIR__ . '/stubs/js/dashboard/app.js', resource_path('js/dashboard/app.js'));
+        //copy(__DIR__ . '/stubs/js/dashboard/app.js', resource_path('js/dashboard/app.js'));
         copy(__DIR__ . '/stubs/js/customer/app.js', resource_path('js/customer/app.js'));
     }
 

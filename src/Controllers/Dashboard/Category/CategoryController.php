@@ -9,12 +9,12 @@ use Eshop\Models\Product\Category;
 use Eshop\Requests\Dashboard\Category\CategoryMoveRequest;
 use Eshop\Requests\Dashboard\Category\CategoryRequest;
 use Illuminate\Contracts\Support\Renderable;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
-use Illuminate\View\View;
 use Throwable;
 
 class CategoryController extends Controller
