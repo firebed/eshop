@@ -15,7 +15,6 @@ use Eshop\Controllers\Dashboard\Cart\OrderPrintController;
 use Eshop\Controllers\Dashboard\Cart\VoucherController;
 use Eshop\Controllers\Dashboard\Category\CategoryController;
 use Eshop\Controllers\Dashboard\Category\CategoryPropertyController;
-use Eshop\Controllers\Dashboard\Category\CategoryTranslationController;
 use Eshop\Controllers\Dashboard\ChannelController;
 use Eshop\Controllers\Dashboard\Intl\BulkProvinceController;
 use Eshop\Controllers\Dashboard\Intl\CountryController;
@@ -121,8 +120,6 @@ Route::middleware(['web', 'auth', 'admin'])->group(function () {
         Route::post('categories/move', [CategoryController::class, 'move'])->name('categories.move');
         Route::delete('categories/destroyMany', [CategoryController::class, 'destroyMany'])->name('categories.destroyMany');
         Route::view('categories/properties/{property}/choices', 'eshop::dashboard.category.choices')->name('categories.properties.choices.index');
-        Route::get('categories/translations', [CategoryTranslationController::class, 'index'])->name('categories.translations.index');
-        Route::patch('categories/translations', [CategoryTranslationController::class, 'update'])->name('categories.translations.update');
         Route::resource('categories', CategoryController::class)->except('show');
 
         Route::resource('countries', CountryController::class);

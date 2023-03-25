@@ -2,6 +2,7 @@
 
 namespace Eshop\Livewire\Dashboard\Product;
 
+use Eshop\Actions\Google\GoogleTranslate;
 use Eshop\Models\Product\Product;
 use Eshop\Models\Product\ProductVariantOption;
 use Firebed\Components\Livewire\Traits\SendsNotifications;
@@ -9,7 +10,6 @@ use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Http;
 use Livewire\Component;
 
 class ProductTranslations extends Component
@@ -146,25 +146,8 @@ class ProductTranslations extends Component
 
     public function translateHttp($q, $target, $format = 'text'): ?array
     {
-        $key = api_key('GOOGLE_TRANSLATE_API_KEY');
-
-        if (blank($key)) {
-            $this->showErrorToast("Σφάλμα", "Δεν έχει οριστεί κλειδί εισόδου.");
-            return null;
-        }
-
-        $source = config('app.locale', '');
-
-        $http = Http::withHeaders([
-            'Referer' => config('app.url')
-        ])->post("https://translation.googleapis.com/language/translate/v2?key=$key", [
-            'q'      => $q,
-            'target' => $target,
-            'format' => $format,
-            'source' => $source
-        ]);
-
-        return $http->json('data.translations', []);
+        $googleTranslate = new GoogleTranslate();
+        return $googleTranslate->handle($q, $target, config('app.locale', ''), $format, []);
     }
 
     public function save(): void

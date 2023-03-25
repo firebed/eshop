@@ -21,10 +21,16 @@
             <div class="d-flex justify-content-between align-items-center mb-3">
                 <h2 class="fs-4 mb-0">{{ __('eshop::category.edit_property') }}: {{ $property->name }}</h2>
 
-                <x-bs::button.primary x-bind:disabled="submitting" type="submit">
-                    <em x-cloak x-show="submitting" class="spinner-border spinner-border-sm me-2"></em>
-                    {{ __('eshop::buttons.save') }}
-                </x-bs::button.primary>
+                <div class="flex gap-3">
+                    <x-bs::button.white x-data="" @click.prevent="$dispatch('show-property-translations')">
+                        <em class="fas fa-language text-secondary"></em> Μεταφράσεις
+                    </x-bs::button.white>
+
+                    <x-bs::button.primary x-bind:disabled="submitting" type="submit">
+                        <em x-cloak x-show="submitting" class="spinner-border spinner-border-sm me-2"></em>
+                        {{ __('eshop::buttons.save') }}
+                    </x-bs::button.primary>
+                </div>
             </div>
 
             <div class="row row-cols-1 row-cols-md-2">
@@ -45,5 +51,7 @@
                 @include('eshop::dashboard.category-property.partials.category-property-delete')
             </div>
         </div>
+
+        <livewire:dashboard.category.category-property-translations :property="$property"/>
     </div>
 @endsection

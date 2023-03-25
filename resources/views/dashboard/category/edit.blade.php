@@ -36,7 +36,11 @@
                     @method('put')
 
                     <div class="d-grid gap-3">
-                        <div class="d-flex justify-content-end">
+                        <div class="d-flex justify-content-end gap-3">
+                            <x-bs::button.white x-data="" @click.prevent="$dispatch('show-category-translations')">
+                                <em class="fas fa-language text-secondary"></em> Μεταφράσεις
+                            </x-bs::button.white>
+                            
                             <x-bs::button.primary x-bind:disabled="submitting" type="submit">
                                 <em x-cloak x-show="submitting" class="spinner-border spinner-border-sm me-2"></em>
                                 {{ __('eshop::buttons.save') }}
@@ -50,6 +54,8 @@
                 </form>
 
                 @include('eshop::dashboard.category.partials.category-delete')
+
+                @livewire('dashboard.category.category-translations', ['category' => $category])
             </div>
         </div>
     </div>

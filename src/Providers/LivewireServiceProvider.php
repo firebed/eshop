@@ -24,6 +24,8 @@ use Eshop\Livewire\Dashboard\Cart\StatusesList;
 use Eshop\Livewire\Dashboard\Cart\TrackAndTrace;
 use Eshop\Livewire\Dashboard\Category\CategoriesTree;
 use Eshop\Livewire\Dashboard\Category\CategoryPropertyChoices;
+use Eshop\Livewire\Dashboard\Category\CategoryTranslations;
+use Eshop\Livewire\Dashboard\Category\CategoryPropertyTranslations;
 use Eshop\Livewire\Dashboard\Channel\ShowChannel;
 use Eshop\Livewire\Dashboard\Config\ShowLocales;
 use Eshop\Livewire\Dashboard\Config\ShowUnits;
@@ -101,6 +103,8 @@ class LivewireServiceProvider extends ServiceProvider
         // Categories
         Livewire::component('dashboard.category.property-choices', CategoryPropertyChoices::class);
         Livewire::component('dashboard.category.categories-tree', CategoriesTree::class);
+        Livewire::component('dashboard.category.category-translations', CategoryTranslations::class);
+        Livewire::component('dashboard.category.category-property-translations', CategoryPropertyTranslations::class);
 
         Livewire::component('dashboard.product.show-manufacturers', ShowManufacturers::class);
 

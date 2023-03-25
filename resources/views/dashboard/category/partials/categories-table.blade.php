@@ -17,10 +17,6 @@
             </x-bs::dropdown.menu>
         </x-bs::dropdown>
 
-        <a href="{{ route('categories.translations.index') }}" class="btn btn-white">
-            <em class="fas fa-language text-secondary"></em>
-        </a>
-
         <a href="{{ route('categories.create', array_filter(['parentId' => $parentId ?? NULL])) }}" class="btn btn-primary">
             <em class="fas fa-plus me-2"></em>
             {{ __('eshop::buttons.add') }}
