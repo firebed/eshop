@@ -62,7 +62,7 @@
                                         <span class="fw-500">{{ $product->optionValues(' - ') }}</span>
                                         <small class="text-secondary">(SKU: {{ $product->sku }})</small>
                                     </a>
-                                    <div class="text-secondary">{{ $product->parent->name }}</div>
+                                    <div class="text-secondary">{{ $product->parent?->name }}</div>
                                 @else
                                     <a href="{{ route('products.edit', $product->id) }}" class="text-hover-underline">
                                         <span class="fw-500">{{ $product->name }}</span>

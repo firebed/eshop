@@ -63,7 +63,7 @@
                                     <td>
                                         <div class="d-flex gap-1">
                                             <input wire:model.defer="translations.{{ $key }}.choices.{{ $id }}" class="form-control form-control-sm" type="text">
-                                            <button wire:click="translate('choices.{{ $id }}', '{{ $key }}')" wire:loading.attr="disabled" class="btn btn-sm btn-white"><em class="fas fa-language text-cyan-600"></em></button>
+                                            <button type="button" wire:click="translate('choices.{{ $id }}', '{{ $key }}')" wire:loading.attr="disabled" class="btn btn-sm btn-white"><em class="fas fa-language text-cyan-600"></em></button>
                                         </div>
                                     </td>
                                 @endforeach
