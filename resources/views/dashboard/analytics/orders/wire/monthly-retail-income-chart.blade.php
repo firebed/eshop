@@ -85,7 +85,7 @@
             }
         })
         
-        Livewire.on('update-chart', data => {
+        Livewire.on('update-retail-chart', data => {
             monthlyRetailIncome.data = data;
             monthlyRetailIncome.update();
         });

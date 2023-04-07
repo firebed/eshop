@@ -41,7 +41,7 @@ class MonthlyRetailIncomeChart extends Component
 
     public function updatedYears(): void
     {
-        $this->emit('update-chart', ['datasets' => $this->getDatasets()->toArray()]);
+        $this->emit('update-retail-chart', ['datasets' => $this->getDatasets()->toArray()]);
     }
 
     private function dataset(string $label, array $data, $color): array
