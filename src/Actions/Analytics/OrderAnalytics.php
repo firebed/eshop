@@ -21,6 +21,11 @@ class OrderAnalytics
     {
         return (new TotalIncome())->handle($from, $to, $interval);
     }
+
+    public function totalRetailIncome(Carbon|null $from, Carbon|null $to, string $interval = '1 day'): Collection
+    {
+        return (new TotalRetailIncome())->handle($from, $to, $interval);
+    }
     
     public function orderStatuses(Carbon $from, Carbon $to): Collection
     {
@@ -30,5 +35,10 @@ class OrderAnalytics
     public function profits(Carbon|null $from, Carbon|null $to, string $interval = '1 day'): Collection
     {
         return (new ProfitAnalytics())->handle($from, $to, $interval);
+    }
+
+    public function retailProfits(Carbon|null $from, Carbon|null $to, string $interval = '1 day'): Collection
+    {
+        return (new ProfitRetailAnalytics())->handle($from, $to, $interval);
     }
 }

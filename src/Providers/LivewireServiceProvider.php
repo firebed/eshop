@@ -9,6 +9,7 @@ use Eshop\Livewire\Customer\Product\AddToCartForm;
 use Eshop\Livewire\Customer\Product\ProductVariant;
 use Eshop\Livewire\Customer\Product\ProductVariantsButtons;
 use Eshop\Livewire\Dashboard\Analytics\MonthlyIncomeChart;
+use Eshop\Livewire\Dashboard\Analytics\MonthlyRetailIncomeChart;
 use Eshop\Livewire\Dashboard\Cart\BillingAddress;
 use Eshop\Livewire\Dashboard\Cart\CartHeader;
 use Eshop\Livewire\Dashboard\Cart\CartItemCreateModal;
@@ -118,6 +119,7 @@ class LivewireServiceProvider extends ServiceProvider
 
         // Analytics
         Livewire::component('dashboard.analytics.monthly-income-chart', MonthlyIncomeChart::class);
+        Livewire::component('dashboard.analytics.monthly-retail-income-chart', MonthlyRetailIncomeChart::class);
 
         // Products
         Livewire::component('dashboard.product.show-product-images', ShowProductImages::class);

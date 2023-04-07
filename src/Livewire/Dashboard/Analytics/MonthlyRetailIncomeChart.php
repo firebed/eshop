@@ -10,7 +10,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 
-class MonthlyIncomeChart extends Component
+class MonthlyRetailIncomeChart extends Component
 {
     private const COLORS = [
         '26,115,232',
@@ -29,6 +29,13 @@ class MonthlyIncomeChart extends Component
         $this->years = [today()->year];
         $this->min_year = Cart::submitted()
             ->where('status_id', '<', 6)
+            ->where('channel', 'pos')
+            ->whereExists(function($q) {
+                $q->from('addresses')
+                    ->whereRaw('addresses.addressable_id = carts.id')
+                    ->where('addresses.addressable_type', 'cart')
+                    ->where('addresses.cluster', 'shipping');
+            })
             ->min(DB::raw('YEAR(submitted_at)'));
     }
 
@@ -65,7 +72,7 @@ class MonthlyIncomeChart extends Component
             $start = Carbon::create($year);
             $end = $start->copy()->endOfYear();
 
-            $data = $analytics->totalIncome($start, $end, '1 month');
+            $data = $analytics->totalRetailIncome($start, $end, '1 month');
             $data = $data->mapWithKeys(fn($v, $k) => [(string)str($k)->before(' ') => $v]);
 
             $label = count($this->years) === 1 ? "Έσοδα" : $year;
@@ -73,7 +80,7 @@ class MonthlyIncomeChart extends Component
             $datasets->push($this->dataset($label, $data->toArray(), self::COLORS[$i] ?? '201,203,207'));
 
             if (count($this->years) === 1) {
-                $data = $analytics->profits($start, $end, '1 month');
+                $data = $analytics->retailProfits($start, $end, '1 month');
                 $data = $data->mapWithKeys(fn($v, $k) => [(string)str($k)->before(' ') => $v]);
                 $datasets->push($this->dataset(__("Profits"), $data->toArray(), self::COLORS[2]));
             }
@@ -87,7 +94,7 @@ class MonthlyIncomeChart extends Component
         $datasets = $this->getDatasets();
         $data = $datasets->pluck('data')->flatten();
 
-        return view('eshop::dashboard.analytics.orders.wire.monthly-income-chart', [
+        return view('eshop::dashboard.analytics.orders.wire.monthly-retail-income-chart', [
             'labels'       => [],
             'datasets'     => $datasets,
             'max_year'     => today()->year,

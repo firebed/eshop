@@ -1,5 +1,5 @@
 <div class="vstack h-100">
-    <div class="fw-500 mb-2">{{ __("eshop::analytics.monthly_income") }} ({{ now()->year }})</div>
+    <div class="fw-500 mb-2">Φυσικό κατάστημα ({{ now()->year }})</div>
 
     <x-bs::card class="flex-grow-1">
         <x-bs::card.body class="vstack gap-3">
@@ -42,7 +42,7 @@
             </div>
 
             <div wire:ignore class="graph">
-                <canvas id="monthly-income"></canvas>
+                <canvas id="monthly-retail-income"></canvas>
             </div>
         </x-bs::card.body>
     </x-bs::card>
@@ -50,7 +50,7 @@
 
 @push('footer_scripts')
     <script>
-        const monthlyIncome = new Chart(document.getElementById('monthly-income').getContext('2d'), {
+        const monthlyRetailIncome = new Chart(document.getElementById('monthly-retail-income').getContext('2d'), {
             type: 'line',
             data: {
                 labels: @json($labels),
@@ -86,8 +86,8 @@
         })
         
         Livewire.on('update-chart', data => {
-            monthlyIncome.data = data;
-            monthlyIncome.update();
+            monthlyRetailIncome.data = data;
+            monthlyRetailIncome.update();
         });
     </script>
 @endpush

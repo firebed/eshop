@@ -69,7 +69,7 @@ trait TransformsInvoice
                     $totals['total_vat_amount'],
                     $cType->value,
                     $cCategory->value,
-                    $vat === 0 && !$this->isGreekVat($invoice) ? VatExemption::TYPE_4 : null
+                    $vat === 0 && !$this->isGreekVat($invoice) ? VatExemption::TYPE_4->value : null
                 )
             );
         }
