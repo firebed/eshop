@@ -39,6 +39,11 @@
         <div class="w-6r ms-auto text-end" id="products-value">{{ format_currency($order->payment_fee) }}</div>
     </div>
 
+    <div class="d-flex align-items-center">
+        <div>{{ __('Weight') }}</div>
+        <div class="w-6r ms-auto text-end" id="products-value">{{ format_weight($order->parcel_weight) }}</div>
+    </div>
+
     <hr class="text-secondary">
 
     <div class="d-flex align-items-center mb-3 fs-6 fw-bold">

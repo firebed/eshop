@@ -41,7 +41,7 @@
                     @if(filled($quantities[$product->id]))
                         @if($product->isAccessible())
                             @unless($product->canBeBought($quantities[$product->id]))
-                                <div class="fw-500 text-danger small mt-1">Διαθέσιμα: {{ max(0, $product->available_stock) }}</div>
+                                <div class="fw-500 text-danger small mt-1">{{ __("In stock") }}: {{ max(0, $product->available_stock) }}</div>
                             @endunless
                         @else
                             <div class="fw-500 text-danger small mt-1">{{ __("Out of stock") }}</div>

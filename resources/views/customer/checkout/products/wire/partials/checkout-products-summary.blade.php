@@ -29,6 +29,11 @@
 
         <hr class="text-secondary my-2">
 
+        <div class="d-flex align-items-start">
+            <div class="text-secondary">{{ __('Weight') }}</div>
+            <div class="w-6r ms-auto text-end" id="payment-fee">{{ format_weight($order->parcel_weight) }}</div>
+        </div>
+
         @if($defaultShippingFee && $order->shipping_fee < $defaultShippingFee)
             <div wire:key="active-discounts" class="text-primary d-flex align-items-center">
                 <em class="fas fa-check-circle me-2"></em> @choice('eshop::order.shipping_discount', $order->shipping_fee)
