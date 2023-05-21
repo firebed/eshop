@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  *
  * @property integer id
  * @property string  name
+ * @property bool $suppress_email_notifications
  *
  * @mixin Builder
  */
@@ -22,7 +23,11 @@ class Channel extends Model
 
     public $timestamps = false;
 
-    protected $fillable = ['id', 'name'];
+    protected $fillable = ['id', 'name', 'suppress_email_notifications'];
+    
+    protected $casts = [
+        'suppress_email_notifications' => 'bool'
+    ];
 
     public function products(): BelongsToMany
     {

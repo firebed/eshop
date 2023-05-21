@@ -53,7 +53,7 @@ class CategoryTranslations extends Component
 
     public function getTranslation(string $key, string $locale = null, $default = null)
     {
-        if ($locale !== null) {
+        if ($locale !== null && array_key_exists($locale, $this->translations)) {
             return Arr::get($this->translations[$locale], $key, $default);
         }
 

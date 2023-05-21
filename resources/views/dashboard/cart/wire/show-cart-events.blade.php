@@ -6,7 +6,7 @@
          x-init="
             offcanvas = new bootstrap.Offcanvas($el)
             $watch('show', () => { if(show) offcanvas.show() })
-            $el.addEventListener('hide.bs.offcanvas', () => show = false)            
+            $el.addEventListener('hide.bs.offcanvas', () => show = false)
          "
          class="offcanvas offcanvas-end" tabindex="-1" id="cart-events">
         <div class="offcanvas-header">
@@ -36,7 +36,7 @@
                         </a>
 
                         <div class="d-flex">
-                            <div>{{ $event->created_at->isoFormat('lL HH:mm') }}</div>
+                            <div>{{ $event->created_at->isoFormat('L HH:mm') }}</div>
                             <div class="mx-2">|</div>
                             <div>{{ $event->user?->fullname }}</div>
                         </div>
@@ -64,7 +64,7 @@
                     </a>
 
                     <div class="d-flex">
-                        <div>{{ $cart->created_at->isoFormat('lL HH:mm') }}</div>
+                        <div>{{ $cart->created_at->isoFormat('L HH:mm') }}</div>
                         <div class="mx-2">|</div>
                         <div>{{ $cart->user?->fullname }}</div>
                     </div>

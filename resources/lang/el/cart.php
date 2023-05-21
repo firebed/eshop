@@ -35,7 +35,7 @@ return [
         'eshop'     => 'Eshop',
         'pos'       => 'POS',
         'other'     => 'Other',
-        'skroutz'   => 'Skroutz'
+        'skroutz'   => 'Skroutz',
     ],
 
     'events' => [

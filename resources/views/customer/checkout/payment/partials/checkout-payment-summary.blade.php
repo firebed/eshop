@@ -51,7 +51,7 @@
     <hr class="text-secondary">
 
     <div class="vstack gap-3">
-        <div class="text-secondary">Στις τιμές συμπεριλαμβάνεται Φ.Π.Α.</div>
+        <div class="text-secondary">{{ __("The prices include VAT.") }}</div>
 
         @includeWhen($order->paymentMethod?->isPayPal(), 'eshop::customer.checkout.payment.ext.paypal-checkout-button')
 

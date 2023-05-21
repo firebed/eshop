@@ -3,10 +3,9 @@
 namespace Eshop\Livewire\Customer\Checkout;
 
 
-use Eshop\Livewire\Customer\Checkout\Concerns\ControlsOrder;
 use Eshop\Actions\Order\RefreshOrder;
 use Eshop\Actions\Order\ShippingFeeCalculator;
-use Eshop\Models\Product\Product;
+use Eshop\Livewire\Customer\Checkout\Concerns\ControlsOrder;
 use Eshop\Repository\Contracts\Order;
 use Firebed\Components\Livewire\Traits\SendsNotifications;
 use Illuminate\Contracts\Support\Renderable;
@@ -23,6 +22,8 @@ class ShowCheckoutProducts extends Component
     public function mount(Order $order, RefreshOrder $refreshOrder): void
     {
         if ($order->isNotEmpty()) {
+            $this->quantities = $order->pluckProductQuantities()->all();
+
             DB::transaction(function () use ($refreshOrder, $order) {
                 $refreshOrder->handle($order);
                 if ($refreshOrder->productsTotalHasChanged()) {
@@ -34,9 +35,15 @@ class ShowCheckoutProducts extends Component
 
     public function updatedQuantities($quantity, $productId): void
     {
+        $this->validate(
+            ['quantities.*' => ['required', 'integer', 'min:0', 'max:1000']],
+            [],
+            ['quantities.*' => '']
+        );
+
         $quantity = is_numeric($quantity) ? $quantity : 0;
 
-        $product = Product::find($productId);
+//        $product = Product::find($productId);
 
         $order = app(Order::class);
         $this->updateProduct($order, $productId, $quantity);
@@ -59,8 +66,6 @@ class ShowCheckoutProducts extends Component
                 'order' => $order,
             ]);
         }
-
-        $this->quantities = $order->pluckProductQuantities()->all();
 
         $products = $order->products;
         if ($products->isNotEmpty()) {

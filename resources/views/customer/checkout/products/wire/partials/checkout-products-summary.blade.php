@@ -53,11 +53,19 @@
             <div class="w-6r ms-auto text-end" id="order-total">{{ format_currency($order->total) }}</div>
         </div>
 
-        @guest
-            <a wire:loading.class="disabled" data-bs-toggle="modal" data-bs-target="#login-modal" href="#" class="btn btn-green">{{ __('Checkout') }} <em class="fas fa-chevron-right ms-3"></em></a>
+        @if($errors->any())
+            <div wire:key="error">
+                <a href="#" class="btn disabled btn-green d-block">{{ __('Checkout') }} <em class="fas fa-chevron-right ms-3"></em></a>
+            </div>
         @else
-            <a wire:loading.class="disabled" href="{{ route('checkout.details.edit', app()->getLocale()) }}" class="btn btn-green">{{ __('Checkout') }} <em class="fas fa-chevron-right ms-3"></em></a>
-        @endguest
+            <div wire:key="checkout">
+                @guest
+                    <a wire:loading.class="disabled" data-bs-toggle="modal" data-bs-target="#login-modal" href="#" class="btn btn-green d-block">{{ __('Checkout') }} <em class="fas fa-chevron-right ms-3"></em></a>
+                @else
+                    <a wire:loading.class="disabled" href="{{ route('checkout.details.edit', app()->getLocale()) }}" class="btn btn-green d-block">{{ __('Checkout') }} <em class="fas fa-chevron-right ms-3"></em></a>
+                @endguest
+            </div>
+        @endif
     </div>
 
     <hr class="text-secondary">
@@ -65,8 +73,8 @@
     <div class="hstack gap-3 align-items-baseline py-2">
         <div><em class="fas fa-shield-alt text-alpha fs-4"></em></div>
         <div class="vstack gap-1">
-            <div>Ασφάλεια αγορών</div>
-            <div class="small text-secondary">Εγγυόμαστε ότι θα παραλάβετε την παραγγελία σας ή θα πάρετε τα χρήματά σας πίσω.</div>
+            <div>{{ __("Shopping security") }}</div>
+            <div class="small text-secondary">{{ __("We guarantee you will receive your order or get your money back.") }}</div>
         </div>
     </div>
 </div>

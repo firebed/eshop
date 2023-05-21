@@ -32,6 +32,7 @@ class ProductAggregationsCommand extends Command
             ->leftJoin('products', 'products.id', '=', 'cart_product.product_id')
             ->whereNotNull('carts.submitted_at')
             ->whereNull('products.deleted_at')
+            ->where('products.visible', true)
             ->whereNull('cart_product.deleted_at')
             ->whereIn('carts.status_id', [1, 2, 3, 4, 5])
             ->where('products.visible', true)

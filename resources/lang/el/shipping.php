@@ -10,6 +10,8 @@ return [
     'Hellenic Post'          => 'Ελληνικά Ταχυδρομεία',
     'ΚΤΕΛ'                   => 'ΚΤΕΛ',
     'Courier Center'         => 'Courier Center',
+    'DHL'                    => 'DHL',
+    'Atlas'                  => 'Μεταφορική ΑΤΛΑΣ',
 
     'abbr' => [
         'Collect from our store' => 'ΠΚ',
@@ -19,6 +21,8 @@ return [
         'Geniki Taxydromiki'     => 'ΓΤ',
         'SpeedEx'                => 'SE',
         'Courier Center'         => 'CC',
-        'Hellenic Post'          => 'HP'
+        'Hellenic Post'          => 'HP',
+        'DHL'                    => 'DHL',
+        'Atlas'                  => 'ΑΤΛ',
     ]
 ];

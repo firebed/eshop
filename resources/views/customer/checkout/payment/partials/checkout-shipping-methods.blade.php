@@ -3,7 +3,7 @@
 
     @if($errors->has('shipping_method_error'))
         <x-bs::card.body>
-            <div class="fw-bold text-danger">Παρακαλώ επιλέξτε μέθοδο αποστολής</div>
+            <div class="fw-bold text-danger">{{ __("Please select a shipping method") }}</div>
         </x-bs::card.body>
     @endif
     
@@ -26,7 +26,7 @@
                 @if($option->total_fee > 0)
                     <small class="text-secondary">({{ format_currency($option->total_fee) }})</small>
                 @elseif($option->shippingMethod->is_courier && $option->total_fee === .0)
-                    <small class="text-secondary">(Δωρεάν αποστολή)</small>
+                    <small class="text-secondary">({{ __("Free shipping") }})</small>
                 @endif
             </x-bs::input.radio>
 
@@ -35,14 +35,14 @@
                     <div class="vstack gap-3 pt-3 text-secondary">
                         @if($option->area?->type === 'ΔΠ' && $option->inaccessible_area_fee === .0)
                             <div class="vstack">
-                                <div>Η διεύθυνση σας ανήκει σε δυσπρόσιτη περιοχή και θα παραλάβετε το δέμα σας στη μεταφορική της περιοχής σας.</div>
+                                <div>{{ __("Your address belongs to a hard-to-reach area and you will receive your package at your local carrier.") }}</div>
                                 @if($option->area)
                                     @if($option->area->courier_address)
-                                        <div>Διεύθυνση: {{ $option->area->courier_address }}</div>
+                                        <div>{{ __("Address") }}: {{ $option->area->courier_address }}</div>
                                     @endif
 
                                     @if($option->area->courier_phone)
-                                        <div>Τηλέφωνο: {{ $option->area->courier_phone }}</div>
+                                        <div>{{ __("Phone") }}: {{ $option->area->courier_phone }}</div>
                                     @endif
                                 @endif
                             </div>

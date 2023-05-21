@@ -67,7 +67,7 @@ class SkroutzRequest
     private function request(): PendingRequest
     {
         $token = api_key('SKROUTZ_API_TOKEN');
-        
+
         return Http::withToken($token)->accept(self::ACCEPT);
     }
 }

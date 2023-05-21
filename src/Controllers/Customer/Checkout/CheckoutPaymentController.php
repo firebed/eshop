@@ -31,7 +31,7 @@ class CheckoutPaymentController extends Controller
     use StripeCheckout, PayPalCheckout, SimplifyCheckout;
 
     public function store(string $lang, Request $request, Order $order): RedirectResponse|JsonResponse
-    {        
+    {
         if (blank($order->shipping_method_id)) {
             throw ValidationException::withMessages(['shipping_method_error' => '']);
         }
@@ -39,14 +39,14 @@ class CheckoutPaymentController extends Controller
         if (blank($order->payment_method_id)) {
             throw ValidationException::withMessages(['payment_method_error' => '']);
         }
-                
+
         if (!$this->validateCheckout($order)) {
             return redirect()->route('checkout.products.index', $lang);
         }
-        
+
         if ($this->processingFeesHasChanged()) {
             session()->flash('processing-fees-changed');
-            return redirect()->route('checkout.payment.edit', $lang);            
+            return redirect()->route('checkout.payment.edit', $lang);
         }
 
         if (!$this->validateShippingAddress($order)) {
@@ -88,7 +88,7 @@ class CheckoutPaymentController extends Controller
         }
 
         CartEvent::getCheckoutPayment($order->id);
-        
+
         $country = $order->shippingAddress->country;
         $shippingOptions = $country->filterShippingOptions($order->products_value);
         $paymentOptions = $country->filterPaymentOptions($order->products_value);

@@ -5,6 +5,7 @@ namespace Eshop\Listeners;
 use Eshop\Events\CartStatusChanged;
 use Eshop\Models\Cart\CartEvent;
 use Eshop\Models\Cart\CartStatus;
+use Eshop\Models\Product\Channel;
 use Eshop\Notifications\OrderCancelledNotification;
 use Eshop\Notifications\OrderHeldNotification;
 use Eshop\Notifications\OrderRejectedNotification;
@@ -25,22 +26,30 @@ class SendCartStatusChangedNotification
         if (!$event->notifyCustomer) {
             return;
         }
-        
+
         $cart = $event->cart;
         if (empty($cart->email)) {
             return;
         }
 
+        if (filled($cart->channel)) {
+            $channel = Channel::firstWhere('name', $cart->channel);
+            
+            if ($channel !== null && $channel->suppress_email_notifications) {
+                return;
+            }
+        }
+
         $status = $event->status;
         $notes = $event->notesToCustomer;
-        
+
         switch ($status->name) {
             case CartStatus::SUBMITTED:
                 Notification::route('mail', $cart->email)->notify(new OrderSubmittedNotification($cart, $notes));
                 CartEvent::info($cart->id, CartEvent::ORDER_SUBMITTED_EMAIL);
                 break;
             case CartStatus::APPROVED:
-                
+
                 CartEvent::info($cart->id, CartEvent::ORDER_APPROVED_EMAIL);
                 break;
             case CartStatus::COMPLETED:
@@ -64,7 +73,7 @@ class SendCartStatusChangedNotification
                 CartEvent::info($cart->id, CartEvent::ORDER_REJECTED_EMAIL);
                 break;
             case CartStatus::RETURNED:
-                
+
                 CartEvent::info($cart->id, CartEvent::ORDER_RETURNED_EMAIL);
                 break;
         }

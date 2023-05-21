@@ -20,15 +20,34 @@
         <div class="col d-flex gap-3 align-items-baseline">
             <div class="col">
                 <label for="qty-{{ $product->id }}" class="visually-hidden"></label>
-                <x-bs::input.integer wire:model="quantities.{{ $product->id }}" id="qty-{{ $product->id }}" placeholder="0"/>
+                {{--                <x-bs::input.integer wire:model="quantities.{{ $product->id }}" id="qty-{{ $product->id }}" placeholder="0"/>--}}
+                <input x-data
+                       type="number"
+                       step="1"
+                       pattern="\d+"
+                       x-on:focus="$el.select()"
+                       x-on:keydown="if ($event.key === '.' || $event.key === ',') $event.preventDefault();"
+                       autocomplete="off"
+                       wire:model="quantities.{{ $product->id }}"
+                       id="qty-{{ $product->id }}"
+                       placeholder="{{ __("Quantity") }}"
+                       class="form-control @error("quantities.$product->id") is-invalid @enderror"
+                       min="0"
+                       max="1000">
 
-                @if($product->isAccessible())
-                    @unless($product->canBeBought($quantities[$product->id]))
-                        <div class="fw-500 text-danger small mt-2">Διαθέσιμα: {{ max(0, $product->available_stock) }}</div>
-                    @endunless
+                @error("quantities.$product->id")
+                    <div class="invalid-feedback fw-500 mt-1">{{ $message }}</div>
                 @else
-                    <div class="fw-500 text-danger small mt-2">{{ __("Out of stock") }}</div>
-                @endif
+                    @if(filled($quantities[$product->id]))
+                        @if($product->isAccessible())
+                            @unless($product->canBeBought($quantities[$product->id]))
+                                <div class="fw-500 text-danger small mt-1">Διαθέσιμα: {{ max(0, $product->available_stock) }}</div>
+                            @endunless
+                        @else
+                            <div class="fw-500 text-danger small mt-1">{{ __("Out of stock") }}</div>
+                        @endif
+                    @endif
+                @enderror
             </div>
 
             <div class="col text-end fw-500">{{ format_currency($product->netValue) }}</div>
