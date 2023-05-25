@@ -167,6 +167,10 @@ class ProductTranslations extends Component
             } else {
                 $product->seo($locale)->updateOrCreate(['locale' => $locale], $seo->all());
             }
+            
+            if (!$product->has_variants) {
+                continue;
+            }
 
             // Save variant types
             $variant_types = collect($this->getTranslation('variant_types', $locale, []))->map(fn($i) => blank($i) ? null : trim($i));

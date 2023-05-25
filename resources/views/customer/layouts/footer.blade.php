@@ -26,7 +26,7 @@
             <div class="col-12 col-sm-6 col-md-4 col-lg-3">
                 <ul class="list-unstyled vstack gap-2">
                     <li>
-                        <h2 class="fs-6 fw-500 mb-0 border-bottom align-self-stretch pb-2">Γενικά</h2>
+                        <h2 class="fs-6 fw-500 mb-0 border-bottom align-self-stretch pb-2">{{ __("About") }}</h2>
                     </li>
                     <li><a href="{{ route('pages.show', [app()->getLocale(), 'terms-of-service']) }}" class="text-dark text-hover-underline">{{ __("Terms of service") }}</a></li>
                     <li><a href="{{ route('pages.show', [app()->getLocale(), 'data-protection']) }}" class="text-dark text-hover-underline">{{ __("Data protection") }}</a></li>

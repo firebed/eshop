@@ -38,7 +38,7 @@
                 @error("quantities.$product->id")
                     <div class="invalid-feedback fw-500 mt-1">{{ $message }}</div>
                 @else
-                    @if(filled($quantities[$product->id]))
+                    @if(isset($quantities[$product->id]))
                         @if($product->isAccessible())
                             @unless($product->canBeBought($quantities[$product->id]))
                                 <div class="fw-500 text-danger small mt-1">{{ __("In stock") }}: {{ max(0, $product->available_stock) }}</div>

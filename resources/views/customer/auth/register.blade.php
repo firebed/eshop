@@ -74,7 +74,7 @@
                             <input class="form-check-input @error('terms-of-service') is-invalid @enderror" type="checkbox" id="terms-of-service" name="terms-of-service" required>
                             <div class="d-flex">
                                 <label class="form-check-label" for="terms-of-service">{{ __("I have read and agree to the") }}</label>
-                                <a href="#" class="text-gold text-decoration-none ms-1">{{ __("terms of use") }}</a>
+                                <a href="{{ route('pages.show', [app()->getLocale(), 'terms-of-service']) }}" target="_blank" class="text-gold text-decoration-none ms-1">{{ __("terms of use") }}</a>
                             </div>
                             @error('terms-of-service')
                             <div class="invalid-feedback">{{ $message }}</div>

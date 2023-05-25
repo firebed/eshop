@@ -7,7 +7,7 @@
         <x-bs::input.select wire:model="shipping_method_id">
             <option value="">{{ __("Shipping") }}</option>
             @foreach($shippingMethods as $method)
-                <option value="{{ $method->id }}">{{ __($method->name) }}</option>
+                <option value="{{ $method->id }}">{{ __("eshop::shipping.$method->name") }}</option>
             @endforeach
         </x-bs::input.select>
 
