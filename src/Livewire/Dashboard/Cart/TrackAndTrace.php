@@ -68,21 +68,25 @@ class TrackAndTrace extends Component
     {
         $this->validate();
 
+        $cart = Cart::find($this->cart_id);
+
         try {
             if ($this->editingVoucher && $this->editingVoucher->exists) {
-                $courier->updateManualVoucher($this->editingVoucher, [
-                    'courier'    => $this->editingVoucher->courier,
-                    'number'     => $this->editingVoucher->number,
-                    'cod_amount' => 0,
-                ]);
+                if ($this->saveOnMyShipping) {
+                    $courier->updateManualVoucher($this->editingVoucher, [
+                        'courier'    => $this->editingVoucher->courier,
+                        'number'     => $this->editingVoucher->number,
+                        'cod_amount' => 0,
+                    ]);
+                }
 
                 $this->editingVoucher->save();
                 $this->showVoucherModal = false;
                 $this->showSuccessToast('Voucher saved!');
+                event('eloquent.updated: ' . get_class($cart), $cart);
                 return;
             }
 
-            $cart = Cart::find($this->cart_id);
             $number = trim($this->editingVoucher->number) ?: null;
 
             if ($this->saveOnMyShipping) {

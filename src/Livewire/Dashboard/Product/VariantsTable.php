@@ -66,7 +66,7 @@ class VariantsTable extends Component
             $this->showSuccessToast("Οι αλλαγές αποθηκεύτηκαν!");
         });
     }
-    
+
     public function toggleRecent(array $ids, bool $recent, AuditModel $audit): void
     {
         DB::transaction(function () use ($ids, $recent, $audit) {
@@ -83,7 +83,7 @@ class VariantsTable extends Component
             $this->showSuccessToast("Οι αλλαγές αποθηκεύτηκαν!");
         });
     }
-    
+
     public function addWatermark(array $ids, InsertWatermark $watermark): void
     {
         if (empty($ids)) {
@@ -119,21 +119,18 @@ class VariantsTable extends Component
     {
         return view('eshop::dashboard.variant.wire.variants-table', [
             'variants'     => $this->variants,
-            'variantTypes' => $this->variantTypes
-        ]);
+            'variantTypes' => $this->variantTypes,
+            'channels'     => Channel::orderBy('name')->get()
+        ]); 
     }
 
-    public function toggleSkroutz(array $ids, bool $visible): void
+    public function toggleChannel(Channel $channel, array $ids, bool $visible): void
     {
-        DB::transaction(function () use ($ids, $visible) {
-            $skroutz = Channel::firstWhere('name', 'Skroutz');
-            $products = Product::findMany($ids);
-            foreach ($products as $product) {
-                if ($visible) {
-                    $product->channels()->syncWithoutDetaching($skroutz);
-                } else {
-                    $product->channels()->detach($skroutz);
-                }
+        DB::transaction(function () use ($channel, $ids, $visible) {
+            if ($visible) {
+                $channel->products()->syncWithoutDetaching($ids);
+            } else {
+                $channel->products()->detach($ids);
             }
 
             $this->showSuccessToast("Οι αλλαγές αποθηκεύτηκαν!");

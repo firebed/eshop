@@ -12,7 +12,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  * @package App\Models\Product
  *
  * @property integer id
- * @property string  name
+ * @property string style
+ * @property string color
  * @property bool $suppress_email_notifications
  *
  * @mixin Builder
@@ -23,8 +24,8 @@ class Channel extends Model
 
     public $timestamps = false;
 
-    protected $fillable = ['id', 'name', 'suppress_email_notifications'];
-    
+    protected $fillable = ['id', 'style', 'color', 'suppress_email_notifications'];
+
     protected $casts = [
         'suppress_email_notifications' => 'bool'
     ];

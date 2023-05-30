@@ -34,7 +34,8 @@ class CustomerNotes extends Component
     {
         $this->validate();
 
-        Cart::where('id', $this->cart_id)->update([
+        $cart = Cart::find($this->cart_id);
+        $cart->update([
             'details'  => $this->trim($this->notes),
             'comments' => $this->trim($this->comments)
         ]);

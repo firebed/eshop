@@ -16,6 +16,7 @@ class CreateChannelsTable extends Migration
         Schema::create('channels', static function (Blueprint $table) {
             $table->id();
             $table->string('name')->unique();
+            $table->string('style')->nullable();
             $table->boolean('suppress_email_notifications')->default(false);
         });
     }

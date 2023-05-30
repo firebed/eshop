@@ -352,6 +352,10 @@ class CartRepository implements CartContract
         ]);
 
         CartEvent::info($voucher->cart_id, CartEvent::VOUCHER_UPDATED, $voucher->number);
+
+        $cart = $cart instanceof Cart ? $cart : Cart::find($cart);
+        event('eloquent.updated: ' . get_class($cart), $cart);
+
         return true;
     }
 

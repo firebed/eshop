@@ -103,26 +103,14 @@
 
                 <x-bs::dropdown.divider/>
 
-                @if(eshop('skroutz'))
-                    <x-bs::dropdown.item x-on:click.prevent="$wire.toggleSkroutz([...document.querySelectorAll('#variants-table tbody input:checked')].map(i => i.value), true)">
-                        <em class="fab fa-redhat me-2 text-orange-500 w-1r"></em>
-                        Προσθήκη στο Skroutz
-                    </x-bs::dropdown.item>
-
-                    <x-bs::dropdown.item x-on:click.prevent="$wire.toggleSkroutz([...document.querySelectorAll('#variants-table tbody input:checked')].map(i => i.value), false)">
-                        <em class="fab fa-redhat me-2 text-secondary w-1r"></em>
-                        Αφαίρεση από το Skroutz
-                    </x-bs::dropdown.item>
-
-                    <x-bs::dropdown.divider/>
-                @endif
-
                 <x-bs::dropdown.item data-bs-toggle="modal" data-bs-target="#variant-bulk-delete-modal">
                     <em class="far fa-trash-alt me-2 text-secondary w-1r"></em>
                     {{ __('eshop::variant.buttons.delete') }}
                 </x-bs::dropdown.item>
             </x-bs::dropdown.menu>
         </x-bs::dropdown>
+        
+        @include('eshop::dashboard.variant.partials.channels-dropdown')
 
         <div class="btn-group">
             <a href="{{ route('products.variants.create', $product) }}" class="btn btn-primary align-items-center"><em class="fa fa-plus"></em></a>

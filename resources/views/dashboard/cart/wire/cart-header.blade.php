@@ -1,8 +1,8 @@
 <div class="hstack gap-2 align-items-center flex-wrap">
     <div class="bg-blue-400 rounded-pill py-1 px-3 border-2 border-white text-nowrap btn-sm">
-        {{ __("eshop::cart.channel.$cart->channel") }}
+        {{ $cart->channel }}
     </div>
-    
+
     <a href="#" class="btn btn-warning rounded-pill py-1 px-3 border-2 border-white text-nowrap btn-sm" wire:click.prevent="exportToPdf">
         <em class="fa fa-print"></em> {{ __("Print") }}
     </a>

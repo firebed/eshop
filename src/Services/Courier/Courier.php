@@ -4,10 +4,11 @@ namespace Eshop\Services\Courier;
 
 enum Courier: string
 {
-    case ACS = "acs";
-    case SPEEDEX = "speedex";
+    case ACS            = "acs";
+    case SPEEDEX        = "speedex";
     case COURIER_CENTER = "courier_center";
-    case GENIKI = "geniki";
+    case GENIKI         = "geniki";
+    case DHL            = "dhl";
 
     public function icon(): string|null
     {
@@ -16,6 +17,7 @@ enum Courier: string
             self::SPEEDEX        => "SpeedEx.png",
             self::GENIKI         => "geniki.jpg",
             self::COURIER_CENTER => "courier-center.jpeg",
+            self::DHL            => "dhl.svg",
         };
     }
 
@@ -26,6 +28,7 @@ enum Courier: string
             self::SPEEDEX        => "SpeedEx",
             self::GENIKI         => "Γενική Ταχυδρομική",
             self::COURIER_CENTER => "Courier Center",
+            self::DHL            => "DHL",
         };
     }
 

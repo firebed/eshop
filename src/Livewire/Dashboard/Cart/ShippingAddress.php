@@ -65,7 +65,7 @@ class ShippingAddress extends Component
     {
         $this->validate();
         $this->validate(['email' => ['required', 'email:dns,rfc']]);
-        
+
         $this->shippingAddress->province = $this->trim($this->shippingAddress->province);
 
         DB::transaction(function () {
@@ -74,9 +74,11 @@ class ShippingAddress extends Component
             $cart->shippingAddress()->save($this->shippingAddress);
             $this->shippingAddress->save();
             $this->shippingAddress->load('country');
-            
+
             Cart::whereKey($this->cartId)->update(['email' => trim($this->email)]);
-            
+
+            event('eloquent.updated: ' . get_class($cart), $cart);
+
             $this->showSuccessToast('Shipping address saved!');
             $this->showModal = false;
         });

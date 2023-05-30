@@ -29,18 +29,32 @@
             </td>
 
             <td>
-                <a href="{{ route('variants.edit', array_filter([$variant, 'search' => $search])) }}" class="d-grid gap-1 text-decoration-none">
-                    <div class="text-dark d-flex gap-3 align-items-center">{{ $variant->options->pluck('pivot.name')->join(' / ') }}@if($variant->recent)
-                            <em class="fas fa-star text-warning"></em>
-                        @endif</div>
-                    <small class="text-secondary lh-sm">{{ $variant->sku }}</small>
-                    @if($variant->stock === 0)
-                        <span class="badge bg-warning text-dark me-auto">{{ __("Sold out") }}</span>
-                    @elseif($variant->stock < 0)
-                        <span class="badge bg-danger me-auto">{{ __('eshop::product.in_stock', ['stock' => format_number($variant->stock)]) }}</span>
-                    @else
-                        <small class="text-secondary lh-sm">{{ __('eshop::product.in_stock', ['stock' => format_number($variant->stock)]) }}</small>
-                    @endif
+                <a href="{{ route('variants.edit', array_filter([$variant, 'search' => $search])) }}" class="d-grid text-decoration-none">
+                    <div class="text-dark">
+                        @if($variant->recent)
+                            <em class="fas fa-star text-warning fa-xs"></em>
+                        @endif
+                        {{ $variant->options->pluck('pivot.name')->join(' / ') }}
+                    </div>
+
+                    <div class="flex">
+                        <small class="text-secondary lh-sm">{{ $variant->sku }}</small>
+
+                        @if($variant->stock === 0)
+                            <span class="badge bg-warning text-dark me-auto">({{ __("Sold out") }})</span>
+                        @elseif($variant->stock < 0)
+                            <span class="badge bg-danger me-auto">({{ __('eshop::product.in_stock', ['stock' => format_number($variant->stock)]) }})</span>
+                        @else
+                            <small class="text-secondary lh-sm">({{ __('eshop::product.in_stock', ['stock' => format_number($variant->stock)]) }})</small>
+                        @endif
+                    </div>
+
+
+                    <div class="flex" style="font-size: 0.75rem">
+                        @foreach($variant->channels as $channel)
+                            <small class="rounded-pill fw-500 px-2" style="{{ $channel->style }}">{{ $channel->name }}</small>
+                        @endforeach
+                    </div>
                 </a>
             </td>
 
@@ -72,10 +86,6 @@
                             <small class="fw-500 text-center lh-sm" style="font-size: .7rem">{{ $variant->display_stock_lt }}</small>
                         @endif
                     </div>
-                    
-                    @if(eshop('skroutz'))
-                        <em class="fab fa-redhat {{ $variant->channels->contains(1) ? 'text-orange-400' : 'text-gray-400' }}"></em>
-                    @endif
                 </div>
             </td>
         </tr>
