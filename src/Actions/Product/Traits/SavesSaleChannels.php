@@ -23,7 +23,7 @@ trait SavesSaleChannels
 
             $sync[$id] = [
                 'price'    => $pricing[$id]['price'],
-                'discount' => $pricing[$id]['discount']
+                'discount' => $pricing[$id]['discount'] / 100
             ];
         }
 
