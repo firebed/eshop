@@ -43,7 +43,7 @@
                         <input x-bind:disabled="!distinct"
                                name="channel_pricing[{{ $channel->id }}][discount]"
                                type="text"
-                               value="{{ old("channel_pricing.$channel->id.discount", $channel->pivot->discount ?? '') }}"
+                               value="{{ old("channel_pricing.$channel->id.discount", isset($channel->pivot->discount) ? $channel->pivot->discount * 100 : '') }}"
                                pattern="[0-9]*\.?[0-9]+"
                                class="form-control form-control-sm"
                                oninput="this.value = this.value.replace(/[^0-9,.]/g, '').replace(/([,.])/g, '.').replace(/(\..*)\./g, '$1')"/>
