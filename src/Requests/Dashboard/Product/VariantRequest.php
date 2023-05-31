@@ -23,42 +23,48 @@ class VariantRequest extends FormRequest
 
         return [
             # Options
-            'options'          => ['required', 'array'],
-            'options.*'        => ['required', 'string'],
+            'options'                    => ['required', 'array'],
+            'options.*'                  => ['required', 'string'],
 
             # Pricing
-            'price'            => ['required', 'numeric', 'min:0'],
-            'compare_price'    => ['required', 'numeric', 'min:0'],
-            'discount'         => ['required', 'numeric', 'between:0,1'],
-            'vat'              => ['required', 'numeric', 'exists:vats,regime'],
+            'price'                      => ['required', 'numeric', 'min:0'],
+            'compare_price'              => ['required', 'numeric', 'min:0'],
+            'discount'                   => ['required', 'numeric', 'between:0,1'],
+            'vat'                        => ['required', 'numeric', 'exists:vats,regime'],
+
+            # Channel pricing
+            'channel_pricing'            => ['nullable', 'array'],
+            'channel_pricing.*.distinct' => ['nullable'],
+            'channel_pricing.*.price'    => ['required_with:channel_pricing.*.distinct', 'numeric', 'min:0'],
+            'channel_pricing.*.discount' => ['required_with:channel_pricing.*.distinct', 'numeric', 'between:0,100'],
 
             # Inventory
-            'is_physical'      => ['required', 'boolean'],
-            'sku'              => ['required', 'string', Rule::unique('products')->when($variant, fn($q) => $q->ignore($variant))],
-            'mpn'              => ['nullable', 'string'],
-            'barcode'          => ['nullable', 'string', Rule::unique('products')->when($variant, fn($q) => $q->ignore($variant))],
-            'location'         => ['nullable', 'string'],
-            'stock'            => ['required', 'integer'],
-            'weight'           => ['required', 'integer', 'min:0'],
-            'unit_id'          => ['required', 'integer', 'exists:units,id'],
+            'is_physical'                => ['required', 'boolean'],
+            'sku'                        => ['required', 'string', Rule::unique('products')->when($variant, fn($q) => $q->ignore($variant))],
+            'mpn'                        => ['nullable', 'string'],
+            'barcode'                    => ['nullable', 'string', Rule::unique('products')->when($variant, fn($q) => $q->ignore($variant))],
+            'location'                   => ['nullable', 'string'],
+            'stock'                      => ['required', 'integer'],
+            'weight'                     => ['required', 'integer', 'min:0'],
+            'unit_id'                    => ['required', 'integer', 'exists:units,id'],
 
             # Accessibility
-            'visible'          => ['required', 'boolean'],
-            'recent'           => ['required', 'boolean'],
-            'available'        => ['required', 'boolean'],
-            'available_gt'     => ['nullable', 'integer'],
-            'display_stock'    => ['required', 'boolean'],
-            'display_stock_lt' => ['nullable', 'integer'],
+            'visible'                    => ['required', 'boolean'],
+            'recent'                     => ['required', 'boolean'],
+            'available'                  => ['required', 'boolean'],
+            'available_gt'               => ['nullable', 'integer'],
+            'display_stock'              => ['required', 'boolean'],
+            'display_stock_lt'           => ['nullable', 'integer'],
 
             # SEO
-            'slug'             => ['required', 'string', new Slug(), Rule::unique('products', 'slug')->when($variant, fn($q) => $q->ignore($variant))],
-            'seo.locale'       => ['required', 'string', 'size:2', 'exists:locales,name'],
-            'seo.title'        => ['required', 'string', 'max:70', new SeoTitle($variant ?? 'variant')],
-            'seo.description'  => ['nullable', 'string'],
+            'slug'                       => ['required', 'string', new Slug(), Rule::unique('products', 'slug')->when($variant, fn($q) => $q->ignore($variant))],
+            'seo.locale'                 => ['required', 'string', 'size:2', 'exists:locales,name'],
+            'seo.title'                  => ['required', 'string', 'max:70', new SeoTitle($variant ?? 'variant')],
+            'seo.description'            => ['nullable', 'string'],
 
             # Media
-            'image'            => ['nullable', 'image'],
-            'has_watermark'    => ['required', 'bool'],
+            'image'                      => ['nullable', 'image'],
+            'has_watermark'              => ['required', 'bool'],
 
             'channels'   => ['nullable', 'array'],
             'channels.*' => ['required', 'integer', 'exists:channels,id'],
@@ -68,8 +74,11 @@ class VariantRequest extends FormRequest
     public function attributes(): array
     {
         return array_merge(parent::attributes(), [
-            'options.*' => 'options',
-            'seo.title' => 'title'
+            'channel_pricing.*.distinct' => 'διακριτή τιμή στο κανάλι',
+            'channel_pricing.*.price'    => 'τιμή',
+            'channel_pricing.*.discount' => 'έκπτωση',
+            'options.*'                  => 'options',
+            'seo.title'                  => 'title'
         ]);
     }
 

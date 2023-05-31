@@ -41,7 +41,7 @@
                             <button class="btn btn-white w-3r text-secondary" data-bs-toggle="offcanvas" data-bs-target="#label-print-dialog" type="button" title="Ετικέτες">
                                 <em class="fas fa-receipt"></em>
                             </button>
-                                
+
                             @if(productRouteExists())
                                 <a class="btn btn-white w-3r text-secondary" href="{{ productRoute($variant) }}" title="Προβολή">
                                     <em class="fas fa-eye"></em>
@@ -70,6 +70,8 @@
                         @include('eshop::dashboard.variant.partials.pricing')
                     </x-bs::card.body>
                 </x-bs::card>
+
+                @includeWhen($variant->channels->isNotEmpty(), 'eshop::dashboard.variant.partials.channel-pricing')
 
                 <x-bs::card>
                     <x-bs::card.body>

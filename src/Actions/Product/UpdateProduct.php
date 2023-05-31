@@ -32,8 +32,8 @@ class UpdateProduct
 
         $product->seo()->updateOrCreate([], $request->input('seo'));
 
-        $this->saveSaleChannels($product, $request->input('channels'));
-        
+        $this->saveSaleChannels($product, $request->input('channels'), $request->input('channel_pricing'));
+
         if ($product->isVariant()) {
             $this->saveVariantOptions($product, $request->input('options'));
         } else {

@@ -63,8 +63,8 @@
                 <div class="col-12 col-lg-7 d-flex flex-column gap-4">
                     @include('eshop::dashboard.product.partials.primary')
                     @include('eshop::dashboard.product.partials.pricing')
+                    @includeWhen($product->channels->isNotEmpty(), 'eshop::dashboard.product.partials.channel-pricing')
                     @include('eshop::dashboard.product.partials.inventory')
-
 
                     <x-bs::card>
                         <x-bs::card.body class="d-grid gap-3">

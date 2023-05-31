@@ -19,6 +19,8 @@ class CreateChannelProductTable extends Migration
             $table->id();
             $table->foreignIdFor(Product::class);
             $table->foreignIdFor(Channel::class);
+            $table->unsignedDecimal('price')->nullable();
+            $table->unsignedDecimal('discount', 3)->nullable();
             $table->timestamps();
         });
     }

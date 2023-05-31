@@ -213,7 +213,7 @@ class Product extends Model implements Auditable
 
     public function channels(): BelongsToMany
     {
-        return $this->belongsToMany(Channel::class)->withTimestamps();
+        return $this->belongsToMany(Channel::class)->withPivot('price', 'discount')->withTimestamps();
     }
 
     public function getTrademark(string $glue = ' '): ?string
