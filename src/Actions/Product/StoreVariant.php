@@ -34,7 +34,7 @@ class StoreVariant
 
         $variant->seo()->create($request->input('seo'));
 
-        $this->saveSaleChannels($variant, $request->input('channel_ids'));
+        $this->saveSaleChannels($variant, $request->input('channel_ids'), $request->input('channel_pricing'));
         
         $this->saveVariantOptions($variant, $request->input('options'));
 

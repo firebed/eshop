@@ -93,9 +93,7 @@ Route::middleware(['web', 'auth', 'admin'])->group(function () {
             Route::delete('bulk-destroy', [VariantBulkController::class, 'destroy'])->name('bulk-destroy');
         });
 
-        if (eshop('skroutz')) {
-            Route::resource('channels', ChannelController::class);
-        }
+        Route::resource('channels', ChannelController::class);
 
         Route::resource('products.variants', VariantController::class)->shallow()->except('show');
 

@@ -35,7 +35,7 @@ class StoreProduct
 
         $this->saveProperties($product, $request->input('properties', []));
 
-        $this->saveSaleChannels($product, $request->input('channel_ids'));
+        $this->saveSaleChannels($product, $request->input('channel_ids'), $request->input('channel_pricing'));
         
         $product->collections()->sync($request->input('collections', []));
 
