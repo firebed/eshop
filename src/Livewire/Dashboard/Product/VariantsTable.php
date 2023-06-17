@@ -121,7 +121,7 @@ class VariantsTable extends Component
             'variants'     => $this->variants,
             'variantTypes' => $this->variantTypes,
             'channels'     => Channel::orderBy('name')->get()
-        ]); 
+        ]);
     }
 
     public function toggleChannel(Channel $channel, array $ids, bool $visible): void
@@ -135,6 +135,19 @@ class VariantsTable extends Component
 
             $this->showSuccessToast("Οι αλλαγές αποθηκεύτηκαν!");
         });
+    }
+
+    public function saveChannelPrices(int $channel_id, array $product_ids, ?string $price, ?string $discount): void
+    {
+        DB::table('channel_product')
+            ->where('channel_id', $channel_id)
+            ->whereIntegerInRaw('product_id', $product_ids)
+            ->update([
+                'price'    => $price === '' ? null : $price,
+                'discount' => $discount === '' ? null : $discount/100
+            ]);
+
+        $this->showSuccessToast("Οι τιμές ενημερώθηκαν με επιτυχία!");
     }
 
     protected function getModels(): Collection
