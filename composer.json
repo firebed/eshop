@@ -33,7 +33,7 @@
     "setasign/fpdi": "^2.3",
     "smalot/pdfparser": "^2.2",
     "stevebauman/location": "^6.1",
-    "webklex/laravel-imap": "^4.0"
+    "webklex/laravel-imap": "^5.0"
   },
   "require-dev": {
     "roave/security-advisories": "dev-latest",
