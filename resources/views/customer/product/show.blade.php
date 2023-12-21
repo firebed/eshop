@@ -18,7 +18,9 @@
                 <div class="col">
                     <div class="d-grid gap-2 align-self-start">
                         <h1 class="fs-3 mb-0">{{ $product->trademark }}</h1>
-                        <div class="product-sku">{{ __("Code") }}: {{ $product->sku }}</div>
+                        @if(config('eshop.product.show_sku'))
+                            <div class="product-sku">{{ __("Code") }}: {{ $product->sku }}</div>
+                        @endif
 
                         @can('Manage products')
                             <div class="d-flex gap-3 mb-2 small text-secondary">

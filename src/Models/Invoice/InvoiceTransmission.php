@@ -10,13 +10,14 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property string uid
  * @property string mark
  * @property string cancelled_by_mark
+ * @property string qr_url
  *                                   
  * @property Invoice invoice
  */
 class InvoiceTransmission extends Model
 {
     protected $fillable = [
-        'uid', 'mark', 'cancelled_by_mark'
+        'uid', 'mark', 'cancelled_by_mark', 'qr_url'
     ];
     
     public function invoice(): BelongsTo

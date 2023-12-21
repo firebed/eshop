@@ -149,6 +149,7 @@ return [
 
     'product'         => [
         'show_manufacturer' => true,
+        'show_sku'          => false,
         'suggestions'       => 'similar',
         'image'             => [
             'cover'         => false,

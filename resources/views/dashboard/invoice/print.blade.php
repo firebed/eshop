@@ -92,18 +92,24 @@
 <div>
     <table>
         <tr>
-            <td style="width: 40%">
+            <td style="width: 30%">
                 <img src="{{ eshop('logo.path') }}" height="{{ eshop('logo.height') }}" alt="">
             </td>
 
-            <td class="text-end">
+            <td style="width: 20%; text-align: center">
+                @if(filled($qrCode))
+                    <img src="data:image/png;base64, {!! $qrCode !!}">
+                @endif
+            </td>
+
+            <td style="width: 50%" class="text-end">
                 <div class="fw-bold">{{ __("company.name") }}</div>
                 <div>{{ __("Vat number") }}: {{ __("company.vat") }} • {{ __("Tax authority") }}: {{ __("company.tax_office") }}</div>
                 @if(eshop('gemi'))
-                    <div>ΑΡΙΘΜΟΣ ΓΕΜΗ: {{ eshop('gemi') }}</div>
+                    <div>{{ __("REGISTRATION NUMBER") }}: {{ eshop('gemi') }}</div>
                 @endif
                 <div>{{ __('company.job') }}</div>
-                <div>{{ __("company.address") }} • ΤΗΛ: {{ __("company.phone")[0] }}</div>
+                <div>{{ __("company.address") }} • {{ __("TEL") }}: {{ __("company.phone")[0] }}</div>
                 <div><a href="{{ __('company.website') }}">{{ __('company.website') }}</a> • {{ __("company.email") }}</div>
             </td>
         </tr>
@@ -114,11 +120,11 @@
     <table class="table-bordered">
         <thead>
         <tr>
-            <th>Είδος παραστατικού</th>
-            <th style="width: 15%;">Σειρά</th>
-            <th style="width: 15%;">Αριθμός</th>
-            <th style="width: 20%;">Ημερομηνία</th>
-            <th style="width: 15%;">Ώρα</th>
+            <th>{{ __("Invoice type") }}</th>
+            <th style="width: 15%;">{{ __("Series") }}</th>
+            <th style="width: 15%;">{{ __("Number") }}</th>
+            <th style="width: 20%;">{{ __("Date") }}</th>
+            <th style="width: 15%;">{{ __("Time") }}</th>
         </tr>
         </thead>
         <tbody>
@@ -139,42 +145,42 @@
             <td style="border: 1px solid lightgray">
                 <table class="table-dense">
                     <tr>
-                        <th colspan="2" style="padding: 3px 0 !important; vertical-align: middle">Στοιχεί πελάτη</th>
+                        <th colspan="2" style="padding: 3px 0 !important; vertical-align: middle">{{ __("Client details") }}</th>
                     </tr>
                     <tr>
-                        <td style="width: 25%;">ΚΩΔΙΚΟΣ:</td>
+                        <td style="width: 25%;">{{ __("ID") }}:</td>
                         <td>{{ $invoice->client->id }}</td>
                     </tr>
 
                     <tr>
-                        <td>ΕΠΩΝΥΜΙΑ:</td>
+                        <td>{{ __("Company name") }}:</td>
                         <td>{{ $invoice->client->name }}</td>
                     </tr>
 
                     @if(in_array($invoice->type, [\Eshop\Models\Invoice\InvoiceType::PSL]))
                         <tr>
-                            <td>ΤΗΛΕΦΩΝΟ:</td>
+                            <td>{{ __("Phone") }}:</td>
                             <td>{{ $invoice->client->vat_number }}</td>
                         </tr>
                     @else
                         <tr>
-                            <td>ΑΦΜ/ΔΟΥ:</td>
+                            <td>{{ __("VAT/IRS") }}:</td>
                             <td>{{ $invoice->client->vat_number }} / {{ $invoice->client->tax_authority }}</td>
                         </tr>
                     @endif
 
                     <tr>
-                        <td>ΕΠΑΓΓΕΛΜΑ:</td>
+                        <td>{{ __("Job") }}:</td>
                         <td style="white-space: nowrap; overflow: hidden;">{{ $invoice->client->job }}</td>
                     </tr>
 
                     <tr>
-                        <td>ΔΙΕΥΘΥΝΣΗ:</td>
+                        <td>{{ __("Address") }}:</td>
                         <td>{{ $invoice->client->street }} {{ $invoice->client->street_number }}</td>
                     </tr>
 
                     <tr>
-                        <td>ΠΟΛΗ/ΤΚ:</td>
+                        <td>{{ __("City/ZIP Code") }}:</td>
                         <td>{{ $invoice->client->city }}, {{ $invoice->client->postcode }}</td>
                     </tr>
                 </table>
@@ -183,27 +189,27 @@
             <td style="border: 1px solid lightgray">
                 <table class="table-dense">
                     <tr>
-                        <td style="width: 40%;">ΣΧΕΤΙΚΟ ΠΑΡΑΣΤΑΤΙΚΟ:</td>
+                        <td style="width: 40%;">{{ __("Relative invoice") }}:</td>
                         <td>{{ $invoice->relative_document }}</td>
                     </tr>
 
                     <tr>
-                        <td>ΤΡΟΠΟΣ ΠΛΗΡΩΜΗΣ:</td>
+                        <td>{{ __("Payment method") }}:</td>
                         <td>{{ $invoice->payment_method->label() }}</td>
                     </tr>
 
                     <tr>
-                        <td>ΣΚΟΠΟΣ ΔΙΑΚΙΝΗΣΗΣ:</td>
-                        <td>ΠΩΛΗΣΗ</td>
+                        <td>{{ __("Transaction purpose") }}:</td>
+                        <td>{{ __("SALE") }}</td>
                     </tr>
 
                     <tr>
-                        <td>ΤΟΠΟΣ ΑΠΟΣΤΟΛΗΣ:</td>
-                        <td>ΕΔΡΑ ΜΟΥ</td>
+                        <td>{{ __("Shipping place") }}:</td>
+                        <td>{{ __("HQ") }}</td>
                     </tr>
 
                     <tr>
-                        <td>ΤΟΠΟΣ ΠΡΟΟΡΙΣΜΟΥ:</td>
+                        <td>{{ __("Shipping destination") }}:</td>
                         <td>{{ $invoice->client->address }}</td>
                     </tr>
                 </table>
@@ -216,13 +222,13 @@
     <table id="items">
         <thead>
         <tr>
-            <th style="width: 13%;" class="text-start">ΚΩΔΙΚΟΣ</th>
-            <th class="text-start">ΠΕΡΙΓΡΑΦΗ</th>
-            <th style="width: 8%;" class="text-center">ΜΜ</th>
-            <th style="width: 9%;" class="text-end">ΠΟΣΟΤ.</th>
-            <th style="width: 9%;" class="text-end">ΤΙΜΗ</th>
-            <th style="width: 8%;" class="text-end">ΈΚΠΤ.</th>
-            <th style="width: 7%;" class="text-end">ΦΠΑ</th>
+            <th style="width: 13%;" class="text-start">{{ __("Code") }}</th>
+            <th class="text-start">{{ __("Description") }}</th>
+            <th style="width: 8%;" class="text-center">{{ __("UoM") }}</th>
+            <th style="width: 9%;" class="text-end">{{ __("Qty") }}.</th>
+            <th style="width: 9%;" class="text-end">{{ __("Price") }}</th>
+            <th style="width: 8%;" class="text-end">{{ __("Disc") }}.</th>
+            <th style="width: 7%;" class="text-end">{{ __("Tax") }}</th>
         </tr>
         </thead>
 
@@ -231,7 +237,7 @@
             <tr>
                 <td style="white-space: nowrap; overflow: hidden">{{ $row->code }}</td>
                 <td style="white-space: nowrap; overflow: hidden">{{ $row->description }}</td>
-                <td class="text-center">{{ $row->unit->abbr() }}</td>
+                <td class="text-center">{{ __($row->unit->abbr()) }}</td>
                 <td class="text-end">{{ format_number($row->quantity) }}</td>
                 <td class="text-end">{{ format_number($row->price, 2) }}</td>
                 <td class="text-end">{{ format_percent($row->discount) }}</td>
@@ -248,7 +254,7 @@
             <td style="width: 20%;">
                 <table style="border: 1px solid lightgray">
                     <tr>
-                        <th>ΠΟΣΟΤΗΤΕΣ</th>
+                        <th>{{ __("Quantities") }}</th>
                     </tr>
                     @foreach($units as $unit => $group)
                         <tr>
@@ -263,18 +269,18 @@
             <td style="width: 20%;">
                 <table style="border: 1px solid lightgray">
                     <tr>
-                        <th>ΥΠΟΛΟΙΠΟ</th>
+                        <th>{{ __("Balance") }}</th>
                     </tr>
                     <tr>
                         <td>
                             <table>
                                 <tr>
-                                    <td>ΠΡΟΗΓ.:</td>
+                                    <td>{{ __("Prev") }}.:</td>
                                     <td class="text-end">{{ format_currency(0) }}</td>
                                 </tr>
 
                                 <tr>
-                                    <td>ΝΕΟ:</td>
+                                    <td>{{ __("Next") }}:</td>
                                     <td class="text-end">{{ format_currency(0) }}</td>
                                 </tr>
                             </table>
@@ -286,12 +292,12 @@
             <td>
                 <table style="border: 1px solid lightgray">
                     <tr>
-                        <th colspan="3">ΑΝΑΛΥΣΗ ΦΠΑ</th>
+                        <th colspan="3">{{ __("Tax analysis") }}</th>
                     </tr>
                     <tr>
-                        <th class="text-end">ΠΟΣΟ</th>
+                        <th class="text-end">{{ __("Amount") }}</th>
                         <th class="text-end">%</th>
-                        <th class="text-end">ΦΠΑ</th>
+                        <th class="text-end">{{ __("Tax") }}</th>
                     </tr>
                     @foreach($vats as $vat => $row)
                         <tr>
@@ -306,34 +312,34 @@
             <td>
                 <table style="border: 1px solid #e3e2e2;">
                     <tr>
-                        <th class="text-start fw-normal" style="width: 65%">ΣΥΝΟΛΟ ΑΞΙΑΣ</th>
+                        <th class="text-start fw-normal" style="width: 65%">{{ __("TOTAL VALUE") }}</th>
                         <td class="text-end" style="padding-right: 5px">{{ format_number($total_value, 2) }}</td>
                     </tr>
 
                     <tr>
-                        <th class="text-start fw-normal">ΣΥΝΟΛΟ ΈΚΠΤΩΣΗΣ</th>
+                        <th class="text-start fw-normal">{{ __("TOTAL DISCOUNT") }}</th>
                         <td class="text-end" style="padding-right: 5px">{{ format_number($discount_amount, 2) }}</td>
                     </tr>
 
                     <tr>
-                        <th class="text-start fw-normal">ΣΥΝΟΛΟ ΚΑΘΑΡΟ</th>
+                        <th class="text-start fw-normal">{{ __("NET VALUE") }}</th>
                         <td class="text-end" style="padding-right: 5px">{{ format_number($total_net_value, 2) }}</td>
                     </tr>
 
                     @if($total_extra_value > 0)
                         <tr>
-                            <th class="text-start fw-normal">ΕΠΙΒΑΡΥΝΣΕΙΣ</th>
+                            <th class="text-start fw-normal">{{ __("CHARGES") }}</th>
                             <td class="text-end" style="padding-right: 5px">({{ format_number($total_extra_value, 2) }})</td>
                         </tr>
                     @endif
 
                     <tr>
-                        <th class="text-start fw-normal">ΣΥΝΟΛΟ Φ.Π.Α</th>
+                        <th class="text-start fw-normal">{{ __("TAX TOTAL") }}</th>
                         <td class="text-end" style="padding-right: 5px">{{ format_number($total_vat_amount, 2) }}</td>
                     </tr>
 
                     <tr>
-                        <th class="text-start" style="border-top: 1px solid lightgray; padding-top: 5px; padding-bottom: 5px">ΤΕΛΙΚΟ ΣΥΝΟΛΟ</th>
+                        <th class="text-start" style="border-top: 1px solid lightgray; padding-top: 5px; padding-bottom: 5px">{{ __("GROSS TOTAL") }}</th>
                         <td class="text-end fw-bold" style="border-top: 1px solid lightgray; padding-top: 5px; padding-bottom: 5px; padding-right: 5px">{{ format_number($invoice->total, 2) }}</td>
                     </tr>
                 </table>

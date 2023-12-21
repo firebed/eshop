@@ -68,6 +68,8 @@ class CartRepository implements CartContract
 
         $data = compact('quantity', 'price', 'compare_price', 'discount', 'vat');
 
+        //TODO Attaching a new product that already exists in the cart causes the original item to reset quantity,
+        // if the product is already in cart the quantity and other values should be updated accordingly.
         $cart->products()->syncWithoutDetaching([$product_id => $data + ['deleted_at' => null]]);
 
         $this->updateTotal($cart);

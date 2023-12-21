@@ -31,6 +31,7 @@
     "picqer/php-barcode-generator": "^2.2",
     "setasign/fpdf": "^1.8",
     "setasign/fpdi": "^2.3",
+    "simplesoftwareio/simple-qrcode": "^4.2",
     "smalot/pdfparser": "^2.2",
     "stevebauman/location": "^6.1",
     "webklex/laravel-imap": "^5.0"

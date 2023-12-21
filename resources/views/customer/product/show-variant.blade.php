@@ -68,7 +68,9 @@
                     <div class="d-grid gap-2 align-self-start">
                         <h1 class="fs-3 mb-0 fw-500">{{ $product->trademark }}</h1>
 
-                        <div class="small text-secondary fw-500">{{ __("Code") }}: {{ $product->sku }}</div>
+                        @if(config('eshop.product.show_sku'))
+                            <div class="small text-secondary fw-500">{{ __("Code") }}: {{ $product->sku }}</div>
+                        @endif
 
                         <div class="vstack gap-1 my-2">
                             @include('eshop::customer.product.partials.product-category')

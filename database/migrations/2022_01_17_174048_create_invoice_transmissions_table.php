@@ -19,6 +19,7 @@ class CreateInvoiceTransmissionsTable extends Migration
             $table->string('uid');
             $table->string('mark');
             $table->string('cancelled_by_mark')->nullable();
+            $table->string('qr_url', 500)->nullable();
             $table->timestamps();
         });
     }

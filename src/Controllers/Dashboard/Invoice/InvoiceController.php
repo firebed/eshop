@@ -15,6 +15,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use Throwable;
 
@@ -45,10 +46,10 @@ class InvoiceController extends Controller
             $rows = collect($request->input('rows'));
             $this->updateTotals($invoice, $rows);
             $invoice->number = $invoice->number
-                ?? Invoice::where('type', $request->input('type'))
-                    ->whereYear('published_at', today()->year)
-                    ->where('row', $request->input('row'))
-                    ->max('number') + 1;
+                               ?? Invoice::where('type', $request->input('type'))
+                                      ->whereYear('published_at', today()->year)
+                                      ->where('row', $request->input('row'))
+                                      ->max('number') + 1;
             $invoice->save();
 
             $invoice->rows()->saveMany($rows->transform(fn($r) => new InvoiceRow($r)));
@@ -114,6 +115,10 @@ class InvoiceController extends Controller
 
     public function print(Invoice $invoice): StreamedResponse
     {
+        if (!in_array($invoice->client->country, ['GR', 'CY'])) {
+            app()->setLocale('en');
+        }
+        
         $vats = $invoice->rows
             ->groupBy(fn(InvoiceRow $row) => (string)$row->vat_percent)
             ->map(function ($g, $vat) {
@@ -133,6 +138,11 @@ class InvoiceController extends Controller
         $discount_amount = $total_value - $total_net_value;
         $total_vat_amount = $vats->sum('total_vat_amount');
 
+
+        $qrCode = $invoice->transmission?->qr_url
+            ? base64_encode(QrCode::format('svg')->size(100)->generate($invoice->transmission?->qr_url))
+            : null;
+
         $html = $this->view('invoice.print', [
             'invoice'           => $invoice,
             'items'             => $items,
@@ -142,7 +152,8 @@ class InvoiceController extends Controller
             'discount_amount'   => $discount_amount,
             'total_net_value'   => $total_net_value,
             'total_extra_value' => $total_extra_value,
-            'total_vat_amount'  => $total_vat_amount
+            'total_vat_amount'  => $total_vat_amount,
+            'qrCode'            => $qrCode
         ]);
 
         return response()->stream(function () use ($invoice, $html) {
@@ -151,7 +162,7 @@ class InvoiceController extends Controller
             $pdf->loadHtml($html);
 
             $pdf->render();
-            $pdf->stream('invoice-' . $invoice->number . '.pdf', ['Attachment' => 0]);
+            $pdf->stream('invoice-'.$invoice->number.'.pdf', ['Attachment' => 0]);
         });
     }
 

@@ -63,13 +63,14 @@ trait TransformsInvoice
         $lineNumber = 1;
         foreach ($vats as $vat => $totals) {
             $type->addInvoiceDetails(
-                $this->getInvoiceRow($lineNumber++,
+                $this->getInvoiceRow(
+                    $lineNumber++,
                     $this->parseVatType($vat),
                     $totals['total_net_value'],
                     $totals['total_vat_amount'],
                     $cType->value,
                     $cCategory->value,
-                    $vat === 0 && !$this->isGreekVat($invoice) ? VatExemption::TYPE_4->value : null
+                    $vat === 0 && !$this->isGreekVat($invoice) ? VatExemption::TYPE_14->value : null
                 )
             );
         }
@@ -147,27 +148,32 @@ trait TransformsInvoice
     private function getInvoiceType(Invoice $invoice): MyDataInvoiceTypes
     {
         return match ($invoice->type) {
-            InvoiceType::TPA => $this->isGreekVat($invoice) ? MyDataInvoiceTypes::TYPE_1_1 : MyDataInvoiceTypes::TYPE_1_2,
-            InvoiceType::TPY => $this->isGreekVat($invoice) ? MyDataInvoiceTypes::TYPE_2_1 : MyDataInvoiceTypes::TYPE_2_2,
-            InvoiceType::PT  => MyDataInvoiceTypes::TYPE_5_2,
-            InvoiceType::PRO => throw new Error('Το προτιμολόγιο δεν μπορεί να σταλεί στο myDATA.'),
-            InvoiceType::PSL => MyDataInvoiceTypes::TYPE_11_4,
+            InvoiceType::TPA                  => $this->isGreekVat($invoice) ? MyDataInvoiceTypes::TYPE_1_1 : MyDataInvoiceTypes::TYPE_1_2,
+            InvoiceType::TPY                  => $this->isGreekVat($invoice) ? MyDataInvoiceTypes::TYPE_2_1 : MyDataInvoiceTypes::TYPE_2_2,
+            InvoiceType::PT                   => MyDataInvoiceTypes::TYPE_5_2,
+            InvoiceType::PSL                  => MyDataInvoiceTypes::TYPE_11_4,
+            InvoiceType::TPA_INTRA            => MyDataInvoiceTypes::TYPE_1_2,
+            InvoiceType::PRO, InvoiceType::DA => throw new Error('Δεν μπορεί να σταλεί στο myDATA.'),
         };
     }
 
     private function getPaymentMethod(Invoice $invoice): PaymentMethodDetail
     {
         $paymentMethod = new PaymentMethodDetail();
-        $paymentMethod->setType(match ($invoice->payment_method) {
-            PaymentMethod::PayPal,
-            PaymentMethod::WireTransfer,
-            PaymentMethod::CreditCard,
-            PaymentMethod::POD,
-            PaymentMethod::Cash   => MyDataPaymentMethod::METHOD_3,
+        $paymentMethod->setType(
+            match ($invoice->payment_method) {
+                PaymentMethod::POD,
+                PaymentMethod::Cash   => MyDataPaymentMethod::METHOD_3,
 
-            PaymentMethod::Credit => MyDataPaymentMethod::METHOD_5,
-            PaymentMethod::Check  => MyDataPaymentMethod::METHOD_4,
-        });
+                PaymentMethod::PayPal,
+                PaymentMethod::WireTransfer => MyDataPaymentMethod::METHOD_6,
+
+                PaymentMethod::CreditCard => MyDataPaymentMethod::METHOD_7,
+
+                PaymentMethod::Credit => MyDataPaymentMethod::METHOD_5,
+                PaymentMethod::Check  => MyDataPaymentMethod::METHOD_4,
+            }
+        );
         $paymentMethod->setAmount($invoice->total);
         return $paymentMethod;
     }
@@ -206,13 +212,13 @@ trait TransformsInvoice
 
         $icls = new IncomeClassification();
         $icls->setClassificationType($this->isGreekVat($invoice)
-            ? ($invoice->type !== InvoiceType::PSL ? IncomeClassificationType::E3_561_001 : IncomeClassificationType::E3_561_003)
-            : IncomeClassificationType::E3_561_005
+                ? ($invoice->type !== InvoiceType::PSL ? IncomeClassificationType::E3_561_001 : IncomeClassificationType::E3_561_003)
+                : IncomeClassificationType::E3_561_005
         );
 
         $icls->setClassificationCategory($invoice->type === InvoiceType::TPY
-            ? IncomeClassificationCategory::CATEGORY_1_3
-            : IncomeClassificationCategory::CATEGORY_1_1
+                ? IncomeClassificationCategory::CATEGORY_1_3
+                : IncomeClassificationCategory::CATEGORY_1_1
         );
         $icls->setAmount($invoice->total_net_value);
         $invoiceSummary->addIncomeClassification($icls);

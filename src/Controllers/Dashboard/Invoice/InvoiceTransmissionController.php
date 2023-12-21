@@ -67,14 +67,15 @@ class InvoiceTransmissionController extends Controller
                         'uid'               => $responseType->getInvoiceUid(),
                         'mark'              => $responseType->getInvoiceMark(),
                         'cancelled_by_mark' => $responseType->getCancellationMark(),
+                        'qr_url'            => $responseType->getQrUrl(),
                     ]));
                 } else {
                     $invoiceErrors = [];
                     foreach ($responseType->getErrors() as $error) {
-                        $invoiceErrors[] = $error->getCode() . ': ' . $error->getMessage();
+                        $invoiceErrors[] = $error->getCode().': '.$error->getMessage();
                     }
 
-                    $errors->put($invoice->row . ' - ' . $invoice->number, $invoiceErrors);
+                    $errors->put($invoice->row.' - '.$invoice->number, $invoiceErrors);
                 }
             }
         } catch (GuzzleException) {
@@ -113,10 +114,10 @@ class InvoiceTransmissionController extends Controller
                     } else {
                         $invoiceErrors = [];
                         foreach ($responseType->getErrors() as $error) {
-                            $invoiceErrors[] = $error->getCode() . ': ' . $error->getMessage();
+                            $invoiceErrors[] = $error->getCode().': '.$error->getMessage();
                         }
 
-                        $errors->put($invoice->row . ' - ' . $invoice->number, $invoiceErrors);
+                        $errors->put($invoice->row.' - '.$invoice->number, $invoiceErrors);
                     }
                 }
             }

@@ -13,15 +13,21 @@ class SkroutzPayoutsImport extends PayoutsImport
         }
 
         $orderId = $row[0];
+
+        if ($orderId === 'Σύνολο') {
+            return [];
+        }
+
         $customer = $row[1];
-        $total = $row[4];
-        $fees = $row[5];
+        $total = parseFloat($row[4]);
+        $total_payout = parseFloat($row[11]);
+        $fees = round($total - $total_payout, 2);
 
         return [
             $orderId => [
                 'customer_name' => $customer,
                 'fees'          => $fees,
-                'total'         => parseFloat($total)
+                'total'         => $total_payout
             ]
         ];
     }
