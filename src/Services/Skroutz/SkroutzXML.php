@@ -2,7 +2,9 @@
 
 namespace Eshop\Services\Skroutz;
 
+use Eshop\Models\Product\Channel;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use SimpleXMLElement;
 
@@ -10,8 +12,16 @@ class SkroutzXML
 {
     private SimpleXMLElement $xml;
 
+    private Collection $skroutzPrices;
+    
     public function __construct(private readonly Collection $categories)
     {
+        $skroutz = Channel::firstWhere('name', 'Skroutz');
+        $this->skroutzPrices = DB::table('channel_product')
+            ->where('channel_id', $skroutz->id)
+            ->selectRaw("product_id, ROUND(price * (1 - discount), 2) as price")
+            ->pluck('price', 'product_id');
+        
         $this->xml = new SimpleXMLElement("<?xml version='1.0' encoding='utf-8'?><products standalone='yes' version='1.0' />");
         $this->xml->addChild('datetime', now()->format('Y-m-d H:i:s'));
         $this->xml->addChild('title', config('app.name') . ' product feed');
@@ -68,12 +78,14 @@ class SkroutzXML
         if (filled($color)) {
             $name .= ' ' . $color;
         }
+        
+        $skroutzPrice = $this->skroutzPrices[$product->id] ?? $product->net_value;
 
         $node->addChild('id', $uniqueId ?? $product->id);
         $node->addChild('category', e($this->breadcrumb($category->id)));
         $node->addChild('category_id', $category->id);
         $node->addChild('name', e($name));
-        $node->addChild('price_with_vat', number_format($product->net_value, 2));
+        $node->addChild('price_with_vat', number_format($skroutzPrice, 2));
         $node->addChild('vat', number_format($product->vat * 100, 2));
         $node->addChild('instock', 'Y');
         $node->addChild('availability', e('Παράδοση σε 1 - 3 ημέρες'));
@@ -108,11 +120,13 @@ class SkroutzXML
     {
         $node = $xml->addChild('variation');
 
+        $skroutzPrice = $this->skroutzPrices[$variation->id] ?? $variation->net_value;
+        
         $node->addChild('variationid', $variation->id);
         $node->addChild('link', e(route('products.show', ['el', $category->slug, $variation->slug])));
         $node->addChild('availability', e('Παράδοση 1 έως 3 ημέρες'));
         $node->addChild('manufacturer', e($variation->manufacturer));
-        $node->addChild('price_with_vat', number_format($variation->net_value, 2));
+        $node->addChild('price_with_vat', number_format($skroutzPrice, 2));
         $node->addChild('size', $variation->size);
         $node->addChild('quantity', (int)$variation->stock);
 
