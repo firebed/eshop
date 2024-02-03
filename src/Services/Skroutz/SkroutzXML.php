@@ -69,7 +69,7 @@ class SkroutzXML
         }
     }
 
-    private function addSharedProperties(SimpleXMLElement $node, $product, string $uniqueId = null, string $name = null, string $color = null): void
+    public function addSharedProperties(SimpleXMLElement $node, $product, string $uniqueId = null, string $name = null, string $color = null): void
     {
         $category = $this->categories->get($product->category_id);
 
@@ -105,7 +105,7 @@ class SkroutzXML
         }
     }
 
-    private function getImage($product): string
+    public function getImage($product): string
     {
         $image = $product->src;
         if ($product->has_watermark) {
@@ -116,7 +116,7 @@ class SkroutzXML
         return Storage::disk($product->disk)->url($image);
     }
 
-    private function addSizeVariation(SimpleXMLElement $xml, $variation, $category): void
+    public function addSizeVariation(SimpleXMLElement $xml, $variation, $category): void
     {
         $node = $xml->addChild('variation');
 
@@ -139,7 +139,7 @@ class SkroutzXML
         }
     }
 
-    private function breadcrumb(int $category_id): string
+    public function breadcrumb(int $category_id): string
     {
         $category = $this->categories->get($category_id);
         $breadcrumbs = [$category->translation];
