@@ -11,7 +11,7 @@ class VariantBulkUpdateRequest extends FormRequest
 {
     use WithRequestNotifications;
 
-    private const PROPERTIES = ['price', 'compare_price', 'discount', 'sku', 'mpn', 'stock', 'weight', 'display_stock_lt', 'available_gt'];
+    private const PROPERTIES = ['price', 'compare_price', 'wholesale_price', 'discount', 'sku', 'mpn', 'stock', 'weight', 'display_stock_lt', 'available_gt'];
 
     public function authorize(): bool
     {
@@ -33,6 +33,7 @@ class VariantBulkUpdateRequest extends FormRequest
             switch ($property) {
                 case 'price':
                 case 'compare_price':
+                case 'wholesale_price':
                     $rules["bulk_$this->property.*"] = ['required', 'numeric', 'min:0'];
                     break;
                 case 'sku':
@@ -82,12 +83,12 @@ class VariantBulkUpdateRequest extends FormRequest
     {
         $this->properties = Arr::wrap($this->input('properties') ?? self::PROPERTIES);
 
-        if ($this->filled('bulk_discount')) {
-            $discounts = $this->bulk_discount;
-
-            array_walk($discounts, fn(&$d) => $d = round($d/100, 2));
-            $this->merge(['bulk_discount' => $discounts]);
-        }
+//        if ($this->filled('bulk_discount')) {
+//            $discounts = $this->bulk_discount;
+//
+//            array_walk($discounts, fn(&$d) => $d = round($d/100, 2));
+//            $this->merge(['bulk_discount' => $discounts]);
+//        }
     }
 
     protected function getRedirectUrl(): string

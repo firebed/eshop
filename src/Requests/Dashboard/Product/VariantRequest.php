@@ -28,6 +28,7 @@ class VariantRequest extends FormRequest
 
             # Pricing
             'price'                      => ['required', 'numeric', 'min:0'],
+            'wholesale_price'            => ['required', 'numeric', 'min:0'],
             'compare_price'              => ['required', 'numeric', 'min:0'],
             'discount'                   => ['required', 'numeric', 'between:0,1'],
             'vat'                        => ['required', 'numeric', 'exists:vats,regime'],

@@ -31,5 +31,6 @@ return [
     'Delete orders'                   => 'Διαγραφή παραγγελιών',
     'Create voucher'                  => 'Δημιουργία voucher',
     'Cash payments'                   => 'Απόδοση αντικαταβολών',
-    'View cart history'               => 'Προβολή ιστορικού καλαθιού'
+    'View cart history'               => 'Προβολή ιστορικού καλαθιού',
+    'Is merchant'                     => 'Χονδρέμπορας',
 ];

@@ -15,6 +15,7 @@ return [
     'variant_options'     => 'Επιλογές',
     'price'               => 'Τιμή',
     'compare_price'       => 'Τιμή σύγκρισης',
+    'wholesale_price'     => 'Τιμή χονδρικής',
     'purchase_price'      => 'Τιμή αγοράς',
     'discount'            => 'Έκπτωση',
     'stock'               => 'Απόθεμα',

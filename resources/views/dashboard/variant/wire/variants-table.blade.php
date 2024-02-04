@@ -35,6 +35,11 @@
                     {{ __('eshop::variant.bulk-actions.price') }}
                 </x-bs::dropdown.item>
 
+                <x-bs::dropdown.item data-bs-toggle="modal" data-bs-target="#variant-bulk-edit-modal" data-property="wholesale_price" data-title="{{ __('eshop::variant.bulk-actions.wholesale_price') }}">
+                    <em class="fa fa-tag me-2 text-secondary w-1r"></em>
+                    {{ __('eshop::variant.bulk-actions.wholesale_price') }}
+                </x-bs::dropdown.item>
+                
                 <x-bs::dropdown.item data-bs-toggle="modal" data-bs-target="#variant-bulk-edit-modal" data-property="compare_price" data-title="{{ __('eshop::variant.bulk-actions.compare_price') }}">
                     <em class="fa fa-tag me-2 text-secondary w-1r"></em>
                     {{ __('eshop::variant.bulk-actions.compare_price') }}

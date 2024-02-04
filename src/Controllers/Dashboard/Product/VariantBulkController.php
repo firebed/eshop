@@ -103,7 +103,7 @@ class VariantBulkController extends Controller
 
         return $this->view('variant.bulk-edit', [
             'product'      => $product,
-            'properties'   => $request->query('properties', ['price', 'compare_price', 'discount', 'sku', 'stock', 'weight']),
+            'properties'   => $request->query('properties', ['price', 'compare_price', 'wholesale_price', 'discount', 'sku', 'stock', 'weight']),
             'variants'     => $variants,
             'variantTypes' => VariantType::where('product_id', $product->id)->with('translation')->get()->pluck('name', 'id')->all()
         ]);

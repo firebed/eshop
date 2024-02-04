@@ -36,6 +36,7 @@ use Laravel\Scout\Searchable;
  * @property int             $weight
  * @property float           $price
  * @property float           $compare_price
+ * @property float           $wholesale_price
  * @property float           $discount
  * @property bool            $visible
  * @property bool            $recent
@@ -98,7 +99,7 @@ class Product extends Model implements Auditable
 
     protected $fillable = [
         'name', 'description', 'category_id', 'manufacturer_id', 'unit_id', 'is_physical', 'vat', 'weight',
-        'price', 'compare_price', 'discount', 'stock', 'visible', 'recent', 'promote',
+        'price', 'compare_price', 'wholesale_price', 'discount', 'stock', 'visible', 'recent', 'promote',
         'display_stock', 'display_stock_lt', 'available', 'available_gt', 'has_watermark', 'location', 'sku',
         'mpn', 'barcode', 'slug', 'has_variants', 'variants_display', 'preview_variants', 'variants_prefix'
     ];
@@ -109,6 +110,7 @@ class Product extends Model implements Auditable
     protected $casts = [
         'price'            => 'float',
         'compare_price'    => 'float',
+        'wholesale_price'  => 'float',
         'discount'         => 'float',
         'has_variants'     => 'bool',
         'is_physical'      => 'bool',
@@ -351,6 +353,11 @@ class Product extends Model implements Auditable
     public function setDisplayStockLtAttribute($value): void
     {
         $this->attributes['display_stock_lt'] = blank($value) ? null : $value;
+    }
+
+    public function wholesalePrice(): float
+    {
+        return min(array_filter([$this->wholesale_price, $this->netValue]));
     }
 
 

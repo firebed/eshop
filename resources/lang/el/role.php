@@ -3,5 +3,6 @@
 return [
     'Super Admin' => 'Super Admin',
     'Admin'       => 'Admin',
-    'Employee'    => 'Υπάλληλος'
+    'Employee'    => 'Υπάλληλος',
+    'Client'      => 'Πελάτης',
 ];

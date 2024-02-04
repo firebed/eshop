@@ -29,6 +29,7 @@ class ProductRequest extends FormRequest
 
             # Pricing
             'price'                      => ['required', 'numeric', 'min:0'],
+            'wholesale_price'            => ['required', 'numeric', 'min:0'],
             'compare_price'              => ['required', 'numeric', 'min:0'],
             'discount'                   => ['required', 'numeric', 'between:0,1'],
             'vat'                        => ['nullable', 'numeric', 'exists:vats,regime'],
@@ -97,10 +98,10 @@ class ProductRequest extends FormRequest
     public function attributes(): array
     {
         return array_merge(parent::attributes(), [
-            'channel_pricing.*.distinct' => 'διακριτή τιμή στο κανάλι',
-            'channel_pricing.*.price'    => 'τιμή',
-            'channel_pricing.*.discount' => 'έκπτωση',
-            'variantTypes.*.name'        => 'name'
+            'channel_pricing.*.distinct'        => 'διακριτή τιμή στο κανάλι',
+            'channel_pricing.*.price'           => 'τιμή',
+            'channel_pricing.*.discount'        => 'έκπτωση',
+            'variantTypes.*.name'               => 'name'
         ]);
     }
 

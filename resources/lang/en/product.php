@@ -15,6 +15,7 @@ return [
     'variant_options'     => 'Options',
     'price'               => 'Price',
     'compare_price'       => 'Compare at price',
+    'wholesale_price'     => 'Wholesale price',
     'discount'            => 'Discount',
     'stock'               => 'Stock',
     'weight'              => 'Weight',

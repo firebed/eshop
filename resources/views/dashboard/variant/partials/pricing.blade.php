@@ -1,7 +1,7 @@
 <div class="d-grid gap-2">
     <div class="fw-500 mb-3">{{ __("Pricing") }}</div>
 
-    <div class="row row-cols-2 row-cols-sm-4 g-3">
+    <div class="row row-cols-1 row-cols-sm-3 g-3">
         <x-bs::input.group x-data="{price:{{ old('price', $variant->price ?? $product->price ?? 0) }} }" for="selling-price" label="{{ __('eshop::product.price') }}" class="col">
             <x-eshop::money x-effect="price = value" value="price" id="selling-price" error="price"/>
             <input x-model="price" name="price" hidden/>
@@ -12,6 +12,13 @@
             <input x-model="price" name="compare_price" hidden/>
         </x-bs::input.group>
 
+        <x-bs::input.group x-data="{ price: {{ old('wholesale_price', $variant->wholesale_price ?? $product->wholesale_price ?? 0) ?? 0 }} }" for="wholesale-price" label="{{ __('eshop::product.wholesale_price') }}" class="col">
+            <x-eshop::money x-effect="price = value" value="price" id="wholesale-price" error="wholesale_price"/>
+            <input type="text" x-model="price" name="wholesale_price" hidden>
+        </x-bs::input.group>
+    </div>
+
+    <div class="row row-cols-2 g-3">
         <x-bs::input.group x-data="{discount: {{ old('discount', $variant->discount ?? $product->discount ?? 0) }} }" for="discount" label="{{ __('eshop::product.discount') }}" class="col">
             <x-eshop::percentage x-effect="discount = value" value="discount" id="discount" error="discount"/>
             <input x-model="discount" name="discount" hidden/>

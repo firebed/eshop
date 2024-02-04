@@ -24,6 +24,7 @@ class CreateProductsTable extends Migration
             $table->unsignedDecimal('vat', 2)->nullable();
             $table->unsignedInteger('weight')->default(0);
             $table->unsignedDecimal('price')->index()->default(0);
+            $table->unsignedDecimal('wholesale_price')->default(0);
             $table->unsignedDecimal('compare_price')->default(0);
             $table->unsignedDecimal('discount', 3)->default(0)->index();
             $table->unsignedDecimal('net_value')->storedAs('ROUND(price * (1 - discount), 2)')->index();
@@ -41,7 +42,7 @@ class CreateProductsTable extends Migration
 
             $table->boolean('has_watermark')->default(false);
             $table->string('location', 50)->nullable();
-            $table->string('sku', 100)->unique();
+            $table->string('sku', 100)->nullable()->unique();
             $table->string('mpn', 100)->nullable()->index();
             $table->string('barcode', 50)->nullable()->unique();
             $table->string('slug')->unique();

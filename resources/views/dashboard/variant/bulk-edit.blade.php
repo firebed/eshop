@@ -29,10 +29,14 @@
                                         <th>{{ __('eshop::product.price') }}</th>
                                     @endif
 
+                                    @if(empty($properties) || in_array('wholesale_price', $properties))
+                                        <th>{{ __('eshop::product.wholesale_price') }}</th>
+                                    @endif
+
                                     @if(empty($properties) || in_array('compare_price', $properties))
                                         <th>{{ __('eshop::product.compare_price') }}</th>
                                     @endif
-
+                                            
                                     @if(empty($properties) || in_array('discount', $properties))
                                         <th>{{ __('eshop::product.discount') }}</th>
                                     @endif
@@ -64,6 +68,13 @@
                                             <td x-data="{ v: {{ old("bulk_price.$i", $variant->price ?? 0) }} }" class="text-end w-7r">
                                                 <x-eshop::money x-effect="v = value" value="v" class="text-end" error="bulk_price.{{ $i }}"/>
                                                 <input x-model="v" type="text" name="bulk_price[]" hidden>
+                                            </td>
+                                        @endif
+
+                                        @if(empty($properties) || in_array('wholesale_price', $properties))
+                                            <td x-data="{ v: {{ old("bulk_wholesale_price.$i", $variant->wholesale_price ?? 0) }} }" class="text-end w-7r">
+                                                <x-eshop::money x-effect="v = value" value="v" class="text-end" error="bulk_wholesale_price.{{ $i }}"/>
+                                                <input x-model="v" type="text" name="bulk_wholesale_price[]" hidden>
                                             </td>
                                         @endif
 

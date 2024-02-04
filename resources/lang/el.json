@@ -1061,5 +1061,7 @@
   "GROSS TOTAL": "ΤΕΛΙΚΟ ΣΥΝΟΛΟ",
   "TEL": "ΤΗΛ",
   "Payment method": "Τρόπος πληρωμής",
-  "Shipping place": "Τόπος αποστολής"
+  "Shipping place": "Τόπος αποστολής",
+  "Wholesale price": "Χονδρική τιμή",
+  "Retail price": "Λιανική τιμή"
 }
