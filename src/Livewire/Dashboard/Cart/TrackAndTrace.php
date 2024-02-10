@@ -54,7 +54,7 @@ class TrackAndTrace extends Component
             'courier' => $cart->shippingMethod->courier()
         ]);
 
-        $this->saveOnMyShipping = true;
+        $this->saveOnMyShipping = config('eshop.myshipping', false);
         $this->showVoucherModal = true;
     }
 

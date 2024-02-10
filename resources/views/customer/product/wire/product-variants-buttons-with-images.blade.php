@@ -107,16 +107,8 @@
         </ul>
     @endforeach
 
-    <div class="fs-3 fw-500 mb-3">
-        @if($variant)
-            {{ format_currency($variant->net_value) }}
-        @else
-            {{ format_currency($min = $this->variants->min('net_value')) }}
-
-            @if($min !== ($max = $this->variants->max('net_value')))
-                - {{ format_currency($max) }}
-            @endif
-        @endif
+    <div class="fw-500 mb-3 d-flex">
+        @include('eshop::customer.product.partials.product-price')
     </div>
 
     <form wire:submit.prevent="addToCart" class="vstack gap-3">

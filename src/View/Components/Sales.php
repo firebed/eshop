@@ -19,7 +19,7 @@ class Sales extends Component
             ->where(fn($q) => $q->onSale()->orWhereHas('variants', fn($q) => $q->visible()->onSale()))
             ->with(['image', 'translations' => fn($q) => $q->where('cluster', 'name')])
             ->with('category.translations')
-            ->with(['variants' => fn($q) => $q->select('id', 'parent_id', 'discount', 'price')])
+            ->with(['variants' => fn($q) => $q->select('id', 'parent_id', 'discount', 'price', 'wholesale_price')])
             ->latest('updated_at')
             ->take(30)
             ->get();

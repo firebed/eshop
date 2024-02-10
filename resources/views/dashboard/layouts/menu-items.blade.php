@@ -20,6 +20,7 @@
         </a>
     </li>
 
+    @if(eshop('myshipping', false))
     <li class="nav-item">
         <a href="{{ route('vouchers.index', ['pending' => 1]) }}" @class([$link, 'd-flex align-items-center', $active => request()->routeIs('vouchers.*')])>
             <em class="fas fa-pallet text-cyan-300"></em>
@@ -31,6 +32,7 @@
             </span>
         </a>
     </li>
+    @endif
 @endcanany
 
 <li class="nav-item">
@@ -103,17 +105,19 @@
     </li>
 @endcan
 
-@can('View notifications')
-    <li class="nav-item">
-        <a href="{{ route('notifications.index') }}" @class([$link, 'd-flex align-items-center', $active => request()->routeIs('notifications.*')])>
-            <em class="fas fa-bell text-yellow-300"></em>
-            <span class="d-flex align-items-center justify-content-between flex-grow-1">
-                <span>Ειδοποιήσεις</span>
-                <livewire:dashboard.notifications-counter/>
-            </span>
-        </a>
-    </li>
-@endcan
+@if(eshop('myshipping', false))
+    @can('View notifications')
+        <li class="nav-item">
+            <a href="{{ route('notifications.index') }}" @class([$link, 'd-flex align-items-center', $active => request()->routeIs('notifications.*')])>
+                <em class="fas fa-bell text-yellow-300"></em>
+                <span class="d-flex align-items-center justify-content-between flex-grow-1">
+                    <span>Ειδοποιήσεις</span>
+                    <livewire:dashboard.notifications-counter/>
+                </span>
+            </a>
+        </li>
+    @endcan
+@endif
 
 @can('Manage countries')
     <li class="nav-item">

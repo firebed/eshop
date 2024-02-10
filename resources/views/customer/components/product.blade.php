@@ -1,3 +1,14 @@
+@php 
+    $minPrice = 0;
+    $maxPrice = 0;
+    $netPrice = $product->getNetValueForUser(auth()->user());
+    
+    if ($product->has_variants && $product->relationLoaded('variants')) {
+        $minPrice = $product->variants->min(fn($p) => $p->getNetValueForUser(auth()->user()));
+        $maxPrice = $product->variants->max(fn($p) => $p->getNetValueForUser(auth()->user()));
+    }
+@endphp
+
 <li class="col">
     <div @class(["card", "h-100", "new-product" => $product->recent])>
         <div class="card-body vstack position-relative">
@@ -16,18 +27,18 @@
             {{--            @endif--}}
 
             <div class="d-flex align-items-baseline mt-auto" style="font-size: 1.1rem">
-                @if($product->has_variants && $product->relationLoaded('variants'))
+                @if($minPrice > 0)
                     <a href="{{ productRoute($product) }}" class="text-decoration-none">
-                        @if(($min = $product->variants->min('netValue')) !== $product->variants->max('netValue'))
+                        @if($minPrice !== $maxPrice)
                             <span class="text-secondary small">από</span>&nbsp;
                         @endif
-                        <span class="fw-bold">{{ format_currency($min) }}</span>
+                        <span class="fw-bold">{{ format_currency($minPrice) }}</span>
                     </a>
                 @else
-                    <a href="{{ productRoute($product) }}" class="text-decoration-none">{{ format_currency($product->netValue) }}</a>
+                    <a href="{{ productRoute($product) }}" class="text-decoration-none fw-bold">{{ format_currency($netPrice) }}</a>
                 @endif
 
-                @if($product->discount > 0)
+                @if($product->discount > 0 && auth()->user()?->cannot('Is merchant'))
                     <del class="text-danger small ms-3">{{ format_currency($product->price) }}</del>
                 @endif
             </div>

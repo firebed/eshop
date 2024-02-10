@@ -50,7 +50,7 @@
                 @enderror
             </div>
 
-            <div class="col text-end fw-500">{{ format_currency($product->netValue) }}</div>
+            <div class="col text-end fw-500">{{ format_currency($product->getNetValueForUser($order->user)) }}</div>
 
             <div class="text-end">
                 <x-bs::button.link wire:click="deleteProduct({{ $product->id }})" wire:loading.attr="disabled" type="button" size="sm">

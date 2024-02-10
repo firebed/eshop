@@ -19,7 +19,7 @@ class NewArrivals extends Component
             ->where(fn($q) => $q->recent()->orWhereHas('variants', fn($b) => $b->visible()->recent()))
             ->with(['image', 'translations' => fn($q) => $q->where('cluster', 'name')])
             ->with('category.translations')
-            ->with(['variants' => fn($q) => $q->visible()->select('id', 'parent_id', 'discount', 'price')])
+            ->with(['variants' => fn($q) => $q->visible()->select('id', 'parent_id', 'discount', 'price', 'wholesale_price')])
             ->take(30)
             ->latest('updated_at')
             ->get();

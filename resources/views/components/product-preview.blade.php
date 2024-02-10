@@ -1,3 +1,15 @@
+@php
+    $price = $product->getPriceForUser(auth()->user());
+    $netPrice = $product->getNetValueForUser(auth()->user());
+
+    if ($product->has_variants && $product->relationLoaded('variants')) {
+        $minNetPrice = $product->variants->min(fn($v) => $v->getNetValueForUser(auth()->user()));
+        $maxNetPrice = $product->variants->max(fn($v) => $v->getNetValueForUser(auth()->user()));
+        $minPrice = $product->variants->min(fn($v) => $v->getPriceForUser(auth()->user()));
+    }
+@endphp
+
+
 <div @class(["card", "h-100", "product-preview", "new-product" => $product->recent])>
     <a href="{{ productRoute($product) }}" title="{{ $product->name }}" class="card-body text-decoration-none text-dark">
         <div class="vstack gap-1 h-100">
@@ -17,26 +29,26 @@
                             {{ format_percent(-$product->variants->max('discount')) }}
                         </div>
 
-                        @if($product->variants->min('netValue') !== $product->variants->min('price'))
-                            <del>{{ format_currency($product->variants->min('price')) }}</del>
+                        @if(!auth()->user()?->can('Is merchant'))
+                            <del>{{ format_currency($minPrice) }}</del>
                         @endif
                     @endif
 
-                    @if(($min = $product->variants->min('netValue')) !== ($max = $product->variants->max('netValue')))
+                    @if($minNetPrice !== $maxNetPrice)
                         <span class="fw-normal small text-secondary">από</span>
                     @endif
 
-                    {{ format_currency($min) }}
+                    {{ format_currency($minNetPrice) }}
                 @else
                     @if($product->isOnSale())
                         <div class="product-discount">
                             {{ format_percent(-$product->discount) }}
                         </div>
 
-                        <del class="text-danger small mt-auto">{{ format_currency($product->price) }}</del>
+                        <del class="text-danger small mt-auto">{{ format_currency($price) }}</del>
                     @endif
 
-                    {{ format_currency($product->netValue) }}
+                    {{ format_currency($netPrice) }}
                 @endif
             </div>
         </div>

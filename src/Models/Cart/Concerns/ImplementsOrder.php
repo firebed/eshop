@@ -44,7 +44,7 @@ trait ImplementsOrder
         $this->ip = request()?->ip();
 
         if ($this->save()) {
-            if ($this->cookie_id !== NULL) {
+            if ($this->cookie_id !== null) {
                 session()->put('cart-session-id', $this->id);
                 cookie()->queue('cart-cookie-id', $this->cookie_id, now()->addMonths(2)->diffInMinutes());
             }
@@ -71,11 +71,11 @@ trait ImplementsOrder
     {
         return [
             'quantity'      => $quantity,
-            'price'         => $product->price,
+            'price'         => $product->getPriceForUser($this->user),
             'compare_price' => $product->compare_price,
-            'discount'      => $product->discount,
+            'discount'      => $product->getDiscountForUser($this->user),
             'vat'           => $product->vat,
-            'deleted_at'    => NULL
+            'deleted_at'    => null
         ];
     }
 
@@ -87,7 +87,7 @@ trait ImplementsOrder
         $sync = $ids
             ->map(function ($quantity, $productId) use ($products) {
                 $product = $products->find($productId);
-                return $product ? $this->mapProduct($product, $quantity) : NULL;
+                return $product ? $this->mapProduct($product, $quantity) : null;
             })
             ->filter()
             ->all();
@@ -125,9 +125,12 @@ trait ImplementsOrder
 
     public function refreshProducts(): bool
     {
-        $isDirty = FALSE;
+        $isDirty = false;
         foreach ($this->products as $product) {
-            $product->pivot->fill($product->only('price', 'compare_price', 'discount', 'vat'));
+            $product->pivot->fill($product->only('compare_price', 'vat'));
+            $product->pivot->price = $product->getPriceForUser($this->user);
+            $product->pivot->discount = $product->getDiscountForUser($this->user);
+            
             $isDirty = !$isDirty && $product->pivot->isDirty();
             $product->pivot->save();
         }
@@ -177,10 +180,10 @@ trait ImplementsOrder
 //        $this->shipping_fee = $fee ?: 0;
 //    }
 
-    public function updatePaymentFee(int $preferredPaymentMethodId = NULL): void
+    public function updatePaymentFee(int $preferredPaymentMethodId = null): void
     {
-        $country = $this->shippingAddress->country ?? NULL;
-        if ($country === NULL) {
+        $country = $this->shippingAddress->country ?? null;
+        if ($country === null) {
             return;
         }
 

@@ -15,7 +15,10 @@ class AuthServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
-        Gate::before(function ($user) {
+        Gate::before(function ($user, $permission) {
+            if ($permission === 'Is merchant') {
+                return $user->checkPermissionTo($permission);
+            }
             return $user->hasRole('Super Admin') ? true : null;
         });
 

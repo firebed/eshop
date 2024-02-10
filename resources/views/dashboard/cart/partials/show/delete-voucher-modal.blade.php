@@ -4,10 +4,10 @@
 
         <x-bs::modal.body class="bg-gray-100">
             <p>Πρόκειται να διαγράψετε τον κωδικό αποστολής;<br>Είστε σίγουροι;</p>
-            @if($currentVoucher->is_manual)
+            @if(eshop('myshipping', false) && $currentVoucher->is_manual)
                 <div>
                     <x-bs::input.checkbox wire:model.defer="propagate_delete" id="propagate-delete-voucher">
-                        Διαγραφή του voucher από τη βάση δεδομένων της courier. 
+                        Διαγραφή του voucher από τη βάση δεδομένων της courier.
                     </x-bs::input.checkbox>
                 </div>
             @endif

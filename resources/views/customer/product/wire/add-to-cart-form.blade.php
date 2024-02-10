@@ -4,9 +4,13 @@
             <div class="col-12 fw-500 text-success">@choice("eshop::product.availability", $product->available_stock, ['count' => format_number($product->available_stock)])</div>
         @endif
 
-        <div class="col-12 hstack gap-3">
-            <div class="h3 mb-0">{{ format_currency($product->netValue) }}</div>
-            @if($product->discount > 0) <s class="text-secondary">{{ format_currency($product->price) }}</s>@endif
+        <div class="col-12 hstack gap-3 fw-500">
+            @can('Is merchant')
+                <div class="h3 mb-0">{{ format_currency($product->getNetValueForUser(auth()->user())) }}</div>
+            @else
+                <div class="h3 mb-0">{{ format_currency($product->netValue) }}</div>
+                @if($product->discount > 0) <s class="text-secondary">{{ format_currency($product->price) }}</s>@endif
+            @endcan
         </div>
 
         <div class="col-12 col-sm d-grid gap-1">

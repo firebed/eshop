@@ -2,7 +2,7 @@
     <form wire:submit.prevent="saveVoucher">
         <x-bs::modal.header>Διαχείριση κωδικού αποστολής</x-bs::modal.header>
         <x-bs::modal.body>
-            @if(isset($editingVoucher) && $editingVoucher->exists)
+            @if(eshop('myshipping', false) && isset($editingVoucher) && $editingVoucher->exists)
                 <div class="alert alert-warning">
                     <strong>Προσοχή!</strong> Βεβαιωθείτε πως ο κωδικός που επεξεργάζεστε δεν ισχύει και δεν έχει καταχωρηθεί στη μεταφορική εταιρεία. Διαφορετικά, εάν δεν ακυρωθεί θα επιβαρυνθείτε με επιπλέον μεταφορικά έξοδα.
                 </div>
@@ -20,7 +20,9 @@
                 <x-bs::input.text wire:model.defer="editingVoucher.number" error="editingVoucher.number" id="cart-voucher-alone" autofocus/>
             </x-bs::input.group>
 
-            <x-bs::input.checkbox wire:model.defer="saveOnMyShipping" id="saveOnMyShipping">Αποθήκευση voucher στο myShipping.gr</x-bs::input.checkbox>
+            @if(eshop('myshipping', false))
+                <x-bs::input.checkbox wire:model.defer="saveOnMyShipping" id="saveOnMyShipping">Αποθήκευση voucher στο myShipping.gr</x-bs::input.checkbox>
+            @endif
         </x-bs::modal.body>
         <x-bs::modal.footer>
             <x-bs::modal.close-button>{{ __('Cancel') }}</x-bs::modal.close-button>

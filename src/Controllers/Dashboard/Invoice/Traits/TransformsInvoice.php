@@ -166,9 +166,8 @@ trait TransformsInvoice
                 PaymentMethod::Cash   => MyDataPaymentMethod::METHOD_3,
 
                 PaymentMethod::PayPal,
-                PaymentMethod::WireTransfer => MyDataPaymentMethod::METHOD_6,
-
-                PaymentMethod::CreditCard => MyDataPaymentMethod::METHOD_7,
+                PaymentMethod::WireTransfer,
+                PaymentMethod::CreditCard => MyDataPaymentMethod::METHOD_6,
 
                 PaymentMethod::Credit => MyDataPaymentMethod::METHOD_5,
                 PaymentMethod::Check  => MyDataPaymentMethod::METHOD_4,

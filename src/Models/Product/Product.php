@@ -10,6 +10,7 @@ use Eshop\Models\Product\Collection as ProductCollection;
 use Eshop\Models\Product\Traits\HasProductAudit;
 use Eshop\Models\Seo\Seo;
 use Eshop\Models\Seo\Traits\HasSeo;
+use Eshop\Models\User\User;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -355,9 +356,31 @@ class Product extends Model implements Auditable
         $this->attributes['display_stock_lt'] = blank($value) ? null : $value;
     }
 
-    public function wholesalePrice(): float
+    public function getPriceForUser(?User $user): float
     {
+        if ($user === null || $user->cannot('Is merchant')) {
+            return $this->price;
+        }
+        
         return min(array_filter([$this->wholesale_price, $this->netValue]));
+    }
+
+    public function getNetValueForUser(?User $user): float
+    {
+        if ($user === null || $user->cannot('Is merchant')) {
+            return $this->netValue;
+        }
+
+        return min(array_filter([$this->wholesale_price, $this->netValue]));
+    }
+    
+    public function getDiscountForUser(?User $user): float
+    {
+        if ($user === null || $user->cannot('Is merchant')) {
+            return $this->discount;
+        }
+
+        return 0;
     }
 
 

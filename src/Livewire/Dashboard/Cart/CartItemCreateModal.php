@@ -2,6 +2,7 @@
 
 namespace Eshop\Livewire\Dashboard\Cart;
 
+use Eshop\Models\Cart\Cart;
 use Eshop\Models\Cart\CartProduct;
 use Eshop\Models\Product\Category;
 use Eshop\Models\Product\Product;
@@ -33,10 +34,13 @@ class CartItemCreateModal extends Component
 
     public function updatedProductId(): void
     {
+        $cart = Cart::find($this->cartId);
         $product = Product::find($this->productId);
 
         if (!$product->has_variants) {
-            $this->updateModel($this->model->quantity, $product->price, $product->compare_price, $product->discount, $product->vat);
+            $price = $product->getPriceForUser($cart->user);
+            $discount = $product->getDiscountForUser($cart->user);
+            $this->updateModel($this->model->quantity, $price, $product->compare_price, $discount, $product->vat);
         } else {
             $this->updateModel($this->model->quantity, 0, 0, 0, 0);
         }
@@ -45,7 +49,10 @@ class CartItemCreateModal extends Component
     public function updatedVariantId($id): void
     {
         $variant = Product::find($id);
-        $this->updateModel($this->model->quantity, $variant->price, $variant->compare_price, $variant->discount, $variant->vat);
+        $cart = Cart::find($this->cartId);
+        $price = $variant->getPriceForUser($cart->user);
+        $discount = $variant->getDiscountForUser($cart->user);
+        $this->updateModel($this->model->quantity, $price, $variant->compare_price, $discount, $variant->vat);
     }
 
     public function getCategoriesProperty(): Collection

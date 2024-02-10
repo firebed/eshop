@@ -91,7 +91,10 @@ class RefreshOrder
     {
         $isDirty = false;
         foreach ($this->order->products as $product) {
-            $product->pivot->fill($product->only('price', 'compare_price', 'discount', 'vat'));
+            $product->pivot->fill($product->only('compare_price', 'vat'));
+            $product->pivot->price = $product->getPriceForUser($this->order->user);
+            $product->pivot->discount = $product->getDiscountForUser($this->order->user);
+            
             $isDirty = !$isDirty && $product->pivot->isDirty();
             $product->pivot->save();
         }
