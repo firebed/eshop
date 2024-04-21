@@ -1,8 +1,10 @@
 @extends('eshop::dashboard.layouts.master')
 
+@php($tinymce = api_key('TINYMCE_API_KEY'))
+
 @push('header_scripts')
     <link rel="dns-prefetch" href="https://cdn.tiny.cloud/">
-    <script src="https://cdn.tiny.cloud/1/gxet4f4kiajd8ppsca5dsl1ymcncx4emhut5fer2lnijr2ic/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+    <script src="https://cdn.tiny.cloud/1/{{ $tinymce }}/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
     @include('eshop::dashboard.blog.partials.editor')
 @endpush
 

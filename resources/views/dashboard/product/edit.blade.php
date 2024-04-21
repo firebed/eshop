@@ -1,12 +1,14 @@
 @extends('eshop::dashboard.layouts.master')
 
+@php($tinymce = api_key('TINYMCE_API_KEY'))
+
 @section('header')
     <a href="{{ route('products.index') }}" class="text-dark text-decoration-none">{{ __("Products") }}</a>
 @endsection
 
 @push('header_scripts')
     <link rel="dns-prefetch" href="https://cdn.tiny.cloud/">
-    <script defer src="https://cdn.tiny.cloud/1/gxet4f4kiajd8ppsca5dsl1ymcncx4emhut5fer2lnijr2ic/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+    <script defer src="https://cdn.tiny.cloud/1/{{ $tinymce }}/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/slim-select/1.27.0/slimselect.min.css" rel="stylesheet"/>
 @endpush
 

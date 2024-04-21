@@ -47,6 +47,10 @@ class VarCache
             'Skroutz' => [
                 'SKROUTZ_API_TOKEN' => ''
             ],
+            
+            'TinyMCE' => [
+                'TINYMCE_API_KEY' => ''
+            ]
         ];
     }
 
