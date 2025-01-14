@@ -6,7 +6,7 @@
         </x-bs::table.heading>
         <x-bs::table.heading class="w-6r">{{ __("Image") }}</x-bs::table.heading>
         <x-bs::table.heading sortable wire:click.prevent="sortBy('name')" :direction="$sortField === 'name' ? $sortDirection : null">{{ __("Name") }}</x-bs::table.heading>
-        <x-bs::table.heading sortable wire:click.prevent="sortBy('SKU')" :direction="$sortField === 'SKU' ? $sortDirection : null">{{ __("SKU") }}</x-bs::table.heading>
+        <x-bs::table.heading sortable wire:click.prevent="sortBy('{{ eshop('products.key', 'sku') }}')" :direction="$sortField === eshop('products.key', 'sku') ? $sortDirection : null">{{ mb_strtoupper(eshop('products.key', 'sku')) }}</x-bs::table.heading>
         <x-bs::table.heading>{{ __("Manufacturer") }}</x-bs::table.heading>
         <x-bs::table.heading sortable wire:click.prevent="sortBy('stock')" :direction="$sortField === 'stock' ? $sortDirection : null">{{ __("Stock") }}</x-bs::table.heading>
         <x-bs::table.heading sortable wire:click.prevent="sortBy('variants_count')" :direction="$sortField === 'variants_count' ? $sortDirection : null">{{ __("Variants") }}</x-bs::table.heading>
@@ -46,7 +46,7 @@
                     @endunless
                 </a>
             </td>
-            <td>{{ $product->sku }}</td>
+            <td>{{ $product->{eshop('products.key', 'sku')} }}</td>
             <td>{{ $product->manufacturer->name ?? '' }}</td>
             <td>@if($product->has_variants) {{ format_number($product->variants_sum_stock) }} @else {{ format_number($product->stock) }} @endif</td>
             <td>

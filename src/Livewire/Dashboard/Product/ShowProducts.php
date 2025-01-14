@@ -151,6 +151,7 @@ class ShowProducts extends Component
                         break;
                     case 'stock':
                     case 'sku':
+                    case 'mpn':
                     case 'variants_count':
                     case 'created_at':
                         $q->orderBy($this->sortField, $this->sortDirection);

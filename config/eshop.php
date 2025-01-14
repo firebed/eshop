@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'invoicing'      => env('INVOICING', true),
+    'invoicing' => env('INVOICING', true),
     'invoice_series' => null,
 
     'locales' => [
@@ -23,8 +23,8 @@ return [
     ],
 
     'logo' => [
-        'path'   => '',
-        'width'  => 0,
+        'path' => '',
+        'width' => 0,
         'height' => 0
     ],
 
@@ -34,28 +34,28 @@ return [
 
     ],
 
-    'country'            => env('COUNTRY', 'US'),
-    'currency'           => env('CURRENCY', 'USD'),
-    'currency_symbol'    => env('CURRENCY_SYMBOL', '$'),
-    'group_separator'    => env('GROUP_SEPARATOR', ','),
-    'decimal_separator'  => env('DECIMAL_SEPARATOR', '.'),
+    'country' => env('COUNTRY', 'US'),
+    'currency' => env('CURRENCY', 'USD'),
+    'currency_symbol' => env('CURRENCY_SYMBOL', '$'),
+    'group_separator' => env('GROUP_SEPARATOR', ','),
+    'decimal_separator' => env('DECIMAL_SEPARATOR', '.'),
     'currency_placement' => env('CURRENCY_PLACEMENT', 's'),
-    'sign_placement'     => env('SIGN_PLACEMENT', 'p'),
+    'sign_placement' => env('SIGN_PLACEMENT', 'p'),
 
-    'google_analytics_id'     => env('GOOGLE_ANALYTICS_ID'),
-    'google_conversion_id'    => env('GOOGLE_CONVERSION_ID'),
+    'google_analytics_id' => env('GOOGLE_ANALYTICS_ID'),
+    'google_conversion_id' => env('GOOGLE_CONVERSION_ID'),
     'google_conversion_label' => env('GOOGLE_CONVERSION_LABEL'),
 
-    'paypal_live_client_id'     => env('PAYPAL_LIVE_CLIENT_ID'),
+    'paypal_live_client_id' => env('PAYPAL_LIVE_CLIENT_ID'),
     'paypal_live_client_secret' => env('PAYPAL_LIVE_CLIENT_SECRET'),
 
-    'paypal_sandbox_client_id'     => env('PAYPAL_SANDBOX_CLIENT_ID'),
+    'paypal_sandbox_client_id' => env('PAYPAL_SANDBOX_CLIENT_ID'),
     'paypal_sandbox_client_secret' => env('PAYPAL_SANDBOX_CLIENT_SECRET'),
 
     'show_incomplete_carts' => false,
-    'auto_payments'         => false,
-    'skroutz'               => false,
-    'myshipping'            => false,
+    'auto_payments' => false,
+    'skroutz' => false,
+    'myshipping' => false,
 
     'validate_phone_number' => false,
 
@@ -84,14 +84,14 @@ return [
 
     'cart' => [
         'abandoned' => [
-            'notifications'       => false,
-            'first_notification'  => 60, // 1 hour
+            'notifications' => false,
+            'first_notification' => 60, // 1 hour
             'second_notification' => 24 * 60, // 1 day
-            'third_notification'  => 3 * 24 * 60, // 3 days
+            'third_notification' => 3 * 24 * 60, // 3 days
 
             'merge_abandoned' => 'cookie', // email, null
 
-            'delete'        => false,
+            'delete' => false,
             'delete_before' => '90 days'
         ]
     ],
@@ -147,13 +147,13 @@ return [
     |
     */
 
-    'product'         => [
+    'product' => [
         'show_manufacturer' => true,
-        'show_sku'          => false,
-        'suggestions'       => 'similar',
-        'image'             => [
-            'cover'         => false,
-            'upload_width'  => 3000,
+        'show_sku' => false,
+        'suggestions' => 'similar',
+        'image' => [
+            'cover' => false,
+            'upload_width' => 3000,
             'upload_height' => 3000
         ]
     ],
@@ -182,11 +182,11 @@ return [
     | part of the barcode.
     |
     */
-    'barcode'         => [
-        'fill'      => true,
-        'prepend'   => null,
+    'barcode' => [
+        'fill' => true,
+        'prepend' => null,
         'separator' => '-',
-        'nested'    => false,
+        'nested' => false,
     ],
 
     /*
@@ -200,14 +200,18 @@ return [
     | subsequent prints the values stored in cache will be used instead.
     |
     */
-    'label'           => [
+    'label' => [
         'font-size' => '9',
-        'width'     => '35',
-        'height'    => '24',
-        'margin'    => '1',
+        'width' => '35',
+        'height' => '24',
+        'margin' => '1',
     ],
 
     'analytics' => [
         'couriers' => true
-    ]
+    ],
+
+    'products' => [
+        'key' => 'mpn'
+    ],
 ];
