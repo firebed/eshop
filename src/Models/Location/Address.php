@@ -52,7 +52,7 @@ class Address extends Model
         'postcode'
     ];
 
-    protected array $match = ['first_name', 'last_name', 'phone', 'postcode'];
+    protected array $match = ['first_name', 'last_name', 'phone'];
 
     protected $casts = [
         'country_id' => 'integer',

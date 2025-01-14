@@ -197,14 +197,14 @@ class ShowCarts extends Component
             ->when($this->status, fn($q, $s) => $q->where('status_id', $s))
             ->when($this->shipping_method_id, fn($q, $id) => $q->where('shipping_method_id', $id))
             ->when($this->payment_method_id, fn($q, $id) => $q->where('payment_method_id', $id))
-            ->when($this->filter, function ($q, $f) {
-                $q->where(function ($b) use ($f) {
-                    $b->where('id', 'LIKE', "$f%")
-                        ->orWhereHas('vouchers', fn($q) => $q->where('number', 'LIKE', "$f%"))
-                        ->orWhere('reference_id', 'LIKE', "$f%")
-                        ->orWhereHas('shippingAddress', fn($b) => $b->matchAgainst($f));
+            ->when(is_numeric($this->filter), function ($q) {
+                $q->where(function($b) {
+                    $b->where('id', $this->filter)
+                        ->orWhereHas('vouchers', fn($q) => $q->where('number', $this->filter))
+                        ->orWhere('reference_id', $this->filter)
+                        ->orWhereHas('shippingAddress', fn($b) => $b->where('phone', $this->filter));
                 });
-            })
+            }, fn($q) => $q->whereHas('shippingAddress', fn($b) => $b->matchAgainst($this->filter)))
             ->with('shippingAddress', 'status', 'paymentMethod', 'shippingMethod', 'operators', 'payment', 'voucher')
             ->paginate($this->per_page);
     }

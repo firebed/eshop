@@ -42,6 +42,12 @@ class MyShippingWebhookController
                         'payouts' => $payouts
                     ]
                 ]);
+            } elseif ($event === 'shipment_delivered') {
+                
+            } elseif ($event === 'shipment_denied') {
+                
+            } elseif ($event === 'shipment_returned') {
+                
             }
         } catch (Throwable $e) {
             report($e);
