@@ -13,6 +13,7 @@ use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -52,14 +53,20 @@ class ShowProducts extends Component
     {
         $this->setSorting('created_at', 'desc');
 
+        $this->perPage = Cache::get('products_per_page_'.auth()->id(), $this->perPage);
         $this->productsCount = Product::exceptVariants()->count();
         $this->trashCount = Product::exceptVariants()->onlyTrashed()->count();
     }
 
-    public function updating($name): void
+    public function updating($name, $value): void
     {
         if (in_array($name, ['name', 'category', 'manufacturer'])) {
             $this->resetPage();
+        }
+
+        if ($name === 'perPage') {
+            Cache::forget('products_per_page_'.auth()->id());
+            Cache::rememberForever('products_per_page_'.auth()->id(), fn() => $value);
         }
     }
 
