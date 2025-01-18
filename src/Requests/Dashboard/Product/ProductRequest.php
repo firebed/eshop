@@ -75,7 +75,12 @@ class ProductRequest extends FormRequest
             'images'                     => ['nullable', 'array'],
             'images.*'                   => ['nullable', 'image'],
             'has_watermark'              => ['required', 'bool'],
-
+            
+            # Attachments
+            'attachment'                 => ['required', 'array'],
+            'attachment.title'           => ['nullable', 'string'],
+            'attachment.file'            => ['nullable', 'required_with:attachment', 'file', 'mimetypes:application/pdf,image/jpeg,image/png,image/gif', 'max:3072'],
+            
             # Properties / Attributes / Choices
             'properties.values'          => ['nullable', 'array'],
             'properties.choices'         => ['nullable', 'array'],

@@ -63,6 +63,15 @@ class UpdateProduct
                 }
             }
         }
+
+        if ($request->hasFile('attachment.file')) {
+            $product->attachment?->delete();
+            $product->saveAttachment($request->file('attachment.file'), $request->input('attachment.title'));
+        } else {
+            $product->attachment?->update([
+                'title' => $request->input('attachment.title')
+            ]);
+        }
     }
 
     private function touchVariants(Product $product, FormRequest $request): void

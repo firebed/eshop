@@ -48,6 +48,10 @@ class StoreProduct
                 }
             }
         }
+        $request->dd();
+        if ($request->hasFile('attachment.file')) {
+            $product->saveAttachment($request->file('attachment.file'), $request->input('attachment.title'));
+        }
 
         return $product;
     }

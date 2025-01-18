@@ -2,6 +2,7 @@
 
 namespace Eshop\Models\Product;
 
+use Eshop\Models\Attachments\Traits\HasAttachments;
 use Eshop\Models\Audit\Auditable;
 use Eshop\Models\Cart\CartProduct;
 use Eshop\Models\Lang\Traits\HasTranslations;
@@ -94,6 +95,7 @@ class Product extends Model implements Auditable
     use SoftDeletes;
     use HasTranslations;
     use HasImages;
+    use HasAttachments;
     use HasSeo;
     use Searchable;
     use HasProductAudit;

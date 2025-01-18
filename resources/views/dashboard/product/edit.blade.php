@@ -92,6 +92,7 @@
                         :properties="old('properties', $properties ?? [])"/>
 
                     @include('eshop::dashboard.product.partials.accessibility')
+                    @include('eshop::dashboard.product.partials.attachments')
                 </div>
             </div>
         </div>
