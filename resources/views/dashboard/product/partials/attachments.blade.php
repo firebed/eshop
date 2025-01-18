@@ -17,6 +17,10 @@
             <x-bs::input.group for="attachment-file" label="{{ __('File') }}">
                 <x-bs::input.file name="attachment[file]" id="attachment-file" accept="application/pdf,image/*"/>
             </x-bs::input.group>
+            
+            @if($product->attachment)
+                <a href="{{ asset($product->attachment->src) }}"></a>
+            @endif
         </div>
     </div>
 </div>
