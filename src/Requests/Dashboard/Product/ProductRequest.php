@@ -78,8 +78,8 @@ class ProductRequest extends FormRequest
             
             # Attachments
             'attachment'                 => ['required', 'array'],
-            'attachment.title'           => ['nullable', 'string'],
-            'attachment.file'            => ['nullable', 'required_with:attachment', 'file', 'mimetypes:application/pdf,image/jpeg,image/png,image/gif', 'max:3072'],
+            'attachment.title'           => ['required_with:attachment', 'string'],
+            'attachment.file'            => ['nullable', 'file', 'mimetypes:application/pdf,image/jpeg,image/png,image/gif', 'max:3072'],
             
             # Properties / Attributes / Choices
             'properties.values'          => ['nullable', 'array'],
