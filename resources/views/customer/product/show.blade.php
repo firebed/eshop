@@ -68,6 +68,21 @@
 
                                 <button class="btn btn-danger" disabled>{{ __("Out of stock") }}</button>
                             @endif
+                            
+                            @if($product->attachment)
+                                <div class="mb-3">
+                                    <div class="fw-500 mb-2">{{ __($product->attachment->title) }}</div>
+                                    @if(str_contains($product->attachment->url(), '.pdf'))
+                                        <a target="_blank" href="{{ asset($product->attachment->url()) }}" class="btn btn-secondary">
+                                            <em class="fas fa-file-pdf me-2"></em>{{ __("Download PDF") }}
+                                        </a>
+                                    @else
+                                        <a href="{{ asset($product->attachment->url()) }}" data-fslightbox="attachments" data-type="image" class="ratio ratio-21x9">
+                                            <img src="{{ asset($product->attachment->url()) }}" alt="{{ __($product->attachment->title) }}" class="img-middle">
+                                        </a>
+                                    @endif
+                                </div>
+                            @endif
 
                             <div class="small text-gray-600 mt-3">
                                 <em class="fa fa-exclamation-circle"></em>

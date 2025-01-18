@@ -8,18 +8,20 @@
             </x-bs::input.group>
             
             <datalist id="attachment-titles">
-                <option value="Τεχνικά χαρακτηριστικά">
-                <option value="Μεγεθολόγιο">
-                <option value="Χρωματολόγιο">
-                <option value="Οδηγίες χρήσης">
+                <option value="{{ __("Technical details") }}">
+                <option value="{{ __("Specifications") }}">
+                <option value="{{ __("Size guide") }}">
+                <option value="{{ __("Color guide") }}">
+                <option value="{{ __("Attributes") }}">
+                <option value="{{ __("Manual") }}">
             </datalist>
 
             <x-bs::input.group for="attachment-file" label="{{ __('File') }}">
                 <x-bs::input.file name="attachment[file]" id="attachment-file" accept="application/pdf,image/*"/>
             </x-bs::input.group>
-            
+
             @if($product->attachment)
-                <a href="{{ asset($product->attachment->src) }}"></a>
+                <a target="_blank" class="btn btn-smoke" href="{{ asset( $product->attachment->url()) }}">{{ __("Preview") }}</a>
             @endif
         </div>
     </div>
